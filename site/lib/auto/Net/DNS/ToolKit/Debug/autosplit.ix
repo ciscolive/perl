@@ -1,0 +1,6 @@
+# Index created by AutoSplit for blib/lib/Net/DNS/ToolKit/Debug.pm
+#    (file acts as timestamp)
+package Net::DNS::ToolKit::Debug;
+sub print_head  ;
+sub print_buf  ;
+1;

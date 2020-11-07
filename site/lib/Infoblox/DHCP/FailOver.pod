@@ -1,0 +1,1161 @@
+=head1 NAME
+
+Infoblox::DHCP::FailOver - DHCP Failover object.
+
+=head1 DESCRIPTION
+
+DHCP failover is a protocol designed to allow a backup DHCP server to take over for a main server if the main server is taken off the network for any reason. DHCP failover can be used to configure two DHCP servers to operate as a redundant pair.
+
+=head1 CONSTRUCTOR
+
+ my $dhcp_failover = Infoblox::DHCP::FailOver->new(
+     name                   => $string,                           #Required
+     primary                => $ipv4addr | $Member                #Required
+     secondary              => $ipv4addr | $Member                #Required
+     comment                => $string,                           #Optional / Default is empty
+     extattrs               => { $string => $extattr, ... },      #Optional / Default is undefined
+     extensible_attributes  => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+     load_balance_split     => $num,                              #Optional / Default value is 128
+     max_load_balance_delay => $num,                              #Optional / Default value is 3
+     max_client_lead_time   => $num,                              #Optional / Default value is 3600
+     max_unacked_updates    => $num,                              #Optional / Default value is 10
+     max_response_delay     => $num,                              #Optional / Default value is 60
+     recycle_leases         => "true" | "false" | undef,          #Optional / Default value is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that can be applied to a DHCP failover object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP failover object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Create a DHCP Member object
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+       name     => "infoblox.localdomain",
+       ipv4addr => "192.168.1.2"
+ );
+
+ #Construct an object
+ my $dhcp_failover = Infoblox::DHCP::FailOver->new(
+     name                   => "peer1",
+     primary                => $memberdhcp,
+     secondary              => "1.1.1.1",
+     load_balance_split     => 128,
+     max_load_balance_delay => 3,
+     max_client_lead_time   => 3600,
+     max_unacked_updates    => 10,
+     max_response_delay     => 60,
+     recycle_leases         => "false",
+ );
+
+ # Submit for addition
+ my $response = $session->add( $dhcp_failover );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching DHCP failover objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP failover object:
+
+ name - Required. Name of a DHCP failover in string format.
+ extattrs     - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+                       object     => "Infoblox::DHCP::FailOver",
+                       name       => "peer1" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP failover object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the load_balance_split.
+ $dhcp_failover->load_balance_split(130);
+ # Submit modification
+ my $response = $session->modify( $dhcp_failover );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP failover object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP failover object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object  => "Infoblox::DHCP::FailOver",
+     name    => "peer1" );
+ # Find the desired object from the retrieved list.
+ my $desired_dhcp_failover = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_dhcp_failover );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP failover objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes, to search for a DHCP failover object:
+
+      name    - Optional. The name of a DHCP failover object. Regular expression supported.
+      comment - Optional. The comment of the DHCP failover object. Regular expression supported.
+      extattrs     - Optional. A hash reference containing extensible attributes.
+      extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for DHCP failover object with name as peer1
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::FailOver",
+     name    => "pe.*" );
+
+ # search all DHCP failover associations with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DHCP::FailOver",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP failover object.
+
+=head2 association_type( )
+
+=over
+
+Use this method to retrieve the value indicating whether the failover assocation is Microsoft or Grid based. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The return value can be "MS" or "GRID".
+
+=item B<Example>
+
+ #Get association type
+ my $association_type = $failover->association_type();
+
+=back
+
+=back
+
+=head2 ms_association_mode( )
+
+=over
+
+Use this method to retrieve the value that indicates whether the failover association is read-write or read-only. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are "RO" and "RW".
+
+=item B<Example>
+
+ #Get association_mode
+ my $association_mode = $failover->ms_association_mode();
+
+=back
+
+=back
+
+=head2 ms_enable_authentication( )
+
+=over
+
+Use this method to enable or disable authentication for the failover association.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable authentication for the failover association or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_enable_authentication value
+ my $enable_authentication_value = $failover->ms_enable_authentication();
+ #Modify ms_enable_authentication value
+ $failover->ms_enable_authentication("true");
+
+=back
+
+=back
+
+=head2 ms_enable_switchover_interval( )
+
+=over
+
+Use this method to enable or disable the switchover interval.
+
+The ms_enable_switchover_interval attribute can be specified explicitly. It is also set implicitly when ms_switchover_interval is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the switchover interval or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_enable_switchover_interval value
+ my $enable_switchover_interval = $failover->ms_enable_switchover_interval();
+ #Modify ms_enable_switchover_interval value
+ $failover->ms_enable_switchover_interval("true");
+
+=back
+
+=back
+
+=head2 ms_failover_mode( )
+
+=over
+
+Use this method to set or retrieve the mode for the failover association.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid parameters are "LOADBALANCE" and "HOTSTANDBY".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+  
+=item B<Example>
+
+ #Get ms_failover_mode
+ my $failover_mode = $failover->ms_failover_mode();
+ #Modify ms_failover_mode
+ $failover->ms_failover_mode("HOTSTANDBY");
+
+=back
+
+=back
+
+=head2 ms_failover_partner( )
+
+=over
+
+Use this method to set or retrieve the failover partner defined in the association for the Microsoft Server. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Note that the failover partner must be retrieved from the server settings and cannot be changed after being written.
+
+=over
+
+=item B<Parameter>
+
+The valid parameter is an L<Infoblox::Grid::MSServer|Infoblox::Grid::MSServer> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_failover_partner
+ my $failover_partner = $failover->ms_failover_partner();
+ #Modify ms_failover_partner
+ $failover->ms_failover_partner($failover_partner);
+
+=back
+
+=back
+
+=head2 ms_hotstandby_partner_role( )
+
+=over
+
+Use this method to set or retrieve the partner role in the case of HotStandby.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>  
+
+The valid values are "ACTIVE" and "PASSIVE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_hotstandby_partner_role
+ my $partner_role = $failover->ms_hotstandby_partner_role();
+ #Modify ms_hotstandby_partner_role
+ $failover->ms_hotstandby_partner_role("ACTIVE");
+ 
+=back
+
+=back
+
+=head2 ms_is_conflict( )
+
+=over
+
+Use this method to retrieve the flag used to indicate whether the matching Microsfot failover association (if any) is in synchronization (False) or not (True). The method returns False if there is no matching failover association. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are "true" and "false".
+
+=item B<Example>
+
+ #Get ms_is_conflict value
+ my $is_conflict = $failover->ms_is_conflict();
+
+=back
+
+=back
+
+=head2 ms_server( )
+
+=over
+
+Use this method to set or retrieve the primary Microsoft Server object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Note that the Microsoft server must be retrieved from the server settings and cannot be changed after being written.
+
+=over
+
+=item B<Parameter>
+
+The valid parameter is an L<Infoblox::Grid::MSServer|Infoblox::Grid::MSServer> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_server
+ my $server = $failover->ms_server();
+ #Modify ms_failover_partner
+ $failover->ms_server($server);
+
+=back
+
+=back
+
+=head2 ms_shared_secret( )
+
+=over
+
+Use this method to set the shared secret for the failover association authentication. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the shared secret for the failover association authentication.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set ms_shared_secret value
+ $failover->ms_shared_secret($shared_secret);
+
+=back
+
+=back
+
+=head2 ms_state( )
+
+=over
+
+Use this method to retrieve the failover association state. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are "NO_STATE", "INIT", "STARTUP", "NORMAL", "COMMUNICATION_INIT", "PARTNER_DOWN", "POTENTIAL_CONFLICT", "CONFLICT_DONE", "RESOLUTION_INIT", "RECOVER", "RECOVER_DONE", "RECOVER_WAIT".
+
+=item B<Example>
+
+ #Get ms_state value
+ my $state = $failover->ms_state();
+
+=back
+
+=back
+
+=head2 ms_switchover_interval( )
+
+=over
+
+Use this method to set or retrieve the time (in seconds) that DHCPv4 server will wait before transitioning the server from the COMMUNICATION-INT state to PARTNER-DOWN state.
+
+Setting this method to a defined value implicitly sets the ms_enable_switchover_interval method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the ms_enable_switchover_interval method to "false".
+
+Note that when ms_switchover_interval is set to a defined value and ms_enable_switchover_interval is set to "false", the last operation takes precedence. Thus the sequence $object->ms_switchover_interval(20); $object->ms_enable_switchover_interval("false"); will set ms_enable_switchover_interval to "false", and the sequence $object->ms_enable_switchover_interval("false"); $object->ms_switchover_interval(20); will result in ms_enable_switchover_interval="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value are integers between 1 and 65535.
+
+=item B<Returns>
+ 
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_switchover_interval value
+ my $so_interval = $failover->ms_switchover_interval();
+ #Modify ms_switchover_interval value
+ $failover->ms_switchover_interval(1000);
+
+=back
+
+=back
+
+=head2 ms_previous_state( )
+
+=over
+
+Use this method to retrieve the previous failover association state. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are "NO_STATE", "INIT", "STARTUP", "NORMAL", "COMMUNICATION_INIT", "PARTNER_DOWN", "POTENTIAL_CONFLICT", "CONFLICT_DONE", "RESOLUTION_INIT", "RECOVER", "RECOVER_DONE", "RECOVER_WAIT".
+
+=item B<Example>
+
+ #Get ms_previous_state value
+ my $previous_state = $failover->ms_previous_state();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP failover object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $dhcp_failover->name();
+ #Modify name
+ $dhcp_failover->name("peer2");
+
+=back
+
+=back
+
+=head2 primary( )
+
+=over
+
+Use this method to set or retrieve primary server of a DHCP failover object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify external primary server in IPv4 address format or grid primary server in a defined L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> object. An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get primary
+ my $primary = $dhcp_failover->primary();
+ #Modify primary
+ $dhcp_failover->primary($member); #$member is a Infoblox::DHCP::Member object
+
+=back
+
+=back
+
+=head2 secondary( )
+
+=over
+
+Use this method to set or retrieve secondary server of a DHCP failover object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify external secondary server in IPv4 address format or grid secondary server in a defined L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> object. An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get secondary
+ my $secondary = $dhcp_failover->secondary();
+ #Modify secondary
+ $dhcp_failover->secondary("2.2.2.2");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment about a DHCP failover object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for the network in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get comment
+ my $comment = $dhcp_failover->comment();
+ # Modify comment
+ $dhcp_failover->comment("add a network");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP failover object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $dhcp_failover->extattrs();
+ #Modify extattrs
+ $dhcp_failover->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP failover object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $dhcp_failover->extensible_attributes();
+ #Modify extensible attributes
+ $dhcp_failover->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 load_balance_split( )
+
+=over
+
+Use this method to set or retrieve a load balancing split value of a DHCP failover object.
+
+Load balancing split determines which server handles IP address requests. This parameter is specified on the primary only.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the value of the maximum load balancing delay in a 8-bit integer format (range from 0 to 255). The default value is 128.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get load_balance_split
+ my $load_balance_split = $dhcp_failover->load_balance_split();
+ #Modify load_balance_split
+ $dhcp_failover->load_balance_split(200);
+
+=back
+
+=back
+
+=head2 max_load_balance_delay( )
+
+=over
+
+Use this method to set or retrieve the maximum load balancing delay value of a DHCP failover object.
+
+Maximum load balancing delay specifies the cutoff after which load balancing is disabled. The cutoff is based on the number of seconds since the client sent its first DHCPDISCOVER or DHCPREQUEST message. For instance, if one of the failover peers gets into a state where it is responding to failover messages, but not responding to some client requests, the other failover peer will take over its client load automatically as the clients retry.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the value of the maximum load balancing delay in a 32-bit integer format (range from 0 to 4294967295) that represents the duration in seconds. The default value is 3.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_load_balance_delay
+ my $max_load_balance_delay = $dhcp_failover->max_load_balance_delay();
+ #Modify max_load_balance_delay
+ $dhcp_failover->max_load_balance_delay("500");
+
+=back
+
+=back
+
+=head2 max_client_lead_time( )
+
+=over
+
+Use this method to set or retrieve the maximum client lead time value of a DHCP failover object.
+
+Maximum client lead time value specifies the length of time that a failover peer can renew a lease without contacting the other peer. The larger the number, the longer it takes for the peer server to recover IP addresses after moving to the Partner Down mode. The smaller the number, the more load your servers experience when they are not communicating. This is specified on the primary server only.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the value of the maximum client lead time in a 32-bit integer format (range from 0 to 4294967295) that represents the duration in seconds. The default value is 3600.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_client_lead_time
+ my $max_client_lead_time = $dhcp_failover->max_client_lead_time();
+ #Modify max_client_lead_time
+ $dhcp_failover->max_client_lead_time(600);
+
+=back
+
+=back
+
+=head2 max_unacked_updates( )
+
+=over
+
+Use this method to set or retrieve the maximum number of unacked updates value of a DHCP failover object.
+
+Maximum number of unacked updates value specifies how many update messages the server can send before it should receive an ACK from the failover peer. If no ACK is received after these messages are sent, failover occurs.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the value of the maximum number of unacked updates in a 32-bit integer format (range from 0 to 4294967295) that represents the number of messages. The default value is 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_unacked_updates
+ my $max_unacked_updates = $dhcp_failover->max_unacked_updates();
+ #Modify max_unacked_updates
+ $dhcp_failover->max_unacked_updates(700);
+
+=back
+
+=back
+
+=head2 max_response_delay( )
+
+=over
+
+Use this method to set or retrieve the maximum response delay value of a DHCP failover object.
+
+Maximum response delay value before failover specifies how many seconds can transpire before the primary server assumes its peer (the secondary server) is not sending messages due to failure.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the value of the maximum response delay in a 32-bit integer format (range from 0 to 4294967295) that represents the duration in seconds. The default value is 60.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_response_delay
+ my $max_response_delay = $dhcp_failover->max_response_delay();
+ #Modify max_response_delay
+ $dhcp_failover->max_response_delay(800);
+
+=back
+
+=back
+
+=head2 primary_state( )
+
+=over
+
+Use this method to retrieve the primary server status of a DHCP failover object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get primary_state
+ my $primary_state = $dhcp_failover->primary_state();
+
+=back
+
+=back
+
+=head2 recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the recycle leases flag of a DHCP failover object.
+
+If the flag is enabled, the leases are kept in recycle bin until one week after expiration and when the flag is disabled, the leases are irrecoverably deleted.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the recycle_leases flag or "false" to deactivate/unset it. The default value for this field is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recycle_leases
+ my $recycle_leases = $dhcp_failover->recycle_leases();
+ #Modify recycle_leases
+ $dhcp_failover->recycle_leases("true");
+ #Un-override recycle_leases
+ $dhcp_failover->recycle_leases(undef);
+
+=back
+
+=back
+
+=head2 secondary_state( )
+
+=over
+
+Use this method to retrieve the secondary server status of a DHCP failover object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get secondary_state
+ my $secondary_state = $dhcp_failover->secondary_state();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a DHCP failover object such as add, search, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP failover object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create a DHCP Member object
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2"
+ );
+ unless($memberdhcp) {
+        die("Construct member failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Member object created successfully\n";
+
+ #Create the Network object with member
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/8",
+     comment => "add network",
+     members => [ $memberdhcp ]
+ );
+ unless($network) {
+        die("Construct Network object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network object created successfully\n";
+
+ #Add the Network object into the Infoblox appliance through a session
+ $session->add($network)
+     or die("Add Network object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Network object added to Infoblox appliance successfully\n";
+
+B<#Create a DHCP failover object>
+
+ my $dhcp_failover = Infoblox::DHCP::FailOver->new(
+     name                   => "peer1",
+     primary                => $memberdhcp,
+     secondary              => "1.1.1.1",
+     load_balance_split     => 128,
+     max_load_balance_delay => 3,
+     max_client_lead_time   => 3600,
+     max_unacked_updates    => 10,
+     max_response_delay     => 60,
+     recycle_leases         => "true",
+ );
+ unless($dhcp_failover) {
+        die("Construct DHCP failover object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP failover object created successfully\n";
+
+ #Add a DHCP failover object into the Infoblox appliance through a session
+ $session->add($dhcp_failover)
+     or die("Add DHCP failover object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP failover object added to the network successfully\n";
+
+B<#Get and modify a DHCP failover>
+
+ #Get a DHCP failover through the session
+ my @retrieved_objs = $session->get(
+     object  => "Infoblox::DHCP::FailOver",
+     name    => "peer1",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP failover failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP failover object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified DHCP failover
+ $object->max_client_lead_time(3500);
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify DHCP failover failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP failover object modified successfully \n";
+
+B<#Search a DHCP failover>
+
+ # search for DHCP failover object with name starting with letter "pe"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::FailOver",
+     name   => "pe.*"
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search DHCP failover failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DHCP failover object found at least 1 matching entry\n";
+
+B<#Add a DHCP range with failover>
+
+ #Construct the DHCP range with failover peer1
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+         end_addr       => "10.0.0.10",
+         network        => "10.0.0.0/8",
+         start_addr     => "10.0.0.1",
+         failover_assoc => "peer1"
+ );
+ unless($dhcp_range) {
+        die("Construct DHCP Range object with failover failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Range object with failover peer1 created successfully\n";
+
+ #Add the DHCP Range object with failover into the Infoblox appliance through a session
+ $session->add($dhcp_range)
+     or die("Add DHCP Range object with failover failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Range object with failover added to the network successfully\n";
+
+ #submit the network object for removal
+ $session->remove($network)
+     or die("Remove Network failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Network removed successfully \n";
+
+B<#Remove a DHCP failover>
+
+ #Get a DHCP failover through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::FailOver",
+     name   => "peer1"
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP failover failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP failover object found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($object)
+     or die("Remove DHCP failover failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP failover object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

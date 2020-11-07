@@ -1,0 +1,526 @@
+=head1 NAME
+
+Infoblox::Grid::MSServer::AdSites - the Active Directory Site object.
+
+=head1 DESCRIPTION
+
+The object provides information about the Active Directory Site.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a part of the Microsoft Server object.
+
+=head1 METHODS
+
+this section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 default_ip_site_link( )
+
+=over
+
+Use this method to set or retrieve the default IP site link name.
+
+Setting this method to a defined value implicitly sets the override_default_ip_site_link method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_default_ip_site_link attribute to "false".
+
+Note that when default_ip_site_link is set to a defined value and override_ddefault_ip_site_link is set to "false", the last operation takes precedence. Thus the sequence $object->default_ip_site_link('LAX'); $object->override_default_ip_site_link("false"); will set override_default_ip_site_link to "false", and the sequence $object->override_default_ip_site_link("false"); $object->default_ip_site_link('LAX'); will result in override_default_ip_site_link="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a string with the default IP site link name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get default_ip_site_link value
+ my $default_ip_site_link = $ad_sites->default_ip_site_link();
+ #Modify default_ip_site_link value
+ $ad_sites->default_ip_site_link('Site1');
+
+=back
+
+=back
+
+=head2 last_sync_ts( )
+
+=over
+
+Use this method to retrieve a timestamp of the last LDAP synchronization attempt. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_sync_ts value
+ my $last_sync_ts = $ad_sites->last_sync_ts();
+
+=back
+
+=back
+
+=head2 last_sync_detail( )
+
+=over
+
+Use this method to retrieve a string containing details of the last LDAP synchronization attempt. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_sync_detail value
+ my $last_sync_detail = $ad_sites->last_sync_detail();
+
+=back
+
+=back
+
+=head2 last_sync_status( )
+
+=over
+
+Use this method to retrieve a string containing status of the last LDAP synchronization attempt. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'OK', 'WARNING' or 'ERROR'.
+
+=item B<Example>
+
+ #Get last_sync_status value
+ my $last_sync_status = $ad_sites->last_sync_status();
+
+=back
+
+=back
+
+=head2 ldap_timeout( )
+
+=over
+
+Use this method to set or retrieve an LDAP connection timeout interval in seconds for the Microsoft Server.
+
+Setting this method to a defined value implicitly sets the override_ldap_timeout method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ldap_timeout attribute to "false".
+
+Note that when ldap_timeout is set to a defined value and override_dldap_timeout is set to "false", the last operation takes precedence. Thus the sequence $object->ldap_timeout(10); $object->override_ldap_timeout("false"); will set override_ldap_timeout to "false", and the sequence $object->override_ldap_timeout("false"); $object->ldap_timeout(10); will result in override_ldap_timeout="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ldap_timeout value
+ my $ldap_timeout = $ad_sites->ldap_timeout();
+ #Modify ldap_timeout value
+ $ad_sites->ldap_timeout(10);
+
+=back
+
+=back
+
+=head2 ldap_auth_port( )
+
+=over
+
+Use this method to set or retrieve an LDAP TCP connection port for the Microsoft Server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsinged integers between 0 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ldap_auth_port value
+ my $ldap_auth_port = $ad_sites->ldap_auth_port();
+ #Modify ldap_auth_port value
+ $ad_sites->ldap_auth_port(636);
+
+=back
+
+=back
+
+=head2 ldap_encryption( )
+
+=over
+
+Use this method to set or retrieve an encryption for the LDAP connection for the Microsoft Server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'SSL' or 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ldap_encryption value
+ my $ldap_encryption = $ad_sites->ldap_encryption();
+ #Modify ldap_encryption value
+ $ad_sites->ldap_encryption('SSL');
+
+=back
+
+=back
+
+=head2 login_name( )
+
+=over
+
+Use this method to set or retrieve the Microsoft Server login name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+When setting a value that requires a domain name, prepend the domain information followed by a backslash to the username: "domain\username".
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the login name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get login value
+ my $login = $ad_sites->login();
+ #Modify login value
+ $ad_sites->login("newuser");
+
+=back
+
+=back
+
+=head2 login_password( )
+
+=over
+
+Use this method to set a password for the Microsoft Server. This field is used only if the login field for this member is defined. This is a write-only attribute.
+
+This field cannot be retrieved.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the password.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set the password
+ $ad_sites->password("iG&ojG97Y");
+
+=back
+
+=back
+
+=head2 managed( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the sites of the Microsoft Server are to be synchronized with the assigned managing member or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get managed value
+ $managed = $ad_sites->managed();
+ #Modify managed value
+ $ad_sites->managed("true");
+
+=back
+
+=back
+
+=head2 override_default_ip_site_link( )
+
+=over
+
+The override_default_ip_site_link attribute controls whether the default_ip_site_link method values of the Microsoft Server are used, instead of the Grid default.
+
+The override_default_ip_site_link attribute can be specified explicitly. It is also set implicitly when default_ip_site_link is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for default_ip_site_link. Set the parameter to "false" to inherit the Grid-level setting for default_ip_site_link. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_default_ip_site_link
+ my $override_default_ip_site_link = $ad_sites->override_default_ip_site_link();
+ #Modify override_default_ip_site_link
+ $ad_sites->override_default_ip_site_link("true");
+
+=back
+
+=back
+
+=head2 override_login( )
+
+=over
+
+The override_login attribute controls whether the login_name method values of the Microsoft Server are used, instead of the Grid default.
+
+The override_login attribute can be specified explicitly. It is also set implicitly when login_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for login_name. Set the parameter to "false" to inherit the Grid-level setting for login_name. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_login
+ my $override_login = $ad_sites->override_login();
+ #Modify override_login
+ $ad_sites->override_login("true");
+
+=back
+
+=back
+
+=head2 override_ldap_timeout( )
+
+=over
+
+The override_ldap_timeout attribute controls whether the ldap_timeout method values of the Microsoft Server are used, instead of the Grid default.
+
+The override_ldap_timeout attribute can be specified explicitly. It is also set implicitly when ldap_timeout is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ldap_timeout. Set the parameter to "false" to inherit the Grid-level setting for ldap_timeout. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ldap_timeout
+ my $override_ldap_timeout = $ad_sites->override_ldap_timeout();
+ #Modify override_ldap_timeout
+ $ad_sites->override_ldap_timeout("true");
+
+=back
+
+=back
+
+=head2 override_synchronization_interval( )
+
+=over
+
+The override_synchronization_interval attribute controls whether the synchronization_interval method values of the Microsoft Server are used, instead of the Grid default.
+
+The override_synchronization_interval attribute can be specified explicitly. It is also set implicitly when synchronization_interval is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for synchronization_interval. Set the parameter to "false" to inherit the Grid-level setting for synchronization_interval. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_synchronization_interval
+ my $override_synchronization_interval = $ad_sites->override_synchronization_interval();
+ #Modify override_synchronization_interval
+ $ad_sites->override_synchronization_interval("true");
+
+=back
+
+=back
+
+=head2 read_only( )
+
+=over
+
+Use this method to enable or disable read-only synchronization of the sites for the Active Directory Domain.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get read_only value
+ $read_only = $ad_sites->read_only();
+ #Modify read_only value
+ $ad_sites->read_only("true");
+
+=back
+
+=back
+
+=head2 synchronization_interval( )
+
+=over
+
+Use this method to set or retrieve the synchronization interval of the sites for the Active Directory Domain.
+
+Setting this method to a defined value implicitly sets the override_synchronization_interval method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_synchronization_interval attribute to "false".
+
+Note that when synchronization_interval is set to a defined value and override_dsynchronization_interval is set to "false", the last operation takes precedence. Thus the sequence $object->synchronization_interval(10); $object->override_synchronization_interval("false"); will set override_synchronization_interval to "false", and the sequence $object->override_synchronization_interval("false"); $object->synchronization_interval(10); will result in override_synchronization_interval="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get synchronization_interval value
+ my $synchronization_interval = $ad_sites->synchronization_interval();
+ #Modify synchronization_interval value
+ $ad_sites->synchronization_interval(10);
+
+=back
+
+=back
+
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::MSServer|Infoblox::Grid::MSServer>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

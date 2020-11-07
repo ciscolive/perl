@@ -1,0 +1,556 @@
+=head1 NAME
+
+Infoblox::DTC::Server - A DTC Server object.
+
+=head1 DESCRIPTION
+
+A DTC Server object.
+
+=head1 CONSTRUCTOR
+
+ my $server = Infoblox::DTC::Server->new(
+    name                    => $string,                                                               #Required
+    host                    => $string,                                                               #Reqiured
+    auto_create_host_record => 'true' | 'false',                                                      #Optional Default is 'false'
+    comment                 => $string,                                                               #Optional / Default is undefined
+    disable                 => 'true' | 'false',                                                      #Optional / Default is 'false'
+    sni_hostname            => $fqdn,                                                                 #Optional / Default is undefined
+    override_sni_hostname   => 'true' | 'false',                                                      #Optional / Default is 'false'
+    monitors                => [$dtc_server_monitor1, $dtc_server_monitor2, ...],                     #Optional / Default is empty list
+    extattrs                => { $string => $extattr, ... },                                          #Optional / Default is undefined
+    extensible_attributes   => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DTC Server object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $server = Infoblox::DTC::Server->new(
+    name  => 'server1',
+    host  => '192.168.1.2',
+ );
+
+ #submit for addition
+ my $response = $session->add($server);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC Server name in a string format.
+  host                  - Optional. A DTC Server host address or FQDN.
+  comment               - Optional. A DTC Server comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  pool                  - Optional. A DTC Pool which is linked with a DTC Server.
+  status_member         - Optional. A member that provides the object health status. The default is Grid.
+  sni_hostname          - Optional. A hostname for Server Network Indication (SNI) to be used with the HTTPS monitor.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Server',
+     name   => 'server1',
+     host   => '192.168.1.2'
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Server',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $server->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($server);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Server',
+     name   => 'server1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_server = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_server);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC Server name in a string format.
+  host                  - Optional. A DTC Server host address or FQDN.
+  comment               - Optional. A DTC Server comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  pool                  - Optional. A DTC Pool which is linked with a DTC Server.
+  status_member         - Optional. A member that provides the object health status. The default is Grid.
+  sni_hostname          - Optional. A hostname for Server Network Indication (SNI) to be used with the HTTPS monitor.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Server',
+     name   => 'server1',
+     host   => '192.168.1.2'
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Server',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 auto_create_host_record( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the generation of resource records that represents the host is allowed or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to allow host record generation and 'false' to forbid it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get auto_create_host_record value
+ my $auto_create_host_record = $server->auto_create_host_record();
+
+ #modify auto_create_host_record value
+ $server->auto_create_host_record('false');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $server->comment();
+
+ #modify comment value
+ $server->comment('desired comment');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to enable or disable a DTC Server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable a DTC Server or 'false' to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get disable value
+ my $disable = $server->disable();
+
+ #modify disable value
+ $server->disable('true');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC Server object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get extattrs value
+ my $ref_extattrs = $server->extattrs();
+
+ #Modify extattrs
+ $server->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC Server object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $server->extensible_attributes();
+
+ #Modify extensible attributes
+ $server->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 health( )
+
+=over
+
+Use this method to retrieve a DTC Server health information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::DTC::Health|Infoblox::DTC::Health> object.
+
+=item B<Example>
+
+ #get health value
+ my $health = $server->health();
+
+=back
+
+=back
+
+=head2 host( )
+
+=over
+
+Use this method to set or retrieve an address or FQDN of a DTC Server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string containing an address or FQDN of a DTC server.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get host value
+ my $host = $server->host();
+
+ #modify host value
+ $server->host('192.168.1.2');
+
+=back
+
+=back
+
+=head2 monitors( )
+
+=over
+
+Use this method to set or retrieve the list of DTC health monitors for the DTC Server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=item B<Parameters>
+
+The valid value is an array reference that contains L<Infoblox::DTC::Server::Monitor|Infoblox::DTC::Server::Monitor> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get monitors value
+ my $monitors = $server->monitors();
+
+ #retrieve TCP monitor
+ my $tcp_monitor = $session->get(
+     object => 'Infoblox::DTC::Monitor::TCP',
+     name   => 'tcp_monitor',
+ );
+
+ #construct DTC server monitor
+ my $monitor = Infoblox::DTC::Server::Monitor->new(
+     monitor => $tcp_monitor,
+     host    => '192.168.1.10',
+ );
+
+ #modify monitors value
+ $server->monitors([$monitor]);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the DTC Server name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $server->name();
+
+ #modify name value
+ $server->name('server_name');
+
+=back
+
+=back
+
+=head2 sni_hostname( )
+
+=over
+
+Use this method to set or retrieve the hostname for Server Network Indication (SNI) to be used with the HTTPS monitor.
+
+Setting this method to a defined value implicitly sets the override_sni_hostname method to 'true'. Setting the parameter to undefined causes the HTTPS monitor to use DTC server's hostname with SNI option and automatically resets the override_sni_hostname method to 'false'.
+
+Note that when sni_hostname is set to a defined value and override_sni_hostname is set to 'false', the last operation takes precedence.
+Thus the sequence $object->sni_hostname('sni-host.infoblox.localdomain'); $object->override_sni_hostname('false'); will set override_sni_hostname to 'false',
+and the sequence $object->override_sni_hostname('false'); $object->sni_hostname('sni-host.infoblox.localdomain'); will result in override_sni_hostname='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is the FQDN for the desired host in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get sni_hostname value
+ my $sni_hostname = $server->sni_hostname();
+
+ #modify sni_hostname value
+ $server->sni_hostname('sni-host.infoblox.localdomain');
+
+=back
+
+=back
+
+=head2 override_sni_hostname( )
+
+=over
+
+The override_sni_hostname attribute controls whether the sni_hostname method values of the DTC server are used, instead of the DTC server name.
+
+The override_sni_hostname attribute can be specified explicitly. It is also set implicitly when sni_hostname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to 'true' to allow usage of the sni_hostname. Set the parameter to 'false' to use the DTC server name with the SNI option.
+
+The default value of this parameter is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_sni_hostname value
+ my $override_sni_hostname = $server->override_sni_hostname();
+
+ #Modify override_sni_hostname value
+ $server->override_sni_hostname('true');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>, L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>, L<Infoblox::DTC::Health|Infoblox::DTC::Health>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

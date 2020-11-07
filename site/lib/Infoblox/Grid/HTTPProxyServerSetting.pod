@@ -1,0 +1,380 @@
+=head1 NAME
+
+Infoblox::Grid::HTTPProxyServerSetting - An Infoblox Grid HTTP Proxy Server Setting object.
+
+=head1 DESCRIPTION
+
+The Grid HTTP Proxy Server Setting object provides information about HTTP Proxy Server configuration.
+
+=head1 CONSTRUCTOR
+
+ my $http_proxy_setting = Infoblox::Grid::HTTPProxyServerSetting->new(
+     address                      => $fqdn | $ipv4addr | $ipv6addr, # Required
+     port                         => $uint,                         # Required
+     enable_username_and_password => 'true' | 'false',              # Optional / Default is 'false'
+     enable_proxy                 => 'true' | 'false',              # Optional / Default is 'false'
+     enable_content_inspection    => 'true' | 'false',              # Optional / Default is 'false'
+     verify_cname                 => 'true' | 'false',              # Optional / Default is 'false'
+     comment                      => $string,                       # Optional / Default is undefined
+     username                     => $string,                       # Optional / Default is undefined
+     password                     => $string,                       # Optional / Default is undefined
+     certificate                  => $string,                       # Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a HTTP Proxy Server object.
+
+=head2 Infoblox::Grid->http_proxy_server_setting( )
+
+=over
+
+Use this method to set or retreive the Grid HTTP proxy server settings.
+See L<Infoblox::Grid-E<gt>http_proxy_server_setting()|Infoblox::Grid/http_proxy_server_setting()/> for parameters andreturn values.
+
+=over
+
+=item B<Example>
+
+ #Get http_proxy_server_setting value
+ my $http_proxy_server_setting = $grid->http_proxy_server_setting();
+
+ #Modify http_proxy_server_setting value
+ $grid->http_proxy_server_setting($http_proxy_setting);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a HTTP Proxy Server Setting object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the address of the HTTP Proxy Server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains Fully-Qualified Domain Name (FQDN), IPv4 address or IPv6 address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address value
+ my $address = $obj->address();
+
+ #Modify address value
+ $obj->address('10.0.0.1');
+
+=back
+
+=back
+
+=head2 certificate( )
+
+=over
+
+Use this method to set the path to a CA Certificate used in a content inspection by a HTTP Proxy Server. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string which contains a path to certificate.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify certificateibute value
+ $obj->certificate('/path/to/cert.pem');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment for HTTP Proxy Server configuration.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $obj->attr();
+
+ #Modify comment value
+ $obj->comment('desired comment');
+
+=back
+
+=back
+
+=head2 enable_content_inspection( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the HTTPS packets content inspection by HTTP Proxy Server is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable HTTPS packets content inspection or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_content_inspection value
+ my $enable_content_inspection = $obj->enable_content_inspection();
+
+ #Modify enable_content_inspection value
+ $obj->enable_content_inspection('true');
+
+=back
+
+=back
+
+=head2 enable_username_and_password( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the use of username and password for the connectivity of HTTP proxy server is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to use username and password for testing the connectivity of HTTP proxy server or 'false' to disallow it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_username_and_password value
+ my $enable_username_and_password = $obj->enable_username_and_password();
+
+ #Modify enable_username_and_password value
+ $obj->enable_username_and_password('true');
+
+=back
+
+=back
+
+=head2 enable_proxy( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether HTTP Proxy Server is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable HTTP Proxy Server or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_proxy value
+ my $enable_proxy = $obj->enable_proxy();
+
+ #Modify enable_proxy value
+ $obj->enable_proxy('true');
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the HTTP Proxy password. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired password in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify password value
+ $obj->password('pass');
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the HTTP Proxy Server port it listens to.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 0 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get port value
+ my $port = $obj->port();
+
+ #Modify port value
+ $obj->port(10000);
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to set or retrieve the HTTP Proxy user name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired user name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get username value
+ my $username = $obj->username();
+
+ #Modify username value
+ $obj->username('user1');
+
+=back
+
+=back
+
+=head2 verify_cname( ) 
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether the CNAME record query verification is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable CNAME record query verification or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get verify_cname value
+ my $verify_cname = $obj->verify_cname();
+
+ #Modify verify_cname value
+ $obj->verify_cname('true');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid|Infoblox::Grid>, 
+L<Infoblox::Grid-E<gt>http_proxy_server_setting()|Infoblox::Grid/http_proxy_server_setting()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

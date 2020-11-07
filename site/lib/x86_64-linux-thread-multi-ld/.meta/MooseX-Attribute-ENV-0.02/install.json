@@ -1,0 +1,1 @@
+{"pathname":"J/JJ/JJNAPIORK/MooseX-Attribute-ENV-0.02.tar.gz","target":"MooseX::Attribute::ENV","version":"0.02","provides":{"Moose::Meta::Attribute::Custom::Trait::ENV":{"file":"lib/MooseX/Attribute/ENV.pm","version":"0.02"},"MooseX::Attribute::ENV":{"version":"0.02","file":"lib/MooseX/Attribute/ENV.pm"}},"dist":"MooseX-Attribute-ENV-0.02","name":"MooseX::Attribute::ENV"}

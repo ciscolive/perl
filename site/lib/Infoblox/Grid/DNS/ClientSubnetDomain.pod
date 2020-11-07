@@ -1,0 +1,123 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::ClientSubnetDomain - a DNS client subnet domain object.
+
+=head1 DESCRIPTION
+
+The DNS client subnet domain represent the zone domain name that is allowed or forbidden for the EDNS client subnet (ECS) recursion.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::DNS::ClientSubnetDomain->new(
+     'domain'     => $fqdn,            # Required
+     'permission' => 'ALLOW' | 'DENY', # Optional / Default is 'ALLOW'
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DNS client subnet domain object.
+
+=head2 Infoblox::Grid::DNS->client_subnet_domains( )
+
+=over
+
+Use this method to set or retrieve the list of zone domain names that are allowed or forbidden for EDNS client subnet (ECS) recursion.
+
+=over
+
+=item B<Example>
+
+ #Get client_subnet_domains value
+ my $value = $grid_dns->client_subnet_domains();
+
+ #Construct Infoblox::Grid::DNS::ClientSubnetDomain object
+ my $object = Infoblox::Grid::ClientSubnetDomain->new(
+     domain     => 'domain.com',
+     permission => 'DENY',
+ );
+
+ #Modify client_subnet_domains value
+ $grid_dns->client_subnet_domains([$object]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the object.
+
+=head2 domain( )
+
+=over
+
+Use this method to set or retrieve the client subnet zone domain name.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a Fully-Qualified Domain Name (FQDN) that represents the desired zone domain name.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain value
+ my $value = $object->domain();
+
+ #Modify domain value
+ $object->domain('test-domain.com');
+
+=back
+
+=back
+
+=head2 permission( )
+
+=over
+
+Use this method to set or retrieve the client subnet domain ECS permission.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ALLOW' and 'DENY'. The default value is 'ALLOW'.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get permission value
+ my $value = $object->permission();
+
+ #Modify permission value
+ $object->permission('DENY');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>,
+L<Infoblox::Grid::DNS-E<gt>client_subnet_domains()|Infoblox::Grid::DNS/client_subnet_domains()/>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

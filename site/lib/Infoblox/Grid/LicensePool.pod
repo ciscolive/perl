@@ -1,0 +1,387 @@
+=head1 NAME
+
+Infoblox::Grid::LicensePool - License Pool object.
+
+=head1 DESCRIPTION
+
+A license pool is a container associated with the Grid and holds dynamic licenses for a specific feature. Licenses in the pool can be dynamically allocated to and deallocated from Grid members. When not in use, dynamic licenses are released back to the pool for future allocation. There is no expiration for dynamic licenses.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::LicensePool object is a read-only object and does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a License Pool object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $retrieved_objs = $session->get(object => "Infoblox::Grid::LicensePool");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search the License Pool object(s):
+
+     "type"  - Optional. The license type.
+     "limit" - Optional. The limitation of dynamic license.
+     "model" - Optional. The supported vNIOS virtual applaince model.
+     "key"   - Optional. The license string.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::LicensePool",
+     type   => "DNS"
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of a License Pool object.
+
+=head2 assigned( )
+
+=over
+
+Use this method to retrieve the number of dynamic licenses allocated to vNIOS appliances. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get assigned value
+ my $value = $object->assigned();
+
+=back
+
+=back
+
+=head2 expiration( )
+
+=over
+
+Use this method to retrieve the license pool expiration timestamp. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the number of seconds elapsed since January 1, 1970, in UTC format.
+
+=item B<Example>
+
+ #Get expiration value
+ my $expiration = $object->expiration();
+
+=back
+
+=back
+
+=head2 expiration_status( )
+
+=over
+
+Use this method to retrieve the license pool expiration status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get expiration_status value
+ my $expiration_status = $object->expiration_status();
+
+=back
+
+=back
+
+=head2 installed( )
+
+=over
+
+Use this method to retrieve the total number of dynamic licenses allowed for this license pool. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get installed value
+ my $value = $object->installed();
+
+=back
+
+=back
+
+=head2 key( )
+
+=over
+
+Use this method to retrieve the license string for the license pool. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get key value
+ my $value = $object->key();
+
+=back
+
+=back
+
+=head2 limit( )
+
+=over
+
+Use this method to retrieve the total number of available dynamic licenses from the license pool. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get limit value
+ my $value = $object->limit();
+
+=back
+
+=back
+
+=head2 limit_context( )
+
+=over
+
+Use this method to retrieve the context of the license limit. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get limit_context value
+ my $limit_context = $object->limit_context();
+
+=back
+
+=back
+
+=head2 model( )
+
+=over
+
+Use this method to retrieve the supported vNIOS appliance model. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get model value
+ my $value = $object->model();
+
+=back
+
+=back
+
+=head2 subpools( )
+
+=over
+
+Use this method to retrieve dynamic licenses in sub pools. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. An array of L<Infoblox::Grid::LicenseSubPool|Infoblox::Grid::LicenseSubPool> objects.
+
+=item B<Example>
+
+ #Get subpools value
+ my $value = $object->subpools();
+
+=back
+
+=back
+
+=head2 temp_assigned( )
+
+=over
+
+Use this method to retrieve the total number of temporary dynamic licenses allocated to vNIOS appliances. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get temp_assigned value
+ my $value = $object->temp_assigned();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the license type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get type value
+ my $value = $object->type();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to a License Pool object. This sample code also includes error handling for the operations.
+
+B<#Preparation prior License Pool fetching>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox device
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Fetching the License Pool objects>
+
+ my $retrieved_objs=$session->get(object=> "Infoblox::Grid::LicensePool");
+
+ unless($retrieved_objs) {
+     die("Getting the license pools failed:",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Got the license pools successfully\n";
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Grid::LicenseSubPool|Infoblox::Grid::LicenseSubPool>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

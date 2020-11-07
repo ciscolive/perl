@@ -1,0 +1,514 @@
+=head1 NAME
+
+Infoblox::Grid::HSM::Thales::Group - Thales HSM Group object
+
+=head1 DESCRIPTION
+
+Hardware Security Modules (HSMs) are used for secure private key storage, and key generation and zone-signing offloading.
+
+=head1 CONSTRUCTOR
+
+ my $hsm_group = Infoblox::Grid::HSM::Thales::Group->new(
+     key_server_ip           => $ipv4addr,                                          #Required
+     name                    => $string,                                            #Required
+     thales_hsm              => [$thales1, ...],                                    #Required
+     card_name               => $string,                                            #Required if "protection" is "SOFTCARD"
+     pass_phrase             => $string,                                            #Required if "protection" is "SOFTCARD"
+     comment                 => $string,                                            #Optional / Default value is empty
+     key_server_port         => $num,                                               #Optional / Default value is 9004
+     protection              => "MODULE" | "SOFTCARD" ,                             #Optional / Default value is Module
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an HSM Group object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $hsm_group = Infoblox::Grid::HSM::Thales::Group->new(
+     name                    => "HSM Group",
+     key_server_ip           => "10.0.0.1",
+     key_server_port         => 9004,
+     comment                 => "A new HSM Group ",
+     thales_hsm              => [$thales1]
+     );
+
+ #Submit for addition
+ my $response = $session->add($hsm_group);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::HSM::Thales::Group",
+     key_server_ip   => "10.0.0.1");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment of an HSM Group object.
+ $hsm_group->comment("This is modified HSM Group object");
+ # Submit modification
+ my $response = $session->modify($hsm_group );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the specified key_server_ip.
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::HSM::Thales::Group",
+     key_server_ip   => "10.0.0.1");
+
+ #Find the desired object on the retrieved list.
+ my $desired_hsmgroup = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove($desired_hsmgroup);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an HSM Group object.
+
+=head2 card_name( )
+
+=over
+
+Use this method to set or retrieve the name of the softcard used by the HSM Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name for the softcard in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get softcard name
+ my $card_name = $hsm_group->card_name();
+ #Modify softcard name
+ $hsm_group->card_name("Softcard 1")
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $hsm_group->comment();
+ #Modify comment
+ $hsm_group->comment("Modified HSM Group");
+
+=back
+
+=back
+
+=head2 key_server_ip( )
+
+=over
+
+Use this method to set or retrieve the key file server IP address of an HSM Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IPv4 address of the key file server.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get key server IP address
+ my $key_server_ip = $hsm_group->key_server_ip();
+ #Modify key server IP address
+ $hsm_group->key_server_ip("10.0.0.5");
+
+=back
+
+=back
+
+=head2 key_server_port( )
+
+=over
+
+Use this method to set or retrieve the port number used by the key file server configured in the HSM Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer ranging from 0 to 65535.The default value is 9004.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get key server port
+ my $key_server_port = $hsm_group->key_server_port();
+ #Modify key server port
+ $hsm_group->key_server_port(9012);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the HSM Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name for the HSM Group object in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $hsm_group->name();
+ #Modify name
+ $hsm_group->name("HSM GROUP 2")
+
+=back
+
+=back
+
+=head2 pass_phrase( )
+
+=over
+
+Use this method to set the passphrase that is used to unlock the key store. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string, which cannot include a tab and carriage return.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify passphrase
+ $hsm_group->pass_phrase("pass1234");
+
+=back
+
+=back
+
+=head2 protection( )
+
+=over
+
+Use this method to set or retrieve the protection type of an HSM Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are "MODULE" and "SOFTCARD".The default value is "MODULE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get protection
+ my $protection = $hsm_group->protection();
+ #Modify protection
+ $grid_member->protection("SOFTCARD");
+
+=back
+
+=back
+
+=head2 thales_hsm( )
+
+=over
+
+Use this method to set or retrieve the list of Thales servers in an HSM Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains  L<Infoblox::Grid::HSM::Thales|Infoblox::Grid::HSM::Thales> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get Thales HSM list
+ my $thales_hsm = $hsm_group->thales_hsm();
+ #Modify Thales HSM list
+ my $thales_hsm1 = Infoblox::Grid::HSM::Thales->new(
+     remote_ip              => "20.0.0.1",
+     keyhash                => "a123",
+ );
+
+ my $thales_hsm2 = Infoblox::Grid::HSM::Thales->new(
+     remote_ip              => "20.0.0.5",
+     keyhash                => "b456",
+ );
+
+ $hsm_group->thales_server([$thales_hsm1,$thales_hsm2]);
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status of the remote file server used in the HSM Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value of "UP" or "DOWN" .
+
+=item B<Example>
+
+ #Get status
+ my $status = $hsm_group->status();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying a grid member object>
+
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create an HSM Group object>
+
+ my $thales_server = Infoblox::Grid::HSM::Thales->new(
+     remote_ip     => "20.0.0.1",
+     keyhash       => "1234hash",
+     remote_port   => 9012,
+     );
+ unless ($thales_server) {
+        die("Construct thales server object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Thales server object created successfully\n";
+
+ my $hsm_group = Infoblox::Grid::HSM::Thales::Group->new(
+     key_server_ip     => "20.0.0.1",
+     key_server_port   => 9007,
+     );
+ unless ($hsm_group) {
+        die("Construct HSM Group object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "HSM Group object created successfully\n";
+
+ #Add the HSM object to appliance through session
+ my $response = $session->add( $hsm_group );
+
+ unless ($response) {
+     die("Add HSM Group failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"HSM Group added successfully \n";
+
+B<#Get and modify the HSM Group object>
+
+ #Get HSM Group through session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::HSM::Thales::Group",
+     key_server_ip     => "20.0.0.1",
+     );
+ my $hsm_group = $retrieved_objs[0];
+
+ unless ($hsm_group) {
+     die("Get HSM Group object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get HSM Group successful \n";
+
+ # Modify one of the attributes of the selected HSM Group.
+
+ $hsm group->comment("Modified hsm group object");
+
+ #Applying the changes
+ $session->modify($hsm_group)
+    or die("Modify HSM Group failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print"HSM Group modified successfully \n";
+
+B<#Remove the grid member object>
+
+ #Get HSM Group through session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::HSM::Thales::Group",
+     key_server_ip     => "20.0.0.1"
+     );
+ my $desired_hsm_group = $retrieved_objs[0];
+
+ unless ($desired_hsm_group) {
+     die("Get HSM Group object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get HSM Group successful \n";
+
+ #Submit the object for removal
+ $session->remove( $desired_hsm_group )
+     or die("Remove HSM Group failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print"HSM Group removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::HSM::Thales|Infoblox::Grid::HSM::Thales>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,16 @@
+/opt/perl/site/lib/DBIx/Connector.pm
+/opt/perl/site/lib/DBIx/Connector/Driver.pm
+/opt/perl/site/lib/DBIx/Connector/Driver/Firebird.pm
+/opt/perl/site/lib/DBIx/Connector/Driver/MSSQL.pm
+/opt/perl/site/lib/DBIx/Connector/Driver/Oracle.pm
+/opt/perl/site/lib/DBIx/Connector/Driver/Pg.pm
+/opt/perl/site/lib/DBIx/Connector/Driver/SQLite.pm
+/opt/perl/site/lib/DBIx/Connector/Driver/mysql.pm
+/opt/perl/site/man/man3/DBIx::Connector.3
+/opt/perl/site/man/man3/DBIx::Connector::Driver.3
+/opt/perl/site/man/man3/DBIx::Connector::Driver::Firebird.3
+/opt/perl/site/man/man3/DBIx::Connector::Driver::MSSQL.3
+/opt/perl/site/man/man3/DBIx::Connector::Driver::Oracle.3
+/opt/perl/site/man/man3/DBIx::Connector::Driver::Pg.3
+/opt/perl/site/man/man3/DBIx::Connector::Driver::SQLite.3
+/opt/perl/site/man/man3/DBIx::Connector::Driver::mysql.3

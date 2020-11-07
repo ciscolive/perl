@@ -1,0 +1,846 @@
+=head1 NAME
+
+Infoblox::DNS::BulkHost - Create a group of hosts.
+
+=head1 DESCRIPTION
+
+If you need to add a large number of hosts, you can have the Infoblox appliance add them as a group and automatically assign host names based on a range of IP addresses and name format applied to it. This group of hosts is referred to as a BulkHost. The Infoblox appliance uses the name space bulk-xx-xx-xx-xx for BulkHosts, so this name should not be used for CNAMEs and host aliases because doing so causes conflicts. Before adding a BulkHost, make sure that no CNAMEs or host aliases uses this name.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $bulkhost = Infoblox::DNS::BulkHost->new(
+     end_addr           => $ipv4addr,              #Required
+     prefix             => $string,                #Required
+     start_addr         => $ipv4addr,              #Required
+     zone               => $fqdn,                  #Required
+     comment            => $string,                #Optional / Default is empty
+     disable            => "true" | "false",       #Optional / Default "false"
+     name_template      => $string | undef,        #Optional / Default is undefined
+     reverse            => "true" | "false",       #Optional / Default "false"
+     ttl                => $num | undef,           #Optional / Default is undefined
+     use_name_template  => "true" | "false",       #Optional / Default is "false"
+     views              => [$View1]   			   #Optional / Default is "default" view
+     extattrs           => { $string => $extattr, ... },      #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS BulkHost record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a BulkHost record object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $bulk_host = Infoblox::DNS::BulkHost->new(
+     zone               => "domain.com",
+     comment            => "add bulk host",
+     prefix             => "prefix",
+     start_addr         => "1.0.0.1",
+     end_addr           => "1.0.0.5",
+     reverse            => "true",
+     use_name_template  => "true",
+     name_template      => "Three Octets"
+ );
+ #Submit for addition
+ my $response = $session->add($bulk_host)
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS BulkHost object:
+
+  zone - Optional. A zone name in string format.
+  prefix     - Optional. Prefix of the bulk host.
+  start_addr - Optional. Start address of the bulk host.
+  end_addr   - Optional. End address of the bulk host.
+  comment    - Optional. A comment in string format.
+  view - Optional. The DNS view in which the bulk host record is located. The default is all DNS views.
+  ttl - Optional. Time to Live (TTL) value in integer format.
+  name_template - Optional. The bulk host name template in string format.
+  disable - Optional. Disable flag of a DNS BulkHost record in boolean format.
+  use_name_template - Optional. Use name template flag of a DNS BulkHost record in boolean format.
+  reverse - Optional. Reverse flag of a DNS BulkHost record in boolean format.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ #Get BulkHost object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::BulkHost",
+     zone   => "domain.com",
+     prefix => "prefix",
+     start_addr => "1.0.0.2",
+     end_addr => "1.0.0.6".
+     view => "default",
+     ttl => 3600,
+     name_template => "Three Octets",
+     disable => "false",
+     use_name_template => "true",
+     reverse => "true"
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a BulkHost record object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the prefix.
+ $bulk_host->prefix("test");
+ #Submit modification
+ my $response = $session->modify( $bulk_host );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a BulkHost record object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific BulkHost record object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get BulkHost object through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DNS::BulkHost",
+     zone       => "domain.com",
+     prefix     => "test",
+     start_addr => "1.0.0.1",
+     end_addr   => "1.0.0.5"
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_bulk = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_bulk );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Bulk Host objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific Bulk Host object:
+
+  zone       - Optional. Zone name in FQDN format (regular expression).
+  prefix     - Optional. Prefix of the bulk host (regular expression).
+  start_addr - Optional. Start address of the bulk host.
+  end_addr   - Optional. End address of the bulk host.
+  comment    - Optional. A comment in string format (regular expression).
+  view       - Optional. The DNS view in which the bulk host record is located (regular expression). The default is all DNS views.
+
+  ttl - Optional. Time to Live (TTL) value in integer format.
+  name_template - Optional. The bulk host name template in string format.
+	          This is B<not> a regular expression, so do not specify this
+	          value to ".*" if you want to obtain BulkHost records with all
+	          name_templates. Just leave this field unspecified.
+  disable - Optional. Disable flag of a DNS BulkHost record in boolean format.
+  use_name_template - Optional. Use name template flag of a DNS BulkHost record in boolean format.
+  reverse - Optional. Reverse flag of a DNS BulkHost record in boolean format.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ # search for all Bulk Host objects that start with "prefix"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::BulkHost",
+     prefix => "prefix.*"
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a BulkHost object.
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::BulkHost object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $bulkhost->comment();
+ #Modify comment
+ $bulkhost->comment("Modifying the BulkHost comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS BulkHost record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The DNS BulkHost record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $bulkhost->disable();
+ #Modify disable
+ $bulkhost->disable("true");
+
+=back
+
+=back
+
+=head2 dns_prefix( )
+
+=over
+
+Use this method to retrieve the prefix, in punycode format, for the bulk host. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $bulkhost->dns_prefix();
+
+=back
+
+=back
+
+=head2 end_addr( )
+
+=over
+
+Use this method to set or retrieve the last IP address in the address range of the BulkHost.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IP address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get end_addr
+ my $end_addr = $bulkhost->end_addr();
+ #Modify end_addr
+ $bulkhost->end_addr("1.0.0.6");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS BulkHost object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $bulkhost->extattrs();
+ #Modify extattrs
+ $bulkhost->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time when the associated record was last queried. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $bulkhost->last_queried();
+
+=back
+
+=back
+
+=head2 name_template( )
+
+=over
+
+Use this method to set or retrieve the bulk host name template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates the grid level default bulk host name format is used.
+
+Specify a bulk host name format value to override the name format at the grid level.
+
+=over
+
+=item B<Parameter>
+
+The name of a bulk host name format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name_template
+ my $name_template = $bulkhost->name_template();
+ #Modify name_template
+ $bulkhost->name_template("Three Octets");
+
+=back
+
+=back
+
+=head2 prefix( )
+
+=over
+
+Use this method to set or retrieve the prefix for the BulkHost. The prefix is the name (or a series of characters) inserted at the beginning of each host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Desired text with the prefix for the BulkHost. The sum of the bulk host prefix length and suffix length must not exceed 63 characters. If it does, the appliance displays an error message indicating the number of characters that you must remove to make a valid prefix.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get prefix
+ my $prefix = $bulkhost->prefix();
+ #Modify prefix
+ $bulkhost->prefix("test");
+
+=back
+
+=back
+
+=head2 reverse( )
+
+=over
+
+Use this method to set or retrieve the reverse flag of the BulkHost record.
+
+If the flag is enabled, reverse mapping address(es) are added automatically if a reverse mapping zone exists.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get reverse
+ my $reverse = $bulkhost->reverse();
+ #Modify reverse
+ $bulkhost->reverse("true");
+
+=back
+
+=back
+
+=head2 start_addr( )
+
+=over
+
+Use this method to set or retrieve the first IP address in the address range of the BulkHost.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IP address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get start_addr
+ my $start_addr = $bulkhost->start_addr();
+ #Modify start_addr
+ $bulkhost->start_addr("1.0.0.2");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $bulkhost->ttl();
+ #Modify ttl
+ $bulkhost->ttl(3600);
+
+=back
+
+=back
+
+=head2 use_name_template( )
+
+=over
+
+Use this method to set or retrieve the use_name_template flag value. This setting overrides the grid level bulk host name format.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get use_name_template
+ my $use_name_template = $bulkhost->use_name_template();
+ #Modify use_name_template
+ $bulkhost->use_name_template("true");
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the view of a BulkHost.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" view, which means the BulkHost object is located under the default view.
+
+=over
+
+=item B<Parameter>
+
+Array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $views = $bulkhost->views();
+ #Modify views
+ $bulkhost->views([$view1]);
+
+=back
+
+=back
+
+=head2 zone( )
+
+=over
+
+Use this method to set or retrieve the zone name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A zone name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host_name followed by the domain name (example: abc.com). A host_name can have a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get zone
+ my $zone = $bulkhost->zone();
+ #Modify zone
+ $bulkhost->zone("test.com");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a Bulk Host object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the zone prior to a BulkHost insertion
+ my $zone = Infoblox::DNS::Zone->new(
+     name    => "domain.com",
+     email   => "admin\@domain.com",
+     comment => "add a zone domain.com",
+     );
+ unless ($zone) {
+    die("Construct zone failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "domain.com");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create a BulkHost object>
+
+ my $bulk_host = Infoblox::DNS::BulkHost->new(
+     zone               => "domain.com",
+     comment            => "add bulk host",
+     prefix             => "prefix",
+     start_addr         => "1.0.0.1",
+     end_addr           => "1.0.0.5",
+     use_name_template  => "true",
+     name_template      => "Three Octets",
+     reverse            => "true"
+     );
+ unless($bulk_host) {
+      die("Construct BulkHost failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "BulkHost object created successfully\n";
+
+ #Add the BulkHost object to Infoblox Appliance through a session
+ $session->add($bulk_host)
+     or die("Add BulkHost object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "Bulk Host object added to server successfully\n";
+
+B<#Search for a specific DNS BulkHost record>
+
+ #Search for all BulkHost objects in the zone "domain.com"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::BulkHost",
+     zone   => "domain.com"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Bulk Host object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Bulk Host object found at least 1 matching entry\n";
+
+ #Search for all BulkHost objects that start with prefix as "prefix"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::BulkHost",
+     prefix => "prefix.*"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Bulk Host object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Bulk Host object found at least 1 matching entry\n";
+
+ #Search for all BulkHost objects with specific start_addr
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::BulkHost",
+     start_addr => "1.0.0.1",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Bulk Host object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Bulk Host object found at least 1 matching entry\n";
+
+ #Search for all BulkHost objects with specific end_addr
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::BulkHost",
+     end_addr => "1.0.0.5",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Bulk Host object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Bulk Host object found at least 1 matching entry\n";
+
+B<#Get and modify a BulkHost object>
+
+ #Get BulkHost object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::BulkHost",
+     zone   => "domain.com",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get BulkHost object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get BulkHost object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified BulkHost object
+ $object->prefix("test");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify BulkHost object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "BulkHost object modified successfully \n";
+
+B<#Remove a BulkHost object>
+
+ #Get BulkHost object through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DNS::BulkHost",
+     zone       => "domain.com",
+     prefix     => "test",
+     start_addr => "1.0.0.1",
+     end_addr   => "1.0.0.5"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get BulkHost object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get BulkHost object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove  BulkHost object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "BulkHost object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

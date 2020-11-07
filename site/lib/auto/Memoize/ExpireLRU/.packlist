@@ -1,0 +1,5 @@
+/opt/perl/site/lib/Memoize/ExpireLRU.pm
+/opt/perl/site/lib/auto/Memoize/ExpireLRU/DumpCache.al
+/opt/perl/site/lib/auto/Memoize/ExpireLRU/ShowStats.al
+/opt/perl/site/lib/auto/Memoize/ExpireLRU/autosplit.ix
+/opt/perl/site/man/man3/Memoize::ExpireLRU.3

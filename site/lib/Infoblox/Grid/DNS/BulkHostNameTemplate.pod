@@ -1,0 +1,184 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::BulkHostNameTemplate - Manages the DNS bulk host name formats defined at the grid level.
+
+=head1 DESCRIPTION
+
+Bulk host name template defines the format based on which the host names are generated from a bulk host..
+
+=head1 CONSTRUCTOR
+
+ my $bulk_host_name_template = Infoblox::Grid::DNS::BulkHostNameTemplate->new(
+     template_name   => $string,    #Required
+     template_format => $string     #Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to the bulk host name template object.
+
+=head2 Infoblox::Grid::DNS->bulk_host_name_templates( )
+
+=over
+
+Use this function to specify a bulk host name template at the grid level in the Infoblox appliance.
+
+Note that we can't remove or modify default bulk host name templates we can only add and modify our custom templates to the current bulk host name templates array.
+
+=over
+
+=item B<Example>
+
+ #Create a BulkHostNameTemplate object.
+ my $custom_template = Infoblox::Grid::DNS::BulkHostNameTemplate->new(
+    template_name   => "test",
+    template_format => "-#1-#2-#3-#4",
+ );
+
+ #Retrieve bulk host name templates array
+ my $bhnt = $grid_dns->bull_host_name_templates();
+
+ #Configure bulk host name template on the Infoblox grid object
+ push @$bhnt, $custom_template;
+ my $response = $grid_dns->bulk_host_name_templates($bhnt);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attributes values of a bulk host name template object.
+
+=head2 template_name( )
+
+=over
+
+Use this method to set or retrieve the name of bulk host name template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String with the name of the bulk host name template.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get template_name
+ my $template_name = $bulk_host_name_template->template_name();
+ #Modify template_name
+ $template_name->template_name("new_name");
+
+=back
+
+=back
+
+=head2  template_format( )
+
+=over
+
+Use this method to set or retrieve the format of bulk host name template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The format of bulk host name template. It should follow certain rules (please use Administration Guide as reference).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get template_format
+ my $template_format = $bulk_host_name_template->template_format();
+ #Modify template_format
+ $bulk_host_name_template>template_format("-#1-#2-#3-#4");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to a bulk host name template object such as create, modify, and remove. Also, this sample code includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+     die( "Construct session failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail() );
+ }
+ print "Session created successfully\n";
+
+ #Create a new bulk host name template object
+
+ my $my_template = Infoblox::Grid::DNS::BulkHostNameTemplate->new(
+     template_name   => "My Template",
+     template_format => "#4",
+ );
+ unless ($my_template) {
+     die(
+         "Construct bulk host name template object my_template failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail()
+     );
+ }
+ print "Bulk host name template object my_template created successfully\n";
+
+ #Get the Member DNS object to add a bulk host name template object to it
+
+ my $grid_dns =
+   $session->get( "object" => "Infoblox::Grid::DNS", "grid" => "Infoblox" );
+ unless ($grid_dns) {
+     die( "Get Grid DNS failed: ",
+         $session->status_code() . ":" . $session->status_detail() );
+ }
+
+ my $bhnt = $grid_dns->bulk_host_name_templates();
+
+ #Add new bulk host name template to Grid DNS bulk host name templates
+
+ unshift(@$bhnt, $my_template);
+ $grid_dns->bulk_host_name_templates($bhnt);
+
+ $session->modify($grid_dns)
+   or die( "modify Grid DNS failed:",
+     $session->status_code(), $session->status_detail() );
+ print "Modify grid DNS successful for bulk host name template object\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

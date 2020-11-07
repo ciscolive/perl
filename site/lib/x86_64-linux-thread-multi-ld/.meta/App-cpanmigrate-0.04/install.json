@@ -1,0 +1,1 @@
+{"pathname":"P/PU/PUNYTAN/App-cpanmigrate-0.04.tar.gz","dist":"App-cpanmigrate-0.04","target":"App::cpanmigrate","name":"App::cpanmigrate","provides":{"App::cpanmigrate::bash":{"file":"lib/App/cpanmigrate/bash.pm"},"App::cpanmigrate":{"file":"lib/App/cpanmigrate.pm","version":"0.04"},"App::cpanmigrate::csh":{"file":"lib/App/cpanmigrate/csh.pm"}},"version":"0.04"}

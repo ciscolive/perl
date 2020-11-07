@@ -1,0 +1,1 @@
+{"target":"B::Utils","pathname":"E/ET/ETHER/B-Utils-0.27.tar.gz","name":"B::Utils","version":"0.27","dist":"B-Utils-0.27","provides":{"B::Utils":{"version":"0.27","file":"lib/B/Utils.pm"},"B::Utils::OP":{"file":"lib/B/Utils/OP.pm","version":"0.27"},"B::Utils::Install::Files":{"file":"build/IFiles.pm"}}}

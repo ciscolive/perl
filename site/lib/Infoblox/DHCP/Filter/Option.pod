@@ -1,0 +1,713 @@
+=head1 NAME
+
+Infoblox::DHCP::Filter::Option - DHCP filter option object
+
+=head1 DESCRIPTION
+
+A Filter::Option defines a DHCP option filter. In the ISC DHCP terms, it defines a class of clients that match a particular (option, value) pair. To define an option filter, add Option to the DHCP Filter object.
+
+=head1 CONSTRUCTOR
+
+  my $optionFilter = Infoblox::DHCP::Filter::Option->new(
+                 name                   => $string,                           #Required
+                 apply_as_class         => "true" | "false",                  #Optional / Default is "true"
+                 comment                => $string,                           #Optional / Default is empty
+                 boot_file              => $filename | undef,                 #Optional / Default is undefined
+                 boot_server            => $fqdn | undef,                     #Optional / Default is undefined
+                 extattrs               => { $string => $extattr, ... },      #Optional / Default is undefined
+                 extensible_attributes  => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+                 expression             => $string,                           #Optional / Default is empty
+                 lease_time             => $time,                             #Optional / Default is empty
+                 next_server            => $fqdn | undef,                     #Optional / Default is undefined
+                 option_list            => [$Option1, $Option2,...],          #Optional / Default is empty
+                 option_space           => $string,                           #Optional / Default is "DHCP"
+                 pxe_lease_time         => $time,                             #Optional / Default is empty
+                );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that can be applied to a DHCP filter option object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP filter option object to the Infoblox device. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my  $optionFilter = Infoblox::DHCP::Filter::Option->new(
+        name             => "option_filter",
+
+         );
+
+ # Submit for adding a option Filter
+ my $response = $session->add( $optionFilter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching DHCP option filter objects from the Infoblox device. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP relayagent filter object:
+
+ name - Required. An option filter name in string format.
+ extattrs              - Optional. A hash reference containing extensible attributes.
+ extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my  @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::Option" ,
+     name   => "option_filter",
+ );
+
+ # get all objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object                => "Infoblox::DHCP::Filter::Option",
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP option filter object in the Infoblox device. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify boot_server method.
+ $object->boot_server("myboot_server.com");
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP option filter object from the Infoblox device. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my @retrieved_objs = $session->get(
+            object  => "Infoblox::DHCP::Filter::Option" ,
+            "name"  => "option_filter",
+        );
+
+ # find the desired object from retrieved list.
+ my $desired_obj = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove( $desired_obj);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP option filter object in the Infoblox device. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DHCP Network object:
+
+  name - Required. An option filter name in string format (regular expression).
+  comment - Optional . A comment in string format (regular expression).
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DHCP option filter objects
+      my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::Filter::Option",
+     name   => "option.*",
+ );
+
+ # search all DHCP option filter associations with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DHCP::Filter::Option",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of DHCP option filter object
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP option filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the name in string format. The default value for this field is empty.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get name
+ my $name = $optionFilter->name();
+ #Modify name
+ $optionFilter->name("option_filter");
+
+=back
+
+=back
+
+=head2 apply_as_class( )
+
+=over
+
+Use this method to set or retrieve the "apply_as_class" flag of a DHCP filter option object. If this flag is set to "true" the filter is treated as global DHCP class, e.g it is written to dhcpd config file even if it is not present in any DHCP range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the "apply_as_class" flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get apply_as_class flag
+ my $apply_as_class = $optionFilter->apply_as_class();
+ #Modify apply_as_class flag
+ $optionFilter->apply_as_class("true");
+
+=back
+
+=back
+
+=head2  boot_file( )
+
+=over
+
+Use this method to set or retrieve a boot_file attribute of a DHCP filter option object. If this attribute is not set, it will inherit the member level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the file that the client must download.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get boot_file
+ my $boot_file = $optionFilter->boot_file();
+ # Modify boot_file
+ $optionFilter->boot_file("bootfile1");
+ #Un-override boot_file
+ $optionFilter->boot_file(undef);
+
+=back
+
+=back
+
+=head2  boot_server( )
+
+=over
+
+Use this method to set or retrieve a bootserver attribute of a DHCP filter option object. You can specify the name and/or IP address
+of the boot server that host needs to boot. If this attribute is not set, it will inherit the member level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The boot server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A boot server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get boot_server
+ my $bootserver = $optionFilter->bootserver();
+ # Modify boot_server
+ $optionFilter->boot_server("abc.domain.com");
+ #Un-override boot_server
+ $optionFilter->boot_server(undef);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DHCP filter option object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $optionFilter->comment();
+ #Modify comment
+ $optionFilter->comment("Modified DHCP filter option object comment");
+
+=back
+
+=back
+
+=head2 expression( )
+
+=over
+
+Use this method to set or retrieve the conditional expression of a DHCP filter option object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An expression in string format, with a maximum of 4096 characters. The expression must comply with the option filter expression syntax.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting expression
+   my $expression = $optionFilter->expression( );
+   #Modifying expression
+   $optionFilter->expression('Sophos.ComplianceState="PartialCompliant"');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Filter Option object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $optionFilter->extattrs();
+ #Modify extattrs
+ $optionFilter->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Filter Option object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $optionFilter->extensible_attributes();
+ #Modify extensible attributes
+ $optionFilter->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2  lease_time( )
+
+=over
+
+Use this method to set or retrieve a lease_time attribute of a DHCP filter option object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter appropriate values in seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get lease_time
+ my $lease_time = $optionFilter->lease_time();
+ # Modify lease_time
+ $optionFilter->lease_time("7200");
+
+=back
+
+=back
+
+=head2  next_server( )
+
+=over
+
+Use this method to set or retrieve a next_server attribute of a DHCP filter option object. You can specify the name and/or IP address
+of the next server that the host needs to boot. If this attribute is not set, it will inherit the member level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The next server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). The next server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get next_server
+ my $nextserver = $optionFilter->next_server();
+ # Modify next_server
+ $optionFilter->next_server("blue.domain.com");
+ #Un-override next_server
+ $optionFilter->next_server(undef);
+
+=back
+
+=back
+
+=head2  option_list( )
+
+=over
+
+Use this method to set or retrieve the option_list of a DHCP filter option object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> objects. Option list describe filter option configuration settings and various services.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get option_list
+ my $options = $optionFilter->option_list();
+ #Modify option_list
+ $optionFilter->option_list([$option1]);
+
+=back
+
+=back
+
+=head2  option_space( )
+
+=over
+
+Use this method to  retrieve the option_space of a DHCP filter option object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the option space value in string format. The default value of option_space is DHCP.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get option_space
+ my $options = $optionFilter->option_space();
+ #Modify option_space
+ $optionFilter->option_space("Infoblox_DHCP");
+
+=back
+
+=back
+
+=head2  pxe_lease_time( )
+
+=over
+
+Use this method to set or retrieve a pxe_lease_time attribute of a DHCP filter option object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter appropriate values in seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get pxe_lease_time
+ my $pxe_lease_time = $optionFilter->pxe_lease_time();
+ # Modify pxe_lease_time
+ $optionFilter->pxe_lease_time("3600");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP option filter object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox device
+
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DHCP Filter Option object>
+
+ my  $optionfilter = Infoblox::DHCP::Filter::Option->new(
+
+        name             => "option_filter",
+        next_server      => "abc_server.com" ,
+        boot_file        => "file1" ,
+        boot_server      => "boot_server.com" ,
+        lease_time       => "7200",
+        pxe_lease_time   => "3600",
+       );
+
+ unless ($optionfilter) {
+    die("Construct DHCP Filter::Option failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Filter::Option object created successfully\n";
+ my $response = $session->add($optionfilter)
+        or die("Add DHCP Filter Option failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP Filter Option added successfully\n";
+
+B<#Search for a specific DHCP Filter Option>
+
+ #Search the  DHCP Filter Option
+ my @retrieved_objs = $session->search(
+     object             => "Infoblox::DHCP::Filter::Option",
+     name               => "option.*",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search DHCP Filter Option  failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Search DHCP Filter Option found at least 1 matching entry\n";
+
+B<#Get and modify a  DHCP Filter Option attribute>
+
+ #Get  DHCP Filter Option through the session
+ my  @retrieved_objs = $session->get(
+
+               object      =>"Infoblox::DHCP::Filter::Option" ,
+               name        => "option_filter",
+         );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get option filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get DHCP Filter Option found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified DHCP Filter Option attribute
+
+ $object->boot_server("another_Server");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify DHCP Filter Option attribute failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP Filter Option object modified successfully \n";
+
+B<#Remove a DHCP Filter Option Object>
+
+  #Get object through the session
+  my @retrieved_objs = $session->get(
+
+            object  => "Infoblox::DHCP::Filter::Option" ,
+            "name"  => "option_filter",
+        );
+
+    my $object = $retrieved_objs[0];
+
+    unless ($object) {
+     die("Get a DHCP Filter Optionobject failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get a DHCP Filter Option object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove a DHCP Filter Option failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP Filter Option removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

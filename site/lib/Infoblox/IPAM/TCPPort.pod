@@ -1,0 +1,102 @@
+=head1 NAME
+
+Infoblox::IPAM::TCPPort - Network discovery TCP port
+
+=head1 DESCRIPTION
+
+This class represents the TCP port that network discovery jobs use to find IP addresses.
+
+=head1 CONSTRUCTOR
+
+ my $tcp_port = Infoblox::IPAM::TCPPort->new(
+      number            => $string,             #Required.
+      comment           => $string,             #Optional.
+ );
+
+=head1 SESSION METHODS
+
+This object does not have a session method. You must use it with L<Infoblox::IPAM::DiscoveryTask|Infoblox::IPAM::DiscoveryTask> class.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a TCP port.
+
+=head2  comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment for a TCP port.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for the TCP port in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get comment
+ my $comment = $tcp_port->comment();
+ # Modify comment
+ $tcp_port->comment("new port");
+
+=back
+
+=back
+
+=head2  number( )
+
+=over
+
+Use this method to set or retrieve the TCP port number.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a number the TCP port.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get port number
+ my $port_number = $tcp_port->number();
+ # Modify port number
+ $tcp_port->number("222");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+Please see sample code in L<Infoblox::IPAM::DiscoveryTask|Infoblox::IPAM::DiscoveryTask>.
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::IPAM::DiscoveryTask|Infoblox::IPAM::DiscoveryTask>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

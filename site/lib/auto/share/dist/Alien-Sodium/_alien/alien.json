@@ -1,0 +1,18 @@
+{
+   "alien_build_version" : "2.33",
+   "cflags" : " ",
+   "cflags_static" : " ",
+   "install_type" : "system",
+   "legacy" : {
+      "finished_installing" : 1,
+      "install_type" : "system",
+      "name" : "libsodium",
+      "original_prefix" : "/opt/perl/site/lib/auto/share/dist/Alien-Sodium",
+      "version" : "1.0.18"
+   },
+   "libs" : "-lsodium ",
+   "libs_static" : "-lsodium -pthread ",
+   "perl_module_version" : "2.000",
+   "prefix" : "/opt/perl/site/lib/auto/share/dist/Alien-Sodium",
+   "version" : "1.0.18"
+}

@@ -1,0 +1,182 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DiagnosticsStatus - The discovery diagnostic status.
+
+=head1 DESCRIPTION
+
+The object provides information about the discovery diagnostic status.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to the object.
+
+=head2 Infoblox::Session->discovery_diagnostics_status( )
+
+=over
+
+Use this method to retrieve the discovery diagnostic status.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+   id     - Required. The discovery diagnostic status ID.
+   start  - Optional. The start position of the text.
+
+=item B<Returns>
+
+The method returns an Infoblox::Grid::Discovery::DiagnosticsStatus object when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $id = $session->discovery_diagnostics('address' => '10.0.0.1');
+ my $object = $session->discovery_diagnostics_status('id' => $id);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 end( )
+
+=over
+
+Use this method to retrieve the end position of text. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->end();
+
+=back
+
+=back
+
+=head2 id( )
+
+=over
+
+Use this method to retrieve the discovery diagnostic status ID. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->id();
+
+=back
+
+=back
+
+=head2 start( )
+
+=over
+
+Use this method to retrieve the start position of the text. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->start();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETED', 'FAILED' or 'INPROGRESS'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->status();
+
+=back
+
+=back
+
+=head2 text( )
+
+=over
+
+Use this method to retrieve the text. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->text();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,211 @@
+=head1 NAME
+
+Infoblox::Grid::ObjectsChangesTrackingSetting - the object changes tracking setting.
+
+=head1 DESCRIPTION
+
+The object changes tracking setting object is used to display the object changes state and to enable or disable the object changes tracking feature.
+
+=head1 CONSTRUCTOR
+
+ my $object_changes = Infoblox::Grid::ObjectsChangesTrackingSetting->new(
+     enable => 'true' | 'false', #Optional / Default is 'false'
+ );
+
+=head1 MODULE METHODS
+
++The following functions can be applied to an object changes tracking setting object.
+
+=head2 Infoblox::Grid->objects_changes_tracking_setting( )
+
+=over
+
+Use this function to specify the object changes tracking settings for the Grid. See L<Infoblox::Grid/objects_changes_tracking_setting()|Infoblox::Grid/objects_changes_tracking_setting()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get objects_changes_tracking_setting value
+ my $value = $object->objects_changes_tracking_setting();
+
+ #Construct objects_changes_tracking_setting value
+ my $objects_changes_tracking_setting = Infoblox::Grid::ObjectsChangesTrackingSetting->new(
+     enable => 'true',
+ );
+
+ #Modify objects_changes_tracking_setting value
+ $object->objects_changes_tracking_setting($objects_changes_tracking_setting);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of an object changes tracking setting object.
+
+=head2 enable( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the object changes tracking feature is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the object changes tracking feature or 'false' to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable value
+ my $value = $object->enable();
+
+ #Modify enable value
+ $object->enable('true');
+
+=back
+
+=back
+
+=head2 enable_completion( )
+
+=over
+
+Use this method to retrieve the object changes tracking completion percentage. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an unsigned integer between 0 and 100.
+
+=item B<Example>
+
+ #Get enable_completion value
+ my $value = $object->enable_completion();
+
+=back
+
+=back
+
+=head2 max_objs_to_track( )
+
+=over
+
+Use this method to set or retrieve the maximum number of objects retained for change tracking.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_objs_to_track value
+ my $value = $object->max_objs_to_track();
+
+ #Modify max_objs_to_track value
+ $object->max_objs_to_track(10);
+
+=back
+
+=back
+
+=head2 max_time_to_track( )
+
+=over
+
+Use this method to set or retrieve the maximum time period (in seconds) to track the deleted object changes.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer that represents time period (in seconds).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_time_to_track value
+ my $value = $object->max_time_to_track();
+
+ #Modify max_time_to_track value
+ $object->max_time_to_track(10);
+
+=back
+
+=back
+
+=head2 state( )
+
+=over
+
+Use this method to retrieve the object changes tracking state. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid values are 'ENABLING', 'ENABLED', 'DISABLED' and 'ENABLING_ERROR'.
+
+=item B<Example>
+
+ #Get state value
+ my $value = $object->state();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid|Infoblox::Grid>,
+L<Infoblox::Grid/objects_changes_tracking_setting()|Infoblox::Grid/objects_changes_tracking_setting()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

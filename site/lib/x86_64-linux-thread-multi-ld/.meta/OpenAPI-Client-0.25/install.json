@@ -1,0 +1,1 @@
+{"target":"OpenAPI::Client","name":"OpenAPI::Client","provides":{"Mojolicious::Command::openapi":{"file":"lib/Mojolicious/Command/openapi.pm"},"OpenAPI::Client":{"version":"0.25","file":"lib/OpenAPI/Client.pm"}},"dist":"OpenAPI-Client-0.25","version":"0.25","pathname":"J/JH/JHTHORSEN/OpenAPI-Client-0.25.tar.gz"}

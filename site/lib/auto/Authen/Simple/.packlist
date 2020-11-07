@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Authen/Simple.pm
+/opt/perl/site/lib/Authen/Simple/Adapter.pm
+/opt/perl/site/lib/Authen/Simple/Apache.pm
+/opt/perl/site/lib/Authen/Simple/Log.pm
+/opt/perl/site/lib/Authen/Simple/Password.pm
+/opt/perl/site/man/man3/Authen::Simple.3
+/opt/perl/site/man/man3/Authen::Simple::Adapter.3
+/opt/perl/site/man/man3/Authen::Simple::Apache.3
+/opt/perl/site/man/man3/Authen::Simple::Log.3
+/opt/perl/site/man/man3/Authen::Simple::Password.3

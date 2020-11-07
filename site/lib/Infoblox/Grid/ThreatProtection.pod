@@ -1,0 +1,412 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection - Grid Threat Protection object.
+
+=head1 DESCRIPTION
+
+This object provides information about the Grid Threat protection settings.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Grid::ThreatProtection object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Grid Threat Protection object
+  object - Required. It must be set to "Infoblox::Grid::ThreatProtection".
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatProtection',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify some of the attributes of the retrieved_objs object.
+ $retrieved_objs->events_per_second_per_rule('2');
+ $retrieved_objs->rule_update_policy('MANUAL');
+ # Submit modification
+ my $response = $session->modify( $retrieved_objs );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve values of the Threat Protection object.
+
+=head2 current_ruleset( )
+
+=over
+
+Use this method to set or retrieve the current Grid ruleset.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::ThreatProtection::Ruleset|Infoblox::Grid::ThreatProtection::Ruleset> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $obj->current_ruleset();
+ #Modify attribute value
+ $obj->current_ruleset($rs);
+
+=back
+
+=back
+
+=head2 enable_nat_rules( )
+
+=over
+
+Use this method to enable or disable the NAT Threat Protection feature.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+Specify 'true' to enable NAT mapping support for threat protection or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->enable_nat_rules();
+
+ #Modify attribute value
+ $object->enable_nat_rules('true');
+
+=back
+
+=back
+
+=head2 events_per_second_per_rule( )
+
+=over
+
+Use this method to set or retrieve the number of events logged per second per rule.
+
+=over
+
+=item B<Parameter>
+
+The number of events logged per second per rule in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->events_per_second_per_rule();
+ # Modify attribute value
+ $object->events_per_second_per_rule('2');
+
+=back
+
+=back
+
+=head2 enable_auto_download( )
+
+=over
+
+Use this method to enable or disable the auto download service.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the auto download service or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $obj->enable_auto_download();
+ #Modify attribute value
+ $obj->enable_auto_download('true');
+
+=back
+
+=back
+
+=head2 enable_scheduled_download( )
+
+=over
+
+Use this method to enable or disable the scheduled download. The default frequency is once every 24 hours if it is disabled.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the scheduled download or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $obj->enable_scheduled_download();
+ #Modify attribute value
+ $obj->enable_scheduled_download('true');
+
+=back
+
+=back
+
+=head2 rule_update_policy( )
+
+=over
+
+Use this method to set or retrieve the updated rule policy.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'AUTOMATIC' or 'MANUAL'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->rule_update_policy();
+ # Modify attribute value
+ $object->rule_update_policy('MANUAL');
+
+=back
+
+=back
+
+=head2 last_checked_for_update( )
+
+=over
+
+Use this method to retrieve the time when the Grid last checked for updates.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->last_checked_for_update();
+
+=back
+
+=back
+
+=head2 last_rule_update_version( )
+
+=over
+
+Use this method to retrieve the last rule update version. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->last_rule_update_version();
+
+=back
+
+=back
+
+=head2 nat_rules( )
+
+=over
+
+Use this method to set or retrieve the list of NAT mapping rules for threat protection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::ThreatProtection::NATRule|Infoblox::Grid::ThreatProtection::NATRule> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $obj->nat_rules();
+ #Modify attribute value
+ $obj->nat_rules($nat_rules);
+
+=back
+
+=back
+
+=head2 scheduled_download( )
+
+=over
+
+Use this method to set or retrieve the schedule setting for automatic rule update.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $obj->scheduled_download();
+ #Modify attribute value
+ $obj->scheduled_download($schedule);
+
+=back
+
+=back
+
+=head2 test_threat_protection_server_connectivity( )
+
+=over
+
+Use this method ot test the connectivity with the Infoblox threat protection server.
+
+=over
+
+=item B<Key Reference>
+
+None
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::TestResult|Infoblox::Grid::TestResult> object if connectivity test occurs and 0 otherwise.
+
+=item B<Example>
+
+ my $res = $obj->test_threat_protection_server_connectivity();
+
+=back
+
+=back
+
+=head2 disable_multiple_dns_tcp_request( )
+
+=over
+
+Use this method to disable multiple BIND responses via TCP connection.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to disable multiple TCP requests. Set the parameter to "false" to enable multiple TCP requests.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->disable_multiple_dns_tcp_request();
+ # Modify attribute value
+ $object->disable_multiple_dns_tcp_request('true');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::Member::ThreatProtection|Infoblox::Grid::Member::ThreatProtection>, L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting>, L<Infoblox::Grid::ThreatProtection::NATRule|Infoblox::Grid::ThreatProtection::NATRule>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

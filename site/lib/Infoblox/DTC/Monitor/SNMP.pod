@@ -1,0 +1,679 @@
+=head1 NAME
+
+Infoblox::DTC::Monitor::SNMP - A DTC SNMP Health Monitor object.
+
+=head1 DESCRIPTION
+
+The DTC SNMP Health Monitor determines the health of SNMP servers such as SNMP Proxies and Session Border Controllers, and SNMP gateways by issuing SNMP options to a server and examining the response provided by the server. The service is considered available if the received response matches the expected response.
+
+=head1 CONSTRUCTOR
+
+ my $snmp_monitor = Infoblox::DTC::Monitor::SNMP->new(
+    name                  => $string,                                                               #Required
+    comment               => $string,                                                               #Optional / Default is undefined
+    community             => $string,                                                               #Optional / Default is 'public'
+    interval              => $uint,                                                                 #Optional / Default is 5
+    oids                  => [$oid1, $oid2, ...],                                                   #Optional / Default is empty list
+    port                  => $uint,                                                                 #Optional / Default is 161
+    retry_down            => $uint,                                                                 #Optional / Default is 1
+    retry_up              => $uint,                                                                 #Optional / Default is 1
+    timeout               => $uint,                                                                 #Optional / Default is 15
+    version               => 'V1' | 'V2C' | 'V3',                                                   #Optional / Default is 'V2C'
+    context               => $string,                                                               #Optional / Default is undefined
+    engine_id             => $string,                                                               #Optional / Default is undefined
+    user                  => $string,                                                               #Optional / Default is undefined
+    extattrs              => { $string => $extattr, ... },                                          #Optional / Default is undefined
+    extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DTC SNMP Monitor object
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $snmp_monitor = Infoblox::DTC::Monitor::SNMP->new(
+    name  => 'snmp_monitor1',
+ );
+
+ #submit for addition
+ my $response = $session->add($snmp_monitor);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC SNMP Monitor name in string format.
+  comment               - Optional. A DTC SNMP Monitor comment.
+  engine_id             - Optional. A DTC SNMPv3 Monitor engine identifier.
+  context               - Optional. A DTC SNMPv3 Monitor context.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::SNMP',
+     name   => 'snmp_monitor1',
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::SNMP',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $snmp_monitor->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($snmp_monitor);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::SNMP',
+     name   => 'snmp_monitor1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_snmp_monitor = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_snmp_monitor);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC SNMP Monitor name in string format (regexp).
+  comment               - Optional. A DTC SNMP Monitor Descriptive comment (regexp).
+  engine_id             - Optional. A DTC SNMPv3 Monitor engine identifier (regexp).
+  context               - Optional. A DTC SNMPv3 Monitor context (regexp).
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Monitor::SNMP',
+     name   => 'snmp_monitor1',
+ );
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Monitor::SNMP',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment for a DTC SNMP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $snmp_monitor->comment();
+
+ #modify comment value
+ $snmp_monitor->comment('desired comment');
+
+=back
+
+=back
+
+=head2 community( )
+
+=over
+
+Use this method to set or retrieve the SNMP community string for a SNMP authentication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get community value
+ my $community = $snmp_monitor->community();
+
+ #modify community value
+ $snmp_monitor->community('desired community');
+
+=back
+
+=back
+
+=head2 context( )
+
+=over
+
+Use this method to set or retrive the SNMPv3 context.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a context in string format (UTF-8) with a maximum of 1023 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get context value
+ my $context = $snmp_monitor->context();
+
+ #modify context value
+ $snmp_monitor->context('desired_context');
+
+=back
+
+=back
+
+=head2 engine_id( )
+
+=over
+
+Use this method to set or retrive the SNMPv3 engine identifier.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a engine identifier in string format (UTF-8) with a maximum of 1023 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get engine identifiervalue
+ my $engine identifier= $snmp_monitor->engine_id();
+
+ #modify engine identifiervalue
+ $snmp_monitor->engine_id('desired_engine_id');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC SNMP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get extattrs value
+ my $ref_extattrs = $snmp_monitor->extattrs();
+
+ #Modify extattrs
+ $snmp_monitor->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC SNMP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $snmp_monitor->extensible_attributes();
+
+ #Modify extensible attributes
+ $snmp_monitor->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 interval( )
+
+=over
+
+Use this method to set or retrieve the time interval for the SNMP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get interval value
+ my $interval = $snmp_monitor->interval();
+
+ #modify interval value
+ $snmp_monitor->interval(10);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a DTC SNMP Health Monitor name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $snmp_monitor->name();
+
+ #modify name value
+ $snmp_monitor->name('snmp_monitor1');
+
+=back
+
+=back
+
+=head2 oids( )
+
+=over
+
+Use this method to set or retrieve the list of OIDs for SNMP monitoring.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of an L<Infoblox::DTC::Monitor::SNMP::OID|Infoblox::DTC::Monitor::SNMP::OID> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get oids value
+ my $oids = $snmp_monitor->oids();
+
+ #modify oids value
+ $snmp_monitor->oids([$oid1, $oid2]);
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the port value for SNMP or SNMPS requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get port value
+ my $port = $snmp_monitor->port();
+
+ #modify port value
+ $snmp_monitor->port(8080);
+
+=back
+
+=back
+
+=head2 retry_down( )
+
+=over
+
+Use this method to set or retrieve the number of times the server appears offline after it was online so it is treated as unavailable.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get retry_down value
+ my $retry_down = $snmp_monitor->retry_down();
+
+ #modify retry_down value
+ $snmp_monitor->retry_down(3);
+
+=back
+
+=back
+
+=head2 retry_up( )
+
+=over
+
+Use this method to set or retrieve the number of times the server appears online after it was offline so it is treated as alive.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get retry_up value
+ my $retry_up = $snmp_monitor->retry_up();
+
+ #modify retry_up value
+ $snmp_monitor->retry_up(3);
+
+=back
+
+=back
+
+=head2 timeout( )
+
+=over
+
+Use this method to set or retrieve the value of a timeout for SNMP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 15.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get timeout value
+ my $timeout = $snmp_monitor->timeout();
+
+ #modify timeout value
+ $snmp_monitor->timeout(7);
+
+=back
+
+=back
+
+=head2 user( )
+
+=over
+
+Use this method to set or retrieve the SNMPv3 user setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::SNMP::User|Infoblox::Grid::SNMP::User> object name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get user value
+ my $user = $snmp_monitor->user();
+
+ #modify user value
+ $snmp_monitor->user('user1');
+
+=back
+
+=back
+
+=head2 version( )
+
+=over
+
+Use this method to set or retrieve the SNMP protocol version for the SNMP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'V1', 'V2C' and 'V3'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get version value
+ my $version = $snmp_monitor->version();
+
+ #modify version value
+ $snmp_monitor->version('V1');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, 
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, 
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, 
+L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>, 
+L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>, 
+L<Infoblox::DTC::Monitor::SNMP::OID|Infoblox::DTC::Monitor::SNMP::OID>,
+L<Infoblox::Grid::SNMP::User|Infoblox::Grid::SNMP::User>
+
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

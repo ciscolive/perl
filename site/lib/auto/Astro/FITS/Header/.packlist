@@ -1,0 +1,12 @@
+/opt/perl/site/lib/Astro/FITS/Header.pm
+/opt/perl/site/lib/Astro/FITS/Header/AST.pm
+/opt/perl/site/lib/Astro/FITS/Header/CFITSIO.pm
+/opt/perl/site/lib/Astro/FITS/Header/GSD.pm
+/opt/perl/site/lib/Astro/FITS/Header/Item.pm
+/opt/perl/site/lib/Astro/FITS/Header/NDF.pm
+/opt/perl/site/man/man3/Astro::FITS::Header.3
+/opt/perl/site/man/man3/Astro::FITS::Header::AST.3
+/opt/perl/site/man/man3/Astro::FITS::Header::CFITSIO.3
+/opt/perl/site/man/man3/Astro::FITS::Header::GSD.3
+/opt/perl/site/man/man3/Astro::FITS::Header::Item.3
+/opt/perl/site/man/man3/Astro::FITS::Header::NDF.3

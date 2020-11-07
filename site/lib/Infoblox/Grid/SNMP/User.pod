@@ -1,0 +1,404 @@
+=head1 NAME
+
+Infoblox::Grid::SNMP::User - Grid SNMP User object
+
+=head1 DESCRIPTION
+
+The Grid SNMP User object is used to set, get, search, modify, or remove an SNMPv3 user. An SNMPv3 user is a managment system that sends queries and receives traps from the appliance.
+
+=head1 CONSTRUCTOR
+
+ #Constructor for a Grid SNMP User object
+ my $snmp_user = Infoblox::Grid::SNMP::User->new(
+         name                => $string,                #Required
+         auth_protocol       => "none"| "md5" | "sha",  #Required
+         privacy_protocol    => "none"| "des" | "aes",  #Required
+         auth_password       => $string,                #Optional. Required for MD5/SHA authentication
+         comment             => $string,                #Optional / Default is undefined
+         disable             => "true" | "false",       #Optional / Default is "false"
+         privacy_password    => $string,                #Optional. Required for MD5/SHA authentication
+         extattrs            => { $string => $extattr, ... },      #Optional / Default is undefined
+  );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to a Grid SNMP User object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve existing objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get a Grid SNMP User object:
+
+ name     -  user name in string format
+ comment  -  comment string
+ extattrs - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+         object      => "Infoblox::Grid::SNMP::User",
+         name        => "testuser" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment
+ $snmp_user->comment("This is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $snmp_user );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Grid SNMP User objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a Grid SNMP User object:
+
+  name -  user name (regular expression)
+  comment - comment string (regular expression)
+  extattrs - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ # Search for all Grid SNMP User objects that start with "test"
+ my @retrieved_objs = $session->search(
+     object      => "Infoblox::Grid::SNMP::User",
+     name        => "test.*",
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+ # Get Grid SNMP User objects with the same starting name
+ my @retrieved_objs = $session->get(
+     object      => "Infoblox::Grid::SNMP::User",
+     name        => "testuser" );
+ # find the desired object from the retrieved list.
+ my $desired_user = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_user );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an SNMPv3 user.
+
+=head2 auth_password( )
+
+=over
+
+Use this method to provide an authentication password for the user. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+Authentication password of the user in string format.
+
+=item B<Returns>
+
+If a parameter is specified, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set the password
+ $snmp_user->auth_password("mysecret");
+
+=back
+
+=back
+
+=head2 auth_protocol( )
+
+=over
+
+Use this method to specify the authentication protocol of the user.
+
+=over
+
+=item B<Parameter>
+
+Possible values for the authentication protocol are:
+
+ none
+ md5
+ sha
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get auth_protocol
+ my $proto = $snmp_user->auth_protocol();
+ #Set the protocol
+ $snmp_user->auth_protocol("md5");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to provide a comment for the SNMPv3 User object.
+
+=over
+
+=item B<Parameter>
+
+Comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $snmp_user->comment();
+ #Set the comment
+ $snmp_user->comment("This is a sample comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to configure or retrieve the "disable" flag.
+
+The default value is false; that is, the user is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable flag
+ my $disabled = $snmp_user->disable();
+ #Set the disable flag
+ $snmp_user->disable("true");
+
+=back
+
+=back
+
+=head2 engine_id( )
+
+=over
+
+Use this method to retrieve the SNMP engine ID.
+
+This field is read-only.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+When called without parameters, the method returns the attribute value. Calling this method with a parameter results in an error.
+
+=item B<Example>
+
+ #Get engine_id
+ my $engine_id = $snmp_user->engine_id();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a SNMP user object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $snmp_user->extattrs();
+ #Modify extattrs
+ $snmp_user->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of an SNMPv3 user.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the user.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $snmp_user->name();
+ #Modify name
+ $snmp_user->name("test_user");
+
+=back
+
+=back
+
+=head2 privacy_password( )
+
+=over
+
+Use this method to provide a password for the privacy protocol. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+Password in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set the password
+ $snmp_user->privacy_password("mysecret");
+
+=back
+
+=back
+
+=head2 privacy_protocol( )
+
+=over
+
+Use this method to specify encryption protocol for the SNMP packets.
+
+=over
+
+=item B<Parameter>
+
+Possible values for the encryption protocol are:
+
+ none
+ des
+ aes
+
+The values are case insensitive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get privacy_protocol
+ my $proto = $snmp_user->privacy_protocol();
+ #Set the protocol
+ $snmp_user->privacy_protocol("aes");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::SNMP::TrapReceiver|Infoblox::Grid::SNMP::TrapReceiver>,L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

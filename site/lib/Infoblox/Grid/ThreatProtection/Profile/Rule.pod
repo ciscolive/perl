@@ -1,0 +1,432 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection::Profile::Rule - Threat Protection profile rule object.
+
+=head1 DESCRIPTION
+
+This object provides information about the Threat Protection profile rule settings.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Infoblox::Grid::ThreatProtection::Profile::Rule object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Threat Protection profile rule object.
+
+  sid     - Optional. The Rule ID.
+  rule    - Optional. The Threat Protection rule object.
+  profile - Optional. The Threat Protection profile object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatProtection::Profile::Rule',
+     'sid'    => '211111'
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $rule = $session->search('object' => 'Infoblox::Grid::ThreatProtection::Rule', 'sid' => '211111');
+ my $object = $session->search('object' => 'Infoblox::Grid::ThreatProtection::Profile::Rule', 'rule' => $rule);
+
+ my $conf = $object->config();
+ $conf->action('PASS');
+
+ # Use this method to modify attributes of object.
+ $object->disable('true');
+ $object->override_disable('true');
+ $object->config($conf);
+ $object->override_config('true');
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Grid Threat Protection::Rule object.
+
+  sid     - Optional. The Rule ID.
+  rule    - Optional. The Threat Protection rule object.
+  profile - Optional. The Threat Protection profile object.
+
+=item B<Example>
+
+ #Retrieve the Threat Protection rule from appliance
+ my $rule = $session->search(
+     'object' => 'Infoblox::Grid::ThreatProtection::Rule',
+     'sid'    => '211111',
+ );
+
+ my $object = $session->search(
+     'object' => 'Infoblox::Grid::ThreatProtection::Profile::Rule',
+     'rule'   => $rule,
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This object provides information about the Threat Protection profile rule settings.
+
+=head2 config( )
+
+=over
+
+Use this method to set or retrieve the rule configuration information.
+
+Setting this method to a defined value implicitly sets the override_config method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_config attribute to 'false'.
+
+Note that when config is set to a defined value and override_config is set to 'false', the last operation takes precedence. Thus the sequence $object->config($value); $object->override_config('false'); will set override_config to 'false', and the sequence $object->override_config('false'); $object->config($value); will result in override_config='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is reference on L<Infoblox::Grid::ThreatProtection::RuleConfig|Infoblox::Grid::ThreatProtection::RuleConfig> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get config value
+ my $value = $object->config();
+
+ #Modify config value
+ $value->log_severity('INFORMATIONAL');
+ $object->config($value);
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or indicate whether the Threat Protection profile rule is disabled.
+
+Setting this method to a defined value implicitly sets the override_disable method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_disable attribute to 'false'.
+
+Note that when disable is set to a defined value and override_disable is set to 'false', the last operation takes precedence. Thus the sequence $object->disable('true'); $object->override_disable('false'); will set override_disable to 'false', and the sequence $object->override_disable('false'); $object->disable('true'); will result in override_disable='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable Threat Protection profile rule and 'false' to enable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable value
+ my $value = $object->disable();
+
+ #Modify disable value
+ $object->disable('true');
+
+=back
+
+=back
+
+=head2 override_config( )
+
+=over
+
+The override_config attribute controls whether the current config value is used for the Threat Protection profile rule instead of the Grid default.
+
+The override_config attribute can be specified explicitly. It is also set implicitly when config is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set the override_config flag or 'false' to deactivate/unset it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_config value
+ my $value = $object->override_config();
+
+ #Modify override_config value
+ $object->override_config('true');
+
+=back
+
+=back
+
+=head2 override_disable( )
+
+=over
+
+The override_disable attribute controls whether the current disable value is used for the Threat Protection profile rule instead of the Grid default.
+
+The override_disable attribute can be specified explicitly. It is also set implicitly when disable is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set the override_disable flag or 'false' to deactivate/unset it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_disable value
+ my $value = $object->override_disable();
+
+ #Modify override_disable value
+ $object->override_disable('true');
+
+=back
+
+=back
+
+=head2 profile( )
+
+=over
+
+Use this method to retrieve the Threat Protection profile object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, an L<Infoblox::Grid::ThreatProtection::Profile|Infoblox::Grid::ThreatProtection::Profile> object.
+
+=item B<Example>
+
+ #Get profile value
+ my $value = $object->profile();
+
+=back
+
+=back
+
+=head2 rule( )
+
+=over
+
+Use this method to retrieve the Threat Protection rule object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, an L<Infoblox::Grid::ThreatProtection::Rule|Infoblox::Grid::ThreatProtection::Rule> object.
+
+=item B<Example>
+
+ #Get rule value
+ my $value = $object->rule();
+
+=back
+
+=back
+
+=head2 sid( )
+
+=over
+
+Use this method to retrieve the Rule ID. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get sid value
+ my $value = $object->sid();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove.
+This sample also includes error handling for the operations.
+
+B<#Preparation prior to a Threat Protection profile rule insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create a Threat Protection profile
+ my $atp_profile = Infoblox::Grid::ThreatProtection::Profile->new(
+                name    => "atp_profile1",
+                comment => "add TP profile",
+                );
+
+ unless ($atp_profile) {
+        die("Construct Threat Protection profile failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Add the Threat Protection profile object to the Infoblox appliance through a session
+ $session->add($atp_profile)
+        or die("Add Threat Protection profile failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Threat Protection profile object added to server successfully\n";
+
+B<#Search for a specific Threat Protection profile rule>
+
+ #Search all Threat Protection profile rules that matches "atp_profile1" profile
+ my @retrieved_objs = $session->search(
+                object  => "Infoblox::Grid::ThreatProtection::Profile::Rule",
+                profile => $atp_profile,
+                );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Threat Protection profile rule failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Threat Protection profile rule object found at least 1 matching entry\n";
+
+B<#Get and modify a Threat Protection profile rule>
+
+ #Get a Threat Protection profile rule through the session
+ my @retrieved_objs = $session->get(
+                object  => "Infoblox::Grid::ThreatProtection::Profile::Rule",
+                profile => $atp_profile,
+                );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get Threat Protection profile rule failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Threat Protection profile rule object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified Threat Protection profile rule 
+ $object->disable("true");
+
+ #Apply the changes
+ $session->modify($object)
+        or die("Modify Threat Protection profile rule failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Threat Protection profile rule object modified successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Grid::ThreatProtection::Ruleset|Infoblox::Grid::ThreatProtection::Ruleset>,
+L<Infoblox::Grid::ThreatProtection::RuleConfig|Infoblox::Grid::ThreatProtection::RuleConfig>, 
+L<Infoblox::Grid::ThreatProtection::Rule|Infoblox::Grid::ThreatProtection::Rule>,
+L<Infoblox::Grid::ThreatProtection::Profile|Infoblox::Grid::ThreatProtection::Profile>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

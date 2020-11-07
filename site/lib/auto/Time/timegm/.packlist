@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Time/timegm.pm
+/opt/perl/site/lib/auto/Time/timegm/timegm.bs
+/opt/perl/site/lib/auto/Time/timegm/timegm.so
+/opt/perl/site/man/man3/Time::timegm.3

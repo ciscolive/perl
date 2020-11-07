@@ -1,0 +1,160 @@
+=head1 NAME
+
+Infoblox::Grid::CloudAPI::User - Infoblox::Grid::CloudAPI::User object.
+
+=head1 DESCRIPTION
+
+This object defines an entry in ACL for Cloud API Users.
+
+=head1 CONSTRUCTOR
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a part of the Grid CloudAPI object.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to an CloudAPI User object.
+
+=head2 Infoblox::Grid::CloudAPI->allowed_api_admins( )
+
+=over
+
+Use this method to set or retrieve the list of administrators who can perform cloud API requests on the Grid Master. See L<Infoblox::Grid::CloudAPI-E<gt>allowed_api_admins()|Infoblox::Grid::CloudAPI/allowed_api_admins()>
+
+=over
+
+=item B<Example>
+
+ my $cloud_user = Infoblox::Grid::CloudAPI::User->new(
+     is_remote => "false",
+     remote_admin => "",
+     local_admin => $local_admin_user
+ );
+
+ unless($cloud_user) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "User object created successfully\n";
+
+ # Get CloudAPI object
+ my $cloud_api = $session->get( object => "Infoblox::Grid::CloudAPI" );
+
+ # Modify CloudAPI object
+ my $cloud_api->allowed_api_admins([$cloud_user]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 is_remote( )
+
+=over
+
+Use this method to set or retrieve the user remote_admin status.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set user status to remote_admin or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get is_remote
+ $is_remote = $user->is_remote()
+ # Modify is_remote
+ $user->is_remote('true')
+
+=back
+
+=back
+
+=head2 local_admin( )
+
+=over
+
+Use this method to set or retrieve a local administrator allowed to perform Cloud Platform API requests. Required if remote is false, should be none otherwise.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::Admin::User|Infoblox::Grid::Admin::User> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get local_admin
+ $local_admin = $user->local_admin()
+ # Modify local_admin
+ $user->local_admin($admin_user)
+
+=back
+
+=back
+
+=head2 remote_admin( )
+
+=over
+
+Use this method to set or retrieve a username matching a remotely authenticated administrator allowed to perform Cloud Platform API requests. Required if remote is true, should be none otherwise.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string containing a remotely authenticated administrator name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get remote_admin
+ $remote_admin = $user->remote_admin()
+ # Modify remote_admin
+ $user->remote_admin("remote_admin")
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::User|Infoblox::Grid::Admin::User>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

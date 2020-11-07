@@ -1,0 +1,1021 @@
+=head1 NAME
+
+Infoblox::Grid::Member::CaptivePortal - Captive Portal object.
+
+=head1 DESCRIPTION
+
+This object represents the captive portal configuration.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::Member::CaptivePortal object is automatically generated upon the successful installation of the Infoblox appliance. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a Captive Portal object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific Captive Portal object:
+
+  name - Required. A domain name in string format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Member::CaptivePortal",
+     name   => "infoblox.localdomain"
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use this method to modify the welcome message.
+ $captive_portal->welcome_message("New welcome message");
+ #Submit modification
+ my $response = $session->modify( $captive_portal );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the captive portal.
+
+=head2 authn_server_group ( )
+
+=over
+
+Use this method to set or retrieve the authentication server group assigned to this captive portal.
+
+=over
+
+=item B<Parameter>
+
+The valid values are an L<Infoblox::Grid::Admin::AdAuthService|Infoblox::Grid::Admin::AdAuthService>, an L<Infoblox::Grid::Admin::RadiusAuthService|Infoblox::Grid::Admin::RadiusAuthService> or an L<Infoblox::LDAP::AuthService|Infoblox::LDAP::AuthService> object. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting authn_server_group
+   my $authn_server_group = $captive_portal->authn_server_group();
+   #Modifying authn_server_group
+   $captive_portal->authn_server_group($adservice);
+
+=back
+
+=back
+
+=head2 company_name ( )
+
+=over
+
+Use this method to set or retrieve the company name that appears in the guest registration page.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting company_name
+   my $company_name = $captive_portal->company_company_name();
+   #Modifying company_name
+   $captive_portal->company_name('Company Name');
+
+=back
+
+=back
+
+=head2 enable_syslog_auth_failure ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether authentication failures are logged to syslog.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable logging or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_syslog_auth_failure
+   my $enable_syslog_auth_failure = $captive_portal->enable_syslog_auth_failure();
+   #Modifying enable_syslog_auth_failure
+   $captive_portal->enable_syslog_auth_failure('true');
+
+=back
+
+=back
+
+=head2 enable_syslog_auth_success ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether successful authentications are logged to syslog.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable logging or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_syslog_auth_success
+   my $enable_syslog_auth_success = $captive_portal->enable_syslog_auth_success();
+   #Modifying enable_syslog_auth_success
+   $captive_portal->enable_syslog_auth_success('false');
+
+=back
+
+=back
+
+=head2 enable_user_type ( )
+
+=over
+
+Use this method to set or retrieve the type of user to be enabled for the captive portal.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "Authenticated", "Guest" or "Both". The default value is "Authenticated".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_user_type
+   my $enable_user_type = $captive_portal->enable_user_type();
+   #Modifying enable_user_type
+   $captive_portal->enable_user_type('Both');
+
+=back
+
+=back
+
+=head2 encryption ( )
+
+=over
+
+Use this method to set or retrieve the encryption the captive portal uses.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'None' or 'SSL'. The default value is 'None'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting encryption
+   my $encryption = $captive_portal->encryption();
+   #Modifying encryption
+   $captive_portal->encryption('SSL');
+
+=back
+
+=back
+
+=head2 files ( )
+
+=over
+
+Use this method to set or retrieve the list of files associated with the captive portal.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::Member::CaptivePortal::File|Infoblox::Grid::Member::CaptivePortal::File> object(s). New files must be added using L<Infoblox::Session-E<gt>import_data()|Infoblox::Session/import_data()/>. However, if a file is removed from this list, it is also removed from the captive portal.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting files
+   my $files = $captive_portal->files();
+   #Modifying files
+   $captive_portal->files([$logo]);
+
+=back
+
+=back
+
+=head2 guest_custom_field1_name ( )
+
+=over
+
+Use this method to set or retrieve the name of the custom field that you are adding to the guest registration page.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 200 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field1_name
+   my $guest_custom_field1_name = $captive_portal->guest_custom_field1_guest_custom_field1_name();
+   #Modifying guest_custom_field1_name
+   $captive_portal->guest_custom_field1_name('Extra field 1');
+
+=back
+
+=back
+
+=head2 guest_custom_field1_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the custom field is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field1_required
+   my $guest_custom_field1_required = $captive_portal->guest_custom_field1_required();
+   #Modifying guest_custom_field1_required
+   $captive_portal->guest_custom_field1_required('true');
+
+=back
+
+=back
+
+=head2 guest_custom_field2_name ( )
+
+=over
+
+Use this method to set or retrieve the name of the custom field that you are adding to the guest registration page.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 200 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field2_name
+   my $guest_custom_field2_name = $captive_portal->guest_custom_field2_guest_custom_field2_name();
+   #Modifying guest_custom_field2_name
+   $captive_portal->guest_custom_field2_name('Extra field 2');
+
+=back
+
+=back
+
+=head2 guest_custom_field2_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the custom field is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field2_required
+   my $guest_custom_field2_required = $captive_portal->guest_custom_field2_required();
+   #Modifying guest_custom_field2_required
+   $captive_portal->guest_custom_field2_required('true');
+
+=back
+
+=back
+
+=head2 guest_custom_field3_name ( )
+
+=over
+
+Use this method to set or retrieve the name of the custom field that you are adding to the guest registration page.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 200 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field3_name
+   my $guest_custom_field3_name = $captive_portal->guest_custom_field3_guest_custom_field3_name();
+   #Modifying guest_custom_field3_name
+   $captive_portal->guest_custom_field3_name('Extra field 3');
+
+=back
+
+=back
+
+=head2 guest_custom_field3_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the custom field is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field3_required
+   my $guest_custom_field3_required = $captive_portal->guest_custom_field3_required();
+   #Modifying guest_custom_field3_required
+   $captive_portal->guest_custom_field3_required('true');
+
+=back
+
+=back
+
+=head2 guest_custom_field4_name ( )
+
+=over
+
+Use this method to set or retrieve the name of the custom field that you are adding to the guest registration page.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 200 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field4_name
+   my $guest_custom_field4_name = $captive_portal->guest_custom_field4_guest_custom_field4_name();
+   #Modifying guest_custom_field4_name
+   $captive_portal->guest_custom_field4_name('Extra field 4');
+
+=back
+
+=back
+
+=head2 guest_custom_field4_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the custom field is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field4_required
+   my $guest_custom_field4_required = $captive_portal->guest_custom_field4_required();
+   #Modifying guest_custom_field4_required
+   $captive_portal->guest_custom_field4_required('true');
+
+=back
+
+=back
+
+=head2 guest_email_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the email address of the guest is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set this flag or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_email_required
+   my $guest_email_required = $captive_portal->guest_email_required();
+   #Modifying guest_email_required
+   $captive_portal->guest_email_required('false');
+
+=back
+
+=back
+
+=head2 guest_first_name_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the first name of the guest is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_first_name_required
+   my $guest_first_name_required = $captive_portal->guest_first_name_required();
+   #Modifying guest_first_name_required
+   $captive_portal->guest_first_name_required('false');
+
+=back
+
+=back
+
+=head2 guest_last_name_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the last name of the guest is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_last_name_required
+   my $guest_last_name_required = $captive_portal->guest_last_name_required();
+   #Modifying guest_last_name_required
+   $captive_portal->guest_last_name_required('false');
+
+=back
+
+=back
+
+=head2 guest_middle_name_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the middle name of the guest is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_middle_name_required
+   my $guest_middle_name_required = $captive_portal->guest_middle_name_required();
+   #Modifying guest_middle_name_required
+   $captive_portal->guest_middle_name_required('true');
+
+=back
+
+=back
+
+=head2 guest_phone_required ( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the phone number of the guest is required.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set this flag or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_phone_required
+   my $guest_phone_required = $captive_portal->guest_phone_required();
+   #Modifying guest_phone_required
+   $captive_portal->guest_phone_required('false');
+
+=back
+
+=back
+
+=head2 helpdesk_message ( )
+
+=over
+
+Use this method to set or retrieve the helpdesk message that appears in the guest registration page.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting helpdesk_message
+   my $helpdesk_message = $captive_portal->helpdesk_message();
+   #Modifying helpdesk_message
+   $captive_portal->helpdesk_message('In case of problems, please contact us at 555-555-5555');
+
+=back
+
+=back
+
+=head2 listen_address ( )
+
+=over
+
+Use this method to set or retrieve the IP address on which the captive portal listens.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'VIP', 'LAN2' or an IPv4 address. The default value is 'VIP'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting listen_address
+   my $listen_address = $captive_portal->listen_address();
+   #Modifying listen_address
+   $captive_portal->listen_address('VIP');
+
+=back
+
+=back
+
+=head2 name ( )
+
+=over
+
+Use this method to retrieve the hostname of the grid member that hosts the captive portal.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+   #Getting name
+   my $name = $captive_portal->name();
+
+=back
+
+=back
+
+=head2 network_view ( )
+
+=over
+
+Use this method to set or retrieve the network view of the captive portal.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a network view name. The default is the system default network view.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting network_view
+   my $network_view = $captive_portal->network_view();
+   #Modifying network_view
+   $captive_portal->network_view('otherview');
+
+=back
+
+=back
+
+=head2 port ( )
+
+=over
+
+Use this method to set or retrieve the TCP port used by the Captive Portal service. The port is required when the Captive Portal service is enabled.
+
+=over
+
+=item B<Parameter>
+
+Valid values are between 1 and 63999. The default value is 4433. Please note that setting the port number to 80 or 443 might impact performance.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting the port
+   my $port = $captive_portal->port();
+   #Modifying the port
+   $captive_portal->port(4457);
+
+=back
+
+=back
+
+=head2 service_enabled ( )
+
+=over
+
+Use this method to set or retrieve the state of the captive portal service.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the service or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting service_enabled
+   my $service_enabled = $captive_portal->service_enabled();
+   #Modifying service_enabled
+   $captive_portal->service_enabled('false');
+
+=back
+
+=back
+
+=head2 syslog_auth_failure_level ( )
+
+=over
+
+Use this method to set or retrieve the syslog level at which authentication failures are logged.
+
+=over
+
+=item B<Parameter>
+
+Valid values are  "debug", "info", "notice", "warning", "err", "crit", "alert" or "emerg" . The default value is "info".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting syslog_auth_failure_level
+   my $syslog_auth_failure_level = $captive_portal->syslog_auth_failure_level();
+   #Modifying syslog_auth_failure_level
+   $captive_portal->syslog_auth_failure_level('notice');
+
+=back
+
+=back
+
+=head2 syslog_auth_success_level ( )
+
+=over
+
+Use this method to set or retrieve the syslog level at which successful authentications are logged.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "debug", "info", "notice", "warning", "err", "crit", "alert" or "emerg" . The default value is "info".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting syslog_auth_success_level
+   my $syslog_auth_success_level = $captive_portal->syslog_auth_success_level();
+   #Modifying syslog_auth_success_level
+   $captive_portal->syslog_auth_success_level('warning');
+
+=back
+
+=back
+
+=head2 welcome_message ( )
+
+=over
+
+Use this method to set or retrieve the welcome message that appears in the guest registration page.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting welcome_message
+   my $welcome_message = $captive_portal->welcome_message();
+   #Modifying welcome_message
+   $captive_portal->welcome_message('Welcome to our network!');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to a captive portal object, such as get and modify an object. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to operations on a captive portal object>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ # Upload a new AUP to the captive portal, from now on
+ # the files() method will contain an Infoblox::Grid::Member::CaptivePortal::File
+ # object referencing this.
+ $session->import_data(
+                       type    => 'captive_portal_file',
+                       path    => 'aup.txt',
+                       member  => '192.168.1.2',
+                       cp_type => 'aup'
+ )
+ or die("file import failed: ",
+         $session->status_code(), $session->status_detail());
+
+ my $ads1 = Infoblox::Grid::Admin::RadiusAuthServer->new(
+                                                         comment  => 'server 1',
+                                                         fqdn_or_ip => '10.0.1.1',
+                                                         shared_secret => 'secret1',
+                                                        );
+
+ my $ads2 = Infoblox::Grid::Admin::RadiusAuthServer->new(
+                                                         comment  => 'server 2',
+                                                         fqdn_or_ip => 'domain.com',
+                                                         shared_secret => 'secret2',
+                                                       );
+
+B<#Create the RADIUS Auth Service.>
+
+ my $service = Infoblox::Grid::Admin::RadiusAuthService->new(
+                                                             acct_retries   => 2000,
+                                                             auth_retries   => 9,
+                                                             cache_ttl      => 500,
+                                                             disabled       => 'true',
+                                                             enable_cache   => 'true',
+                                                             recovery_ttl   => 50,
+                                                             selection_mode => 'ROUND_ROBIN',
+                                                             acct_timeout   => 1100,
+                                                             auth_timeout   => 1200,
+                                                             name           => 'some.name.com',
+                                                             radius_servers => [$ads1, $ads2]
+                                                          );
+
+ unless($service){
+        die("Construct service object failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+ print "service object object created successfully.\n";
+
+ $session->add($service)
+     or die("Add service object failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print"Service object added successfully.\n";
+
+B<#Get and modify the captive portal property object.>
+
+ #Get the captive portal object. Considering the id grid member named infoblox.localdomain was previously created.
+ my @object = $session->get(
+     object => "Infoblox::Grid::Member::CaptivePortal",
+     name   => "infoblox.localdomain"
+     )
+     or die("get captive portal failed: ",
+          $session->status_code(), $session->status_detail());
+
+ #Modify captive portal object.
+ unless (scalar(@object) == 0) {
+     my $object = $object[0];
+
+     if ($object) {
+         $object->authn_server_group($service);
+         $object->guest_phone_required('false');
+         $object->guest_custom_field1_name('Custom field 1');
+         $object->guest_custom_field1_required('true');
+         $object->guest_custom_field2_name('Custom field 2');
+         $object->guest_custom_field2_required('true');
+
+         # This will remove the AUP uploaded above
+         $object->files([]);
+
+         #Applying the changes
+         $session->modify($object)
+             or die("Modify captive portal failed: ",
+                  $session->status_code(), $session->status_detail());
+
+     }
+ } else {
+     print "No grid captive portal found.";
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member::CaptivePortal::File|Infoblox::Grid::Member::CaptivePortal::File>,L<Infoblox::Grid::Admin::AdAuthService|Infoblox::Grid::Admin::AdAuthService>,L<Infoblox::Grid::Admin::RadiusAuthService|Infoblox::Grid::Admin::RadiusAuthService>,L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::LDAP::AuthService|Infoblox::LDAP::AuthService>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

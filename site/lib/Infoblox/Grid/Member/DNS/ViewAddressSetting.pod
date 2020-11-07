@@ -1,0 +1,436 @@
+=head1 NAME
+
+IInfoblox::Grid::Member::DNS::ViewAddressSetting - The Grid member DNS view address settings.
+
+=head1 DESCRIPTION
+
+The object provides information about the settings for the query source address and port, zone transfer
+request address, notify address and port as well as notify delay.
+
+=head1 CONSTRUCTOR
+
+ my $object = IInfoblox::Grid::Member::DNS::ViewAddressSetting->new(
+     enable_notify_source_port        => 'true' | 'false',                          #Optional / Default is 'false'
+     enable_query_source_port         => 'true' | 'false',                          #Optional / Default is 'false'
+     notify_delay                     => $uint,                                     #Optional / Default is 5
+     notify_source_port               => $uint,                                     #Optional / Default is undefined
+     notify_transfer_source_interface => 'VIP' | 'MGMT' | 'LAN2' | 'Any' | $ipaddr, #Optional / Default is 'Any'
+     override_notify_delay            => 'true' | 'false',                          #Optional / Default is 'false'
+     override_source_port             => 'true' | 'false',                          #Optional / Default is 'false'
+     query_source_interface           => 'VIP' | 'MGMT' | 'LAN2' | 'Any' | $ipaddr, #Optional / Default is 'Any'
+     query_source_port                => $uint,                                     #Optional / Default is undefined
+     view_name                        => $string,                                   #Required
+ );
+
+=head1 MODULE METHODS
+
+You can apply the following functions to a DNS view address settings object.
+
+=head2 Infoblox::Grid::Member::DNS->dns_view_address_settings( )
+
+=over
+
+Use this method to set or retrieve the list of address settings for Grid member views.
+See L<Infoblox::Grid::Member::DNS/dns_view_address_settings()|Infoblox::Grid::Member::DNS/dns_view_address_settings()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get dns_view_address_settings value
+ my $value = $object->dns_view_address_settings();
+
+ #Construct view address setting
+ my $view_address_setting = Infoblox::Grid::Member::DNS::ViewAddressSetting->new('view_name' => 'view1');
+
+ #Modify dns_view_address_settings value
+ $object->dns_view_address_settings([$view_address_setting]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values for a DNS view address settings object.
+
+=head2 enable_notify_source_port( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the notify source port setting is enabled.
+
+Setting this method to a defined value implicitly sets the override_source_ports method to 'true'.
+Setting the parameter to undefined (if enable_query_source_port, query_source_port, notify_source_port are undefined)
+causes the appliance to use the Grid member default and automatically resets the override_source_ports method to 'false'.
+
+Note that when enable_notify_source_port is set to a defined value and override_source_ports is set to 'false', the last operation takes precedence.
+Thus the sequence $object->enable_notify_source_port('true'); $object->override_source_ports('false'); will set override_source_ports to 'false',
+and the sequence $object->override_source_ports('false'); $object->enable_notify_source_port('true'); will result in override_source_ports='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable notify source port setting, and 'false' to disable it.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns 'true'. When the operation fails, the method returns 'false'.
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_notify_source_port value
+ my $value = $object->enable_notify_source_port();
+
+ #Modify enable_notify_source_port value
+ $object->enable_notify_source_port('true');
+
+=back
+
+=back
+
+=head2 enable_query_source_port( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the query source port setting is enabled.
+
+Setting this method to a defined value implicitly sets the override_source_ports method to 'true'.
+Setting the parameter to undefined (if enable_notify_source_port, query_source_port, notify_source_port are undefined)
+causes the appliance to use the Grid member default and automatically resets the override_source_ports method to 'false'.
+
+Note that when enable_query_source_port is set to a defined value and override_source_ports is set to 'false', the last operation takes precedence.
+Thus the sequence $object->enable_query_source_port('true'); $object->override_source_ports('false'); will set override_source_ports to 'false',
+and the sequence $object->override_source_ports('false'); $object->enable_query_source_port('true'); will result in override_source_ports='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable query source port setting, and 'false' to disable it.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns 'true'. When the operation fails, the method returns 'false'.
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_query_source_port value
+ my $value = $object->enable_query_source_port();
+
+ #Modify enable_query_source_port value
+ $object->enable_query_source_port('true');
+
+=back
+
+=back
+
+=head2 notify_delay( )
+
+=over
+
+Use this method to set or retrieve the minimum delay (in seconds) between a set of NOTIFY messages.
+
+Setting this method to a defined value implicitly sets the override_notify_delay method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid DNS default and automatically resets the override_notify_delay method to 'false'.
+
+Note that when notify_delay is set to a defined value and override_notify_delay is set to 'false', the last operation takes precedence.
+Thus the sequence $object->notify_delay('true'); $object->override_notify_delay('false'); will set override_notify_delay to 'false',
+and the sequence $object->override_notify_delay('false'); $object->notify_delay('true'); will result in override_notify_delay='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 5 and 86400. The default value is 5.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns 'true'. When the operation fails, the method returns 'false'.
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get notify_delay value
+ my $value = $object->notify_delay();
+
+ #Modify notify_delay value
+ $object->notify_delay(10000);
+
+=back
+
+=back
+
+=head2 notify_source_port( )
+
+=over
+
+Use this method to set or retrieve the notify source port number.
+
+Setting this method to a defined value implicitly sets the override_source_ports method to 'true'.
+Setting the parameter to undefined (if enable_query_source_port, enable_notify_source_port, query_source_port are undefined)
+causes the appliance to use the Grid member default and automatically resets the override_source_ports method to 'false'.
+
+Note that when notify_source_port is set to a defined value and override_source_ports is set to 'false', the last operation takes precedence.
+Thus the sequence $object->notify_source_port('true'); $object->override_source_ports('false'); will set override_source_ports to 'false',
+and the sequence $object->override_source_ports('false'); $object->notify_source_port('true'); will result in override_source_ports='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 63999.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns 'true'. When the operation fails, the method returns 'false'.
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get notify_source_port value
+ my $value = $object->notify_source_port();
+
+ #Modify notify_source_port value
+ $object->notify_source_port(10000);
+
+=back
+
+=back
+
+=head2 notify_transfer_source_interface( )
+
+=over
+
+Use this method to specify which IP address is used as the source for notify and zone transfer operations.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'VIP', 'MGMT', 'LAN2', 'Any' or an IP address. The default is 'VIP'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get notify_transfer_source_interface value
+ my $value = $object->notify_transfer_source_interface();
+
+ #Modify notify_transfer_source_interface value
+ $object->notify_transfer_source_interface('Any');
+
+=back
+
+=back
+
+=head2 query_source_interface( )
+
+=over
+
+Use this method to specify which IP address is used as the source for query operations.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'VIP', 'MGMT', 'LAN2', 'Any' or an IP address. Default is 'VIP'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get query_source_interface value
+ my $value = $object->query_source_interface();
+
+ #Modify query_source_interface value
+ $object->query_source_interface('Any');
+
+=back
+
+=back
+
+=head2 override_notify_delay( )
+
+=over
+
+The override_notify_delay attribute controls whether the notify_delay method values of the member are used, instead of the Grid member default.
+
+The override_notify_delay attribute can be specified explicitly. It is also set implicitly when notify_delay is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to 'true' to override the member-level setting for notify_delay. Set the parameter to 'false' to inherit the member-level setting for notify_delay.
+
+The default value of this parameter is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_notify_delay value
+ my $value = $object->override_notify_delay();
+
+ #Modify override_notify_delay value
+ $object->override_notify_delay('true');
+
+=back
+
+=back
+
+=head2 override_source_ports( )
+
+=over
+
+The override_source_ports attribute controls whether the values of enable_notify_source_port, enable_query_source_port, query_source_port and notify_source_port for the member are used, instead of the Grid member default.
+
+The override_source_ports attribute can be specified explicitly. It is also set implicitly when any of enable_notify_source_port, enable_query_source_port, query_source_port, notify_source_port is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to true to override the member-level setting for enable_notify_source_port, enable_query_source_port, query_source_port, notify_source_port. Set the parameter to 'false' to inherit the member-level setting for source_ports.
+
+The default value of this parameter is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_source_ports value
+ my $value = $object->override_source_ports();
+
+ #Modify override_source_ports value
+ $object->override_source_ports('true');
+
+=back
+
+=back
+
+=head2 query_source_port( )
+
+=over
+
+Use this method to set or retrieve the query source port number.
+
+Setting this method to a defined value implicitly sets the override_source_ports method to 'true'.
+Setting the parameter to undefined (if enable_query_source_port, enable_notify_source_port, notify_source_port are undefined)
+causes the appliance to use the Grid member default and automatically resets the override_source_ports method to 'false'.
+
+Note that when query_source_port is set to a defined value and override_source_ports is set to 'false', the last operation takes precedence.
+Thus the sequence $object->query_source_port('true'); $object->override_source_ports('false'); will set override_source_ports to 'false',
+and the sequence $object->override_source_ports('false'); $object->query_source_port('true'); will result in override_source_ports='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 63999.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns 'true'. When the operation fails, the method returns 'false'.
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get query_source_port value
+ my $value = $object->query_source_port();
+
+ #Modify query_source_port value
+ $object->query_source_port(10000);
+
+=back
+
+=back
+
+=head2 view_name( )
+
+=over
+
+Use this method to set or retrieve the DNS view name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired DNS view name in a string format.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns 'true'. When the operation fails, the method returns 'false'.
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get view_name value
+ my $value = $object->view_name();
+
+ #Modify view_name value
+ $object->view_name('view1');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>,
+L<Infoblox::Grid::Member::DNS/dns_view_address_settings()|Infoblox::Grid::Member::DNS/dns_view_address_settings()/>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

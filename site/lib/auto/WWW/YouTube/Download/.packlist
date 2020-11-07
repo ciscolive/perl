@@ -1,0 +1,6 @@
+/opt/perl/site/bin/youtube-download
+/opt/perl/site/bin/youtube-playlists
+/opt/perl/site/lib/WWW/YouTube/Download.pm
+/opt/perl/site/man/man1/youtube-download.1
+/opt/perl/site/man/man1/youtube-playlists.1
+/opt/perl/site/man/man3/WWW::YouTube::Download.3

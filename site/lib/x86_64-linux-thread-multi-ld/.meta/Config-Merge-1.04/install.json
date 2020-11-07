@@ -1,0 +1,1 @@
+{"dist":"Config-Merge-1.04","pathname":"D/DR/DRTECH/Config-Merge-1.04.tar.gz","name":"Config::Merge","provides":{"Config::Merge::Perl":{"file":"lib/Config/Merge/Perl.pm"},"Config::Merge":{"version":"1.04","file":"lib/Config/Merge.pm"}},"version":"1.04","target":"Config::Merge"}

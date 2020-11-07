@@ -1,0 +1,1 @@
+{"target":"Mojolicious::Plugin::BasicAuth","version":"0.08","pathname":"T/TE/TEMPIRE/Mojolicious-Plugin-BasicAuth-0.08.tar.gz","name":"Mojolicious::Plugin::BasicAuth","dist":"Mojolicious-Plugin-BasicAuth-0.08","provides":{"Mojolicious::Plugin::BasicAuth":{"version":"0.08","file":"lib/Mojolicious/Plugin/BasicAuth.pm"}}}

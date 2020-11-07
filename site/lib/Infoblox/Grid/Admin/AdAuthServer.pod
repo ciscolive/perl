@@ -1,0 +1,264 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::AdAuthServer - Active Directory Authentication Server object
+
+=head1 DESCRIPTION
+
+Represents an AD authentication server (i.e., domain controller) that is used to authenticate administrators.
+
+=head1 CONSTRUCTOR
+
+ my $ad_auth_server = Infoblox::Grid::Admin::AdAuthServer->new(
+     name        => $fqdn | $ipv4addr,    # Required
+     port        => $num,                 # Required
+     comment     => $string,              # Optional / Default is empty
+     disabled    => "true" | "false",     # Optional / Default is "false"
+     encryption  => "SSL" | "None",       # Optional / Default is "None"
+     mgmt_port   => "true" | "false",     # Optional / Default is "false"
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an object.
+
+=head2 Infoblox::Grid::Admin::AdAuthService->ad_auth_server_list()
+
+=over
+
+Use this method to specify AD authentication servers that are used to authenticate administrators.
+
+=over
+
+=item B<Example>
+
+ # Construct an object
+ my $ad_auth_server1 = Infoblox::Grid::Admin::AdAuthServer->new(
+     name       => "1.2.3.4",
+     port       => 636,
+     comment    => "domain controller in room 1"
+     disabled   => "false",
+     encryption => "SSL",
+     mgmt_port  => "false",
+ );
+
+ # Construct another object
+ my $ad_auth_server2 = Infoblox::Grid::Admin::AdAuthServer->new(
+     name       => "foo.com",
+     port       => 389,
+     comment    => "domain controller in room 2"
+     disabled   => "false",
+     encryption => "None",
+     mgmt_port  => "false",
+ );
+
+ # Configure AdAuthServer
+ my $response = $ad_auth_service->ad_auth_server_list([$ad_auth_server1, $ad_auth_server2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+Use the following methods to access the attributes of an Infoblox::Grid::Admin::AdAuthServer object. Specify a parameter to set the attribute's value, or omit the parameter to get the attribute's value.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve comments about the server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Comments in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $val = $obj->comment();
+ #Modify comment
+ $obj->comment("head office");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to disable the Active Directory authentication service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to disable the service. Set the parameter to "false" to enable the service. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disabled
+ my $val = $obj->disabled();
+ #Modify disabled
+ $obj->disabled("true");
+
+=back
+
+=back
+
+=head2 encryption( )
+
+=over
+
+Use this method to set or retrieve the encryption flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "SSL" to use SSL encryption or "None" to use no encryption.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get encryption
+ my $val = $obj->encryption();
+ #Modify encryption
+ $obj->encryption("SSL");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the FQDN or IPv4 address of the AD authentication server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The FQDN or IPv4 address of the AD authentication server in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $val = $obj->name();
+ #Modify name
+ $obj->name("1.2.3.5");
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the port number on the AD server to which the appliance sends authentication requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+TCP port of the AD authentication server
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get port
+ my $val = $obj->port();
+ #Modify port
+ $obj->port(389);
+
+=back
+
+=back
+
+=head2 mgmt_port( )
+
+=over
+
+Use this method to set or retrieve the MGMT port flag of the AD server. Set this flag to "true" to restrict the appliance to connecting to the AD server through the management port
+only.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+ Specify "true" to set the mgmt_port flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mgmt_port
+ my $val = $obj->mgmt_port();
+ #Modify mgmt_port
+ $obj->mgmt_port('false');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::AdAuthService|Infoblox::Grid::Admin::AdAuthService>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

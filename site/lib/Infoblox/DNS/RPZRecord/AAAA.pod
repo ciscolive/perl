@@ -1,0 +1,689 @@
+=head1 NAME
+
+Infoblox::DNS::RPZRecord::AAAA - Response Policy Zone (RPZ) Substitute (AAAA Record) Rule object.
+
+=head1 DESCRIPTION
+
+An RPZ Substitute (AAAA Record) Rule, maps a domain name to a substitute IPv6 address. To define a specific name-to-address mapping, add an Substitute (AAAA Record) Rule to a previously defined Response Policy Zone.
+
+This record represents the substitution rule for DNS AAAA records.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $rpz_aaaa = Infoblox::DNS::RPZRecord::AAAA->new (
+     ipv6addr => $ipv6addr,         #Required
+     name     => $fqdn,             #Required
+     rp_zone  => $rp_zone,          #Required
+     comment  => $string,           #Optional / Default is empty
+     extattrs              => { $string => $extattr, ... },      #Optional / Default is undefined
+     extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+     disable  => "true" | "false"   #Optional / Default "false"
+     ttl      => $num | undef,      #Optional / Default is undefined
+     views    => [$View1],          #Optional / Default is "default" view
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a Substitute (AAAA Record) Rule object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an Substitute (AAAA Record) Rule object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $rpz_aaaa = Infoblox::DNS::RPZRecord::AAAA->new(
+     name     => "aaaa1.rpz.com",
+     comment  => "add a Substitute (AAAA Record) Rule aaaa1.rpz.com",
+     ipv6addr => "aaaa:1111:bbbb:2222:cccc:3333:dddd:4444",
+     rp_zone  => $response_policy_zone,
+     disable  => "true",
+     ttl      => "33",
+     views    => [$view1]  );
+ # Submit for addition
+ my $response = $session->add( $rpz_aaaa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Substitute (AAAA Record) Rule object:
+
+ name                                  - Optional. A host name in string format.
+ view                                  - Optional. The DNS view in which the host record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+ zone                                  - Optional. A zone name in FQDN format.
+ ipv6addr                              - Optional. The address of the Substitute (AAAA Record) Rule.
+ extattrs                              - Optional. A hash reference containing extensible attributes.
+ extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+                       object => "Infoblox::DNS::RPZRecord::AAAA",
+                       name   => "aaaa1.rpz.com",
+                       view   => "default" );
+
+ # get all the Substitute (AAAA Record) Rules in the "rpz.com" zone of the default view
+ my @retrieved_objs = $session->get(
+                       object => "Infoblox::DNS::RPZRecord::AAAA",
+                       zone   => "rpz.com",
+                       view   => "default" );
+
+ #get all Substitute (AAAA Record) Rule recods with the extensible attribute 'Site'
+ my @retrieved_objs = $session->get(
+    object => "Infoblox::DNS::RPZRecord::AAAA",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a Substitute (AAAA Record) Rule object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $rpz_aaaa->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $rpz_aaaa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an Substitute (AAAA Record) Rule object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific Substitute (AAAA Record) Rule object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::AAAA",
+     name   => "aaaa1.rpz.com",
+     view   => "default" );
+ # Find the desired object from the retrieved list.
+ my $desired_aaaa = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_aaaa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Substitute (AAAA Record) Rule objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes, to search for a Substitute (AAAA Record) Rule object:
+
+  name                                  - Optional. A host name in string format (regular expression).
+  view                                  - Optional. The DNS view in which the Substitute (AAAA Record) Rule is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone                                  - Optional. A zone name in FQDN format.
+  comment                               - Optional. Comment in string format (regular expression).
+  ipv6addr                              - Optional. The address of the Substitute (AAAA Record) Rule (regular expression).
+  extattrs                              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all Substitute (AAAA Record) Rule objects that match "rpz.com" in the default DNS view
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DNS::RPZRecord::AAAA",
+     name    => 'rpz\.com',
+     view    => "default",
+     comment => ".*modified comment" );
+
+ # search for all Substitute (AAAA Record) Rules in zone "rpz.com" of default view
+ my @retrieved_objs = $session->search(
+                       object => "Infoblox::DNS::RPZRecord::AAAA",
+                       zone   => "rpz.com",
+                       view   => "default" );
+
+ # search all Substitute (AAAA Record) Rule recods with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::RPZRecord::AAAA",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an Substitute (AAAA Record) Rule.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $rpz_aaaa->comment();
+ #Modify comment
+ $rpz_aaaa->comment("Modifying the Substitute (AAAA Record) Rule comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The DNS record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $rpz_aaaa->disable();
+ #Modify disable
+ $rpz_aaaa->disable("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Substitute (AAAA Record) Rule object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $rpz_aaaa->extattrs();
+ #Modify extattrs
+ $rpz_aaaa->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Substitute (AAAA Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $rpz_aaaa->extensible_attributes();
+ #Modify extensible attributes
+ $rpz_aaaa->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 ipv6addr( )
+
+=over
+
+Use this method to set or retrieve the IPv6 address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number in colon hexadecimal notation. It consists of eight 16-bit groups of hexadecimal digits separated by colons (example: 12ab:0000:0000:0123:4567:89ab:0000:cdef).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6addr
+ my ipv6addr = $rpz_aaaa->ipv6addr();
+ #Modify ipv6addr
+ $rpz_aaaa->ipv6addr("aaaa:1111:bbbb:2222:cccc:3333:dddd:5555");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Hostname in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the hostname followed by the domain name (example: abc.com). A hostname can have a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $rpz_aaaa->name();
+ #Modify name
+ $rpz_aaaa-> name("aaaa2.rpz.com");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $rpz_aaaa->ttl();
+ #Modify ttl
+ $rpz_aaaa->ttl(1800);
+ #Un-override ttl
+ $rpz_aaaa->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the view of the Substitute (AAAA Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" view, which means the Substitute (AAAA Record) Rule is located under the default view.
+
+=over
+
+=item B<Parameter>
+
+An array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $rpz_aaaa->views();
+ #Modify views, an array of Infoblox::DNS::View objects
+ $rpz_aaaa->views([$view1]);
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of a Substitute (AAAA Record) Rule. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $rpz_aaaa->zone();
+
+=back
+
+=back
+
+=head2  rp_zone( )
+
+=over
+
+Use this method to set or retrieve the zone object of a Substitute (AAAA Record) Rule.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get rp_zone
+ my $rp_zone = $rpz_aaaa->rp_zone();
+ #Modify rp_zone, reference of Infoblox::DNS::Zone object
+ $rpz_aaaa->rp_zone($response_policy_zone);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a Substitute (AAAA Record) Rule object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a Substitute (AAAA Record) Rule insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox Appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2", #appliance host ip
+     username => "admin",     #appliance user login
+     password => "infoblox"   #appliance password
+ );
+
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Create the Response Policy zone prior to an Substitute (AAAA Record) Rule insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "rpz.com");
+
+ unless ($zone) {
+    die("Construct zone failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone",
+                              name => "rpz.com");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+ #Create the zone prior to a CNAME record insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "rpz.com",
+                                     rpz_policy => "GIVEN");
+ unless ($zone) {
+ die("Construct zone failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "rpz.com");
+ unless ($object) {
+ print "Zone does not exist on server, safe to add the zone\n";
+ $session->add($zone)
+    or die("Add zone failed: ",
+           $session->status_code() . ":" . $session->status_detail());
+ }
+
+B<#Create a Substitute (AAAA Record) Rule>
+
+ #Construct a Substitute (AAAA Record) Rule object
+ my $rpz_aaaa = Infoblox::DNS::RPZRecord::AAAA->new(
+  name     => "aaaa1.rpz.com",
+  comment  => "add a Substitute (AAAA Record) Rule aaaa1.rpz.com",
+  ipv6addr => "aaaa:1111:bbbb:2222:cccc:3333:dddd:4444",
+  rp_zone  => $zone,
+ );
+
+ unless ($rpz_aaaa) {
+ die("Construct Substitute (AAAA Record) Rule failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Substitute (AAAA Record) Rule object created successfully\n";
+
+ #Add the Substitute (AAAA Record) Rule object to Infoblox Appliance through a session
+ $session->add($rpz_aaaa)
+
+  or die("Add Substitute (AAAA Record) Rule failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (AAAA Record) Rule object added to server successfully\n";
+
+B<#Search for a specific Substitute (AAAA Record) Rule>
+
+ #Search all Substitute (AAAA Record) Rules that match "rpz.com"
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::AAAA",
+  name   => 'rpz\.com'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search Substitute (AAAA Record) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (AAAA Record) Rule object found at least 1 matching entry\n";
+
+ #Search all Substitute (AAAA Record) Rules that start with "add" in the comment
+ my @retrieved_objs = $session->search(
+  object    => "Infoblox::DNS::RPZRecord::AAAA",
+  comment   => "add.*",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search Substitute (AAAA Record) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (AAAA Record) Rule object found at least 1 matching entry\n";
+
+ #Search all Substitute (AAAA Record) Rule that start with "aaaa1" and end with ".com"
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::AAAA",
+  name   => 'aaaa1.*\.com',
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search Substitute (AAAA Record) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (AAAA Record) Rule object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a Substitute (AAAA Record) Rule>
+
+ #Get Substitute (AAAA Record) Rule through the session
+ my @retrieved_objs = $session->get(
+  object => "Infoblox::DNS::RPZRecord::AAAA",
+  name   => "aaaa1.rpz.com"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+  die("Get Substitute (AAAA Record) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+
+ #Modify one of the attributes of the specified Substitute (AAAA Record) Rule
+ $object->ipv6addr("aaaa:1111:bbbb:2222:cccc:3333:dddd:eeee");
+
+ #Applying the changes
+ $session->modify($object)
+
+  or die("Modify Substitute (AAAA Record) Rule failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (AAAA Record) Rule object modified successfully \n";
+
+B<#Remove a Substitute (AAAA Record) Rule.>
+
+ #Get Substitute (AAAA Record) Rule through the session
+ my @retrieved_objs = $session->get(
+  object   => "Infoblox::DNS::RPZRecord::AAAA",
+  name     => "aaaa1.rpz.com"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Get Substitute (AAAA Record) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get Substitute (AAAA Record) Rule object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+  or die("Remove Substitute (AAAA Record) Rule failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (AAAA Record) Rule object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,798 @@
+=head1 NAME
+
+Infoblox::DTC::Pool - a DTC Pool object.
+
+=head1 DESCRIPTION
+
+A DTC Pool object.
+
+=head1 CONSTRUCTOR
+
+ my $pool = Infoblox::DTC::Pool->new(
+    name                    => $string,,                                                              #Required
+    lb_preferred_method     => 'ALL_AVAILABLE' | 'GLOBAL_AVAILABILITY' | 'RATIO' |
+                               'ROUND_ROBIN' | 'TOPOLOGY' | 'DYNAMIC_RATIO',                          #Required
+    disable                 => 'true' | 'false',                                                      #Optional / Default is 'false'
+    comment                 => $string,                                                               #Optional / Default is undefined
+    lb_preferred_topology   => $topology,                                                             #Optional / Default is undefined
+    lb_alternate_method     => 'ALL_AVAILABLE' | 'GLOBAL_AVAILABILITY' | 'RATIO' |
+                               'ROUND_ROBIN' | 'TOPOLOGY' | 'DYNAMIC_RATIO',                          #Optional / Default is undefined
+    lb_alternate_topology   => $topology,                                                             #Optional / Default is undefined
+    availability            => 'ANY' | 'QUORUM' | 'ALL',                                              #Optional / Default is undefined
+    quorum                  => $uint,                                                                 #Optional / Default is undefined
+    ttl                     => $uint,                                                                 #Optional / Default is undefined
+    override_ttl            => 'true' | 'false',                                                      #Optional / Default is 'false'
+    monitors                => [$monitor1, $monitor2, ...],                                           #Optional / Default is empty list
+    servers                 => [$server1, $server2, ...],                                             #Optional / Default is empty list
+    dynamic_ratio_preferred => $ratio_setting,                                                        #Optional / Default is undefined
+    dynamic_ratio_alternate => $ratio_setting,                                                        #Optional / Default is undefined
+    extattrs                => { $string => $extattr, ... },                                          #Optional / Default is undefined
+    extensible_attributes   => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DTC Pool object
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $pool = Infoblox::DTC::Pool->new(
+    name  => 'pool1',
+    lb_preferred_method => 'RATIO',
+ );
+
+ #submit for addition
+ my $response = $session->add($pool);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC Pool name in a string format.
+  comment               - Optional. A DTC Pool comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  status_member         - Optional. A member which provides object health status, default is Grid.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Pool',
+     name   => 'pool1',
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Pool',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $pool->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($pool);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Pool',
+     name   => 'pool1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_pool = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_pool);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC Pool name in a string format.
+  comment               - Optional. A DTC Pool comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  status_member         - Optional. A member which provides object health status, default is Grid.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Pool',
+     name   => 'pool1',
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Pool',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 availability( )
+
+=over
+
+Use this method to set or retrieve an DTC Pool resources availability status.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ALL', 'ANY' and 'QUORUM'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get availability value
+ my $availability = $pool->availability();
+
+ #modify availability value
+ $pool->availability('ANY');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $pool->comment();
+
+ #modify comment value
+ $pool->comment('desired comment');
+
+=back
+
+=back
+
+=head2 dynamic_ratio_alternate( )
+
+=over
+
+Use this method to set or retrieve the alternate dynamic ratio load balancing settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Pool::DynamicRatioSetting|Infoblox::DTC::Pool::DynamicRatioSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get dynamic_ratio_alternate value
+ my $dynamic_ratio_alternate = $pool->dynamic_ratio_alternate();
+
+ #Construct dynamic_ratio_alternate value
+ my $dynamic_ratio = Infoblox::DTC::Pool::DynamicRatioSetting->new(
+     method                => 'ROUND_TRIP_DELAY',
+     invert_monitor_metric => 'true',
+ );
+
+ #modify dynamic_ratio_alternate value
+ $pool->dynamic_ratio_alternate($dynamic_ratio);
+
+=back
+
+=back
+
+=head2 dynamic_ratio_preferred( )
+
+=over
+
+Use this method to set or retrieve the preferred dynamic ratio load balancing settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Pool::DynamicRatioSetting|Infoblox::DTC::Pool::DynamicRatioSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get dynamic_ratio_preferred value
+ my $dynamic_ratio_preferred = $pool->dynamic_ratio_preferred();
+
+ #Construct dynamic_ratio_preferred value
+ my $dynamic_ratio = Infoblox::DTC::Pool::DynamicRatioSetting->new(
+     method                => 'ROUND_TRIP_DELAY',
+     invert_monitor_metric => 'true',
+ );
+
+ #modify dynamic_ratio_preferred value
+ $pool->dynamic_ratio_preferred($dynamic_ratio);
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to enable or disable a DTC Pool.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable a DTC Pool or 'false' to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get disable value
+ my $disable = $pool->disable();
+
+ #modify disable value
+ $pool->disable('true');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC Pool object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get extattrs value
+ my $ref_extattrs = $pool->extattrs();
+
+ #Modify extattrs
+ $pool->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC Pool object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $pool->extensible_attributes();
+
+ #Modify extensible attributes
+ $pool->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 health( )
+
+=over
+
+Use this method to retrieve a DTC Pool health information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::DTC::Health|Infoblox::DTC::Health> object.
+
+=item B<Example>
+
+ #get health value
+ my $health = $pool->health();
+
+=back
+
+=back
+
+=head2 lb_alternate_method( )
+
+=over
+
+Use this method to set or retrieve the alternate load balancing method for the DTC Pool object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ALL_AVAILABLE', 'DYNAMIC_RATIO', 'NONE', 'GLOBAL_AVAILABILITY', 'RATIO', 'ROUND_ROBIN' and 'TOPOLOGY'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get lb_alternate_method value
+ my $lb_alternate_method = $pool->lb_alternate_method();
+
+ #modify lb_alternate_method value
+ $pool->lb_alternate_method('RATIO');
+
+=back
+
+=back
+
+=head2 lb_alternate_topology( )
+
+=over
+
+Use this method to set or retrieve topology rules for the alternate 'TOPOLOGY' load balancing method for the DTC Pool object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Not that this field will be retrieved from the appliance only if alternate load balancing method is 'TOPOLOGY'.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Topology|Infoblox::DTC::Topology> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get lb_alternate_topology value
+ my $lb_alternate_topology = $pool->lb_alternate_topology();
+
+ #modify lb_alternate_topology value
+ $pool->lb_alternate_topology($lb_alternate_topology);
+
+=back
+
+=back
+
+=head2 lb_preferred_method( )
+
+=over
+
+Use this method to set or retrieve the preferred load balancing method for the DTC Pool object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ALL_AVAILABLE', 'DYNAMIC_RATIO', 'GLOBAL_AVAILABILITY', 'RATIO', 'ROUND_ROBIN' and 'TOPOLOGY'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get lb_preferred_method value
+ my $lb_preferred_method = $pool->lb_preferred_method();
+
+ #modify lb_preferred_method value
+ $pool->lb_preferred_method('RATIO');
+
+=back
+
+=back
+
+=head2 lb_preferred_topology( )
+
+=over
+
+Use this method to set or retrieve topology rules for the preferred 'TOPOLOGY' load balancing method for the DTC Pool object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Topology|Infoblox::DTC::Topology> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+Not that this field will be retrieved from the appliance only if preferred load balancing method is 'TOPOLOGY'.
+
+=item B<Example>
+
+ #get lb_preferred_topology value
+ my $lb_preferred_topology = $pool->lb_preferred_topology();
+
+ #modify lb_preferred_topology value
+ $pool->lb_preferred_topology($lb_preferred_topology);
+
+=back
+
+=back
+
+=head2 monitors( )
+
+=over
+
+Use this method to set or retrieve health monitors related to a DTC Pool object. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array which contains following objects: L<Infoblox::DTC::Monitor::TCP|Infoblox::DTC::Monitor::TCP>, L<Infoblox::DTC::Monitor::ICMP|Infoblox::DTC::Monitor::ICMP>, L<Infoblox::DTC::Monitor::SIP|Infoblox::DTC::Monitor::SIP>, L<Infoblox::DTC::Monitor::HTTP|Infoblox::DTC::Monitor::HTTP>, L<Infoblox::DTC::Monitor::PDP|Infoblox::DTC::Monitor::PDP>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get monitors value
+ my @monitors = $pool->monitors();
+
+ #modify monitors value
+ $pool->monitors([$monitor1, $monitor2]);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a DTC Pool name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $pool->name();
+
+ #modify name value
+ $pool->name('pool1');
+
+=back
+
+=back
+
+=head2 override_ttl( )
+
+=over
+
+The override_ttl attribute controls whether the TTL value in the object is used, instead of the Grid default.
+
+The override_ttl attribute can be specified explicitly. It is also set implicitly when ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set override_ttl flag or 'false' to disable it. Default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get override_ttl value
+ my $override_ttl = $pool->override_ttl();
+
+ #modify override_ttl value
+ $pool->override_ttl('true');
+
+=back
+
+=back
+
+=head2 quorum( )
+
+=over
+
+Use this method to set or retrieve the number of monitors that must report the resource as 'up' for 'QUORUM' availability mode to be available.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get quorum value
+ my $quorum = $pool->quorum();
+
+ #modify quorum value
+ $pool->quorum(20);
+
+=back
+
+=back
+
+=head2 servers( )
+
+=over
+
+Use this method to set or retrieve a list of DTC Servers linked to a DTC Pool.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::DTC::Server::Link|Infoblox::DTC::Server::Link> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get servers value
+ my @servers = $pool->servers();
+
+ #modify servers value
+ $pool->servers([$server1, $server2]);
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set a TTL value.
+
+Setting this method to a defined value implicitly sets the override_ttl method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ttl attribute to 'false'.
+
+Note that when ttl is set to a defined value and override_ttl is set to 'false', the last operation takes precedence. Thus the sequence $object->ttl(10); $object->override_ttl('false'); will set override_ttl to 'false', and the sequence $object->override_ttl('false'); $object->ttl(10); will result in override_ttl='true'.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ttl value
+ my $ttl = $pool->ttl();
+
+ #modify ttl value
+ $pool->ttl(10);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>,
+L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>,
+L<Infoblox::DTC::Health|Infoblox::DTC::Health>,
+L<Infoblox::DTC::Pool::DynamicRatioSetting|Infoblox::DTC::Pool::DynamicRatioSetting>,
+L<Infoblox::DTC::Pool::Link|Infoblox::DTC::Pool::Link>,
+L<Infoblox::DTC::Server::Link|Infoblox::DTC::Server::Link>,
+L<Infoblox::DTC::Topology|Infoblox::DTC::Topology>,
+L<Infoblox::DTC::Monitor::TCP|Infoblox::DTC::Monitor::TCP>,
+L<Infoblox::DTC::Monitor::ICMP|Infoblox::DTC::Monitor::ICMP>,
+L<Infoblox::DTC::Mo    nitor::SIP|Infoblox::DTC::Monitor::SIP>,
+L<Infoblox::DTC::Monitor::HTTP|Infoblox::DTC::Monitor::HTTP>,
+L<Infoblox::DTC::Monitor::PDP|Infoblox::DTC::Monitor::PDP>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

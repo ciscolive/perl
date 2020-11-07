@@ -1,0 +1,65 @@
+{
+   "abstract" : "deferred subroutine syntax for futures",
+   "author" : [
+      "Paul Evans <leonerd@leonerd.org.uk>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Future-AsyncAwait",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::CBuilder" : 0
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.4004",
+            "XS::Parse::Sublike::Builder" : "0.10"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Future" : 0,
+            "XS::Parse::Sublike" : "0.10",
+            "perl" : "5.016"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0.88",
+            "Test::Refcount" : "0.09"
+         }
+      }
+   },
+   "provides" : {
+      "Future::AsyncAwait" : {
+         "file" : "lib/Future/AsyncAwait.pm",
+         "version" : "0.43"
+      },
+      "Future::AsyncAwait::Awaitable" : {
+         "file" : "lib/Future/AsyncAwait/Awaitable.pm",
+         "version" : "0.43"
+      },
+      "Test::Future::AsyncAwait::Awaitable" : {
+         "file" : "lib/Test/Future/AsyncAwait/Awaitable.pm",
+         "version" : "0.43"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ],
+      "x_IRC" : "irc://irc.perl.org/#io-async"
+   },
+   "version" : "0.43",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

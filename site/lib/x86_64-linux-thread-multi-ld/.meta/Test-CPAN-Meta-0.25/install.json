@@ -1,0 +1,1 @@
+{"version":"0.25","target":"Test::CPAN::Meta","provides":{"Test::CPAN::Meta":{"version":"0.25","file":"lib/Test/CPAN/Meta.pm"},"Test::CPAN::Meta::Version":{"version":"0.25","file":"lib/Test/CPAN/Meta/Version.pm"}},"name":"Test::CPAN::Meta","pathname":"B/BA/BARBIE/Test-CPAN-Meta-0.25.tar.gz","dist":"Test-CPAN-Meta-0.25"}

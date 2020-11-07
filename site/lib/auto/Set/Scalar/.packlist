@@ -1,0 +1,16 @@
+/opt/perl/site/lib/Set/Scalar.pm
+/opt/perl/site/lib/Set/Scalar/Base.pm
+/opt/perl/site/lib/Set/Scalar/Null.pm
+/opt/perl/site/lib/Set/Scalar/Real.pm
+/opt/perl/site/lib/Set/Scalar/Universe.pm
+/opt/perl/site/lib/Set/Scalar/Valued.pm
+/opt/perl/site/lib/Set/Scalar/ValuedUniverse.pm
+/opt/perl/site/lib/Set/Scalar/Virtual.pm
+/opt/perl/site/man/man3/Set::Scalar.3
+/opt/perl/site/man/man3/Set::Scalar::Base.3
+/opt/perl/site/man/man3/Set::Scalar::Null.3
+/opt/perl/site/man/man3/Set::Scalar::Real.3
+/opt/perl/site/man/man3/Set::Scalar::Universe.3
+/opt/perl/site/man/man3/Set::Scalar::Valued.3
+/opt/perl/site/man/man3/Set::Scalar::ValuedUniverse.3
+/opt/perl/site/man/man3/Set::Scalar::Virtual.3

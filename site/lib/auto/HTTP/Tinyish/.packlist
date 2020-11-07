@@ -1,0 +1,7 @@
+/opt/perl/site/lib/HTTP/Tinyish.pm
+/opt/perl/site/lib/HTTP/Tinyish/Base.pm
+/opt/perl/site/lib/HTTP/Tinyish/Curl.pm
+/opt/perl/site/lib/HTTP/Tinyish/HTTPTiny.pm
+/opt/perl/site/lib/HTTP/Tinyish/LWP.pm
+/opt/perl/site/lib/HTTP/Tinyish/Wget.pm
+/opt/perl/site/man/man3/HTTP::Tinyish.3

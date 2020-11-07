@@ -1,0 +1,292 @@
+=head1 NAME
+
+Infoblox::Grid::FileDistribution - Grid FileDistribution object.
+
+=head1 DESCRIPTION
+
+You can configure the file distribution properties of a grid. You can enable and disable TFTP, HTTP, and FTP services, and set their operational parameters.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::FileDistribution object is automatically generated upon the successful installation of the Infoblox appliance. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a grid member FileDistribution object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+  my $object   = $session->get(
+     object    => "Infoblox::Grid::FileDistribution",
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+   #Use method to modify the enable_tftp Property.
+   $object->enable_tftp("true");
+   #Submit modification
+   my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the file distribution properties of a grid member.
+
+=head2 allow_uploads( )
+
+=over
+
+Use this method to enable or disable file uploads for the grid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the file uploads or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting allow_uploads
+   $allow_uploads = $grid->allow_uploads( );
+   #Modifying allow_uploads
+   $grid->allow_uploads("true");
+
+=back
+
+=back
+
+=head2 backup_storage( )
+
+=over
+
+Use this method to control whether distributed files are included in the backup or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the backup of distributed files or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting backup_storage
+   $backup_storage = $grid->backup_storage( );
+   #Modifying backup_storage
+   $grid->backup_storage("true");
+
+=back
+
+=back
+
+=head2 current_usage( )
+
+=over
+
+Use this method to retrieve the current usage of the allocated space.
+
+=over
+
+=item B<Parameter>
+
+The value is the percentage of the usage of the allocated space expressed in tenth of a %. Valid values are from 0 to 1000.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+   #Getting current_usage
+   $current_usage = $grid->current_usage( );
+
+=back
+
+=back
+
+=head2 enable_anonymous_ftp( )
+
+=over
+
+Use this method to enable or disable anonymous FTP access for the grid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable anonymous FTP access or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_anonymous_ftp
+   $enable_anonymous_ftp = $grid->enable_anonymous_ftp( );
+   #Modifying enable_anonymous_ftp
+   $grid->enable_anonymous_ftp("true");
+
+=back
+
+=back
+
+=head2 global_status( )
+
+=over
+
+Use this method to retrieve the overall status of all grid members.
+
+=over
+
+=item B<Parameter>
+
+The method returns the "worst" status among all grid members. Valid values are "FAILED", "INACTIVE", "UNKNOWN", "WARNING" or "WORKING".
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+   #Getting global_status
+   $global_status = $grid->global_status( );
+
+=back
+
+=back
+
+=head2 storage_limit( )
+
+=over
+
+Use this method to set the maximum TFTP storage allowed on the grid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The maximum storage size expressed in Megabytes. Valid values are from 1 to 10000.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting storage_limit
+   $storage_limit = $grid->storage_limit( );
+   #Modifying storage_limit
+   $grid->storage_limit(2000);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as modify and get. This sample also includes error handling for the operations.
+
+B<#Preparation prior to grid FileDistribution object operations>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Get and modify a Grid FileDistribution object>
+
+ # Get and modify the grid FileDistribution property object.
+ my $object = $session->get(
+     object => "Infoblox::Grid::FileDistribution",
+ );
+
+  unless ($object) {
+       die("get grid FileDistribution failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ }
+  print "grid FileDistribution get successful\n";
+
+ #Modifying the value of the specified object
+ $object->enable_anonymous_ftp("true");
+
+ #Apply the changes
+ $session->modify($object)
+   or die("modify grid FileDistribution failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+
+ print "FileDistribution grid object modified successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

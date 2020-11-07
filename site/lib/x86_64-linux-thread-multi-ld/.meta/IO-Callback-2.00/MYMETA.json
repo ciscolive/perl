@@ -1,0 +1,53 @@
+{
+   "abstract" : "Emulate file interface for a code reference",
+   "author" : [
+      "Dave Taylor <dave.taylor.cpan@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "IO-Callback",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Fatal" : 0,
+            "Fcntl" : 0,
+            "File::Slurp" : 0,
+            "File::Temp" : 0,
+            "IO::Handle" : 0,
+            "Module::Build" : 0,
+            "Test::Exception" : 0,
+            "Test::More" : 0,
+            "Test::NoWarnings" : 0
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : 0,
+            "Errno" : 0,
+            "IO::String" : 0,
+            "perl" : 5.006
+         }
+      }
+   },
+   "provides" : {
+      "IO::Callback" : {
+         "file" : "lib/IO/Callback.pm",
+         "version" : "2.00"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "2.00",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

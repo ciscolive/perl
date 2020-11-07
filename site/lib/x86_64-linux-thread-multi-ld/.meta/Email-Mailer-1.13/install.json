@@ -1,0 +1,1 @@
+{"name":"Email::Mailer","target":"Email::Mailer","pathname":"G/GR/GRYPHON/Email-Mailer-1.13.tar.gz","version":"1.13","provides":{"Email::Mailer":{"version":"1.13","file":"lib/Email/Mailer.pm"}},"dist":"Email-Mailer-1.13"}

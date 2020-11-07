@@ -1,0 +1,1 @@
+{"pathname":"D/DE/DEXTER/AnyEvent-DNS-EtcHosts-0.0103.tar.gz","name":"AnyEvent::DNS::EtcHosts","version":"0.0103","provides":{"AnyEvent::DNS::EtcHosts":{"file":"lib/AnyEvent/DNS/EtcHosts.pm","version":"0.0103"}},"target":"AnyEvent::DNS::EtcHosts","dist":"AnyEvent-DNS-EtcHosts-0.0103"}

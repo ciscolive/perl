@@ -1,0 +1,1 @@
+{"name":"Net::IP::LPM","pathname":"T/TP/TPODER/Net-IP-LPM-1.10.tar.gz","version":"1.10","target":"Net::IP::LPM","dist":"Net-IP-LPM-1.10","provides":{"Net::IP::LPM":{"version":"1.10","file":"lib/Net/IP/LPM.pm"}}}

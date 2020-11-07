@@ -1,0 +1,157 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection::NATPort - a NAT Threat Protection Port object.
+
+=head1 DESCRIPTION
+
+The Threat Protection NAT Port object provides information about the port blocks configured for NAT mapping.
+
+=head1 CONSTRUCTION
+
+ my $nat_port = Infoblox::Grid::ThreatProtection::NATPort->new(
+    start_port => $uint, #Required
+    end_port   => $uint, #Required
+    block_size => $uint, #Required
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a NAT Port object.
+
+=head2 Infoblox::Grid::ThreatProtection::NATRule->nat_ports( )
+
+=over
+
+Use this method to set or retrieve NAT Port configuration for the NAT Threat Protection Rule. See L<Infoblox::Grid::ThreatProtection::NATRule-E<gt>nat_ports()|Infoblox::Grid::ThreatProtection::NATRule/nat_ports()/> for parameters and return values. 
+
+=over
+
+=item B<Example>
+
+ #Get nat_ports
+ my $nat_ports = $nat_rule->nat_ports();
+
+ #Modify nat_ports
+ $nat_rule->nat_ports($nat_ports);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Threat Protection NAT Port.
+
+=head2 block_size( )
+
+=over
+
+Use this method to set or retrieve the block size for the NAT Port configuration object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->block_size();
+
+ #Modify attribute value
+ $object->block_size(20);
+
+=back
+
+=back
+
+=head2 end_port( )
+
+=over
+
+Use this method to set or retrieve the end port value for the NAT port configuration object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->end_port();
+
+ #Modify attribute value
+ $object->end_port(10);
+
+=back
+
+=back
+
+=head2 start_port( )
+
+=over
+
+Use this method to set or retrieve the start port value for the NAT port configuration object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->start_port();
+
+ #Modify attribute value
+ $object->start_port(5);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ThreatProtection::NATRule|Infoblox::Grid::ThreatProtection::NATRule>, L<Infoblox::Grid::ThreatProtection::NATRule-E<gt>nat_ports()|Infoblox::Grid::ThreatProtection::NATRule/nat_ports()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

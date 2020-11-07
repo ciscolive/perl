@@ -1,0 +1,1 @@
+{"pathname":"M/MU/MUIR/modules/Cisco-Reconfig-0.912.tar.gz","version":"0.912","target":"Cisco::Reconfig","name":"Cisco::Reconfig","dist":"Cisco-Reconfig-0.912","provides":{"Cisco::Reconfig":{"file":"lib/Cisco/Reconfig.pm","version":"0.912"}}}

@@ -1,0 +1,14 @@
+/opt/perl/site/bin/module-starter
+/opt/perl/site/lib/Module/Starter.pm
+/opt/perl/site/lib/Module/Starter/App.pm
+/opt/perl/site/lib/Module/Starter/BuilderSet.pm
+/opt/perl/site/lib/Module/Starter/Plugin.pod
+/opt/perl/site/lib/Module/Starter/Plugin/Template.pm
+/opt/perl/site/lib/Module/Starter/Simple.pm
+/opt/perl/site/man/man1/module-starter.1
+/opt/perl/site/man/man3/Module::Starter.3
+/opt/perl/site/man/man3/Module::Starter::App.3
+/opt/perl/site/man/man3/Module::Starter::BuilderSet.3
+/opt/perl/site/man/man3/Module::Starter::Plugin.3
+/opt/perl/site/man/man3/Module::Starter::Plugin::Template.3
+/opt/perl/site/man/man3/Module::Starter::Simple.3

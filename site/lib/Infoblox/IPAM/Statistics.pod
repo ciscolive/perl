@@ -1,0 +1,364 @@
+=head1 NAME
+
+Infoblox::IPAM::Statistics - Manages IPAM statistics.
+
+=head1 DESCRIPTION
+
+The IPAM statistics object is used to view the IPAM statistics of the network or network container in an Infoblox appliance.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::IPAM::Statistics object does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session that can be applied to a IPAM statistics object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get the IPAM statistics:
+
+ network      - Required. An IPv4 address in dotted decimal notation followed by the network prefix (e.g 1.0.0.0/8).
+ network_view - Optional. The name of the network view in which the network object is located. By default, all network views are searched.
+
+=item B<Example>
+
+  my $ipam_stats = $session->get(
+           object  => "Infoblox::IPAM::Statistics",
+           network => "1.0.0.0/8",
+           network_view => "my_network_view");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for an IPAM statistics object from an Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get the IPAM statistics:
+
+ network      - Required. An IPv4 address in dotted decimal notation followed by the network prefix (e.g 1.0.0.0/8) (regular expression).
+ network_view - Optional. The name of the network view in which the network object is located. By default, all network views are searched.
+
+=item B<Example>
+
+  my $ipam_stats = $session->search(
+           object  => "Infoblox::IPAM::Statistics",
+           network => '1\.0\.0\..*',
+           network_view => "my_network_view");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of a IPAM statistics object.
+
+=head2 utilization( )
+
+=over
+
+Use this method to retrieve the network utilization.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network utilization in percentage.
+
+=item B<Example>
+
+ #Get utilization
+ my $utilization = $ipam_stats->utilization();
+
+=back
+
+=back
+
+=head2  conflict_count( )
+
+=over
+
+Use this method to retrieve the number of conflicts discovered via network discovery. This method is only valid for a Network object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the number of discovered conflicts. For a NetworkContainer object, the return value is undefined.
+
+=item B<Example>
+
+ #Get conflict_count
+ my $conflict_count = $ipam_stats->conflict_count();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $ipam_stats->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2  unmanaged_count( )
+
+=over
+
+Use this method to retrieve the number of unmanaged IP addresses as discovered by network discovery. This method is only valid for a Network object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the number of unmanaged IP addresses. For a NetworkContainer object, the return value is undefined.
+
+=item B<Example>
+
+ #Get unmanaged_count
+ my $unmanaged_count = $ipam_stats->unmanaged_count();
+
+=back
+
+=back
+
+=head2 utilization_update( )
+
+=over
+
+Use this method to retrieve the time that the utilization statistics were updated last. This method is only valid for a Network object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns a timestamp value in the ISO 8601 extended format for date and time (e.g. 2008-10-21T10:56:33Z or 2008-10-21T10:56:33.001Z). For a NetworkContainer object, the return value is undefined.
+
+=item B<Example>
+
+ #Get utilization_update
+ my $utilization_update = $ipam_stats->utilization_update();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the get and search session methods on an IPAM statistics object. Also, this sample code also includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+B<#Preparation prior to getting IPAM statistics>
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $member = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2",
+ );
+
+ unless($member) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ #Create a Network View object
+ my $network_view = Infoblox::DHCP::View->new(
+                     name => "my_network_view",
+ );
+ unless($network_view) {
+             die("Construct Network View object failed: ",
+                   Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network View object created successfully\n";
+
+ #Add the Network View object into the Infoblox appliance through a session
+ $session->add($network_view)
+      or die("Add Network View object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "Network View added successfully\n";
+
+ #Create the Network object with this member
+ my $network = Infoblox::DHCP::Network->new(
+                     network => "1.0.0.0/255.0.0.0",
+                     members => [ $member ],
+                     network_view => $network_view,
+ );
+ unless($network) {
+             die("Construct Network object failed: ",
+                   Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network object created successfully\n";
+
+ #Add the Network object into the Infoblox appliance through a session
+ $session->add($network)
+      or die("Add Network object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "Network added successfully\n";
+
+ #Create the DHCP Range object with this member
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+     network    => "1.0.0.0/8",
+     start_addr => "1.0.0.1",
+     end_addr   => "1.0.0.10",
+     member     => $member,
+     network_view => $network_view,
+ );
+ unless($dhcp_range) {
+      die("Construct DHCP Range failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP range object created successfully\n";
+
+ $session->add($dhcp_range)
+      or die("Add DHCP range object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DHCP range added successfully\n";
+
+ #Create the Fixed Address object
+ my $fixed_address = Infoblox::DHCP::FixedAddr->new(
+                                                "network" => "1.0.0.0/8",
+                                                "ipv4addr" => "1.0.0.2",
+                                                "mac" => "22:22:22:22:22:22",
+                                                "network_view" => $network_view,
+                                                );
+ unless($fixed_address) {
+      die("Construct DHCP Fixed address failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Fixed address object created successfully\n";
+
+ $session->add($fixed_address)
+      or die("Add DHCP Fixed address object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Fixed address added successfully\n";
+
+B<#Get the IPAM statistics>
+
+  my @result_array = $session->get(
+           object  => "Infoblox::IPAM::Statistics",
+           network => "1.0.0.0/8",
+           network_view => "my_network_view");
+
+  my $ipam_stats = $result_array[0];
+  unless ($ipam_stats) {
+       die("Get IPAM statistics failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Get IPAM Statistics successful\n";
+
+  print "Utilization for '1.0.0.0/8': ", $ipam_stats->utilization(), "\n";
+
+B<#Search for the IPAM statistics>
+
+  my @result_array = $session->search(
+           object  => "Infoblox::IPAM::Statistics",
+           network => '1\.0\.0\..*',
+           network_view => "my_network_view");
+
+  my $ipam_stats = $result_array[0];
+  unless ($ipam_stats) {
+       die("Get IPAM statistics failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Get IPAM Statistics successful\n";
+
+  print "Utilization for '1.0.0.0/8': ", $ipam_stats->utilization(), "\n";
+
+B<#Clean up>
+
+  # Remove the IPAM Statistics object that was just retrieved
+  $session->remove($ipam_stats);
+
+  # Retrieve and remove the Network View object
+  my $network_view = $session->get(
+          object => "Infoblox::DHCP::View",
+          name => "my_network_view",
+  );
+  unless ($network_view) {
+       die("Get Network View failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  }
+  $session->remove($network_view);
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>,L<Infoblox::DHCP::View|Infoblox::DHCP::View>,L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>,L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>,L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

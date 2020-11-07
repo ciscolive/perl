@@ -1,0 +1,1 @@
+{"pathname":"G/GN/GNG/Spreadsheet-BasicRead-1.12.tar.gz","provides":{"Spreadsheet::BasicRead":{"version":"1.12","file":"BasicRead.pm"},"Spreadsheet::XLSX::XLSXConvert":{"version":"1.12","file":"BasicRead.pm"}},"name":"Spreadsheet::BasicRead","target":"Spreadsheet::BasicRead","dist":"Spreadsheet-BasicRead-1.12","version":"1.12"}

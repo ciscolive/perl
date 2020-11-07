@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Proc/Killall.pm
+/opt/perl/site/lib/Proc/Killfam.pm
+/opt/perl/site/lib/Proc/ProcessTable.pm
+/opt/perl/site/lib/Proc/ProcessTable/Process.pm
+/opt/perl/site/lib/auto/Proc/ProcessTable/Process/autosplit.ix
+/opt/perl/site/lib/auto/Proc/ProcessTable/ProcessTable.so
+/opt/perl/site/man/man3/Proc::Killall.3
+/opt/perl/site/man/man3/Proc::Killfam.3
+/opt/perl/site/man/man3/Proc::ProcessTable.3
+/opt/perl/site/man/man3/Proc::ProcessTable::Process.3

@@ -1,0 +1,15 @@
+# Index created by AutoSplit for blib/lib/Net/DNS/ToolKit/Utilities.pm
+#    (file acts as timestamp)
+package Net::DNS::ToolKit::Utilities;
+sub id  ;
+sub question  ;
+sub revIP  ;
+sub query  ;
+sub dns_udpsend  ;
+sub dns_udpresp  ;
+sub dns_ans  ;
+sub dns_ns  ;
+sub dns_ptr  ;
+sub rlook_send  ;
+sub rlook_rcv  ;
+1;

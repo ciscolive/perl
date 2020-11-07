@@ -1,0 +1,1 @@
+{"dist":"Net-CIDR-Set-0.13","version":"0.13","name":"Net::CIDR::Set","target":"Net::CIDR::Set","pathname":"A/AN/ANDYA/Net-CIDR-Set-0.13.tar.gz","provides":{"Net::CIDR::Set::IPv6":{"version":"0.13","file":"lib/Net/CIDR/Set/IPv6.pm"},"Net::CIDR::Set":{"version":"0.13","file":"lib/Net/CIDR/Set.pm"},"Net::CIDR::Set::IPv4":{"file":"lib/Net/CIDR/Set/IPv4.pm","version":"0.13"}}}

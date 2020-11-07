@@ -1,0 +1,4 @@
+/opt/perl/site/bin/cpan-search
+/opt/perl/site/lib/App/CPAN/Search.pm
+/opt/perl/site/man/man1/cpan-search.1
+/opt/perl/site/man/man3/App::CPAN::Search.3

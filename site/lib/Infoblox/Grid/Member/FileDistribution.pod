@@ -1,0 +1,616 @@
+=head1 NAME
+
+Infoblox::Grid::Member::FileDistribution - Grid Member FileDistribution object.
+
+=head1 DESCRIPTION
+
+You can configure the file distribution properties of a grid member. You can enable and disable TFTP, HTTP, and FTP services, and set their operational parameters.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::Member::FileDistribution object is automatically generated upon the successful installation of the Infoblox appliance. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a grid member FileDistribution object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+Apply the following attributes to get a specific grid member FileDistribution object:
+
+name - Required.   Host name in string format
+
+=item B<Example>
+
+  my $object   = $session->get(
+     object    => "Infoblox::Grid::Member::FileDistribution",
+     name      => "infoblox.localdomain",
+      );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+If you have applied an access control list to an object, you must restart services after you update the access control list for the changes to take effect. See L<Infoblox::Session-E<gt>restart()|Infoblox::Session/restart()/> method.
+
+=over
+
+=item B<Example>
+
+   #Use method to modify the enable_tftp Property.
+   $object->enable_tftp("true");
+   #Submit modification
+   my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the file distribution properties of a grid member.
+
+=head2 allow_uploads( )
+
+=over
+
+Use this method to enable or disable file uploads for a member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_allow_uploads method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_allow_uploads attribute to "false".
+
+Note that when allow_uploads is set to a defined value and override_dallow_uploads is set to "false", the last operation takes precedence. Thus the sequence $object->allow_uploads("true"); $object->override_allow_uploads("false"); will set override_allow_uploads to "false", and the sequence $object->override_allow_uploads("false"); $object->allow_uploads("true"); will result in override_allow_uploads="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable file uploads or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting allow_uploads
+   $file_distribution->allow_uploads( );
+   #Modifying allow_uploads
+   $file_distribution->allow_uploads("true");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the grid name. This is a required argument.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $file_distribution->name();
+
+=back
+
+=back
+
+=head2 enable_tftp( )
+
+=over
+
+Use this method to enable or disable the TFTP service of a member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the TFTP service or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_tftp
+   $file_distribution->enable_tftp( );
+   #Modifying enable_tftp
+   $file_distribution->enable_tftp("true");
+
+=back
+
+=back
+
+=head2 tftp_port( )
+
+=over
+
+Use this method to specify the port to listen on for the TFTP file distribution service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Port number for TFTP file distribution service. Valid values are between 1 and 63999. The default is 69.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting tftp_port
+   $file_distribution->tftp_port( );
+   #Modifying tftp_port
+   $file_distribution->tftp_port("1069");
+
+=back
+
+=back
+
+=head2 tftp_allow_access( )
+
+=over
+
+Use this method to allow TFTP file distribution access from specified IPv4 addresses and networks.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4 addresses and networks. To reject TFTP file distribution access, add '!' as a prefix to IP addresses and networks. Specify "any" to allow any address or set to an empty array to clear the list.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting tftp_allow_access
+   my $file_distribution = $file_distribution->tftp_allow_access( );
+   #Modifying tftp_allow_access
+   $file_distribution->tftp_allow_access(["any"]);
+   #Modifying tftp_allow_access
+   $file_distribution->tftp_allow_access(["10.0.0.10", "20.0.0.0/24", "!"."30.0.0.30", "!"."40.10.0.0/24"]);
+   #Modifying tftp_allow_access
+   $file_distribution->tftp_allow_access([]);
+   #Use Infoblox::Grid::NamedACL
+   $file_distribution->tftp_allow_access($nacl);
+
+=back
+
+=back
+
+=head2 enable_http( )
+
+=over
+
+Use this method to enable or disable the HTTP file distribution service of a member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable HTTP file distribution service or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_http
+   $file_distribution->enable_http( );
+   #Modifying enable_http
+   $file_distribution->enable_http("true");
+
+=back
+
+=back
+
+=head2 enable_http_acl( )
+
+=over
+
+Use this method to enable or disable the ACLs for the HTTP file distribution service of a member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable ACLs for the HTTP file distribution service or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_http_acl
+   $file_distribution->enable_http_acl( );
+   #Modifying enable_http_acl
+   $file_distribution->enable_http_acl("true");
+
+=back
+
+=back
+
+=head2 http_allow_access( )
+
+=over
+
+Use this method to allow HTTP file distribution access from specified IPv4 addresses and networks. enable_http and enable_http_acl must be set to 'true' in order for this http_allow_access to be usable. Set to an empty array to clear the list.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4 addresses and networks.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting http_allow_access
+   my $file_distribution = $file_distribution->http_allow_access( );
+   #Modifying http_allow_access
+   $file_distribution->http_allow_access(["10.0.0.10", "20.0.0.0/24", "30.0.0.30", "40.10.0.0/24"]);
+   #Modifying http_allow_access
+   $file_distribution->http_allow_access([]);
+   #Use Infoblox::Grid::NamedACL
+   $file_distribution->http_allow_access($nacl);
+
+=back
+
+=back
+
+=head2 enable_ftp( )
+
+=over
+
+Use this method to enable or disable the FTP service of a member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the FTP service or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_ftp
+   $file_distribution->enable_ftp( );
+   #Modifying enable_ftp
+   $file_distribution->enable_ftp("true");
+
+=back
+
+=back
+
+=head2 ftp_port( )
+
+=over
+
+Use this method to specify the port to listen on for the FTP file distribution service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Port number for the FTP file distribution service. Valid values are between 1 and 63999. The default is 21.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting ftp_port
+   $file_distribution->ftp_port( );
+   #Modifying ftp_port
+   $file_distribution->ftp_port("1022");
+
+=back
+
+=back
+
+=head2 ftp_allow_access( )
+
+=over
+
+Use this method to allow FTP file distribution access from specified IPv4 addresses and networks.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4 addresses and networks. To reject FTP file distribution access, add '!' as a prefix to IP addresses and networks. Specify "any" to allow any address or set to an empty array to clear the list.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting ftp_allow_access
+   my $file_distribution = $file_distribution->ftp_allow_access( );
+   #Modifying ftp_allow_access
+   $file_distribution->ftp_allow_access(["any"]);
+   #Modifying ftp_allow_access
+   $file_distribution->ftp_allow_access(["10.0.0.10", "20.0.0.0/24", "!"."30.0.0.30", "!"."40.10.0.0/24"]);
+   #Modifying ftp_allow_access
+   $file_distribution->ftp_allow_access([]);
+   #Use Infoblox::Grid::NamedACL
+   $file_distribution->ftp_allow_access($nacl);
+
+=back
+
+=back
+
+=head2 ftp_login_banner( )
+
+=over
+
+Use this method to specify the login banner for the FTP file distribution service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The login banner for the FTP file distribution service. Valid values are strings of up to 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting ftp_login_banner
+   $file_distribution->ftp_login_banner( );
+   #Modifying ftp_login_banner
+   $file_distribution->ftp_login_banner("This is my new FTP login banner");
+
+=back
+
+=back
+
+=head2 ftp_enable_passive_mode( )
+
+=over
+
+Use this method to enable or disable the FTP service in passive mode.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the FTP service in passive mode or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting ftp_enable_passive_mode
+   $file_distribution->ftp_enable_passive_mode( );
+   #Modifying ftp_enable_passive_mode
+   $file_distribution->ftp_enable_passive_mode("true");
+
+=back
+
+=back
+
+=head2 ftp_enable_file_listing( )
+
+=over
+
+Use this method to enable or disable file listing for the FTP service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable file listing or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting ftp_enable_file_listing
+   $file_distribution->ftp_enable_file_listing( );
+   #Modifying ftp_enable_file_listing
+   $file_distribution->ftp_enable_file_listing("true");
+
+=back
+
+=back
+
+=head2 override_allow_uploads( )
+
+=over
+
+The override_allow_uploads attribute controls whether the allow_uploads value in the member is used, instead of the grid default.
+
+The override_allow_uploads attribute can be specified explicitly. It is also set implicitly when allow_uploads is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_allow_uploads flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_allow_uploads for the member
+ my $type = $file_distribution->override_allow_uploads();
+ #Modify override_allow_uploads for the member
+ $file_distribution->override_allow_uploads("true");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as modify and get. This sample also includes error handling for the operations.
+
+B<#Preparation prior to member FileDistribution object operations>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Get and modify a Member FileDistribution object>
+
+ # Get and modify the member FileDistribution property object. Note that the grid member named infoblox.localdomain was previously created.
+ my $object = $session->get(
+     object => "Infoblox::Grid::Member::FileDistribution",
+     name   => "infoblox.localdomain"
+ );
+
+  unless ($object) {
+       die("get member FileDistribution failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ }
+  print "member FileDistribution get successful\n";
+
+ #Modifying the value of the specified object
+ $object->enable_tftp("true");
+ $object->tftp_allow_access(["any"]);
+ $object->enable_http("true");
+ $object->enable_http_acl("true");
+ $object->http_allow_access(["10.0.0.10", "20.0.0.0/24"]);
+ $object->enable_ftp("true");
+ $object->ftp_allow_access(["10.0.0.10", "20.0.0.0/24", "!"."30.0.0.30", "!"."40.10.0.0/24"]);
+ $object->tftp_port(1069);
+ $object->ftp_port(1022);
+ $object->ftp_login_banner("My new banner");
+ $object->ftp_enable_passive_mode("true");
+
+  #Apply the changes
+  $session->modify($object)
+   or die("modify member FileDistribution failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+
+ print "FileDistribution member object modified successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::FileDistributionDir|Infoblox::Grid::FileDistributionDir>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

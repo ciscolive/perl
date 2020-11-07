@@ -1,0 +1,38 @@
+{
+   "abstract" : "full set of array and set operations",
+   "author" : [
+      "Sullivan Beck <sbeck@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Array-AsObject",
+   "prereqs" : {
+      "runtime" : {
+         "requires" : {
+            "Sort::DataTypes" : "0",
+            "perl" : "5.004"
+         }
+      }
+   },
+   "provides" : {
+      "Array::AsObject" : {
+         "file" : "lib/Array/AsObject.pm",
+         "version" : "1.02"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "1.02",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

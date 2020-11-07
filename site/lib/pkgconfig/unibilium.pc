@@ -1,0 +1,12 @@
+# pkg-config paths rewritten by Alien::make::Module::Build
+# buildlibdir=/root/.cpanm/work/1594544255.14910/Alien-unibilium-0.15/blib/arch
+# instlibdir=/opt/perl/site/lib
+libdir=/opt/perl/site/lib
+includedir=/opt/perl/site/lib/include
+version=2.0.0
+
+Name: unibilium
+Description: terminfo parser and utility functions
+Version: ${version}
+Libs: -L${libdir} -lunibilium
+Cflags: -I${includedir}

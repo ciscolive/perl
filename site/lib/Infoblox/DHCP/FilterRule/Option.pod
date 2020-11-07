@@ -1,0 +1,264 @@
+=head1 NAME
+
+Infoblox::DHCP::FilterRule::Option - DHCP filter rule option object.
+
+=head1 DESCRIPTION
+
+A DHCP filter rule option object gives the ability to grant and/or deny a lease of an IP defined in DHCP Range.
+
+=head1 CONSTRUCTOR
+
+  my $FilterRuleOption = Infoblox::DHCP::FilterRule::Option->new(
+                filter_name  =>  $string,          #Required
+                permission   =>  "grant" | "deny", #Required
+            );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a DHCP filter rule option object.
+
+=head2 Infoblox::DHCP::Range->filters( )
+
+=over
+
+Use this function to specify filters at the DHCP range level.  See details for L<Infoblox::DHCP::Range|Infoblox::DHCP::Range> objects
+
+=over
+
+=item B<Example>
+
+ #Construct DHCP filter rule option object
+ my $filter = Infoblox::DHCP::FilterRule::Option->new(
+     filter_name => "filter1",
+     permission  => "grant"
+ );
+
+ # Configure  filters
+ my $response = $range->filters([$res]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP filter rule option object.
+
+=head2 filter_name( )
+
+=over
+
+Use this method to set or retrieve the filter name of a DHCP filter rule option object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify filter name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get filters from  range
+ my $resp = $range->filters();
+ # Modify filters
+ $range->filters([$res]);
+
+=back
+
+=back
+
+=head2  permission( )
+
+=over
+
+Use this method to set or retrieve the permission of a DHCP filter rule option object. When selecting Grant lease, you need to assign addresses from the address range to requesting hosts
+whose user class (as defined on their network adapter) matches an entry in the option filter rules.
+When selecting Deny lease, you need to refuse an address request from a host whose user class matches an entry in the option filter rules.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The permission can be either "grant" or "deny". The default value is "grant" lease.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get permission
+  $res->permission();
+ #modify permission value
+ $res->permission("deny");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, modify. Also, this sample includes error handling for the operations.
+
+B<##Preparation prior to a DHCP filter rule option object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+   #Create a DHCP Member object
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2"
+ );
+ unless($memberdhcp) {
+        die("Construct member failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Member object created successfully\n";
+
+ #Create the Network object with the member
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/8",
+     comment => "add network",
+     members => [ $memberdhcp ]
+ );
+ unless($network) {
+        die("Construct Network object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network object created successfully\n";
+
+B<#Add the Network object into the Infoblox appliance through a session>
+
+ $session->add($network)
+     or die("Add Network object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Network object added to Infoblox appliance successfully\n";
+
+ my $opt1 = Infoblox::DHCP::Option->new(
+       name => "user-class" ,
+       value => "77"
+    );
+
+B<#Create the Option Filter object>
+
+ my $option_filter = Infoblox::DHCP::Filter::Option->new(
+       name => 'filter1' ,
+       option_list => [$opt1],
+
+ );
+
+ unless($option_filter) {
+        die("Construct Option Filter object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Option Filter object created successfully\n";
+
+B<#Add the filter rule option object into the Infoblox appliance>
+
+ $session->add($option_filter)
+     or die("Add option Filter object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Option Filter object added to Infoblox appliance successfully\n";
+
+B<#Construct DHCP Filter rule Option  object>
+
+ my $filter = Infoblox::DHCP::FilterRule::Option->new(
+     filter_name => "filter1",
+     permission  => "grant"
+ );
+
+B<#Create a DHCP Range object>
+
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+         end_addr     => "10.0.0.10",
+         network      => "10.0.0.0/8",
+         start_addr   => "10.0.0.1",
+         authority    => "true",
+         comment      => "add range",
+         filters      => [$filter],
+         member       => $memberdhcp,
+ );
+ unless($dhcp_range) {
+        die("Construct DHCP Range object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Range object created successfully\n";
+
+ #Add the DHCP Range object into the Infoblox appliance through a session
+ $session->add($dhcp_range)
+     or die("Add DHCP Range object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Range object added to the network successfully\n";
+
+B<#Get and modify the filter rule option object>
+
+ #get  object from session
+ my @result = $session->get(
+     object => "Infoblox::DHCP::Range",
+     start_addr => "10.0.0.1"
+ );
+ unless (scalar(@result) == 0) {
+     my $range = $result[0];
+
+     if ($range) {
+     my $resp = $range->filters();
+     my @arr = @{$resp};
+     my $res = $arr[0];
+
+         #modify permission value
+         $res->permission("deny");
+         $range->filters([$res]);
+         #update session
+         $session->modify($range)
+             or die("modify failed: ",
+                $session->status_code(), $session->status_detail());
+
+             print "Modify filter permisson successful\n";
+            }
+          } else {
+              print "No range found.";
+          }
+ $session->remove($option_filter);
+ print "Remove filter1 successfull\n";
+
+  ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>, L<Infoblox::DHCP::Option|Infoblox::DHCP::Option>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

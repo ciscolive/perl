@@ -1,0 +1,8 @@
+/opt/perl/site/bin/patchperl
+/opt/perl/site/lib/Devel/PatchPerl.pm
+/opt/perl/site/lib/Devel/PatchPerl/Hints.pm
+/opt/perl/site/lib/Devel/PatchPerl/Plugin.pm
+/opt/perl/site/man/man1/patchperl.1
+/opt/perl/site/man/man3/Devel::PatchPerl.3
+/opt/perl/site/man/man3/Devel::PatchPerl::Hints.3
+/opt/perl/site/man/man3/Devel::PatchPerl::Plugin.3

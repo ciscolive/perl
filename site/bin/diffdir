@@ -1,0 +1,176 @@
+#!/usr/bin/env perl
+
+# Created on: 2008-03-13 15:48:46
+# Create by:  ivanw
+# $Id$
+# $Revision$, $HeadURL$, $Date$
+# $Revision$, $Source$, $Date$
+
+use strict;
+use warnings;
+use Getopt::Long;
+use Pod::Usage;
+use Data::Dumper qw/Dumper/;
+use English qw/ -no_match_vars /;
+use FindBin qw/$Bin/;
+use Path::Tiny;
+use App::diffdir;
+
+our $VERSION = 0.9;
+my ($name)   = $PROGRAM_NAME =~ m{^.*/(.*?)$}mxs;
+
+my %option = (
+    exclude => ['(?:[.]bzr|[.]svn|CVS|RCS|,v|[~-]$|[.]rpmnew|[.]git|[.]sw[op]$|[.]netrwhist$)|/(?:blib|_build)/|/(?:tags|Build|MYMETA.yml|Debian_CPANTS.txt|[.]vimtagsdisplay)$'],
+    cmd     => 'diff',
+    cp      => 0,
+    rm      => 0,
+    join    => 0,
+    script  => 0,
+    link    => 0,
+    verbose => 0,
+    man     => 0,
+    help    => 0,
+    VERSION => 0,
+);
+
+if ( !@ARGV ) {
+    pod2usage( -verbose => 1 );
+}
+
+main();
+exit 0;
+
+sub main {
+
+    Getopt::Long::Configure('bundling');
+    GetOptions(
+        \%option,
+        'exclude|e=s',
+        'cmd|command|c=s',
+        'script|s!',
+        'cp|cp-missing|m!',
+        'rm|remove-extra|r!',
+        'same|same-files|S',
+        'join|j',
+        'follow|f!',
+        'fast|F!',
+        'ignore_all_space|ignore-space-change|b',
+        'ignore_space_change|ignore-all-space|w',
+        'missing_dirs|missing-dirs|d!',
+        'size_diff|size-diff|D',
+        'exec|E!',
+        'verbose|v+',
+        'man',
+        'help',
+        'version',
+    ) or pod2usage(2);
+    my @dirs = @ARGV;
+
+    if ( $option{'version'} ) {
+        print "$name Version = $VERSION\n";
+        exit 1;
+    }
+    elsif ( $option{'man'} ) {
+        pod2usage( -verbose => 2 );
+    }
+    elsif ( $option{'help'} ) {
+        pod2usage( -verbose => 1 );
+    }
+
+    # do stuff here
+    my $dd = App::diffdir->new( %option );
+    my %files = $dd->differences(@ARGV);
+    my $sep = @ARGV > 2 ? "\n\t" : "\t";
+
+    for my $file ( sort keys %files ) {
+        print "$file\n";
+        for my $dir ( @ARGV[ 1 .. $#ARGV ] ) {
+            print "\t$files{$file}{$dir}{diff}\n";
+        }
+    }
+
+    return;
+}
+
+__DATA__
+
+=head1 NAME
+
+diffdir - Compares two or more directories for files that differ
+
+=head1 VERSION
+
+This documentation refers to diffdir version 0.9.
+
+=head1 SYNOPSIS
+
+   diffdir [option] dir1 dir2 [dir3 ...]
+
+ OPTIONS:
+  -e --exclude[=]re
+                Elclude any file or directory that matches this regular
+                expression
+  -s --script   Produce a script of actions
+  -c --command[=]string
+                The diff command you wish to use for viewing the
+                differences in the files
+  -m --cp-missing Create a copy statement for missing files rather than
+                telling which directory it was missing from
+  -r --remove-extra
+                Remove extra files
+  -S --same-files
+                Show the same files instead of different files
+  -j --join     Combines the file into a thrid based on the original directory names.
+  -f --follow   Follow symlinks directories and diff symlink files.
+     --no-follow
+                Don't follow symlinked directories or diff symlinked files.
+  -F --fast     Use file sizees to tell if files are different
+  -b --ignore-space-change
+                Ignore changes in the amount of white space.
+  -w --ignore-all-space
+                Ignore all white space.
+  -d --missing-dirs
+                Create directories that are missing (makes copying of missing files simpler)
+  -E --exec     Show all diff action in one line
+
+  -v --verbose  Show more detailed option
+     --VERSION  Prints the version information
+     --help     Prints this help information
+     --man      Prints the full documentation for diffdir
+
+=head1 DESCRIPTION
+
+=head1 SUBROUTINES/METHODS
+
+=head1 DIAGNOSTICS
+
+=head1 CONFIGURATION AND ENVIRONMENT
+
+=head1 DEPENDENCIES
+
+=head1 INCOMPATIBILITIES
+
+=head1 BUGS AND LIMITATIONS
+
+There are no known bugs in this module.
+
+Please report problems to Ivan Wills (ivan.wills@gmail.com).
+
+Patches are welcome.
+
+=head1 AUTHOR
+
+Ivan Wills - (ivan.wills@gmail.com)
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright (c) 2015 Ivan Wills (14 Mullion Close, Hornsby Heights, NSW Australia 2077).
+All rights reserved.
+
+This module is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself. See L<perlartistic>.  This program is
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+=cut

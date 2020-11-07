@@ -1,0 +1,204 @@
+=head1 NAME
+
+Infoblox::Grid::Member::RestartServiceStatus - The restart status for member services.
+
+=head1 DESCRIPTION
+
+The object provides information about the restart status for member services.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return  values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+  member - Optional. The Grid member name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::Member::RestartServiceStatus',
+     'member' => 'hostname.com',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for an object:
+
+  member - Optional. The Grid member name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     'object' => 'Infoblox::Grid::Member::RestartServiceStatus',
+     'member' => 'hostname.com',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an object.
+
+=head2 dhcp_status( )
+
+=over
+
+Use this method to retrieve the restart status for the member DHCP service. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'CONFIG_ERROR', 'DISABLED', 'NO', 'NO_PERMISSION', 'NO_REQUEST', 'OFFLINE', 'REQUESTING', 'RESTART_PENDING' or 'YES'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->dhcp_status();
+
+=back
+
+=back
+
+=head2 dns_status( )
+
+=over
+
+Use this method to retrieve the restart status for the member DNS service. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'CONFIG_ERROR', 'DISABLED', 'NO', 'NO_PERMISSION', 'NO_REQUEST', 'OFFLINE', 'REQUESTING', 'RESTART_PENDING' or 'YES'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->dns_status();
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to retrieve the Grid member name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->member();
+
+=back
+
+=back
+
+=head2 radius_status( )
+
+=over
+
+Use this method to retrieve the restart status for the member RADIUS service. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'CONFIG_ERROR', 'DISABLED', 'NO', 'NO_PERMISSION', 'NO_REQUEST', 'OFFLINE', 'REQUESTING', 'RESTART_PENDING' or 'YES'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->radius_status();
+
+=back
+
+=back
+
+=head2 reporting_status( )
+
+=over
+
+Use this method to retrieve the restart status for the member reporting service. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'CONFIG_ERROR', 'DISABLED', 'NO', 'NO_PERMISSION', 'NO_REQUEST', 'OFFLINE', 'REQUESTING', 'RESTART_PENDING' or 'YES'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->reporting_status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

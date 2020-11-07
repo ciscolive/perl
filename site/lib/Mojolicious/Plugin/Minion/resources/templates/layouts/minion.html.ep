@@ -1,0 +1,88 @@
+<!doctype html><html>
+  <head>
+    <title><%= title() || 'Minion' %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    %= javascript '/mojo/jquery/jquery.js'
+    %= javascript '/minion/popper/popper.js'
+    %= javascript '/minion/bootstrap/bootstrap.js'
+    %= stylesheet '/minion/bootstrap/bootstrap.css'
+    %= javascript '/minion/moment/moment.js'
+    %= javascript '/minion/d3/d3.js'
+    %= javascript '/minion/epoch/epoch.js'
+    %= stylesheet '/minion/epoch/epoch.css'
+    %= stylesheet '/minion/fontawesome/fontawesome.css'
+    %= stylesheet '/minion/app.css'
+    %= javascript '/minion/app.js'
+    <script>
+      $(function () {
+        checkAll();
+        humanTime();
+        pollStats('<%= url_for "minion_stats" %>');
+      });
+    </script>
+    %= content_for 'head'
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-light mb-3 border-bottom">
+      <div class="container">
+        %= link_to 'minion_dashboard' => (class => 'navbar-brand') => begin
+          <picture>
+            <img src="<%= url_for '/minion/logo-black.png' %>" srcset="<%= url_for '/minion/logo-black-2x.png' %> 2x">
+          </picture>
+        % end
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            % my $jobs = url_for 'minion_jobs';
+            <li class="nav-item">
+              <a class="nav-link" href="<%= $jobs->query(state => 'inactive') %>">
+                Inactive <span class="badge badge-pill badge-secondary minion-stats-inactive-jobs">0</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<%= $jobs->query(state => 'active') %>">
+                Active <span class="badge badge-pill badge-primary minion-stats-active-jobs">0</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<%= $jobs->query(state => 'finished') %>">
+                Finished <span class="badge badge-pill badge-success minion-stats-finished-jobs">0</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<%= $jobs->query(state => 'failed') %>">
+                Failed <span class="badge badge-pill badge-danger minion-stats-failed-jobs">0</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<%= url_for 'minion_locks' %>">
+                Locks <span class="badge badge-pill badge-secondary minion-stats-active-locks">0</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<%= url_for 'minion_workers' %>">
+                Workers <span class="badge badge-pill badge-secondary minion-stats-workers">0</span>
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="<%= url_for $return_to %>">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Back to Site
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      %= content
+    </div>
+  </body>
+</html>

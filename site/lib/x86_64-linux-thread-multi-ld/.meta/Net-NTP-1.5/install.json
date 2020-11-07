@@ -1,0 +1,1 @@
+{"name":"Net::NTP","provides":{"Net::NTP::Packet":{"file":"lib/Net/NTP.pm","version":"1.5"},"Net::NTP":{"file":"lib/Net/NTP.pm","version":"1.5"}},"version":"1.5","dist":"Net-NTP-1.5","pathname":"A/AB/ABH/Net-NTP-1.5.tar.gz","target":"Net::NTP"}

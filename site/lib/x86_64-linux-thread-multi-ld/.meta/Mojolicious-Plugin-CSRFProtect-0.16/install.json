@@ -1,0 +1,1 @@
+{"version":"0.16","dist":"Mojolicious-Plugin-CSRFProtect-0.16","target":"Mojolicious::Plugin::CSRFProtect","pathname":"K/KO/KOORCHIK/Mojolicious-Plugin-CSRFProtect-0.16.tar.gz","name":"Mojolicious::Plugin::CSRFProtect","provides":{"Mojolicious::Plugin::CSRFProtect":{"version":"0.16","file":"lib/Mojolicious/Plugin/CSRFProtect.pm"}}}

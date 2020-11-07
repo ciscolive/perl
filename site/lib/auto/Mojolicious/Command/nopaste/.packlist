@@ -1,0 +1,11 @@
+/opt/perl/site/lib/Mojolicious/Command/nopaste.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service/debian.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service/fpaste.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service/gist.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service/mathbin.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service/pastie.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service/shadowcat.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service/sprunge.pm
+/opt/perl/site/lib/Mojolicious/Command/nopaste/Service/ubuntu.pm
+/opt/perl/site/man/man3/Mojolicious::Command::nopaste.3

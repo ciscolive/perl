@@ -1,0 +1,102 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::FixedRRSetOrderFQDN - A fixed RRset order FQDN object.
+
+=head1 DESCRIPTION
+
+A fixed RRset order FQDN contains information about the fixed RRset configuration items.
+
+By default, when a client queries a domain name, the DNS caching appliance returns the A and AAAA records of the domain name in the cyclic order. However, this default behavior can be overridden if you have enabled and configured (at the Grid level) fixed RRset order for hosts that have multiple addresses. When you override the default behavior and preserve the fixed RRset order for cached DNS responses, the DNS caching appliance returns A and AAAA records associated with domain names in the order they were received from an upstream server. You can preserve the RRset order for the cached DNS responses and specify the fixed RRset order for A, AAAA, or both A and AAAA records at the Grid level and override at the member and DNS view levels. 
+
+Note that configuring fixed RRset order for specific FQDNs might significantly affect the performance of the DNS caching appliance.
+
+=head1 CONSTRUCTOR
+
+ my $rrset_order = Infoblox::Grid::DNS::FixedRRSetOrderFQDN->new(
+     fqdn        => $string,               #Required
+     record_type => 'A' | 'AAAA' | 'BOTH', #Optional / Default is 'A'
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It's used for fixed RRset order configuration for L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 fqdn( )
+
+=over
+
+Use this method to set or retrieve the FQDN of the fixed RRset configuration item.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string containing desired FQDN.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get fqdn value
+ my $fqdn = $order_fqdn->fqdn();
+ #Modify fqdn
+ $order_fqdn->fqdn('domain.com');
+
+=back
+
+=back
+
+=head2 record_type( )
+
+=over
+
+Use this method to set or retrieve the returned record type for the specified FQDN in the fixed RRset configuration.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'A', 'AAAA' and 'BOTH'. The default value is 'A'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get record_type value
+ my $record_type = $order_fqdn->record_type();
+ #Modify record_type
+ $order_fqdn->record_type('AAAA');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, L<Infoblox::DNS::View|Infoblox::DNS::View>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,692 @@
+=head1 NAME
+
+Infoblox::DNS::RPZRecord::AAAAIpAddress - Response Policy Zone (RPZ) Substitute (IPv6 Address) Rule object.
+
+=head1 DESCRIPTION
+
+An RPZ Substitute (IPv6 Address) Rule maps an IP address represented by a host name to a substitute IPv6 address. To define a specific address-to-address mapping, add an RPZ Substitute (IPv6 Address) Rule to a previously defined Response Policy Zone.
+
+This record represents the substitution rule for IP trigger policy. It matches IP addresses that would otherwise appear in AAAA record in the "answer" section of DNS response.
+
+You should use this object to create IP address substitution rules instead usage Infoblox::DNS::RPZRecord::CNAME::IpAddress object.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $rpz_4aip = Infoblox::DNS::RPZRecord::AAAAIpAddress->new (
+     ipv6addr => $ipv6addr,         #Required
+     name     => $fqdn,             #Required
+     rp_zone  => $rp_zone,          #Required
+     comment  => $string,           #Optional / Default is empty
+     extattrs              => { $string => $extattr, ... },      #Optional / Default is undefined
+     extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+     disable  => "true" | "false"   #Optional / Default "false"
+     ttl      => $num | undef,      #Optional / Default is undefined
+     views    => [$View1],          #Optional / Default is "default" view
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a Substitute (IPv6 Address) Rule object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an RPZ Substitute (IPv6 Address) Rule object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $rpz_4aip = Infoblox::DNS::RPZRecord::AAAAIpAddress->new(
+     name     => "2011::/16.rpz.com",
+     comment  => "add a Substitute (IPv6 Address) Rule aaaa1.rpz.com",
+     ipv6addr => "aaaa:1111:bbbb:2222:cccc:3333:dddd:4444",
+     rp_zone  => $response_policy_zone,
+     disable  => "true",
+     ttl      => "33",
+     views    => [$view1]  );
+ # Submit for addition
+ my $response = $session->add( $rpz_4aip );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Substitute (IPv6 Address) Rule object:
+
+ name                                  - Optional. A host name in string format.
+ view                                  - Optional. The DNS view in which the host record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+ zone                                  - Optional. A zone name in FQDN format.
+ ipv6addr                              - Optional. The address of the RPZ Substitute (IPv6 Address) Rule.
+ extattrs                              - Optional. A hash reference containing extensible attributes.
+ extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+                       object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+                       name   => "2001::1.rpz.com",
+                       view   => "default" );
+
+ # get all the Substitute (IPv6 Address) Rules in the "rpz.com" zone of the default view
+ my @retrieved_objs = $session->get(
+                       object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+                       zone   => "rpz.com",
+                       view   => "default" );
+
+ #get all Substitute (IPv6 Address) Rule recods with the extensible attribute 'Site'
+ my @retrieved_objs = $session->get(
+    object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an RPZ Substitute (IPv6 Address) Rule object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $rpz_4aip->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $rpz_4aip );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an RPZ Substitute (IPv6 Address) Rule object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific RPZ Substitute (IPv6 Address) Rule object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+     name   => "aaaa1.rpz.com",
+     view   => "default" );
+ # Find the desired object from the retrieved list.
+ my $desired_aaaa = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_aaaa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Substitute (IPv6 Address) Rule objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes, to search for a Substitute (IPv6 Address) Rule object:
+
+  name                                  - Optional. A host name in string format (regular expression).
+  view                                  - Optional. The DNS view in which the RPZ Substitute (IPv6 Address) Rule is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone                                  - Optional. A zone name in FQDN format.
+  comment                               - Optional. Comment in string format (regular expression).
+  ipv6addr                              - Optional. The address of the RPZ Substitute (IPv6 Address) Rule (regular expression).
+  extattrs                              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all Substitute (IPv6 Address) Rule objects that match "rpz.com" in the default DNS view
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+     name    => 'rpz\.com',
+     view    => "default",
+     comment => ".*modified comment" );
+
+ # search for all Substitute (IPv6 Address) Rules in zone "rpz.com" of default view
+ my @retrieved_objs = $session->search(
+                       object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+                       zone   => "rpz.com",
+                       view   => "default" );
+
+ # search all Substitute (IPv6 Address) Rule recods with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an RPZ Substitute (IPv6 Address) Rule.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $rpz_4aip->comment();
+ #Modify comment
+ $rpz_4aip->comment("Modifying the Substitute (IPv6 Address) Rule comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The DNS record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $rpz_4aip->disable();
+ #Modify disable
+ $rpz_4aip->disable("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Substitute (IPv6 Address) Rule object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $rpz_4aip->extattrs();
+ #Modify extattrs
+ $rpz_4aip->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Substitute (IPv6 Address) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $rpz_4aip->extensible_attributes();
+ #Modify extensible attributes
+ $rpz_4aip->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 ipv6addr( )
+
+=over
+
+Use this method to set or retrieve the the IPv6 address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number in colon hexadecimal notation. It consists of eight 16-bit groups of hexadecimal digits separated by colons (example: 12ab:0000:0000:0123:4567:89ab:0000:cdef).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6addr
+ my ipv6addr = $rpz_4aip->ipv6addr();
+ #Modify ipv6addr
+ $rpz_4aip->ipv6addr("aaaa:1111:bbbb:2222:cccc:3333:dddd:5555");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Hostname in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the network address in CIDR notation or host ip address  followed by the domain name (example: 2001::/16.rpz.com, 2001:2002::2203.rpz.com).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $rpz_4aip->name();
+ #Modify name
+ $rpz_4aip-> name("2001::/64.rpz.com");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $rpz_4aip->ttl();
+ #Modify ttl
+ $rpz_4aip->ttl(1800);
+ #Un-override ttl
+ $rpz_4aip->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the view of the RPZ Substitute (IPv6 Address) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" view, which means the RPZ Substitute (IPv6 Address) Rule is located under the default view.
+
+=over
+
+=item B<Parameter>
+
+An array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $rpz_4aip->views();
+ #Modify views, an array of Infoblox::DNS::View objects
+ $rpz_4aip->views([$view1]);
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of a Substitute (IPv6 Address) Rule. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $rpz_4aip->zone();
+
+=back
+
+=back
+
+=head2  rp_zone( )
+
+=over
+
+Use this method to set or retrieve the zone object of a Substitute (IPv6 Address) Rule.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get rp_zone
+ my $rp_zone = $rpz_4aip->rp_zone();
+ #Modify rp_zone, reference of Infoblox::DNS::Zone object
+ $rpz_4aip->rp_zone($response_policy_zone);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a Substitute (IPv6 Address) Rule object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a Substitute (IPv6 Address) Rule insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox Appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2", #appliance host ip
+     username => "admin",     #appliance user login
+     password => "infoblox"   #appliance password
+ );
+
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Create the Response Policy zone prior to an RPZ Substitute (IPv6 Address) Rule insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "rpz.com");
+
+ unless ($zone) {
+    die("Construct zone failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone",
+                              name => "rpz.com");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+ #Create the zone prior to a CNAME record insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "rpz.com",
+                                     rpz_policy => "GIVEN");
+ unless ($zone) {
+ die("Construct zone failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "rpz.com");
+ unless ($object) {
+ print "Zone does not exist on server, safe to add the zone\n";
+ $session->add($zone)
+    or die("Add zone failed: ",
+           $session->status_code() . ":" . $session->status_detail());
+ }
+
+B<#Create a Substitute (IPv6 Address) Rule>
+
+ #Construct a Substitute (IPv6 Address) Rule object
+
+ my $rpz_4aip = Infoblox::DNS::RPZRecord::AAAAIpAddress->new(
+  name     => "2001::/64.rpz.com",
+  comment  => "add a Substitute (IPv6 Address) Rule aaaa1.rpz.com",
+  ipv6addr => "aaaa:1111:bbbb:2222:cccc:3333:dddd:4444",
+  rp_zone  => $zone,
+ );
+
+ unless ($rpz_4aip) {
+ die("Construct Substitute (IPv6 Address) Rule failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Substitute (IPv6 Address) Rule object created successfully\n";
+
+ #Add the Substitute (IPv6 Address) Rule object to Infoblox Appliance through a session
+ $session->add($rpz_4aip)
+
+  or die("Add Substitute (IPv6 Address) Rule failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (IPv6 Address) Rule object added to server successfully\n";
+
+B<#Search for a specific Substitute (IPv6 Address) Rule>
+
+ #Search all RPZ Substitute (IPv6 Address) Rules that match "rpz.com"
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+  name   => 'rpz\.com'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search Substitute (IPv6 Address) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (IPv6 Address) Rule object found at least 1 matching entry\n";
+
+ #Search all RPZ Substitute (IPv6 Address) Rules that start with "add" in the comment
+ my @retrieved_objs = $session->search(
+  object    => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+  comment   => "add.*",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search Substitute (IPv6 Address) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (IPv6 Address) Rule object found at least 1 matching entry\n";
+
+ #Search all RPZ Substitute (IPv6 Address) Rules that start with "aaaa1" and end with ".com"
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+  name   => '2001.*\.com',
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search Substitute (IPv6 Address) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (IPv6 Address) Rule object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a Substitute (IPv6 Address) Rule>
+
+ #Get RPZ Substitute (IPv6 Address) Rule through the session
+ my @retrieved_objs = $session->get(
+  object => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+  name   => "2001::/64.rpz.com"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+  die("Get Substitute (IPv6 Address) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+
+ #Modify one of the attributes of the specified RPZ Substitute (IPv6 Address) Rule
+ $object->ipv6addr("aaaa:1111:bbbb:2222:cccc:3333:dddd:eeee");
+
+ #Applying the changes
+ $session->modify($object)
+
+  or die("Modify Substitute (IPv6 Address) Rule failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (IPv6 Address) Rule object modified successfully \n";
+
+B<#Remove a Substitute (IPv6 Address) Rule.>
+
+ #Get RPZ Substitute (IPv6 Address) Rule through the session
+ my @retrieved_objs = $session->get(
+  object   => "Infoblox::DNS::RPZRecord::AAAAIpAddress",
+  name     => "2001::/64.rpz.com"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Get Substitute (IPv6 Address) Rule failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get Substitute (IPv6 Address) Rule object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+  or die("Remove Substitute (IPv6 Address) Rule failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (IPv6 Address) Rule object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

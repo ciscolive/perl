@@ -1,0 +1,268 @@
+=head1 NAME
+
+Infoblox::DTC::Monitor::SNMP::OID - a DTC SNMP Monitor OID object.
+
+=head1 DESCRIPTION
+
+SNMP is stateless request-response protocol for monitoring and managing devices on network. SNMP agent (software running on monitored server) exposes management data in form of variables. Each variable associated with a uniq id called OID.
+
+=head1 CONSTRUCTOR
+
+ my $snmp_oid = Infoblox::DTC::Monitor::SNMP::OID->new(
+     oid       => $string,                                   # Required
+     comment   => $string,                                   # Optional / Default is undefined
+     type      => 'STRING' | 'INTEGER',                      # Optional / Default is 'STRING'
+     condition => 'ANY' | 'EXACT' | 'LEQ' | 'GEQ' | 'RANGE', # Optional / Default is 'ANY'
+     first     => $string,                                   # Optional / Default is undefined
+     last      => $string,                                   # Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DTC SNMP Monitor OID object.
+
+=head2 Infoblox::DTC::Monitor::SNMP->oids( )
+
+=over
+
+Use this method to set or retrieve the list of OIDs for SNMP monitoring.
+See L<Infoblox::DTC::Monitor::SNMP-E<gt>oids()|Infoblox::DTC::Monitor::SNMP/oids()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get snmp_oid value
+ my $snmp_oid = $snmp_monitor->snmp_oid();
+ #Modify bind_check_snmp_oid
+ $snmp_monitor->snmp_oid([$snmp_oids]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment for a DTC SNMP Health Monitor OID object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $snmp_oid->comment();
+
+ #modify comment value
+ $snmp_oid->comment('desired comment');
+
+=back
+
+=back
+
+=head2 condition( )
+
+=over
+
+Use this method to set or retrieve the condition for validating the result of a SNMP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The following conditions can be applied to result check:
+
+    'ANY' accepts any response.
+
+    'EXACT' accepts result equal to 'first'
+
+    'LEQ' accepts result which is less than 'first'
+
+    'GEQ' accepts result which is greater than 'first'
+
+    'RANGE' accepts result value of which is between 'first' and 'last'
+
+The default value is 'ANY'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get condition value
+ my $condition = $snmp_oid->condition();
+
+ #modify condition value
+ $snmp_oid->condition('RANGE');
+
+=back
+
+=back
+
+=head2 first( )
+
+=over
+
+Use this method to set or retrieve the condition's first term to match against the SNMP health check result.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string or integer both in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get first value
+ my $first = $snmp_oid->first();
+
+ #modify first value
+ $snmp_oid->first('first_value');
+
+=back
+
+=back
+
+=head2 last( )
+
+=over
+
+Use this method to set or retrieve the condition's second term to match against the SNMP health check result with 'RANGE' condition.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string or integer both in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get last value
+ my $last = $snmp_oid->last();
+
+ #modify last value
+ $snmp_oid->last('1000');
+
+=back
+
+=back
+
+=head2 oid( )
+
+=over
+
+Use this method to set or retrieve the SNMP OID value for DTC SNMP monitor health checks.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an OID in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get oid value
+ my $oid = $snmp_oid->oid();
+
+ #modify oid value
+ $snmp_oid->oid('sampleoid.1.1.1.1.2);
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the condition's value type for DTC SNMP monitor health check results.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'STRING' and 'INTEGER'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get type value
+ my $type = $snmp_oid->type();
+
+ #modify type value
+ $snmp_oid->type('INTEGER');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC::Monitor::SNMP|Infoblox::DTC::Monitor::SNMP>, 
+L<Infoblox::DTC::Monitor::SNMP-E<gt>oids()|Infoblox::DTC::Monitor::SNMP/oids()>
+
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

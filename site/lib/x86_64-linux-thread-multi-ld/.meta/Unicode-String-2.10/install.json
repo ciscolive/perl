@@ -1,0 +1,1 @@
+{"target":"Unicode::String","name":"Unicode::String","pathname":"G/GA/GAAS/GAAS/Unicode-String-2.10.tar.gz","dist":"Unicode-String-2.10","version":"2.10","provides":{"Unicode::String":{"file":"String.pm","version":"2.10"},"Unicode::CharName":{"version":"0.00","file":"lib/Unicode/CharName.pm"}}}

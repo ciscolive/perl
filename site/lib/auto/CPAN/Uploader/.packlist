@@ -1,0 +1,4 @@
+/opt/perl/site/bin/cpan-upload
+/opt/perl/site/lib/CPAN/Uploader.pm
+/opt/perl/site/man/man1/cpan-upload.1
+/opt/perl/site/man/man3/CPAN::Uploader.3

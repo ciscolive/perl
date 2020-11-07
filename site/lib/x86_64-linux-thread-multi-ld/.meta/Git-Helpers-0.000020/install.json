@@ -1,0 +1,1 @@
+{"pathname":"O/OA/OALDERS/Git-Helpers-0.000020.tar.gz","name":"Git::Helpers","version":"0.000020","dist":"Git-Helpers-0.000020","provides":{"Git::Helpers":{"file":"lib/Git/Helpers.pm","version":"0.000020"},"Git::Helpers::CPAN":{"version":"0.000020","file":"lib/Git/Helpers/CPAN.pm"}},"target":"Git::Helpers"}

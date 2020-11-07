@@ -1,0 +1,50 @@
+{
+   "abstract" : "Configuration file access",
+   "author" : [
+      "Daniel P. Berrange <dan@berrange.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.30, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "open_source"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Config-Record",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : "0",
+            "IO::File" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://gna.org/bugs/?group=testautobuild"
+      },
+      "homepage" : "http://autobuild.org/",
+      "license" : [
+         "http://www.gnu.org/licenses/gpl.html"
+      ],
+      "repository" : {
+         "url" : "https://gna.org/cvs/?group=testautobuild"
+      },
+      "x_MailingList" : "https://gna.org/mail/?group=testautobuild"
+   },
+   "version" : "1.1.2",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

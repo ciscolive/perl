@@ -1,0 +1,17 @@
+/opt/perl/site/lib/DBIx/QuickDB.pm
+/opt/perl/site/lib/DBIx/QuickDB/Driver.pm
+/opt/perl/site/lib/DBIx/QuickDB/Driver/MySQL.pm
+/opt/perl/site/lib/DBIx/QuickDB/Driver/PostgreSQL.pm
+/opt/perl/site/lib/DBIx/QuickDB/Driver/SQLite.pm
+/opt/perl/site/lib/DBIx/QuickDB/Pool.pm
+/opt/perl/site/lib/DBIx/QuickDB/Util.pm
+/opt/perl/site/lib/DBIx/QuickDB/Util/HashBase.pm
+/opt/perl/site/lib/Test2/Tools/QuickDB.pm
+/opt/perl/site/man/man3/DBIx::QuickDB.3
+/opt/perl/site/man/man3/DBIx::QuickDB::Driver.3
+/opt/perl/site/man/man3/DBIx::QuickDB::Driver::MySQL.3
+/opt/perl/site/man/man3/DBIx::QuickDB::Driver::PostgreSQL.3
+/opt/perl/site/man/man3/DBIx::QuickDB::Driver::SQLite.3
+/opt/perl/site/man/man3/DBIx::QuickDB::Pool.3
+/opt/perl/site/man/man3/DBIx::QuickDB::Util::HashBase.3
+/opt/perl/site/man/man3/Test2::Tools::QuickDB.3

@@ -1,0 +1,264 @@
+=head1 NAME
+
+Infoblox::DHCP::FilterRule::NAC - DHCP NAC Filter Rule object.
+
+=head1 DESCRIPTION
+
+A NAC Filter Rule object is used to grant or deny the lease of an IP address in a DHCP range based on whether the authentication response matches the NAC filter.
+
+=head1 CONSTRUCTOR
+
+ my $nac_filter_rule = Infoblox::DHCP::FilterRule::NAC->new(
+       filter_name   => $string,          #Required
+       permission    => "grant" | "deny", #Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DHCP NAC Filter Rule object.
+
+=head2 Infoblox::DHCP::Range->filters( )
+
+=over
+
+Use this method to add a DHCP NAC Filter Rule object to a DHCP range. See L<Infoblox::DHCP::Range-E<gt>filters()|Infoblox::DHCP::Range/filters()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP NAC Filter Rule object
+ my $nac_filter_rule1 = Infoblox::DHCP::FilterRule::NAC->new(
+       filter_name   => "filter1",
+       permission    => "grant",
+ );
+
+ #Add a NAC Filter Rule to the DHCP Range object.
+ my $response = $dhcp_range->filters([$nac_filter_rule1]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to set and retrieve the attribute values of a DHCP NAC Filter Rule object.
+
+=head2 filter_name( )
+
+=over
+
+Use this method to set or retrieve the filter_name of a DHCP NAC Filter Rule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the DHCP NAC filter. The maximum length supported is 1024 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get filter_name
+ my $filter_name = $nac_filter_rule->filter_name();
+ #Modify filter_name
+ $nac_filter_rule->filter_name("filter2");
+
+=back
+
+=back
+
+=head2 permission( )
+
+=over
+
+Use this method to set or retrieve the permission of a DHCP NAC Filter Rule object.
+
+The permission indicates whether a DHCP client whose NAC authentication response matches this NAC filter is allowed or denied a lease from the defined DHCP range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The permission value can be either "grant" or "deny".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get permission
+ my $permission = $nac_filter_rule->permission();
+ #Modify permission
+ $nac_filter_rule->permission("deny");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different functions that can be applied to an object such as modify. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP NAC Filter Rule object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the Network object
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/8",
+     comment => "add network",
+ );
+ unless($network) {
+        die("Construct Network object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network object created successfully\n";
+
+ #Add the Network object into the Infoblox appliance through a session
+ $session->add($network)
+     or die("Add Network object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Network object added to Infoblox appliance successfully\n";
+
+ #Construct a DHCP NAC Filter object
+ my $nac_filter = Infoblox::DHCP::Filter::NAC->new(
+        name => "filter1",
+ );
+
+ unless ( $nac_filter ) {
+        die("Construct NAC Filter failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail() );
+ }
+ print "NAC Filter object created successfully\n";
+
+ #Add the NAC Filter to the Infoblox appliance through a session
+ $session->add($nac_filter)
+     or die("Add NAC Filter object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "NAC Filter object added to Infoblox appliance successfully\n";
+
+B<#Create a DHCP NAC Filter Rule object>
+
+ #Construct a DHCP NAC Filter Rule object
+ my $nac_filter_rule1 = Infoblox::DHCP::FilterRule::NAC->new(
+       filter_name   => "filter1",
+       permission    => "grant",
+ );
+
+ unless ( $nac_filter_rule1 ) {
+        die("Construct NAC Filter Rule failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail() );
+ }
+ print "NAC Filter Rule object created successfully\n";
+
+ #Create the DHCP Range object with this NAC Filter Rule.
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+         end_addr   => "10.0.0.10",
+         network    => "10.0.0.0/8",
+         start_addr => "10.0.0.1",
+         filters    => [ $nac_filter_rule1 ],
+ );
+ unless($dhcp_range) {
+        die("Construct DHCP Range object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Range object created successfully\n";
+
+ #Add the DHCP Range object through a session
+ $session->add($dhcp_range)
+     or die("Add DHCP Range object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Range object added to Infoblox appliance successfully\n";
+
+B<#Get and modify a NAC Filter Rule object>
+
+ #Get NAC Filter Rule object from the DHCP Range object through session
+ my @retrieved_objs = $session->get(
+     object      => "Infoblox::DHCP::Range",
+     start_addr  => "10.0.0.1",
+ );
+
+ my $object = $retrieved_objs[0];
+ my $filter = $object->filters();
+
+ my @filters = @{$filter};
+
+ my $nac_filterrule = $filters[0];
+
+ #Modify one of the attributes of the obtained NAC Filter Rule object
+ $nac_filterrule->permission("deny");
+ $object->filters([$nac_filterrule]);
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify NAC Filter Rule object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "NAC Filter Rule object modified and added to the DHCP Range object successfully \n";
+
+B<#Remove a NAC Filter Rule object>
+
+ $object->filters([]);
+
+ my $response = $session->modify($object);
+ unless($response) {
+        die("Remove NAC Filter Rule failed: ",
+                session->status_code() . ":" . session->status_detail() );
+ }
+ print "NAC Filter Rule object removed successfully \n";
+
+ #Submit the network object for removal
+ $session->remove($network)
+     or die("Remove Network object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Network object removed successfully \n";
+
+ #Submit the NAC Address Filter object for removal
+ $session->remove($nac_filter)
+     or die("Remove NAC Filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "NAC Filter object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::FilterRule::RelayAgent|Infoblox::DHCP::FilterRule::RelayAgent>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

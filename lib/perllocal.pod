@@ -1,0 +1,2464 @@
+=head2 Sat Oct 10 12:06:19 2020: C<Module> L<File::Valet|File::Valet>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 10 22:55:33 2020: C<Module> L<Crypt::Rijndael|Crypt::Rijndael>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 10 22:55:40 2020: C<Module> L<Email::Sender|Email::Sender>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.300035>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 10 22:55:45 2020: C<Module> L<Tie::RefHash|Tie::RefHash>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.40>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:00:50 2020: C<Module> L<Applify|Applify>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.22>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:01:12 2020: C<Module> L<Devel::PPPort|Devel::PPPort>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.61>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:01:22 2020: C<Module> L<GraphViz2|GraphViz2>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.55>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:01:24 2020: C<Module> L<GraphViz2::Data::Grapher|GraphViz2::Data::Grapher>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.50>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:01:26 2020: C<Module> L<GraphViz2::DBI|GraphViz2::DBI>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.50>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:01:30 2020: C<Module> L<GraphViz2::Parse::RecDescent|GraphViz2::Parse::RecDescent>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.51>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:01:32 2020: C<Module> L<GraphViz2::Parse::XML|GraphViz2::Parse::XML>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.50>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:02:00 2020: C<Module> L<JSON::Validator|JSON::Validator>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 4.10>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:02:44 2020: C<Module> L<Mojolicious|Mojolicious>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 8.63>
+
+=item *
+
+C<EXE_FILES: script/hypnotoad script/mojo script/morbo>
+
+=back
+
+=head2 Tue Oct 13 12:02:54 2020: C<Module> L<Net::Curl|Net::Curl>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.46>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:03:39 2020: C<Module> L<Pod::Simple|Pod::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.41>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 13 12:03:43 2020: C<Module> L<Pod::Usage|Pod::Usage>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.00>
+
+=item *
+
+C<EXE_FILES: scripts/pod2usage>
+
+=back
+
+=head2 Wed Oct 14 11:36:21 2020: C<Module> L<DB_File|DB_File>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.855>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 14 11:36:25 2020: C<Module> L<Digest|Digest>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.19>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 14 11:36:36 2020: C<Module> L<GraphViz2|GraphViz2>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.56>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 14 11:36:39 2020: C<Module> L<GraphViz2::Parse::ISA|GraphViz2::Parse::ISA>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.52>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 14 11:37:11 2020: C<Module> L<Net::Whois::IANA|Net::Whois::IANA>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.46>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 14 11:37:17 2020: C<Module> L<Pod::Usage|Pod::Usage>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.01>
+
+=item *
+
+C<EXE_FILES: scripts/pod2usage>
+
+=back
+
+=head2 Wed Oct 14 11:38:58 2020: C<Module> L<WWW::Mechanize|WWW::Mechanize>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.02>
+
+=item *
+
+C<EXE_FILES: script/mech-dump>
+
+=back
+
+=head2 Wed Oct 14 11:41:17 2020: C<Module> L<IO::Socket::SSL|IO::Socket::SSL>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.068>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 14 12:17:29 2020: C<Module> L<Array::RefElem|Array::RefElem>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.00>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 14 12:17:30 2020: C<Module> L<Set::Light|Set::Light>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.94>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 14 12:17:36 2020: C<Module> L<Set::Scalar|Set::Scalar>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.29>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 15 11:36:07 2020: C<Module> L<GraphViz2|GraphViz2>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.57>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Fri Oct 16 11:51:19 2020: C<Module> L<Devel::CheckOS|Devel::CheckOS>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.85>
+
+=item *
+
+C<EXE_FILES: bin/use-devel-assertos>
+
+=back
+
+=head2 Fri Oct 16 11:51:27 2020: C<Module> L<MooX::HandlesVia|MooX::HandlesVia>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.001009>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Fri Oct 16 11:55:30 2020: C<Module> L<Test2::Harness|Test2::Harness>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.000029>
+
+=item *
+
+C<EXE_FILES: scripts/yath>
+
+=back
+
+=head2 Sat Oct 17 01:04:38 2020: C<Module> L<DateTime::TimeZone|DateTime::TimeZone>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.42>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 17 01:04:56 2020: C<Module> L<Devel::PPPort|Devel::PPPort>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.62>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 17 01:05:05 2020: C<Module> L<GraphViz2::Parse::ISA|GraphViz2::Parse::ISA>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.53>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 17 02:24:32 2020: C<Module> L<Bundle::NetSNMP|Bundle::NetSNMP>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: >
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 17 02:25:28 2020: C<Module> L<Bundle::NetSNMP|Bundle::NetSNMP>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: >
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 17 02:26:46 2020: C<Module> L<AnyData::SNMP|AnyData::SNMP>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.09>
+
+=item *
+
+C<EXE_FILES: netsh>
+
+=back
+
+=head2 Sat Oct 17 02:34:38 2020: C<Module> L<NetSNMP::ASN|NetSNMP::ASN>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.09>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Sat Oct 17 02:36:18 2020: C<Module> L<NetSNMP::manager|NetSNMP::manager>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: >
+
+=item *
+
+C<EXE_FILES: setupauth setupdb setupuser snmptosql>
+
+=back
+
+=head2 Sat Oct 17 09:30:04 2020: C<Module> L<Filter::Crypto|Filter::Crypto>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.08>
+
+=item *
+
+C<EXE_FILES: script/crypt_file>
+
+=back
+
+=head2 Sat Oct 17 12:16:00 2020: C<Module> L<Bundle::NetSNMP|Bundle::NetSNMP>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: >
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Oct 19 10:58:40 2020: C<Module> L<Authen::Radius|Authen::Radius>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.32>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Oct 19 10:59:16 2020: C<Module> L<GraphViz2|GraphViz2>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.58>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Oct 19 10:59:18 2020: C<Module> L<GraphViz2::Data::Grapher|GraphViz2::Data::Grapher>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.51>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Mon Oct 19 10:59:32 2020: C<Module> L<Return::Type|Return::Type>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.007>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 20 12:13:23 2020: C<Module> L<Clone::PP|Clone::PP>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 20 12:13:43 2020: C<Module> L<Data::Radius|Data::Radius>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.2.5>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 20 12:14:09 2020: C<Module> L<Graph|Graph>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.9705>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Tue Oct 20 12:14:29 2020: C<Module> L<Selenium::Remote::Driver|Selenium::Remote::Driver>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.38>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 21 11:31:31 2020: C<Module> L<CPAN::Perl::Releases|CPAN::Perl::Releases>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.20201020>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 21 11:31:40 2020: C<Module> L<File::ShareDir|File::ShareDir>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.118>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 21 11:31:56 2020: C<Module> L<Graph|Graph>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.9706>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 21 11:32:11 2020: C<Module> L<List::MoreUtils::XS|List::MoreUtils::XS>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.430>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 21 11:32:15 2020: C<Module> L<Module::CoreList|Module::CoreList>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.20201020>
+
+=item *
+
+C<EXE_FILES: corelist>
+
+=back
+
+=head2 Wed Oct 21 11:32:21 2020: C<Module> L<Params::Util|Params::Util>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.100>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 21 11:32:33 2020: C<Module> L<XString|XString>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.005>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 21 12:32:10 2020: C<Module> L<CSV::Reader|CSV::Reader>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 21 13:26:25 2020: C<Module> L<CSV::Reader|CSV::Reader>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.12>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:14:39 2020: C<Module> L<Getopt::Long::Modern|Getopt::Long::Modern>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.000>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:14:40 2020: C<Module> L<App::MigrateModules|App::MigrateModules>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.004>
+
+=item *
+
+C<EXE_FILES: script/perl-migrate-modules>
+
+=back
+
+=head2 Thu Oct 22 11:30:18 2020: C<Module> L<DateTime::TimeZone|DateTime::TimeZone>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.43>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:31:02 2020: C<Module> L<ExtUtils::MakeMaker|ExtUtils::MakeMaker>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 7.50>
+
+=item *
+
+C<EXE_FILES: bin/instmodsh>
+
+=back
+
+=head2 Thu Oct 22 11:31:24 2020: C<Module> L<List::MoreUtils|List::MoreUtils>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.430>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:31:49 2020: C<Module> L<Test::Simple|Test::Simple>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.302183>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:31:53 2020: C<Module> L<Params::Util|Params::Util>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.101>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:32:00 2020: C<Module> L<SQL::Statement|SQL::Statement>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.414>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:32:02 2020: C<Module> L<Sys::Filesystem|Sys::Filesystem>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.408>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:35:46 2020: C<Module> L<Test2::Harness|Test2::Harness>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.000030>
+
+=item *
+
+C<EXE_FILES: scripts/yath>
+
+=back
+
+=head2 Thu Oct 22 11:36:02 2020: C<Module> L<Test2::Suite|Test2::Suite>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.000138>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 11:36:13 2020: C<Module> L<URI|URI>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 5.05>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:08:34 2020: C<Module> L<Devel::ptkdb|Devel::ptkdb>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.1091>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:54:44 2020: C<Module> L<ExtUtils::HasCompiler|ExtUtils::HasCompiler>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.022>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:54:50 2020: C<Module> L<DateTime::Incomplete|DateTime::Incomplete>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:55:04 2020: C<Module> L<DateTime::Format::CLDR|DateTime::Format::CLDR>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.19>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:55:09 2020: C<Module> L<DateTimeX::Auto|DateTimeX::Auto>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.009>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:55:11 2020: C<Module> L<Types::XSD::Lite|Types::XSD::Lite>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.005>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:55:29 2020: C<Module> L<Types::XSD|Types::XSD>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.005>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:55:30 2020: C<Module> L<Data::Validate::CSV|Data::Validate::CSV>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.003>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Oct 22 13:55:45 2020: C<Module> L<Data::Validate::URI|Data::Validate::URI>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.07>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:28:31 2020: C<Module> L<Authen::SASL|Authen::SASL>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.16>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:28:34 2020: C<Module> L<Net::SMTP_auth|Net::SMTP_auth>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.08>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:28:35 2020: C<Module> L<Email::Send::SMTP::Gmail|Email::Send::SMTP::Gmail>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.35>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:30:20 2020: C<Module> L<CPAN|CPAN>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.28>
+
+=item *
+
+C<EXE_FILES: scripts/cpan scripts/cpan-mirrors>
+
+=back
+
+=head2 Wed Oct 28 11:30:45 2020: C<Module> L<Cpanel::JSON::XS|Cpanel::JSON::XS>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 4.25>
+
+=item *
+
+C<EXE_FILES: bin/cpanel_json_xs>
+
+=back
+
+=head2 Wed Oct 28 11:30:55 2020: C<Module> L<DateTime::Format::ISO8601|DateTime::Format::ISO8601>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:31:01 2020: C<Module> L<IO::Zlib|IO::Zlib>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.11>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:31:06 2020: C<Module> L<JSON::XS|JSON::XS>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 4.03>
+
+=item *
+
+C<EXE_FILES: bin/json_xs>
+
+=back
+
+=head2 Wed Oct 28 11:31:11 2020: C<Module> L<Minion|Minion>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 10.14>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:31:15 2020: C<Module> L<Mojo::Pg|Mojo::Pg>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 4.21>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:33:38 2020: C<Module> L<Net::DNS|Net::DNS>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.28>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:33:39 2020: C<Module> L<Pod::Checker|Pod::Checker>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.74>
+
+=item *
+
+C<EXE_FILES: scripts/podchecker>
+
+=back
+
+=head2 Wed Oct 28 11:33:42 2020: C<Module> L<Term::Choose|Term::Choose>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.712>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:33:45 2020: C<Module> L<Term::TablePrint|Term::TablePrint>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.123>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:37:33 2020: C<Module> L<Test2::Harness|Test2::Harness>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.000032>
+
+=item *
+
+C<EXE_FILES: scripts/yath>
+
+=back
+
+=head2 Wed Oct 28 11:37:36 2020: C<Module> L<Text::Table::Manifold|Text::Table::Manifold>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.02>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Wed Oct 28 11:37:42 2020: C<Module> L<YAML::Syck|YAML::Syck>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.34>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:00:40 2020: C<Module> L<Alien::Build|Alien::Build>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.37>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:00:46 2020: C<Module> L<Alien::Libxml2|Alien::Libxml2>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.17>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:02:15 2020: C<Module> L<Dist::Zilla|Dist::Zilla>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 6.017>
+
+=item *
+
+C<EXE_FILES: bin/dzil>
+
+=back
+
+=head2 Thu Nov  5 12:02:55 2020: C<Module> L<ExtUtils::CBuilder|ExtUtils::CBuilder>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.280235>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:05:05 2020: C<Module> L<ExtUtils::MakeMaker|ExtUtils::MakeMaker>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 7.52>
+
+=item *
+
+C<EXE_FILES: bin/instmodsh>
+
+=back
+
+=head2 Thu Nov  5 12:05:57 2020: C<Module> L<File::Path|File::Path>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.18>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:17:01 2020: C<Module> L<Graph|Graph>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.9707>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:17:08 2020: C<Module> L<GraphViz2|GraphViz2>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.60>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:17:10 2020: C<Module> L<GraphViz2::DBI|GraphViz2::DBI>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 2.52>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:17:22 2020: C<Module> L<IO::Tty|IO::Tty>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.15>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:17:33 2020: C<Module> L<Net::Curl|Net::Curl>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.47>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:17:37 2020: C<Module> L<Params::Util|Params::Util>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.102>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:17:44 2020: C<Module> L<Pod::Markdown|Pod::Markdown>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 3.300>
+
+=item *
+
+C<EXE_FILES: bin/pod2markdown>
+
+=back
+
+=head2 Thu Nov  5 12:21:43 2020: C<Module> L<Test2::Harness|Test2::Harness>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.000038>
+
+=item *
+
+C<EXE_FILES: scripts/yath>
+
+=back
+
+=head2 Thu Nov  5 12:22:25 2020: C<Module> L<Type::Tiny|Type::Tiny>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 1.012000>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+
+=head2 Thu Nov  5 12:22:39 2020: C<Module> L<WWW::Mechanize::Chrome|WWW::Mechanize::Chrome>
+
+=over 4
+
+=item *
+
+C<installed into: /opt/perl/site/lib>
+
+=item *
+
+C<LINKTYPE: dynamic>
+
+=item *
+
+C<VERSION: 0.61>
+
+=item *
+
+C<EXE_FILES: >
+
+=back
+

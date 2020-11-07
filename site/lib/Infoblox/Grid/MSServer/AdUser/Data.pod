@@ -1,0 +1,54 @@
+=head1 NAME
+
+Infoblox::Grid::MSServer::AdUser::Data - the Active Directory User Data object.
+
+=head1 DESCRIPTION
+
+The object provides information about the Active Directory users.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a part of the following objects: L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>, L<Infoblox::IPAM::Statistics|Infoblox::IPAM::Statistics>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::SharedNetwork|Infoblox::DHCP::SharedNetwork>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>, L<Infoblox::DHCP::IPv6FixedAddr|Infoblox::DHCP::IPv6FixedAddr>, L<Infoblox::DHCP::HostAddr|Infoblox::DHCP::HostAddr>, L<Infoblox::DNS::Host|Infoblox::DNS::Host>, L<Infoblox::DNS::Record::A|Infoblox::DNS::Record::A>, L<Infoblox::DNS::Record::AAAA|Infoblox::DNS::Record::AAAA>, L<Infoblox::DNS::Record::PTR|Infoblox::DNS::Record::PTR>, L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>, L<Infoblox::Grid::CloudAPI::VMAddress|Infoblox::Grid::CloudAPI::VMAddress>.
+
+=head1 METHODS
+
+this section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 active_users_count( )
+
+=over
+
+Use this method to retrieve the number of active users. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an unsigned integer.
+
+=item B<Example>
+
+ #get active_users_count
+ my $active_users_count = $data->active_users_count();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>, L<Infoblox::IPAM::Statistics|Infoblox::IPAM::Statistics>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::SharedNetwork|Infoblox::DHCP::SharedNetwork>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>, L<Infoblox::DHCP::IPv6FixedAddr|Infoblox::DHCP::IPv6FixedAddr>, L<Infoblox::DHCP::HostAddr|Infoblox::DHCP::HostAddr>, L<Infoblox::DNS::Host|Infoblox::DNS::Host>, L<Infoblox::DNS::Record::A|Infoblox::DNS::Record::A>, L<Infoblox::DNS::Record::AAAA|Infoblox::DNS::Record::AAAA>, L<Infoblox::DNS::Record::PTR|Infoblox::DNS::Record::PTR>, L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>, L<Infoblox::Grid::CloudAPI::VMAddress|Infoblox::Grid::CloudAPI::VMAddress>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

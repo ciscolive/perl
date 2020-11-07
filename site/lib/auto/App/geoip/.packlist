@@ -1,0 +1,4 @@
+/opt/perl/site/bin/geoip
+/opt/perl/site/lib/App/geoip.pm
+/opt/perl/site/man/man1/geoip.1
+/opt/perl/site/man/man3/App::geoip.3

@@ -1,0 +1,37 @@
+{
+   "abstract" : "Styles for formatting generated Excel files",
+   "author" : [
+      "Laurent Dami <laurent.dami AT etat ge ch>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Spreadsheet-WriteExcel-Styler",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : 0
+         }
+      }
+   },
+   "provides" : {
+      "Spreadsheet::WriteExcel::Styler" : {
+         "file" : "lib/Spreadsheet/WriteExcel/Styler.pm",
+         "version" : "1.02"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "1.02",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

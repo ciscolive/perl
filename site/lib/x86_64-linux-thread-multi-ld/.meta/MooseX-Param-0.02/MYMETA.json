@@ -1,0 +1,43 @@
+{
+   "abstract" : "Simple role to provide a standard param method",
+   "author" : [
+      "Stevan Little E<lt>stevan@iinteractive.comE<gt>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "MooseX-Param",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::Exception" : "0.21",
+            "Test::More" : "0.62"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Moose" : "0.32"
+         }
+      }
+   },
+   "provides" : {
+      "MooseX::Param" : {
+         "file" : "lib/MooseX/Param.pm",
+         "version" : "0.02"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "0.02",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

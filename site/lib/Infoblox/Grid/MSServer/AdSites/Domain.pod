@@ -1,0 +1,233 @@
+=head1 NAME
+
+Infoblox::Grid::MSServer::AdSites::Domain - the Active Directory Domain object.
+
+=head1 DESCRIPTION
+
+The object provides information about the Active Directory Domain. 
+
+=head1 SESSION METHODS
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   name          - Optional. The Active Directory Domain name in DNS form.
+   netbios       - Optional. The Active Directory Domain name in NetBIOS form.
+   network_view   - Optional. The network view which the Active Directory Domain is associated with.
+   ea_definition - Optional. Extensible attribute definition that is linked with this Active Directory Domain. 
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+    name          => 'domain.com',
+    netbios       => 'DOMAIN',
+    network_view  => 'external',
+    ea_definition => 'DOMAIN.external Site',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   ea_definition - Optional. Extensible attribute definition that is linked with this Active Directory Domain. 
+   name          - Optional. The Active Directory Domain name in DNS form.
+   netbios       - Optional. The Active Directory Domain name in NetBIOS form.
+   network_view   - Optional. The network view which the Active Directory Domain is associated with.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+    netbios => 'DOMAIN*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 ms_sync_master_name( )
+
+=over
+
+Use this method to retrieve IP address or FQDN of the managing master Microsoft Server. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_sync_master_name value
+ my $sync_master_name = $domain->ms_sync_master_name();
+
+=back
+
+=back
+
+=head2 ea_definition( )
+
+=over
+
+Use this method to retrieve extensible attribute definition that is linked with the Active Directory Domain. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ea_definition value
+ my $ea_definition = $domain->ea_definition();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to retrieve the network view which the Active Directory Domain is associated with. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get network_view value
+ my $network_view = $domain->network_view();
+
+=back
+
+=back
+
+=head2 netbios( )
+
+=over
+
+Use this method to retrieve the Active Directory Domain name in NetBIOS form. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get netbios value
+ my $netbios = $domain->netbios();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the Active Directory Domain name in DNS form. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $domain->name();
+
+=back
+
+=back
+
+=head2 read_only( )
+
+=over
+
+Use this method to retrieve the flag that indicates if this Active Directory Domain is synchronized in Read-Only or Read/Write mode. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is "true" or "false".
+
+=item B<Example>
+
+ #Get read_only value
+ my $read_only = $domain->read_only();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> 
+
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

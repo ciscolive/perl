@@ -1,0 +1,56 @@
+#!/opt/perl/bin/perl
+
+# PODNAME: psysinfo
+
+use strict;
+use warnings;
+use App::Sys::Info;
+
+our $VERSION = '0.21';
+
+App::Sys::Info->run;
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+psysinfo
+
+=head1 VERSION
+
+version 0.25
+
+=head1 SYNOPSIS
+
+Excute from command line.
+
+=head1 DESCRIPTION
+
+Front end to C<App::Sys::Info>.
+
+=head1 NAME
+
+psysinfo - Front end to App::Sys::Info
+
+=head1 SEE ALSO
+
+L<App::Sys::Info>.
+
+=head1 AUTHOR
+
+Burak Gursoy <burak@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2010 by Burak Gursoy.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

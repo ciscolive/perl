@@ -1,0 +1,405 @@
+=head1 NAME
+
+Infoblox::DNS::AllRPZRecords - A synthetic object used to return record object types that belong to a Response Policy Zone.
+
+=head1 DESCRIPTION
+
+By searching on this object, all record objects associated with a specific zone can be retrieved.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS AllRPZRecords object.
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS AllRPZRecords object:
+
+  zone       - Required. A Response Policy Zone name in FQDN format.
+  view       - Optional. The DNS view in which the records are located. By default, the default DNS view is searched.
+  name       - Optional. The name of the matched record. (regular expression).
+  type       - Optional. The type of record to search for. By default, all record types are searched. Following is the list of valid values for this search field:
+
+                 'All Records',
+                 'All A Records',
+                 'All AAAA Records',
+                 'All CNAME Records',
+                 'All IP Address Record',
+                 'All MX Record',
+                 'All NAPTR Record',
+                 'All PTR Record',
+                 'All SRV Record',
+                 'All TXT Record',
+                 'All A IP Address Record',
+                 'All AAAA IP Address Record'
+
+  rpz_rule  - Optional. The Response Policy Zone rule type of record to search for. By default, all rule types are searched. Following is the list of valid values for this search field:
+
+                 'PASSTHRUIPADDR',
+                 'PASSTHRUDOMAIN',
+                 'BLOCKNXDOMAINIPADDR',
+                 'BLOCKNXDOMAINDOMAIN',
+                 'BLOCKNODATAIPADDR',
+                 'BLOCKNODATADOMAIN',
+                 'SUBSTITUTE_CNAME',
+                 'SUBSTITUTE_A_RECORD',
+                 'SUBSTITUTE_AAAA_RECORD',
+                 'SUBSTITUTE_MX_RECORD',
+                 'SUBSTITUTE_PTR_RECORD',
+                 'SUBSTITUTE_NAPTR_RECORD',
+                 'SUBSTITUTE_SRV_RECORD',
+                 'SUBSTITUTE_TXT_RECORD',
+                 'SUBSTITUTE_IPV4ADDRESS_RECORD',
+                 'SUBSTITUTE_IPV6ADDRESS_RECORD'
+                 'SUBSTITUTE_IPADDR_CNAME'
+
+=item B<Example>
+
+ # search for all RPZ records in the "rpz.com" zone in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::AllRPZRecords",
+     zone   => 'rpz.com',
+ );
+
+ # search for all TXT records that match the 'rec' name in the "rpz.com" zone in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::AllRPZRecords",
+     zone   => 'rpz.com',
+     type   => 'All TXT Records',
+     name   => 'rec',
+ );
+
+ # search for all PASSTHRUDOMAIN Response Policy Rule type in the "rpz.com" zone in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::AllRPZRecords",
+     zone   => 'rpz.com',
+     rpz_rule   => 'PASSTHRUDOMAIN',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of an AllRPZRecords object. All methods are read-only and cannot be set.
+
+=head2 alert_type( )
+
+=over
+
+Use this method to retrieve the alert type of the record associated with the AllRPZRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get alert_type
+ my $alert_type = $allrpzrecord->alert_type();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve the descriptive comment of the record associated with the AllRPZRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $allrpzrecord->comment();
+
+=back
+
+=back
+
+=head2 expiration_time( )
+
+=over
+
+Use this method to retrieve expiration time of the record associated with the AllRPZRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get expiration_time
+ my $expiration_time = $allrpzrecord->expiration_time();
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to retrieve the disable flag of the record associated with the AllRPZRecords object (if present).
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $allrpzrecord->disable();
+
+=back
+
+=back
+
+=head2 last_updated( )
+
+=over
+
+Use this method to retrieve the time the record associated with the AllRPZRecords object was last updated at.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_updated
+ my $last_updated = $allrpzrecord->last_updated();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of of the record associated with the AllRPZRecords object. Note that this value could differ from the value of the associated record's name field.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $allrpzrecord->name();
+
+=back
+
+=back
+
+=head2 record( )
+
+=over
+
+Use this method to retrieve the record object associated with the AllRPZRecords object.
+
+This object is considered a 'partial' object. See L<Infoblox::Session-E<gt>fill_partial_object()|Infoblox::Session/fill_partial_object()/> for more information on how
+it can be converted to a 'full' API object.
+
+If the AllRPZRecords object refers to a record not currently supported in the Perl API, the member value will be undefined.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get record
+ my $record = $allrpzrecord->record();
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to retrieve the TTL value of the record associated with the AllRPZRecords object (if present).
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $allrpzrecord->ttl();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the type of record associated with the AllRPZRecords object. This is a descriptive string
+that identifies the record to which this AllRPZRecords object refers. (For example, 'A record', 'MX record', ...)
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get type
+ my $type = $allrpzrecord->type();
+
+=back
+
+=back
+
+=head2 view( )
+
+=over
+
+Use this method to retrieve the DNS view name of the record associated with the AllRPZRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get view
+ my $view = $allrpzrecord->view();
+
+=back
+
+=back
+
+=head2 zone( )
+
+=over
+
+Use this method to retrieve the Response Policy Zone name of the record associated with the AllRPZRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get zone
+ my $zone = $allrpzrecord->zone();
+
+=back
+
+=back
+
+=head2 rpz_rule( )
+
+=over
+
+Use this method to retrieve the Response Policy Zone rule type of the record associated with the AllRPZRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get rule type
+ my $rpz_rule = $allrpzrecord->rpz_rule();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+ In cases where a large number of matching records exist on the appliance, only a limited number will be returned
+ at a time. If all of the matching records are required, please consider using the paging support via Infoblox::Cursor.
+
+ #Code sample fragment Starts:
+
+    $cursor=$session->new_cursor(
+                                 fetch_size => 100,
+                                 object => "Infoblox::DNS::AllRPZRecords",
+                                 zone   => 'rpz.com',
+                                 view   => 'default',
+                                );
+
+    while ($current_record = $cursor->fetch()) {
+        # $current_record will contain a matching AllRPZRecords object
+    }
+
+    # All matching AllRPZRecords will be returned
+    # when the cycle ends.
+
+ If you want full record objects for some of the above, you can add the following code
+
+ #Code sample fragment Starts:
+
+     if( ... some criteria ...) {
+         push @temp, $current_record->record();
+     }
+
+ ####Code Fragment Ends####
+
+ inside the while() cycle and afterwards call
+
+ #Code sample fragment Starts:
+
+ @full_record_objects=$session->fill_partial_object(\@temp);
+
+ ####Code Fragment Ends####
+
+ to fill the wanted objects.
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

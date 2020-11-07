@@ -1,0 +1,1552 @@
+=head1 NAME
+
+Infoblox::DHCP::IPv6Range - DHCP IPv6 Range object.
+
+=head1 DESCRIPTION
+
+A DHCP IPv6 range defines the specified range of IP addresses in an IPv6 network. A DHCP IPv6 range should be added for an IPv6 network so the Infoblox appliance can assign IP addresses within that specified range to DHCP clients. If the client is on an IPv6 network that is assigned a DHCP IPv6 range, the device distributes an available IP address from that range to the DHCP client, or to a DHCP relay agent if the request came through an agent. The DHCP IPv6 range should also be assigned with a device. If devices are in a grid, the particular member serving DHCP for the DHCP IPv6 range must be specified. If the server is an independent device, this device must be specified as the member that serves the DHCP IPv6 range.
+
+=head1 CONSTRUCTOR
+
+ my $dhcp_ipv6_range = Infoblox::DHCP::IPv6Range->new(
+     network                              => $network,                                  #Required
+     ipv6_end_prefix                      => $ipv6addr,                                 #Optional / See NOTE below
+     ipv6_prefix_bits                     => $num,                                      #Optional / See NOTE below
+     ipv6_start_prefix                    => $ipv6addr,                                 #Optional / See NOTE below
+     end_addr                             => $ipv6addr,                                 #Optional / See NOTE below
+     start_addr                           => $ipv6addr,                                 #Optional / See NOTE below
+     address_type                         => "ADDRESS" | "PREFIX" | "BOTH",             #Optional / Default is undefined
+     comment                              => $string,                                   #Optional / Default is undefined
+     disable                              => "true" | "false",                          #Optional / Default is "false"
+     exclude                              => [$ExclusionRange1,$ExclusionRange2,...],   #Optional / Default is empty
+     extattrs                             => { $string => $extattr, ... },              #Optional / Default is undefined
+     extensible_attributes                => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+     member                               => $Member,                                   #Optional / Default is undefined
+     name                                 => $string,                                   #Optional / Default is undefined
+     network_view                         => $NetworkView,                              #Optional / Default is system-defined default network view
+     override_recycle_leases              => "true" | "false"                           #Optional / Default is "false"
+     recycle_leases                       => "true" | "false",                          #Optional / Default is "true"
+     server_association_type              => "NONE" | "MEMBER"                          #Optional / Default is undefined
+     template                             => $string,                                   #Optional / Default is undefined
+     discovery_blackout_setting           => $blackout,                                 #Optional
+     port_control_blackout_setting        => $blackout,                                 #Optional
+     override_blackout_setting            => "true" | "false",                          #Optional / Default value is "false"
+     same_port_control_discovery_blackout => "true" | "false",                          #Optional / Default value is "false"
+     subscribe_settings                   => $subscribe_settings,                       #Optional / Default is undefined
+     override_subscribe_settings          => 'true' | 'false',                          #Optional / Default is 'false'
+ );
+
+NOTE: one or both of the start_addr/end_addr and ipv6_start_prefix/ipv6_end_prefix/ipv6_prefix_bits parameter sets is required.
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a DHCP IPv6 range object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP IPv6 range object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $dhcp_ipv6range = Infoblox::DHCP::IPv6Range->new(
+                                                start_addr => "2001:db8:0:c000:0001::",
+                                                end_addr   => "2001:db8:0:c000:0021::",
+                                                network    => "2001:db8:0:c000::/51",
+ );
+
+ # Submit for addition
+ my $response = $session->add( $dhcp_ipv6range );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP IPv6 range object:
+
+  start_addr             - Optional. Starting IP address of the DHCP IPv6 range within the network.
+  end_addr               - Optional. Ending IP address of the DHCP IPv6 range within the network.
+  ipv6_start_prefix      - Optional. Starting prefix of the DHCP IPv6 range.
+  ipv6_end_prefix        - Optional. Ending prefix of the DHCP IPv6.
+  network_view           - Optional. Network view in which the DHCP IPv6 range is located. By default, all network views are searched.
+  extattrs               - Optional. A hash reference containing extensible attributes.
+  extensible_attributes  - Optional. A hash reference containing extensible attributes.
+  member                 - Optional. The member serving the range. The valid value is an Infoblox::DHCP::Member object.
+  name                   - Optional. The name of the DHCP IPv6 Range.
+  network                - Optional. The IPv6 Network the range resides in.
+  comment                - Optional. The descriptive comment.
+  server_association_type - Optional. The server association type for the range.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+                       object     => "Infoblox::DHCP::IPv6Range",
+                       start_addr => "2001:db8:0:c000:0001::" );
+
+ my @retrieved_objs = $session->get(
+                       object       => "Infoblox::DHCP::IPv6Range",
+                       start_addr   => "2001:db8:0:c000:0001::",
+                       network_view => "default" );
+
+ my @retrieved_objs = $session->get(
+                       object                => "Infoblox::DHCP::IPv6Range",
+                       extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP IPv6 range object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $dhcp_ipv6range->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $dhcp_ipv6range );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP IPv6 range object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP IPv6 range object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object       => "Infoblox::DHCP::IPv6Range",
+     start_addr   => "2001:db8:0:c000:0001::",
+     newtork_view => "default" );
+ # Find the desired object from the retrieved list.
+ my $desired_dhcp_range = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_dhcp_range );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP IPv6 range objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DHCP IPv6 range object:
+
+  start_addr             - Optional. Starting IP address of the DHCP IPv6 range within the network (regular expression).
+  end_addr               - Optional. Ending IP address of the DHCP IPv6 range within the network (regular expression).
+  ipv6_start_prefix      - Optional. Starting prefix of the DHCP IPv6 range (regular expression).
+  ipv6_end_prefix        - Optional. Ending prefix of the DHCP IPv6 (regular expression).
+  network_view           - Optional. Network view in which the DHCP IPv6 range is located. By default, all network views are searched.
+  extattrs               - Optional. A hash reference containing extensible attributes.
+  extensible_attributes  - Optional. A hash reference containing extensible attributes.
+  member                 - Optional. The member serving the range. The valid value is an Infoblox::DHCP::Member object.
+  name                   - Optional. The name of the DHCP IPv6 Range (regular expression).
+  network                - Optional. The IPv6 Network the range resides in (regular expression).
+  comment                - Optional. The descriptive comment (regular expression).
+  server_association_type - Optional. The server association type for the range.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # search for DHCP IPv6 range object with start address having last octet as 1
+ my @retrieved_objs = $session->search(
+     object     => "Infoblox::DHCP::IPv6Range",
+     network       => "2001:db8:0:c000::/51",
+     network_view  => "default",
+     start_addr    => "0021",
+     comment       => ".*comment" );
+
+ # search for DHCP IPv6 range objects defining "Santa Clara" for "Site" extensible attribute
+ my @retrieved_objs = $session->search(
+     object                => "Infoblox::DHCP::IPv6Range",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a DHCP IPv6 range.
+
+=head2 address_type( )
+
+=over
+
+Use this method to set or retrieve the address type of a DHCP IPv6 Range object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "ADDRESS", "PREFIX", or "BOTH". When the address type is "ADDRESS", values for the 'start_addr' and 'end_addr' members are required. When the address type is "PREFIX", values for 'ipv6_start_prefix', 'ipv6_end_prefix', and 'ipv6_prefix_bits' are required. When the address type is "BOTH", values for 'start_addr', 'end_addr', 'ipv6_start_prefix', 'ipv6_end_prefix', and 'ipv6_prefix_bits' are all required.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address_type
+ my $address_type = $dhcp_ipv6range->address_type();
+ #Modify address_type
+ $dhcp_ipv6range->address_type("PREFIX");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $dhcp_ipv6range->comment();
+ #Modify comment
+ $dhcp_ipv6range->comment("Modifying the DHCP IPv6 range comment");
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to set or retrieve cloud API related information for the Infoblox::DHCP::IPv6Range object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a L<Infoblox::Grid::CloudAPI::Info|Infoblox::Grid::CloudAPI::Info> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $dhcp_ipv6range->cloud_info();
+ # Modify cloud_info
+ $dhcp_ipv6range->cloud_info($cloud_info_object);
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value for this field is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $dhcp_ipv6range->disable();
+ #Modify disable
+ $dhcp_ipv6range->disable("false");
+
+=back
+
+=back
+
+=head2 discovery_basic_poll_setting( )
+
+=over
+
+Use this method to set or retrieve the discovery_basic_poll_setting value of a DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is object of L<Infoblox::Grid::Discovery::BasicPollSettings>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_basic_poll_setting
+ my $discovery_basic_poll_setting = $dhcp_ipv6range->discovery_basic_poll_setting();
+ #Modify discovery_basic_poll_setting
+ $dhcp_ipv6range->discovery_basic_poll_setting($poll_setting);
+
+=back
+
+=back
+
+=head2 discovery_member( )
+
+=over
+
+Use this method to set or retrieve the discovery_member value of a DHCP IPv6 range.
+
+=over
+
+=item B<Parameter>
+
+The discovery member name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_member
+ my $discovery_member = $dhcp_ipv6range->discovery_member();
+ #Modify discovery_member
+ $dhcp_ipv6range->discovery_member("test.localdomain");
+
+=back
+
+=back
+
+=head2 discover_now_status( )
+
+=over
+
+Use this method to retrieve the current discovery status. This attribute is read-only.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETE', 'FAILED', 'NONE', 'PENDING' or 'RUNNING'.
+
+=item B<Example>
+
+ #Get discover_now_status
+ my $discover_now_status = $dhcp_ipv6range->discover_now_status();
+
+=back
+
+=back
+
+=head2 discovery_blackout_setting( )
+
+=over
+
+Use this method to set or retrieve the discovery blackout setting.
+
+Setting this method to a defined value implicitly sets the override_blackout_setting method to "true". If port_control_blackout_setting is undefined, setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_blackout_setting attribute to "false".
+
+Note that when discovery_blackout_setting is set to a defined value and override_blackout_setting is set to "false", the last operation takes precedence. Thus the sequence $network->discovery_blackout_setting($blackout); $network->override_blackout_setting("false"); will set override_blackout_setting to "false", and the sequence $network->override_blackout_setting("false"); $network->discovery_blackout_setting($blackout); will result in override_blackout_setting="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_blackout_setting
+ my $discovery_blackout_setting = $dhcp_ipv6range->discovery_blackout_setting();
+ #Modify discovery_blackout_setting
+ $dhcp_ipv6range->discovery_blackout_setting($blackout);
+
+=back
+
+=back
+
+=head2 enable_discovery( )
+
+=over
+
+Use this method to set or retrieve the enable_discovery value of a DHCP IPv6 range.  This setting overrides the member level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_enable_discovery method to "true". Setting the parameter to undefined causes the appliance to use the default from the upper level and automatically resets the override_enable_discovery attribute to "false".
+
+Enable this flag if you want to set discovery for this object.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_discovery flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_discovery
+ my $enable_discovery = $dhcp_ipv6range->enable_discovery();
+ #Modify enable_discovery
+ $dhcp_ipv6range->enable_discovery("false");
+
+=back
+
+=back
+
+=head2 enable_immediate_discovery( )
+
+=over
+
+Use this method to set or retrieve enable_immediate_discovery value of a DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_immediate_discovery flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_immediate_discovery
+ my $enable_immediate_discovery = $dhcp_ipv6range->enable_immediate_discovery();
+ #Modify enable_immediate_discovery
+ $dhcp_ipv6range->enable_immediate_discovery("false");
+
+=back
+
+=back
+
+=head2 end_addr( )
+
+=over
+
+Use this method to set or retrieve the end address of the DHCP IPv6 range.
+
+An end address is the last IP address in the DHCP IPv6 range available for the clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the end address of the DHCP IPv6 range in lowercase.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get end_addr
+ my $end_addr = $dhcp_ipv6range->end_addr();
+ #Modify end_addr
+ $dhcp_ipv6range->end_addr("2001:db8:0:c000:0021::");
+
+=back
+
+=back
+
+=head2 endpoint_sources( )
+
+=over
+
+Use this method to retrieve the list of endpoints that provide object data. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an array of L<Infoblox::CiscoISE::Endpoint|Infoblox::CiscoISE::Endpoint> objects.
+
+=item B<Example>
+
+ #Get endpoint_sources value
+ my $endpoint_sources = $object->endpoint_sources();
+
+=back
+
+=back
+
+=head2 exclude( )
+
+=over
+
+Use this method to set or retrieve the exclusion range of IP addresses in the DHCP IPv6 range which should not be assigned to clients.
+
+If static addresses in the middle of a DHCP IPv6 range are assigned to certain hosts, those addresses can be excluded from the DHCP IPv6 range using this method.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains defined L<Infoblox::DHCP::ExclusionRange|Infoblox::DHCP::ExclusionRange> objects. The default value is empty.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get exclude
+ my $ref_exclude = $dhcp_ipv6range->exclude();
+ #Modify exclude
+ $dhcp_ipv6range->exclude([$exl1]); #$exl1 is an Infoblox::DHCP::ExclusionRange object
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP IPv6 range object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $dhcp_ipv6range->extattrs();
+ #Modify extattrs
+ $dhcp_ipv6range->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP IPv6 range object
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $dhcp_ipv6range->extensible_attributes();
+ #Modify extensible attributes
+ $dhcp_ipv6range->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 ipv6_end_prefix( )
+
+=over
+
+Use this method to set or retrieve the end prefix of the DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the end prefix of the DHCP IPv6 range in lowercase.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_end_prefix
+ my $ipv6_end_prefix = $dhcp_ipv6range->ipv6_end_prefix();
+ #Modify ipv6_end_prefix
+ $dhcp_ipv6range->ipv6_end_prefix("2001:db8:0:c000:0021::");
+
+=back
+
+=back
+
+=head2 ipv6_prefix_bits( )
+
+=over
+
+Use this method to set or retrieve the prefix bits for the DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 2 and 128.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_prefix_bits
+ my $ipv6_prefix_bits = $dhcp_ipv6range->ipv6_prefix_bits();
+ #Modify ipv6_prefix_bits
+ $dhcp_ipv6range->ipv6_prefix_bits(32);
+
+=back
+
+=back
+
+=head2 ipv6_start_prefix( )
+
+=over
+
+Use this method to set or retrieve the start prefix of the DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the start prefix of the DHCP IPv6 range in lowercase.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_start_prefix
+ my $ipv6_start_prefix = $dhcp_ipv6range->ipv6_start_prefix();
+ #Modify ipv6_start_prefix
+ $dhcp_ipv6range->ipv6_start_prefix("2001:db8:0:c000:0011::");
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve the member that serves DHCP for this IP address range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+If the attribute is set, the server_association_type attribute will also be set: to "MEMBER" if setting member to a defined value, to "NONE" otherwise.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a defined L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> object. The default value is empty.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get member
+ my $ref_member = $dhcp_ipv6range->member();
+ #Modify member
+ $dhcp_ipv6range->member($member1); #$member is an Infoblox::DHCP::Member object
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a descriptive name for the DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The desired name in string format with a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $dhcp_ipv6range->name();
+ #Modify name
+ $dhcp_ipv6range->name("external");
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to set or retrieve the DHCP IPv6 network of the address range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The DHCP IPv6 Network.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network
+ my $network = $dhcp_ipv6range->network();
+ #Set the network
+ $dhcp_ipv6range->network("2001:db8:0:c000::/51");
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of the DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" network view, which means the DHCP IPv6 range is in the default network view.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a defined L<Infoblox::DHCP::View|Infoblox::DHCP::View> object. The default network view value is the system-defined default network view object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $dhcp_ipv6range->network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $dhcp_ipv6range->network_view($nview);
+
+=back
+
+=back
+
+=head2 next_available_ip( )
+
+=over
+
+Use this method to get the next available IPv6 address(es) in the DHCP IPv6 range object. Note that to use this method, the object MUST be retrieved via a get or search call, or created with an add call.
+
+=over
+
+=item B<Parameter>
+
+The method accepts the following optional parameters:
+
+  requested_num - The number of IP addresses requested. It must be a value between 1 and 20, inclusive.
+  excluded - A reference to an array of addresses to be excluded from the results.
+
+=item B<Returns>
+
+This method returns the next available IPv6 address(es) in the range. If requested_num is not specified, a string with the next available address will be returned; otherwise, the method will return a reference to an array of addresses.
+
+Within a DHCP Range object, the next available IP address(es) are the first addresses in this range that match all of the following rules:
+
+   * Are not part of the passed 'excluded' parameter (if specified).
+   * There is no fixed address or host address record with this IP address
+   * There is no unmanaged record with this IP address
+   * The IP address is not in any excluded range of this IPv6 DHCP range
+   * There is no active lease with this IP address (Deleted leases in the recycle bin are not considered.)
+
+=item B<Example>
+
+ # Retrieve a particular range
+ my @retrieved_objs = $session->get(
+                           object     => "Infoblox::DHCP::IPv6Range",
+                           start_addr => "10:9::"
+ );
+
+ $range = $retrieved_objs[0];
+
+ # Print the next available IPv6 address in the range
+ print $range->next_available_ip() . "\n";
+
+ # This will retrieve the next 10 available addresses and print the first one.
+ my $addressesref = $range->next_available_ip(requested_num => 10);
+ print @$addressesref[0] . "\n";
+
+ # This will retrieve the next 10 available addresses and exclude two.
+ my $addressesref = $range->next_available_ip(requested_num => 10, excluded => ["10:9::2", "10:9::3"]);
+
+=back
+
+=back
+
+=head2 override_blackout_setting( )
+
+=over
+
+The override_blackout_setting attribute controls whether the discovery_blackout_setting and port_control_blackout_setting values in the object are used, instead of the grid default.
+
+The override_blackout_setting attribute can be specified explicitly. It is also set implicitly when discovery_blackout_setting or port_control_blackout_setting is set to a defined value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_blackout_setting flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $dhcp_range->override_blackout_setting();
+ # Modify attribute value
+ $dhcp_range->override_blackout_setting('true');
+
+=back
+
+=back
+
+=head2 override_recycle_leases( )
+
+=over
+
+The override_recycle_leases attribute controls whether the recycle_leases value in the DHCP IPv6 Range is used, instead of the grid default.
+
+The override_recycle_leases attribute can be specified explicitly. It is also set implicitly when recycle_leases is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for recycle_leases. Set the parameter to "false" to inherit the grid-level setting for recycle_leases.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_recycle_leases
+    my $override_recycle_leases=$dhcp_ipv6range->override_recycle_leases( );
+    #Modifying override_recycle_leases
+    $dhcp_ipv6range->override_recycle_leases("true");
+
+=back
+
+=back
+
+=head2 override_subscribe_settings( )
+
+=over
+
+The override_subscribe_settings attribute controls whether the subscribe_settings method values of the member are used, instead of the Grid default.
+
+The override_subscribe_settings attribute can be specified explicitly. It is also set implicitly when subscribe_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for subscribe_settings. Set the parameter to "false" to inherit the Grid-level setting for subscribe_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_subscribe_settings value
+ my $override_subscribe_settings = $object->override_subscribe_settings( );
+ #Modify override_subscribe_settings value
+ $object->override_subscribe_settings("true");
+
+=back
+
+=back
+
+=head2 port_control_blackout_setting
+
+=over
+
+Use this method to set or retrieve the port control blackout setting.
+
+Setting this method to a defined value implicitly sets the override_blackout_setting method to "true". If discovery_blackout_setting is undefined, setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_blackout_setting attribute to "false".
+
+Note that when port_control_blackout_setting is set to a defined value and override_blackout_setting is set to "false", the last operation takes precedence. Thus the sequence $network->port_control_blackout_setting($blackout); $network->override_blackout_setting("false"); will set override_blackout_setting to "false", and the sequence $network->override_blackout_setting("false"); $network->port_control_blackout_setting($blackout); will result in override_blackout_setting="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get port_control_blackout_setting
+ my $port_control_blackout_setting = $dhcp_ipv6range->port_control_blackout_setting();
+ #Modify port_control_blackout_setting
+ $dhcp_ipv6range->port_control_blackout_setting($blackout);
+
+=back
+
+=back
+
+=head2 restart_if_needed( )
+
+=over
+
+Use this method to set the flag that indicates whether DHCP service should be restarted on a member that is serving DHCP for the changed object referenced in a cloud API request.
+
+=over
+
+=item B<Parameter>
+
+Specify true to restart the DHCP service.
+
+=item B<Returns>
+
+None
+
+=item B<Example>
+
+ # Modify
+ $network->restart_if_needed('true');
+
+=back
+
+=back
+
+=head2 recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the recycle_leases flag of the DHCP IPv6 range.
+
+If the flag is enabled, the leases are kept in recycle bin until one week after expiration. When the flag is disabled, the leases are irrecoverably deleted.
+
+Setting this method to a defined value implicitly sets the override_recycle_leases method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_recycle_leases attribute to "false".
+
+Note that when recycle_leases is set to a defined value and override_recycle_leases is set to "false", the last operation takes precedence. Thus the sequence $object->recycle_leases("true"); $object->override_recycle_leases("false"); will set override_recycle_leases to "false", and the sequence $objct->override_recycle_leases("false"); $object->recycle_leases("true"); will result in override_recycle_leases="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the recycle_leases flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recycle_leases
+ my $recycle_leases = $dhcp_ipv6range->recycle_leases();
+ #Modify recycle_leases
+ $dhcp_ipv6range->recycle_leases("false");
+
+=back
+
+=back
+
+=head2 same_port_control_discovery_blackout( )
+
+=over
+
+Use this method to set or retrieve the flag that enables using the same discovery blackout for port control blackout.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to use same discovery blackout for port control blackout or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $dhcp_ipv6range->same_port_control_discovery_blackout();
+ # Modify attribute value
+ $dhcp_ipv6range->same_port_control_discovery_blackout('true');
+
+=back
+
+=back
+
+=head2 server_association_type( )
+
+=over
+
+Use this method to set or retrieve the DHCP IPv6 range server association type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The server_association_type attribute can be specified explicitly. It is also set implicitly when member is set.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "NONE" and "MEMBER".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get server_association_type
+ my $server_association_type = $dhcp_ipv6range->server_association_type();
+ #Modify server_association_type
+ $dhcp_ipv6range->server_association_type("MEMBER");
+
+=back
+
+=back
+
+=head2 start_addr( )
+
+=over
+
+Use this method to set or retrieve the start address of the DHCP IPv6 range.
+
+A start address is the first IP address in the DHCP IPv6 range available for the clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the start address of the DHCP IPv6 range in lowercase.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get start_addr
+ my $start_addr = $dhcp_ipv6range->start_addr();
+ #Modify start_addr
+ $dhcp_ipv6range->start_addr("2001:db8:0:c000:0001::");
+
+=back
+
+=back
+
+=head2 subscribe_settings( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE subscribe settings.
+
+Setting this method to a defined value implicitly sets the override_subscribe_settings method to "true". Setting the parameter to undefined causes the appliance to use the Cisco ISE endpoint default and automatically resets the override_subscribe_settings method to "false".
+
+Note that when subscribe_settings is set to a defined value and override_subscribe_settings is set to "false", the last operation takes precedence. Thus the sequence $object->subscribe_settings($value); $object->override_subscribe_settings("false"); will set override_subscribe_settings to "false", and the sequence $object->override_subscribe_settings("false"); $object->subscribe_settings($value); will result in override_subscribe_settings="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::CiscoISE::SubscribeSetting|Infoblox::CiscoISE::SubscribeSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get subscribe_settings value
+ my $subscribe_settings = $object->subscribe_settings();
+ #Modify subscribe_settings value
+ $object->subscribe_settings($settings);
+
+=back
+
+=back
+
+=head2  template( )
+
+=over
+
+Use this method to set or retrieve the DHCP IPv6 range template name for a DHCP IPv6 Range object.
+
+Template is the name of a DHCP IPv6 range template which will be used to create the DHCP IPv6 range.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+The template parameter can be used to only add a new DHCP IPv6 range and cannot be used during object modify or returned during object get.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get template
+ my $template = $dhcp_ipv6range->template();
+ #Modify template
+ $dhcp_ipv6range->template("Template_Name");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a DHCP IPv6 range object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DHCP IPv6 Range object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create a DHCP Member object
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2"
+ );
+ unless($memberdhcp) {
+        die("Construct member failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Member object created successfully\n";
+
+ #Create the Network object with the member
+ my $network = Infoblox::DHCP::IPv6Network->new(
+     network => "2001:db8:0:a000::/51",
+     comment => "add network",
+     members => [ $memberdhcp ]
+ );
+ unless($network) {
+        die("Construct Network object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network object created successfully\n";
+
+ #Add the Network object into the Infoblox appliance through a session
+ $session->add($network)
+     or die("Add Network object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Network object added to Infoblox appliance successfully\n";
+
+ #Construct exclusion range object
+ my $exclusion_range = Infoblox::DHCP::ExclusionRange->new(
+     start_address => "2001:db8:0:a000:0001::1a",
+     end_address   => "2001:db8:0:a000:0001::fa",
+     comment       => "Excluded range"
+ );
+
+B<#Create a DHCP IPv6 Range object>
+
+ my $dhcp_range = Infoblox::DHCP::IPv6Range->new(
+                                               start_addr => '2001:db8:0:a000:0001::',
+                                               end_addr   => '2001:db8:0:a000:0021::',
+                                               network    => '2001:db8:0:a000::/51',
+                                               comment    => 'Random comment',
+                                               disable    => 'true',
+                                               exclude => [$exclusion_range],
+                                               ipv6_start_prefix       => '2001:db8:0:c001:0001::',
+                                               ipv6_end_prefix         => '2001:db8:0:c001:0021::',
+                                               ipv6_prefix_bits        => 12,
+                                               member                  => $memberdhcp,
+                                               name                    => 'randomrange',
+                                               override_recycle_leases => 'true',
+                                               recycle_leases          => 'false',
+                                               server_association_type => 'MEMBER',
+ );
+ unless($dhcp_range) {
+        die("Construct DHCP IPv6 Range object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6 Range object created successfully\n";
+
+ #Add the DHCP IPv6 Range object into the Infoblox appliance through a session
+ $session->add($dhcp_range)
+     or die("Add DHCP IPv6 Range object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Range object added to the network successfully\n";
+
+B<#Create a DHCP IPv6 Range object using a template>
+
+ my $dhcp_range_template = Infoblox::DHCP::IPv6RangeTemplate->new(
+         name                    => "custom_range_template",
+         offset                  => "10",
+         number_of_addresses     => "90",
+ );
+ unless($dhcp_range_template) {
+        die("Construct DHCP IPv6 Range template object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6 Range template object created successfully\n";
+
+ #Add the DHCP IPv6 Range template object into the Infoblox appliance through a session
+ $session->add($dhcp_range_template)
+     or die("Add DHCP IPv6 Range template object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Range template object added to the network successfully\n";
+
+ my $dhcp_range = Infoblox::DHCP::IPv6Range->new(
+         start_addr              => "2001:db8:0:a000:0100::",
+         end_addr                => "2001:db8:0:a000:0200::",
+         network                 => "2001:db8:0:a000::/51",
+         template                => "custom_range_template"
+ );
+ unless($dhcp_range) {
+        die("Construct DHCP IPv6 Range object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6 Range object created successfully\n";
+
+ #Add the DHCP IPv6 Range object into the Infoblox appliance through a session
+ $session->add($dhcp_range)
+     or die("Add DHCP IPv6 Range object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Range object added to the network successfully\n";
+
+B<#Get and modify a DHCP IPv6 Range>
+
+ #Get a DHCP IPv6 Range through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DHCP::IPv6Range",
+     start_addr => "2001:db8:0:a000:0001::",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP IPv6 Range failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP IPv6 Range object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified DHCP IPv6 Range
+ $object->comment ("modified comment");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify DHCP IPv6 Range failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Range object modified successfully \n";
+
+B<#Search a DHCP IPv6 Range>
+
+ # search for DHCP IPv6 range object with start address having last octet as 1
+ my @retrieved_objs = $session->search(
+     object     => "Infoblox::DHCP::IPv6Range",
+     network    => "2001:db8:0:a000::/51",
+     comment    => "Modified.*"
+);
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search DHCP IPv6 range failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DHCP IPv6 range object found at least 1 matching entry\n";
+
+B<#Remove a DHCP IPv6 Range>
+
+ #Get a DHCP IPv6 Range through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DHCP::IPv6Range",
+     start_addr => "2001:db8:0:a000:0001::",
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP IPv6 Range failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP IPv6 Range object found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($object)
+     or die("Remove DHCP IPv6 Range failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Range object removed successfully \n";
+
+ #submit the Range Template object for removal
+ $session->remove($dhcp_range_template)
+     or die("Remove DHCP IPv6 Range Tempate failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Range Templateobject removed successfully \n";
+
+ #Get a DHCP IPv6 Range through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DHCP::IPv6Range",
+     start_addr => "2001:db8:0:a000:0100::",
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP IPv6 Range failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP IPv6 Range object found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($object)
+     or die("Remove DHCP IPv6 Range failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Range object removed successfully \n";
+
+ #Remove network
+
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DHCP::IPv6Network",
+     network    => "2001:db8:0:a000::/51",
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP IPv6 Network failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP IPv6 Network object found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($object)
+     or die("Remove DHCP IPv6 Network failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Network object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::DHCP::View|Infoblox::DHCP::View>, L<Infoblox::DHCP::ExclusionRange|Infoblox::DHCP::ExclusionRange>, L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>, L<Infoblox::DHCP::Option|Infoblox::DHCP::Option>, L<Infoblox::DHCP::IPv6RangeTemplate|Infoblox::DHCP::IPv6RangeTemplate>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

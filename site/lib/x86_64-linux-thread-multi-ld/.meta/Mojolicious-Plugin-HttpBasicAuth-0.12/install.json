@@ -1,0 +1,1 @@
+{"pathname":"P/PG/PGRAEMER/Mojolicious-Plugin-HttpBasicAuth-0.12.tar.gz","target":"Mojolicious::Plugin::HttpBasicAuth","dist":"Mojolicious-Plugin-HttpBasicAuth-0.12","version":"0.12","name":"Mojolicious::Plugin::HttpBasicAuth","provides":{"Mojolicious::Plugin::HttpBasicAuth":{"file":"lib/Mojolicious/Plugin/HttpBasicAuth.pm","version":"0.12"}}}

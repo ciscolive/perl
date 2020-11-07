@@ -1,0 +1,174 @@
+=head1 NAME
+
+Net::CLI::Interact::Manual::Phrasebook - List of Supported CLIs
+
+=head1 INTRODUCTION
+
+The bundled phrasebook includes support for a variety of network device CLIs.
+Many were contributed by users of the module. If you set up a new CLI
+dictionary, please consider contributing it back! The phrasebook specification
+is given in L<Net::CLI::Interact::Phrasebook>.
+
+For each supported CLI, there is a name which must be passed in the
+C<personality> option to L<Net::CLI::Interact>'s C<new()> method; this is the
+same as the directory containing the phrasebook file.
+
+After that, you can call the included Macros, and the module will use the
+included Prompt to match the current state of the CLI. More information is
+available in the L<Tutorial|Net::CLI::Interact::Manual::Tutorial> and
+L<Cookbook|Net::CLI::Interact::Manual::Cookbook>.
+
+=head1 PERSONALITIES
+
+See the files themselves at the following link for full details:
+L<https://github.com/ollyg/Net-CLI-Interact/tree/master/share/phrasebook>.
+
+=over 4
+
+=item * ASA
+
+=item * Avaya
+
+=item * Bash
+
+=item * CatOS
+
+=item * Cisco (generic)
+
+=item * Csh
+
+=item * ExtremeOS
+
+=item * F5
+
+=item * Fortinet
+
+=item * Foundry / Brocade
+
+Before connecting to the device you probably want to set the output separator
+to be:
+
+ $nci->transport->ors("\r\n");
+
+For users of L<Net::Appliance::Session> this should be:
+
+ $session_obj->nci->transport->ors("\r\n");
+
+=item * FWSM
+
+=item * FWSM 3
+
+=item * HP
+
+=item * IOS
+
+=item * JunOS
+
+=item * Mikrotik
+
+=item * Nortel
+
+=item * OVMCLI
+
+=item * PIXOS
+
+=item * PIXOS 7
+
+=item * Qnap
+
+=item * RedBack
+
+=item * ScreenOS
+
+=item * WLC
+
+=item * Zyxel
+
+=back
+
+=head1 SUPPORTING A NEW DEVICE
+
+In order to support a new device, particularly for the
+L<Net::Appliance::Session> module, there is a basic set of prompts and macros
+you must create.
+
+=head2 Required Prompts
+
+With SSH, no C<user> prompt is required, but for other transports you should
+include a prompt named C<user> which matches the "C<Username:>" prompt
+presented by the device.
+
+ # example only!
+ prompt user
+     match /[Uu]sername/
+
+With all transports you must provide a C<pass> prompt which matches the
+"C<password:>" prompt presented by the device.
+
+ # example only!
+ prompt pass
+     match /[Pp]assword: ?$/
+
+The last essential prompt is of course a simple command line prompt match, and
+this should be named C<generic>.
+
+ # example only!
+ prompt generic
+     match /> ?$/
+
+=head2 Desirable Prompt and Macros
+
+To cleanly disconnect from your device session, you might want to include a
+macro named C<disconnect> with the relevant command. Note there is no need for
+a C<match> statement in this macro, as the device should have detached!
+
+ # example only!
+ macro disconnect
+     send exit
+
+For paging support, include either only a C<prompt> macro, or two macros named
+C<enable_paging> and C<disable_paging>, depending on what the device requires.
+In all cases, there must be one substitution ("C<%s>") which is where the
+number of page lines will be inserted into the command.
+
+ # example only!
+ macro paging
+     send terminal length %s
+
+For privileged mode (super-user) support, include a prompt named C<privileged>
+first, and then include macros named C<begin_privileged> and C<end_privileged>
+to enter and leave the mode, respectively. Note that both macros will require
+explicit match statements, because the prompt encountered I<after> issuing the
+command will be different to that encountered before.
+
+ # example only!
+ prompt privileged
+     match /# ?$/
+ 
+ macro begin_privileged
+     send enable
+     match user or pass or privileged
+ 
+ macro end_privileged
+     send disable
+     match generic
+
+Similarly for configure mode, include a prompt named C<configure> first, and
+then include macros named C<begin_configure> and C<end_configure> to enter and
+leave the mode, respectively. Note that both macros will require explicit
+match statements, because the prompt encountered I<after> issuing the command
+will be different to that encountered before.
+
+ # example only!
+ prompt configure
+     match /\(config[^)]*\)# ?$/
+ 
+ macro begin_configure
+     send configure terminal
+     match configure
+ 
+ macro end_configure
+     send exit
+     match privileged
+
+=cut

@@ -1,0 +1,255 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::ResponseRateLimiting - a DNS Response Rate Limiting object.
+
+=head1 DESCRIPTION
+
+The DNS Response Rate Limiting object provides information about DNS response rate limiting configuration.
+
+=head1 CONSTRUCTOR
+
+ my $response_rate_limiting = Infoblox::Grid::DNS::ResponseRateLimiting->new(
+	enable_rrl           => 'true' | 'false', # Optional
+	log_only             => 'true' | 'false', # Optional
+	responses_per_second => $uint,            # Optional
+	window               => $uint,            # Optional
+	slip                 => $uint,            # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DNS Response Rate Limiting object.
+
+=head2 Infoblox::Grid::DNS->response_rate_limiting( )
+
+=over
+
++Use this method to set or retrieve DNS response rate limiting settings. See L<Infoblox::Grid::DNS-E<gt>response_rate_limiting()|Infoblox::Grid::DNS/response_rate_limiting()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get response_rate_limiting value
+ my $response_rate_limiting = $grid_dns->response_rate_limiting();
+ #Modify bind_check_response_rate_limiting
+ $grid_dns->response_rate_limiting($response_rate_limiting);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->response_rate_limiting( )
+
+=over
+
+Use this method to set or retrieve DNS response rate limiting settings on the member. See L<Infoblox::Grid::Member::DNS-E<gt>response_rate_limiting()|Infoblox::Grid::Member::DNS/response_rate_limiting()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get response_rate_limiting value
+ my $response_rate_limiting = $member_dns->response_rate_limiting();
+ #Modify response_rate_limiting
+ $member_dns->response_rate_limiting($response_rate_limiting);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::View->response_rate_limiting( )
+
+=over
+
+Use this method to set or retrieve DNS response rate limiting settings for the DNS view. See L<Infoblox::DNS::View-E<gt>response_rate_limiting()|Infoblox::DNS::View/response_rate_limiting()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get response_rate_limiting value
+ my $response_rate_limiting = $dns_view->response_rate_limiting();
+ #Modify response_rate_limiting
+ $dns_view->response_rate_limiting($response_rate_limiting);
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head1 enable_rrl( )
+
+=over
+
+Use this method to enabel or disable response rate limiting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable response rate limiting or 'false' to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_rrl value
+ my $enable_rrl = $response_rate_limiting->enable_rrl();
+ #Modify enable_rrl 
+ $response_rate_limiting->enable_rrl('true');
+
+=back
+
+=back
+
+=head1 log_only( )
+
+=over
+
+Use this method to enable or disable logging for response rate limiting without dropping any requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable logging for response rate limiting without dropping any requests or 'false' to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get log_only value
+ my $log_only = $response_rate_limiting->log_only();
+ #Modify log_only 
+ $response_rate_limiting->log_only('true');
+
+=back
+
+=back
+
+=head1 responses_per_second( )
+
+=over
+
+Use this method to set or retrieve the number of responses per client per second.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get responses_per_second value
+ my $responses_per_second = $response_rate_limiting->responses_per_second();
+ #Modify responses_per_second 
+ $response_rate_limiting->responses_per_second(50);
+
+=back
+
+=back
+
+=head1 slip( )
+
+=over
+
+Use this method to set or retrieve the response rate limiting slip.
+
+Note that if a slip does not equal 0, instead of dropping the request, a truncated response is sent to each n-th rate-limited UDP request.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get slip value
+ my $slip = $response_rate_limiting->slip();
+ #Modify slip 
+ $response_rate_limiting->slip(50);
+
+=back
+
+=back
+
+=head1 window( )
+
+=over
+
+Use this method to set or retrieve the time interval in seconds over which responses are tracked.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get window value
+ my $window = $response_rate_limiting->window();
+ #Modify window 
+ $response_rate_limiting->window(10);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Grid::DNS-E<gt>response_rate_limiting()|Infoblox::Grid::DNS/response_rate_limiting()/>, L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, L<Infoblox::Grid::Member::DNS-E<gt>response_rate_limiting()|Infoblox::Grid::Member::DNS/response_rate_limiting()/>, L<Infoblox::DNS::View-E<gt>response_rate_limiting()|Infoblox::DNS::View/response_rate_limiting()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

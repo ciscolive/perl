@@ -1,0 +1,222 @@
+=head1 NAME
+
+Infoblox::Grid::CloudAPI::CloudStatistics - Infoblox::Grid::CloudAPI::CloudStatistics object.
+
+=head1 DESCRIPTION
+
+This object aggregates Cloud API statistics.
+
+=head1 CONSTRUCTOR
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a Grid member object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the object from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+ 
+=item B<Example>
+
+ $session->get(object => "Infoblox::Grid::CloudAPI::CloudStatistics");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 allocated_ip_count( )
+
+=over
+
+Use this method to retrieve the total number of IPs allocated by tenants. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get allocated_ip_count
+ $allocated_ip_count = $cloud_statistic->allocated_ip_count();
+
+=back
+
+=back
+
+=head2 available_ip_count( )
+
+=over
+
+Use this method to retrieve the total number of IPs available to tenants. Only IP under networks within a delegation scope are counted. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get available_ip_count
+ $available_ip_count = $cloud_statistic->available_ip_count();
+
+=back
+
+=back
+
+=head2 fixed_ip_count( )
+
+=over
+
+Use this method to retrieve the total number of Fixed IPs currently in use by all tenants in the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get fixed_ip_count
+ $fixed_ip_count = $cloud_statistic->fixed_ip_count();
+
+=back
+
+=back
+
+=head2 floating_ip_count( )
+
+=over
+
+Use this method to retrieve the total number of Floating IPs currently in use by all tenants in the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get floating_ip_count
+ $floating_ip_count = $cloud_statistic->floating_ip_count();
+
+=back
+
+=back
+
+=head2 tenant_count( )
+
+=over
+
+Use this method to retrieve the total number of tenants currently in the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get tenant_count
+ $tenant_count = $cloud_statistic->tenant_count();
+
+=back
+
+=back
+
+=head2 tenant_ip_count( )
+
+=over
+
+Use this method to retrieve the total number of IPs currently in use by all tenants in the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get tenant_ip_count
+ $tenant_ip_count = $cloud_statistic->tenant_ip_count();
+
+=back
+
+=back
+
+=head2 tenant_vm_count( )
+
+=over
+
+Use this method to retrieve the total number of VMs currently in use by all tenants the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get tenant_vm_count
+ $tenant_vm_count = $cloud_statistic->tenant_vm_count();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

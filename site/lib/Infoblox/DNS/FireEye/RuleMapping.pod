@@ -1,0 +1,169 @@
+=head1 NAME
+
+Infoblox::DNS::FireEyeRuleMapping - FireEye Rule Mapping object
+
+=head1 DESCRIPTION
+
+The rule map object is used to configure rule mapping for FireEye devices and Response Policy Zones.
+
+=head1 CONSTRUCTOR
+
+ my $rulemapping = Infoblox::DNS::FireEye::Rulemapping->new(
+     fireeye_alert_mapping => [$am1, am2, ...], #Optional
+     apt_override => "PASSTHRU" | "NXDOMAIN" | "NODATA" | "SUBSTITUTE" | "NOOVERRIDE", #Optional
+     substituted_domain_name => $fqdn, #Optional
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a FireEye Alert Map object.
+
+=head2 Infoblox::DNS::Zone->fireeye_rule_mapping( )
+
+=over
+
+Use this function to specify the alert map for this rule mapping. See L<Infoblox::DNS::Zone-E<gt>fireeye_rule_mapping()|Infoblox::DNS::Zone/fireeye_rule_mapping()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $am1 = Infoblox::DNS::FireEye::AlertMap->new(
+                                                 alert_type => 'INFECTION_MATCH',
+                                                 rpz_rule => 'PASSTHRU',
+                                                 lifetime => 0,
+                                                );
+
+ unless($am1) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ my $am2 = Infoblox::DNS::FireEye::AlertMap->new(
+                                                 alert_type => 'WEB_INFECTION',
+                                                 rpz_rule => 'NONE',
+                                                 lifetime => 1234,
+                                                );
+
+ unless($am2) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ my $rm = Infoblox::DNS::FireEye::RuleMapping->new(
+                                                   fireeye_alert_mapping => [$am1, $am2],
+                                                   apt_override => 'SUBSTITUTE',
+                                                   substituted_domain_name => 'somedomain.com'
+                                                  );
+ $rpz_zone->rpz_type('FIREEYE');
+ $rpz_zone->fireeye_rule_mapping($rm);
+
+ my $response = $session->modify($rpz_zone)
+ unless($response) {
+      die("Modify zone failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+ print "Zone modified successfully\n";
+
+=back
+
+=back
+
+=head2 apt_override( )
+
+=over
+
+Use this method to set or retrieve the APT override.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of "PASSTHRU", "NXDOMAIN", "NODATA", "SUBSTITUTE" or "NOOVERRIDE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get apt_override
+ my $apt_override = $rm->apt_override();
+ #Modify apt_override
+ $rm->apt_override("NOOVERRIDE");
+
+=back
+
+=back
+
+=head2 fireeye_alert_mapping( )
+
+=over
+
+Use this method to set or retrieve the FireEye alert mapping.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Returns>
+
+An array of L<Infoblox::DNS::FireEye::AlertMap> objects.
+
+=item B<Example>
+
+  #Get fireeye_alert_mapping
+  my $fireeye_alert_mapping = $zone->fireeye_alert_mapping();
+  #Modify fireeye_alert_mapping
+  $rm->fireeye_alert_mapping([$am1, $am2]);
+
+=back
+
+=back
+
+=head2 substituted_domain_name( )
+
+=over
+
+Use this method to set or retrieve the domain name to be substituted, this is applicable only when apt_override is set to "SUBSTITUTE".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The domain name to use.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get substituted_domain_name
+ my $substituted_domain_name = $rm->substituted_domain_name();
+ #Modify substituted_domain_name
+ $rm->substituted_domain_name("somedomain.com");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::Zone|Infoblox::DNS::FireEye::AlertMap>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Email/MIME/CreateHTML.pm
+/opt/perl/site/lib/Email/MIME/CreateHTML/Resolver.pm
+/opt/perl/site/lib/Email/MIME/CreateHTML/Resolver/Cached.pm
+/opt/perl/site/lib/Email/MIME/CreateHTML/Resolver/Filesystem.pm
+/opt/perl/site/lib/Email/MIME/CreateHTML/Resolver/LWP.pm
+/opt/perl/site/man/man3/Email::MIME::CreateHTML.3
+/opt/perl/site/man/man3/Email::MIME::CreateHTML::Resolver.3
+/opt/perl/site/man/man3/Email::MIME::CreateHTML::Resolver::Cached.3
+/opt/perl/site/man/man3/Email::MIME::CreateHTML::Resolver::Filesystem.3
+/opt/perl/site/man/man3/Email::MIME::CreateHTML::Resolver::LWP.3

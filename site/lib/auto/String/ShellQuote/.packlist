@@ -1,0 +1,4 @@
+/opt/perl/site/bin/shell-quote
+/opt/perl/site/lib/String/ShellQuote.pm
+/opt/perl/site/man/man1/shell-quote.1
+/opt/perl/site/man/man3/String::ShellQuote.3

@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Guacamole.pm
+/opt/perl/site/lib/Guacamole/Deparse.pm
+/opt/perl/site/lib/Guacamole/Dumper.pm
+/opt/perl/site/lib/Guacamole/Test.pm
+/opt/perl/site/lib/standard.pm
+/opt/perl/site/man/man3/Guacamole.3
+/opt/perl/site/man/man3/Guacamole::Deparse.3
+/opt/perl/site/man/man3/Guacamole::Dumper.3
+/opt/perl/site/man/man3/Guacamole::Test.3
+/opt/perl/site/man/man3/standard.3

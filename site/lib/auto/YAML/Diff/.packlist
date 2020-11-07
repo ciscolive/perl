@@ -1,0 +1,5 @@
+/opt/perl/site/bin/yaml-diff
+/opt/perl/site/lib/YAML/Diff.pm
+/opt/perl/site/lib/YAML/Diff.pod
+/opt/perl/site/lib/YAML/Diff/Command.pm
+/opt/perl/site/man/man3/YAML::Diff.3

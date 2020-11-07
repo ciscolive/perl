@@ -1,0 +1,14 @@
+/opt/perl/site/lib/Sys/Info/Base.pm
+/opt/perl/site/lib/Sys/Info/Constants.pm
+/opt/perl/site/lib/Sys/Info/Device.pm
+/opt/perl/site/lib/Sys/Info/Device/CPU.pm
+/opt/perl/site/lib/Sys/Info/Driver.pm
+/opt/perl/site/lib/Sys/Info/Helper.pm
+/opt/perl/site/lib/Sys/Info/OS.pm
+/opt/perl/site/man/man3/Sys::Info::Base.3
+/opt/perl/site/man/man3/Sys::Info::Constants.3
+/opt/perl/site/man/man3/Sys::Info::Device.3
+/opt/perl/site/man/man3/Sys::Info::Device::CPU.3
+/opt/perl/site/man/man3/Sys::Info::Driver.3
+/opt/perl/site/man/man3/Sys::Info::Helper.3
+/opt/perl/site/man/man3/Sys::Info::OS.3

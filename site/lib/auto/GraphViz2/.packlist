@@ -1,0 +1,16 @@
+/opt/perl/site/lib/GraphViz2.pm
+/opt/perl/site/lib/GraphViz2/Config.pm
+/opt/perl/site/lib/GraphViz2/Filer.pm
+/opt/perl/site/lib/GraphViz2/Parse/Regexp.pm
+/opt/perl/site/lib/GraphViz2/Parse/STT.pm
+/opt/perl/site/lib/GraphViz2/Parse/Yacc.pm
+/opt/perl/site/lib/GraphViz2/Parse/Yapp.pm
+/opt/perl/site/lib/GraphViz2/Utils.pm
+/opt/perl/site/man/man3/GraphViz2.3
+/opt/perl/site/man/man3/GraphViz2::Config.3
+/opt/perl/site/man/man3/GraphViz2::Filer.3
+/opt/perl/site/man/man3/GraphViz2::Parse::Regexp.3
+/opt/perl/site/man/man3/GraphViz2::Parse::STT.3
+/opt/perl/site/man/man3/GraphViz2::Parse::Yacc.3
+/opt/perl/site/man/man3/GraphViz2::Parse::Yapp.3
+/opt/perl/site/man/man3/GraphViz2::Utils.3

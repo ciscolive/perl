@@ -1,0 +1,10 @@
+/opt/perl/site/lib/MIME/Detect.pm
+/opt/perl/site/lib/MIME/Detect/FreeDesktopOrgDB.pm
+/opt/perl/site/lib/MIME/Detect/Type.pm
+/opt/perl/site/lib/MIME/update.pod
+/opt/perl/site/lib/auto/share/dist/MIME-Detect/mime-info/COPYING
+/opt/perl/site/lib/auto/share/dist/MIME-Detect/mime-info/freedesktop.org.xml
+/opt/perl/site/man/man3/MIME::Detect.3
+/opt/perl/site/man/man3/MIME::Detect::FreeDesktopOrgDB.3
+/opt/perl/site/man/man3/MIME::Detect::Type.3
+/opt/perl/site/man/man3/MIME::update.3

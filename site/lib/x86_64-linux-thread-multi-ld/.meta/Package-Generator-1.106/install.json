@@ -1,0 +1,1 @@
+{"name":"Package::Generator","pathname":"R/RJ/RJBS/Package-Generator-1.106.tar.gz","dist":"Package-Generator-1.106","provides":{"Package::Reaper":{"version":"1.106","file":"lib/Package/Reaper.pm"},"Package::Generator":{"file":"lib/Package/Generator.pm","version":"1.106"}},"version":"1.106","target":"Package::Reaper"}

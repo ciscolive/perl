@@ -1,0 +1,15 @@
+/opt/perl/site/lib/DateTime.pm
+/opt/perl/site/lib/DateTime/Conflicts.pm
+/opt/perl/site/lib/DateTime/Duration.pm
+/opt/perl/site/lib/DateTime/Helpers.pm
+/opt/perl/site/lib/DateTime/Infinite.pm
+/opt/perl/site/lib/DateTime/LeapSecond.pm
+/opt/perl/site/lib/DateTime/PP.pm
+/opt/perl/site/lib/DateTime/PPExtra.pm
+/opt/perl/site/lib/DateTime/Types.pm
+/opt/perl/site/lib/auto/DateTime/DateTime.so
+/opt/perl/site/man/man3/DateTime.3
+/opt/perl/site/man/man3/DateTime::Duration.3
+/opt/perl/site/man/man3/DateTime::Infinite.3
+/opt/perl/site/man/man3/DateTime::LeapSecond.3
+/opt/perl/site/man/man3/DateTime::Types.3

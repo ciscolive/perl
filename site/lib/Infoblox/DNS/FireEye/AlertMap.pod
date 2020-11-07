@@ -1,0 +1,132 @@
+=head1 NAME
+
+Infoblox::DNS::FireEyeAlertMap - FireEye Alert Map object
+
+=head1 DESCRIPTION
+
+The alert map object is used to configure FireEye alerts to Response Policy Zone rules.
+
+=head1 CONSTRUCTOR
+
+ my $alertmap = Infoblox::DNS::FireEye::AlertMap->new(
+     alert_type => "INFECTION_MATCH" | "WEB_INFECTION" | "MALWARE_OBJECT" | "DOMAIN_MATCH" | "MALWARE_CALLBACK", # Required
+     rpz_rule   => "PASSTHRU" | "NXDOMAIN" | "NODATA" | "SUBSTITUTE" | "NONE", # Required
+     lifetime   => $uint, # Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a FireEye Alert Map object.
+
+=head2 Infoblox::DNS::FireEye::RuleMapping->fireeye_alert_mapping( )
+
+=over
+
+Use this function to specify the alert map for this rule mapping. See L<Infoblox::DNS::FireEye::RuleMapping-E<gt>fireeye_alert_mapping()|Infoblox::DNS::FireEye::RuleMapping/fireeye_alert_mapping()/> for parameters, return values and code samples.
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a DNS Member object.
+
+=head2 alert_type( )
+
+=over
+
+Use this method to set or retrieve the alert type.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of "INFECTION_MATCH", "WEB_INFECTION", "MALWARE_OBJECT", "DOMAIN_MATCH" or "MALWARE_CALLBACK".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get alert_type
+ my $alert_type = $am->alert_type();
+ #Modify alert_type
+ $am->alert_type("INFECTION_MATCH");
+
+=back
+
+=back
+
+=head2 rpz_rule( )
+
+=over
+
+Use this method to set or retrieve the rpz rule.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of "PASSTHRU", "NXDOMAIN", "NODATA", "SUBSTITUTE" or "NONE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpz_rule
+ my $rpz_rule = $am->rpz_rule();
+ #Modify rpz_rule
+ $am->rpz_rule("PASSTHRU");
+
+=back
+
+=back
+
+=head2 lifetime( )
+
+=over
+
+Use this method to set or retrieve the expiration lifetime for this alert type.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer, which specifies the amount of seconds this alert type will live for. 0 means the alert will never expire.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lifetime
+ my $lifetime = $am->lifetime();
+ #Modify lifetime
+ $am->lifetime(1234);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::Zone|Infoblox::DNS::FireEye::RuleMapping>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

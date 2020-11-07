@@ -1,0 +1,229 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DeviceComponent
+
+=head1 DESCRIPTION
+
+The object provides information about the device component.
+
+=head1 SESSION METHODS
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+    device      - Optional. The device object.
+    description - Optional. The component description.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object'      => 'Infoblox::Grid::Discovery::DeviceComponent',
+     'description' => 'simple',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for an object:
+
+    device      - Optional. The device object.
+    description - Optional. The component description (regular expression).
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     'object'      => 'Infoblox::Grid::Discovery::DeviceComponent',
+     'description' => '^simple',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 class( )
+
+=over
+
+Use this method to retrieve the general hardware type of the componenet. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->class();
+
+=back
+
+=back
+
+=head2 component_name( )
+
+=over
+
+Use this method to retrieve the component name. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->component_name();
+
+=back
+
+=back
+
+=head2 description( )
+
+=over
+
+Use this method to retrieve the component description. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->description();
+
+=back
+
+=back
+
+=head2 model( )
+
+=over
+
+Use this method to retrieve the model name. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->model();
+
+=back
+
+=back
+
+=head2 device( )
+
+=over
+
+Use this method to retrieve the device object. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device();
+
+=back
+
+=back
+
+=head2 serial( )
+
+=over
+
+Use this method to retrieve the component serial number. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->serial();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

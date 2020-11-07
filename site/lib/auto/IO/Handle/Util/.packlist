@@ -1,0 +1,12 @@
+/opt/perl/site/lib/IO/Handle/Iterator.pm
+/opt/perl/site/lib/IO/Handle/Prototype.pm
+/opt/perl/site/lib/IO/Handle/Prototype/Fallback.pm
+/opt/perl/site/lib/IO/Handle/Util.pm
+/opt/perl/site/lib/IO/Handle/Util/Overloading.pm
+/opt/perl/site/lib/IO/Handle/Util/Tie.pm
+/opt/perl/site/man/man3/IO::Handle::Iterator.3
+/opt/perl/site/man/man3/IO::Handle::Prototype.3
+/opt/perl/site/man/man3/IO::Handle::Prototype::Fallback.3
+/opt/perl/site/man/man3/IO::Handle::Util.3
+/opt/perl/site/man/man3/IO::Handle::Util::Overloading.3
+/opt/perl/site/man/man3/IO::Handle::Util::Tie.3

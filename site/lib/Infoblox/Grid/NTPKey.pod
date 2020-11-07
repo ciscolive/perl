@@ -1,0 +1,312 @@
+=head1 NAME
+
+Infoblox::Grid::NTPKey - Grid Network Time Protocol (NTP) key object.
+
+=head1 DESCRIPTION
+
+Grid NTPKey object is used by NTP server to authenticate the clients.
+
+=head1 CONSTRUCTOR
+
+ #Constructor for an Grid NTPKey object
+  my $ntp_key = Infoblox::Grid::NTPKey->new(
+     key_number   =>  $num,                  #Required
+     key_string   =>  $string,               #Required
+     key_type     =>  "M" | "S" | "A" | "N"  #Optional / Default is "M"
+   );
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to an NTPKey object.
+
+=head2 Infoblox::Grid->ntp_authentication_key( )
+
+=over
+
+Use this function to specify a NTP key at the grid level on the Infoblox appliance. See L<Infoblox::Grid-E<gt>ntp_authentication_key()|Infoblox::Grid/ntp_authentication_key()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Create a NTPKey object.
+ my $ntp_key = Infoblox::Grid::NTPKey->new(
+                  key_number => 1111,
+                  key_type   => "M",
+                  key_string => "aaaa"
+                );
+
+ #Configure NTPKey on the Infoblox grid object
+ my $responce = $grid->ntp_authentication_key()([$ntp_key]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->ntp_authentication_key( )
+
+=over
+
+Use this function to specify a NTP key at the member level on the Infoblox appliance. See L<Infoblox::Grid::Member-E<gt>ntp_authentication_key()|Infoblox::Grid::Member/ntp_authentication_key()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+  #Create a NTPKey object.
+ my $ntp_key = Infoblox::Grid::NTPKey->new(
+                  key_number => 1111,
+                  key_type   => "M",
+                  key_string => "aaaa"
+                );
+
+ #Configure NTPKey on the Infoblox member object
+ my $responce = $member->ntp_authentication_key()([$ntp_key]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can used to configure and retrieve the attribute value of a NTPKey object.
+
+=head2  key_number( )
+
+=over
+
+Use this method to set or retrieve the key number of the NTPKey object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A positive integer number. Value must be between 1 and 65534.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get key_number
+ my $number = $ntp_key->key_number();
+ #Modify key_number
+ $ntp_key->key_number("3333");
+
+=back
+
+=back
+
+=head2 key_string( )
+
+=over
+
+Use this method to set or retrieve the key string of the NTPKey object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired key_string in string format defined in the key_type.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get key_string
+ my $string = $ntp_key->key_string();
+ #Modify key_string
+ $ntp_key->key_string("d3e54352e5548080");
+
+=back
+
+=back
+
+=head2 key_type( )
+
+=over
+
+Use this method to set or retrieve the key type of the NTPKey object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are :C<"M","S","N","A">.The default value is "M".
+
+ "M" - For  Message Digest (MD5) in ASCII format and the key_string must be a 1-31 character ASCII using
+          MD5;
+ "S" - For Data Encryption Standard (DES) in hex format and key_string must be a 64-bit hexadecimal
+         number in DES. The high order 7 bits of each octet form the 56-bit key, and the low order bit of each
+        octet is given a value,  so that the octet maintains odd parity. You must specify leading zeros so the key
+        is exactly 16 hexadecimal digits long and maintains odd parity;
+
+ "A" - For Data Encryption Standard (DES) in ASCII format and the key_string must be a 1-8 character
+          ASCII using DES;
+ "N" - For Data Encryption Standard (DES) in NTP format and the key_string must be a 64-bit hexadecimal in
+          NTP format. It is the same as the "S" format, but the bits in each octet have been rotated one bit right,
+          so the parity bit is in the high order bit of the octet. You must specify leading zeros and odd parity must
+          be maintained.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get key_type
+ my $type = $ntp_key->key_type();
+ #Modify key_type
+ $ntp_key->ntp_key("N");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to an object such as create, modify, and remove an object. Also this sample code also includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+  use strict;
+  use Infoblox;
+
+  #Create a session to the Infoblox appliance
+  my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+  );
+  unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+  print "Session created successfully\n";
+
+B<#Adding an NTPKey object>
+
+ #Create a NTPKey object.
+ my $ntp_key = Infoblox::Grid::NTPKey->new(
+    key_number => 65533,
+    key_type   => "M",
+    key_string => "aaaa"
+ );
+
+ unless($ntp_key) {
+        die("Construct NTP Key object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "NTP Key object created successfully\n";
+
+ #Create a NTPServer object.
+  my $ntp_server = Infoblox::Grid::NTPServer->new(
+     address        => "3.3.3.3",
+ );
+
+ unless($ntp_server) {
+        die("Construct NTP server object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "NTP Server object created successfully\n";
+
+ my @grid_objs = $session->get(
+    object  => "Infoblox::Grid",
+    name    => "Infoblox"
+  );
+
+  my $grid = $grid_objs[0];
+  unless ($grid) {
+        die("Get Grid object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Grid object found at least 1 matching entry\n";
+
+ $grid->enable_ntp("true");
+ $grid->ntp_authentication_key([$ntp_key]);
+ $grid->ntp_server([$ntp_server]);
+
+ #Applying the changes to appliance through session.
+ $session->modify($grid)
+      or die("modify Grid failed:" ,
+       $session->status_code(), $session->status_detail());
+ print "Grid modified successfully for adding NTPKey object\n";
+
+B<#Modifying an NTPKey object>
+
+ my $ntp_key = Infoblox::Grid::NTPKey->new(
+    key_number => 65532,
+    key_type   => "M",
+    key_string => "aaaa"
+ );
+
+ my @grid_objs = $session->get(
+            object => "Infoblox::Grid",
+            name   => "Infoblox"
+        );
+
+ my $grid = $grid_objs[0];
+ unless ($grid) {
+        die("Get Grid object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Grid object found at least 1 matching entry\n";
+
+ $grid->ntp_authentication_key([$ntp_key]);
+
+ #Applying the changes to appliance through session.
+ $session->modify($grid)
+      or die("modify Grid failed:" ,
+       $session->status_code(), $session->status_detail());
+ print "Grid modified successfully for modifying NTPKey object\n";
+
+B<#Removing an NTPKey object>
+
+ #Get Infoblox grid object
+ my @grid_objs = $session->get(
+            object => "Infoblox::Grid",
+            name   => "Infoblox"
+        );
+
+ my $grid = $grid_objs[0];
+ unless ($grid) {
+        die("Get Grid object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Grid object found at least 1 matching entry\n";
+
+ $grid->ntp_authentication_key([]);
+ #Applying the changes to appliance through session.
+ $session->modify($grid)
+     or die("modify Grid failed for removing NTPKey object:" ,
+      $session->status_code(), $session->status_detail());
+ print "Grid modified successfully for removing NTPKey object\n";
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::NTPServer|Infoblox::Grid::NTPServer>, L<Infoblox::Grid|Infoblox::Grid>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

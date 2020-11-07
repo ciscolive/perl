@@ -1,0 +1,9 @@
+/opt/perl/site/lib/YAML/LibYAML.pm
+/opt/perl/site/lib/YAML/LibYAML.pod
+/opt/perl/site/lib/YAML/XS.pm
+/opt/perl/site/lib/YAML/XS.pod
+/opt/perl/site/lib/YAML/XS/LibYAML.pm
+/opt/perl/site/lib/auto/YAML/XS/LibYAML/LibYAML.so
+/opt/perl/site/man/man3/YAML::LibYAML.3
+/opt/perl/site/man/man3/YAML::XS.3
+/opt/perl/site/man/man3/YAML::XS::LibYAML.3

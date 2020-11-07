@@ -1,0 +1,467 @@
+=head1 NAME
+
+Infoblox::DTC::Monitor::PDP - A DTC PDP Health Monitor object.
+
+=head1 DESCRIPTION
+
+A DTC PDP Health Monitor object.
+
+=head1 CONSTRUCTOR
+
+ my $pdp_monitor = Infoblox::DTC::Monitor::PDP->new(
+    name                  => $string,                                                               #Required
+    comment               => $string,                                                               #Optional / Default is undefined
+    interval              => $uint,                                                                 #Optional / Default is undefined
+    port                  => $uint,                                                                 #Optional / Default is undefined
+    retry_down            => $uint,                                                                 #Optional / Default is undefined 
+    retry_up              => $uint,                                                                 #Optional / Default is undefined
+    timeout               => $uint,                                                                 #Optional / Default is undefined
+    extattrs              => { $string => $extattr, ... },                                          #Optional / Default is undefined
+    extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DTC PDP Monitor object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $pdp_monitor = Infoblox::DTC::Monitor::PDP->new(
+    name  => 'pdp_monitor1',
+ );
+
+ #submit for addition
+ my $response = $session->add($pdp_monitor);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC PDP Monitor name in a string format.
+  comment               - Optional. A DTC PDP Monitor comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::PDP',
+     name   => 'pdp_monitor1',
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::PDP',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $pdp_monitor->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($pdp_monitor);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::PDP',
+     name   => 'pdp_monitor1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_pdp_monitor = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_pdp_monitor);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC PDP Monitor name in a string format.
+  comment               - Optional. A DTC PDP Monitor comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Monitor::PDP',
+     name   => 'pdp_monitor1',
+ );
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Monitor::PDP',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a DTC PDP Health Monitor object comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $pdp_monitor->comment();
+
+ #modify comment value
+ $pdp_monitor->comment('desired comment');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC PDP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get extattrs value
+ my $ref_extattrs = $pdp_monitor->extattrs();
+
+ #Modify extattrs
+ $pdp_monitor->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC PDP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $pdp_monitor->extensible_attributes();
+
+ #Modify extensible attributes
+ $pdp_monitor->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 interval( )
+
+=over
+
+Use this method to set or retrieve the time interval for the PDP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get interval value
+ my $interval = $pdp_monitor->interval();
+
+ #modify interval value
+ $pdp_monitor->interval(10);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a DTC PDP Health Monitor name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $pdp_monitor->name();
+
+ #modify name value
+ $pdp_monitor->name('pdp_monitor1');
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the port value for PDP requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get port value
+ my $port = $pdp_monitor->port();
+
+ #modify port value
+ $pdp_monitor->port(6030);
+
+=back
+
+=back
+
+=head2 retry_down( )
+
+=over
+
+Use this method to set or retrieve the number of times the server appears offline after it was online so it is treated as dead.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get retry_down value
+ my $retry_down = $pdp_monitor->retry_down();
+
+ #modify retry_down value
+ $pdp_monitor->retry_down(3);
+
+=back
+
+=back
+
+=head2 retry_up( )
+
+=over
+
+Use this method to set or retrieve the number of times the server appears online after it was offline so it is treated as alive.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get retry_up value
+ my $retry_up = $pdp_monitor->retry_up();
+
+ #modify retry_up value
+ $pdp_monitor->retry_up(3);
+
+=back
+
+=back
+
+=head2 timeout( )
+
+=over
+
+Use this method to set or retrieve the value of a timeout for PDP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 15.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get timeout value
+ my $timeout = $pdp_monitor->timeout();
+
+ #modify timeout value
+ $pdp_monitor->timeout(7);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>, L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

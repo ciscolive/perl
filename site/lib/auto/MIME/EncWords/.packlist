@@ -1,0 +1,9 @@
+/opt/perl/site/lib/Encode/MIME/EncWords.pm
+/opt/perl/site/lib/MIME/EncWords.pm
+/opt/perl/site/lib/MIME/EncWords/Defaults.pm.sample
+/opt/perl/site/lib/POD2/JA/Encode/MIME/EncWords.pod
+/opt/perl/site/lib/POD2/JA/MIME/EncWords.pod
+/opt/perl/site/man/man3/Encode::MIME::EncWords.3
+/opt/perl/site/man/man3/MIME::EncWords.3
+/opt/perl/site/man/man3/POD2::JA::Encode::MIME::EncWords.3
+/opt/perl/site/man/man3/POD2::JA::MIME::EncWords.3

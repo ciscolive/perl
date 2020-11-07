@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Net/Async/Ping.pm
+/opt/perl/site/lib/Net/Async/Ping/ICMP.pm
+/opt/perl/site/lib/Net/Async/Ping/ICMPv6.pm
+/opt/perl/site/lib/Net/Async/Ping/TCP.pm
+/opt/perl/site/man/man3/Net::Async::Ping.3
+/opt/perl/site/man/man3/Net::Async::Ping::ICMP.3
+/opt/perl/site/man/man3/Net::Async::Ping::ICMPv6.3
+/opt/perl/site/man/man3/Net::Async::Ping::TCP.3

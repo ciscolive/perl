@@ -1,0 +1,656 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::Group - Admin Group object.
+
+=head1 DESCRIPTION
+
+An Admin Group object creates and manages a local admin group on the Infoblox appliance. The privileges and properties that are set for the group apply to all the admin accounts that are assigned to the group.
+
+=head1 CONSTRUCTOR
+
+ my $group = Infoblox::Grid::Admin::Group->new(
+     name                          => $string,                                                               # Required
+     access_method                 => ["GUI"|"API"|"TAXII",...],                                             # Optional / Default is ["GUI", "API", "TAXII"]
+     comment                       => $string,                                                               # Optional / Default is undefined
+     disabled                      => "true" | "false",                                                      # Optional / Default is "false"
+     enable_restricted_user_access => "true" | "false",                                                      # Optional / Default is "false"
+     extattrs                      => { $string => $extattr, ... },                                          # Optional / Default is undefined
+     extensible_attributes         => { $string => $string | $num, $string => [ $string | $num, ... ], ... } # Optional / Default is undefined
+     email_addresses               => [ 'admin@test.com',...],                                               # Optional / Default is undefined
+     superuser                     => "true" | "false",                                                      # Optional / Default is "false"
+     roles                         => [$string, ...]                                                         # Optional / Default is an empty array reference
+     user_access                   => [$ipaddr, $netaddr, ...]                                               # Optional / Default is empty list
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to an Admin Group object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct the Group object
+ my $group = Infoblox::Grid::Admin::Group->new(
+     name                 => "testgroup",
+     access_method        => ["GUI", "API"],
+     comment              => "test group",
+     disabled             => "true",
+     superuser            => "false"
+ );
+ # Submit for addition
+ my $response = $session->add( $group );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Group object:
+
+  name      - Required. Group name in string format.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  extattrs  - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::Group",
+     name       => "testgroup" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment.
+ $group->comment("This is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $group );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, use get() or search() to retrieve the specific object first, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the group objects with the same starting name
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::Group",
+     name       => "testgroup" );
+ # find the desired object from the retrieved list.
+ my $desired_group = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_group );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Admin Group objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific Group object:
+
+  name                             - Optional. Group name in string format (regular expression).
+  roles                            - Optional. An array of role names in string format.
+  ca_certificate_issuer            - Optional. The name of the CA certificate issuer in string format.
+  client_certificate_serial_number - Optional. The serial number of the CA certificate in string format. This is unique for a particular issuer.
+  extensible_attributes            - Optional. A hash reference containing extensible attributes.
+  extattrs                         - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all Group objects that start with "test"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::Admin::Group",
+     name   => "test.*" );
+
+ # search for all Group objects that start with "test"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::Admin::Group",
+     roles   => ["DHCP Admin", "AAA Admin"]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a Group object.
+
+=head2 access_method( )
+
+=over
+
+Use this method to set or retrieve a group's access methods. Access methods specify whether a group can use the GUI and the API to access the appliance or to send Taxii messages to the appliance. Valid value is an array reference that contains the literal string "GUI", "TAXII" and/or "API". The default value is ["GUI", "API", "TAXII"].
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Array reference of the literal string "GUI", "TAXII" and/or "API". It indicates whether a group has permission to access the appliance through the GUI and/or API and/or to send Taxii messages to the appliance.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get access methods
+ my $ref_access_method = $group->access_method();
+ #Modify access methods
+ $group->access_method(["GUI"]);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Pertinent information about the admin group, such as location or department. Comment in string format with a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $group->comment();
+ #Modify comment
+ $group->comment("This is the modified comment for admin group");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the "disabled" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The admin group is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disabled
+ my $disabled = $group->disabled();
+ #Modify disabled
+ $group->disabled("true");
+
+=back
+
+=back
+
+=head2 enable_restricted_user_access( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the restrictions will be applied on an admin connector level for a given user or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable restricted access on admin connector level and "false" to disable restrictions. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_restricted_user_access
+ my $enable_restricted_user_access = $group->enable_restricted_user_access();
+
+ #Modify enable_restricted_user_access
+ $group->enable_restricted_user_access("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Group object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $group->extattrs();
+ #Modify extattrs
+ $group->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $group->extensible_attributes();
+ #Modify extensible attributes
+ $group->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 email_addresses( )
+
+=over
+
+Use this method to set or retrieve the email addresses for the Admin Group.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains emails in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get email_addresses
+ my @email_addresses = $rgroup->email_addresses();
+ #Modify addresses
+ $group->addresses( [ 'admin@test.com' ] );
+
+=back
+
+=back
+
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of an admin group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the admin group.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $group->name();
+
+=back
+
+=back
+
+=head2 superuser( )
+
+=over
+
+Use this method to set or retrieve the "superuser" flag. A superuser group can perform all operations on the appliance, and can view and configure all types of data.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The default value for this field is "false" which means that this is not a superuser admin group. The admins in the group have limited privileges.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get super user flag
+ my $disabled = $group->superuser();
+ #Modify super user
+ $group->superuser("true");
+
+=back
+
+=back
+
+=head2 roles( )
+
+=over
+
+Use this method to set or retrieve the role names associated with this admin group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The default value for this field is an empty array. A valid value is an array reference with literal strings containing valid role names. The corresponding role objects must exist in the database.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get roles
+ my $ref_roles = $group->roles();
+ #Modify roles
+ $group->roles(["role1", "role2"]);
+ #Remove roles
+ $group->roles([]);
+
+=back
+
+=back
+
+=head2 user_access( )
+
+=over
+
+Use this method to set or retrieve the access control items for a given group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses or networks.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get user_access
+ my $user_access = $group->user_access();
+
+ #Modify user_access
+ $group->user_access(['10.0.0.1', '2001:db8::/64']);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an Admin Group object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $role = Infoblox::Grid::Admin::Role->new(
+     name                 => "testrole",
+     comment              => "test admin role",
+ );
+
+ unless ($role) {
+        die("Construct role object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Admin Role object created successfully\n";
+
+ #Add the Admin Role object to the Infoblox appliance through a session
+ $session->add($role)
+        or die("Add Admin Role object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin Role object added to server successfully\n";
+
+B<#Create an Admin Group object>
+
+ my $group = Infoblox::Grid::Admin::Group->new(
+     name                 => "testgroup",
+     comment              => "test admin group",
+     disabled             => "false",
+     superuser            => "false",
+     access_method        => ["GUI", "API"],
+     roles                => ["testrole"]
+ );
+
+ unless ($group) {
+        die("Construct group object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Admin Group object created successfully\n";
+
+ #Add the Admin Group object to the Infoblox appliance through a session
+ $session->add($group)
+        or die("Add Admin Group object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin Group object added to server successfully\n";
+
+B<#Search for an Admin Group>
+
+ my @retrieved_objs = $session->search(
+                object => "Infoblox::Grid::Admin::Group",
+                name   => "test.*"
+                );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Admin Group object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Admin Group object found at least 1 matching entry\n";
+
+B<#Get and modify an Admin Group object>
+
+ #Get the Admin Group object from Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::Group",
+     name   => "testgroup"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get Admin Group object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin Group object found at least 1 matching entry\n";
+
+ #Modify the Admin Group object
+ $object->name("testgroup_renamed");
+ $object->access_method(["API"]);
+ $object->comment("modified test group");
+ $object->disabled("false");
+ $object->superuser("false"); # no real change
+
+ #Apply the changes.
+ $session->modify($object)
+        or die("Modify Admin Group object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Group object modified successfully \n";
+
+B<#Remove an Admin Group object>
+
+ #Get the Admin Group object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::Group",
+     name   => "testgroup_renamed"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Admin Group object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin Group object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+        or die("Remove Admin Group object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Group object removed successfully \n";
+
+B<#Clean up the Admin Role object>
+
+ $session->remove($role)
+        or die("Remove Admin Role object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Role object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::Role|Infoblox::Grid::Admin::Role>, L<Infoblox::Grid::Admin::User|Infoblox::Grid::Admin::User>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

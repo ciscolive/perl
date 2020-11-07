@@ -1,0 +1,150 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DeviceSupportInfo - the device support info.
+
+=head1 DESCRIPTION
+
+The object provides information about the device support info. This is a read-only object.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to a Device Support Info object.
+
+=head2 Infoblox::Grid::Discovery::DeviceSupportInfoResponse->device_support_info( )
+
+=over
+
+Use this method to retrieve the Device support infos. See L<Infoblox::Grid::Discovery::DeviceSupportInfoResponse-E<gt>device_support_info()|Infoblox::Grid::Discovery::DeviceSupportInfoResponse/device_support_info()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get value
+ my $device_support_info = $device_support_info_response->device_support_info();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of a device support info.
+
+=head2 available()
+
+=over
+
+Use this method to determine whether the function is available for the device or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $available = $device_support_info->available();
+
+=back
+
+=back
+
+=head2 function()
+
+=over
+
+Use this method to retrieve the function of the device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $function = $device_support_info->function();
+
+=back
+
+=back
+
+=head2 supported()
+
+=over
+
+Use this method to determine whether the function is supported by the device or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $supported = $device_support_info->supported();
+
+=back
+
+=back
+
+=head2 value()
+
+=over
+
+Use this method to retrieve the discovery member indicator knowing that a given device supports the given type of data collection. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $value = $device_support_info->value();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery::DeviceSupportInfoResponse|Infoblox::Grid::Discovery::DeviceSupportInfoResponse>, L<Infoblox::Grid::Discovery::DeviceDataCollectionStatus|Infoblox::Grid::Discovery::DeviceDataCollectionStatus>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

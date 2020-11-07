@@ -1,0 +1,284 @@
+=head1 NAME
+
+Infoblox::Grid::FileDistributionDir - Grid FileDistributionDir object.
+
+=head1 DESCRIPTION
+
+The FileDistributionDir object is used to add, get, modify, and remove directories that store files for a file distribution service.
+
+=head1 CONSTRUCTOR
+
+ my $dir = Infoblox::Grid::FileDistributionDir->new(
+     name        => $string,            #Required
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a FileDistributionDir object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct the file distribution directory object
+ my $dir = Infoblox::Grid::FileDistributionDir->new(
+     name        => "mydir",
+ );
+ # Submit for addition
+ my $response = $session->add( $dir );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific FileDistributionDir object:
+
+  name          - Required. User name in string format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object      => "Infoblox::Grid::FileDistributionDir",
+     name        => "mydir" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to rename a file distribution directory.
+ $dir->name("mynewdir");
+ # Submit modification
+ my $response = $session->modify( $dir );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, use get() or search() to retrieve the specific object first, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the user objects with the same starting name
+ my @retrieved_objs = $session->get(
+     object      => "Infoblox::Grid::FileDistributionDir",
+     name        => "mydir" );
+ # find the desired object from the retrieved list.
+ my $dir = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $dir );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for FileDistributionDir objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific FileDistributionDir object:
+
+  name          - Required. Directory name in string format. Only the exact match is supported (that is, exactly the same as 'get' method).
+
+=item B<Example>
+
+ # search for all FileDistributionDir objects with name "mydir"
+ my @retrieved_objs = $session->search(
+     object      => "Infoblox::Grid::FileDistributionDir",
+     name        => "mydir");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a FileDistributionDir object.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a file distribution directory.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the file distribution directory. Enter the complete path to the file distribution directory, including all existing intermediate directories.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name of the file distribution directory
+ my $name = $file_distribution->name();
+ #Modify name of the file distribution directory (i.e. rename the directory)
+ $file_distribution->name("mynewdir");
+ #Create a new subdirectory 'subdir' under 'mynewdir' ('mynewdir' must exist)
+ $file_distribution->name("mynewdir/subdir");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a FileDistributionDir object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a FileDistributionDir object>
+
+ my $dir = Infoblox::Grid::FileDistributionDir->new(
+     name        => "mydir",
+ );
+
+ unless ($dir) {
+        die("Construct file distribution directory object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "FileDistributionDir object created successfully\n";
+
+ #Add the file distribution dir object to the Infoblox appliance through a session
+ $session->add($dir)
+        or die("Add FileDistributionDir object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "FileDistributionDir object added to server successfully\n";
+
+B<#Search for a file distribution directory>
+
+ my @retrieved_objs = $session->search(
+                object      => "Infoblox::Grid::FileDistributionDir",
+                name        => "mydir"
+               );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search FileDistributionDir object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search FileDistributionDir object found at least 1 matching entry\n";
+
+B<#Get and modify a FileDistributionDir object>
+
+ #Get the file distribution dir object from Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+             object      => "Infoblox::Grid::FileDistributionDir",
+             name        => "mydir",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get FileDistributionDir object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get FileDistributionDir object found at least 1 matching entry\n";
+
+ #Modify the name of the FileDistributionDir object (that is, rename the directory)
+ $object->name("mynewdir");
+
+ #Apply the changes.
+ $session->modify($object)
+        or die("Modify User object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "FileDistributionDir object modified successfully \n";
+
+B<#Remove a FileDistributionDir object>
+
+ #Get a FileDistributionDir object through the session
+ my @retrieved_objs = $session->get(
+             object      => "Infoblox::Grid::FileDistributionDir",
+             name        => "mynewdir",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get FileDistributionDir object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get FileDistributionDir object found at least 1 matching entry\n";
+
+ #Submit an object for removal
+ $session->remove($object)
+        or die("Remove FileDistributionDir object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "FileDistributionDir object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member::FileDistribution|Infoblox::Grid::Member::FileDistribution>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

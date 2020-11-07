@@ -1,0 +1,3172 @@
+=head1 NAME
+
+Infoblox::Grid::DHCP - Grid DHCP services object.
+
+=head1 DESCRIPTION
+
+When you configure an Infoblox appliance as a full-featured DHCP server, you can set operational parameters at the grid, member, network, DHCP range and individual IP address levels. This class supports grid-level DHCP services management and network configuration. It implements methods for configuring grid-level DHCP parameters, such as DHCP general properties,  ping and DHCP lease settings, Bootstrap Protocol (BOOTP) properties, custom DHCP options, and DHCP logging.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::DHCP object is automatically generated upon the successful installation of the Infoblox appliance. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a grid DHCP object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get a specific grid DHCP object:
+
+  grid - Required. A grid name in string format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::DHCP",
+     grid   => "Infoblox"
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify authority.
+ $griddhcp->authority("true");
+ #Submit modification
+ my $response = $session->modify( $griddhcp );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the DHCP properties of a grid.
+
+=head2 authority( )
+
+=over
+
+Use this method to set or retrieve the grid-level authority flag. This flag specifies whether a DHCP server is authoritative for a domain.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the authority flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authority
+ my $authority = $griddhcp->authority();
+ #Modify authority
+ $griddhcp->authority("true");
+
+=back
+
+=back
+
+=head2 bootfile( )
+
+=over
+
+Some DHCP clients use BOOTP (bootstrap protocol) or include the boot file name option in their DHCPREQUEST messages. Use this method to set or retrieve a boot file name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the file that the client must download.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bootfile
+ my $bootfile = $griddhcp->bootfile();
+ #Modify bootfile
+ $griddhcp->bootfile("bootfile.txt");
+
+=back
+
+=back
+
+=head2 bootserver( )
+
+=over
+
+Use this method to set or retrieve the name of the server on which a boot file is stored.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The boot server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A boot server name can have a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bootserver
+ my $bootserver = $griddhcp->bootserver();
+ #Modify bootserver
+ $griddhcp->bootserver("hostname.com");
+
+=back
+
+=back
+
+=head2 capture_hostname( )
+
+=over
+
+Use this method to set or retrieve the grid-level capture_hostname flag. Set this flag to capture the hostname and lease time when assigning a fixed address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get capture_hostname
+ my $capture_hostname = $griddhcp->capture_hostname();
+ #Modify disable
+ $griddhcp->capture_hostname("true");
+
+=back
+
+=back
+
+=head2 ddns_generate_hostname( )
+
+=over
+
+Use this method to set or retrieve the grid-level ddns_generate_hostname flag. Set this flag to enable a DHCP server to generate a host name and update DNS with this host name when it receives a DHCP REQUEST message that does not include a host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_generate_hostname
+ my $ddns_generate_hostname = $griddhcp->ddns_generate_hostname();
+ #Modify disable
+ $griddhcp->ddns_generate_hostname("true");
+
+=back
+
+=back
+
+=head2 ddns_retry_interval( )
+
+=over
+
+Use this method to set or retrieve the grid-level ddns_retry_interval value. Set the retry interval when the DHCP server makes repeated attempts to send DDNS updates to a DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the retry interval in minutes. The default retry interval is five minutes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_retry_interval
+ my $ddns_retry_interval = $griddhcp->ddns_retry_interval();
+ #Modify ddns_retry_interval
+ $griddhcp->ddns_retry_interval(10);
+
+=back
+
+=back
+
+=head2 ddns_server_always_updates( )
+
+=over
+
+Use this method to set or retrieve the grid-level ddns_server_always_updates flag. Set this flag to allow only the DHCP server to update DNS, regardless of requests from DHCP clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the  ddns_server_always_updates flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_server_always_updates
+ my $ddns_server_always_updates = $griddhcp->ddns_server_always_updates();
+ #Modify ddns_server_always_updates
+ $griddhcp->ddns_server_always_updates("true");
+
+=back
+
+=back
+
+=head2 ddns_ttl( )
+
+=over
+
+Use this method to set or retrieve the grid-level ddns_ttl value. The DDNS TTL (Dynamic DNS Time To Live) value specifies the number of seconds a DNS record is cached.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that specifies the number of seconds a DNS record is cached. Default value is half of lease time.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_ttl
+ my $ddns_ttl = $griddhcp->ddns_ttl();
+ #Modify ddns_ttl
+ $griddhcp->ddns_ttl(1000);
+
+=back
+
+=back
+
+=head2 ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the grid-level DDNS domain name value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The DDNS domain name in FQDN (Fully Qualified Domain Name) format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_domainname
+ my $ddns_domainname = $griddhcp->ddns_domainname();
+ #Modify ddns_domainname
+ $griddhcp->ddns_domainname("domain.com");
+
+=back
+
+=back
+
+=head2 ddns_update_fixed_addresses( )
+
+=over
+
+Use this method to set or retrieve the grid-level ddns_update_fixed_addresses flag. Set this flag to enable the DHCP server to update the A and PTR records of clients with fixed addresses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the DHCP server to update the A and PTR records of clients with fixed addresses, or specify "false" to disable this feature. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_update_fixed_addresses
+ my $ddns_update_fixed_addresses = $griddhcp->ddns_update_fixed_addresses();
+ #Modify ddns_update_fixed_addresses
+ $griddhcp->ddns_update_fixed_addresses("true");
+
+=back
+
+=back
+
+=head2 ddns_use_option81( )
+
+=over
+
+Use this method to set or retrieve the grid-level ddns_use_option81 flag. Set this flag to enable support for option 81.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable support for option 81 or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_use_option81
+ my $ddns_use_option81 = $griddhcp->ddns_use_option81();
+ #Modify ddns_use_option81
+ $griddhcp->ddns_use_option81("true");
+
+=back
+
+=back
+
+=head2 deny_bootp( )
+
+=over
+
+Use this method to set or retrieve the grid-level deny_bootp flag. Set this flag to enable a BOOTP server to deny BOOTP request.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get deny_bootp
+ my $deny_bootp = $griddhcp->deny_bootp();
+ #Modify deny_bootp
+ $griddhcp->deny_bootp("true");
+
+=back
+
+=back
+
+=head2 disable_all_nac_filters( )
+
+=over
+
+Use this method to enable/disable the use of all NAC filters.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable the use of all NAC filters or "false" to enable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable_all_nac_filters
+ my $disable_all_nac_filters = $griddhcp->disable_all_nac_filters();
+ #Modify disable_all_nac_filters
+ $griddhcp->disable_all_nac_filters("true");
+
+=back
+
+=back
+
+=head2 dns_update_style( )
+
+=over
+
+Use this method to set or retrieve the update style for dynamic DNS updates (DHCPv4).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'INTERIM' and 'STANDARD'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_update_style value
+ my $value = $object->dns_update_style();
+
+ #Modify dns_update_style value
+ $object->dns_update_style('STANDARD');
+
+=back
+
+=back
+
+=head2 format_log_option_82( )
+
+=over
+
+Use this method to set or retrieve the format option for Option 82 logging. The possible values are 'HEX' or 'TEXT'. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Switch between HEX and human readable format of agent.remote-id/circuit-id in syslog for Option 82. Default is 'HEX'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get format of option82 logging
+ my $option82_format = $griddhcp->format_log_option_82();
+ #Modify format of option82 logging
+ $griddhcp->format_log_option_82('TEXT');
+
+=back
+
+=back
+
+=head2 email_list( )
+
+=over
+
+Use this method to specify or retrieve the grid-level email_list value. Specify an e-mail address to which you want the Infoblox appliance to send e-mail notifications when the DHCP address usage for the grid crosses a threshold. You can create a list of several e-mail addresses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Array reference with the e-mail values.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get email_list
+ my $email_list = $griddhcp->email_list();
+ #Modify email_list
+ $griddhcp->email_list(["admin\@infoblox.com"]);
+
+=back
+
+=back
+
+=head2 enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the grid-level enable_ddns flag. Set this flag to enable DHCP servers in a grid to send DDNS updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable support for DDNS updates or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_ddns
+ my $enable_ddns= $griddhcp->enable_ddns();
+ #Modify enable_ddns
+ $griddhcp->enable_ddns("true");
+
+=back
+
+=back
+
+=head2 enable_dhcp_thresholds( )
+
+=over
+
+Use this method to set or retrieve the grid-level enable_dhcp_thresholds flag. Thresholds represent the watermarks above or below which address usage in a network is unexpected and might warrant your attention.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable DHCP thresholds or "false" to disable them. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dhcp_thresholds
+ my $enable_dhcp_thresholds = $griddhcp->enable_dhcp_thresholds();
+ #Modify enable_dhcp_thresholds
+ $griddhcp->enable_dhcp_thresholds("true");
+
+=back
+
+=back
+
+=head2 enable_email_warnings( )
+
+=over
+
+Use this method to set or retrieve the grid-level enable_email_warnings flag. If you enable this feature and DHCP threshold is enabled, the Infoblox appliance sends an e-mail notification to an administrator if DHCP address usage crosses a high or low watermark threshold.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_email_warnings flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_email_warnings
+ my $enable_email_warnings = $griddhcp->enable_email_warnings();
+ #Modify enable_email_warnings
+ $griddhcp->enable_email_warnings("true");
+
+=back
+
+=back
+
+=head2 enable_fingerprint( )
+
+=over
+
+Use this method to set or retrieve the Grid-level enable_fingerprint flag. If you enable this feature, the server will match a fingerprint for incoming lease requests.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_fingerprint flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_fingerprint
+ my $enable_fingerprint = $griddhcp->enable_fingerprint();
+ #Modify enable_fingerprint
+ $griddhcp->enable_fingerprint("false");
+
+=back
+
+=back
+
+=head2 enable_gss_tsig( )
+
+=over
+
+Use this method to retrieve the grid-level enable_gss_tsig flag. This method returns "true" only if both the gss_tsig_key and kdc_server are specified.
+
+This is for DHCPv4 GSS-TSIG authentication.
+
+=over
+
+=item B<Parameter>
+
+This is a read-only method. You cannot enter any parameter.
+
+=item B<Returns>
+
+This method returns the enable_gss_tsig attribute value.
+
+=item B<Example>
+
+ #Get enable_gss_tsig
+ my $enable_gss_tsig = $griddhcp->enable_gss_tsig();
+
+=back
+
+=back
+
+=head2 enable_ifmap( )
+
+=over
+
+Use this method to enable or disable the IF-MAP DHCP client feature on this grid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Boolean to enable or disable IF-MAP client feature. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP enable value
+ my $ifmap_enabled = $griddhcp->enable_ifmap();
+ #Enable IF-MAP Client feature
+ $griddhcp->enable_ifmap("true");
+
+=back
+
+=back
+
+=head2 enable_ifmap_publishing( )
+
+=over
+
+Use this method to enable or disable the IF-MAP publishing feature on this grid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Boolean to enable or disable IF-MAP publishing feature. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP publishing enable value
+ my $ifmap_publishing_enabled = $griddhcp->enable_ifmap_publishing();
+ #Disable IF-MAP publishing feature
+ $griddhcp->enable_ifmap_publishing("false");
+
+=back
+
+=back
+
+=head2 enable_hostname_rewrite( )
+
+=over
+
+Use this method to set or retrieve the grid enable_hostname_rewrite flag.
+
+=over
+
+=item B<Parameter>
+
+Boolean to enable or disable hostname rewrite for the grid. The default value is "false".
+
+Cannot enable the hostname rewrite policy along with the Microsoft code page. See L</microsoft_code_page()>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_hostname_rewrite
+ $status = $griddhcp->enable_hostname_rewrite();
+ #Modify enable_hostname_rewrite
+ $griddhcp->enable_hostname_rewrite("true");
+
+=back
+
+=back
+
+=head2 enable_roaming_hosts( )
+
+=over
+
+Use this method to set or retrieve the grid-level enable_roaming_hosts flag. Set this flag to enable DHCP servers in a grid to support roaming hosts.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_roaming_hosts flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_roaming_hosts
+ my $enable_roaming_hosts = $griddhcp->enable_roamin_hosts();
+ #Modify enable_roaming_hosts
+ $griddhcp->enable_roaming_hosts("true");
+
+=back
+
+=back
+
+=head2 enable_snmp_warnings( )
+
+=over
+
+Use this method to set or retrieve the grid-level enable_snmp_warnings flag. When DHCP address usage crosses a watermark threshold and DHCP threshold is enabled, the appliance sends an SNMP trap to trap receivers that you defined for the grid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_snmp_warnings flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_snmp_warnings
+ my $enable_snmp_warnings = $griddhcp->enable_snmp_warnings();
+ #Modify enable_snmp_warnings
+ $griddhcp->enable_snmp_warnings("true");
+
+=back
+
+=back
+
+=head2 grid( )
+
+=over
+
+Use  this method to retrieve the grid that serves DHCP. This specifies a group of Infoblox appliances that are connected together to provide a single point of device administration and service configuration in a secure, highly available environment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the grid that provides DHCP service. Default value is "Infoblox".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get grid
+ my $grid = $griddhcp->grid();
+
+=back
+
+=back
+
+=head2 gss_tsig_keys( )
+
+=over
+
+Use this method to set or retrieve the list of GSS-TSIG keys for a Grid DHCPv4 object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::KerberosKey|Infoblox::Grid::KerberosKey> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the Kerberos keys list
+ my $kerberos_keys_list = $grid_dhcp->gss_tsig_keys();
+
+ #Modify the Kerberos keys list
+ my $kerberos_key1 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test1@LADYBUG.LOCAL',
+        );
+ my $kerberos_key2 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test2@LADYBUG.LOCAL',
+        );
+ $grid_dhcp->gss_tsig_keys([$kerberos_key1, $kerberos_key2]);
+
+=back
+
+=back
+
+=head2 high_water_mark( )
+
+=over
+
+Use this method to set or retrieve the grid-level high_water_mark value. If the percent of allocated addresses exceeds this watermark, the appliance makes a syslog entry and if enabled, sends an e-mail notification.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the percentage value. Range is from 1 to 100. The high watermark value must be greater than the low watermark value. Default value is 95.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get high_water_mark
+ my $high_water_mark = $griddhcp->high_water_mark();
+ #Modify high_water_mark
+ $griddhcp->high_water_mark(80);
+
+=back
+
+=back
+
+=head2 high_water_mark_reset( )
+
+=over
+
+Use this method to set or retrieve the grid-level high_water_mark_reset value. If the percentage of allocated addresses drops below this value, a corresponding SNMP trap is reset.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the percentage value. Range is from 1 to 100. The high watermark value must be greater than the low watermark value. Default value is 85.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get high_water_mark_reset
+ my $high_water_mark_reset = $griddhcp->high_water_mark_reset();
+ #Modify high_water_mark_reset
+ $griddhcp->high_water_mark_reset(80);
+
+=back
+
+=back
+
+=head2 hostname_rewrite_policy( )
+
+=over
+
+Use this method to retrieve the name of the default hostname rewrite policy, which is also in the protocol_hostname_rewrite_policies array. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get hostname_rewrite_policy
+ my $name = $griddhcp->hostname_rewrite_policy();
+
+=back
+
+=back
+
+=head2 ifmap_delete_option( )
+
+=over
+
+Use this method to set or retrieve the IF-MAP delete option. The possible values are 'never', 'always', 'older_than'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IF-MAP delete option. The default value is 'always'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP delete option
+ my $delete_option = $griddhcp->ifmap_delete_option();
+ #Modify IF-MAP delete option
+ $griddhcp->ifmap_delete_option('never');
+
+=back
+
+=back
+
+=head2 ifmap_ip_mac_lifetime( )
+
+=over
+
+Use this method to set or retrieve the IF-MAP ip-mac (ip-duid) metadata lifetime. This method applies only if the IF-MAP delete option is set to "older_than".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IF-MAP ip mac lifetime.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP ip mac lifetime
+ my $port = $griddhcp->ifmap_ip_mac_lifetime();
+ #Modify IF-MAP ip mac lifetime
+ $griddhcp->ifmap_ip_mac_lifetime(300);
+
+=back
+
+=back
+
+=head2 ifmap_port( )
+
+=over
+
+Use this method to set or retrieve the IF-MAP server port used by DHCP IF-MAP clients. This setting is optional and defaults to the port associated with the protocol specified in ifmap_url (eg: for HTTP, the port is 80; for HTTPS, the port is 443).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IF-MAP server port number. The default value is undef.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP server port
+ my $port = $griddhcp->ifmap_port();
+ #Modify IF-MAP server port
+ $griddhcp->ifmap_port(1234);
+
+=back
+
+=back
+
+=head2 ifmap_protocol( )
+
+=over
+
+Use this method to set or retrieve the IF-MAP server protocol. This setting is required and must be one of 'ifmap_20' or 'ifmap_11'.
+
+=over
+
+=item B<Parameter>
+
+The IF-MAP server protocol. The default value is 'ifmap_20'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP server protocol
+ my $protocol = $griddhcp->ifmap_protocol();
+ #Modify IF-MAP server protocol
+ $griddhcp->ifmap_protocol('ifmap_11');
+
+=back
+
+=back
+
+=head2 ifmap_url( )
+
+=over
+
+Use this method to set or retrieve the IF-MAP server URL used by DHCP IF-MAP clients. This setting is mandatory if IF-MAP is enabled on this grid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String for the IF-MAP server URL. The default value is undef.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP server URL
+ my $url = $griddhcp->ifmap_url();
+ #Modify IF-MAP server URL
+ $griddhcp->ifmap_url("https://ifmap.infoblox.com");
+
+=back
+
+=back
+
+=head2 ifmap_server_ca_cert( )
+
+=over
+
+Use this method to set or retrieve the ifmap server CA certificate.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::IFMap::CACertificate|Infoblox::IFMap::CACertificate> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute server_ca_cert.
+
+=item B<Example>
+
+ # Get server_ca_cert
+ my $server_ca_cert = $griddhcp->server_ca_cert( );
+
+ # Change it
+ $griddhcp->server_ca_cert($ca_cert);
+
+=back
+
+=back
+
+=head2 ignore_id( )
+
+=over
+
+Use this method to set or retrieve the grid-level ignore_id type. Indicates whether the appliance will ignore DHCP client IDs or MAC addresses.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE', 'CLIENT', or 'MACADDR'. The default is 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ $value = $griddhcp->ignore_id();
+ # Modify attribute value
+ $griddhcp->ignore_id('CLIENT');
+ #Un-override ignore_id
+ $griddhcp->ignore_id(undef);
+
+=back
+
+=back
+
+=head2 ignore_mac_addresses( )
+
+=over
+
+Use this method to set or retrieve the grid-level ignore_mac_addresses list. A list of MAC addresses the appliance will ignore.
+
+If you enter MAC addresses in the ignore_mac_addresses, then the appliance will ignore them. If you enter empty array, then the appliance will ignore any MAC address.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains string objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ $value = $griddhcp->ignore_mac_addresses();
+ # Modify attribute value
+ $griddhcp->ignore_mac_addresses(["11::11::11::11::11::11"]);
+
+=back
+
+=back
+
+=head2 ignore_dhcp_option_list_request( )
+
+=over
+
+Use this method to set or retrieve the grid-level ignore_dhcp_option_list_request flag. If this flag is set to true all available DHCP options will be returned to the client.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ignore_dhcp_option_list_request flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ignore_dhcp_option_list_request
+ my $ignore_dhcp_option_list_request = $griddhcp->ignore_dhcp_option_list_request();
+ #Modify ignore_dhcp_option_list_request
+ $griddhcp->ignore_dhcp_option_list_request("true");
+
+=back
+
+=back
+
+=head2 immediate_fa_configuration( )
+
+=over
+
+Use this method to control whether fixed address configuration takes effect immediately without DHCP service restart.
+
+Setting this method to a defined value implicitly sets the override_immediate_fa_configuration method to "true". Setting the parameter to undefined causes the appliance to use the B<Grid|MS Server|...> default and automatically resets the override_immediate_fa_configuration attribute to "false".
+
+Note that when immediate_fa_configuration is set to a defined value and override_immediate_fa_configuration is set to "false", the last operation takes precedence. Thus the sequence $object->immediate_fa_configuration(B<VAL>); $object->override_immediate_fa_configuration("false"); will set override_immediate_fa_configuration to "false", and the sequence $object->override_immediate_fa_configuration("false"); $object->immediate_fa_configuration(B<VAL>); will result in override_immediate_fa_configuration="true".
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get immediate_fa_configuration
+ my $immediate_fa_configuration = $griddhcp->immediate_fa_configuration();
+ #Modify disable
+ $griddhcp->immediate_fa_configuration("true");
+
+=back
+
+=back
+
+=head2 ipv6_capture_hostname( )
+
+=over
+
+Use this method to set or retrieve the grid-level ipv6_capture_hostname flag. Set this flag to capture the ipv6 hostname and lease time when assigning a fixed address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_capture_hostname
+ my $ipv6_capture_hostname = $griddhcp->ipv6_capture_hostname();
+ #Modify disable
+ $griddhcp->ipv6_capture_hostname("true");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_enable_option_fqdn( )
+
+=over
+
+Use this method to set or retrieve the grid-level ipv6_ddns_enable_option_fqdn flag. This method controls whether the FQDN option sent by the client is to be used, or if the server can automatically generate the FQDN.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_enable_option_fqdn
+ my $ipv6_ddns_enable_option_fqdn = $griddhcp->ipv6_ddns_enable_option_fqdn();
+ #Modify disable
+ $griddhcp->ipv6_ddns_enable_option_fqdn("true");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_server_always_updates( )
+
+=over
+
+Use this method to set or retrieve the grid-level ipv6_ddns_server_always_updates flag. Set this flag to "false" to update DNS only if requested by the client.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_server_always_updates
+ my $ipv6_ddns_server_always_updates = $griddhcp->ipv6_ddns_server_always_updates();
+ #Modify ipv6_ddns_server_always_updates
+ $griddhcp->ipv6_ddns_server_always_updates("true");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the grid-level IPv6 DDNS domain name value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The DDNS domain name in FQDN (Fully Qualified Domain Name) format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_domainname
+ my $ipv6_ddns_domainname = $griddhcp->ipv6_ddns_domainname();
+ #Modify ipv6_ddns_domainname
+ $griddhcp->ipv6_ddns_domainname("domain.com");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_ttl( )
+
+=over
+
+Use this method to set or retrieve the grid-level IPv6 DDNS TTL.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The preferred DDNS TTL value in seconds. The default is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_ttl
+ my $ipv6_ddns_ttl = $griddhcp->ipv6_ddns_ttl();
+ #Modify ipv6_ddns_ttl
+ $griddhcp->ipv6_ddns_ttl(12345);
+
+=back
+
+=back
+
+=head2 ipv6_default_prefix( )
+
+=over
+
+Use this method to set or retrieve the grid-level IPv6 default prefix.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The desired IPv6 prefix. It must be one of those listed in the ipv6_prefixes method.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_default_prefix
+ my $ipv6_default_prefix = $griddhcp->ipv6_default_prefix();
+ #Modify ipv6_default_prefix
+ $griddhcp->ipv6_default_prefix("2001::");
+
+=back
+
+=back
+
+=head2 ipv6_dns_update_style( )
+
+=over
+
+Use this method to set or retrieve the update style for dynamic DNS updates (DHCPv6).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'INTERIM' and 'STANDARD'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_dns_update_style value
+ my $value = $object->ipv6_dns_update_style();
+
+ #Modify ipv6_dns_update_style value
+ $object->ipv6_dns_update_style('STANDARD');
+
+=back
+
+=back
+
+=head2 ipv6_domain_name( )
+
+=over
+
+Use this method to set or retrieve the ipv6_domain_name value for a Grid DHCP object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the client's domain for resolving names in DNS in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_domain_name
+ my $ipv6_domain_name = $griddhcp->ipv6_domain_name();
+ #Modify ipv6_domain_name
+ $griddhcp->ipv6_domain_name("test_domain.com");
+
+=back
+
+=back
+
+=head2 ipv6_domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the ipv6_domain_name_servers value of a Grid DHCP object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The comma-separated domain name server addresses in IPv6 address format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_domain_name_servers
+ my $ipv6_domain_name_servers = $griddhcp->ipv6_domain_name_servers();
+ #Modify ipv6_domain_name_servers
+ $griddhcp->ipv6_domain_name_servers("2001::1,2001::2");
+
+=back
+
+=back
+
+=head2 ipv6_enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the grid-level ipv6_enable_ddns flag. Set this flag to enable DHCPv6 dynamic DNS updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_ddns
+ my $ipv6_enable_ddns = $griddhcp->ipv6_enable_ddns();
+ #Modify ipv6_enable_ddns
+ $griddhcp->ipv6_enable_ddns("true");
+
+=back
+
+=back
+
+=head2 ipv6_enable_gss_tsig( )
+
+=over
+
+Use this method to retrieve the grid-level ipv6_enable_gss_tsig flag. This method returns "true" only if both the ipv6_gss_tsig_key and ipv6_kdc_server are specified.
+
+This is for DHCPv6 GSS-TSIG authentication.
+
+=over
+
+=item B<Parameter>
+
+This is a read-only method. You cannot enter any parameter.
+
+=item B<Returns>
+
+This method returns the ipv6_enable_gss_tsig attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_gss_tsig
+ my $ipv6_enable_gss_tsig = $griddhcp->ipv6_enable_gss_tsig();
+
+=back
+
+=back
+
+=head2 ipv6_enable_lease_scavenge( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the DHCPv6 lease scavenging is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DHCPv6 lease scavenging and 'false' to disable it. The default value is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_lease_scavenge
+ my $ipv6_enable_lease_scavenge = $griddhcp->ipv6_enable_lease_scavenge();
+ #Modify ipv6_enable_lease_scavenge
+ $griddhcp->ipv6_enable_lease_scavenge("true");
+
+=back
+
+=back
+
+=head2 ipv6_remember_expired_client_association( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the DHCPv6 server can 'remember' the client for a configurable amount of time and lease the same IPv6 address to the client.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the DHCPv6 server to 'remember' the client and 'false' to disable it. The default value is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_remember_expired_client_association
+ my $ipv6_remember_expired_client_association = $griddhcp->ipv6_remember_expired_client_association();
+ #Modify ipv6_remember_expired_client_association
+ $griddhcp->ipv6_remember_expired_client_association("true");
+
+=back
+
+=back
+
+=head2 ipv6_enable_retry_updates( )
+
+=over
+
+Use this method to set or retrieve the ipv6_enable_retry_updates flag. If this flag is set to "true", the DHCPv6 server retries failed dynamic DNS updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the DHCP server to retry failed DNS updates or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_retry_updates
+ my $ipv6_enable_retry_updates = $griddhcp->ipv6_enable_retry_updates();
+ #Modify ipv6_enable_retry_updates
+ $griddhcp->ipv6_enable_retry_updates("true");
+
+=back
+
+=back
+
+=head2 ipv6_generate_hostname( )
+
+=over
+
+Use this method to set or retrieve the grid-level ipv6_generate_hostname flag. Set this flag to generate the hostname if it is not sent by the client.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_generate_hostname
+ my $ipv6_generate_hostname = $griddhcp->ipv6_generate_hostname();
+ #Modify ipv6_generate_hostname
+ $griddhcp->ipv6_generate_hostname("true");
+
+=back
+
+=back
+
+=head2 ipv6_gss_tsig_keys( )
+
+=over
+
+Use this method to set or retrieve the list of GSS-TSIG keys for a Grid DHCPv6 object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::KerberosKey|Infoblox::Grid::KerberosKey> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the Kerberos keys list
+ my $kerberos_keys_list = $grid_dhcp->ipv6_gss_tsig_keys();
+
+ #Modify the Kerberos keys list
+ my $kerberos_key1 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test1@LADYBUG.LOCAL',
+        );
+ my $kerberos_key2 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test2@LADYBUG.LOCAL',
+        );
+ $grid_dhcp->ipv6_gss_tsig_keys([$kerberos_key1, $kerberos_key2]);
+
+=back
+
+=back
+
+=head2 ipv6_kdc_server( )
+
+=over
+
+Use this method to specify or retrieve the IPv4 address or FQDN of the Kerberos server for DHCPv6 GSS-TSIG authentication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The Kerberos server IPv4 address or FQDN, with a maximum of 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_kdc_server
+ my $ipv6_kdc_server = $griddhcp->ipv6_kdc_server();
+ #Modify ipv6_kdc_server
+ $griddhcp->ipv6_kdc_server("10.32.0.8");
+
+=back
+
+=back
+
+=head2 ipv6_lease_scavenge_time( )
+
+=over
+
+Use this method to set or retrieve the Grid-level grace period in seconds to keep an expired lease before it gets deleted by the scavenging process.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer greater than or equal to 21600.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_lease_scavenge_time
+ my $ipv6_lease_scavenge_time = $griddhcp->ipv6_lease_scavenge_time();
+ #Modify ipv6_lease_scavenge_time
+ $griddhcp->ipv6_lease_scavenge_time(22000);
+
+=back
+
+=back
+
+=head2 ipv6_microsoft_code_page( )
+
+=over
+
+Use this method to set or retrieve the grid-level Microsoft client DHCP IPv6 code page value. This value is the hostname translation code page for Microsoft DHCP IPv6 clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Microsoft DHCP client code page in string format. Valid values are:
+
+None
+
+Arabic (1256)
+
+Arabic (ISO-8859-6)
+
+Baltic (1257)
+
+Baltic (775)
+
+Baltic (ISO-8859-4)
+
+Central Europe (1250)
+
+Cyrillic (1251)
+
+Cyrillic (855)
+
+Cyrillic (ISO-8859-5)
+
+Greek (1253)
+
+Greek (737)
+
+Greek (ISO-8859-7)
+
+Hebrew (1255)
+
+Hebrew (862)
+
+Hebrew (ISO-8859-8)
+
+Japanese Shift-JIS (932)
+
+Korean (949)
+
+Latin 1 (ISO-8859-1)
+
+Latin 2 (ISO-8859-2)
+
+Latin 3 (ISO-8859-3)
+
+Latin 9 (ISO-8859-15)
+
+Latin I (1252)
+
+Latin II (852)
+
+Multilingual Latin I (850)
+
+Russian (866)
+
+Simplified Chinese GBK (936)
+
+Thai (874)
+
+Traditional Chinese Big5 (950)
+
+Turkish (1254)
+
+Turkish (857)
+
+Turkish (ISO-8859-9)
+
+US (437)
+
+Vietnam (1258)
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_microsoft_code_page
+ my $ipv6_microsoft_code_page = $griddhcp->ipv6_microsoft_code_page();
+ #Modify ipv6_microsoft_code_page
+ $griddhcp->ipv6_microsoft_code_page("Cyrillic (ISO-8859-5)");
+
+=back
+
+=back
+
+=head2 ipv6_options( )
+
+=over
+
+Use this method to set or retrieve the grid-level IPv6 options.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_options
+ my $ipv6_options = $griddhcp->ipv6_options();
+ #Modify ipv6_options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name   => "dhcp6.rapid-commit",
+     value  => "true"
+ );
+ $griddhcp->ipv6_options([$option1]);
+
+=back
+
+=back
+
+=head2 ipv6_prefixes( )
+
+=over
+
+Use this method to set or retrieve the grid-level list of IPv6 prefixes.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A comma-separated list of IPv6 prefixes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_prefixes
+ my $ipv6_prefixes = $griddhcp->ipv6_prefixes();
+ #Modify ipv6_prefixes
+ $griddhcp->ipv6_prefixes("2001::,2002::");
+
+=back
+
+=back
+
+=head2 ipv6_recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the ipv6_recycle_leases flag of a grid DHCP server. If you enable this feature, and then delete an IPv6 DHCP range, the appliance stores active leases from this range up to one week after the leases expire.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ipv6_recycle_leases flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_recycle_leases
+ my $ipv6_recycle_leases = $griddhcp->ipv6_recycle_leases();
+ #Modify ipv6_recycle_leases
+ $griddhcp->ipv6_recycle_leases("true");
+
+=back
+
+=back
+
+=head2 ipv6_retry_updates_interval( )
+
+=over
+
+Use this method to set or retrieve the ipv6_retry_updates_interval value. Set the retry interval when the member DHCPv6 server makes repeated attempts to send DDNS updates to a DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the retry interval in minutes. The default retry interval is five minutes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_retry_updates_interval
+ my $ipv6_retry_updates_interval = $griddhcp->ipv6_retry_updates_interval();
+ #Modify ipv6_retry_updates_interval
+ $griddhcp->ipv6_retry_updates_interval(10);
+
+=back
+
+=back
+
+=head2 ipv6_txt_record_handling( )
+
+=over
+
+Use this method to set or retrieve the grid-level TXT record handling value. This value specifies how DHCP should treat TXT records when performing DNS updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+TXT record handling value in string format. Valid values are: "IGNORE_CONTENTS", "ISC", "ISC_TRANSITIONAL" and "MS". The default value is "ISC".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_txt_record_handling
+ my $ipv6_txt_record_handling = $griddhcp->ipv6_txt_record_handling();
+ #Modify ipv6_txt_record_handling
+ $griddhcp->ipv6_txt_record_handling("ISC_TRANSITIONAL");
+
+=back
+
+=back
+
+=head2 ipv6_update_dns_on_lease_renewal( )
+
+=over
+
+The ipv6_update_dns_on_lease_renewal attribute controls whether the DHCP server updates DNS when an IPv6 DHCP lease is renewed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ipv6_update_dns_on_lease_renewal flag or "false" to deactivate/unset it.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get ipv6_update_dns_on_lease_renewal
+    my $ipv6_update_dns_on_lease_renewal=$griddhcp->ipv6_update_dns_on_lease_renewal( );
+    #Modify ipv6_update_dns_on_lease_renewal
+    $griddhcp->ipv6_update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 kdc_server( )
+
+=over
+
+Use this method to specify or retrieve the IPv4 address or FQDN of the Kerberos server for DHCPv4 GSS-TSIG authentication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The Kerberos server IPv4 address or FQDN, with a maximum of 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get kdc_server
+ my $kdc_server = $griddhcp->kdc_server();
+ #Modify  kdc_server
+ $griddhcp->kdc_server("10.32.0.7");
+
+=back
+
+=back
+
+=head2 lease_logging_member( )
+
+=over
+
+Use this method to specify or retrieve the grid member on which you want to store the DHCP lease history log. Infoblox recommends that you dedicate a member other than the master as a logging member. If possible, use this member solely for storing the DHCP lease history log. If you do not select a member, no logging can occur.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lease_logging_member
+ my $lease_logging_member = $griddhcp->lease_logging_member();
+ #Modify lease_logging_member
+ my $dhcpmember = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2"
+ );
+
+ $griddhcp->lease_logging_member($dhcpmember);
+
+=back
+
+=back
+
+=head2 lease_per_client_settings( )
+
+=over
+
+Use this method to set or retrieve the setting that defines how DHCP server will free or release client leases.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ONE_LEASE_PER_CLIENT', 'RELEASE_MATCHING_ID' and 'NEVER_RELEASE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lease_per_client_settings value
+ my $value = $object->lease_per_client_settings();
+
+ #Modify lease_per_client_settings value
+ $object->lease_per_client_settings('NEVER_RELEASE');
+
+=back
+
+=back
+
+=head2 lease_scavenge_time( )
+
+=over
+
+Use this method to set or retrieve the grid-level lease_scavenge_time value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An integer that specifies the period of time, in seconds, that free and backup leases remain in the database before they are automatically deleted. To disable lease scavenging, set the parameter to -1. The minimum positive value must be greater than 86400 seconds (1 day). The default value of this parameter is -1, which means that lease scavenging is disabled.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lease_scavenge_time
+ my $lease_scavenge = $griddhcp->lease_scavenge_time();
+ #Modify lease_scavenge_time
+ $griddhcp->lease_scavenge_time(30 * 24 * 60 * 60);
+
+=back
+
+=back
+
+=head2 log_lease_events( )
+
+=over
+
+Use this method to set or retrieve the grid-level log_lease_events flag. This value specifies whether grid members log lease events.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the log_lease_events flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get log_lease_events
+ my $log_lease_events = $griddhcp->log_lease_events();
+ #Modify log_lease_events
+ $griddhcp->log_lease_events("true");
+
+=back
+
+=back
+
+=head2 logic_filters( )
+
+=over
+
+Use this method to set or retrieve all the Grid-level logic (ordered) filters.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains either the L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC>, L<Infoblox::DHCP::Filter::NAC|Infoblox::DHCP::Filter::NAC>, L<Infoblox::DHCP::Filter::Option|Infoblox::DHCP::Filter::Option> objects or the names of the corresponding filters. The filters in the list must satisfy the following conditions:
+
+=over
+
+=item Filter name must be globally unique.
+
+=item Filters without expressions must be at the end of the list.
+
+=item The filters should not be disabled.
+
+=back
+
+The default value of the parameter is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get logic_filters
+ my $ref_logic_filters = $griddhcp->logic_filters();
+ #Modify logic_filters
+ $griddhcp->logic_filters(["filter_1","filter_2",$exl1]); #$exl1 is an Infoblox::DHCP::Filter::MAC, Infoblox::DHCP::Filter::NAC or Infoblox::DHCP::Filter::Option object.
+
+=back
+
+=back
+
+=head2 low_water_mark( )
+
+=over
+
+Use this method to set or retrieve the grid-level low_water_mark value. If the percent of allocated addresses drops below this watermark, the appliance makes a syslog entry and if enabled, sends an e-mail notification.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the percentage value. Range is from 0 to 100. The low watermark value must be lower than the high watermark value. The default low watermark number is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get low_water_mark
+ my $low_water_mark = $griddhcp->low_water_mark();
+ #Modify low_water_mark
+ $griddhcp->low_water_mark(10);
+
+=back
+
+=back
+
+=head2 low_water_mark_reset( )
+
+=over
+
+Use this method to set or retrieve the grid-level low_water_mark_reset value. If the percentage of allocated addresses exceeds this value, a corresponding SNMP trap is reset.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the percentage value. Range is from 0 to 100. The low watermark reset value must be higher than the low watermark value. The default low watermark reset value is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get low_water_mark_reset
+ my $low_water_mark_reset = $griddhcp->low_water_mark_reset();
+ #Modify low_water_mark_reset
+ $griddhcp->low_water_mark_reset(10);
+
+=back
+
+=back
+
+=head2 microsoft_code_page( )
+
+=over
+
+Use this method to set or retrieve the grid-level Microsoft client DHCP IPv4 code page value. This value is the hostname translation code page for Microsoft DHCP IPv4 clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Microsoft DHCP client code page in string format. Valid values are the same as those for ipv6_microsoft_code_page. See L</ipv6_microsoft_code_page()>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get microsoft_code_page
+ my $microsoft_code_page = $griddhcp->microsoft_code_page();
+ #Modify microsoft_code_page
+ $griddhcp->microsoft_code_page("Cyrillic (ISO-8859-5)");
+
+=back
+
+=back
+
+=head2 nextserver( )
+
+=over
+
+Use this method to set or retrieve the grid-level "next server" value. This value is the IP address or name of the boot file server on which the boot file is stored.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The boot file server IP address or name in FQDN format. The FQDN consists of the host name followed by the domain name (example: abc.com). A boot file server name can have a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get nextserver
+ my $nextserver = $griddhcp->nextserver();
+ #Modify nextserver
+ $griddhcp->nextserver("1.1.1.1");
+
+=back
+
+=back
+
+=head2 option60_match_rules( )
+
+=over
+
+Use this method to set or retrieve grid-level DHCP option60 match rules. An Option60MatchRule object allows specifying match rules for Option 60 globally.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option60MatchRule|Infoblox::DHCP::Option60MatchRule> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get option60_match_rules
+ my $option_matchrule = $griddhcp->option60_match_rules();
+ #Modify option60_match_rules
+ my $option60_match_rule = Infoblox::DHCP::Option60MatchRule->new(
+                                        "option_space" => "infospace",
+                                        "match_value" => "Nortel-i2004-A",
+                                        "is_substring" => "true",
+                                        "substring_offset" => "8",
+                                        "substring_length" => "14"
+                                      );
+
+ # Configure DHCP Option60MatchRule on the Grid DHCP object
+ $griddhcp->option60_match_rules([$option60_match_rule]);
+
+ #Remove Option60MatchRule object
+ $griddhcp->option60_match_rules([]);
+
+=back
+
+=back
+
+=head2 options( )
+
+=over
+
+Use this method to set or retrieve grid-level DHCP options. These options provide network configuration settings and various services available on the network.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get options
+ my $options = $griddhcp->options();
+ #Modify options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name   => "lease-time",
+     value  => 50
+ );
+
+ my $option2 = Infoblox::DHCP::Option->new(
+     name    => "routers",
+     value   => "1.4.1.1,2.2.2.2",
+ );
+
+ my $option3 = Infoblox::DHCP::Option->new(
+     name     => "nameservers",
+     value    => "1.1.1.1, 2.2.2.2",
+ );
+
+ my $option4 = Infoblox::DHCP::Option->new(
+     name  => "domain-name",
+     value => "domainname.com",
+ );
+
+ my $option5 = Infoblox::DHCP::Option->new(
+     name     => "broadcast",
+     value    => "255.0.0.0",
+ );
+
+ $griddhcp->options([$option1, $option2, $option3, $option4, $option5]);
+
+=back
+
+=back
+
+=head2 override_immediate_fa_configuration( )
+
+=over
+
+The override_immediate_fa_configuration attribute controls whether the immediate_fa_configuration value in the object is used, instead of the Grid default.
+
+The override_immediate_fa_configuration attribute can be specified explicitly. It is also set implicitly when immediate_fa_configuration is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set override_ttl flag or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_immediate_fa_configuration
+ my $override_immediate_fa_configuration = $griddhcp->override_immediate_fa_configuration();
+ #Modify override_immediate_fa_configuration
+ $griddhcp->override_immediate_fa_configuration("true");
+
+=back
+
+=back
+
+=head2 ping_count( )
+
+=over
+
+Use this method to set or retrieve the grid-level ping_count value. This value specifies the number of pings that the Infoblox appliance sends to an IP address to verify that it is not in use.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number of pings. Range is from 0 to 10, where 0 disables pings. The default value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ping_count
+ my $ping_count = $griddhcp->ping_count();
+ #Modify ping_count
+ $griddhcp->ping_count(4);
+
+=back
+
+=back
+
+=head2 ping_timeout( )
+
+=over
+
+Use this method to set or retrieve the grid-level ping_timeout value. This value indicates the number of seconds the appliance waits for a response to its ping.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Ping timeout value in seconds. Valid values are 0.1, 0.5, 1, 2, 3, 4 and 5 seconds. The default value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ping_timeout
+ my $ping_timeout = $griddhcp->ping_timeout();
+ #Modify ping_timeout
+ $griddhcp->ping_timeout(3);
+
+=back
+
+=back
+
+=head2 preferred_lifetime( )
+
+=over
+
+Use this method to set or retrieve the grid-level preferred lifetime.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Preferred lifetime value in seconds. The default value is 27000.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get preferred_lifetime
+ my $preferred_lifetime = $griddhcp->preferred_lifetime();
+ #Modify preferred_lifetime
+ $griddhcp->preferred_lifetime(12345);
+
+=back
+
+=back
+
+=head2 protocol_hostname_rewrite_policies( )
+
+=over
+
+Use this method to set or retrieve a list of hostname rewrite policies. This attribute is mandatory if enable_hostname_rewrite is "true".
+
+=over
+
+=item B<Parameter>
+
+Array reference with L<Infoblox::Grid::HostNameRewritePolicy|Infoblox::Grid::HostNameRewritePolicy> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get protocol_hostname_rewrite_policies
+ my $policies = $griddhcp->protocol_hostname_rewrite_policies();
+
+ #Modify protocol_hostname_rewrite_policies
+ push(@$policies, $policy2);
+ $griddhcp->protocol_hostname_rewrite_policies($policies);
+
+=back
+
+=back
+
+=head2 pxe_lease_time( )
+
+=over
+
+Use this method to set or retrieve the grid-level pxe_lease_time value. This value is the duration of time it takes a host to connect to a boot server, such as a TFTP server, and download the file it needs to boot.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that specifies the lease time in seconds. Default value is 43200 seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get pxe_lease_time
+ my $pxe_lease_time = $griddhcp->pxe_lease_time();
+ #Modify pxe_lease_time
+ $griddhcp->pxe_lease_time(200);
+
+=back
+
+=back
+
+=head2 recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the recycle_leases flag of a grid DHCP server. If you enable this feature, and then delete a DHCP range, the appliance stores active leases from this range up to one week after the leases expire.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the recycle_leases flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recycle_leases
+ my $recycle_leases = $griddhcp->recycle_leases();
+ #Modify recycle_leases
+ $griddhcp->recycle_leases("true");
+
+=back
+
+=back
+
+=head2 restart_setting( )
+
+=over
+
+Use this method to set or retrive Grid DHCP service restart settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ServiceRestart|Infoblox::Grid::ServiceRestart> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get restart_setting 
+ my $restart_setting = $grid_dhcp->restart_setting();
+ #Modify the retry time
+ $grid_dhcp->restart_setting($restart_setting);
+
+=back
+
+=back
+
+=head2 retry_ddns_updates( )
+
+=over
+
+Use this method to set or retrieve the grid-level retry_ddns_updates flag. This value indicates whether the grid DHCP servers make repeated attempts to send DDNS updates to a DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the DHCP servers to retry DDNS updates or "false" to disable this feature. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get retry_ddns_updates
+ my $retry_ddns_updates = $griddhcp->retry_ddns_updates();
+ #Modify retry_ddns_updates
+ $griddhcp->retry_ddns_updates("true");
+
+=back
+
+=back
+
+=head2 syslog_facility( )
+
+=over
+
+Use this method to set or retrieve the grid-level syslog_facility value. The syslog facility is the location on the syslog server to which you want to sort syslog messages.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are: C<"daemon", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7">. The default value is "daemon".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get syslog_facility
+ my $syslog_facility = $griddhcp->syslog_facility();
+ #Modify syslog_facility
+ $griddhcp->syslog_facility("local0");
+
+=back
+
+=back
+
+=head2 txt_record_handling( )
+
+=over
+
+Use this method to set or retrieve the grid-level TXT record handling value. This value specifies how DHCP should treat TXT records when performing DNS updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+TXT record handling value in string format. Valid values are: "IGNORE_CONTENTS", "ISC", "ISC_TRANSITIONAL" and "MS". The default value is "ISC".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get txt_record_handling
+ my $txt_record_handling = $griddhcp->txt_record_handling();
+ #Modify txt_record_handling
+ $griddhcp->txt_record_handling("ISC_TRANSITIONAL");
+
+=back
+
+=back
+
+=head2 update_dns_on_lease_renewal( )
+
+=over
+
+The update_dns_on_lease_renewal attribute controls whether the DHCP server updates DNS when a DHCP lease is renewed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the update_dns_on_lease_renewal flag or "false" to deactivate/unset it.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get update_dns_on_lease_renewal
+    my $update_dns_on_lease_renewal=$griddhcp->update_dns_on_lease_renewal( );
+    #Modify update_dns_on_lease_renewal
+    $griddhcp->update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 valid_lifetime( )
+
+=over
+
+Use this method to set or retrieve the valid lifetime value on the Grid level.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid lifetime value in seconds. The default value is 43200.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get valid_lifetime
+ my $valid_lifetime = $roaming_host->valid_lifetime();
+ #Modify valid_lifetime
+ $roaming_host->valid_lifetime(12345);
+
+=back
+
+=back
+
+=head2 validate_ifmap_ca_cert( )
+
+=over
+
+Use this method to set or retrieve the validate CA certificate value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the validate_ifmap_ca_cert flag or "false" to deactivate/unset it.
+
+The default value of this parameter is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get validate_ifmap_ca_cert
+ my $validate_ifmap_ca_cert = $griddhcp->validate_ifmap_ca_cert();
+ #Modify validate_ifmap_ca_cert
+ $griddhcp->validate_ifmap_ca_cert('false');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to a grid DHCP object, such as get and modify an object. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to get and modify operations on a grid DHCP object>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip   = "192.168.1.2";
+ my $host_name = "infoblox.localdomain";
+
+ #Creating a session to appliance.
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+     )
+     or die("Constructor for session failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+
+ print"Session created successfully.\n";
+
+ #Creating a domain-name option object.
+ my $option = Infoblox::DHCP::Option->new(
+                  name   => "domain-name",
+                  value  => "domainname.com",
+ )
+ or die("Constructor for option failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+
+ print"dhcp option object created successfully.\n";
+
+ #Creating a Member object.
+ my $dhcpmember = Infoblox::DHCP::Member->new(
+     name     => $host_name,
+     ipv4addr => $host_ip
+     )
+     or die("Constructor for dhcpmember failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+
+ print"dhcp member object created successfully.\n";
+
+ #Creating a forward zone nameserver.
+ my $ns1 = Infoblox::DNS::Nameserver->new(
+     ddns_zone => "sub.test.com",
+     name      => "server.dns.com",
+     ipv4addr  => "1.1.1.1",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "ZX1jVJl7C58GT/sc7Q3ucA=="
+     )
+     or die("Constructor for ns1 failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+
+ print"forward zone nameserver object created successfully.\n";
+
+ #Creating a reverse zone nameserver.
+ my $ns2 = Infoblox::DNS::Nameserver->new(
+     ddns_zone => "10.0.0.0/8",
+     name      => "server.dns.com",
+     ipv4addr  => "1.1.1.1"
+     )
+     or die("Constructor for ns2 failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+
+ print"reverse zone nameserver object created successfully.\n";
+
+B<#Get and modify the grid DHCP object>.
+
+ #Getting the DHCP object from appliance through session.
+ my @result = $session->get(
+     object => "Infoblox::Grid::DHCP",
+     grid   => "Infoblox"
+     )
+     or die("get DHCP failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+ print "get grid DHCP Objcet successful.\n";
+
+ unless (scalar(@result) == 0) {
+     my $griddhcp = $result[0];
+     if ($griddhcp) {
+
+         #Modifying the value of the specified objects.
+         $griddhcp->authority("false");
+         $griddhcp->enable_ddns("true");
+         $griddhcp->bootserver("boot.test.com");
+         $griddhcp->ddns_ttl(21600);
+         $griddhcp->nextserver("77.77.77.7");
+         $griddhcp->pxe_lease_time(43200);
+         $griddhcp->bootfile("bootfile");
+         $griddhcp->ping_count(3);
+         $griddhcp->ping_timeout(2);
+         $griddhcp->email_list(["admin\@infoblox.com", "bkp_admin\@infoblox.com"]);
+         $griddhcp->options([$option]);
+         $griddhcp->lease_logging_member($dhcpmember);
+         $griddhcp->microsoft_code_page("Cyrillic (ISO-8859-5)");
+
+         #Applying the changes to appliance through session.
+         $session->modify($griddhcp)
+             or die("Modify DHCP failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+        print"Modified Grid DHCP Object successfully.\n";
+     }
+ } else {
+     print "No Grid DHCP object found.";
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>,L<Infoblox::DHCP::Option|Infoblox::DHCP::Option>,L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver>,L<Infoblox::Grid::KerberosKey|Infoblox::Grid::KerberosKey>,L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,1 @@
+{"pathname":"B/BR/BRADFITZ/Sys-Syscall-0.25.tar.gz","target":"Sys::Syscall","dist":"Sys-Syscall-0.25","version":"0.25","provides":{"Sys::Syscall":{"file":"lib/Sys/Syscall.pm","version":"0.25"}},"name":"Sys::Syscall"}

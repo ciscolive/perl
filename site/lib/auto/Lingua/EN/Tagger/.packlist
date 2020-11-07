@@ -1,0 +1,7 @@
+/opt/perl/site/lib/Lingua/EN/Tagger.pm
+/opt/perl/site/lib/Lingua/EN/Tagger/pos_tags.hash
+/opt/perl/site/lib/Lingua/EN/Tagger/pos_words.hash
+/opt/perl/site/lib/Lingua/EN/Tagger/tags.yml
+/opt/perl/site/lib/Lingua/EN/Tagger/unknown.yml
+/opt/perl/site/lib/Lingua/EN/Tagger/words.yml
+/opt/perl/site/man/man3/Lingua::EN::Tagger.3

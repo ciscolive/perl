@@ -1,0 +1,1 @@
+{"version":"1.27","dist":"Tcl-1.27","target":"Tcl","pathname":"V/VK/VKON/Tcl-1.27.tar.gz","name":"Tcl","provides":{"Tcl::Var":{"file":"Tcl.pm","version":"1.27"},"Tcl::List":{"version":"1.27","file":"Tcl.pm"},"Tcl":{"file":"Tcl.pm","version":"1.27"},"Tcl::Cmdbase":{"file":"Tcl.pm","version":"1.27"},"Tcl::Code":{"version":"1.27","file":"Tcl.pm"}}}

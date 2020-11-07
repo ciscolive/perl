@@ -1,0 +1,15 @@
+/opt/perl/site/lib/Promise/ES6.pm
+/opt/perl/site/lib/Promise/ES6/AnyEvent.pm
+/opt/perl/site/lib/Promise/ES6/Backend/PP.pm
+/opt/perl/site/lib/Promise/ES6/Event/AnyEvent.pm
+/opt/perl/site/lib/Promise/ES6/Event/IOAsync.pm
+/opt/perl/site/lib/Promise/ES6/Event/MojoIOLoop.pm
+/opt/perl/site/lib/Promise/ES6/EventLoopBase.pm
+/opt/perl/site/lib/Promise/ES6/Future.pm
+/opt/perl/site/lib/Promise/ES6/IOAsync.pm
+/opt/perl/site/lib/Promise/ES6/Mojo.pm
+/opt/perl/site/man/man3/Promise::ES6.3
+/opt/perl/site/man/man3/Promise::ES6::AnyEvent.3
+/opt/perl/site/man/man3/Promise::ES6::Future.3
+/opt/perl/site/man/man3/Promise::ES6::IOAsync.3
+/opt/perl/site/man/man3/Promise::ES6::Mojo.3

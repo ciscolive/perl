@@ -1,0 +1,460 @@
+=head1 NAME
+
+Infoblox::DHCP::IPv6OptionDefinition - DHCP IPv6 option definition object
+
+=head1 DESCRIPTION
+
+An IPv6OptionDefinition defines an IPv6 DHCP option within a specific IPv6 option space. A custom option can be defined in the predefined DHCP option space or in the user-defined vendor option space. To define an option, add the option definition to the required option space.
+
+=head1 CONSTRUCTOR
+
+  my $ipv6od = Infoblox::DHCP::IPv6OptionDefinition->new(
+                   name  => $string, #Required
+                   code  => $num,    #Required
+                   space => $string, #Optional / Default is DHCP
+                   type  => $string, #Optional / Default is string
+               );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that can be applied to a DHCP IPv6 option definition object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an IPv6 option definition object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Create a DHCP IPv6OptionDefinition object.
+ my $ipv6od = Infoblox::DHCP::IPv6OptionDefinition->new(
+                  space => "SUNW",
+                  name  => "JumpStart-server",
+                  code  => "6",
+                  type  => "text"
+              );
+ # Submit for adding
+ my $response = $session->add( $ipv6od );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching DHCP IPv6 option definition objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP IPv6 option definition object:
+
+  name  - A name for the option definition in string format (regular expression).
+  code  - Option number. Either a name or code is required.
+  space - Optional. The option space in which the option is defined. The default is the "DHCPv6" option space.
+
+=item B<Example>
+
+  #Getting option by name
+  my  @result_array = $session->get(
+                        object   => "Infoblox::DHCP::IPv6OptionDefinition",
+                        space    => "SUNW",
+                        name     => "JumpStart-server",
+                        );
+
+  #Getting option by code
+  my @result_array = $session->get(
+                        object   => "Infoblox::DHCP::IPv6OptionDefinition",
+                        space    => "DHCPv6",
+                        code     => 176,
+                        );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP IPv6 option definition object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify code
+ $object->code(20);
+ # Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching DHCP IPv6 option definition objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP IPv6 option definition object:
+
+  name  - A name for the option definition in string format (regular expression).
+  code  - Option number. Either a name or code is required.
+  space - Optional. The option space in which the option is defined. The default is the "DHCPv6" option space.
+
+=item B<Example>
+
+  #Getting option by name
+  my  @result_array = $session->search(
+                        object   => "Infoblox::DHCP::IPv6OptionDefinition",
+                        space    => "SUNW",
+                        name     => "JumpStart-server",
+                        );
+
+  #Getting option by code
+  my @result_array = $session->search(
+                        object   => "Infoblox::DHCP::IPv6OptionDefinition",
+                        space    => "DHCPv6",
+                        code     => 176,
+                        );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP IPv6 option definition object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ my  @result_array = $session->get(
+                        object   => "Infoblox::DHCP::IPv6OptionDefinition",
+                        space    => "SUNW",
+                        name     => "JumpStart-server",
+                        );
+
+ # find the desired object from retrieved list.
+ my $desired_obj = $result_array[0];
+
+ # Submit for removal
+ my $response = $session->remove($desired_obj);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP IPv6 option definition object.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP IPv6 option definition object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get name
+ my $od_name = $ipv6od->name();
+ # Modify name
+ $ipv6od->name("Start-server");
+
+=back
+
+=back
+
+=head2 code( )
+
+=over
+
+Use this method to set or retrieve the code of a DHCP IPv6 option definition object. An option code number is used to identify the DHCP option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number for the option code. Value must be between 1 and 254. Values 2, 7, 12, 14, 21-14, 27-34, and 39 are predefined.
+These option codes have corresponding predefined Types. Therefore, you cannot change the predefined Types.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get code
+ my $od_code = $ipv6od->code();
+ # Modify code
+ $ipv6od->code(14);
+
+=back
+
+=back
+
+=head2 space( )
+
+=over
+
+Use this method to set or retrieve the space of a DHCP IPv6 option definition object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the space name in string format.
+
+=item B<Returns>
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get space
+ my $od_space = $ipv6od->space();
+ # Modify space
+ $ipv6od->space("SUNW");
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the data type of the grid DHCP IPv6 option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The accepted types are the following:
+
+  "boolean"                 - For "true" or "false" boolean values.
+
+  "ip-address"              - For a single IPv6 address. An IPv6 address is a 128-bit number.
+                              It consist of eight groups of hexadecimal digits separated
+                              by colon (example: "2001:1dfc:2dfb:0:c1:0:a0:a2"). A group of all zeros
+                              can be replaced by a double colon (e.g. 2001:1dfc:2dfb::1 is equivalent
+                              to 2001:1dfc:2dfb:0:0:0:0:1).
+
+  "array of ip-address"     - For a list of IPv6 addresses, each separated by a comma.
+                              (example: "2002:d0:d2::1, 2002:d0:d2::3, 2001::3")
+
+  "string"                  - For value in ASCII text string or
+                              a list of hexadecimal characters (0-9, a-f, or A-F) without spaces and separated by colons.
+
+  "text"                    - For value in ASCII text string.
+
+  "domain-name"             - For domain name in ASCII text format
+
+  "domain-list"             - For a list of domain names, each separated by a comma.
+
+  "8-bit unsigned integer"  - For numeric value between 0 and 255.
+
+  "16-bit unsigned integer" - For numeric value between 0 and 65535.
+
+  "32-bit unsigned integer" - For numeric value between 0 and 4294967295.
+
+  "8-bit signed integer"    - For numeric value between -128 and 127.
+
+  "16-bit signed integer"   - For numeric value between -32768 and 32767.
+
+  "32-bit signed integer"   - For numeric value between -2147483648 and 2147483647.
+
+  "array of 8-bit unsigned integer"  - For a list of numeric values between 0 and 255, each separated by a comma.
+
+  "array of 16-bit unsigned integer" - For a list of numeric values between 0 and 65535, each separated by a comma.
+
+  "array of 32-bit unsigned integer" - For a list of numeric values between 0 and 4294967295, each separated by a comma.
+
+  "array of 8-bit integer"           - For a list of numeric values between -128 and 127, each separated by a comma.
+
+  "array of 16-bit integer"          - For a list of numeric values between -32768 and 32767, each separated by a comma.
+
+  "array of 32-bit integer"          - For a list of numeric values between -2147483648 and 2147483647, each separated by a comma.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get type
+ my $od_type = $ipv6od->type();
+ # Modify type
+ $ipv6od->type("string");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP Network insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $ipv6od = Infoblox::DHCP::IPv6OptionSpace->new("name" => "SUNW");
+ my $response = $session->add($ipv6od);
+ print "Add option space operation success \n" if ($response);
+ print "Add option space operation failed  \n" if (not $response);
+
+B<#Create a DHCP IPv6 OptionDefinition object.>
+
+ my $ipv6od = Infoblox::DHCP::OptionDefinition->new(
+                                  space => "SUNW",
+                                  name  => "JumpStart-server",
+                                  code  => "6",
+                                  type  => "text"
+                               );
+ unless ($ipv6od) {
+     die("Construct DHCP IPv6OptionDefinition failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6OptionDefinition object created successfully\n";
+
+ #Add the DHCP IPv6OptionDefinition object to Infoblox appliance through a session
+ my $response = $session->add( $ipv6od )
+    or die("Add a DHCP IPv6OptionDefinition object failed: ",
+           $session->status_code() . ":" . $session->status_detail());
+
+ print "Add a DHCP IPv6OptionDefinition object successfully\n";
+
+B<#Get and modify a  DHCP OptionDefinition object attribute>
+
+ #Get Network through the session
+ my @retrieved_objs = $session->get(
+                object   => "Infoblox::DHCP::IPv6OptionDefinition",
+                space  => "SUNW",
+                name   => "JumpStart-server",
+             );
+
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get DHCP IPv6OptionDefinition object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP IPv6OptionDefinition object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified Network attribute
+
+ $object->code(20);    #Apply the changes
+
+ $session->modify($object)
+     or die("Modify DHCP IPv6OptionDefinition attribute failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP IPv6OptionDefinition object modified successfully \n";
+
+B<#Remove a DHCP IPv6OptionDefinition Object>
+
+ #Get DHCP IPv6OptionDefinition object through the session
+ my @retrieved_objs = $session->get(
+                object =>"Infoblox::DHCP::IPv6OptionDefinition",
+                space  => "SUNW",
+                name   => "JumpStart-server",
+             );
+
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get DHCP IPv6OptionDefinition object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get DHCP IPv6OptionDefinition object found at least 1 matching entry\n";
+
+B<#Submit the object for removal>
+
+ $session->remove($object)
+     or die("Remove Network failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP IPv6OptionDefinition removed successfully \n";
+
+ #Remove option space.
+
+ my $response = $session->remove( object => "Infoblox::DHCP::IPv6OptionSpace" ,
+                                  name   => "SUNW",
+                               );
+ print "Remove option space success \n" if ($response );
+ print "Remove option space failed  \n" if ( not $response );
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::IPv6OptionSpace|Infoblox::DHCP::IPv6OptionSpace>, L<Infoblox::DHCP::IPv6Option|Infoblox::DHCP::IPv6Option>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

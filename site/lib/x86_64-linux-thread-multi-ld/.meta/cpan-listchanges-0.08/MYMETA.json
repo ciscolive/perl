@@ -1,0 +1,77 @@
+{
+   "abstract" : "list changes for CPAN modules",
+   "author" : [
+      "Tatsuhiko Miyagawa <miyagawa@bulknews.net>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "cpan-listchanges",
+   "no_index" : {
+      "directory" : [
+         "eg",
+         "examples",
+         "inc",
+         "share",
+         "t",
+         "xt"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Module::Build" : "0.28"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.28"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Algorithm::Diff" : 0,
+            "CPAN::DistnameInfo" : 0,
+            "LWP" : 0,
+            "Module::Metadata" : 0,
+            "Pod::Usage" : 0,
+            "Try::Tiny" : 0,
+            "YAML" : 0,
+            "perl" : "5.008001"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0.88",
+            "Test::Requires" : 0
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/miyagawa/cpan-listchanges/issues"
+      },
+      "homepage" : "https://github.com/miyagawa/cpan-listchanges",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/miyagawa/cpan-listchanges.git",
+         "web" : "https://github.com/miyagawa/cpan-listchanges"
+      }
+   },
+   "version" : "0.08",
+   "x_contributors" : [
+      "Breno G. de Oliveira <garu@cpan.org>",
+      "Fitz Elliott <felliott@fiskur.org>",
+      "Tatsuhiko Miyagawa <miyagawa@gmail.com>"
+   ],
+   "x_generated_by_perl" : "v5.20.1",
+   "x_serialization_backend" : "JSON::PP version 4.05",
+   "x_static_install" : 0
+}

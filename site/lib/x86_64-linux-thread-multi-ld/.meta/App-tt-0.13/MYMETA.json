@@ -1,0 +1,63 @@
+{
+   "abstract" : "Time tracking application",
+   "author" : [
+      "Jan Henning Thorsen <jhthorsen@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.44, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "App-tt",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {}
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Applify" : "0.21",
+            "File::HomeDir" : "1.00",
+            "JSON::XS" : "3.00",
+            "List::Util" : "1.45",
+            "perl" : "5.010001"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0.88"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/jhthorsen/app-tt/issues"
+      },
+      "homepage" : "https://github.com/jhthorsen/app-tt",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/jhthorsen/app-tt.git",
+         "web" : "https://github.com/jhthorsen/app-tt"
+      }
+   },
+   "version" : "0.13",
+   "x_contributors" : [
+      "Jan Henning Thorsen <jhthorsen@cpan.org>"
+   ],
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

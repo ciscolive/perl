@@ -1,0 +1,10 @@
+/opt/perl/site/lib/IO/Capture.pm
+/opt/perl/site/lib/IO/Capture/Overview.pod
+/opt/perl/site/lib/IO/Capture/Stderr.pm
+/opt/perl/site/lib/IO/Capture/Stdout.pm
+/opt/perl/site/lib/IO/Capture/Tie_STDx.pm
+/opt/perl/site/man/man3/IO::Capture.3
+/opt/perl/site/man/man3/IO::Capture::Overview.3
+/opt/perl/site/man/man3/IO::Capture::Stderr.3
+/opt/perl/site/man/man3/IO::Capture::Stdout.3
+/opt/perl/site/man/man3/IO::Capture::Tie_STDx.3

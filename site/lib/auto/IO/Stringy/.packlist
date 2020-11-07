@@ -1,0 +1,16 @@
+/opt/perl/site/lib/IO/AtomicFile.pm
+/opt/perl/site/lib/IO/InnerFile.pm
+/opt/perl/site/lib/IO/Lines.pm
+/opt/perl/site/lib/IO/Scalar.pm
+/opt/perl/site/lib/IO/ScalarArray.pm
+/opt/perl/site/lib/IO/Stringy.pm
+/opt/perl/site/lib/IO/Wrap.pm
+/opt/perl/site/lib/IO/WrapTie.pm
+/opt/perl/site/man/man3/IO::AtomicFile.3
+/opt/perl/site/man/man3/IO::InnerFile.3
+/opt/perl/site/man/man3/IO::Lines.3
+/opt/perl/site/man/man3/IO::Scalar.3
+/opt/perl/site/man/man3/IO::ScalarArray.3
+/opt/perl/site/man/man3/IO::Stringy.3
+/opt/perl/site/man/man3/IO::Wrap.3
+/opt/perl/site/man/man3/IO::WrapTie.3

@@ -1,0 +1,77 @@
+{
+   "abstract" : "Write user-friendly command line apps with even less suffering",
+   "author" : [
+      "Maroš Kollár <maros@k-1.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.012, CPAN::Meta::Converter version 2.150005, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "MooseX-App",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::Perl::Critic" : "0",
+            "Test::Pod" : "1.14",
+            "Test::Pod::Coverage" : "1.04"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "File::HomeDir" : "0",
+            "IO::Interactive" : "0",
+            "Term::ANSIColor" : "0",
+            "Term::ReadKey" : "0",
+            "Text::WagnerFischer" : "0",
+            "Win32::Console::ANSI" : "0"
+         },
+         "requires" : {
+            "Config::Any" : "0",
+            "File::Basename" : "0",
+            "File::Spec" : "0",
+            "List::Util" : "1.44",
+            "Module::Pluggable" : "0",
+            "Moose" : "2.00",
+            "MooseX::Types::Path::Class" : "0",
+            "Pod::Elemental" : "0",
+            "namespace::autoclean" : "0",
+            "perl" : "5.010"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::Most" : "0",
+            "Test::NoWarnings" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/maros/MooseX-App/issues"
+      },
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/maros/MooseX-App.git",
+         "web" : "https://github.com/maros/MooseX-App"
+      }
+   },
+   "version" : "1.41",
+   "x_generated_by_perl" : "v5.24.0",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

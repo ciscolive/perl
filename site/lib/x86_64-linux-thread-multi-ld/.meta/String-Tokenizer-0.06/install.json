@@ -1,0 +1,1 @@
+{"pathname":"S/ST/STEVAN/String-Tokenizer-0.06.tar.gz","dist":"String-Tokenizer-0.06","name":"String::Tokenizer","target":"String::Tokenizer","version":"0.06","provides":{"String::Tokenizer":{"file":"lib/String/Tokenizer.pm","version":"0.06"},"String::Tokenizer::Iterator":{"file":"lib/String/Tokenizer.pm","version":"0.06"}}}

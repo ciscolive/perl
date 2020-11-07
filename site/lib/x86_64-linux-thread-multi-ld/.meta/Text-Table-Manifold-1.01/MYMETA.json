@@ -1,0 +1,69 @@
+{
+   "abstract" : "Render tables in manifold styles",
+   "author" : [
+      "Ron Savage (ron@savage.net.au)"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.32, CPAN::Meta::Converter version 2.150005, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Text-Table-Manifold",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Const::Exporter" : "v0.2.3",
+            "HTML::Entities::Interpolate" : "1.05",
+            "List::AllUtils" : "0.08",
+            "Module::Runtime" : "0.014",
+            "Moo" : "1.006",
+            "Scalar::Util" : "1.5",
+            "Types::Standard" : "1.000004",
+            "Unicode::GCString" : "2013.1",
+            "open" : "0",
+            "strict" : "0",
+            "utf8" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "1.001002",
+            "Test::Pod" : "1.48"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "https://perldoc.perl.org/perlartistic.html"
+      ],
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/ronsavage/Text-Table-Manifold.git",
+         "web" : "https://github.com/ronsavage/Text-Table-Manifold"
+      }
+   },
+   "version" : "1.01",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

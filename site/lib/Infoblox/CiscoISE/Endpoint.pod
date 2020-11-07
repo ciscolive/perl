@@ -1,0 +1,937 @@
+=head1 NAME
+
+Infoblox::CiscoISE::Endpoint - A Cisco ISE endpoint object.
+
+=head1 DESCRIPTION
+
+The CiscoISE endpoint object provides configuration for third party Cisco ISE servers integration.
+
+=head1 CONSTRUCTOR
+
+ my $ise_endpoint = Infoblox::CiscoISE::Endpoint->new(
+     address                   => $fqdn | $ipaddr,                                                      # Required
+     bulk_download_certificate => $path,                                                                # Required
+     client_certificate        => $path,                                                                # Required
+     subscribe_settings        => $subscribe_settings,                                                  # Required
+     subscribing_member        => $string,                                                              # Required
+     version                   => 'VERSION_1_3' | 'VERSION_1_4' | 'VERSION_2_0',                        # Required
+     comment                   => $string,                                                              # Optional / Default is undefined
+     connection_timeout        => $uint,                                                                # Optional / Default is 10
+     disable                   => 'true' | 'false',                                                     # Optional / Default is 'true'
+     extattrs                  => { $string => $extattr, ... },                                         # Optional / Default is undefined
+     extensible_attributes     => {$string => $string | $num, $string => [ $string | $num, ... ], ... } # Optional / Default is undefined
+     network_view              => $string,                                                              # Optional / Default is 'default'
+     publish_settings          => $publish_settings,                                                    # Optional / Default is undefined
+     secondary_address         => $fqdn | $ipaddr,                                                      # Optional / Default is undefined
+     type                      => 'TYPE_CISCO',                                                         # Optional / Default is 'TYPE_CISCO',
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a Cisco ISE endpoint object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add the object to the Infoblox appliance.
+See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $object = Infoblox::CiscoISE::Endpoint->new(
+     address                   => '10.0.0.1',
+     bulk_download_certificate => '/path/to/bulk_download_cert.pem',
+     client_certificate        => '/path/to/client_cert.pem',
+     subscribe_settings        => $subscribe_settings,
+     subscribing_member        => 'infoblox.com',
+     version                   => 'VERSION_1_3',
+ );
+
+ #Submit for addition
+ my $response = $session->add($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Cisco ISE endpoint object:
+
+  address                    - Optional. The FQDN or IP address of the Cisco ISE endpoint.
+  comment                    - Optional. The Cisco ISE endpoint comment in string format
+  extattrs                   - Optional. A hash reference containing Infoblox::Grid::Extattr object.
+  extensible_attributes      - Optional. A hash reference containing extensible attributes.
+  network_view               - Optional. The Cisco ISE endpoint network view name.
+  resolved_address           - Optional. The resolved IP address of the Cisco ISE endpoint.
+  resolved_secondary_address - Optional. The resolved secondary IP address of the Cisco ISE endpoint.
+  secondary_address          - Optional. The secondary FQDN or IP address of the Cisco ISE endpoint.
+  subscribing_member         - Optional. The Cisco ISE endpoint subscribing member name.
+  type                       - Optional. The Cisco ISE endpoint type.
+  version                    - Optional. The Cisco ISE endpoint version.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object  => 'Infoblox::CiscoISE::Endpoint',
+     address => '10.0.0.1',
+ );
+
+ my @retrieved_objs = $session->get(
+     object                => 'Infoblox::CiscoISE::Endpoint',
+     extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify the object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify comment value
+ $object->comment('this is a modified comment');
+
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove the object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP range object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects
+ my @retrieved_objs = $session->get(
+     object       => 'Infoblox::CiscoISE::Endpoint',
+     address      => '10.0.0.1',
+     newtork_view => 'default',
+ );
+
+ #Find the desired object from the retrieved list
+ my $desired_object = $retrieved_objs[0];
+
+ #Submit for removal
+ my $response = $session->remove($desired_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for the Cisco ISE endpoint object:
+
+  address                    - Optional. The FQDN or IP address of the Cisco ISE endpoint (regexp).
+  comment                    - Optional. The Cisco ISE endpoint comment in string format (regexp).
+  extattrs                   - Optional. A hash reference containing Infoblox::Grid::Extattr object.
+  extensible_attributes      - Optional. A hash reference containing extensible attributes.
+  network_view               - Optional. The Cisco ISE endpoint network view name (exact).
+  resolved_address           - Optional. The resolved IP address of the Cisco ISE endpoint (regexp).
+  resolved_secondary_address - Optional. The resolved secondary IP address of the Cisco ISE endpoint (regexp).
+  secondary_address          - Optional. The secondary FQDN or IP address of the Cisco ISE endpoint (regexp).
+  subscribing_member         - Optional. The Cisco ISE endpoint subscribing member name (exact).
+  type                       - Optional. The Cisco ISE endpoint type (exact).
+  version                    - Optional. The Cisco ISE endpoint version (exact).
+
+
+For more information about searching extensible attributes, 
+see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # search for objects
+ my @retrieved_objs = $session->search(
+     object       => 'Infoblox::CiscoISE::Endpoint',
+     network_view => 'default',
+     address      => '10.*',
+     comment      => '.*comment',
+);
+
+ # search for objects defining 'Santa Clara' for 'Site' extensible attribute
+ my @retrieved_objs = $session->search(
+     object                => 'Infoblox::DHCP::Range',
+     extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Cisco ISE endpoint.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the fully-qualified domain name (FQDN) or IP address of the Cisco ISE endpoint.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired IP address or FQDN in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address value
+ my $address = $object->address();
+
+ #Modify address value
+ $object->address('foo.com');
+
+=back
+
+=back
+
+=head2 bulk_download_certificate( )
+
+=over
+
+Use this method to set the path to a bulk download certificate file. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a path to a certificate in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify bulk_download_certificate value
+ $object->bulk_download_certificate('/path/to/cert.pem');
+
+=back
+
+=back
+
+=head2 bulk_download_certificate_subject( )
+
+=over
+
+Use this method to retrieve the bulk download certificate subject. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get bulk_download_certificate_subject value
+ my $bulk_download_certificate_subject = $object->bulk_download_certificate_subject();
+
+=back
+
+=back
+
+=head2 bulk_download_certificate_valid_from( )
+
+=over
+
+Use this method to retrieve the time from which the bulk download certificate is valid. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get bulk_download_certificate_valid_from value
+ my $bulk_download_certificate_valid_from = $object->bulk_download_certificate_valid_from();
+
+=back
+
+=back
+
+=head2 bulk_download_certificate_valid_to( )
+
+=over
+
+Use this method to retrieve the bulk download certificate expiration time. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get bulk_download_certificate_valid_to value
+ my $bulk_download_certificate_valid_to = $object->bulk_download_certificate_valid_to();
+
+=back
+
+=back
+
+=head2 client_certificate( )
+
+=over
+
+Use this method to set the path to a client certificate file. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a path to a certificate in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify client_certificate value
+ $object->client_certificate('/path/to/cert.pem');
+
+=back
+
+=back
+
+=head2 client_certificate_subject( )
+
+=over
+
+Use this method to retrieve the client certificate subject. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_certificate_subject value
+ my $client_certificate_subject = $object->client_certificate_subject();
+
+=back
+
+=back
+
+=head2 client_certificate_valid_from( )
+
+=over
+
+Use this method to retrieve the time from which the client certificate is valid. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get client_certificate_valid_from value
+ my $client_certificate_valid_from = $object->client_certificate_valid_from();
+
+=back
+
+=back
+
+=head2 client_certificate_valid_to( )
+
+=over
+
+Use this method to retrieve the bulk client certificate expiration time. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get client_certificate_valid_to value
+ my $client_certificate_valid_to = $object->client_certificate_valid_to();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+ #Modify comment value
+ $object->comment('ise comment');
+
+=back
+
+=back
+
+=head2 connection_status( )
+
+=over
+
+Use this method to retrieve the Cisco ISE endpoint connection status. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get connection_status value
+ my $connection_status = $object->connection_status();
+
+=back
+
+=back
+
+=head2 connection_timeout( )
+
+=over
+
+Use this method to set or retrieve the timeout value (in seconds) for the Cisco ISE endpoint connections.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 180. The default value is 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get connection_timeout value
+ my $connection_timeout = $object->connection_timeout();
+
+ #Modify connection_timeout value
+ $object->connection_timeout('20');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the Cisco ISE endpoint is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable the Cisco ISE endpoint or 'false' to enable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable value
+ my $disable = $object->disable();
+
+ #Modify disable value
+ $object->disable('false');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Cisco ISE endpoint object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference that contains the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs value
+ my $extattrs = $object->extattrs();
+
+ #Modify extattrs value
+ $dhcp_range->extattrs({'Site' => $extattr1, 'Administrator' => $extattr2});
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Cisco ISE endpoint object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes value
+ my $extensible_attributes = $object->extensible_attributes();
+ #Modify extensible attributes
+ $object->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint network view name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired network view name in string format. The default value is 'default'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network_view value
+ my $network_view = $object->network_view();
+
+ #Modify network_view value
+ $object->network_view('internal');
+
+=back
+
+=back
+
+=head2 publish_settings( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint publish settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::CiscoISE::PublishSetting|Infoblox::CiscoISE::PublishSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get publish_settings value
+ my $publish_settings = $object->publish_settings();
+
+ #Modify publish_settings value
+ $object->publish_settings($publish_settings);
+
+=back
+
+=back
+
+=head2 resolved_address( )
+
+=over
+
+Use this method to retrieve the resolved IP address of the Cisco ISE endpoint. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get resolved_address value
+ my $resolved_address = $object->resolved_address();
+
+=back
+
+=back
+
+=head2 resolved_secondary_address( )
+
+=over
+
+Use this method to retrieve the resolved secondary IP address of the Cisco ISE endpoint. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get resolved_secondary_address value
+ my $resolved_secondary_address = $object->resolved_secondary_address();
+
+=back
+
+=back
+
+=head2 secondary_address( )
+
+=over
+
+Use this method to set or retrieve the secondary fully-qualified domain name (FQDN) or IP address of the Cisco ISE endpoint.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired IP address or FQDN in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get secondary_address value
+ my $secondary_address = $object->secondary_address();
+
+ #Modify secondary_address value
+ $object->secondary_address('foo.com');
+
+=back
+
+=back
+
+=head2 subscribe_settings( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint subscribe settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::CiscoISE::SubscribeSetting|Infoblox::CiscoISE::SubscribeSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get subscribe_settings value
+ my $subscribe_settings = $object->subscribe_settings();
+
+ #Modify subscribe_settings value
+ $object->subscribe_settings($subscribe_settings);
+
+=back
+
+=back
+
+=head2 subscribing_member( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint subscribing member host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired subscribing member host name in string format. The default value is 'default'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get subscribing_member value
+ my $subscribing_member = $object->subscribing_member();
+
+ #Modify subscribing_member value
+ $object->subscribing_member('infoblox.com');
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is 'TYPE_CISCO'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get type value
+ my $type = $object->type();
+
+ #Modify type value
+ $object->type('TYPE_CISCO');
+
+=back
+
+=back
+
+=head2 version( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint version.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'VERSION_1_3', 'VERSION_1_4' and 'VERSION_2_0'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get version value
+ my $version = $object->version();
+
+ #Modify version value
+ $object->version('VERSION_2_0');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>,
+L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>, 
+L<Infoblox::CiscoISE::PublishSetting|Infoblox::CiscoISE::PublishSetting>,
+L<Infoblox::CiscoISE::SubscribeSetting|Infoblox::CiscoISE::SubscribeSetting>, 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

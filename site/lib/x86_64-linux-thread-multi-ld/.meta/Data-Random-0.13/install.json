@@ -1,0 +1,1 @@
+{"version":"0.13","provides":{"Data::Random":{"file":"lib/Data/Random.pm","version":"0.13"},"Data::Random::WordList":{"file":"lib/Data/Random/WordList.pm","version":"0.13"}},"dist":"Data-Random-0.13","pathname":"B/BA/BAREFOOT/Data-Random-0.13.tar.gz","name":"Data::Random","target":"Data::Random"}

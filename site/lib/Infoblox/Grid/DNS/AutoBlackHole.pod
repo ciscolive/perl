@@ -1,0 +1,362 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::AutoBlackHole - a DNS Auto Blackhole object.
+
+=head1 DESCRIPTION
+
+The DNS Auto Blackhole object provides information about DNS auto blackhole configuration.
+
+=head1 CONSTRUCTOR
+
+ my $auto_blackhole = Infoblox::Grid::DNS::AutoBlackHole->new(
+	enable_fetches_per_server => 'true' | 'false', # Optional
+	enable_fetches_per_zone   => 'true' | 'false', # Optional
+	enable_holddown           => 'true' | 'false', # Optional
+	fetches_per_server        => $uint,            # Optional
+	fetches_per_zone          => $uint,            # Optional
+	fps_freq                  => $uint,            # Optional
+	holddown                  => $uint,            # Optional
+	holddown_timeout          => $uint,            # Optional
+	holddown_threshold        => $uint,            # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DNS Auto Blackhole object.
+
+=head2 Infoblox::Grid::DNS->auto_blackhole( )
+
+=over
+
+Use this method to set or retrieve the auto blackhole settings. See L<Infoblox::Grid::DNS-E<gt>auto_blackhole()|Infoblox::Grid::DNS/auto_blackhole()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get auto_blackhole value
+ my $auto_blackhole = $grid_dns->auto_blackhole();
+ #Modify bind_check_auto_blackhole
+ $grid_dns->auto_blackhole($auto_blackhole);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->auto_blackhole( )
+
+=over
+
+Use this method to set or retrieve the auto blackhole settings on the member. See L<Infoblox::Grid::Member::DNS-E<gt>auto_blackhole()|Infoblox::Grid::Member::DNS/auto_blackhole()/> for paparameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get auto_blackhole value
+ my $auto_blackhole = $member_dns->auto_blackhole();
+ #Modify auto_blackhole
+ $member_dns->auto_blackhole($auto_blackhole);
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 enable_fetches_per_server( )
+
+=over
+
+Use this method to enable or disable the maximum number of concurrent recursive queries sent to each upstream DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the maximum number of concurrent recursive queries sent to each upstream DNS server or 'false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_fetches_per_server value
+ my $enable_fetches_per_server = $auto_blackhole->enable_fetches_per_server();
+ #Modify enable_fetches_per_server 
+ $auto_blackhole->enable_fetches_per_server('true');
+
+=back
+
+=back
+
+=head2 enable_fetches_per_zone( )
+
+=over
+
+Use this method to enable or disable the maximum number of concurrent recursive queries sent to each DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the maximum number of concurrent recursive queries sent to each DNS zone or 'false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_fetches_per_zone value
+ my $enable_fetches_per_zone = $auto_blackhole->enable_fetches_per_zone();
+ #Modify enable_fetches_per_zone 
+ $auto_blackhole->enable_fetches_per_zone('true');
+
+=back
+
+=back
+
+=head2 enable_holddown( )
+
+=over
+
+Use this method to enable or disable the holddown for non-responsive servers for a specified time interval.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the holddown for non-responsive servers or 'false' to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_holddown value
+ my $enable_holddown = $auto_blackhole->enable_holddown();
+ #Modify enable_holddown 
+ $auto_blackhole->enable_holddown('true');
+
+=back
+
+=back
+
+=head2 fetches_per_server( )
+
+=over
+
+Use this method to set or retrieve the maximum number of concurrent recursive queries for each DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get fetches_per_server value
+ my $fetches_per_server = $auto_blackhole->fetches_per_server();
+ #Modify fetches_per_server 
+ $auto_blackhole->fetches_per_server(2000);
+
+=back
+
+=back
+
+=head2 fetches_per_zone( )
+
+=over
+
+Use this method to set or retrieve the maximum number of concurrent recursive queries for each DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get fetches_per_zone value
+ my $fetches_per_zone = $auto_blackhole->fetches_per_zone();
+ #Modify fetches_per_zone 
+ $auto_blackhole->fetches_per_zone(2000);
+
+=back
+
+=back
+
+=head2 fps_freq( )
+
+=over
+
+Use this method to set or retrieve the number of recursive queries that determines the recalculation of the timeout ratio for each DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get fps_freq value
+ my $fps_freq = $auto_blackhole->fps_freq();
+ #Modify fps_freq 
+ $auto_blackhole->fps_freq(2000);
+
+=back
+
+=back
+
+=head2 holddown( )
+
+=over
+
+Use this method to set or retrieve the holddown duration for non-responsive servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get holddown value
+ my $holddown = $auto_blackhole->holddown();
+ #Modify holddown 
+ $auto_blackhole->holddown(100);
+
+=back
+
+=back
+
+=head2 holddown_threshold( )
+
+=over
+
+Use this method to set or retrieve the number of consecutive timeouts before holding down a non-responsive server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get holddown_threshold value
+ my $holddown_threshold = $auto_blackhole->holddown_threshold();
+ #Modify holddown_threshold 
+ $auto_blackhole->holddown_threshold(100);
+
+=back
+
+=back
+
+=head2 holddown_timeout( )
+
+=over
+
+Use this method to set or retrieve the minimum time (in seconds) that needs to be passed before a timeout occurs. Note that only these timeouts are counted towards the number of consecutive timeouts.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get holddown_timeout value
+ my $holddown_timeout = $auto_blackhole->holddown_timeout();
+ #Modify holddown_timeout 
+ $auto_blackhole->holddown_timeout(100);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Grid::DNS-E<gt>auto_blackhole()|Infoblox::Grid::DNS/auto_blackhole()/>, L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, L<Infoblox::Grid::Member::DNS-E<gt>auto_blackhole()|Infoblox::Grid::Member::DNS/auto_blackhole()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

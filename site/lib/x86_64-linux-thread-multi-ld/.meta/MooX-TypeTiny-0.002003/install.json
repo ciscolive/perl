@@ -1,0 +1,1 @@
+{"name":"MooX::TypeTiny","dist":"MooX-TypeTiny-0.002003","version":"0.002003","target":"MooX::TypeTiny","provides":{"MooX::TypeTiny":{"version":"0.002003","file":"lib/MooX/TypeTiny.pm"},"MooX::TypeTiny::Role::GenerateAccessor":{"file":"lib/MooX/TypeTiny/Role/GenerateAccessor.pm"}},"pathname":"H/HA/HAARG/MooX-TypeTiny-0.002003.tar.gz"}

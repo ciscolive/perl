@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Parallel/ForkManager.pm
+/opt/perl/site/lib/Parallel/ForkManager/Child.pm
+/opt/perl/site/man/man3/Parallel::ForkManager.3
+/opt/perl/site/man/man3/Parallel::ForkManager::Child.3

@@ -1,0 +1,379 @@
+=head1 NAME
+
+Infoblox::DTC::Object - An object for all managed objects on DNS traffic control devices.
+
+=head1 DESCRIPTION
+
+This is a read-only object for all managed objects on DNS traffic control devices.
+
+=head1 CONSTRUCTOR
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+  comment       - Optional. The comment.
+  name          - Optional. The object name.
+  type          - Optional. The object type. The valid values are 'LBDN', 'POOL' and 'SERVER'.
+  status_member - Optional. Optional. The member that provides the health status for the object. The default is Grid.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+    object => 'Infoblox::DTC::Object',
+    name   => 'dtc_device',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search a specific object:
+
+  comment       - Optional. The comment.
+  name          - Optional. The object name.
+  type          - Optional. The object type. The valid values are 'LBDN', 'POOL' and 'SERVER'.
+  status_member - Optional. The member that provides the health status for the object. The default is Grid.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+    object => 'Infoblox::DTC::Object',
+    name   => 'dtc_device',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of an object.
+
+=head2 abstract_type( )
+
+=over
+
+Use this method to retrieve an abstract object type. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->abstract_type();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve a descriptive comment. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->comment();
+
+=back
+
+=back
+
+=head2 display_type( )
+
+=over
+
+Use this method to retrieve an object type. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->display_type();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with an object object. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $object->extattrs();
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with an object. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->extensible_attributes();
+
+=back
+
+=back
+
+=head2 ipv4_address_list( )
+
+=over
+
+Use this method to retrieve the IPv4 addresses for display. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->ipv4_address_list();
+
+=back
+
+=back
+
+=head2 ipv6_address_list( )
+
+=over
+
+Use this method to retrieve the IPv6 addresses for display. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->ipv6_address_list();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve an object name. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->name();
+
+=back
+
+=back
+
+=head2 object( )
+
+=over
+
+Use this method to retrieve an object. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::DTC::Pool|Infoblox::DTC::Pool>, L<Infoblox::DTC::Server|Infoblox::DTC::Server> or L<Infoblox::DTC::LBDN|Infoblox::DTC::LBDN> object.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->object();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the current status of an object. This method does not support any argument because the attribute is read-only and is set by the server.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'BLUE', 'GRAY', 'GREEN', 'NONE', 'RED' or 'YELLOW'.
+
+ +---------------+-------------------------------+
+ |  GREEN        |  Working, OK                  |
+ +---------------+-------------------------------+
+ |  YELLOW       |  Warning                      |
+ +---------------+-------------------------------+
+ |  RED          |  Failed, Error                |
+ +---------------+-------------------------------+
+ |  BLUE         |  Transitional, Connecting     |
+ +---------------+-------------------------------+
+ |  GRAY         |  Disabled                     |
+ +---------------+-------------------------------+
+ |  NONE (BLACK) |  Inactive, Offline, Unknown   |
+ +---------------+-------------------------------+
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->status();
+
+=back
+
+=back
+
+=head2 status_time( )
+
+=over
+
+Use this method to retrieve the timestamp of the object's current status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->status_time();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::DTC::Pool|Infoblox::DTC::Pool>,
+L<Infoblox::DTC::Server|Infoblox::DTC::Server>,
+L<Infoblox::DTC::LBDN|Infoblox::DTC::LBDN>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

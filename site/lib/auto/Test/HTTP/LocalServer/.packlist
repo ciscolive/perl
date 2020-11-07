@@ -1,0 +1,5 @@
+/opt/perl/site/lib/Test/HTTP/LocalServer.pm
+/opt/perl/site/lib/Test/HTTP/cookie-server
+/opt/perl/site/lib/Test/HTTP/gzip-streamed.psgi
+/opt/perl/site/lib/Test/HTTP/log-server
+/opt/perl/site/man/man3/Test::HTTP::LocalServer.3

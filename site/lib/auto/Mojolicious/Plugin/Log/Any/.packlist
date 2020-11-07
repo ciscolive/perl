@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Mojo/Log/Role/AttachLogger.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Log/Any.pm
+/opt/perl/site/man/man3/Mojo::Log::Role::AttachLogger.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::Log::Any.3

@@ -1,0 +1,1 @@
+{"pathname":"M/MA/MAROS/DateTime-Format-CLDR-1.19.tar.gz","dist":"DateTime-Format-CLDR-1.19","name":"DateTime::Format::CLDR","target":"DateTime::Format::CLDR","version":"1.19","provides":{"DateTime::Format::CLDR":{"file":"lib/DateTime/Format/CLDR.pm","version":"1.19"}}}

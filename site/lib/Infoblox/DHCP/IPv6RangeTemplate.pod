@@ -1,0 +1,691 @@
+=head1 NAME
+
+Infoblox::DHCP::IPv6RangeTemplate - DHCP IPv6 RangeTemplate object.
+
+=head1 DESCRIPTION
+
+A DHCP IPv6 range template contains a set of predefined properties and can be used to create DHCP IPv6 ranges in a quick and consistent way. The DHCP IPv6 range created from a DHCP IPv6 range template will inherit the properties defined in the template.
+
+=head1 CONSTRUCTOR
+
+ my $ipv6_range_template = Infoblox::DHCP::IPv6RangeTemplate->new(
+             name                    => $string,                                  #Required
+             number_of_addresses     => $num,                                     #Required
+             offset                  => $num,                                     #Required
+             comment                 => $string,                                  #Optional / Default is undefined
+             exclude                 => [$ExclusionRange1, $ExclusionRange2,...], #Optional / Default is empty
+             extattrs                => { $string => $extattr, ... },             #Optional / Default is undefined
+             extensible_attributes   => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+             member                  => $Member,                                  #Optional / Default is undefined
+             override_recycle_leases => "true" | "false",                         #Optional / Default is "false"
+             recycle_leases          => "true" | "false" | undef,                 #Optional / Default is undefined
+             server_association_type => "NONE" | "MEMBER",                        #Optional / Default is "NONE"
+  );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DHCP IPv6 range template object.
+
+=head2 Infoblox::DHCP::IPv6NetworkTemplate->range_templates( )
+
+=over
+
+Use this function to include a range template in an IPv6 network template on the Infoblox appliance. See L<Infoblox::DHCP::IPv6NetworkTemplate-E<gt>range_templates()|Infoblox::DHCP::IPv6NetworkTemplate/range_templates()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an IPv6 range template object
+ my $ipv6_range_template = Infoblox::DHCP::IPv6RangeTemplate->new(
+             name                    => "custom_range_template",
+             number_of_addresses     => "1000",
+             offset                  => "10",
+     );
+
+ my $template = Infoblox::DHCP::Template->new(
+             name                    => "custom_range_template",
+     );
+
+ #Configure a range template in a network template object
+ my $responce = $network_template->range_templates([$template]);
+
+=back
+
+=back
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that can be applied to a DHCP IPv6 range template object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP IPv6 range template object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $ipv6_range_template = Infoblox::DHCP::IPv6RangeTemplate->new(
+         name                    => "custom_range_template",
+         offset                  => "20",
+         number_of_addresses     => "100",
+         comment                 => "add range",
+         exclude                 => [$exclusion_range_template],
+         member                  => $memberdhcp,
+         recycle_leases          => "false",
+         override_recycle_leases => "true",
+         server_association_type => 'MEMBER',
+ );
+
+ # Submit for addition
+ my $response = $session->add( $ipv6_range_template );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+     Apply the following attributes to get a specific DHCP IPv6 range template object:
+
+     name - Optional. The name of the DHCP IPv6 range template.
+     extattrs     - Optional. A hash reference containing extensible attributes.
+     extensible_attributes - Optional. A hash reference containing extensible attributes.
+     server_association_type - Optional. The server association type for the range.
+
+=item B<Examples>
+
+     my @retrieved_objs = $session->get(
+                           object => "Infoblox::DHCP::IPv6RangeTemplate",
+                           name   => "custom_range_template"
+                           );
+
+    my @retrieved_objs = $session->get(
+                          object                => "Infoblox::DHCP::IPv6RangeTemplate",
+                          extensible_attributes => { 'Site' => 'Santa Clara' }
+                         );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+     Apply the following attributes to search for a specific DHCP IPv6 range template object:
+
+     name    - Optional. The name of the DHCP IPv6 range template (regular expression).
+     comment - Optional. The comment of the DHCP IPv6 range template (regular expression).
+     extattrs     - Optional. A hash reference containing extensible attributes.
+     extensible_attributes - Optional. A hash reference containing extensible attributes.
+     server_association_type - Optional. The server association type for the range.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+     my @retrieved_objs = $session->search(
+                           object  => "Infoblox::DHCP::IPv6RangeTemplate",
+                           name    => "custom_range_template",
+                           comment => ".*",
+            );
+
+    my @retrieved_objs = $session->search(
+                           object                => "Infoblox::DHCP::IPv6RangeTemplate",
+                           extensible_attributes => { 'Site' => 'Santa Clara' }
+            );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP IPv6 range template object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     # Use this method to modify the comment.
+     $ipv6_range_template->comment("this is a modified comment");
+     # Submit modification
+     my $response = $session->modify( $ipv6_range_template );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP IPv6 range template object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP IPv6 range template object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+     # Get the objects with the same name
+     my @retrieved_objs = $session->get(
+         object => "Infoblox::DHCP::IPv6RangeTemplate",
+         name   => "custom_range_template"
+    );
+
+     # Find the desired object from the retrieved list.
+     my $desired_ipv6_range_template = $retrieved_objs[0];
+     # Submit for removal
+     my $response = $session->remove( $desired_ipv6_range_template );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP IPv6 range template object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment of a DHCP IPv6 range template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get comment
+     my $comment = $ipv6_range_template->comment();
+     #Modify comment
+     $ipv6_range_template->comment("Modifying the DHCP IPv6 range template comment");
+
+=back
+
+=back
+
+=head2 exclude( )
+
+=over
+
+Use this method to set or retrieve the exclusion range template in the DHCP IPv6 range template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains defined Infoblox::DHCP::ExclusionRangeTemplate objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get exclude
+     my $ref_exclude = $ipv6_range_template->exclude();
+     #Modify exclude
+     $ipv6_range_template->exclude([$exl1]); #$exl1 is an Infoblox::DHCP::ExclusionRangeTemplate object
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP IPv6 range template object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $ipv6_range_template->extattrs();
+ #Modify extattrs
+ $ipv6_range_template->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP IPv6 range template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $ipv6_range_template->extensible_attributes();
+ #Modify extensible attributes
+ $ipv6_range_template->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve the grid member assigned to the DHCP IPv6 range template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a defined L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> object. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get member
+     my $ref_member = $ipv6_range_template->member();
+     #Modify member
+     $ipv6_range_template->member($member1); #$member is an Infoblox::DHCP::Member object
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the DHCP IPv6 range template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the IPv6 range template in string format with a maximum of 64 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get name
+     my $name = $ipv6_range_template->name();
+     #Modify name
+     $ipv6_range_template->name("custom_range_template");
+
+=back
+
+=back
+
+=head2 number_of_addresses( )
+
+=over
+
+Use this method to set or retrieve the number of addresses in this DHCP IPv6 range template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The number of addresses in this DHCP IPv6 range template.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get number_of_addresses
+     my $number_of_addresses = $ipv6_range_template-> number_of_addresses();
+     #Modify number_of_addresses
+     $ipv6_range_template->number_of_addresses("100");
+
+=back
+
+=back
+
+=head2 offset( )
+
+=over
+
+Use this method to set or retrieve the address offset of this DHCP IPv6 range template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The address offset of this DHCP IPv6 range template. The offset is calculated from the start address of the IPv6 network template that includes the DHCP range template. For example, in the IPv6 network 2010:0:0:10::/64, if the offset is set to 10 and number_of_addresses is set to 100, then the start address of the DHCP IPv6 range created from this range template is 2010:0:0::A and the end address is 2010:0:0::6D.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get offset
+     my $offset = $ipv6_range_template->offset();
+     #Modify offset
+     $ipv6_range_template->offset("10");
+
+=back
+
+=back
+
+=head2 override_recycle_leases( )
+
+=over
+
+The override_recycle_leases attribute controls whether the recycle_leases value in the DHCP IPv6 range template is used, instead of the grid default.
+
+The override_recycle_leases attribute can be specified explicitly. It is also set implicitly when recycle_leases is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for recycle_leases. Set the parameter to "false" to inherit the grid-level setting for recycle_leases.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_recycle_leases
+    my $override_recycle_leases=$ipv6_range_template->override_recycle_leases( );
+    #Modifying override_recycle_leases
+    $ipv6_range_template->override_recycle_leases("true");
+
+=back
+
+=back
+
+=head2 recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the recycle_leases flag of the DHCP IPv6 range template.
+
+If the flag is enabled, the leases are kept in the recycle bin until one week after they expire. When the flag is disabled, the leases are irrecoverably deleted.
+
+Setting this method to a defined value implicitly sets the override_recycle_leases method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_recycle_leases attribute to "false".
+
+Note that when recycle_leases is set to a defined value and override_recycle_leases is set to "false", the last operation takes precedence. Thus the sequence $object->recycle_leases("true"); $object->override_recycle_leases("false"); will set override_recycle_leases to "false", and the sequence $objct->override_recycle_leases("false"); $object->recycle_leases("true"); will result in override_recycle_leases="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the recycle_leases flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recycle_leases
+ my $recycle_leases = $ipv6_range_template->recycle_leases();
+ #Modify recycle_leases
+ $ipv6_range_template->recycle_leases("false");
+
+=back
+
+=back
+
+=head2 server_association_type( )
+
+=over
+
+Use this method to set or retrieve the DHCP IPv6 range template server association type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "NONE" and "MEMBER".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get server_association_type
+ my $server_association_type = $ipv6_range_template->server_association_type();
+ #Modify server_association_type
+ $ipv6_range_template->server_association_type("MEMBER");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a DHCP range template object such as add, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP IPv6RangeTemplate object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2",      #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create a DHCP Member object
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2"
+ );
+ unless($memberdhcp) {
+        die("Construct member failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Member object created successfully\n";
+
+ #Construct exclusion range template object
+ my $exclusion_range_template = Infoblox::DHCP::ExclusionRangeTemplate->new(
+     offset              => "15",
+     number_of_addresses => "50",
+     comment             => "Excluded range"
+ );
+ unless($exclusion_range_template){
+        die("Construct exclusion range template object failed: ",
+                 Infoblox::status_code() . ":" . Infoblox::status_detail());
+        }
+  print "Exclusion range template object created successfully\n";
+
+B<#Create a DHCP IPv6 range template object>
+
+ my $ipv6_range_template = Infoblox::DHCP::IPv6RangeTemplate->new(
+         name                    => "custom_range_template",
+         offset                  => "20",
+         number_of_addresses     => "100",
+         comment                 => "add range",
+         exclude                 => [$exclusion_range_template],
+         member                  => $memberdhcp,
+         recycle_leases          => "false",
+         override_recycle_leases => "true",
+         server_association_type => 'MEMBER',
+ );
+ unless($ipv6_range_template) {
+        die("Construct DHCP IPv6 range template object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6 range template object created successfully\n";
+
+ #Add the DHCP IPv6 range template object into the Infoblox appliance through a session
+ $session->add($ipv6_range_template)
+     or die("Add DHCP IPv6 range template object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP IPv6 range template object added to the network successfully\n";
+
+B<#Get and modify a DHCP IPv6 range template>
+
+ #Get a DHCP IPv6 range template through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DHCP::IPv6RangeTemplate",
+     name       => "custom_range_template",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP IPv6 range template failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP IPv6 range template object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified DHCP IPv6 range template
+ $object->comment("modified comment");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify DHCP IPv6 range template failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP IPv6 range template object modified successfully \n";
+
+B<#Remove a DHCP IPv6 range template>
+
+ #Get a DHCP IPv6 range template through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DHCP::IPv6RangeTemplate",
+     name       => "custom_range_template",
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP IPv6 range template failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP IPv6 range template object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove DHCP IPv6 range template failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP IPv6 range template object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::IPv6NetworkTemplate|Infoblox::DHCP::IPv6NetworkTemplate>, L<Infoblox::DHCP::RangeTemplate|Infoblox::DHCP::RangeTemplate>, L<Infoblox::DHCP::ExclusionRangeTemplate|Infoblox::DHCP::ExclusionRangeTemplate>, L<Infoblox::DHCP::Template|Infoblox::DHCP::Template>, L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

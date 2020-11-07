@@ -1,0 +1,186 @@
+=head1 NAME
+
+Infoblox::Notification::REST::TemplateParameter - A REST API template parameter.
+
+=head1 DESCRIPTION
+
+The REST API template parameter is used to configure REST API template instance variables.
+
+=head1 CONSTRUCTOR
+
+ my $templ_parameter = Infoblox::Notification::REST::TemplateParameter->new(
+     name          => $string,                # Required
+     syntax        => 'STR' | 'INT' | 'BOOL', # Required
+     value         => $string,                # Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not have any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to REST API template parameter object.
+
+=head2 Infoblox::Notification::REST::TemplateInstance->parameters( )
+
+=over
+
+Use this method to set or retrieve the list of REST API template parameters.
+See L<Infoblox::Notification::REST::TemplateInstance-E<gt>parameters()|Infoblox::Notification::REST::TemplateInstance/parameters()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get parameters value
+ my $parameters = $object->parameters();
+
+ #Modify parameters value
+ $object->parameters([[$param1, $param2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a REST API template parameter object.
+
+=head2 default_value( )
+
+=over
+
+Use this method to retrieve the template parameter default value. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get default_value value
+ my $default_value = $object->default_value();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the template parameter name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is desired name in string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+ #Modify name value
+ $object->name('param1');
+
+=back
+
+=back
+
+=head2 syntax( )
+
+=over
+
+Use this method to set or retrieve the template parameter syntax.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'BOOL', 'STR' and 'INT'.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get syntax value
+ my $syntax = $object->syntax();
+
+ #Modify syntax value
+ $object->syntax('INT');
+
+=back
+
+=back
+
+=head2 value( )
+
+=over
+
+Use this method to set or retrieve the template parameter value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The desired value in string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get value value
+ my $value = $object->value();
+
+ #Modify value value
+ $object->value('val');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Notification::REST::TemplateInstance|Infoblox::Notification::REST::TemplateInstance>,
+L<Infoblox::Notification::REST::TemplateInstance-E<gt>parameters()|Infoblox::Notification::REST::TemplateInstance/parameters>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

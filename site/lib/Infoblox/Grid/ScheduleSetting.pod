@@ -1,0 +1,365 @@
+=head1 NAME
+
+Infoblox::Grid::ScheduleSetting - a schedule setting object.
+
+=head1 DESCRIPTION
+
+An object that provides the ability to set the schedule for a discovery task.
+
+=head1 CONSTRUCTOR
+
+ my $schedule_setting = Infoblox::Grid::ScheduleSetting->new(
+    frequency           => "DAILY" | "HOURLY" | "MONTHLY" | "WEEKLY",     # optional
+    day_of_month        => $uint,                                         # optional
+    every               => $uint,                                         # optional
+    weekdays            => ["MONDAY", "THURSDAY", .... ],                 # optional
+    hour_of_day         => $uint,                                         # optional
+    minutes_past_hour   => $uint,                                         # optional
+    month               => $uint,                                         # optional
+    year                => $uint,                                         # optional
+    repeat              => "ONCE" | "RECUR",                              # optional
+    disable             => "true" | "false",                              # optional
+    time_zone           => $time_zone,                                    # optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve attribute values of the scheduling object.
+
+=head2 day_of_month( )
+
+=over
+
+Use this method to set or retrieve the scheduled day of month when the discovery is triggered.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer between 1-31.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->day_of_month();
+ #Modify attribute value
+ $schedule_setting->day_of_month(10);
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to enable or disable scheduling of a discovery task.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable scheduling or "false" to enable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->disable();
+ #Modify attribute value
+ $schedule_setting->disable("true");
+
+=back
+
+=back
+
+=head2 every( )
+
+=over
+
+Use this method to set or retrieve the recurrence pattern of a recurring discovery.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->every();
+ #Modify attribute value
+ $schedule_setting->every(2);
+
+=back
+
+=back
+
+=head2 frequency( )
+
+=over
+
+Use this method ot set or retrieve the recurrence pattern of a recurring discovery.
+
+=over
+
+=item B<Parameter>
+
+Valid value is "DAILY", "HOURLY", "MONTHLY" or "WEEKLY".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->frequency();
+ #Modify attribute value
+ $schedule_setting->frequency("MONTHLY");
+
+=back
+
+=back
+
+=head2 hour_of_day( )
+
+=over
+
+Use this method to set or retrieve the hour, based on the 24-hour clock notation, when the discovery should start. For example, use 18 for 18:00.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer between 0-23.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->hour_of_day();
+ #Modify attribute value
+ $schedule_setting->hour_of_day(5);
+
+=back
+
+=back
+
+=head2 month( )
+
+=over
+
+Use this method to set or retrieve the month of the year when the discovery should start. For example, use 1 for January, 2 for February, and so on.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer between 1 and 12.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->month();
+ #Modify attribute value
+ $schedule_setting->month(10);
+
+=back
+
+=back
+
+=head2 year( )
+
+=over
+
+Use this method to set or retrieve the year when the discovery should start.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->year();
+ #Modify attribute value
+ $schedule_setting->year(2015);
+
+=back
+
+=back
+
+
+=head2 minutes_past_hour( )
+
+=over
+
+Use this method to set or retrieve the minute, based on the 24-hour clock notation, when the discovery should start. For example, use 59 for 00:59.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer between 0-59.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->minutes_past_hour();
+ #Modify attribute value
+ $schedule_setting->minutes_past_hour(10);
+
+=back
+
+=back
+
+=head2 repeat( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates if the discovery is scheduled for once or recurring.
+
+=over
+
+=item B<Parameter>
+
+Valid value is "ONCE" or "RECUR".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->repeat();
+ #Modify attribute value
+ $schedule_setting->repeat("RECUR");
+
+=back
+
+=back
+
+=head2 time_zone( )
+
+=over
+
+Use this method to set or retrieve the time zone.
+
+=over
+
+=item B<Parameter>
+
+The UTC string that represents the time zone. For example "(UTC - 6:00) Central Time (US and Canada)". The default value is "(UTC) Coordinated Universal Time".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->time_zone();
+ #Modify attribute value
+ $schedule_setting->time_zone("(UTC - 6:00) Central Time (US and Canada)");
+
+=back
+
+=back
+
+=head2 weekdays( )
+
+=over
+
+Use this method to set or retrieve the days of the week when the discovery is triggered.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a reference to an array that can contain the following values: 'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY' and 'SATURDAY'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->weekdays();
+ #Modify attribute value
+ $schedule_setting->weekdays(["MONDAY", "FRIDAY"]);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::IPAM::DiscoveryTask|Infoblox::IPAM::DiscoveryTask>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

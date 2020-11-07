@@ -1,0 +1,7 @@
+/opt/perl/site/lib/Moose/Meta/Attribute/Custom/Trait/Enum.pm
+/opt/perl/site/lib/Moose/Meta/Attribute/Custom/Trait/Enumeration.pm
+/opt/perl/site/lib/MooseX/Enumeration.pm
+/opt/perl/site/lib/MooseX/Enumeration/Meta/Attribute/Native/Trait/Enumeration.pm
+/opt/perl/site/lib/MooseX/Enumeration/Meta/Method/Accessor/Native/Enumeration/assign.pm
+/opt/perl/site/lib/MooseX/Enumeration/Meta/Method/Accessor/Native/Enumeration/is.pm
+/opt/perl/site/man/man3/MooseX::Enumeration.3

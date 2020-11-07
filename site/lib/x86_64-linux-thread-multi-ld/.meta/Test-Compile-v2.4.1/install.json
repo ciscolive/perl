@@ -1,0 +1,1 @@
+{"pathname":"E/EG/EGILES/Test-Compile-v2.4.1.tar.gz","name":"Test::Compile","version":"v2.4.1","target":"Test::Compile","dist":"Test-Compile-v2.4.1","provides":{"Test::Compile::Internal":{"file":"lib/Test/Compile/Internal.pm","version":"v2.4.1"},"Test::Compile":{"file":"lib/Test/Compile.pm","version":"v2.4.1"}}}

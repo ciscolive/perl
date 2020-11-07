@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Net/Cisco/ISE.pm
+/opt/perl/site/lib/Net/Cisco/ISE/IdentityGroup.pm
+/opt/perl/site/lib/Net/Cisco/ISE/InternalUser.pm
+/opt/perl/site/lib/Net/Cisco/ISE/NetworkDevice.pm
+/opt/perl/site/lib/Net/Cisco/ISE/NetworkDeviceGroup.pm
+/opt/perl/site/man/man3/Net::Cisco::ISE.3
+/opt/perl/site/man/man3/Net::Cisco::ISE::NetworkDevice.3
+/opt/perl/site/man/man3/Net::Cisco::ISE::NetworkDeviceGroup.3

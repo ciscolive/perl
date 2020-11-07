@@ -1,0 +1,132 @@
+=head1 NAME
+
+Infoblox::DTC::Topology::Label - A DTC Topology label object.
+
+=head1 DESCRIPTION
+
+A DTC Topology label object, which represents a label in a MaxMind database.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a Topology label object
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   field - Optional. The field in the MaxMind database the label was obtained from.
+   label - Optional. The label value.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Topology::Label',
+     field  => 'COUNTRY',
+     label  => 'United States',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   field - Optional. The field in the MaxMind database from which the label was obtained.
+   label - Optional. The label value.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Topology::Label',
+     field  => 'COUNTRY',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 field( )
+
+=over
+
+Use this method to retrieve the name of the field in the MaxMind database from which the label was obtained. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #get field value
+ my $field = $label->field();
+
+=back
+
+=back
+
+=head2 label( )
+
+=over
+
+Use this method to retrieve the label name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #get label value
+ my $label = $label->label();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

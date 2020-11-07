@@ -1,0 +1,625 @@
+=head1 NAME
+
+Infoblox::Grid::Member::OSPF - OSPF (Open Shortest Path First) member object.
+
+=head1 DESCRIPTION
+
+A OSPF member represents the configuration for a OSPF area used at the grid member level.
+
+=head1 CONSTRUCTOR
+
+ my  $ospf = Infoblox::Grid::Member::OSPF->new(
+     area_id             => $num | $ipv4addr,                      #Required
+     interface           => "LAN_HA" | $ipaddr                     #Required
+     area_type           => "standard" | "stub" | "nssa",          #Optional / Default is "standard"
+     authentication_key  => $string | undef,                       #Optional / Default is undefined
+     authentication_type => "none" | "simple" | "message-digest",  #Optional / Default is "none"
+     bfd_template        => $string | undef,                       #Optional / Default is undefined
+     enable_bfd          => "true" | "false"                       #Optional / Default is "false"
+     comment             => $string | undef,                       #Optional / Default is undefined
+     cost                => $num | "AUTO",                         #Optional / Default is "AUTO"
+     dead_interval       => $num,                                  #Optional / Default is 40
+     hello_interval      => $num,                                  #Optional / Default is 10
+     key_id              => $num | undef,                          #Optional / Default is 1
+     retransmit_interval => $num,                                  #Optional / Default is 5
+     transmit_delay      => $num                                   #Optional / Default is 1
+     is_ipv4             => "true" | "false"                       #Optional / Default is "true"
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a OSPF object.
+
+=head2 Infoblox::Grid::Member->ospf_list( )
+
+=over
+
+Use this function to specify OSPF for the Grid Member. See L<Infoblox::Grid::Member-E<gt>ospf_list()|Infoblox::Grid::Member/ospf_list()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a OSPF object
+ my $ospf = Infoblox::Grid::Member::OSPF->new(
+     area_id             => "20",
+     area_type           => "standard",
+     interface           => "LAN_HA",
+     authentication_type => "simple",
+     authentication_key  => "infoblox"
+ );
+
+ # Configure OSPF on the Grid Member object
+ my $response = $Grid_Member->ospf_list([$ospf]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a OSPF object.
+
+=head2 area_id( )
+
+=over
+
+Use this method to set or retrieve the area id value of the OSPF object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the area id in a 32-bit integer (range from 0 to 4294967295) format or in IPv4 address format. An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get area_id
+ my $area_id = $ospf->area_id();
+ #Modify area_id
+ $ospf->area_id(1);
+
+=back
+
+=back
+
+=head2 area_type( )
+
+=over
+
+Use this method to set or retrieve the OSPF area type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the area type in string format. Valid values are "standard", "stub" OR "nssa"(Not-so-stubby). Default value is "standard".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get area_type
+ my $area_type = $ospf->area_type();
+ #Modify area_type
+ $ospf->area_type("stub");
+
+=back
+
+=back
+
+=head2 authentication_key( )
+
+=over
+
+Use this method to set the authentication password to use for OSPF. This is a write-only attribute. The authentication key is valid only when authentication type is "simple" or "message-digest".
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the authentication key in string format. The authentication key can have a maximum of 8 bytes if authentication type is "simple" or it can have a maximum of 16 bytes if the authentication type is "message-digest". Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify authentication_key
+ $ospf->authentication_key("infoblox");
+
+=back
+
+=back
+
+=head2 authentication_type( )
+
+=over
+
+Use this method to set or retrieve the authentication type used for the OSPF advertisement.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the authentication type in string format. Valid values are "none", "simple" or "message-digest". Default value is "none".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authentication_type
+ my $authentication_type = $ospf->authentication_type();
+ #Modify authentication_type
+ $ospf->authentication_type("message-digest");
+
+=back
+
+=back
+
+=head2 bfd_template( )
+
+=over
+
+Use this method to set or retrieve the Bidirectional Forwarding Detection (BFD) template name.
+
+BFD template is used to configure advanced BFD settings such as timer intervals, authentication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired BFD template in string format. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bfd_template value
+ my $bfd_template = $object->bfd_template();
+ #Modify bfd_template value
+ $object->bfd_template("template1");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment of the OSPF configuration.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $ospf->comment();
+ #Modify comment
+ $ospf->comment("Modifying the OSPF comment");
+
+=back
+
+=back
+
+=head2 cost( )
+
+=over
+
+Use this method to set or retrieve the cost metric associated with the OSPF advertisement. If "AUTO" is provided, cost metric will be generated automatically.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the cost metric in a 16-bit integer (range from 0 to 65535) format or in string format as "AUTO". Default value is "AUTO".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get cost
+ my $cost = $ospf->cost();
+ #Modify cost
+ $ospf->cost(1);
+
+=back
+
+=back
+
+=head2 dead_interval( )
+
+=over
+
+Use this method to set or retrieve the dead interval value of OSPF. The dead interval describes the time taken in seconds to wait before declaring that the device is unavailable and down.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the dead interval in a 16-bit integer (range from 0 to 65535) format that represents the duration in seconds. Default value is 40.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dead_interval
+ my $dead_interval = $ospf->dead_interval();
+ #Modify dead_interval
+ $ospf->dead_interval(10);
+
+=back
+
+=back
+
+=head2 enable_bfd( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the Bidirectional Forwarding Detection (BFD) fallover is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable BFD fallover and false to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_bfd value
+ my $enable_bfd = $object->enable_bfd();
+ #Modify enable_bfd value
+ $object->enable_bfd('true');
+
+=back
+
+=back
+
+=head2 hello_interval( )
+
+=over
+
+Use this method to set or retrieve the hello interval value of OSPF. The hello interval specifies how often to send OSPF hello advertisement, in seconds.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the hello interval in a 16-bit integer (range from 0 to 65535) format that represents the duration in seconds. Default value is 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get hello_interval
+ my $hello_interval = $ospf->hello_interval();
+ #Modify hello_interval
+ $ospf->hello_interval(20);
+
+=back
+
+=back
+
+=head2 interface( )
+
+=over
+
+Use this method to set or retrieve the interface that send out OSPF advertisement information.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is "LAN_HA" or an IPv4 or IPv6 address of the VLAN interface.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get interface
+ my $interface = $ospf->interface();
+ #Modify interface
+ $ospf->interface("LAN_HA");
+
+=back
+
+=back
+
+=head2 is_ipv4( )
+
+=over
+
+Use this method to set or retrieve the OSPF protocol version.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" if the IPv4 version of OSPF is used, or "false" if the IPv6 version of OSPF is used. Default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get protocol version
+ my $ospf_is_ipv4 = $ospf->is_ipv4();
+ #Modify protocol version
+ $ospf->is_ipv4("true");
+ $ospf->is_ipv4("false");
+
+=back
+
+=back
+
+=head2 key_id( )
+
+=over
+
+Use this method to set or retrieve the hash key identifier to use for "message-digest" authentication. The hash key identifier is valid only when authentication type is "message-digest".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the hash key identifier in a 8-bit integer (range from 0 to 255) format. Default value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get key_id
+ my $key_id = $ospf->key_id();
+ #Modify key_id
+ $ospf->key_id(100);
+
+=back
+
+=back
+
+=head2 retransmit_interval( )
+
+=over
+
+Use this method to set or retrieve the retransmit interval time of OSPF. The retransmit interval describes the time taken in seconds to wait before retransmitting OSPF advertisement.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the retransmit interval in a 16-bit integer (range from 0 to 65535) format that represents the duration in seconds. Default value is 5.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get retransmit_interval
+ my $retransmit_interval = $ospf->retransmit_interval();
+ #Modify retransmit_interval
+ $ospf->retransmit_interval(50);
+
+=back
+
+=back
+
+=head2 transmit_delay( )
+
+=over
+
+Use this method to set or retrieve the transmit delay value of OSPF. The transmit delay describes the time taken in seconds to wait before sending an advertisement.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the transmit delay in a 16-bit integer (range from 0 to 65535) format that represents the duration in seconds. Default value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get transmit_delay
+ my $transmit_delay = $ospf->transmit_delay();
+ #Modify transmit_delay
+ $ospf->transmit_delay(60);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an OSPF object such as add, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to OSPF object insertion>
+
+ use strict;
+ use warnings;
+ use Infoblox;
+
+ my $host_name = "infoblox.localdomain";
+ my $host_ip = "192.168.1.2";
+ #Creating a session to Infoblox appliance.
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+
+ unless ($session) {
+     die(qq(constructor for session failed: ),
+         join(":", Infoblox::status_code(), Infoblox::status_detail()));
+ }
+ print "Session created successfully \n";
+
+B<#Create a grid member OSPF object>
+
+ #Creating OSPF object.
+ my $ospf1 = Infoblox::Grid::Member::OSPF->new(
+     area_id             => "20",
+     area_type           => "standard",
+     interface           => "LAN_HA",
+     authentication_type => "simple",
+     authentication_key  => "infoblox"
+    ) or die(qq(Constructor for ospf1 failed: ),
+    join(":", Infoblox::status_code(), Infoblox::status_detail()));
+ print "OSPF object constructed successfully \n";
+
+B<#Add OSPF object to Grid Member>
+
+ #Getting the member object from appliance through session.
+ my @result = $session->get(
+     object => "Infoblox::Grid::Member",
+     name   => $host_name,
+     ) or die(qq(Get Grid Member failed: ),
+     join(":", $session->status_code(), $session->status_detail()));
+ print "Get Grid Member successful\n";
+
+ my $result = $result[0];
+ if ($result) {
+     #Modifying the value of the ospf method from the member object.
+     $result->ospf_list([$ospf1]);
+     #Applying the changes to appliance through session.
+     $session->modify($result)
+         or die(qq(Modify Grid Member failed: ),
+         join(":", $session->status_code(), $session->status_detail()));
+ }
+ print "OSPF object added to Grid Member successfully\n";
+
+B<#Modify OSPF object>
+
+ #Modifying the area id of the OSPF object.
+ $ospf1->area_id("50");
+
+ #Apply changes to the Grid Member object.
+ $result->ospf_list([$ospf1]);
+
+ #Update Grid Member object through the Infoblox session.
+ $session->modify($result)
+   or die("Modify Grid Member object failed: ",
+   $session->status_code() . ":" . $session->status_detail());
+ print "Grid Member object with modified OSPF updated to Infoblox appliance successfully\n";
+
+B<#Remove OSPF object>
+
+ #Remove the OSPF from the Grid Member object.
+ $result->ospf_list([]);
+
+ #Update Grid Member object through the Infoblox session.
+ $session->modify($result)
+   or die("Modify Grid Member object failed: ",
+   $session->status_code() . ":" . $session->status_detail());
+ print "Removed OSPF object from Grid Member successfully\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

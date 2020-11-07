@@ -1,0 +1,797 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::Permission - Admin Permission object.
+
+=head1 DESCRIPTION
+
+An Admin Permission object is used to set the permissions for an admin to access various resources.
+
+=head1 CONSTRUCTOR
+
+ my $group = Infoblox::Grid::Admin::Permission->new(
+     admin_group         => $string,                                                              #exactly one of admin_group and role Required
+     role                => $string,                                                              #exactly one of admin_group and role Required
+     permission          => "read" | "write" | "deny",                                            #Required
+     resource_type       => $string,                                                              #Optional, if resource_object is provided
+     resource_object     => $Object,                                                              #Optional, if resource_type is provided
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to an Admin Permission object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct the Group object
+ my $permission = Infoblox::Grid::Admin::Permission->new(
+           admin_group => "test_group",
+           resource_type => "All Zones",
+           permission => "write",
+ );
+ # Submit for addition
+ my $response = $session->add( $permission );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Group object:
+
+  admin_group      - Optional. Group name in string format.
+  role             - Optional. Role name in string format.
+  permission       - Optional. Permission in string format.
+  resource_type    - Optional. Resource type in string format.
+  resource_object  - Optional. Resource Object reference.
+
+ NOTE: You cannot specify both an admin_group and role.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::Permission",
+     admin_group   => "test_group",
+     resource_type => "All Members");
+
+ or
+
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::Permission",
+     role          => "test_role",
+     resource_type => "All Members");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the permission.
+ $permission->permission("read");
+ # Submit modification
+ my $response = $session->modify( $permission );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, use get() or search() to retrieve the specific object first, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the permission objects with the same group name
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::Permission",
+     admin_group   => "test_group",
+     resource_type => "All Members");
+ # find the desired object from the retrieved list.
+ my $desired_perm = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_perm );
+
+ or
+
+ # Get the permission objects with the same role name
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::Permission",
+     role          => "test_role",
+     resource_type => "All Members");
+ # find the desired object from the retrieved list.
+ my $desired_perm = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_perm );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Admin Permission objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific Group object:
+
+  admin_group          - Optional. Group name in string format.
+  role                 - Optional. Role name in string format.
+  permission           - Optional. Permission in string format.
+  resource_object      - Optional. Resource Object reference.
+  resource_type        - Optional. Resource Type in string format.
+
+ NOTE: You cannot specify both an admin_group and role.
+
+=item B<Example>
+
+ # search for all permission objects of admin group "test_group"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::Admin::Permission",
+     admin_group   => "test_group" );
+
+ or
+
+ # search for all permission objects of admin role "test_role"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::Admin::Permission",
+     role   => "test_role" );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a Group object.
+
+=head2 admin_group( )
+
+=over
+
+Use this method to set or retrieve the admin group information.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The admin group name for the specified object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get admin group name
+ my $name = $permission->admin_group();
+ #Modify admin group
+ $permission->admin_group("test-group1");
+
+=back
+
+=back
+
+=head2 role( )
+
+=over
+
+Use this method to set or retrieve the role information.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The admin role name for the specified object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get admin role name
+ my $name = $permission->role();
+ #Modify admin role
+ $permission->role("test-role1");
+
+=back
+
+=back
+
+=head2 permission( )
+
+=over
+
+Use this method to set or retrieve the admin group permission.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The admin group permission for the specified object. Permission values are "write", "read" and "deny".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get permission
+ my $perm = $permission->permission();
+ #Modify permission
+ $permission->permission("deny");
+
+=back
+
+=back
+
+=head2 resource_type( )
+
+=over
+
+Use this method to set or retrieve the resource type. Resource type represents all resources of the specific type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The resource type for which permission is set. Sets permissions for all resources of the resource_type specified.
+
+If resource_object is also provided, it sets the permission for all resources of the specified type under the resource_object.
+
+The allowed values are:
+
+ "All Zones"
+ "All DNS Views"
+ "All DNS64 Synthesis Groups"
+ "All Members"
+ "All MS Server Members"
+ "All Microsoft Active Directory Domains"
+ "All Microsoft Superscopes"
+ "All Shared Record Groups"
+ "All Networks" (deprecated in favor of "All IPv4 Networks")
+ "All IPv4 Networks"
+ "All IPv6 Networks"
+ "All Network Views"
+ "All Shared Networks" (deprecated in favor of "All IPv4 DHCP Shared Networks")
+ "All IPv4 DHCP Shared Networks"
+ "All IPv6 DHCP Shared Networks"
+ "All Mac Address Filters"
+ "All Ranges" (deprecated in favor of "All IPv4 Ranges")
+ "All IPv4 DHCP Ranges" (deprecated in favor of "All IPv4 Ranges")
+ "All IPv4 Ranges"
+ "All IPv6 DHCP Ranges"  (deprecated in favor of "All IPv6 Ranges")
+ "All IPv6 Ranges"
+ "All Fixed Addresses/Reservations" (deprecated in favor of "All IPv4 DHCP Fixed Addresses/Reservations")
+ "All IPv4 DHCP Fixed Addresses/Reservations"
+ "All IPv6 DHCP Fixed Addresses"
+ "All Roaming Hosts"
+ "All Rulesets"
+ "All Templates" (deprecated in favor of "All IPv4 DHCP Templates")
+ "All IPv4 DHCP Templates"
+ "All IPv6 DHCP Templates"
+ "All IPv4 Host Addresses"
+ "All IPv6 Host Addresses"
+ "All A Records"
+ "All AAAA Records"
+ "All BULKHOST Records"
+ "All CNAME Records"
+ "All DNAME Records"
+ "All HOST Records"
+ "All MX Records"
+ "All NAPTR Records"
+ "All PTR Records"
+ "All SRV Records"
+ "All TLSA Records"
+ "All TXT Records"
+ "All Shared A Records"
+ "All Shared AAAA Records"
+ "All Shared MX Records"
+ "All Shared SRV Records"
+ "All Shared TXT Records"
+ "All Shared CNAME Records"
+ "DNS Scavenging"
+ "Grid DHCP properties"
+ "Grid DNS properties"
+ "Lease History Access" (deprecated in favor of "All IPv4 DHCP Lease History")
+ "All IPv4 DHCP Lease History"
+ "All IPv6 DHCP Lease History"
+ "Grid File Distribution Properties"
+ "Grid AAA Properties"
+ "All AAA External Services"
+ "Network Discovery"
+ "Restart"
+ "All HSM Groups"
+ "All Certificate Auth Services"
+ "All CA Certificates"
+ "All CA Certificates"
+ "All Response Policy Zones"
+ "All Response Policy Rules"
+ "All CSV Import Tasks"
+ "All Dashboard Tasks"
+ "All DHCP Fingerprints"
+ "All Named ACLs"
+ "All Kerberos Keys"
+ "All BFD Templates"
+ "Grid Security configuration"
+ "Port Control"
+ "All DTC LBDNs"
+ "All DTC LBDN Records"
+ "All DTC Pools"
+ "All DTC Servers"
+ "All DTC Monitors"
+ "All DTC Topologies"
+ "All DTC GeoIP"
+ "All DTC Certificates"
+ "Grid Reporting properties"
+ "Reporting dashboard"
+ "Reporting search"
+ "Allow adding A/AAAA records with empty hostname"
+ "Allow deleted objects information tracking"
+ "Scheduling"
+
+The "Restart" resource_type is supported only when resource_object is an Infoblox::Grid::Member::DHCP or Infoblox::Grid::Member::DNS object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get resource_type
+ my $resource_type = $permission->resource_type();
+ #Modify resource_type
+ $permission->resource_type("All Networks");
+
+=back
+
+=back
+
+=head2 resource_object( )
+
+=over
+
+Use this method to set or retrieve a resource object. Resource object is a reference to a single object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The resource object for which permission is set. Sets the permission for the specified resource object only.
+
+If resource_type is also provided, it sets the permission for all resources of the specified type under the resource_object.
+
+The value must be a reference of a defined object of any of the following types:
+
+ Infoblox::DHCP::Filter::MAC
+ Infoblox::DHCP::FixedAddr
+ Infoblox::DHCP::FixedAddrTemplate
+ Infoblox::DHCP::IPv6FixedAddr
+ Infoblox::DHCP::IPv6Network
+ Infoblox::DHCP::IPv6NetworkContainer
+ Infoblox::DHCP::IPv6Range
+ Infoblox::DHCP::IPv6SharedNetwork
+ Infoblox::DHCP::Network
+ Infoblox::DHCP::NetworkContainer
+ Infoblox::DHCP::NetworkTemplate
+ Infoblox::DHCP::Range
+ Infoblox::DHCP::RangeTemplate
+ Infoblox::DHCP::RoamingHost
+ Infoblox::DHCP::SharedNetwork
+ Infoblox::DHCP::View
+ Infoblox::DNS::BulkHost
+ Infoblox::DNS::Host
+ Infoblox::DNS::Record::A
+ Infoblox::DNS::Record::AAAA
+ Infoblox::DNS::Record::CNAME
+ Infoblox::DNS::Record::DNAME
+ Infoblox::DNS::Record::MX
+ Infoblox::DNS::Record::PTR
+ Infoblox::DNS::Record::SRV
+ Infoblox::DNS::Record::TLSA
+ Infoblox::DNS::Record::TXT
+ Infoblox::DNS::Ruleset
+ Infoblox::DNS::SharedRecord::A
+ Infoblox::DNS::SharedRecord::AAAA
+ Infoblox::DNS::SharedRecord::MX
+ Infoblox::DNS::SharedRecord::SRV
+ Infoblox::DNS::SharedRecord::TXT
+ Infoblox::DNS::SharedRecord::CNAME
+ Infoblox::DNS::SRG
+ Infoblox::DNS::View
+ Infoblox::DNS::Zone
+ Infoblox::Grid::DNS::DNS64Group
+ Infoblox::Grid::FileDistributionDir
+ Infoblox::Grid::Member
+ Infoblox::Grid::Member::FileDistribution
+ Infoblox::Grid::MSServer
+ Infoblox::Grid::MSServer::AdSites::Domain
+ Infoblox::Grid::MSSuperscope
+ Infoblox::Grid::Member::ThreatProtection
+ Infoblox::Grid::Discovery::Device
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get resource_obejct
+ my $resource_object = $permission->resource_object();
+ #Modify resource_object
+ $object = Infoblox::DNS::Zone->new(
+                name => "zone.com"
+                );
+ $session->add($object);
+ $permission->resource_object($zone);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an Admin Permission object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create an admin group
+
+ my $group = Infoblox::Grid::Admin::Group->new(
+     name                 => "test_group",
+     disabled             => "false",
+     superuser            => "false"
+
+ );
+
+ unless ($group) {
+        die("Construct user object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Admin Group object created successfully\n";
+
+ #Add the Admin Group object to the Infoblox appliance through a session
+ $session->add($group)
+        or die("Add Admin Group object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin Group object added to server successfully\n";
+
+ # Create an Admin Role
+
+ my $role = Infoblox::Grid::Admin::Role->new(
+     name                 => "test_role",
+     comment              => "test admin role",
+ );
+
+ unless ($role) {
+        die("Construct role object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Admin Role object created successfully\n";
+
+ #Add the Admin Role object to the Infoblox appliance through a session
+ $session->add($role)
+        or die("Add Admin Role object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin Role object added to server successfully\n";
+
+ #Create a zone
+ my $zone = Infoblox::DNS::Zone->new(
+                name => "zone.com"
+ );
+
+ unless ($zone) {
+        die("Construct user object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Add the Zone object to the Infoblox appliance through a session
+ $session->add($zone)
+        or die("Add Zone object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Zone object added to server successfully\n";
+
+ #Create a shared record group (SRG)
+ my $srg = Infoblox::DNS::SRG->new(
+                name => "mysrg"
+ );
+
+ unless ($srg) {
+        die("Construct user object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Add the SRG object to the Infoblox appliance through a session
+ $session->add($srg)
+        or die("Add SRG object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "SRG object added to server successfully\n";
+
+B<#Create an Admin Permission object based on Admin Group>
+
+ #Create an admin permission object
+ my $group_permission = Infoblox::Grid::Admin::Permission->new(
+    admin_group     => $group->name(),
+    resource_object => $zone,  # This can be omitted if don't care about
+                               # which zone
+    resource_type => "All A Records",
+    permission => "write");
+
+ unless ($group_permission) {
+        die("Construct Admin Permission object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Admin Permission object created successfully\n";
+
+ #Add the Admin Permission object to the Infoblox appliance through a session
+ $session->add($group_permission)
+        or die("Add Admin Permission object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin Permission object added to server successfully\n";
+
+ #Create an admin permission object
+ my $scheduling_permission = Infoblox::Grid::Admin::Permission->new(
+      admin_group => $group->name(),
+      resource_type => "Scheduling",
+      permission => "write");
+
+ unless ($scheduling_permission) {
+        die("Construct Admin Permission object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Admin Permission object created successfully\n";
+
+ #Add the Admin Permission object to the Infoblox appliance through a session
+ $session->add($scheduling_permission)
+        or die("Add Admin Permission object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin Permission object added to server successfully\n";
+
+B<#Create an Admin Permission object based on Admin Role>
+
+ #Create an admin permission object
+ my $role_permission = Infoblox::Grid::Admin::Permission->new(
+    role            => $role->name(),
+    resource_object => $srg,  # This can be omitted if don't care about
+                              # which shared record group
+    resource_type => "All Shared A Records",
+    permission => "write");
+
+ unless ($role_permission) {
+        die("Construct user object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Admin Permission object created successfully\n";
+
+ #Add the Admin Permission object to the Infoblox appliance through a session
+ $session->add($role_permission)
+        or die("Add Admin Permission object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin Permission object added to server successfully\n";
+
+B<#Search for an Admin Permission object based on Admin Group>
+
+ my @retrieved_objs = $session->search(
+                object => "Infoblox::Grid::Admin::Permission",
+                admin_group   => "test_group"
+                );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Admin Permission object based on Admin Group failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Admin Permission object based on Admin Group found at least 1 matching entry\n";
+
+B<#Search for an Admin Permission object based on Admin Role>
+
+ my @retrieved_objs = $session->search(
+                object => "Infoblox::Grid::Admin::Permission",
+                role   => "test_role"
+                );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Admin Permission object based on Admin Role failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Admin Permission object based on Admin Role found at least 1 matching entry\n";
+
+B<#Get and modify an Admin Permission object based on Admin Group>
+
+ #Get the Admin Group object from the Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::Permission",
+     admin_group   => "test_group",
+     resource_object => $zone,
+     resource_type => "All A Records",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get Admin Permission object based on Admin Group failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin Permission object found at least 1 matching entry\n";
+
+ #Modify the permission of the Admin Permission object
+ $object->permission("read");
+
+ #Apply the changes.
+ $session->modify($object)
+        or die("Modify Admin Permission object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Permission object modified successfully \n";
+
+B<#Get Admin Permission object based on Admin Role>
+
+ #Get the Admin Group object from the Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::Permission",
+     role            => "test_role",
+     resource_object => $srg,
+     resource_type => "All Shared A Records",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get Admin Permission object based on Admin Role failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin Permission object found at least 1 matching entry\n";
+
+B<#Remove an Admin Permission object>
+
+ #Get the Admin Permission object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::Permission",
+     admin_group   => "test_group",
+     resource_object => $zone,
+     resource_type => "All A Records",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Admin Permission object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin Permission object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+        or die("Remove Admin Permission object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Permission object removed successfully \n";
+
+ # We can remove the other permissions in the same way
+
+ #Get the Admin Permission object for Shared Resource Records through the session
+ @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::Permission",
+     role   => "test_role",
+     resource_object => $srg,   # Omit this if it was omitted during creation
+     resource_type => "All Shared A Records",
+ );
+ $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Admin Permission object for Shared RR failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin Permission object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+        or die("Remove Admin Permission object for Shared RR failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Permission object for Shared RR removed successfully \n";
+
+B<#Clean up>
+
+ $session->remove($role)
+        or die("Remove Admin Role object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Role object removed successfully \n";
+
+ $session->remove($group)
+        or die("Remove Admin Group object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Group object removed successfully \n";
+
+ $session->remove($zone)
+        or die("Remove Zone object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Zone object removed successfully \n";
+
+ $session->remove($srg)
+        or die("Remove Shared Record Group object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Shared Record Group object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::Role|Infoblox::Grid::Admin::Role>, L<Infoblox::Grid::Admin::Group|Infoblox::Grid::Admin::Group>, L<Infoblox::Grid::Admin::User|Infoblox::Grid::Admin::User>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

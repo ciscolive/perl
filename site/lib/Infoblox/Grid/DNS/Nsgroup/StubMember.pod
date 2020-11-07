@@ -1,0 +1,459 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::Nsgroup::StubMember - A stub member group.
+
+=head1 DESCRIPTION
+
+The stub member group provides stub servers configuration for stub zones.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::DNS::Nsgroup::StubMember->new(
+     name                  => $string,                                                              #Required
+     stub_members          => [$grid_member1, $grid_member2, ...],                                  #Required
+     comment               => $string,                                                              #Optional / Default is undefined
+     extattrs              => { $string => $extattr, ... },                                         #Optional / Default is undefined
+     extensible_attributes => {$string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a stub members group object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add the object to the Infoblox appliance.
+See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $object = Infoblox::Grid::DNS::Nsgroup::StubMember->new(
+     name         => 'stubgroup',
+     stub_members => ['member1.com', 'member2.com'],
+ );
+
+ #Submit for addition
+ my $response = $session->add($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get a specific stub member group object:
+
+  comment               - Optional. The stub member group comment in a string format.
+  name                  - Optional. The stub member group name in a string format.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::DNS::Nsgroup::StubMember',
+     name   => 'stubgroup',
+ );
+
+ my @retrieved_objs = $session->get(
+     object                => 'Infoblox::Grid::DNS::Nsgroup::StubMember',
+     extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify the object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify comment value
+ $object->comment('this is a modified comment');
+
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove the object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP range object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::DNS::Nsgroup::StubMember',
+     name   => 'stubgroup',
+ );
+
+ #Find the desired object from the retrieved list
+ my $desired_object = $retrieved_objs[0];
+
+ #Submit for removal
+ my $response = $session->remove($desired_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search for the stub member group object:
+
+  comment               - Optional. The stub member group comment in a string format (regexp).
+  name                  - Optional. The stub member group name in a string format (regexp).
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for objects
+ my @retrieved_objs = $session->search(
+     object  => 'Infoblox::Grid::DNS::Nsgroup::StubMember',
+     name    => '^stub.*',
+     comment => '.*comment',
+ );
+
+ # search for objects defining 'Santa Clara' for 'Site' extensible attribute
+ my @retrieved_objs = $session->search(
+     object                => 'Infoblox::Grid::DNS::Nsgroup::StubMember',
+     extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a stub member group.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the stub member group comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+ #Modify comment value
+ $object->comment('stub comment');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a stub member group object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference that contains the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs value
+ my $extattrs = $object->extattrs();
+
+ #Modify extattrs value
+ $object->extattrs({'Site' => $extattr1, 'Administrator' => $extattr2});
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a stub member group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes value
+ my $extensible_attributes = $object->extensible_attributes();
+ #Modify extensible attributes
+ $object->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 stub_members( )
+
+=over
+
+Use this method to set or retrieve the list of stub members.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of Grid Member host names in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get stub_members value
+ my $stub_members = $object->stub_members();
+
+ #Modify stub_members value
+
+ #Set stub_members value
+ $object->stub_members(['member1.com', 'member2.com']);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the stub member group name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+ #Modify name value
+ $object->name('stubg1');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as modify and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an Stub Member Nsgroup object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ my ($session, $result);
+
+ #Create a session to the Infoblox device
+ $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create an Stub Member Nsgroup object>
+
+ #Creating a forwarding nsgroup object.
+ my $stub_nsg1 = Infoblox::Grid::DNS::Nsgroup::StubMember->new(
+     name         => "stub_group_1",
+     stub_members => ["infoblox.localdomain"],
+ );
+
+ unless ($stub_nsg1) {
+    die("Construct Stub Member Nsgroup failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "Stub Member Nsgroup object constructed successfully\n";
+
+B<#Add the Nsgroup object>
+
+ $result = $session->add($stub_nsg1);
+ 
+ unless ($result) {
+     die("Add Stub Member Nsgroup to session failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Stub Member Nsgroup object created successfully\n";
+
+B<#Search and Modify the Nsgroup object>
+
+ my @result_array = $session->search(
+     object => "Infoblox::Grid::DNS::Nsgroup::StubMember",
+     name   => "stub_.*",
+ );
+
+ my $object = $result_array[0];
+
+ unless ($object) {
+    die("Search for Stub Member Nsgroup failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+ $result = $object->comment("stub member");
+
+ unless ($result) {
+     die("Modify Stub Member Nsgroup failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ $result = $session->modify($object);
+
+ unless ($result) {
+     die("Submit modification to the session failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Stub Member Nsgroup object modified successfully\n";
+
+B<#Remove a Nsgroup object>
+
+ my @result_array = $session->get(
+     object => "Infoblox::Grid::DNS::Nsgroup::StubMember",
+     name   => "stub_group_1",
+ );
+
+ my $object = $result_array[0];
+
+ unless ($object) {
+    die("Get Stub Member Nsgroup failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+ $result = $session->remove($object);
+
+ unless ($result) {
+     die("Remove Nsgroup failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Stub Member Nsgroup object removed successfully\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>, 
+L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

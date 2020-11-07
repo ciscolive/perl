@@ -1,0 +1,245 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection::RuleParam - A Grid Threat Protection Rule parameter object.
+
+=head1 DESCRIPTION
+
+The Grid Threat Protection Rule parameter object represents information about Threat Protection Rule Config parameters.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::ThreatProtection::RuleParam->new(
+    'name'  => $string,    # Required
+    'value' => $string,    # Required
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to an ThreatProtection RuleParam object.
+
+=head2 Infoblox::Grid::ThreatProtection::RuleConfig->params( )
+
+=over
+
+Use this method to set or retrieve rule parameters. See L<Infoblox::Grid::ThreatProtection::RuleConfig-E<gt>params()|Infoblox::Grid::ThreatProtection::RuleConfig/params()>
+
+=over
+
+=item B<Example>
+
+  my $rule_param = Infoblox::Grid::ThreatProtection::RuleParam->new(
+    'name'  => 'SRC_IP',
+    'value' => 'abcd::',
+  );
+
+  my $rule_config = Infoblox::Grid::ThreatProtection::RuleConfig->new(
+    'action'             => 'PASS',
+    'log_severity'       => 'MAJOR',
+    'params'             => [$rule_param]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the struct.
+
+=head2 description( )
+
+=over
+
+Use this method to retrieve the parameter description. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->description();
+
+=back
+
+=back
+
+=head2 min( )
+
+=over
+
+Use this method to retrieve the minimum value of the parameter if the parameter syntax is UNSIGNED_INT. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->min();
+
+=back
+
+=back
+
+=head2 max( )
+
+=over
+
+Use this method to retrieve the maximum value of the parameter if the parameter syntax is UNSIGNED_INT. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->max();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the parameter name.
+
+=over
+
+=item B<Parameter>
+
+The parameter name in string format.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+ # Modify attribute value
+ $object->name('SRC_IP');
+
+=back
+
+=back
+
+=head2 read_only( )
+
+=over
+
+Use this method to indicate if the parameter is read-only. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->read_only();
+
+=back
+
+=back
+
+=head2 syntax( )
+
+=over
+
+Use this method to retrieve the parameter syntax. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->syntax();
+
+=back
+
+=back
+
+=head2 value( )
+
+=over
+
+Use this method to set or retrieve the parameter value.
+
+=over
+
+=item B<Parameter>
+
+The parameter value in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->value();
+ # Modify attribute value
+ $object->value('15');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ThreatProtection::Rule|Infoblox::Grid::ThreatProtection::Rule>, L<Infoblox::Grid::ThreatProtection::RuleConfig|Infoblox::Grid::ThreatProtection::RuleConfig>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

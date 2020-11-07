@@ -1,0 +1,6 @@
+/opt/perl/site/lib/Net/Checkpoint/Management/v1.pm
+/opt/perl/site/lib/Net/Checkpoint/Management/v1/Role/ObjectMethods.pm
+/opt/perl/site/lib/Net/Checkpoint/Management/v1/Role/REST/Client.pm
+/opt/perl/site/man/man3/Net::Checkpoint::Management::v1.3
+/opt/perl/site/man/man3/Net::Checkpoint::Management::v1::Role::ObjectMethods.3
+/opt/perl/site/man/man3/Net::Checkpoint::Management::v1::Role::REST::Client.3

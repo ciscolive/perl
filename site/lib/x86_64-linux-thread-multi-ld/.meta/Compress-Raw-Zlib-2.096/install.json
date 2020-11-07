@@ -1,0 +1,1 @@
+{"pathname":"P/PM/PMQS/Compress-Raw-Zlib-2.096.tar.gz","dist":"Compress-Raw-Zlib-2.096","name":"Compress::Raw::Zlib","target":"Compress::Raw::Zlib","provides":{"Compress::Raw::Zlib":{"version":"2.096","file":"lib/Compress/Raw/Zlib.pm"}},"version":"2.096"}

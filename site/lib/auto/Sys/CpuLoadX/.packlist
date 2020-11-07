@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Sys/CpuLoadX.pm
+/opt/perl/site/lib/auto/Sys/CpuLoadX/CpuLoadX.bs
+/opt/perl/site/lib/auto/Sys/CpuLoadX/CpuLoadX.so
+/opt/perl/site/lib/auto/xs/CpuLoad/CpuLoad.bs
+/opt/perl/site/lib/auto/xs/CpuLoad/CpuLoad.so
+/opt/perl/site/lib/auto/xs/foo/foo.bs
+/opt/perl/site/lib/auto/xs/foo/foo.so
+/opt/perl/site/man/man3/Sys::CpuLoadX.3

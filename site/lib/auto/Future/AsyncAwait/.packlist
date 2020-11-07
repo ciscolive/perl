@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Future/AsyncAwait.pm
+/opt/perl/site/lib/Future/AsyncAwait/Awaitable.pm
+/opt/perl/site/lib/Test/Future/AsyncAwait/Awaitable.pm
+/opt/perl/site/lib/auto/Future/AsyncAwait/AsyncAwait.bs
+/opt/perl/site/lib/auto/Future/AsyncAwait/AsyncAwait.so
+/opt/perl/site/man/man3/Future::AsyncAwait.3
+/opt/perl/site/man/man3/Future::AsyncAwait::Awaitable.3
+/opt/perl/site/man/man3/Test::Future::AsyncAwait::Awaitable.3

@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Net/HTTP.pm
+/opt/perl/site/lib/Net/HTTP/Methods.pm
+/opt/perl/site/lib/Net/HTTP/NB.pm
+/opt/perl/site/lib/Net/HTTPS.pm
+/opt/perl/site/man/man3/Net::HTTP.3
+/opt/perl/site/man/man3/Net::HTTP::Methods.3
+/opt/perl/site/man/man3/Net::HTTP::NB.3
+/opt/perl/site/man/man3/Net::HTTPS.3

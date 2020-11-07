@@ -1,0 +1,186 @@
+=head1 NAME
+
+Infoblox::Grid::DistributionSchedule - Information about the Grid's distribution schedule.
+
+=head1 DESCRIPTION
+
+The Distribution Schedule object is used to set and view the distribution schedule of an Infoblox Grid.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::DistributionSchedule object is automatically generated. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session that can be applied to a Distribution Schedule object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+  my $schedule = $session->get(object => "Infoblox::Grid::DistributionSchedule");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Submit modification
+ my $response = $session->modify( $schedule );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to set or retrieve the attribute values of a Distribution Schedule object.
+
+=head2 active( )
+
+=over
+
+Use this method to set or retrieve the "active" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the active flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get active
+ my $active = $schedule->active();
+ #Modify active
+ $schedule->active("true");
+
+=back
+
+=back
+
+=head2 groups( )
+
+=over
+
+Use this method to set or retrieve the list of groups affected by this distribution schedule.
+
+=over
+
+=item B<Parameter>
+
+Array reference that contains each L<Infoblox::Grid::Upgradegroup|Infoblox::Grid::Upgradegroup> object.
+
+Note that the members of this list must have their distribution_time parameter set in order for the modification to succeed. This means that it is possible to retrieve a distribution schedule but not be allowed to modify it without setting the distribution_time values for the groups.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get the group list
+ my $grouplist = $schedule->groups();
+ #Modify it
+ $grid->groups([$ug1, $ug2, $ug3 ]);
+
+=back
+
+=back
+
+=head2 start_time( )
+
+=over
+
+Use this method to set or retrieve the start time of the distribution.
+
+=over
+
+=item B<Parameter>
+
+The start time of the distribution in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get start_time
+ my $start_time = $schedule->start_time();
+ #Modify start_time
+ $schedule->start_time("2020-12-21T11:22:33Z");
+
+=back
+
+=back
+
+=head2 time_zone( )
+
+=over
+
+Use this method to set or retrieve the time zone of the distribution schedule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The UTC string that represents the time zone. For example "(UTC - 6:00) Central Time (US and Canada)". Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get time_zone
+ my $time_zone = $schedule->time_zone();
+ #Modify time_zone
+ $schedule->time_zone("(UTC - 6:00) Central Time (US and Canada)");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

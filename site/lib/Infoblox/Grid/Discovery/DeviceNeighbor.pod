@@ -1,0 +1,204 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DeviceNeighbor - the neighbor associated with the device.
+
+=head1 DESCRIPTION
+
+The object provides information about the neighbor associated with the device.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to retrieve the neighbor IP address. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address();
+
+=back
+
+=back
+
+=head2 address_object( )
+
+=over
+
+Use this method to retrieve the IP Address object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::IPAM::Address|Infoblox::IPAM::Address> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address_object();
+
+=back
+
+=back
+
+=head2 device( )
+
+=over
+
+Use this method to retrieve the device object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device();
+
+=back
+
+=back
+
+=head2 interface( )
+
+=over
+
+Use this method to retrieve the interface object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->interface();
+
+=back
+
+=back
+
+=head2 mac( )
+
+=over
+
+Use this method to retrieve the MAC address of the neighbor. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->mac();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the neighbor name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+
+=back
+
+=back
+
+=head2 vlan_infos( )
+
+=over
+
+Use this method to retrieve a list of VLAN Information associated with this neighbor. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an array reference that contains L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo> objects.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vlan_infos();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>, L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>, L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

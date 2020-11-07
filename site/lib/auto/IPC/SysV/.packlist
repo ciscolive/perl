@@ -1,0 +1,9 @@
+/opt/perl/site/lib/IPC/Msg.pm
+/opt/perl/site/lib/IPC/Semaphore.pm
+/opt/perl/site/lib/IPC/SharedMem.pm
+/opt/perl/site/lib/IPC/SysV.pm
+/opt/perl/site/lib/auto/IPC/SysV/SysV.so
+/opt/perl/site/man/man3/IPC::Msg.3
+/opt/perl/site/man/man3/IPC::Semaphore.3
+/opt/perl/site/man/man3/IPC::SharedMem.3
+/opt/perl/site/man/man3/IPC::SysV.3

@@ -1,0 +1,845 @@
+=head1 NAME
+
+Infoblox::DNS::RPZRecord::NAPTR  - Response Policy Zone (RPZ) Substitute (NAPTR Record) Rule object.
+
+=head1 DESCRIPTION
+
+An RPZ  Substitute (NAPTR Record) Rule object represents the substitution rule for DNS Naming Authority Pointer (NAPTR) records. This rule specifies a regular expression-based rewrite rule that, when applied to an existing string, produces a new domain name or URI.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $rpz_naptr = Infoblox::DNS::RPZRecord::NAPTR->new(
+     name            => $fqdn,            #Required
+     order           => $num,             #Required
+     preference      => $num,             #Required
+     rp_zone         => $rp_zone,         #Required
+     flags           => $string,          #Optional
+     services        => $string,          #Optional
+     regexp          => $string,          #Optional
+     replacement     => $string           #Required
+     comment         => $string,          #Optional / Default is empty
+     disable         => "true" | "false", #Optional / Default is "false"
+     extattrs              => { $string => $extattr, ... },      #Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, #Optional / Default is undefined
+     ttl             => $num | undef,     #Optional / Default is undefined
+     views           => [$View1],         #Optional / Default is "default" view
+ );
+
+Note that you must specify only one DNS view for the attribute "views".
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that can be applied to an Substitute (NAPTR Record) Rule object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $rpz_naptr = Infoblox::DNS::RPZRecord::NAPTR->new(
+     name            => 'naptr.rpz.com',
+     order           => 100,
+     preference      => 10,
+     flags           => 'U',
+     services        => 'http+E2U',
+     regexp          => '!http://my[.](.*)!1!i',
+     replacement     => 'domain.com',
+     comment         => 'Sample Substitute (NAPTR Record) Rule',
+     disable         => 'false',
+     ttl             => 84600,
+     views           => [$view1],
+     rp_zone   => $response_policy_zone,
+ );
+ # Submit for addition
+ my $response = $session->add( $rpz_naptr );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get specific Substitute (NAPTR Record) Rule objects:
+
+     comment         - Optional. Descriptive comment in string format
+     extattrs        - Optional. A hash reference containing extensible attributes.
+     extensible_attributes - Optional. A hash reference containing extensible attributes.
+     flags           - Optional. Flags in string format
+     name            - Optional. FQDN of the record in string format
+     order           - Optional. Order parameter (unsigned integer)
+     preference      - Optional. Preference parameter (unsigned integer)
+     replacement     - Optional. Replacement field in string format
+     services        - Optional. Services field in string format
+     view            - Optional. The DNS view in which the Substitute (NAPTR Record) Rule is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+     zone            - Optional. A zone name in FQDN format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::NAPTR",
+     name   => "naptr1.rpz.com",
+     view   => "default" );
+
+ #get all DNS A records with the extensible attribute 'Site'
+ my @retrieved_objs = $session->get(
+    object => "Infoblox::DNS::RPZRecord::NAPTR",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment.
+ $rpz_naptr->comment("this is a modified comment");
+ # Submit the modification
+ my $response = $session->modify( $rpz_naptr );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to submit the removal of an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::NAPTR",
+     name   => "naptr1.rpz.com",
+     view   => "default" );
+ # Find the desired object in the retrieved list.
+ my $desired_rec = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_rec );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search the Substitute (NAPTR Record) Rule objects:
+
+     comment         - Optional. Descriptive comment (regular expression)
+     extattrs        - Optional. A hash reference containing extensible attributes.
+     extensible_attributes - Optional. A hash reference containing extensible attributes.
+     flags           - Optional. Flags in string format (regular expression)
+     name            - Optional. FQDN of the record in string format (regular expression)
+     order           - Optional. Order parameter (unsigned integer, exact search)
+     preference      - Optional. Preference parameter (unsigned integer, exact search)
+     replacement     - Optional. Replacement field in string format (regular expression)
+     services        - Optional. Services field in string format (regular expression)
+     view            - Optional. The DNS view in which the Substitute (NAPTR Record) Rule is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only. Only exact search is supported.
+     zone            - Optional. A zone name in FQDN format (exact search)
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all Substitute (NAPTR Record) Rule objects that match "rpz.com" in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::RPZRecord::NAPTR",
+     name   => '.*rpz\.com',
+     view   => "default" );
+
+ # search for all Substitute (NAPTR Record) Rules in the "rpz.com" zone of the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::RPZRecord::NAPTR",
+     zone   => "rpz.com",
+     view   => "default" );
+
+ #get all Substitute (NAPTR Record) Rules with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+   object => "Infoblox::DNS::RPZRecord::NAPTR",
+   extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of an Substitute (NAPTR Record) Rule object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of an Substitute (NAPTR Record) Rule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the descriptive comment
+ my $comment = $rpz_naptr->comment();
+ #Modify the comment
+ $rpz_naptr->comment("This is a new comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of an Substitute (NAPTR Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false, which indicates that the Substitute (NAPTR Record) Rule is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the disable field
+ my $disable = $rpz_naptr->disable();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Substitute (NAPTR Record) Rule object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $rpz_naptr->extattrs();
+ #Modify extattrs
+ $rpz_naptr->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with an Substitute (NAPTR Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get  extensible attributes
+ my $ref_extensible_attributes = $rpz_naptr->extensible_attributes();
+ #Modify extensible attributes
+ $rpz_naptr->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 flags( )
+
+=over
+
+Use this method to retrieve the flags that control the interpretation of the fields of an Substitute (NAPTR Record) Rule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Currently supported values for the flags field are "U", "S", "P" and "A".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the flags field
+ my $flags = $rpz_naptr->flags();
+ #Modify flags
+ $rpz_naptr->flags("U");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the FQDN (Fully Qualified Domain Name) of the Substitute (NAPTR Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name parameter is a string in FQDN format. The FQDN consists of the record name followed by the domain name (example: rec.abc.com). A record name can have a maximum of 256 bytes.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the FQDN of the record
+ my $name = $rpz_naptr->name();
+ #Modify the FQDN of the record
+ $rpz_naptr->name("rec2.rpz.com");
+
+=back
+
+=back
+
+=head2 order( )
+
+=over
+
+Use this method to retrieve the order parameter of an Substitute (NAPTR Record) Rule. This parameter specifies the order in which the Substitute (NAPTR Record) Rules are applied when multiple rules are present.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The order parameter is a 16-bit unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the order parameter
+ my $order = $rpz_naptr->order();
+ #Modify the order
+ $rpz_naptr->order(200);
+
+=back
+
+=back
+
+=head2 preference( )
+
+=over
+
+Use this method to retrieve the preference field of an Substitute (NAPTR Record) Rule. The preference field determines the order Substitute (NAPTR Record) Rules are processed when multiple records with the same order parameter are present.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The preference parameter is a 16-bit integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the preference attribute value
+ my $preference = $rpz_naptr->preference();
+ #Modify preference
+ $rpz_naptr->preference(300);
+
+=back
+
+=back
+
+=head2 regexp( )
+
+=over
+
+Use this method to specify the regular expression-based rewriting rule of an Substitute (NAPTR Record) Rule. This should be a POSIX compliant regular expression, including the substitution rule and flags. Refer to RFC 2915 for the field syntax details.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid parameter is a POSIX compliant regular expression or substitution expression.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get regexp
+ my $regexp = $rpz_naptr->regexp();
+ #Modify regexp
+ $rpz_naptr->regexp("!http://(.*)!1!i");
+
+=back
+
+=back
+
+=head2 replacement( )
+
+=over
+
+Use this method to retrieve the replacement field of an Substitute (NAPTR Record) Rule object. For nonterminal Substitute (NAPTR Record) Rules, this field specifies the next domain name to look up.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The replacement field is in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the replacement field
+ my $replacement = $rpz_naptr->replacement();
+ #Modify the replacement field
+ $rpz_naptr->replacement("__tcp__.rpz.com");
+
+=back
+
+=back
+
+=head2 services( )
+
+=over
+
+Use this field to specify services. The services field contains protocol and service identifiers, for example "http+E2U" or "SIPS+D2T".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The services field in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get services
+ my $services = $rpz_naptr->services();
+ #Modify services
+ $rpz_naptr->services("http+E2U");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined, which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (from 0 to 4294967295) that represents the duration, in seconds, that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the TTL of the record
+ my $ttl = $rpz_naptr->ttl();
+ #Modify TTL
+ $rpz_naptr->ttl(900);
+ #Use zone ttl settings
+ $rpz_naptr->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the DNS view of the Substitute (NAPTR Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" view, which means the Substitute (NAPTR Record) Rule is located in the default DNS view.
+
+=over
+
+=item B<Parameter>
+
+An array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $rpz_naptr->views();
+ #Modify views, an array of Infoblox::DNS::View objects
+ $rpz_naptr->views([$view1]);
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of an Substitute (NAPTR Record) Rule. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $rpz_naptr->zone();
+
+=back
+
+=back
+
+=head2  rp_zone( )
+
+=over
+
+Use this method to set or retrieve the zone object of a Substitute (NAPTR Record) Rule.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get rp_zone
+ my $rp_zone = $rpz_naptr->rp_zone();
+ #Modify rp_zone, reference of Infoblox::DNS::Zone object
+ $rpz_naptr->rp_zone($response_policy_zone);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the session methods on an Substitute (NAPTR Record) Rule object.
+
+B<#Preparation prior to an Substitute (NAPTR Record) Rule insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+B<#Create a session to the Infoblox appliance>
+
+  my $session = Infoblox::Session->new(
+      master   => $host_ip,
+      username => "admin",
+      password => "infoblox"
+  );
+  unless ($session) {
+     die("Construct session failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Session created successfully\n";
+
+  #Create the zone prior to an A record insertion
+  my $zone = Infoblox::DNS::Zone->new(name => "rpz.com");
+  unless ($zone) {
+     die("Construct zone failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+  print "Zone object created successfully\n";
+
+  #Verify if the zone exists
+  my $object = $session->get(object => "Infoblox::DNS::Zone", name => "rpz.com");
+  unless ($object) {
+     print "Zone does not exist on server, safe to add the zone\n";
+     $session->add($zone)
+        or die("Add zone failed: ",
+               $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Zone added successfully\n";
+
+B<#Create a Substitute (NAPTR Record) Rule>
+
+  #Construct a Substitute (NAPTR Record) Rule object
+  my $bind_naptr = Infoblox::DNS::RPZRecord::NAPTR->new(
+      name     => "bind_naptr.rpz.com",
+      comment  => " this is a demo Substitute (NAPTR Record) Rule ",
+      services => "http+E2U",
+      flags    => "U",
+      regexp   => "!http://(.*)!1!i",
+      preference => 100,
+      order    => 10,
+      replacement => '_http._tcp.rpz.com',
+  );
+  unless ($bind_naptr) {
+     die("Construct Substitute (NAPTR Record) Rule failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+  print "Substitute (NAPTR Record) Rule object created successfully\n";
+
+  #Add the Substitute (NAPTR Record) Rule object to the Infoblox appliance through a session
+  $session->add($bind_naptr)
+      or die("Adding Substitute (NAPTR Record) Rule failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  print "Substitute (NAPTR Record) Rule object added to server successfully\n";
+
+B<#Search for a specific Substitute (NAPTR Record) Rule>
+
+  #Search all Substitute (NAPTR Record) Rules in the zone
+  my @retrieved_objs = $session->search(
+      object => "Infoblox::DNS::RPZRecord::NAPTR",
+      name   => '.*\.rpz\.com'
+  );
+  my $object = $retrieved_objs[0];
+  unless ($object) {
+      die("Search for Substitute (NAPTR Record) Rule failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Search Substitute (NAPTR Record) Rule object found at least 1 matching entry\n";
+
+  #Search for all Substitute (NAPTR Record) Rules that start with "bind" in the zone
+  my @retrieved_objs = $session->search(
+      object => "Infoblox::DNS::RPZRecord::NAPTR",
+      name   => 'bind.*\.rpz\.com'
+  );
+  my $object = $retrieved_objs[0];
+  unless ($object) {
+      die("Search for Substitute (NAPTR Record) Rule failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Searching Substitute (NAPTR Record) Rule object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a Substitute (NAPTR Record) Rule>
+
+  #Get a record through the session
+  my @retrieved_objs = $session->get(
+      object => "Infoblox::DNS::RPZRecord::NAPTR",
+      name   => "bind_naptr.rpz.com"
+  );
+  my $object = $retrieved_objs[0];
+  unless ($object) {
+      die("Get Substitute (NAPTR Record) Rule failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Get Substitute (NAPTR Record) Rule object found at least 1 matching entry\n";
+
+  #Modify some attributes of the specified Substitute (NAPTR Record) Rule
+  $object->preference(200);
+  $object->order(100);
+
+  #Apply the changes
+  $session->modify($object)
+      or die("Modify Substitute (NAPTR Record) Rule failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  print "Substitute (NAPTR Record) Rule object modified successfully \n";
+
+B<#Remove a Substitute (NAPTR Record) Rule>
+
+  #Get Substitute (NAPTR Record) Rule through the session
+  my @retrieved_objs = $session->get(
+      object => "Infoblox::DNS::RPZRecord::NAPTR",
+      name   => "bind_naptr.rpz.com"
+  );
+  my $object = $retrieved_objs[0];
+  unless ($object) {
+      die("Get Substitute (NAPTR Record) Rule failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Get Substitute (NAPTR Record) Rule object found at least 1 matching entry\n";
+
+  #Submit the object for removal
+  $session->remove($object)
+      or die("Remove Substitute (NAPTR Record) Rule failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  print "Substitute (NAPTR Record) Rule object removed successfully \n";
+
+ #Remove the zone
+
+ #Get Zone object through the session
+ @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Zone",
+     name   => "rpz.com"
+ );
+ $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get zone failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get zone object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove zone object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Zone object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add(/)/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify(/)/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove(/)/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search(/)/>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

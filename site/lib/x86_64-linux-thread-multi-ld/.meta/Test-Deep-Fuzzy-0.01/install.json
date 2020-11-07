@@ -1,0 +1,1 @@
+{"target":"Test::Deep::Fuzzy","dist":"Test-Deep-Fuzzy-0.01","pathname":"K/KA/KARUPA/Test-Deep-Fuzzy-0.01.tar.gz","name":"Test::Deep::Fuzzy","provides":{"Test::Deep::Fuzzy":{"version":"0.01","file":"lib/Test/Deep/Fuzzy.pm"},"Test::Deep::Fuzzy::Number":{"file":"lib/Test/Deep/Fuzzy/Number.pm"}},"version":"0.01"}

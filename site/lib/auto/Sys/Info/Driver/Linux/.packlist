@@ -1,0 +1,14 @@
+/opt/perl/site/lib/Sys/Info/Driver/Linux.pm
+/opt/perl/site/lib/Sys/Info/Driver/Linux/Constants.pm
+/opt/perl/site/lib/Sys/Info/Driver/Linux/Device.pm
+/opt/perl/site/lib/Sys/Info/Driver/Linux/Device/CPU.pm
+/opt/perl/site/lib/Sys/Info/Driver/Linux/OS.pm
+/opt/perl/site/lib/Sys/Info/Driver/Linux/OS/Distribution.pm
+/opt/perl/site/lib/Sys/Info/Driver/Linux/OS/Distribution/Conf.pm
+/opt/perl/site/man/man3/Sys::Info::Driver::Linux.3
+/opt/perl/site/man/man3/Sys::Info::Driver::Linux::Constants.3
+/opt/perl/site/man/man3/Sys::Info::Driver::Linux::Device.3
+/opt/perl/site/man/man3/Sys::Info::Driver::Linux::Device::CPU.3
+/opt/perl/site/man/man3/Sys::Info::Driver::Linux::OS.3
+/opt/perl/site/man/man3/Sys::Info::Driver::Linux::OS::Distribution.3
+/opt/perl/site/man/man3/Sys::Info::Driver::Linux::OS::Distribution::Conf.3

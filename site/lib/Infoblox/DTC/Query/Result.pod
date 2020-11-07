@@ -1,0 +1,127 @@
+=head1 NAME
+
+Infoblox::DTC::Query::Result - A DTC Query result object.
+
+=head1 DESCRIPTION
+
+A DTC Query function call result object.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a part of the DTC Query response object.
+
+=head1 METHODS
+
+=head2 override_ttl( )
+
+=over
+
+Use this method to retrieve the attribute, which controls whether the TTL value of the object is used, instead of the Grid default. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, which can be 'true' or 'false'.
+
+=item B<Example>
+
+ #get override_ttl value
+ my $override_ttl = $result->override_ttl();
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to retrieve a TTL value. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an unsigned integer.
+
+=item B<Example>
+
+ #get ttl value
+ my $ttl = $result->ttl();
+
+=back
+
+=back
+
+=head2 rdata( )
+
+=over
+
+Use this method to retrieve DNS record data. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #get rdata value
+ my $rdata = $result->rdata();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the DNS record type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'A', 'AAAA', 'CNAME' and 'NAPTR'.
+
+=item B<Example>
+
+ #get type value
+ my $type = $result->type();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC-E<gt>query()|Infoblox::DTC/query()/>, L<Infoblox::DTC::Response|Infoblox::DTC::Response>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

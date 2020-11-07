@@ -1,0 +1,61 @@
+{
+   "abstract" : "Make it easy to run code against a local-lib",
+   "author" : [
+      "John Napiorkowski C< <<jjnapiork@cpan.org>> >"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Install version 1.01, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "App-local-lib-helper",
+   "no_index" : {
+      "directory" : [
+         "inc",
+         "t"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.42",
+            "File::Spec" : "0",
+            "Test::More" : "0.94"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Config" : "0",
+            "File::Spec" : "0",
+            "FindBin" : "0",
+            "Getopt::Long" : "0",
+            "Test::More" : "0.94",
+            "local::lib" : "0",
+            "perl" : "5.008005"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "http://search.cpan.org/dist/App-local-lib-helper/",
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ],
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/jjn1056/App--local--lib--helper.git"
+      }
+   },
+   "version" : "0.07",
+   "x_module_name" : "App::local::lib::helper",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

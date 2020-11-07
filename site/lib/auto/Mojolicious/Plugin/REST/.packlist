@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Mojolicious/Controller/REST.pm
+/opt/perl/site/lib/Mojolicious/Plugin/REST.pm
+/opt/perl/site/man/man3/Mojolicious::Controller::REST.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::REST.3

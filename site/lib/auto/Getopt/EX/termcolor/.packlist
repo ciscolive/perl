@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Getopt/EX/termcolor.pm
+/opt/perl/site/lib/Getopt/EX/termcolor/Apple_Terminal.pm
+/opt/perl/site/lib/Getopt/EX/termcolor/XTerm.pm
+/opt/perl/site/lib/Getopt/EX/termcolor/iTerm.pm
+/opt/perl/site/man/man3/Getopt::EX::termcolor.3
+/opt/perl/site/man/man3/Getopt::EX::termcolor::Apple_Terminal.3
+/opt/perl/site/man/man3/Getopt::EX::termcolor::XTerm.3
+/opt/perl/site/man/man3/Getopt::EX::termcolor::iTerm.3

@@ -1,0 +1,4 @@
+/opt/perl/site/bin/iosdiff
+/opt/perl/site/lib/App/iosdiff.pm
+/opt/perl/site/man/man1/iosdiff.1
+/opt/perl/site/man/man3/App::iosdiff.3

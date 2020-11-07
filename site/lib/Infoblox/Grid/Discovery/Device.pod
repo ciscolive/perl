@@ -1,0 +1,986 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::Device - the discovery device.
+
+=head1 DESCRIPTION
+
+The object provides information about the discovery device.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to the object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+Note that you should use 'return_methods' attribute to retrieve 'networks', 'interfaces', 'cap_admin_status_ind', 'cap_admin_status_na_reason', 'cap_description_ind', 'cap_description_na_reason', 'cap_net_deprovisioning_ind', 'cap_net_deprovisioning_na_reason', 'cap_net_provisioning_ind', 'cap_net_provisioning_na_reason', 'cap_net_vlan_provisioning_ind', 'cap_net_vlan_provisioning_na_reason', 'cap_vlan_assignment_ind', 'cap_vlan_assignment_na_reason', 'cap_voice_vlan_ind', 'cap_voice_vlan_na_reason'  and 'neighbors' members of the device.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+  address     - Optional. The IP address of the device.
+  chassis_serial_number - Optional. The device chassis serial number.
+  name        - Optional. The device name.
+  model       - Optional. The device model.
+  class       - Optional. The device class.
+  location    - Optional. The device location.
+  description - Optional. The device description.
+  discovery_member - Optional. The name of the discovery member.
+
+=item B<Example>
+
+ # without networks', 'interfaces' and 'neighbors' members
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::Discovery::Device',
+     'name'   => 'device',
+ );
+
+ # with networks', 'interfaces' and 'neighbors' members
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::Discovery::Device',
+     'return_methods' => ['+networks', '+interfaces', '+neighbors'],
+     'name'   => 'device',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify extensible attributes
+ $object->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+Note that you should use 'return_methods' attribute to retrieve 'networks', 'interfaces', 'cap_admin_status_ind', 'cap_admin_status_na_reason', 'cap_description_ind', 'cap_description_na_reason', 'cap_net_deprovisioning_ind', 'cap_net_deprovisioning_na_reason', 'cap_net_provisioning_ind', 'cap_net_provisioning_na_reason', 'cap_net_vlan_provisioning_ind', 'cap_net_vlan_provisioning_na_reason', 'cap_vlan_assignment_ind', 'cap_vlan_assignment_na_reason', 'cap_voice_vlan_ind', 'cap_voice_vlan_na_reason'  and 'neighbors' members of the device.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a object:
+
+  address     - Optional. The IP address of the device (regular expression).
+  chassis_serial_number - Optional. The device chassis serial number (regular expression).
+  name        - Optional. The device name (regular expression).
+  model       - Optional. The device model (regular expression).
+  class       - Optional. The device class (regular expression).
+  location    - Optional. The device location (regular expression).
+  description - Optional. The device description (regular expression).
+  discovery_member - Optional. The host name of the discovery member.
+
+=item B<Example>
+
+ # without networks', 'interfaces' and 'neighbors' members
+ my @retrieved_objs = $session->search(
+     'object' => 'Infoblox::Grid::Discovery::Device',
+     'name'   => 'device',
+ );
+
+ # with networks', 'interfaces' and 'neighbors' members
+ my @retrieved_objs = $session->session(
+     'object' => 'Infoblox::Grid::Discovery::Device',
+     'return_methods' => ['+networks', '+interfaces', '+neighbors'],
+     'name'   => 'device',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to retrieve the IP address of the device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address();
+
+=back
+
+=back
+
+=head2 address_object( )
+
+=over
+
+Use this method to retrieve the IP address object of the device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::IPAM::Address|Infoblox::IPAM::Address> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address_object();
+
+=back
+
+=back
+
+=head2 cap_admin_status_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the admin status of an interface in this device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_admin_status_ind();
+
+=back
+
+=back
+
+=head2 cap_admin_status_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the edit admin status action is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_admin_status_na_reason();
+
+=back
+
+=back
+
+=head2 cap_description_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the description of an interface in this device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_description_ind();
+
+=back
+
+=back
+
+=head2 cap_description_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the description edit action is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_description_na_reason();
+
+=back
+
+=back
+
+=head2 cap_net_deprovisioning_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not deprovision a network from interfaces of this device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_net_deprovisioning_ind();
+
+=back
+
+=back
+
+=head2 cap_net_deprovisioning_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the deprovision a network from interfaces of this device is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_net_deprovisioning_na_reason();
+
+=back
+
+=back
+
+=head2 cap_net_provisioning_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the network associated to an interface of this device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_net_provisioning_ind();
+
+=back
+
+=back
+
+=head2 cap_net_provisioning_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the network provisioning is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_net_provisioning_na_reason();
+
+=back
+
+=back
+
+=head2 cap_net_vlan_provisioning_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not create a VLAN and then provision a network in to this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_net_vlan_provisioning_ind();
+
+=back
+
+=back
+
+=head2 cap_net_vlan_provisioning_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the network provisioning on VLAN is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_net_vlan_provisioning_na_reason();
+
+=back
+
+=back
+
+=head2 cap_vlan_assignment_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the VLAN assignement of an interface in this device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_vlan_assignment_ind();
+
+=back
+
+=back
+
+=head2 cap_vlan_assignment_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the vlan assignment action is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_vlan_assignment_na_reason();
+
+=back
+
+=back
+
+=head2 cap_voice_vlan_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the voice vlan assignement of an interface in this device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_voice_vlan_ind();
+
+=back
+
+=back
+
+=head2 cap_voice_vlan_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the voice vlan assignment action is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_voice_vlan_na_reason();
+
+=back
+
+=back
+
+=head2 chassis_serial_number( )
+
+=over
+
+Use this method to retrieve the device chassis serial number. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->chassis_serial_number();
+
+=back
+
+=back
+
+=head2 class( )
+
+=over
+
+Use this method to retrieve the device class. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->class();
+
+=back
+
+=back
+
+=head2 description( )
+
+=over
+
+Use this method to retrieve the device description. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->description();
+
+=back
+
+=back
+
+=head2 discover_now_status( )
+
+=over
+
+Use this method to retrieve the current discovery status. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETE', 'FAILED', 'NONE', 'PENDING' or 'RUNNING'.
+
+=item B<Example>
+
+ #Get discover_now_status
+ my $discover_now_status = $object->discover_now_status();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with the Device object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $object->extattrs();
+ #Modify extattrs
+ $object->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 interfaces( )
+
+=over
+
+Use this method to retrieve a list of the device interfaces. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an array reference that contains L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface> objects. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->interfaces();
+
+=back
+
+=back
+
+=head2 location( )
+
+=over
+
+Use this method to retrieve the device location. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->location();
+
+=back
+
+=back
+
+=head2 model( )
+
+=over
+
+Use this method to retrieve the device model name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->model();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $object->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the device name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+
+=back
+
+=back
+
+=head2 neighbors( )
+
+=over
+
+Use this method to retrieve a list of the device neighbors. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an array reference that contains L<Infoblox::Grid::Discovery::DeviceNeighbor|Infoblox::Grid::Discovery::DeviceNeighbor> objects. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->neighbors();
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to retrieve the network object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> or L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to retrieve the network view name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_view();
+
+=back
+
+=back
+
+=head2 networks( )
+
+=over
+
+Use this method to retrieve a list of network objects. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an array reference that contains L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> and L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network> objects. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->networks();
+
+=back
+
+=back
+
+=head2 os_version( )
+
+=over
+
+Use this method to retrieve the Operating System version running on the device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->os_version();
+
+=back
+
+=back
+
+=head2 port_stats( )
+
+=over
+
+Use this method to retrieve a list of device port statistics. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an arrary reference that contains L<Infoblox::Grid::Discovery::Device::PortStatistics|Infoblox::Grid::Discovery::Device::PortStatistics> objects.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_stats();
+
+=back
+
+=back
+
+=head2 vendor( )
+
+=over
+
+Use this method to retrieve the device vendor name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vendor();
+
+=back
+
+=back
+
+=head2 vlan_infos( )
+
+=over
+
+Use this method to retrieve a list of VLAN information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an arrary reference that contains L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo> objects.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vlan_infos();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>, L<Infoblox::Grid::Discovery::DeviceNeighbor|Infoblox::Grid::Discovery::DeviceNeighbor>,  L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface>, L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,15 @@
+/opt/perl/site/lib/Net/Curl.pm
+/opt/perl/site/lib/Net/Curl/Compat.pm
+/opt/perl/site/lib/Net/Curl/Easy.pm
+/opt/perl/site/lib/Net/Curl/Form.pm
+/opt/perl/site/lib/Net/Curl/Multi.pm
+/opt/perl/site/lib/Net/Curl/Share.pm
+/opt/perl/site/lib/Net/Curl/examples.pod
+/opt/perl/site/lib/auto/Net/Curl/Curl.so
+/opt/perl/site/man/man3/Net::Curl.3
+/opt/perl/site/man/man3/Net::Curl::Compat.3
+/opt/perl/site/man/man3/Net::Curl::Easy.3
+/opt/perl/site/man/man3/Net::Curl::Form.3
+/opt/perl/site/man/man3/Net::Curl::Multi.3
+/opt/perl/site/man/man3/Net::Curl::Share.3
+/opt/perl/site/man/man3/Net::Curl::examples.3

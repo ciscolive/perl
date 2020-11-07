@@ -1,0 +1,655 @@
+=head1 NAME
+
+Infoblox::DNS::SharedRecord::MX - DNS shared MX record object
+
+=head1 DESCRIPTION
+
+A shared MX (mail exchanger) record is similiar to a regular MX record, which maps a domain name to a mail exchanger. The difference is that a shared MX record should be added into a shared record group. If this shared record group is associated with other zones, then this shared MX record will be shared into these zones. For more information about how shared record groups and shared records work, please refer to Infoblox Administrator Guide.
+
+=head1 CONSTRUCTOR
+
+ my $mx = Infoblox::DNS::SharedRecord::MX->new(
+     exchanger               => $fqdn,               #Required
+     name                    => $fqdn,               #Required
+     pref                    => $num,                #Required
+     shared_record_group     => $string,             #Required
+     comment                 => $string,             #Optional / Default is empty
+     disable                 => "true" | "false",    #Optional / Default "false"
+     extattrs                => { $string => $extattr, ... },      #Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, #Optional / Default is undefined
+     ttl                     => $num | undef         #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS shared MX object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $srg_mx = Infoblox::DNS::SharedRecord::MX->new(
+     name      => "bind_mx",
+     comment   => "add mx bind_mx",
+     pref      => 1,
+     exchanger => "exchanger",
+ );
+ # Submit for addition
+ my $response = $session->add( $srg_mx );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS shared MX object:
+
+  name - Required.  A domain name in string format
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+  my @retrieved_objs = $session->get(
+     object    => "Infoblox::DNS::SharedRecord::MX",
+     name      => "bind_mx");
+
+ # get all shared MX records with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::SharedRecord::MX",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $srg_mx->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $srg_mx );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my @retrieved_objs = $session->get(
+     name      => "bind_mx",
+     comment   => "add mx bind_mx",
+     pref      => 1,
+     exchanger => "exchanger");
+ # find the desired object from retrieved list.
+ my $desired_mx = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_mx );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS shared MX record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS shared MX record object:
+
+  name - Required. Reverse domain name in string format (regular expression).
+  comment - Optional. A comment in string format (regular expression).
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DNS shared MX objects
+     my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::SharedRecord::MX",
+     name   => ".*");
+
+ # search all DNS shared MX records with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::SharedRecord::MX",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a DNS shared MX record object.
+
+=head2  comment( )
+
+=over
+
+Use this method to add or retrieve a descriptive comment of a DNS shared MX record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for this record in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting comment
+ my $comment = $srg_mx->comment();
+ # Modifying comment
+ $srg_mx->comment("add mx2");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS shared MX record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The DNS shared MX record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting disable
+ my $disable = $srg_mx->disable()
+ # Modifying disable
+ $srg_mx->disable("true");
+
+=back
+
+=back
+
+=head2 dns_exchanger( )
+
+=over
+
+Use this method to retrieve the exchanger in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $srg_mx->dns_exchanger();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the domain name in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $srg_mx->dns_name();
+
+=back
+
+=back
+
+=head2 exchanger( )
+
+=over
+
+Use this method to set or retrieve the exchanger of a DNS shared MX record.
+
+The name of the mail exchanger in Fully Qualified Domain Name (FQDN) format.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the mail exchanger for the DNS shared MX record.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting exchanger
+ my $exchanger = $srg_mx->exchanger();
+ # Modifying exchanger
+ $srg_mx->exchanger("exchanger2");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS shared MX record object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $srg_mx->extattrs();
+ #Modify extattrs
+ $srg_mx->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS shared MX record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $srg_mx->extensible_attributes();
+ #Modify extensible attributes
+ $srg_mx->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the domain name of a DNS shared MX record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Text with the name for the DNS shared MX record.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting name
+ my $name = $srg_mx->name();
+ # Modifying name
+ $srg_mx->name("mx2");
+
+=back
+
+=back
+
+=head2 pref( )
+
+=over
+
+Use this method to set or retrieve the Preference value of a DNS shared MX record.
+
+The preference value of the DNS shared MX object. Preference value of shared MX record for the zone range from 0 to 65535. Low values are more preferred.
+
+=over
+
+=item B<Parameter>
+
+Enter an unsigned integer between 0-65535. The priority determines the order in which a client attempts to
+contact the target mail exchanger. The highest priority is 0 and is queried first.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting pref
+ my $pref = $srg_mx->pref();
+ # Modifying pref
+ $srg_mx->pref(3);
+
+=back
+
+=back
+
+=head2 shared_record_group( )
+
+=over
+
+Use this method to set or retrieve the shared record group of a DNS shared MX record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of defined L<Infoblox::DNS::SRG|Infoblox::DNS::SRG> objects. The shared MX record will be defined under this shared record group and shared among zones associated with this shared record group.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get shared record group
+ my $srg = $shared_mx->shared_record_group();
+ #Modify shared record group
+ $shared_mx->shared_record_group("test_srg");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to configure or retrieve the Time to Live (TTL) value of a DNS shared MX record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $srg_mx->ttl();
+ #Modify ttl
+ $srg_mx->ttl(1800);
+ #Un-override ttl
+ $srg_mx->ttl(undef);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DNS shared MX record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the shared record group prior to an shared MX record insertion
+ my $srg = Infoblox::DNS::SRG->new(name => "test_srg");
+ unless ($srg) {
+    die("Construct srg failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "SRG object created successfully\n";
+
+ #Verify if the SRG exists
+ my $object = $session->get(object => "Infoblox::DNS::SRG", name => "test_srg");
+ unless ($object) {
+    print "SRG does not exist on server, safe to add the SRG\n";
+    $session->add($SRG)
+       or die("Add SRG failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "SRG added successfully\n";
+
+B<#Create a DNS shared MX record>
+
+ #Construct a DNS shared MX object
+ my $srg_mx = Infoblox::DNS::SharedRecord::MX->new(
+     name      => "bind_mx",
+     comment   => "add mx bind_mx",
+     pref      => 1,
+     exchanger => "exchanger",
+     shared_record_group => "test_srg"
+ );
+
+ unless ($srg_mx) {
+    die("Construct DNS shared record MX failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DNS shared MX object created successfully\n"; #Add the DNS shared MX record object to Infoblox appliance through a session
+ $session->add($srg_mx)
+     or die("Add shared record MX failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS shared MX object added to server successfully\n";
+
+B<#Search for a specific DNS shared MX record>
+
+ #Search all shared MX records in the zone
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::SharedRecord::MX",
+     name   => ".*"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search shared record MX failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS shared MX object found at least 1 matching entry\n";
+
+ #Search all shared MX records that start with "bind" in the zone
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::SharedRecord::MX",
+     name   => "bind.*"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search shared record MX failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS shared MX object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a DNS shared MX  record>
+
+ #Get shared MX record through the session
+ my  @retrieved_objs = $session->get(
+     object    => "Infoblox::DNS::SharedRecord::MX",
+     name      => "bind_mx",
+     pref      => 1,
+     exchanger => "exchanger",
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get shared record MX failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS shared MX object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified shared MX record
+ $object->exchanger("exc");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify shared record MX failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS shared MX object modified successfully \n";
+
+B<#Remove a DNS shared MX  record>
+
+  #Get shared MX record through the session
+  my @retrieved_objs = $session->get(
+      object => "Infoblox::DNS::SharedRecord::MX",
+      name   => "bind_mx"
+   );
+    my $object = $retrieved_objs[0];
+    unless ($object) {
+     die("Get shared record MX failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS shared MX object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove shared record MX failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "DNS shared MX object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::DNS::SRG|Infoblox::DNS::SRG>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

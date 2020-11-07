@@ -1,0 +1,1 @@
+{"pathname":"W/WS/WSNYDER/Unix-Processors-2.046.tar.gz","provides":{"Unix::Processors":{"file":"Processors.pm","version":"2.046"},"Unix::Processors::Info":{"file":"Processors/Info.pm","version":"2.046"}},"target":"Unix::Processors","name":"Unix::Processors","version":"2.046","dist":"Unix-Processors-2.046"}

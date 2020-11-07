@@ -1,0 +1,100 @@
+=head1 NAME
+
+Infoblox::DTC::Server::Link - An DTC Server Link object.
+
+=head1 DESCRIPTION
+
+An DTC Pool Link object.
+
+=head1 CONSTRUCTOR
+
+ my $server_link = Infoblox::DTC::Server::Link->new(
+     server   => $server, #Optional / Default is undefined
+     ratio    => $uint,   #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 server( )
+
+=over
+
+Use this method to set or retrieve a DTC Server to link with.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Server|Infoblox::DTC::Server> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get dtc_server value
+ my $server = $server_link->server();
+
+ #modify dtc_server value
+ $server_link->dtc_server($server);
+
+=back
+
+=back
+
+=head2 ratio( )
+
+=over
+
+Use this method to set or retrieve the weight of a DTC Server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ratio value
+ my $ratio = $server_link->ratio();
+
+ #modify ratio value
+ $server_link->ratio(70);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC::Server|Infoblox::DTC::Server>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

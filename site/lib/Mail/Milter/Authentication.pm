@@ -1,0 +1,1354 @@
+package Mail::Milter::Authentication;
+use 5.20.0;
+use strict;
+use warnings;
+use Mail::Milter::Authentication::Pragmas;
+# ABSTRACT: A Perl Mail Authentication Milter
+our $VERSION = '2.20200930.2'; # VERSION
+use base 'Net::Server::PreFork';
+use Mail::Milter::Authentication::Handler;
+use Mail::Milter::Authentication::Metric;
+use Mail::Milter::Authentication::Protocol::Milter;
+use Mail::Milter::Authentication::Protocol::SMTP;
+use Email::Sender::Simple qw(try_to_sendmail);
+use Email::Simple::Creator;
+use Email::Simple;
+use ExtUtils::Installed;
+use Log::Dispatchouli;
+use Net::DNS::Resolver;
+use Net::IP;
+use Proc::ProcessTable;
+use vars qw(@ISA);
+
+
+{
+    my $LOGGER;
+    sub logger {
+
+        return $LOGGER if $LOGGER;
+        my $config = get_config();
+
+        my $MYARGS = {
+            'ident' => $Mail::Milter::Authentication::Config::IDENT,
+            'to_stderr' => 0, # handled elsewhere
+            'log_pid' => 1,
+            'facility' => LOG_MAIL,
+        };
+        if ( exists $config->{ 'log_dispatchouli' } ) {
+            $MYARGS = $config->{ 'log_dispatchouli' };
+        }
+
+        $LOGGER = Log::Dispatchouli->new( $MYARGS );
+        $LOGGER->log('Logging instantiated');
+        return $LOGGER;
+    }
+}
+
+sub _warn($msg) {
+    my @parts = split "\n", $msg;
+    foreach my $part ( @parts ) {
+        next if $part eq q{};
+        print STDERR scalar(localtime) . ' ' . $Mail::Milter::Authentication::Config::IDENT . "[$PID] $part\n";
+    }
+}
+
+
+sub preload_modules($self,$from,$matching) {
+    my $installed = ExtUtils::Installed->new( 'skip_cwd' => 1 );
+    my $path_matching = $matching;
+    $path_matching =~ s/::/\//g;
+    foreach my $module ( grep { /$from/ } $installed->modules() ) {
+        FILE:
+        foreach my $file ( grep { /$path_matching\/\w+\.pm$/ } $installed->files( $module ) ) {
+            next FILE if ! -e $file;
+            my ( $module ) = reverse split '/', $file;
+            $module =~ s/\.pm$//;
+            $module = join( '::', $matching, $module );
+            if ( ! is_loaded( $module ) ) {
+                $self->logdebug( "Preloading Module $module" );
+                load $module;
+            }
+            else {
+                $self->logdebug( "Preloading Module $module already loaded" );
+            }
+        }
+    }
+}
+
+
+sub get_installed_handlers {
+    my @installed_handlers;
+    my $installed = ExtUtils::Installed->new( 'skip_cwd' => 1 );
+    foreach my $module ( grep { /Mail::Milter::Authentication/ } $installed->modules() ) {
+        FILE:
+        foreach my $file ( grep { /Mail\/Milter\/Authentication\/Handler\/\w+\.pm$/ } $installed->files( $module ) ) {
+            next FILE if ! -e $file;
+            my ( $handler ) = reverse split '/', $file;
+            $handler =~ s/\.pm$//;
+            push @installed_handlers, $handler;
+        }
+    }
+    return \@installed_handlers;
+}
+
+
+sub write_to_log_hook($self,$priority,$line,@) {
+    my $log_priority = $priority == 0 ? 'debug'
+                     : $priority == 1 ? 'info'
+                     : $priority == 2 ? 'notice'
+                     : $priority == 3 ? 'warning'
+                     : $priority == 4 ? 'error'
+                     : 'debug';
+    logger()->log( { 'level' => $log_priority }, $line );
+}
+
+
+sub idle_loop_hook($self,@) {
+    $self->{'metric'}->parent_metric_update( $self );
+}
+
+
+sub pre_loop_hook($self,@) {
+    $PROGRAM_NAME = $Mail::Milter::Authentication::Config::IDENT . ':parent';
+
+    $self->preload_modules( 'Net::DNS', 'Net::DNS::RR' );
+    $self->{'metric'} = Mail::Milter::Authentication::Metric->new($self);
+
+    # Load handlers
+    my $config = get_config();
+    foreach my $name ( @{$config->{'load_handlers'}} ) {
+        $self->load_handler( $name );
+
+        my $package = "Mail::Milter::Authentication::Handler::$name";
+        my $object = $package->new( $self );
+        if ( $object->can( 'pre_loop_setup' ) ) {
+            $object->pre_loop_setup();
+        }
+        if ( $object->can( 'register_metrics' ) ) {
+            $self->{'metric'}->register_metrics( $object->register_metrics() );
+        }
+
+    }
+
+    $self->{'metric'}->register_metrics( {
+        'forked_children_total' => 'Total number of child processes forked',
+        'reaped_children_total' => 'Total number of child processes reaped',
+    } );
+
+    $self->{'metric'}->register_metrics( Mail::Milter::Authentication::Handler->register_metrics() );
+
+    if ( $config->{'protocol'} eq 'milter' ) {
+        $self->{'metric'}->register_metrics( Mail::Milter::Authentication::Protocol::Milter->register_metrics() );
+    }
+    elsif ( $config->{'protocol'} eq 'smtp' ) {
+        $self->{'metric'}->register_metrics( Mail::Milter::Authentication::Protocol::SMTP->register_metrics() );
+    }
+    else {
+        die "Unknown protocol " . $config->{'protocol'} . "\n";
+    }
+
+    if ( $config->{'error_log'} ) {
+        open( STDERR, '>>', $config->{'error_log'} ) || die "Cannot open errlog [$!]";
+        open( STDOUT, '>>', $config->{'error_log'} ) || die "Cannot open errlog [$!]";
+    }
+}
+
+
+sub run_n_children_hook($self,@) {
+    # Load handlers
+    my $config = get_config();
+    $self->{metric}->re_register_metrics;
+    foreach my $name ( @{$config->{'load_handlers'}} ) {
+
+        my $package = "Mail::Milter::Authentication::Handler::$name";
+        my $object = $package->new( $self );
+        if ( $object->can( 'pre_fork_setup' ) ) {
+            $object->pre_fork_setup();
+        }
+
+    }
+}
+
+
+sub child_init_hook {
+    my ( $self,$arg ) = @_;
+    srand();
+
+    my $config = get_config();
+    $self->{'config'} = $config;
+
+    if ( $config->{'error_log'} ) {
+        eval {
+            open( STDERR, '>>', $config->{'error_log'} ) || die "Cannot open errlog [$!]";
+            open( STDOUT, '>>', $config->{'error_log'} ) || die "Cannot open errlog [$!]";
+        };
+        if ( my $error = $@ ) {
+            $self->logerror( "Child process $PID could not open the error log: $error" );
+        }
+    }
+
+    $arg = '' if !defined $arg;
+    if ( $arg eq 'dequeue' ) {
+        $self->loginfo( "Dequeue process $PID starting up" );
+        $PROGRAM_NAME = $Mail::Milter::Authentication::Config::IDENT . ':dequeue';
+    }
+    else {
+        $self->loginfo( "Child process $PID starting up" );
+        $PROGRAM_NAME = $Mail::Milter::Authentication::Config::IDENT . ':starting';
+    }
+
+    my $base;
+    if ( $config->{'protocol'} eq 'milter' ) {
+        $base = 'Mail::Milter::Authentication::Protocol::Milter';
+    }
+    elsif ( $config->{'protocol'} eq 'smtp' ) {
+        $base = 'Mail::Milter::Authentication::Protocol::SMTP';
+    }
+    else {
+        die "Unknown protocol " . $config->{'protocol'} . "\n";
+    }
+    push @ISA, $base;
+
+    # BEGIN MILTER PROTOCOL BLOCK
+    if ( $config->{'protocol'} eq 'milter' ) {
+        my $protocol  = SMFIP_NONE & ~(SMFIP_NOCONNECT|SMFIP_NOMAIL);
+           $protocol &= ~SMFIP_NOHELO;
+           $protocol &= ~SMFIP_NORCPT;
+           $protocol &= ~SMFIP_NOBODY;
+           $protocol &= ~SMFIP_NOHDRS;
+           $protocol &= ~SMFIP_NOEOH;
+           $protocol |= SMFIP_HDR_LEADSPC;
+        $self->{'protocol'} = $protocol;
+        $self->{'headers_include_space'} = 0;
+
+        my $callback_flags = SMFI_CURR_ACTS|SMFIF_CHGBODY|SMFIF_QUARANTINE|SMFIF_SETSENDER;
+        $self->{'callback_flags'} = $callback_flags;
+    }
+    # END MILTER PROTOCOL BLOCK
+
+    my $callbacks_list = {};
+    my $callbacks      = {};
+    my $handler        = {};
+    my $object         = {};
+    my $object_maker   = {};
+    my $count          = 0;
+
+    $self->{'callbacks_list'} = $callbacks_list;
+    $self->{'callbacks'}      = $callbacks;
+    $self->{'count'}          = $count;
+    $self->{'handler'}        = $handler;
+    $self->{'object'}         = $object;
+    $self->{'object_maker'}   = $object_maker;
+
+    $self->setup_handlers();
+    $self->{'metric'}->set_versions( $self );
+
+    $self->{'handler'}->{'_Handler'}->metric_count( 'forked_children_total', {}, 1 ) unless $arg eq 'dequeue';
+
+    $PROGRAM_NAME = $Mail::Milter::Authentication::Config::IDENT . ':waiting(0)';
+}
+
+
+sub child_finish_hook {
+    my ( $self,$arg ) = @_;
+    $PROGRAM_NAME = $Mail::Milter::Authentication::Config::IDENT . ':exiting';
+    $arg = '' if !defined $arg;
+    if ( $arg eq 'dequeue' ) {
+        $self->loginfo( "Dequeue process $PID shutting down" );
+    }
+    else {
+        $self->loginfo( "Child process $PID shutting down" );
+        eval {
+            $self->{'handler'}->{'_Handler'}->metric_count( 'reaped_children_total', {}, 1 );
+        };
+    }
+    $self->destroy_objects();
+}
+
+
+sub pre_server_close_hook($self,@) {
+    $self->loginfo( 'Server closing down' );
+}
+
+
+sub dequeue($self,@) {
+    my $config = $self->{ 'config' };
+    my $seconds = $config->{'dequeue_timeout'} // 300;
+    $self->{handler}->{_Handler}->set_overall_timeout( $seconds * 1000000 );
+    $self->{handler}->{_Handler}->top_dequeue_callback();
+    $self->{handler}->{_Handler}->clear_overall_timeout();
+}
+
+
+sub get_client_proto($self,@) {
+    my $socket = $self->{server}{client};
+    if ($socket->isa("Net::Server::Proto")) {
+        my $proto = $socket->NS_proto;
+        $proto = "UNIX" if $proto =~ m/^UNIX/;
+        return $proto;
+    }
+
+    if ($socket->isa("IO::Socket::INET")) {
+        return "TCP";
+    }
+
+    if ($socket->isa("IO::Socket::INET6")) {
+      return "TCP";
+    }
+
+    if ($socket->isa("IO::Socket::UNIX")) {
+        return "UNIX";
+    }
+
+    $self->logerror( "Could not determine connection protocol: " . ref($socket) );
+}
+
+
+sub get_client_port($self,@) {
+    my $socket = $self->{server}{client};
+    return $socket->sockport();
+}
+
+
+sub get_client_host($self,@) {
+    my $socket = $self->{server}{client};
+    return $socket->sockhost();
+}
+
+
+sub get_client_path($self,@) {
+    my $socket = $self->{server}{client};
+    return $socket->hostpath();
+}
+
+
+sub get_client_details($self,@) {
+    my $proto = lc $self->get_client_proto();
+    if ( $proto eq 'tcp' ) {
+        return 'inet:' . $self->get_client_port();
+    }
+    elsif ( $proto eq 'unix' ) {
+        return 'unix:' . $self->get_client_path();
+    }
+}
+
+
+sub process_request($self,@) {
+    my $config = $self->{'config'};
+
+    my $metric_type;
+    my $metric_path;
+    my $metric_host;
+
+    if ( defined( $config->{'metric_connection'} ) ) {
+        my $connection = $config->{'metric_connection'};
+        my $umask      = $config->{'metric_umask'};
+
+        $connection =~ /^([^:]+):([^:@]+)(?:@([^:@]+|\[[0-9a-f:\.]+\]))?$/;
+        $metric_type = $1;
+        $metric_path = $2;
+        $metric_host = $3 || q{};
+    }
+
+    ## ToDo, match also on client_host
+
+    # Legacy metrics
+    if ( defined( $config->{ 'metric_port' } ) && $self->get_client_proto() eq 'TCP' && $self->get_client_port() eq $config->{'metric_port'} ) {
+        $self->{'metric'}->child_handler( $self );
+    }
+
+    elsif ( defined( $config->{ 'metric_connection' } ) && $metric_type eq 'inet' && $self->get_client_proto eq 'TCP' && $self->get_client_port() eq $metric_path ) {
+        $self->{'metric'}->child_handler( $self );
+    }
+
+    elsif ( defined( $config->{ 'metric_connection' } ) && $metric_type eq 'unix' && $self->get_client_proto eq 'UNIX' && $self->get_client_path() eq $metric_path ) {
+        $self->{'metric'}->child_handler( $self );
+    }
+
+    else {
+        $self->process_main();
+    }
+
+    my $count = $self->{'count'};
+    $PROGRAM_NAME = $Mail::Milter::Authentication::Config::IDENT . ':waiting(' . $count . ')';
+}
+
+
+sub process_main($self,@) {
+    $self->{'count'}++;
+    my $count = $self->{'count'};
+    my $config = $self->{'config'};
+
+    $PROGRAM_NAME = $Mail::Milter::Authentication::Config::IDENT . ':processing(' . $count . ')';
+    $self->logdebug( 'Processing request ' . $self->{'count'} );
+    $self->{'socket'} = $self->{'server'}->{'client'};
+
+    $self->{'tracelog'} = [];
+
+    $self->protocol_process_request();
+
+    # Call close callback
+    $self->{'handler'}->{'_Handler'}->top_close_callback();
+    if ( $self->{'handler'}->{'_Handler'}->{'exit_on_close'} ) {
+        my $error = $self->{'handler'}->{'_Handler'}->{'exit_on_close_error'} // 'no reason given';
+        $self->send_exception_email($error);
+        $self->fatal('exit_on_close requested - '.$error);
+    }
+
+    $self->{'tracelog'} = [];
+
+    if ( $config->{'debug'} ) {
+        my $process_table = Proc::ProcessTable->new();
+        foreach my $process ( @{$process_table->table} ) {
+            if ( $process->pid == $PID ) {
+                my $size   = $process->size;
+                my $rss    = $process->rss;
+                my $pctmem = $process->pctmem;
+                my $pctcpu = $process->pctcpu;
+                $self->loginfo( "Resource usage: ($count) size $size/rss $rss/memory $pctmem\%/cpu $pctcpu\%" );
+            }
+        }
+    }
+
+    delete $self->{'handler'}->{'_Handler'}->{'reject_mail'};
+    delete $self->{'handler'}->{'_Handler'}->{'return_code'};
+    delete $self->{'socket'};
+    $self->logdebug( 'Request processing completed' );
+}
+
+
+sub send_exception_email {
+    my ( $self, $error ) = @_;
+
+    if ( $self->{'handler'}->{'_Handler'}->{'suppress_error_emails'} ) {
+        return;
+    }
+
+    my $config         = get_config();
+    my $errors_to      = $config->{'errors_to'} || return;
+    my $errors_from    = $config->{'errors_from'} || return;
+    my $errors_headers = $config->{'errors_headers'} || {};
+
+    my $email = "Authentication Milter " . $Mail::Milter::Authentication::Config::IDENT . " Error\n\n";
+    $email .= "$error\n\n";
+
+    $email .= "Child PID: $PID\n\n";
+
+    $email .= "Log:\n";
+    $email .= join( "\n", $self->{'tracelog'}->@* );
+    $email .= "\n\n";
+
+    $email .= "Processes Running\n";
+    my $ppid = $self->{'server'}->{'ppid'};
+    my $process_table = Proc::ProcessTable->new;
+    foreach my $process ( $process_table->table->@* ) {
+        next if ! ( $process->pid == $ppid || $process->ppid == $ppid );
+        my $pid = eval{ $process->pid } // '';
+        my $cmndline = eval{ $process->cmndline } // '';
+        my $size   = eval{ $process->size } // '';
+        my $rss    = eval{ $process->rss } // '';
+        my $pctmem = eval{ $process->pctmem } // '';
+        my $pctcpu = eval{ $process->pctcpu } // '';
+        $email .= "pid:$pid, $cmndline, size:$size, mem:$rss ($pctmem%), cpu: $pctcpu%\n";
+    }
+
+    my @headers;
+    foreach my $key ( sort keys $errors_headers->%* ) {
+        push @headers, $key => $errors_headers->{$key};
+    }
+    push @headers, to => $errors_to;
+    push @headers, From => $errors_from;
+    push @headers, Subject => 'Authentication Milter Error';
+    push @headers, 'X-Authentication-Milter-Error' => 'Generated Error Report';
+
+    my $emailer = Email::Simple->create(
+        header => \@headers,
+        body => $email,
+    );
+    try_to_sendmail($emailer);
+
+}
+
+
+sub send_panic_email {
+    my ( $error ) = @_;
+
+    my $config         = get_config();
+    my $errors_to      = $config->{'errors_to'} || return;
+    my $errors_from    = $config->{'errors_from'} || return;
+    my $errors_headers = $config->{'errors_headers'} || {};
+
+    my $email = "Authentication Milter " . $Mail::Milter::Authentication::Config::IDENT . " Error\n\n";
+    $email .= "$error\n\n";
+
+    $email .= "PID: $PID\n\n";
+
+    $email .= "Processes Running\n";
+    my $process_table = Proc::ProcessTable->new;
+    foreach my $process ( $process_table->table->@* ) {
+        next if ! ( $process->pid == $PID || $process->ppid == $PID );
+        my $pid = eval{ $process->pid } // '';
+        my $cmndline = eval{ $process->cmndline } // '';
+        my $size   = eval{ $process->size } // '';
+        my $rss    = eval{ $process->rss } // '';
+        my $pctmem = eval{ $process->pctmem } // '';
+        my $pctcpu = eval{ $process->pctcpu } // '';
+        $email .= "pid:$pid, $cmndline, size:$size, mem:$rss ($pctmem%), cpu: $pctcpu%\n";
+    }
+
+    my @headers;
+    foreach my $key ( sort keys $errors_headers->%* ) {
+        push @headers, $key => $errors_headers->{$key};
+    }
+    push @headers, to => $errors_to;
+    push @headers, From => $errors_from;
+    push @headers, Subject => 'Authentication Milter Error';
+    push @headers, 'X-Authentication-Milter-Error' => 'Generated Error Report';
+
+    my $emailer = Email::Simple->create(
+        header => \@headers,
+        body => $email,
+    );
+    try_to_sendmail($emailer);
+
+}
+
+
+sub get_valid_pid($pid_file) {
+    if ( ! $pid_file ) {
+        return undef; ## no critic
+    }
+    if ( ! -e $pid_file ) {
+        return undef; ## no critic
+    }
+
+    open my $inf, '<', $pid_file || return undef; ## no critic
+    my $pid = <$inf>;
+    close $inf;
+
+    my $self_pid   = $PID;
+    my $found_self = 0;
+    my $found_pid  = 0;
+
+    my $process_table = Proc::ProcessTable->new();
+    foreach my $process ( $process_table->table->@* ) {
+        if ( $process->pid == $self_pid ) {
+            if ( $process->cmndline eq $Mail::Milter::Authentication::Config::IDENT . ':control' ) {
+                $found_self = 1;
+            }
+        }
+        if ( $process->pid == $pid ) {
+            $found_pid = 1;
+            if ( $process->cmndline eq $Mail::Milter::Authentication::Config::IDENT . ':parent' ) {
+                return $pid;
+            }
+        }
+    }
+
+    # If we didn't find ourself in the process table then we can assume that
+    # $0 is read only on our current operating system, and return the pid that we read from the
+    # pidfile if it is in the process table regardness of it's process name..
+    if ( ! $found_self ) {
+        if ( $found_pid ) {
+            return $pid;
+        }
+    }
+
+    return undef; ## no critic
+}
+
+
+sub find_process {
+    my $process_table = Proc::ProcessTable->new();
+    foreach my $process ( $process_table->table->@* ) {
+        if ( $process->cmndline eq $Mail::Milter::Authentication::Config::IDENT . ':master' ) { ## Legacy naming, will be removed in later version
+            return $process->pid;
+        }
+        if ( $process->cmndline eq $Mail::Milter::Authentication::Config::IDENT . ':parent' ) {
+            return $process->pid;
+        }
+    }
+    return undef; ## no critic
+}
+
+
+sub control($args) {
+    my $pid_file = $args->{'pid_file'};
+    my $command  = $args->{'command'};
+
+    my $OriginalProgramName = $PROGRAM_NAME;
+    $PROGRAM_NAME = $Mail::Milter::Authentication::Config::IDENT . ':control';
+
+    if ( $command eq 'stop' ) {
+        my $pid = get_valid_pid( $pid_file ) || find_process();
+        if ( $pid ) {
+            print "Process found, stopping\n";
+            kill 'QUIT', $pid;
+        }
+        else {
+            print "No process found\n";
+        }
+    }
+    elsif ( $command eq 'restart' || $command eq 'start' ) {
+        my $pid = get_valid_pid( $pid_file ) || find_process();
+        if ( $pid ) {
+            print "Process found, restarting\n";
+            kill 'HUP', $pid;
+        }
+        else {
+            print "No process found, starting up\n";
+            $PROGRAM_NAME = $OriginalProgramName;
+            start({
+                'pid_file'   => $pid_file,
+                'daemon'     => 1,
+            });
+        }
+    }
+    elsif ( $command eq 'status' ) {
+        my $pid = get_valid_pid( $pid_file ) || find_process();
+        if ( $pid ) {
+            print "Process running with pid $pid\n";
+            if ( ! get_valid_pid( $pid_file ) ) {
+                print "pid file $pid_file is invalid\n";
+            }
+        }
+        else {
+            print "No process found\n";
+        }
+    }
+    else {
+        die 'unknown command';
+    }
+}
+
+
+sub start($args) {
+    local $SIG{__WARN__} = sub {
+        foreach my $msg ( @_ ) {
+            logger()->log( { level => 'warning' }, "Warning: $msg" );
+            _warn( "Warning: $msg" );
+        }
+    };
+
+    my $config                 = get_config();
+
+    my $default_connection     = $config->{'connection'}             || die('No connection details given');
+
+    my $pid_file               = $args->{'pid_file'};
+
+    my $listen_backlog         = $config->{'listen_backlog'}         || 20;
+    my $max_children           = $config->{'max_children'}           || 100;
+    my $max_requests_per_child = $config->{'max_requests_per_child'} || 200;
+    my $min_children           = $config->{'min_children'}           || 20;
+    my $max_spare_children     = $config->{'max_spare_children'}     || 20;
+    my $min_spare_children     = $config->{'min_spare_children'}     || 10;
+
+    setup_config();
+
+    my %srvargs;
+
+    $srvargs{'no_client_stdout'} = 1;
+
+    # Early redirection to log file if possible
+    if ( $config->{'error_log'} ) {
+        open( STDERR, '>>', $config->{'error_log'} ) || die "Cannot open errlog [$!]";
+        open( STDOUT, '>>', $config->{'error_log'} ) || die "Cannot open errlog [$!]";
+    }
+
+    if ( $args->{'daemon'} ) {
+        if ( $EUID == 0 ) {
+            _warn(
+                join( ' ',
+                    'daemonize',
+                    "servers=$min_children/$max_children",
+                    "spares=$min_spare_children/$max_spare_children",
+                    "requests=$max_requests_per_child",
+                )
+            );
+            $srvargs{'background'}        = 1;
+            $srvargs{'setsid'}            = 1;
+        }
+        else {
+            _warn("Not running as root, daemonize ignored!");
+        }
+    }
+    $srvargs{'pid_file'}          = $pid_file;
+    $srvargs{'max_servers'}       = $max_children;
+    $srvargs{'max_requests'}      = $max_requests_per_child;
+    $srvargs{'min_servers'}       = $min_children;
+    $srvargs{'min_spare_servers'} = $min_spare_children;
+    $srvargs{'max_spare_servers'} = $max_spare_children;
+
+    if ( $EUID == 0 ) {
+        my $user  = $config->{'runas'};
+        my $group = $config->{'rungroup'};
+        if ( $user && $group ) {
+        _warn("run as user=$user group=$group");
+            $srvargs{'user'}  = $user;
+            $srvargs{'group'} = $group;
+        }
+        else {
+            _warn("No runas details supplied, could not drop privs - be careful!");
+        }
+        # Note, Chroot requires a chroot environment which is out of scope at present
+        if ( $config->{'error_log'} ) {
+            if ( ! -e $config->{'error_log'} ) {
+                open my $outf, '>', $config->{'error_log'} || die "Could not create error log: $!\n";;
+                close $outf;
+            }
+            if ( $user ) {
+                my ($login,$pass,$uid,$gid) = getpwnam($user);
+                chown $uid, $gid, $config->{'error_log'};
+            }
+        }
+        if ( exists( $config->{'chroot'} ) ) {
+            _warn('Chroot to ' . $config->{'chroot'});
+            $srvargs{'chroot'} = $config->{'chroot'};
+        }
+    }
+    else {
+        _warn("Not running as root, could not drop privs - be careful!");
+    }
+
+    my $connections = {};
+
+    if ( exists $config->{'connections'} ) {
+        $connections = $config->{'connections'};
+    }
+
+    $connections->{'default'} = {
+        'connection' => $default_connection,
+        'umask'      => $config->{'umask'},
+    };
+
+    my @ports;
+    foreach my $key ( keys %$connections ) {
+        my $connection = $connections->{$key}->{'connection'};
+        my $umask      = $connections->{$key}->{'umask'};
+
+        $connection =~ /^([^:]+):([^:@]+)(?:@([^:@]+|\[[0-9a-f:\.]+\]))?$/;
+        my $type = $1;
+        my $path = $2;
+        my $host = $3 || q{};
+        if ( $type eq 'inet' ) {
+            _warn(
+                join( ' ',
+                    'listening on inet',
+                    "host=$host",
+                    "port=$path",
+                    "backlog=$listen_backlog",
+                )
+            );
+            push @ports, {
+                'host'  => $host,
+                'port'  => $path,
+                'ipv'   => '*',
+                'proto' => 'tcp',
+            };
+        }
+        elsif ( $type eq 'unix' ) {
+            _warn(
+                join( ' ',
+                    'listening on unix',
+                    "socket=$path",
+                    "backlog=$listen_backlog",
+                )
+            );
+            push @ports, {
+                'port'  => $path,
+                'proto' => 'unix',
+            };
+
+            if ($umask) {
+                umask ( oct( $umask ) );
+                _warn( 'setting umask to ' . $umask );
+            }
+
+        }
+        else {
+            die 'Invalid connection';
+        }
+    }
+
+    if ( defined( $config->{'metric_connection'} ) ) {
+        my $connection = $config->{'metric_connection'};
+        my $umask      = $config->{'metric_umask'};
+
+        $connection =~ /^([^:]+):([^:@]+)(?:@([^:@]+|\[[0-9a-f:\.]+\]))?$/;
+        my $type = $1;
+        my $path = $2;
+        my $host = $3 || q{};
+        if ( $type eq 'inet' ) {
+            _warn(
+                join( ' ',
+                    'metrics listening on inet',
+                    "host=$host",
+                    "port=$path",
+                    "backlog=$listen_backlog",
+                )
+            );
+            push @ports, {
+                'host'  => $host,
+                'port'  => $path,
+                'ipv'   => '*',
+                'proto' => 'tcp',
+            };
+        }
+        elsif ( $type eq 'unix' ) {
+            _warn(
+                join( ' ',
+                    'metrics listening on unix',
+                    "socket=$path",
+                    "backlog=$listen_backlog",
+                )
+            );
+            push @ports, {
+                'port'  => $path,
+                'proto' => 'unix',
+            };
+
+            if ($umask) {
+                umask ( oct( $umask ) );
+                _warn( 'setting umask to ' . $umask );
+            }
+
+        }
+        else {
+            die 'Invalid metrics connection';
+        }
+
+        if ( defined( $config->{'metric_port'} ) ) {
+            _warn( 'metric_port ignored when metric_connection supplied' );
+        }
+
+    }
+    elsif ( defined( $config->{'metric_port'} ) ) {
+        my $metric_host = $config->{ 'metric_host' } || '127.0.0.1';
+        push @ports, {
+            'host'  => $metric_host,
+            'port'  => $config->{'metric_port'},
+            'ipv'   => '*',
+            'proto' => 'tcp',
+        };
+        _warn( 'Metrics available on ' . $metric_host . ':' . $config->{'metric_port'} );
+        _warn( 'metric_host/metric_port are depricated, please use metric_connection/metric_umask instead' );
+    }
+
+    $srvargs{'port'} = \@ports;
+    $srvargs{'listen'} = $listen_backlog;
+    $srvargs{'leave_children_open_on_hup'} = 1;
+
+    $srvargs{'max_dequeue'} = 1;
+    $srvargs{'check_for_dequeue'} = $config->{'check_for_dequeue'} // 60;
+
+    _warn "==========";
+    _warn "Starting server";
+    _warn "Running with perl $PERL_VERSION";
+    _warn "==========";
+
+    my @start_times;
+    my $parent_pid = $PID;
+    while ( 1 ) {
+        unshift @start_times, time();
+
+        eval {
+            __PACKAGE__->run( %srvargs );
+        };
+        my $error = $@;
+        if ( $PID != $parent_pid ) {
+            _warn "Child exiting";
+            die;
+        }
+        $error = 'unknown error' if ! $error;
+        _warn "Server failed: $error";
+
+        # We exited abnormally, try and clean up
+        eval{ __PACKAGE__->close_children };
+        eval{ __PACKAGE__->post_child_cleanup_hook };
+        eval{ __PACKAGE__->shutdown_sockets };
+        sleep 10;
+
+        if ( scalar @start_times >= 4 ) {
+            if ( $start_times[3] > ( time() - 120 ) ) {
+                eval{ send_panic_email("Error: $error - Abandoning") };
+                _warn "Abandoning automatic restart: too many restarts in a short time";
+                last;
+            }
+        }
+
+        eval{ send_panic_email("Error: $error - Attempting automatic restart") };
+        _warn "Attempting automatic restart";
+        sleep 10;
+    }
+    _warn "Server exiting abnormally";
+    die;
+}
+
+##### Protocol methods
+
+
+sub fatal($self,$error) {
+    $self->logerror( "Child process $PID shutting down due to fatal error: $error" );
+    die "$error\n";
+}
+
+
+sub fatal_global($self,$error) {
+    my $ppid = $self->{'server'}->{'ppid'};
+    if ( $ppid == $PID ) {
+        $self->logerror( "Global shut down due to fatal error: $error" );
+    }
+    else {
+        $self->logerror( "Child process $PID signalling global shut down due to fatal error: $error" );
+        kill 'Term', $ppid;
+    }
+    die "$error\n";
+}
+
+
+sub setup_handlers($self) {
+    $self->logdebug( 'setup objects' );
+    my $handler = Mail::Milter::Authentication::Handler->new( $self );
+    $self->{'handler'}->{'_Handler'} = $handler;
+
+    my $config = $self->{'config'};
+    foreach my $name ( $config->{'load_handlers'}->@* ) {
+        $self->setup_handler( $name );
+    }
+    $self->sort_all_callbacks();
+}
+
+
+sub load_handler($self,$name) {
+    ## TODO error handling here
+    $self->logdebug( "Load Handler $name" );
+
+    my $package = "Mail::Milter::Authentication::Handler::$name";
+    if ( ! is_loaded ( $package ) ) {
+        $self->logdebug( "Load Handler Module $name" );
+        eval { load $package; };
+        if ( my $error = $@ ) {
+            $self->fatal_global('Could not load handler ' . $name . ' : ' . $error);
+        }
+    }
+}
+
+
+sub setup_handler($self,$name) {
+    ## TODO error handling here
+    $self->logdebug( "Instantiate Handler $name" );
+
+    my $package = "Mail::Milter::Authentication::Handler::$name";
+    my $object = $package->new( $self );
+    $self->{'handler'}->{$name} = $object;
+
+    foreach my $callback ( qw { metrics setup connect helo envfrom envrcpt header eoh body eom addheader abort close dequeue } ) {
+        if ( $object->can( $callback . '_callback' ) ) {
+            $self->register_callback( $name, $callback );
+        }
+    }
+}
+
+
+sub destroy_handler {
+    # Unused!
+    my ( $self, $name ) = @_;
+    # Remove some back references
+    delete $self->{'handler'}->{$name}->{'thischild'};
+    # Remove reference to handler
+    delete $self->{'handler'}->{$name};
+}
+
+
+sub register_callback($self,$name,$callback) {
+    $self->logdebug( "Register Callback $name:$callback" );
+    if ( ! exists $self->{'callbacks'}->{$callback} ) {
+        $self->{'callbacks'}->{$callback} = [];
+    }
+    push @{ $self->{'callbacks'}->{$callback} }, $name;
+}
+
+
+sub sort_all_callbacks($self) {
+    foreach my $callback ( qw { metrics setup connect helo envfrom envrcpt header eoh body eom addheader abort close dequeue } ) {
+        $self->sort_callbacks( $callback );
+    }
+}
+
+
+sub sort_callbacks($self,$callback) {
+    if ( ! exists $self->{'callbacks'}->{$callback} ) {
+        $self->{'callbacks'}->{$callback} = [];
+    }
+
+    if ( ! exists $self->{'callbacks_list'}->{$callback} ) {
+        $self->{'callbacks_list'}->{$callback} = [];
+    }
+    else {
+        return $self->{'callbacks_list'}->{$callback};
+    }
+
+    my $callbacks_ref = $self->{'callbacks'}->{$callback};
+
+    my $added = {};
+    my @order;
+
+    my @todo = sort @{$callbacks_ref};
+    my $todo_count = scalar @todo;
+
+    # Process requirements
+    my $requirements = {};
+    foreach my $item ( @todo ) {
+        $requirements->{ $item } = [];
+        my $handler = $self->{'handler'}->{ $item };
+        my $requires_method = $callback . '_requires';
+        if ( $handler->can( $requires_method ) ) {
+            my $requires = $handler->$requires_method;
+            foreach my $require ( $requires->@* ) {
+                push @{ $requirements->{ $item } }, $require;
+            }
+        }
+    }
+    foreach my $item ( @todo ) {
+        my $handler = $self->{'handler'}->{ $item };
+        my $requires_method = $callback . '_required_before';
+        if ( $handler->can( $requires_method ) ) {
+            my $requires = $handler->$requires_method;
+            foreach my $require ( $requires->@* ) {
+                push @{ $requirements->{ $require } }, $item;
+            }
+        }
+    }
+
+    while ( $todo_count ) {
+        my @defer;
+        foreach my $item ( @todo ) {
+            my $requires_met = 1;
+            my $requires = $requirements->{ $item };
+            foreach my $require ( $requires->@* ) {
+                if ( ! exists $added->{$require} ) {
+                    $requires_met = 0;
+                }
+            }
+            if ( $requires_met == 1 ) {
+                push @order, $item;
+                $added->{$item} = 1;
+            }
+            else {
+                push @defer, $item;
+            }
+        }
+
+        my $defer_count = scalar @defer;
+        if ( $defer_count == $todo_count ) {
+            $self->fatal_global('Could not build order list');
+        }
+        $todo_count = $defer_count;
+        @todo = @defer;
+    }
+
+    $self->{'callbacks_list'}->{$callback} = \@order;
+}
+
+
+sub destroy_objects($self) {
+    $self->logdebug ( 'destroy objects' );
+    my $handler = $self->{'handler'}->{'_Handler'};
+    if ( $handler ) {
+        $handler->destroy_all_objects();
+        my $config = $self->{'config'};
+        foreach my $name ( $config->{'load_handlers'}->@* )  {
+            $self->destroy_handler( $name );
+        }
+        delete $self->{'handler'}->{'_Handler'}->{'config'};
+        delete $self->{'handler'}->{'_Handler'}->{'thischild'};
+        delete $self->{'handler'}->{'_Handler'};
+    }
+}
+
+
+
+
+## Logging
+
+
+sub get_queue_id($self) {
+    my $queue_id;
+
+    if ( exists ( $self->{'smtp'} ) ) {
+        if ( $self->{'smtp'}->{'queue_id'} ) {
+            $queue_id = $self->{'smtp'}->{'queue_id'};
+        }
+    }
+    elsif ( exists ( $self->{'handler'}->{'_Handler'} ) ) {
+        $queue_id = $self->{'handler'}->{'_Handler'}->get_symbol('i');
+    }
+
+    return $queue_id;
+}
+
+
+sub enable_extra_debugging($self) {
+    my $config = $self->{'config'} || get_config();
+    $config->{'logtoerr'} = 1;
+    $config->{'debug'}    = 1;
+    $self->{'extra_debugging'} = 1;
+    $self->logerror( 'Extra debugging enabled. Child will exit on close.' );
+    # We don't want to persist this, so force an exit on close state.
+    $self->{'handler'}->{'_Handler'}->{'exit_on_close'} = 1;
+}
+
+
+sub extra_debugging($self,$line) {
+    if ( $self->{'extra_debugging'} ) {
+        $self->logerror( $line );
+    }
+}
+
+
+sub logerror($self,$line) {
+    my $config = $self->{'config'} || get_config();
+    if ( my $queue_id = $self->get_queue_id() ) {
+        $line = $queue_id . ': ' . $line;
+    }
+    _warn( $line ) if $config->{'logtoerr'};
+    logger()->log( { 'level' => 'error' }, $line );
+}
+
+
+sub loginfo($self,$line) {
+    my $config = $self->{'config'} || get_config();
+    if ( my $queue_id = $self->get_queue_id() ) {
+        $line = $queue_id . ': ' . $line;
+    }
+    _warn( $line ) if $config->{'logtoerr'};
+    logger()->log( { 'level' => 'info' }, $line );
+}
+
+
+sub logdebug($self,$line) {
+    my $config = $self->{'config'} || get_config();
+    if ( my $queue_id = $self->get_queue_id() ) {
+        $line = $queue_id . ': ' . $line;
+    }
+    if ( $config->{'debug'} ) {
+        _warn( $line ) if $config->{'logtoerr'};
+        logger()->log( { 'level' => 'debug' }, $line );
+    }
+}
+
+1;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+Mail::Milter::Authentication - A Perl Mail Authentication Milter
+
+=head1 VERSION
+
+version 2.20200930.2
+
+=head1 SYNOPSIS
+
+Subclass of Net::Server::PreFork for bringing up the main server process for authentication_milter.
+
+This class handles the server aspects of Authentication Milter.
+
+For individual Protocol handling please see the Mail::Milter::Authentication::Protocol::* classes
+
+For request handling please see Mail::Milter::Authentication::Handler
+
+Please see Net::Server docs for more detail of the server code.
+
+Please see the output of 'authentication_milter --help' for usage help.
+
+=head1 DESCRIPTION
+
+A Perl Implementation of email authentication standards rolled up into a single easy to use milter.
+
+=head1 METHODS
+
+=head2 preload_modules( $from, $matching )
+
+Preload (pre-fork) lazy loading modules.
+
+Takes a Package Name and a Base module, and loads all modules which match.
+
+=head2 I<write_to_log_hook()>
+
+Hook which runs to write logs
+
+=head2 I<idle_loop_hook()>
+
+Hook which runs in the parent periodically.
+
+=head2 I<pre_loop_hook()>
+
+Hook which runs in the parent before looping.
+
+=head2 I<run_n_children_hook()>
+
+Hook which runs in parent before it forks children.
+
+=head2 I<child_init_hook()>
+
+Hook which runs after forking, sets up per process items.
+
+=head2 I<child_finish_hook()>
+
+Hook which runs when the child is about to finish.
+
+=head2 I<pre_server_close_hook()>
+
+Hook which runs before the server closes.
+
+=head2 I<dequeue()>
+
+Call the dequeue handlers
+
+=head2 I<get_client_proto()>
+
+Get the protocol of the connecting client.
+
+=head2 I<get_client_port()>
+
+Get the port of the connecting client.
+
+=head2 I<get_client_host()>
+
+Get the host of the connecting client.
+
+=head2 I<get_client_path()>
+
+Get the path of the connecting client.
+
+=head2 I<get_client_details()>
+
+Get the details of the connecting client.
+
+=head2 I<process_request()>
+
+Hook which runs for each request, passes control to metrics handler or process_main as appropriate.
+
+=head2 I<process_main()>
+
+Method which runs for each request, sets up per request items and processes the request.
+
+=head2 I<send_exception_email()>
+
+Send an email to the administrator with details of a problem.
+
+=head2 I<fatal($error)>
+
+Log a fatal error and die in child
+
+=head2 I<fatal_global($error)>
+
+Log a fatal error and die in child and parent
+
+=head2 I<setup_handlers()>
+
+Setup the Handler objects.
+
+=head2 I<load_handler( $name )>
+
+Load the $name Handler module
+
+=head2 I<setup_handler( $name )>
+
+Setup the $name Handler object
+
+=head2 I<destroy_handler( $name )>
+
+Remove the $name Handler
+
+=head2 I<register_callback( $name, $callback )>
+
+Register the specified callback
+
+=head2 I<sort_all_callbacks()>
+
+Sort the callbacks into the order in which they must be called
+
+=head2 I<sort_callbacks( $callback )>
+
+Sort the callbacks for the $callback callback into the right order
+
+=head2 I<destroy_objects()>
+
+Remove references to all objects
+
+=head2 I<get_queue_id()>
+
+Return the queue ID (for logging) if possible.
+
+=head2 I<enable_extra_debugging()>
+
+Turn on extra debugging mode, will cause child to exit on close.
+
+=head2 I<extra_debugging( $line )>
+
+Cause $line to be written to log if extra debugging mode is enabled.
+
+=head2 I<logerror( $line )>
+
+Log to the error log.
+
+=head2 I<loginfo( $line )>
+
+Log to the info log.
+
+=head2 I<logdebug( $line )>
+
+Log to the debug log.
+
+=head1 FUNCTIONS
+
+=head2 I<get_installed_handlers()>
+
+Return an array ref of installed handler modules.
+
+=head2 I<send_panic_email()>
+
+Send an email to the administrator with details of a problem.
+
+Called from the parent process if the server exits.
+
+=head2 I<get_valid_pid($pid_file)>
+
+Given a pid file, check for a valid process ID and return if valid.
+
+=head2 I<find_process()>
+
+Search the process table for an authentication_milter parent process
+
+=head2 I<control($command)>
+
+Run a daemon command.  Command can be one of start/restart/stop/status.
+
+=head2 I<start($hashref)>
+
+Start the server. This method does not return.
+
+    $hashref = {
+        'pid_file'   => 'The pid file to use', #
+        'daemon'     => 1/0,                   # Daemonize process?
+    }
+
+=head1 AUTHOR
+
+Marc Bradshaw <marc@marcbradshaw.net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2020 by Marc Bradshaw.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

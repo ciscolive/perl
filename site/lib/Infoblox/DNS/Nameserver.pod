@@ -1,0 +1,714 @@
+=head1 NAME
+
+Infoblox::DNS::Nameserver - DNS Nameserver object
+
+=head1 DESCRIPTION
+
+Manipulates a Nameserver object that contains information about the domain name space.
+
+=head1 CONSTRUCTOR
+
+ my $nameserver = Infoblox::DNS::Nameserver->new(
+     ipv4addr  => $ipv4addr,            #Required if $ipv6addr is not present
+     ipv6addr  => $ipv6addr,            #Required if $ipv4addr is not present
+     name      => $fqdn,                #Required if this name server is not used to represent an external DDNS server
+     ddns_zone => $string,              #Required if this name server is used to represent an external DDNS server
+     gss_tsig_domain  => $string,       #Optional / Default is undefined
+     gss_tsig_dns_principal => $string, #Optional / Default is undefined
+     stealth   => "true" | "false",     #Optional / Default is "false"
+     TSIGkey   => $string | ":2xCOMPAT" #Optional / Default is undefined
+     TSIGname  => $string,              #Optional / Default is undefined
+     TSIGalgorithm => "HMAC-MD5" | "HMAC-SHA256" ,  #Optional / Default is "HMAC-MD5"
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a nameserver object.
+
+=head2 Infoblox::DHCP::View->external_ddns_primaries( )
+
+=over
+
+Use this function to specify a nameserver to send DDNS updates to at the network view level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     ipv4addr  => "1.2.3.4",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "ZX1jVJl7C58GT/sc7Q3uca==",
+     ddns_zone => "zone1"
+ );
+
+ #Construct an object
+   my $nameserver1 = Infoblox::DNS::Nameserver->new(
+     ipv4addr  => "1.2.3.5",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "ZX1jVJl7C58GT/sc7Q3uca==",
+     ddns_zone => "zone2"
+ );
+
+ # Configure Nameserver
+ my $response = $View->external_ddns_primaries([$nameserver,$nameserver1]);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->delegate_to( )
+
+=over
+
+Use this function to specify a nameserver at the zone level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     name      => "ns1.test.com",
+     ipv4addr  => "4.4.7.7",
+ );
+
+ # Configure Nameserver
+ my $response = $Zone->delegate_to([$nameserver]);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->forward_to( )
+
+=over
+
+Use this function to specify a nameserver at the zone level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     name      => "ns2.test.com",
+     ipv4addr  => "4.4.6.6",
+ );
+
+ # Configure Nameserver
+ my $response = $Zone->forward_to([$nameserver]);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->secondaries( )
+
+=over
+
+Use this function to specify a nameserver at the zone level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     name      => "ns3.test.com",
+     ipv4addr  => "4.5.6.4",
+     stealth   => "false",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "ZX1jVJl7C58GT/sc7Q3uca==",
+ );
+
+ #Construct an object
+   my $nameserver1 = Infoblox::DNS::Nameserver->new(
+     name      => "ns4.test.com",
+     ipv6addr  => "2009::546",
+     stealth   => "false",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "ZX1jVJl7C58GT/sc7Q3uca==",
+ );
+
+ # Configure Nameserver
+ my $response = $Zone->secondaries([$nameserver,$nameserver1]);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->multiple_primaries( )
+
+=over
+
+Use this function to specify nameservers at the zone level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     name      => "ns4.test.com",
+     ipv4addr  => "4.4.5.6",
+     stealth   => "false",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "ZX1jVJl7C58GT/sc7Q3uca==",
+ );
+
+ #Construct an object
+   my $nameserver1 = Infoblox::DNS::Nameserver->new(
+     name      => "nsv6.test.com",
+     ipv6addr  => "2004::223",
+     stealth   => "false",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "ZX1jVJl7C58GT/sc7Q3uca==",
+ );
+
+ # Configure Nameserver
+ my $response = $Zone->multiple_primaries([$nameserver,$nameserver1]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->prefer_resolver( )
+
+=over
+
+Use this function to specify a nameserver at the grid member level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     ipv4addr  => "10.7.5.6",
+ );
+
+ # Configure Nameserver
+ my $response = $grid_member_object->prefer_resolver([$nameserver]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->alternate_resolver( )
+
+=over
+
+Use this function to specify a nameserver at the grid member level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     ipv4addr  => "10.10.5.6",
+ );
+
+ # Configure Nameserver
+ my $response = $grid_member_object->alternate_resolver([$nameserver]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DNS::Nsgroup->multiple_primaries( )
+
+=over
+
+Use this function to specify nameservers at the grid DNS level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     name      => "ns5.test.com",
+     ipv4addr  => "10.10.5.6",
+     stealth   => "false",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "Zx1JVjl7C58gT/sc7Q3uca==",
+ );
+
+ # Configure Nameserver
+ my $response = $grid_member_object->multiple_primaries([$nameserver]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DNS::Nsgroup->secondaries( )
+
+=over
+
+Use this function to specify a nameserver at the grid DNS level.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $nameserver = Infoblox::DNS::Nameserver->new(
+     name      => "ns5.test.com",
+     ipv4addr  => "10.10.5.6",
+     stealth   => "false",
+     TSIGname  => "tsig_name",
+     TSIGkey   => "Zx1JVjl7C58gT/sc7Q3uca==",
+ );
+
+ # Configure Nameserver
+ my $response = $grid_member_object->secondaries([$nameserver]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Nameserver object.
+
+=head2 ddns_zone( )
+
+=over
+
+Use this method to set or retrieve the zone name served by the name server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired ddns_zone for the name server in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting ddns_zone
+ my $ddns_zone = $nameserver->ddns_zone();
+ # Modifying ddns_zone
+ $nameserver->ddns_zone("zone2");
+
+=back
+
+=back
+
+=head2 gss_tsig_domain( )
+
+=over
+
+Use this method to set or retrieve the domain in which GSS-TSIG for dynamic updates is enabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired domain name in string format with a maximum of 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting gss_tsig_domain
+ my $gss_tsig_domain = $nameserver->gss_tsig_domain();
+ # Modifying gss_tsig_domain
+ $nameserver->gss_tsig_domain("mydomain");
+
+=back
+
+=back
+
+=head2 gss_tsig_dns_principal( )
+
+=over
+
+Use this method to set or retrieve the principal name in which GSS-TSIG for dynamic updates is enabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired principal name in string format with a maximum of 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting gss_tsig_dns_principal
+ my $gss_tsig_dns_principal = $nameserver->gss_tsig_dns_principal();
+ # Modifying gss_tsig_dns_principal
+ $nameserver->gss_tsig_dns_principal("local1/a.localhost@LOCAL");
+
+=back
+
+=back
+
+=head2  ipv4addr( )
+
+=over
+
+Use this method to set or retrieve the IPv4 address. Required only when ipv6 is not specified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting ipv4addr
+ my $ipv4addr = $nameserver->ipv4addr();
+ # Modifying ipv4addr
+ $nameserver->ipv4addr("10.0.0.3");
+
+=back
+
+=back
+
+=head2  ipv6addr( )
+
+=over
+
+Use this method to set or retrieve the IPv6 address. Required only when ipv4 is not specified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number in colon hexadecimal notation. It consists of eight groups of four hexadecimal digits separated by colons
+(example: 12ab:0000:0000:0123:4567:89ab:0000:cdef).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting ipv6addr
+ my $ipv6addr = $nameserver->ipv6addr();
+ # Modifying ipv6addr
+ $nameserver->ipv6addr("12ab::345");
+
+=back
+
+=back
+
+=head2 ms_parent_delegated( )
+
+=over
+
+Use this method to retrieve the ms_parent_delegated flag. If the zone is a delegation and the primary server of the parent zone is a Microsoft (r) server,  this flag is set to "true" if the FQDN and IP address in the delegation zone's NS record matches the FQDN and IP address of  its authoritative name server.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_parent_delegated
+ my $ms_parent_delegated = $member->ms_parent_delegated();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a resolvable domain name for the server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name for the name server in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting name
+ my $name = $nameserver->name();
+ # Modifying name
+ $nameserver->name("ns2.domain.com");
+
+=back
+
+=back
+
+=head2 stealth( )
+
+=over
+
+Use this method to make the name server stealth or not. When the attribute stealth is C<"true">, the name server is in stealth mode. This means that its NS record is not published among the zone data, and it does not respond to queries from resolvers and other name servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are C<"true"> or C<"false">.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting stealth
+ my $stealth = $nameserver->stealth();
+ # Modifying stealth
+ $nameserver->stealth("true");
+
+=back
+
+=back
+
+=head2 TSIGalgorithm( )
+
+=over
+
+Use this method to set or retrieve the algorithm of the TSIG key you want to use.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired algorithm of the TSIG key. Valid values are "HMAC-SHA256" and "HMAC-MD5", which is the default.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting TSIGalgorithm
+ my $TSIGalgorithm = $nameserver->TSIGalgorithm();
+ # Modifying TSIGalgorithm
+ $nameserver->TSIGalgorithm("HMAC-SHA256");
+
+=back
+
+=back
+
+=head2 TSIGkey( )
+
+=over
+
+Use this method to set or retrieve the  TSIG key. This key must also be present on the external
+primary server. You can generate a TSIG key, or you can obtain the TSIG key name and key from the
+external name server either by accessing the appliance yourself or by requesting the appliance
+administrator to deliver them to you through some out-of-band mechanism. Then type or
+copy-and-paste that name and key into the appropriate fields.
+
+OR
+
+Use DNS One 2.x TSIG: If you want to use TSIG authentication and the external primary name server
+is an Infoblox appliance running DNS One 2.x code. The local appliance generates the required TSIG key for
+authenticating DNS messages to and from appliances running DNS One 2.x code.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired TSIGkey of the name server in string format. Valid values are C<":2xCOMPAT"> or a TSIG key string.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting TSIGkey
+ my $TSIGkey = $nameserver->TSIGkey();
+ # Modifying TSIGname
+ $nameserver->TSIGkey("ZX1jVJl7C58GT/sc7Q3uc2==");
+
+=back
+
+=back
+
+=head2 TSIGname( )
+
+=over
+
+Use this method to set or retrieve the name of the TSIG key you want to use.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name of the TSIG key in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting TSIGname
+ my $TSIGname = $nameserver->TSIGname();
+ # Modifying TSIGname
+ $nameserver->TSIGname("tsig2_name");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, modify. This sample also includes error handling for the operations.
+
+B<##Preparation prior to a DNS nameserver object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a nameserver object>
+
+  my $nameserver1 = Infoblox::DNS::Nameserver->new(
+     name     => "ns1.domain.com",
+     ipv4addr => "10.4.5.6",
+     stealth  => "false",
+     TSIGname => "tsig_name",
+     TSIGkey  => "ZX1jVJl7C58GT/sc7Q3ucA==",
+ );
+  unless ($nameserver1){
+      die("Construct Nameserver failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "Nameserver object created successfully\n";
+
+B<# Create a zone and use $nameserver1>
+
+  #create a zone and use $nameserver1
+  my $zone = Infoblox::DNS::Zone->new(
+     name    => "domain.com",
+     multiple_primaries => [$nameserver1],
+ );
+
+ #put zone into session
+ $session->add($zone)
+   or die("Zone creation failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+ print " Zone creation successful\n";
+
+B<#Get and modify the name server>
+
+ #get Zone object from session
+ my @result = $session->get(
+     object => "Infoblox::DNS::Zone",
+     name   => "domain.com"
+ );
+
+ unless (scalar(@result) == 0) {
+     my $zone = $result[0];
+
+     if ($zone) {
+
+         #modify ipv4addr value
+         $nameserver1->ipv4addr("5.5.5.5");
+         $zone->multiple_primaries([$nameserver1]);
+
+         #update session
+         $session->modify($zone)
+             or die("modify zone domain.com failed: ",
+                $session->status_code(), $session->status_detail());
+              }
+          } else {
+              print "No zone found.";
+          }
+####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::DHCP::View|Infoblox::DHCP::View>,L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Grid::DHCP|Infoblox::Grid::DHCP>, L<Infoblox::Grid::Member|Infoblox::Grid::Member>, L<Infoblox::Grid::DNS::Nsgroup|Infoblox::Grid::DNS::Nsgroup>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

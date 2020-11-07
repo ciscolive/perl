@@ -1,0 +1,51 @@
+{
+   "abstract" : "Extension for the DBus bindings",
+   "author" : [
+      "Daniel P. Berrange <dan@berrange.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.30, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Net-DBus",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Test::CPAN::Changes" : "0",
+            "Test::More" : "0",
+            "Test::Pod" : "0",
+            "Test::Pod::Coverage" : "0",
+            "Time::HiRes" : "0",
+            "XML::Twig" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "http://www.freedesktop.org/wiki/Software/dbus",
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ],
+      "repository" : {
+         "url" : "https://gitlab.com/berrange/perl-net-dbus"
+      },
+      "x_MailingList" : "http://lists.freedesktop.org/mailman/listinfo/dbus/"
+   },
+   "version" : "1.2.0",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

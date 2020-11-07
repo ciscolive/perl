@@ -1,0 +1,12 @@
+/opt/perl/site/lib/Net/Cisco/ACS.pm
+/opt/perl/site/lib/Net/Cisco/ACS/Device.pm
+/opt/perl/site/lib/Net/Cisco/ACS/DeviceGroup.pm
+/opt/perl/site/lib/Net/Cisco/ACS/Host.pm
+/opt/perl/site/lib/Net/Cisco/ACS/IdentityGroup.pm
+/opt/perl/site/lib/Net/Cisco/ACS/User.pm
+/opt/perl/site/man/man3/Net::Cisco::ACS.3
+/opt/perl/site/man/man3/Net::Cisco::ACS::Device.3
+/opt/perl/site/man/man3/Net::Cisco::ACS::DeviceGroup.3
+/opt/perl/site/man/man3/Net::Cisco::ACS::Host.3
+/opt/perl/site/man/man3/Net::Cisco::ACS::IdentityGroup.3
+/opt/perl/site/man/man3/Net::Cisco::ACS::User.3

@@ -1,0 +1,8 @@
+/opt/perl/site/lib/MozRepl/AnyEvent.pm
+/opt/perl/site/lib/MozRepl/Plugin/JSON2.pm
+/opt/perl/site/lib/MozRepl/RemoteObject.pm
+/opt/perl/site/lib/MozRepl/RemoteObject/Methods.pm
+/opt/perl/site/man/man3/MozRepl::AnyEvent.3
+/opt/perl/site/man/man3/MozRepl::Plugin::JSON2.3
+/opt/perl/site/man/man3/MozRepl::RemoteObject.3
+/opt/perl/site/man/man3/MozRepl::RemoteObject::Methods.3

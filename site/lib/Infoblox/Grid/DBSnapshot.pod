@@ -1,0 +1,98 @@
+=head1 NAME
+
+Infoblox::Grid::DBSnapshot - OneDB snapshot information object.
+
+=head1 DESCRIPTION
+
+The object provides information and a descriptive comment about the last OneDB snapshot.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DBSnapshot object. Note that the object supports only the get method since there is only one such object in the database.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::DBSnapshot',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve the descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $value = $object->comment();
+
+=back
+
+=back
+
+=head2 timestamp( )
+
+=over
+
+Use this method to retrieve the time when the last OneDB snapshot was created. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns a attribute value. The number of seconds that have elapsed since January 1, 1970 UTC.
+
+=item B<Example>
+
+ #get timestamp value
+ my $value = $object->timestamp();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

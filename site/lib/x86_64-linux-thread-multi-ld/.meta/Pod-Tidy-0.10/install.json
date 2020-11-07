@@ -1,0 +1,1 @@
+{"version":"0.10","name":"Pod::Tidy","pathname":"J/JH/JHOBLITT/Pod-Tidy-0.10.tar.gz","target":"Pod::Tidy","dist":"Pod-Tidy-0.10","provides":{"Pod::Tidy":{"version":"0.10","file":"lib/Pod/Tidy.pm"},"Pod::Wrap::Pretty":{"file":"lib/Pod/Wrap/Pretty.pm","version":"0.03"}}}

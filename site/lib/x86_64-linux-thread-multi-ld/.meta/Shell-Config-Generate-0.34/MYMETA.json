@@ -1,0 +1,78 @@
+{
+   "abstract" : "Portably generate config for any shell",
+   "author" : [
+      "Graham Ollis <plicease@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.012, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Shell-Config-Generate",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "File::Spec" : "0",
+            "FindBin" : "0",
+            "Test::CPAN::Changes" : "0",
+            "Test::EOL" : "0",
+            "Test::Fixme" : "0.07",
+            "Test::More" : "0.98",
+            "Test::NoTabs" : "0",
+            "Test::Pod" : "0",
+            "Test::Pod::Coverage" : "0",
+            "Test::Pod::Spelling::CommonMistakes" : "0",
+            "Test::Spelling" : "0",
+            "YAML" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Shell::Guess" : "0.02",
+            "perl" : "5.008001"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test2::API" : "1.302015",
+            "Test2::Mock" : "0.000060",
+            "Test2::V0" : "0.000060"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/plicease/Shell-Config-Generate/issues"
+      },
+      "homepage" : "https://metacpan.org/pod/Shell::Config::Generate",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/plicease/Shell-Config-Generate.git",
+         "web" : "https://github.com/plicease/Shell-Config-Generate"
+      }
+   },
+   "version" : "0.34",
+   "x_contributors" : [
+      "Graham Ollis <plicease@cpan.org>",
+      "Brad Macpherson (BRAD, brad-mac)",
+      "mohawk"
+   ],
+   "x_generated_by_perl" : "v5.30.0",
+   "x_serialization_backend" : "JSON::PP version 4.05",
+   "x_use_unsafe_inc" : 0
+}

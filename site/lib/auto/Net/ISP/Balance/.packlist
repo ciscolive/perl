@@ -1,0 +1,17 @@
+/etc/sysconfig/network-scripts/balance.conf
+/etc/sysconfig/network-scripts/balance/firewall/01.accept
+/etc/sysconfig/network-scripts/balance/firewall/01.accept.pl
+/etc/sysconfig/network-scripts/balance/firewall/02.forward.pl
+/etc/sysconfig/network-scripts/balance/lsm/balancer_event_script
+/etc/sysconfig/network-scripts/balance/lsm/default_script
+/etc/sysconfig/network-scripts/balance/post-run/post-run-script.pl
+/etc/sysconfig/network-scripts/balance/pre-run/pre-run-script.pl
+/etc/sysconfig/network-scripts/balance/routes/01.local_routes
+/etc/sysconfig/network-scripts/balance/routes/02.local_routes.pl
+/opt/perl/site/bin/load_balance.pl
+/opt/perl/site/bin/lsm
+/opt/perl/site/lib/Net/ISP/Balance.pm
+/opt/perl/site/lib/Net/ISP/Balance/ConfigData.pm
+/opt/perl/site/man/man1/load_balance.pl.1
+/opt/perl/site/man/man3/Net::ISP::Balance.3
+/opt/perl/site/man/man3/Net::ISP::Balance::ConfigData.3

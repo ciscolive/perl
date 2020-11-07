@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PDL::Filter::LinPred - Linear predictive filtering</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:WENWU@mojo.(none)" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#AUTHOR">AUTHOR</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>PDL::Filter::LinPred - Linear predictive filtering</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code>        $x = new PDL::Filter::LinPred(
+                {NLags =&gt; 10,
+                 LagInterval =&gt; 2,
+                 LagsBehind =&gt; 2,
+                 Data =&gt; $dat});
+
+        ($pd,$corrslic) = $x-&gt;predict($dat);</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>A filter by doing linear prediction: tries to predict the next value in a data stream as accurately as possible. The filtered data is the predicted value. The parameters are</p>
+
+<dl>
+
+<dt id="NLags">NLags</dt>
+<dd>
+
+<p>Number of time lags used for prediction</p>
+
+</dd>
+<dt id="LagInterval">LagInterval</dt>
+<dd>
+
+<p>How many points each lag should be</p>
+
+</dd>
+<dt id="LagsBehind">LagsBehind</dt>
+<dd>
+
+<p>If, for some strange reason, you wish to predict not the next but the one after that (i.e. usually f(t) is predicted from f(t-1) and f(t-2) etc., but with LagsBehind =&gt; 2, f(t) is predicted from f(t-2) and f(t-3)).</p>
+
+</dd>
+<dt id="Data">Data</dt>
+<dd>
+
+<p>The input data, which may contain other dimensions past the first (time). The extraneous dimensions are assumed to represent epochs so the data is just concatenated.</p>
+
+</dd>
+<dt id="AutoCovar">AutoCovar</dt>
+<dd>
+
+<p>As an alternative to <b>Data</b>, you can just give the temporal autocorrelation function.</p>
+
+</dd>
+<dt id="Smooth">Smooth</dt>
+<dd>
+
+<p>Don&#39;t do prediction or filtering but smoothing.</p>
+
+</dd>
+</dl>
+
+<p>The method <b>predict</b> gives a prediction for some data plus a corresponding slice of the data, if evaluated in list context. This slice is given so that you may, if you wish, easily plot them atop each other.</p>
+
+<p>The rest of the documentation is under lazy evaluation.</p>
+
+<h1 id="AUTHOR">AUTHOR</h1>
+
+<p>Copyright (C) Tuomas J. Lukka 1997. All rights reserved. There is no warranty. You are allowed to redistribute this software / documentation under certain conditions. For details, see the file COPYING in the PDL distribution. If this file is separated from the PDL distribution, the copyright notice should be included in the file.</p>
+
+
+</body>
+
+</html>
+
+

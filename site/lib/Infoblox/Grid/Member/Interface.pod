@@ -1,0 +1,644 @@
+=head1 NAME
+
+Infoblox::Grid::Member::Interface - Interface member object.
+
+=head1 DESCRIPTION
+
+An Interface member object represents additional interface information that can be used at the member level. A single IPv6 address may be added to each member by using an Interface object.
+
+=head1 CONSTRUCTOR
+
+ my  $interface = Infoblox::Grid::Member::Interface->new(
+     anycast     => "true" | "false",                         #Optional / Default is "false"
+     cidr        => $prefix,                                  #Optional / Default is undefined
+     comment     => $string,                                  #Optional / Default is undefined
+     enable_bgp  => "true" | "false",                         #Optional / Default is "false"
+     enable_ospf => "true" | "false",                         #Optional / Default is "false"
+     enable_ipv6_auto_config => "true" | "false",             #Optional / Default is "false"
+     gateway     => $ipv4addr | $ipv6addr,                    #Optional / Default is undefined
+     interface   => "LAN_HA" | "LOOPBACK" | "MGMT" | "LAN2",  #Optional / Default is "LOOPBACK"
+     ipv4addr    => $ipv4addr,                                #Optional / Default is undefined
+     ipv6addr    => $ipv6addr,                                #Optional / Default is undefined
+     subnet_mask => $netmask                                  #Optional / Default is undefined
+     dscp          => $uint,                                  #Optional / Default is undefined
+     override_dscp => "true" | "false",                       #Optional / Default is "false"
+     vlan_id       => $uint,                                  #Optional / Default is undefined
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to an Interface object.
+
+=head2 Infoblox::Grid::Member->additional_ip_list( )
+
+=over
+
+Use this function to specify Interface for the Grid Member. See L<Infoblox::Grid::Member-E<gt>additional_ip_list()|Infoblox::Grid::Member/additional_ip_list()/> for parameters and return values.
+
+=over
+
+=item B<Example 1>
+
+ #Construct an Interface object
+ my $interface1 = Infoblox::Grid::Member::Interface->new(
+    ipv4addr    => "10.2.3.4",
+    anycast     => "true",
+    interface   => "LOOPBACK",
+    subnet_mask => "255.255.255.255",
+    comment     => "this is a loopback interface"
+ );
+
+ # Configure Interface on the Grid Member object
+ my $response = $Grid_Member->additional_ip_list([$interface1]);
+
+=item B<Example 2>
+
+ #Construct an IPv6 Interface object for member addition
+ my $interface6 = Infoblox::Grid::Member::Interface->new(
+    ipv6addr    => "2001::1234",
+    gateway     => "2001::1111",
+    anycast     => "false",
+    interface   => "LAN_HA",
+    cidr        => "64",
+    comment     => "this is an IPv6 address"
+ );
+
+ # Configure Interface on the Grid Member object
+ my $response = $Grid_Member->additional_ip_list([$interface6]);
+
+=item B<Example 3>
+
+ #Construct an IPv6 Interface object for member addition with IPv6 auto-configuration turned on
+ my $interface6 = Infoblox::Grid::Member::Interface->new(
+    ipv6addr    => "2001::1234",
+    enable_ipv6_auto_config  => "true",
+    anycast     => "false",
+    interface   => "LAN_HA",
+    cidr        => "64",
+    comment     => "this is an IPv6 address with auto-configuration turned on"
+ );
+
+ # Configure Interface on the Grid Member object
+ my $response = $Grid_Member->additional_ip_list([$interface6]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->additional_ip_list( )
+
+=over
+
+Use this function to specify Interface for the Grid Member DNS. See L<Infoblox::Grid::Member::DNS-E<gt>additional_ip_list()|Infoblox::Grid::Member::DNS/additional_ip_list()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an Interface object
+ my $interface2 = Infoblox::Grid::Member::Interface->new(
+    ipv4addr    => "11.22.33.44",
+    anycast     => "true",
+    interface   => "LOOPBACK",
+    subnet_mask => "255.0.0.0",
+    comment     => "this is a loopback interface"
+ );
+
+ # Configure Interface on the Grid Member DNS object
+ my $response = $Grid_Member_DNS->additional_ip_list([$interface2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Interface object.
+
+=head2 anycast( )
+
+=over
+
+Use this method to enable/disable anycast of the Interface object.
+
+When anycast is enabled the Interface is served for anycast usage.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable anycast or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get anycast
+ my $anycast = $interface->anycast();
+ #Modify anycast
+ $interface->anycast("false");
+
+=back
+
+=back
+
+=head2 cidr( )
+
+=over
+
+Use this method to set or retrieve the CIDR netmask format of the Inteface object. Required only when ipv6addr is specified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the netmask in CIDR format (example: "8" should be specified for netmask 255.0.0.0).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get cidr
+ my $cidr = $interface->cidr();
+ #Modify cidr
+ $interface->cidr("16");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment of Interface object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 512 bytes. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $interface->comment();
+ #Modify comment
+ $interface->comment("Modifying the Interface comment");
+
+=back
+
+=back
+
+=head2 dscp( )
+
+=over
+
+Use this method to set or retrieve the DSCP value of the Interface object.
+
+Setting this method to a defined value implicitly sets the override_dscp method to "true". Setting the parameter to undefined causes the appliance to use the member default and automatically resets the override_dscp attribute to "false".
+
+Note that when dscp is set to a defined value and override_dscp is set to "false", the last operation takes precedence. Thus the sequence $object->dscp(11); $object->override_dscp("false"); will set override_dscp to "false", and the sequence $object->override_dscp("false"); $object->dscp(11); will result in override_dscp="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are integers between 0 and 63, inclusive. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $interface->dscp();
+ #Modify attribute value
+ $interface->dscp(11);
+
+=back
+
+=back
+
+=head2 enable_bgp( )
+
+=over
+
+Use this method to set or retrieve the BGP advertisement setting for this interface.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable BGP advertisements on this interface or "false" to disable them. Enabling advertisements requires the anycast attribute to be set to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get enable_bgp
+ my $enable_bgp = $interface->enable_bgp();
+ #Modify enable_bgp
+ $interface->enable_bgp("true");
+
+=back
+
+=back
+
+=head2 enable_ospf( )
+
+=over
+
+Use this method to set or retrieve the OSPF advertisement setting for this interface.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable OSPF advertisement on this interface or "false" to disable it. Enabling advertisement requires the anycast attribute to be set to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get enable_ospf
+ my $enable_ospf = $interface->enable_ospf();
+ #Modify enable_ospf
+ $interface->enable_ospf("true");
+
+=back
+
+=back
+
+=head2 enable_ipv6_auto_config( )
+
+=over
+
+Use this method to enable/disable IPv6 auto-configuration of the Interface object.
+
+When IPv6 auto-configuration is enabled, a gateway is not needed since it
+will be automatically discovered.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable IPv6 auto-configuration or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get IPv6 auto-configuration
+ my $ipv6_autoconfig_enabled = $interface->enable_ipv6_auto_config();
+ #Modify IPv6 auto-configuration
+ $interface->enable_ipv6_auto_config("true");
+
+=back
+
+=back
+
+=head2 gateway( )
+
+=over
+
+Use this method to set or retrieve the gateway of the Interface object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the gateway of the Interface in IPv4 address format or IPV6 address format. An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2). An IPv6 address is a 128-bit number in colon hexadecimal notation. It consists of eight 16-bit groups of hexadecimal digits separated by colons (example: 12ab:0000:0000:0123:4567:89ab:0000:cdef).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get gateway
+ my $gateway = $interface->gateway();
+ #Modify gateway
+ $interface->gateway("10.1.1.1");
+
+=back
+
+=back
+
+=head2 interface( )
+
+=over
+
+Use this method to set or retrieve the interface type of this Interface object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the interface type in string format. Valid values are "LOOPBACK", "LAN_HA", "MGMT" or "LAN2". Default value is "LOOPBACK".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get interface
+ my $interface = $interface->interface();
+ #Modify interface
+ $interface->interface("LAN2");
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to set or retrieve the IPV4 address used for the Interface object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv4addr
+ my $ipv4addr = $interface->ipv4addr();
+ #Modify ipv4addr
+ $interface->ipv4addr("2.2.2.2");
+
+=back
+
+=back
+
+=head2 ipv6addr( )
+
+=over
+
+Use this method to set or retrieve the IPV6 address used for the Interface object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number in colon hexadecimal notation. It consists of eight 16-bit groups of hexadecimal digits separated by colons (example: 12ab:0000:0000:0123:4567:89ab:0000:cdef).
+IPv6 gateway, and an CIDR are used in conjunctions with ipv6addr ( ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6addr
+ my $ipv6addr = $interface->ipv6addr();
+ #Modify ipv6addr
+ $interface->ipv6addr("aaaa:1111:bbbb:2222:cccc:3333:dddd:5555");
+
+=back
+
+=back
+
+=head2 subnet_mask( )
+
+=over
+
+Use this method to set or retrieve the subnet mask of the Interface object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the subnet mask of the Interface in IPv4 address format. An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 255.0.0.0).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get subnet_mask
+ my $ipv4_subnet_mask = $interface->subnet_mask();
+ #Modify subnet_mask
+ $interface->subnet_mask("255.255.255.255");
+
+=back
+
+=back
+
+=head2 override_dscp( )
+
+=over
+
+The override_dscp attribute contols whether the DSCP value is used, instead of the Member default.
+
+The override_dscp attribute can be specified explicitly. It is also set implicitly when DSCP is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_dscp flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_dscp from the member
+ my $override = $interface->override_dscp();
+ #Modify override_dscp
+ $interface->override_dscp("true");
+
+=back
+
+=back
+
+=head2 vlan_id( )
+
+=over
+
+Use this method to set or retrieve the VLAN ID of the Interface object.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integers between 1 and 4095, inclusive. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $attr = $interface->vlan_id();
+ #Modify attribute value
+ $interface->vlan_id(10);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an Interface object such as add, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to Interface object insertion>
+
+ use strict;
+ use warnings;
+ use Infoblox;
+
+ my $host_name = "infoblox.localdomain";
+ my $host_ip   = "192.168.1.2";
+ #Creating a session to Infoblox appliance.
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+
+ unless ($session) {
+     die(qq(constructor for session failed: ),
+         join(":", Infoblox::status_code(), Infoblox::status_detail()));
+ }
+ print "Session created successfully \n";
+
+B<#Create an Interface object>
+
+ #Creating Interface object.
+ my $interface1 = Infoblox::Grid::Member::Interface->new(
+     ipv4addr     => "10.2.3.4",
+     anycast      => "false",
+     interface    => "LOOPBACK",
+     subnet_mask  => "255.255.255.255",
+    ) or die(qq(Constructor for interface1 failed: ),
+    join(":", Infoblox::status_code(), Infoblox::status_detail()));
+ print "Interface object constructed successfully \n";
+
+B<#Add Interface object to Grid Member>
+
+ #Getting the member object from appliance through session.
+ my @result = $session->get(
+     object => "Infoblox::Grid::Member",
+     name   => $host_name,
+     ) or die(qq(Get Grid Member failed: ),
+     join(":", $session->status_code(), $session->status_detail()));
+ print "Get Grid Member successful\n";
+
+ my $result = $result[0];
+ if ($result) {
+     #Modifying the value of the Interface method from the member object.
+     $result->additional_ip_list([$interface1]);
+     #Applying the changes to appliance through session.
+     $session->modify($result)
+         or die(qq(Modify Grid Member failed: ),
+         join(":", $session->status_code(), $session->status_detail()));
+ }
+ print "Interface object added to Grid Member successfully\n";
+
+B<#Modify Interface object>
+
+ #Modifying the comment of the Interface object.
+ $interface1->comment("Modified Comment");
+
+ #Apply changes to the Grid Member object.
+ $result->additional_ip_list([$interface1]);
+
+ #Update Grid Member object through the Infoblox session.
+ $session->modify($result)
+   or die("Modify Grid Member object failed: ",
+   $session->status_code() . ":" . $session->status_detail());
+ print "Grid Member object with modified Interface updated to Infoblox appliance successfully\n";
+
+B<#Remove Interface object>
+
+ #Remove the Interface from the Grid Member object.
+ $result->additional_ip_list([]);
+
+ #Update Grid Member object through the Infoblox session.
+ $session->modify($result)
+   or die("Modify Grid Member object failed: ",
+   $session->status_code() . ":" . $session->status_detail());
+ print "Removed Interface object from Grid Member successfully\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>, L<Infoblox::Session|Infoblox::Session>
+, L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

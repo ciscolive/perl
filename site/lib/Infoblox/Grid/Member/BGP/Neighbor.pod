@@ -1,0 +1,390 @@
+=head1 NAME
+
+Infoblox::Grid::Member::BGP::Neighbor - BGP (Border Gateway Protocol) neighbor object
+
+=head1 DESCRIPTION
+
+An Infoblox::BGP::Neighbor object represents the BGP neighbor that is configured in an Autonomous System (AS). BGP neighbors are configured at the grid member level.
+
+=head1 CONSTRUCTOR
+
+ my $neighbor = Infoblox::Grid::Member::BGP::Neighbor->new(
+     neighbor_ip         => $ipv4addr | $ipv6addr, # Required
+     remote_as           => $num,                  # Required
+     bgp_neighbor_pass   => $string,               # Required if  authentication_mode set to "MD5"
+     authentication_mode => "NONE" | "MD5",        # Optional / default is "NONE"
+     bfd_template        => $string,               # Optional / default is undefined
+     comment             => $string,               # Optional / default is undefined
+     enable_bfd          => "true" | "false",      # Optional / default is "false"
+     enable_multihop     => "true" | "false",      # Optional / default is "false"
+     interface           => $string,               # Optional / default is "LAN_HA"
+     multihop_ttl        => $uint | undef,         # Optional / default is undefined
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a BGP AS object.
+
+=head2 Infoblox::Grid::Member::BGP::AS->neighbors( )
+
+=over
+
+Use this function to specify BGP Autonomous Systems for the grid member. See L<Infoblox::Grid::Member::BGP::AS-E<gt>neighbors()|Infoblox::Grid::Member::BGP::AS/neighbors()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a BGP neighbor
+ my $neighbor = Infoblox::Grid::Member::BGP::Neighbor->new(
+     neighbor_ip           => "172.16.0.1",
+     remote_as             => 1234,
+     authentication_mode   => "NONE",
+     interface             => "LAN_HA",
+ );
+
+ #Construct a BGP AS
+ my $autonomous_system = Infoblox::Grid::Member::BGP::AS->new(
+     as          => 269,
+     keepalive       => 4,
+     holddown        => 16,
+     neighbors       => [ $neighbor ]
+ );
+
+ # Configure BGP on the Grid Member object
+ my $response = $Grid_Member->bgp_as([$as]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::BGP::AS object.
+
+=head2 enable_multihop( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the multihop option is enabled or not.
+
+By default, BGP connects to external peers residing on directly connected networks. Usually the ttl in IP header
+(hop-limit IPv6) is set to 1 to avoid BGP packets crossing networks. EBGP multihop option allows connection to
+peers which have one or more non-BGP routers in between.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable multihop option and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_multihop value
+ my $enable_multihop = $object->enable_multihop();
+ #Modify enable_multihop value
+ $object->enable_multihop("true");
+
+=back
+
+=back
+
+=head2 enable_bfd( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the Bidirectional Forwarding Detection (BFD) fallover is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable BFD fallover and false to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_bfd value
+ my $enable_bfd = $object->enable_bfd();
+ #Modify enable_bfd value
+ $object->enable_bfd('true');
+
+=back
+
+=back
+
+=head2 interface( )
+
+=over
+
+Use this method to set or retrieve the interface that sends BGP advertisement information.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the interface in string format. The only supported value is "LAN_HA".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get interface
+ my $interface = $neighbor->interface();
+ #Modify interface
+ $neighbor->interface("LAN_HA");
+
+=back
+
+=back
+
+=head2 multihop_ttl( )
+
+=over
+
+Use this method to set or retrieve the TTL setting for multihop option.
+
+By default, BGP connects to external peers residing on directly connected networks. Usually the ttl in IP header
+(hop-limit IPv6) is set to 1 to avoid BGP packets crossing networks. EBGP multihop option allows connection to
+peers which have one or more non-BGP routers in between.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 255. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get multihop_ttl value
+ my $multihop_ttl = $object->multihop_ttl();
+ #Modify multihop_ttl value
+ $object->multihop_ttl(200);
+
+=back
+
+=back
+
+=head2 neighbor_ip( )
+
+=over
+
+Use this method to set or retrieve the IP address of the BGP neighbor.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IPv4 or IPv6 address of the BGP neighbor.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get neighbor IP address
+ my $neighbor_ip = $neighbor->neighbor_ip();
+ #Modify neighbor IP address
+ $neighbor->neighbor_ip("192.168.1.2");
+ $neighbor->neighbor_ip("2001::1");
+
+=back
+
+=back
+
+=head2 remote_as( )
+
+=over
+
+Use this method to set or retrieve the remote AS number of the BGP neighbor.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An AS number is a 16-bit number from 1 to 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get neighbor remote AS number
+ my $remote_as = $neighbor->remote_as();
+ #Modify remote AS number
+ $neighbor->remote_as(269);
+
+=back
+
+=back
+
+=head2 authentication_mode( )
+
+=over
+
+Use this method to set or retrieve the attribute about whether BGP authentication has been set for each neighbor.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set parameter to "MD5" to enable BGP authentication for a definite neighbor.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get neighbor enable authentication
+ my $remote_as = $neighbor->authentication_mode();
+ #Modify enable authentication
+ $neighbor->authentication_mode("MD5");
+
+=back
+
+=back
+
+=head2 bfd_template( )
+
+=over
+
+Use this method to set or retrieve the Bidirectional Forwarding Detection (BFD) template name.
+
+BFD template is used to configure advanced BFD settings such as timer intervals, authentication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired BFD template in string format. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bfd_template value
+ my $bfd_template = $object->bfd_template();
+ #Modify bfd_template value
+ $object->bfd_template("template1");
+
+=back
+
+=back
+
+=head2 bgp_neighbor_pass( )
+
+=over
+
+Use this method to set the password for a BGP neighbor. This is required only if authentication_mode is set to "MD5". When the password is entered, the value is preserved even if authentication_mode is changed to "NONE". This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+The bgp_neighbor_pass in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify authentication password per neighbor
+ $neighbor->bgp_neighbor_pass("authpassword");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get neighbor comment
+ my $comment = $neighbor->comment();
+ #Modify comment
+ $neighbor->comment("my comment");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+ L<Infoblox::Grid::Member::BGP::AS|Infoblox::Grid::Member::BGP::AS>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

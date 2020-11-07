@@ -1,0 +1,127 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DiscoveryDataConversionResult - discovery data conversion result.
+
+=head1 DESCRIPTION
+
+The object represents the result of the discovery data conversion. This is a read-only object.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+=head2 object()
+
+=over
+
+Use this method to retrieve the reference to the converted object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $object = $conversion_result->object();
+
+=back
+
+=back
+
+=head2 address()
+
+=over
+
+Use this method to retrieve the reference to the L<Infoblox::IPAM::Address|Infoblox::IPAM::Address> object that has been converted.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $address = $conversion_result->address();
+
+=back
+
+=back
+
+=head2 status()
+
+=over
+
+Use this method to retrieve the status of the conversion operation.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $status = $conversion_result->status();
+
+=back
+
+=back
+
+=head2 message()
+
+=over
+
+Use this method to retrieve the detailed status of the conversion operation. This could contain either the error or success message.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $message = $conversion_result->message();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery|Infoblox::Grid::Discovery>, L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

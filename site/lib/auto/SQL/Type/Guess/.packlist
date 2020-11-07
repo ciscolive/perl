@@ -1,0 +1,4 @@
+/opt/perl/site/bin/sheet-to-sql.pl
+/opt/perl/site/lib/SQL/Type/Guess.pm
+/opt/perl/site/man/man1/sheet-to-sql.pl.1
+/opt/perl/site/man/man3/SQL::Type::Guess.3

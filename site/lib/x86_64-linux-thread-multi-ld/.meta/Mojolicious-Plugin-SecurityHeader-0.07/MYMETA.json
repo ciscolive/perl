@@ -1,0 +1,58 @@
+{
+   "abstract" : "Mojolicious Plugin",
+   "author" : [
+      "Renee Baecker <reneeb@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.010, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Mojolicious-Plugin-SecurityHeader",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Mojolicious" : "7.00",
+            "perl" : "5.010"
+         }
+      }
+   },
+   "provides" : {
+      "Mojolicious::Plugin::SecurityHeader" : {
+         "file" : "lib/Mojolicious/Plugin/SecurityHeader.pm",
+         "version" : "0.07"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "http://github.com/reneeb/Mojolicious-Plugin-SecurityHeader/issues"
+      },
+      "homepage" : "http://github.com/reneeb/Mojolicious-Plugin-SecurityHeader",
+      "repository" : {
+         "type" : "git",
+         "url" : "http://github.com/reneeb/Mojolicious-Plugin-SecurityHeader.git",
+         "web" : "http://github.com/reneeb/Mojolicious-Plugin-SecurityHeader"
+      }
+   },
+   "version" : "0.07",
+   "x_contributors" : [
+      "Mohammad S Anwar <mohammad.anwar@yahoo.com>",
+      "reneeb <info@perl-services.de>"
+   ],
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

@@ -1,0 +1,525 @@
+=head1 NAME
+
+Infoblox::DNS::TSIGKey - DNS TSIGKey object
+
+=head1 DESCRIPTION
+
+On a device you configure as a secondary serer for a zone, you can associate a TSIG key for each primary
+server to which the secondary server requests zone transfers. On the device you configure as a primary server
+for a zone, you can set a TSIG key at the grid, member, or zone level. When the secondary server requests
+zone transfers, it must send a specific key in its requests to the primary server. When the primary server
+responds to the requests, it can have a set of TSIG keys from which it can draw when responding. As long as
+the primary server can find the same TSIG key that the secondary sends it, it can verify the authenticity of the requests it receives and authenticate the responses it sends.
+
+TSIG is based on DNS specifications RFC 2845, TSIG and RFC 2930, TKEY which provides authentication protocol enhancements to secure Server-Server transactions.
+
+=head1 CONSTRUCTOR
+
+  my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => $string | ":2xCOMPAT",  #Optional / Default is empty
+     name => $string,                #Optional / Default is empty
+ );
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to a TSIGKey object.
+
+=head2 Infoblox::Grid::DNS->allow_query( )
+
+=over
+
+ Use this function to specify a TSIG key for a Grid DNS object. This key is used to authenticate clients from which DNS queries are allowed.
+
+=over
+
+=item B<Example>
+
+ ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "Zx1jVJl7C58GT/sc7Q3ucA==",
+     name => "test_key"
+ );
+ #Adding a TSIG key to the allow_query list of the Grid DNS object
+ #Retrieving the list
+ my $allow_query_ref= $Grid_DNS->allow_query();
+ push @$allow_query_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $Grid_DNS->allow_query($allow_query_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->allow_query( )
+
+=over
+
+Use this function to specify a TSIG key for a Grid Member DNS object. This key is used to authenticate clients from which DNS queries are allowed.
+
+=over
+
+=item B<Example>
+
+ ##Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVjl7C58GT/sc7Q3ucA==",
+     name => "test_key"
+ );
+ #Adding a TSIG key to the allow_query list of the Grid Member DNS object
+ #Retrieving the list
+ my $allow_query_ref= $Grid_Member_DNS->allow_query();
+ push @$allow_query_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $Grid_Member_DNS->allow_query($allow_query_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->allow_query( )
+
+=over
+
+Use this function to specify a TSIG key for a Zone object. This key is used to authenticate clients from which DNS queries are allowed.
+
+=over
+
+=item B<Example>
+
+ ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVJl7c58GT/sc7Q3ucA==",
+     name => "test_key"
+ );
+ #Adding a TSIG key to the allow_query list of a zone
+ #Retrieving the list
+ my $allow_query_ref= $zone->allow_query();
+ push @$allow_query_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $zone->allow_query($allow_query_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DNS->allow_transfer( )
+
+=over
+
+Use this function to specify a TSIG key for a Grid DNS object. This key is used during zone transfers from the primary server to the secondary servers.
+
+=over
+
+=item B<Example>
+
+ ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "Zx1jVJl7C58GT/sc7Q3ucA==",
+     name => "test_key"
+ );
+ #Adding a TSIG key to the allow_transfer list of the Grid DNS object
+ #Retrieving the list
+ my $allow_transfer_ref= $Grid_DNS->allow_transfer();
+ push @$allow_transfer_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $Grid_DNS->allow_transfer($allow_transfer_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->allow_transfer( )
+
+=over
+
+Use this function to specify a TSIGKey for a grid member object. This key is used during zone transfers from the primary server to the secondary servers.
+
+=over
+
+=item B<Example>
+
+ ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVjl7C58GT/sc7Q3ucA==",
+     name => "test_key"
+ );
+ #Adding a TSIG key to the allow_transfer list of the Grid Member DNS object
+ #Retrieving the list
+ my $allow_transfer_ref= $Grid_Member_DNS->allow_transfer();
+ push @$allow_transfer_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $Grid_Member_DNS->allow_transfer($allow_transfer_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->allow_transfer( )
+
+=over
+
+Use this function to specify a TSIGKey for a Zone object. This key is used during zone transfers from the primary server to the secondary servers.
+
+=over
+
+=item B<Example>
+
+  ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVJl7c58GT/sc7Q3ucA==",
+     name => "test_key"
+ );
+ #Adding a TSIG key to the allow_transfer list of a zone
+ #Retrieving the list
+ my $allow_transfer_ref= $zone->allow_transfer();
+ push @$allow_transfer_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $zone->allow_transfer($allow_transfer_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DNS->allow_update( )
+
+=over
+
+Use this function to specify a TSIGKey for a grid DNS object. This key is used during dynamic DNS updates.
+
+=over
+
+=item B<Example>
+
+  ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVJl7C58gT/sc7Q3ucA==",
+     name => "test_key"
+ );
+ #Adding a TSIG key to the allow_update list of the Grid DNS object
+ #Retrieving the list
+ my $allow_update_ref= $Grid_DNS->allow_update();
+ push @$allow_update_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $Grid_DNS->allow_update($allow_transfer_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->allow_update( )
+
+=over
+
+Use this function to specify a TSIGKey for a grid member object. This key is used during dynamic DNS updates.
+
+=over
+
+=item B<Example>
+
+ ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVJl7C58Gt/sc7Q3ucA==",
+     name => "test_key"
+ );
+ # Configure a TSIG key for a Grid Member DNS object
+ #Retrieving the list
+ my $allow_update_ref= $Grid_Member_DNS->allow_update();
+ push @$allow_update_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $Grid_Member_DNS->allow_update($allow_transfer_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->allow_update( )
+
+=over
+
+Use this function to specify a TSIGKey for a Zone object. This key is used during dynamic DNS updates.
+
+=over
+
+=item B<Example>
+
+  ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVJl7C58GT/sc7q3ucA==",
+     name => "test_key"
+ );
+ # Configure TSIGKey on a Zone
+ #Retrieving the list
+ my $allow_update_ref= $zone->allow_update();
+ push @$allow_update_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $zone->allow_update($allow_transfer_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DNS->recursive_query_list( )
+
+=over
+
+Use this function to specify a TSIG key for a Grid DNS object. This key is used to authenticate clients from which the grid is allowed to receive recursive queries.
+
+=over
+
+=item B<Example>
+
+  ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVJl7C58gT/sc7Q3ucA==",
+     name => "test_key"
+ );
+ #Adding a TSIG key to the recursive_query_list list of the Grid DNS object
+ #Retrieving the list
+ my $recursive_query_list_ref= $Grid_DNS->recursive_query_list();
+ push @$recursive_query_list_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $Grid_DNS->recursive_query_list($allow_transfer_ref);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->recursive_query_list( )
+
+=over
+
+Use this function to specify a TSIG key for a Grid Member DNS object. This key is used to authenticate clients from which recursive queries are allowed.
+
+=over
+
+=item B<Example>
+
+=over
+
+=item B<Example>
+
+ ## Construct the object
+ my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVJl7C58Gt/sc7Q3ucA==",
+     name => "test_key"
+ );
+
+ # Configure a TSIG key for a Grid Member DNS object
+ #Retrieving the list
+ my $recursive_query_list_ref= $Grid_Member_DNS->recursive_query_list();
+ push @$recursive_query_list_ref, $tsig_key;
+ #Modifying the object;
+ my $response = $Grid_Member_DNS->recursive_query_list($allow_transfer_ref);
+
+=back
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a TSIGKey object.
+
+=head2 algorithm( )
+
+=over
+
+Use this method to set or retrieve the algorithm of the TSIG key you want to use.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired algorithm of the TSIG key. Valid values are "HMAC-SHA256" and "HMAC-MD5", which is the default.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting Algorithm
+ my $alg = $algorithmserver->algorithm();
+ # Modifying algorithm
+ $tsig_key->algorithm("HMAC-SHA256");
+
+=back
+
+=back
+
+=head2 key( )
+
+=over
+
+Use this method to add or retrieve a TSIGKey.
+To use an existing TSIG key, type or paste the key in the Key field. The TSIG key string is a text string with a key generated by an encryption algorithm
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For TSIG zone transfers, valid values for a key are C<":2xCOMPAT"> or a TSIG key string. C<":2xCOMPAT"> means you are using Infoblox DNSone 2.x TSIG. If the key is C<":2xCOMPAT">, the name can only be C<"tsig_xfer">. For TSIG dynamic updates, the valid value a for key is a TSIG key string.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting key
+ my $key = $tsig_key->key();
+ # Modifying key
+ $tsig_key->key("ZX1jVJl7C58GT/sc7Q3ucB==");
+
+=back
+
+=back
+
+=head2  name( )
+
+=over
+
+Use this method to set or retrieve the name of the TSIGKey.
+
+Enter a meaningful name for the key, such as a zone name or the name of the remote
+name server with which the local server authenticates zone transfer requests and replies. This
+name must match the name of the TSIG key on the other name server that use it to authenticate
+zone transfers with the local server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the TSIG key name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting name
+ my $name = $tsig_key->name();
+ # Modifying name
+ $tsig_key->name("tsig_key1");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add and  modify. This sample also includes error handling for the operations.
+
+B<##Preparation prior to a DNS TSIGKey object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox device
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a TSIGKey object>
+
+  my $tsig_key = Infoblox::DNS::TSIGKey->new(
+     key  => "ZX1jVJl7C58GT/sc7Q3ucA==",
+     name => "test_key"
+ );
+
+ unless($tsig_key) {
+      die("Construct TSIGKey failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "TSIGKey object created successfully\n";
+
+ #Get the member DNS object and add a TSIGKey object to it
+
+ my @result_array = $session->get(
+     object => "Infoblox::Grid::Member::DNS",
+     name   => "infoblox.localdomain"
+ );
+
+ unless (scalar(@result_array) == 0) {
+     my $memberdns = $result_array[0];
+     if ($memberdns) {
+
+        #Add a TSIG key to the Grid Member DNS object allow_transfer list.
+        my $allow_transfer_ref=$memberdns->allow_transfer();
+        push @$allow_transfer_ref, $tsig_key;
+        $memberdns->allow_transfer($allow_transfer_ref)
+             or die("modify member failed: ",
+                    Infoblox::status_code() . ":" . Infoblox::status_detail());
+         print "TSIGKey added to Member DNS object successfully\n";
+
+     #Update the Grid Member DNS object through the Infoblox session.
+         $session->modify($memberdns)
+             or die("modify session failed: ",
+                    $session->status_code() . ":" . $session->status_detail());
+         print "Member DNS object with TSIGKey updated to Infoblox device successfully\n";
+
+         #Modify existing TSIGKey object
+         #Modifying the value of the specified object.
+
+         $tsig_key->name("another_test_key");
+         print "Modify TSIG name value\n";
+
+         #Replace the key in the allow_transfer list
+         my $allow_transfer_ref2=$memberdns->allow_transfer();
+
+         if(ref($allow_transfer_ref2) eq 'ARRAY'){
+             map { if((ref($_) eq 'Infoblox::DNS::TSIGKey')&&($_->name() eq 'test_key')){ $_=$tsig_key;} } @$allow_transfer_ref2;
+         }
+
+         $memberdns->allow_transfer($allow_transfer_ref2)
+             or die("modify member failed: ",
+                    Infoblox::status_code() . ":" . Infoblox::status_detail());
+         print "TSIG name updated to Member DNS object successfully\n";
+
+        #Update the Grid Member DNS object through the Infoblox session.
+         $session->modify($memberdns)
+             or die("modify session failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+                 print "Member DNS object with TSIG name updated to Infoblox device successfully\n";
+              }
+          } else {
+              print "No member found with the specified name.";
+          }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

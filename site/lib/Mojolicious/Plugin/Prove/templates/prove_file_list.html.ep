@@ -1,0 +1,17 @@
+<h2>Tests</h2>
+% if ( $files ) {
+<a href="<%= url_for('mpp_run_all', { name => $name }) %>">run all tests</a>
+<ul>
+% for my $testfile ( sort @{ $files } ) {
+    <li><a href="<%= url_for('mpp_file', { name => $name, file => $testfile }) %>"><%= $testfile %></a></li>
+% }
+</ul>
+% }
+
+% if ( $names ) {
+<ul>
+% for my $testname ( @{ $names } ) {
+    <li><a href="<%= url_for('mpp_file_list', { name => $testname }) %>"><%= $testname %></a></li>
+% }
+</ul>
+% }

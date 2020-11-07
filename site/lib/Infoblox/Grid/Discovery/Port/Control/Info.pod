@@ -1,0 +1,244 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::Port::Control::Info - port control information.
+
+=head1 DESCRIPTION
+
+The object provides information about port control.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::Port::Control::Info->new(
+    'device'           => $device,          # optional
+    'interface'        => $interface,       # required
+    'data_vlan_info'   => $vlan_info,       # optional
+    'voice_vlan_info'  => $vlan_info,       # optional
+    'admin_status'     => 'UP' | 'DOWN',    # optional
+    'description'      => $string,          # optional
+    'parent'           => $parent,          # optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 admin_status( )
+
+=over
+
+Use this method to set or retrieve the administrative state of the interface.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'UP' or 'DOWN'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->admin_status();
+ # Modify attribute value
+ $object->admin_status('UP');
+
+=back
+
+=back
+
+=head2 data_vlan_info( )
+
+=over
+
+Use this method to set or retrieve information about data VLAN of the interface.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->data_vlan_info();
+ # Modify attribute value
+ $object->data_vlan_info($vlan_info);
+
+=back
+
+=back
+
+=head2 description( )
+
+=over
+
+Use this method to set or retrieve the description of the interface.
+
+=over
+
+=item B<Parameter>
+
+The description in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->description();
+ # Modify attribute value
+ $object->description('example');
+
+=back
+
+=back
+
+=head2 device( )
+
+=over
+
+Use this method to set or retrieve the device.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device();
+ # Modify attribute value
+ $object->device($device);
+
+=back
+
+=back
+
+=head2 interface( )
+
+=over
+
+Use this method to set or retrieve the interface.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->interface();
+ # Modify attribute value
+ $object->interface($interface);
+
+=back
+
+=back
+
+=head2 parent( )
+
+=over
+
+Use this method to set or retrieve the parent to which port is configured.
+
+=over
+
+=item B<Parameter>
+
+Valid value is L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface>, L<Infoblox::DNS::Host|Infoblox::DNS::Host>, L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>, L<Infoblox::DHCP::IPv6FixedAddr|Infoblox::DHCP::IPv6FixedAddr> or L<Infoblox::Grid::Member|Infoblox::Grid::Member> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->parent();
+ # Modify attribute value
+ $object->parent($parent);
+
+=back
+
+=back
+
+=head2 voice_vlan_info( )
+
+=over
+
+Use this method to set or retrieve information about voice VLAN of the interface.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->voice_vlan_info();
+ # Modify attribute value
+ $object->voice_vlan_info($vlan_info);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery|Infoblox::Grid::Discovery>, L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo>, L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>, L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

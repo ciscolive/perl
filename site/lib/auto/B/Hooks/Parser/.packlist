@@ -1,0 +1,5 @@
+/opt/perl/site/lib/B/Hooks/Parser.pm
+/opt/perl/site/lib/B/Hooks/Parser/Install/Files.pm
+/opt/perl/site/lib/B/Hooks/Parser/Install/hook_parser.h
+/opt/perl/site/lib/auto/B/Hooks/Parser/Parser.so
+/opt/perl/site/man/man3/B::Hooks::Parser.3

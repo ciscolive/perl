@@ -1,0 +1,1 @@
+{"name":"Crypt::Rijndael","pathname":"L/LE/LEONT/Crypt-Rijndael-1.14.tar.gz","dist":"Crypt-Rijndael-1.14","target":"Crypt::Rijndael","provides":{"Crypt::Rijndael":{"version":"1.14","file":"Rijndael.pm"}},"version":"1.14"}

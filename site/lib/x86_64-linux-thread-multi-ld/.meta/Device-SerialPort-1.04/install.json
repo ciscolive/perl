@@ -1,0 +1,1 @@
+{"version":"1.04","pathname":"C/CO/COOK/Device-SerialPort-1.04.tar.gz","provides":{"Device::SerialPort":{"version":"1.04","file":"SerialPort.pm"}},"name":"Device::SerialPort","dist":"Device-SerialPort-1.04","target":"Device::SerialPort"}

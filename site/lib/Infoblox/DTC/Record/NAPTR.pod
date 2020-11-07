@@ -1,0 +1,529 @@
+=head1 NAME
+
+Infoblox::DTC::Record::NAPTR  - A DTC NAPTR record object.
+
+=head1 DESCRIPTION
+
+A DTC NAPTR object represents a DNS Traffic Control Naming Authority Pointer (DTC NAPTR) resource record. This resource record specifies a regular expression-based rewrite rule that, when applied to an existing string, produces a new domain name or URI.
+
+=head1 CONSTRUCTOR
+
+ my $dtc_naptr = Infoblox::DTC::Record::NAPTR->new(
+     'dtc_server'  => $dtc_server,      #Required
+     'order'       => $num,             #Required
+     'preference'  => $num,             #Required
+     'replacement' => $string           #Required
+     'comment'     => $string,          #Optional
+     'disable'     => 'true' | 'false', #Optional / Default is 'false'
+     'flags'       => $string,          #Optional
+     'regexp'      => $string,          #Optional
+     'services'    => $string,          #Optional
+     'ttl'         => $uint | undef,    #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that can be applied to a DTC NAPTR record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $dtc_naptr = Infoblox::DTC::Record::NAPTR->new(
+     'comment'     => 'Sample DTC NAPTR record',
+     'disable'     => 'false',
+     'dtc_server'  => $dtc_server,
+     'flags'       => 'U',
+     'order'       => 100,
+     'preference'  => 10,
+     'regexp'      => '!http://my[.](.*)!1!i',
+     'replacement' => 'domain2.com',
+     'services'    => 'http+E2U',
+     'ttl'         => 1024,
+ );
+
+ # Submit for addition
+ my $response = $session->add($dtc_naptr);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get specific DTC NAPTR record objects:
+
+     dtc_server      - Required. DTC Server object the DTC NAPTR record is associated with.
+     comment         - Optional. Descriptive comment in string format
+     flags           - Optional. Flags in string format
+     order           - Optional. Unsigned integer that represent DTC NAPTR order.
+     preference      - Optional. Unsigned integer that represent DTC NAPTR preference.
+     replacement     - Optional. Replacement field in string format
+     services        - Optional. Services field in string format
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object     => 'Infoblox::DTC::Record::NAPTR',
+     dtc_server => $dtc_server,
+ );
+
+ my @retrieved_objs = $session->get(
+    object     => 'Infoblox::DTC::Record::NAPTR',
+    dtc_server => $dtc_server,
+    order      => 1,
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment.
+ $dtc_naptr->comment('this is a modified comment');
+
+ # Submit the modification
+ my $response = $session->modify($dtc_naptr);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to submit the removal of an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects associated with DTC Server $dtc_server
+ my @retrieved_objs = $session->get(
+     object     => 'Infoblox::DTC::Record::NAPTR',
+     dtc_server => $dtc_server,
+ );
+
+ # Find the desired object in the retrieved list.
+ my $desired_rec = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove($desired_rec);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search the DTC NAPTR record objects:
+
+     dtc_server      - Required. DTC Server object the DTC NAPTR record is associated with (exact).
+     comment         - Optional. Descriptive comment in string format (regexp).
+     flags           - Optional. Flags in string format (regexp).
+     order           - Optional. Unsigned integer that represent DTC NAPTR order (exact).
+     preference      - Optional. Unsigned integer that represent DTC NAPTR preference (exact).
+     replacement     - Optional. Replacement field in string format (regexp).
+     services        - Optional. Services field in string format (regexp).
+
+=item B<Example>
+
+ # Get the objects associated with DTC Server $dtc_server
+ my @retrieved_objs = $session->search(
+     object     => 'Infoblox::DTC::Record::NAPTR',
+     dtc_server => $dtc_server,
+ );
+
+ # Get the objects associated with DTC Server $dtc_server with comment that starts from 'NAPTR'
+ my @retrieved_objs = $session->get(
+     object     => 'Infoblox::DTC::Record::NAPTR',
+     dtc_server => $dtc_server,
+     comment    => '^NAPTR.*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of a DTC NAPTR record object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DTC NAPTR record object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $dtc_naptr->comment();
+ #Modify comment value
+ $dtc_naptr->comment('This is a new comment');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DTC NAPTR record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set the disable flag or 'false' to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable value
+ my $disable = $dtc_naptr->disable();
+ #Modify disable value
+ $dtc_naptr->disable('true');
+
+=back
+
+=back
+
+=head2 dtc_server( )
+
+=over
+
+Use this method to set or retrieve the DTC Server the DTC NAPTR record associated with.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Note that once the DTC record has been created the DTC Server value cannot be changed.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Server|Infoblox::DTC::Server> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the dtc_server field
+ my $dtc_server = $dtc_naptr->dtc_server();
+
+ #Modify dtc_server value
+ $dtc_naptr->dtc_server($server1);
+
+=back
+
+=back
+
+=head2 flags( )
+
+=over
+
+Use this method to retrieve the flags that control the interpretation of the fields for a DTC NAPTR record object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Currently supported values for the flags field are 'U', 'S', 'P' and 'A'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get flags value
+ my $flags = $dtc_naptr->flags();
+ #Modify flags value
+ $dtc_naptr->flags('U');
+
+=back
+
+=back
+
+=head2 order( )
+
+=over
+
+Use this method to retrieve the order parameter of a DTC NAPTR record. This parameter specifies the order in which the DTC NAPTR rules are applied when multiple rules are present.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The order parameter is a 16-bit unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get order value
+ my $order = $dtc_naptr->order();
+ #Modify order value
+ $dtc_naptr->order(200);
+
+=back
+
+=back
+
+=head2 preference( )
+
+=over
+
+Use this method to retrieve the preference field of a DTC NAPTR record. The preference field determines the order DTC NAPTR records are processed when multiple records with the same order parameter are present.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The preference parameter is a 16-bit integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get preference value
+ my $preference = $dtc_naptr->preference();
+ #Modify preference value
+ $dtc_naptr->preference(300);
+
+=back
+
+=back
+
+=head2 regexp( )
+
+=over
+
+Use this method to specify the regular expression-based rewriting rule of a DTC NAPTR record. This should be a POSIX compliant regular expression, including the substitution rule and flags. Refer to RFC 2915 for the field syntax details.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid parameter is a POSIX compliant regular expression or substitution expression.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get regexp value
+ my $regexp = $dtc_naptr->regexp();
+ #Modify regexp value
+ $dtc_naptr->regexp('!http://(.*)!1!i');
+
+=back
+
+=back
+
+=head2 replacement( )
+
+=over
+
+Use this method to retrieve the replacement field of a DTC NAPTR record object. For non-terminal DTC NAPTR records, this field specifies the next domain name to look up.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+The desired replacement value in a Fully-Qualified Domain Name (FQDN) format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get replacement value
+ my $replacement = $dtc_naptr->replacement();
+ #Modify replacement value
+ $dtc_naptr->replacement('__tcp__.domain.com');
+
+=back
+
+=back
+
+=head2 services( )
+
+=over
+
+Use this field to specify services. The services field contains protocol and service identifiers, for example 'http+E2U' or 'SIPS+D2T'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The services field in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get services value
+ my $services = $dtc_naptr->services();
+ #Modify services value
+ $dtc_naptr->services('http+E2U');
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the DTC server pool.
+
+Specify a TTL value to override the TTL value at the DTC server pool level.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 0 and 4294967295 that represents the duration (in seconds) that the record is cached.
+Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl value
+ my $ttl = $dtc_naptr->ttl();
+
+ #Modify ttl value
+ $dtc_naptr->ttl(1800);
+
+ #inherit ttl value
+ $dtc_naptr->ttl(undef);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, 
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, 
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, 
+L<Infoblox::DTC::Server|Infoblox::DTC::Server>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

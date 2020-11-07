@@ -1,0 +1,2069 @@
+=head1 NAME
+
+Infoblox::DNS::Record::PTR - DNS PTR record object.
+
+=head1 DESCRIPTION
+
+In a forward-mapping zone, a PTR (pointer) record maps a domain name to another domain name. In a reverse-mapping zone, a PTR (pointer) record maps an address to a domain name. To define a specific address-to-name mapping, add a PTR record to a previously defined authoritative reverse-mapping zone.
+
+To create a PTR record, you need to specify a domain name and host name.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ #Constructor for an IPv4 PTR object
+ my $bind_ptr = Infoblox::DNS::Record::PTR->new (
+         ipv4addr              => $ipv4addr,                                                         # Required
+         ptrdname              => $fqdn,                                                             # Required
+         comment               => $string,                                                           # Optional / Default is empty
+         disable               => "true" | "false"                                                   # Optional / Default "false"
+         extattrs              => { $string => $extattr, ... },                                      # Optional / Default is undefined
+         extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, # Optional / Default is undefined
+         last_discovered       => $string,                                                           # Optional / Default is empty
+         name                  => $fqdn,                                                             # Optional
+         ttl                   => $num | undef,                                                      # Optional / Default is undefined
+         views                 => [$View1],                                                          # Optional / Default is "default" view
+         creator               => "DYNAMIC" | "STATIC",                                              # Optional / Default is "STATIC"
+         ddns_protected        => "true" | "false",                                                  # Optional / Default is "false"
+         ddns_principal        => $string,                                                           # Optional / Default is undefined
+         forbid_reclamation    => "true" | "false",                                                  # Optional / Default is "false"
+     );
+
+ #Constructor for an IPv6 PTR object
+ my $bind_ptr = Infoblox::DNS::Record::PTR->new (
+         ipv6addr              => $ipv6addr,                                                         # Required
+         ptrdname              => $fqdn,                                                             # Required
+         comment               => $string,                                                           # Optional / Default is empty
+         disable               => "true" | "false"                                                   # Optional / Default "false"
+         extattrs              => { $string => $extattr, ... },                                      # Optional / Default is undefined
+         extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, # Optional / Default is undefined
+         name                  => $fqdn,                                                             # Optional
+         ttl                   => $nun | undef,                                                      # Optional / Default is undefined
+         views                 => [$View1],                                                          # Optional / Default is "default" view
+         creator               => "DYNAMIC" | "STATIC",                                              # Optional / Default is "STATIC"
+         ddns_protected        => "true" | "false",                                                  # Optional / Default is "false"
+         ddns_principal        => $string,                                                           # Optional / Default is undefined
+         forbid_reclamation    => "true" | "false",                                                  # Optional / Default is "false"
+     );
+
+ #Constructor for an PTR object in Forward Mapping Zone
+ #Both ipv4addr and ipv6addr must be undefined
+ my $bind_ptr = Infoblox::DNS::Record::PTR->new (
+         name                  => $fqdn,                                                             # Required
+         ptrdname              => $fqdn,                                                             # Required
+         comment               => $string,                                                           # Optional / Default is empty
+         disable               => "true" | "false"                                                   # Optional / Default "false"
+         extattrs              => { $string => $extattr, ... },                                      # Optional / Default is undefined
+         extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, # Optional / Default is undefined
+         ttl                   => $nun | undef,                                                      # Optional / Default is undefined
+         views                 => [$View1],                                                          # Optional / Default is "default" view
+         creator               => "DYNAMIC" | "STATIC",                                              # Optional / Default is "STATIC"
+         ddns_protected        => "true" | "false",                                                  # Optional / Default is "false"
+         ddns_principal        => $string,                                                           # Optional / Default is undefined
+         forbid_reclamation    => "true" | "false",                                                  # Optional / Default is "false"
+     );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to a DNS PTR record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Constructor for an IPv4 PTR object
+ my $bind_ptr = Infoblox::DNS::Record::PTR->new (
+     ipv4addr => "10.0.0.1",
+     ptrdname => "bind_ptr.domain.com",
+     comment => "this is a demo bind_ptr record",
+     disable => "true",
+     ttl => "33",
+     views => [$view1]  );
+  # Submit for addition
+  my $response = $session->add( $bind_ptr );
+
+ #Constructor for an IPv6 PTR object
+ my $bind_ptr = Infoblox::DNS::Record::PTR->new(
+     ptrdname     => "ip6host.this.com",
+     comment  => " this is a demo ipv6 bind_ptr record ",
+     disable => "true",
+     ttl => "333",
+     ipv6addr => "1234:5678:9abc:1000::1");
+  # Submit for addition
+  my $response = $session->add( $bind_ptr );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve existing objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get a specific DNS PTR object:
+
+ name | ipv4addr | ipv6addr | ptrdname - Optional. name/ptrdname is in FQDN format. ipv4addr is an IPv4 address with a 32-bit number in dotted decimal notation. ipv6addr is the IPv6 (128 bits) address of the DNS PTR record. ptrdname is the domain name of the DNS PTR record.
+ view                                  - Optional. The DNS view in which the PTR record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+ zone                                  - Optional. A zone name in FQDN format.
+ creator                               - Optional. Record creator.
+ ddns_principal                        - Optional. GSS-TSIG principal that owns the record.
+ reclaimable                           - Optional. The flag that indicates whether the record is reclaimable or not.
+ extattrs                              - Optional. A hash reference containing extensible attributes.
+ extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+ discovered_duid                       - Optional. Discovered DHCPv6 UID.
+ discovered_name                       - Optional. Discovered name.
+ discoverer                            - Optional. Discoverer name.
+ first_discovered                      - Optional. Time of the first discovery.
+ last_discovered                       - Optional. Time of the last discovery.
+ netbios                               - Optional. Discovered NetBIOS name.
+ network_component_description         - Optional. Discovered network component description.
+ network_component_ip                  - Optional. Discovered network component IP address.
+ network_component_name                - Optional. Discovered network component name.
+ network_component_port_description    - Optional. Discovered network component port description.
+ network_component_port_name           - Optional. Discovered network component port name.
+ network_component_port_number         - Optional. Discovered network component port number.
+ network_component_type                - Optional. Discovered network component type.
+ os                                    - Optional. Discovered OS.
+ port_duplex                           - Optional. Discovered port duplex settings.
+ port_link_status                      - Optional. Discovered port link status.
+ port_speed                            - Optional. Discovered port speed settings.
+ port_status                           - Optional. Discovered port status settings.
+ port_vlan_description                 - Optional. Discovered port VLAN description.
+ port_vlan_name                        - Optional. Discovered port VLAN name.
+ port_vlan_number                      - Optional. Discovered port VLAN number.
+ v_cluster                             - Optional. Discovered VMware cluster name.
+ v_datacenter                          - Optional. Discovered VMware datacenter name.
+ v_host                                - Optional. Discovered VMware server name.
+ v_name                                - Optional. Discovered VMware host or virtual machine name.
+ v_netadapter                          - Optional. Discovered VMware physical network adapter name.
+ v_switch                              - Optional. Discovered VMware virtual switch name.
+ v_type                                - Optional. Discovered VMware entity type (possible values: "VirtualMachine", "HostSystem", "VirtualCenter").
+
+=item B<Example>
+
+ #To get an IPv4 PTR object by name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => "1.0.0.10.in-addr.arpa",
+     view   => "default" );
+
+ #To get an IPv4 PTR object by ipv4addr
+ my @retrieved_objs = $session->get(
+     object   => "Infoblox::DNS::Record::PTR",
+     ipv4addr => "10.0.0.1",
+     view     => "default" );
+
+ #To get an IPv4 PTR object by ptrdname
+ my @retrieved_objs = $session->get(
+     object   => "Infoblox::DNS::Record::PTR",
+     ptrdname => "bind_ptr.domain.com",
+     view     => "default" );
+
+ #To get an IPv6 PTR object by name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.c.b.a.9.8.7.6.5.4.3.2.1.ip6.arpa",
+     view   => "default" );
+
+ #To get an IPv6 PTR object by ipv6addr
+ my @retrieved_objs = $session->get(
+     object   => "Infoblox::DNS::Record::PTR",
+     ipv6addr => "1234:5678:9abc:1000::1",
+     view     => "default" );
+
+ #To get an IPv6 PTR object by ptrdname
+ my @retrieved_objs = $session->get(
+     object   => "Infoblox::DNS::Record::PTR",
+     ptrdname => "ip6host.this.com",
+     view     => "default" );
+
+ # get all PTR object in zone "10.10.10.in-addr.arpa" of default view
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     zone   => "10.10.10.in-addr.arpa",
+     view   => "default"
+     );
+
+ # get all PTR objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+ # get all PTR objects with a given v_type:
+ my @retrieved_objs = $session->get(
+   object    => "Infoblox::DNS::Record::PTR",
+   v_type    => "VirtualMachine");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment for IPv4 or IPv6 object.
+ $bind_ptr->comment("this is a modified comment for bind PTR");
+ # Submit modification
+ my $response = $session->modify( $bind_ptr );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this function to submit to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+B<#Remove an object with a unique name>
+
+ # Get the object with the same name for IPv4 object
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => "1.0.0.10.in-addr.arpa",
+     view   => "default" );
+ # find the desired object from retrieved list.
+ my $desired_ptr = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_ptr );
+
+ # Get the object with the same name for an IPv6 object
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.c.b.a.9.8.7.6.5.4.3.2.1.ip6.arpa",
+     view   => "default" );
+ # find the desired object from retrieved list.
+ my $desired_ptr = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_ptr );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for existing DNS PTR record object in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search for a DNS PTR record object:
+
+ name | ipv4addr | ipv6addr | ptrdname - Optional. The IPv4 or IPv6 address of the PTR record, or the domain name in FQDN (Fully Qualified Domain Name) format (regular expression).
+ view                                  - Optional. The DNS view in which the PTR record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+ comment                               - Optional. A comment in string format (regular expression).
+ creator                               - Optional. Record creator.
+ ddns_principal                        - Optional. GSS-TSIG principal that owns the record.
+ reclaimable                           - Optional. The flag that indicates whether the record is reclaimable or not.
+ extattrs                              - Optional. A hash reference containing extensible attributes.
+ extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+ discovered_duid                       - Optional. Discovered DHCPv6 UID (exact search only).
+ discovered_name                       - Optional. Discovered name(regex).
+ discoverer                            - Optional. Discoverer name(regex).
+ first_discovered                      - Optional. Time of the first discovery (in the ISO format, exact search only).
+ last_discovered                       - Optional. Time of the last discovery (in the ISO format, exact search only).
+ netbios                               - Optional. Discovered NetBIOS name(regex).
+ network_component_description         - Optional. Discovered network component description(regex).
+ network_component_ip                  - Optional. Discovered network component IP address(regex).
+ network_component_name                - Optional. Discovered network component name(regex).
+ network_component_port_description    - Optional. Discovered network component port description(regex).
+ network_component_port_name           - Optional. Discovered network component port name(regex).
+ network_component_port_number         - Optional. Discovered network component port number (exact search only).
+ network_component_type                - Optional. Discovered network component type(regex).
+ os                                    - Optional. Discovered OS (regex).
+ port_duplex                           - Optional. Discovered port duplex settings (exact search only).
+ port_link_status                      - Optional. Discovered port link status (exact search only).
+ port_speed                            - Optional. Discovered port speed settings (exact search only).
+ port_status                           - Optional. Discovered port status settings (exact search only).
+ port_vlan_description                 - Optional. Discovered port VLAN description(regex).
+ port_vlan_name                        - Optional. Discovered port VLAN name(regex).
+ port_vlan_number                      - Optional. Discovered port VLAN number(exact search only).
+ v_cluster                             - Optional. Discovered VMware cluster name (regular expression).
+ v_datacenter                          - Optional. Discovered VMware datacenter name (regular expression).
+ v_host                                - Optional. Discovered VMware server name (regular expression).
+ v_name                                - Optional. Discovered VMware host or virtual machine name (regular expression).
+ v_netadapter                          - Optional. Discovered VMware physical network adapter name (regular expression).
+ v_switch                              - Optional. Discovered VMware virtual switch name (regular expression).
+ v_type                                - Optional. Discovered VMware entity type (possible values: "VirtualMachine", "HostSystem", "VirtualCenter").
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DNS IPv4 PTR objects in the default DNS view that match 10.0.0.0/8 and that contain "bind" in the comment field
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DNS::Record::PTR",
+     name    => "10.in-addr.arpa",
+     comment => "bind*",
+     view    => "default" );
+
+ my @retrieved_objs = $session->search(
+     object   => "Infoblox::DNS::Record::PTR",
+     ipv4addr => '10\..*\..*\..*',
+     comment  => "bind*",
+     view     => "default" );
+
+ my @retrieved_objs = $session->search(
+     object   => "Infoblox::DNS::Record::PTR",
+     ptrdname => "bind_ptr.domain.com",
+     comment  => "bind*",
+     view     => "default" );
+
+ # search for all DNS IPv6 PTR objects under 1234:5678:9abc::/48 which have bind in comment field in default view
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DNS::Record::PTR",
+     name    => "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.c.b.a.9.8.7.6.5.4.3.2.1.ip6.arpa",
+     comment => "bind*",
+     view    => "default" );
+
+ my @retrieved_objs = $session->search(
+     object   => "Infoblox::DNS::Record::PTR",
+     ipv6addr => "1234:5678:9abc:1000::1",
+     comment  => "bind*",
+     view     => "default" );
+
+ my @retrieved_objs = $session->search(
+     object   => "Infoblox::DNS::Record::PTR",
+     ptrdname => "ip6host.this.com",
+     comment  => "bind*",
+     view     => "default" );
+
+ # search for all PTR objects in the "10.10.10.in-addr.arpa" zone of the default view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::PTR",
+     zone   => "10.10.10.in-addr.arpa",
+     view   => "default"
+     );
+
+ # search all PTR records with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::Record::MX",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+ # search all PTR records by v_datacenter:
+ my @retrieved_objs = $session->search(
+    object       => "Infoblox::DNS::Record::PTR",
+    v_datacenter => "test.*");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute value of a PTR record.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $bindptr->comment();
+ #Modify comment
+ $bindptr->comment("Modifying the DNS PTR comment");
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::Record::PTR object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 creator( )
+
+=over
+
+Use this method to set or retrieve the record creator.
+
+Note that changing creator from or to 'SYSTEM' value is not allowed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+The valid values are 'STATIC' and 'DYNAMIC'. The default value is 'STATIC'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get creator value
+ my $creator = $object->creator();
+
+ #Modify creator value
+ $object->creator("DYNAMIC");
+
+=back
+
+=back
+
+=head2 creation_time( )
+
+=over
+
+Use this method to retrieve the creation time for the record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is a number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get creation_time value
+ my $creation_time = $object->creation_time();
+
+=back
+
+=back
+
+=head2 ddns_principal( )
+
+=over
+
+Use this method to set or retrive the GSS-TSIG principal that owns this record.
+
+Note that you cannot set ddns_principal for 'STATIC' and 'SYSTEM' records.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+The GSS-TSIG principal FQDN (Fully Qualified Domain Name) format. The FQDN consists of the hostname followed by the domain name (example: abc.com). A hostname can have a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_principal value
+ my $ddns_principal = $object->ddns_principal();
+
+ #Modify ddns_principal value
+ $object->ddns_principal('foo.com');
+
+=back
+
+=back
+
+=head2 ddns_protected( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether DDNS updates for this record are allowed or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to protect record from DDNS updates and 'false' to allow DDNS updates for the specified record.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_protected value
+ my $ddns_protected = $object->ddns_protected();
+
+ #Modify ddns_protected value
+ $object->ddns_protected('true');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS record.
+
+Include the specific parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false, therefore the DNS record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $bindptr->disable();
+ #Modify disable
+ $bindptr->disable("true");
+
+=back
+
+=back
+
+=head2 discovered_data( )
+
+=over
+
+Use this method to retrieve the discovered data of a PTR Record object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data> object.
+
+=item B<Example>
+
+ #Get discovered_data value
+ my $discovered_data = $object->discovered_data();
+
+=back
+
+=back
+
+=head2 discovered_duid( )
+
+=over
+
+Use this method to retrieve the discovered DHCPv6 UID (DUID) of a PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_duid
+ my $discovered_duid = $bindptr->discovered_duid();
+
+=back
+
+=back
+
+=head2 discovered_name( )
+
+=over
+
+Use this method to retrieve the discovered name of a PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_name
+ my $discovered_name = $bindptr->discovered_name();
+
+=back
+
+=back
+
+=head2 discoverer( )
+
+=over
+
+Use this method to retrieve the discoverer of a PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discoverer value.
+
+=item B<Example>
+
+ #Get discoverer
+ my $discoverer = $bindptr->discoverer();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the FQDN, in punycode format, of the PTR record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $bindptr->dns_name();
+
+=back
+
+=back
+
+=head2 dns_ptrdname( )
+
+=over
+
+Use this method to retrieve the PTR domain name in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $bindptr->ptrdname();
+
+=back
+
+=back
+
+=head2 first_discovered( )
+
+=over
+
+Use this method to retrieve the date and time that the PTR record object was first discovered.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the date and time that the PTR record object was first discovered.
+
+=item B<Example>
+
+ #Get first_discovered
+ my $first_discovered = $bindptr->first_discovered();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a PTR record object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $bindptr->extattrs();
+ #Modify extattrs
+ $bindptr->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a PTR record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $bindptr->extensible_attributes();
+ #Modify extensible attributes
+ $bindptr->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 forbid_reclamation( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the reclamation is allowed for the record or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to forbid reclamation for the record and 'false' to allow it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get forbid_reclamation
+ my $forbid_reclamation = $object->forbid_reclamation();
+ #Modify forbid_reclamation
+ $object->forbid_reclamation('true');
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to set or retrieve the IPv4 address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get ipv4addr
+ my $ipv4addr = $bindptr->ipv4addr();
+ #Modify ipv4addr
+ $bind_ptr->ipv4addr("10.0.0.2");
+
+=back
+
+=back
+
+=head2 ipv6addr( )
+
+=over
+
+Use this method to set or retrieve the IPv6 address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IPv6 (128 bits) of the DNS PTR record (example: aaaa:bbbb:cccc:dddd:eeee:ffff:0000:1111).
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get ipv6addr
+ my $ipv6addr = $bindptr->ipv6addr();
+ #Modify ipv6addr
+ $bind_ptr->ipv6addr("1234:5678:9abc:1000::2");
+
+=back
+
+=back
+
+=head2 last_discovered( )
+
+=over
+
+Use this method to retrieve the time this object was last seen by a discovery job.
+
+The default value for this field is empty.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_discovered
+ my $last_discovered = $bind_ptr->last_discovered();
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time when the associated record was last queried. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $bind_ptr->last_queried();
+
+=back
+
+=back
+
+=head2 mac_address( )
+
+=over
+
+Use this method to retrieve the discovered MAC address of this object.
+
+The default value for this field is empty.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get mac_address
+ my $mac_address = $bind_ptr->mac_address();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $bind_ptr->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the FQDN of the PTR record.
+
+Include the specified parameter to set the attribute value if both ipv4addr and ipv6addr are undefined: PTR in Forward Mapping Zone. Otherwise use ipv4addr or ipv6addr methods.
+
+Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+FQDN of the PTR record
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $bindptr->name();
+ #Modify name
+ $bindptr->name('bindptr.domain.com');
+
+=back
+
+=back
+
+=head2 netbios( )
+
+=over
+
+=item B<Parameter>
+
+None
+
+Use this method to retrieve the name in the NetBIOS reply that responded to a NetBIOS query.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get netbios
+ my $netbios = $bind_ptr->netbios();
+
+=back
+
+=back
+
+=head2 network_component_description( )
+
+=over
+
+Use this method to retrieve the description of the network device that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the description of the network device.
+
+=item B<Example>
+
+ #Get network_component_description
+ my $network_component_description = $bindptr->network_component_description();
+
+=back
+
+=back
+
+=head2 network_component_ip( )
+
+=over
+
+Use this method to retrieve the IP address of the network device that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device IP address.
+
+=item B<Example>
+
+ #Get network_component_ip
+ my $network_component_ip = $bindptr->network_component_ip();
+
+=back
+
+=back
+
+=head2 network_component_name( )
+
+=over
+
+Use this method to retrieve the name of the network device that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device name.
+
+=item B<Example>
+
+ #Get network_component_name
+ my $network_component_name = $bindptr->network_component_name();
+
+=back
+
+=back
+
+=head2 network_component_port_description( )
+
+=over
+
+Use this method to retrieve the description of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the description of the network device port.
+
+=item B<Example>
+
+ #Get network_component_port_description
+ my $network_component_port_description = $bindptr->network_component_port_description();
+
+=back
+
+=back
+
+=head2 network_component_port_name( )
+
+=over
+
+Use this method to retrieve the name of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port name.
+
+=item B<Example>
+
+ #Get network_component_port_name
+ my $network_component_port_name = $bindptr->network_component_port_name();
+
+=back
+
+=back
+
+=head2 network_component_port_number( )
+
+=over
+
+Use this method to retrieve the number of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port number value.
+
+=item B<Example>
+
+ #Get network_component_port_number
+ my $network_component_port_number = $bindptr->network_component_port_number();
+
+=back
+
+=back
+
+=head2 network_component_type( )
+
+=over
+
+Use this method to retrieve the type of the network device that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device type.
+
+=item B<Example>
+
+ #Get network_component_type
+ my $network_component_type = $bindptr->network_component_type();
+
+=back
+
+=back
+
+=head2 os( )
+
+=over
+
+Use this method to retrieve the operating system associated with this PTR record.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get os
+ my $os = $bind_ptr->os();
+ #Modify os
+ $bind_ptr->os("os-name");
+
+=back
+
+=back
+
+=head2 port_duplex( )
+
+=over
+
+Use this method to retrieve the duplex setting of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port duplex setting. Returned values, if any, are one of the following:
+
+  Full
+  Half
+
+=item B<Example>
+
+ #Get port_duplex
+ my $port_duplex = $bindptr->port_duplex();
+
+=back
+
+=back
+
+=head2 port_link_status( )
+
+=over
+
+Use this method to retrieve the link status of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port link status. Returned values, if any, are one of the following:
+
+  Connected
+  Not Connected
+  Unknown
+
+=item B<Example>
+
+ #Get port_link_status
+ my $port_link_status = $bindptr->port_link_status();
+
+=back
+
+=back
+
+=head2 port_speed( )
+
+=over
+
+Use this method to retrieve the speed of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port speed value. Returned values, if any, are one of the following:
+
+  10M
+  100M
+  1G
+  10G
+  100G
+  Unknown
+
+=item B<Example>
+
+ #Get port_speed
+ my $port_speed = $bindptr->port_speed();
+
+=back
+
+=back
+
+=head2 port_status( )
+
+=over
+
+Use this method to retrieve the status of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port status. Returned values, if any, are one of the following:
+
+  Up
+  Down
+  Unknown
+
+=item B<Example>
+
+ #Get port_status
+ my $port_status = $bindptr->port_status();
+
+=back
+
+=back
+
+=head2 port_vlan_description( )
+
+=over
+
+Use this method to retrieve the VLAN description of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN description of the network device port that is connected to the PTR record object.
+
+=item B<Example>
+
+ #Get port_vlan_description
+ my $port_vlan_description = $bindptr->port_vlan_description();
+
+=back
+
+=back
+
+=head2 port_vlan_name( )
+
+=over
+
+Use this method to retrieve the VLAN name of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN name of the network device port.
+
+=item B<Example>
+
+ #Get port_vlan_name
+ my $port_vlan_name = $bindptr->port_vlan_name();
+
+=back
+
+=back
+
+=head2 port_vlan_number( )
+
+=over
+
+Use this method to retrieve the VLAN number of the network device port that is connected to the PTR record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port VLAN number.
+
+=item B<Example>
+
+ #Get port_vlan_number
+ my $port_vlan_number = $bindptr->port_vlan_number();
+
+=back
+
+=back
+
+=head2 ptrdname( )
+
+=over
+
+Use this method to set or retrieve the PTR domain name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Text with the domain name for the DNS PTR record.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get ptrdname
+ my $ptrdname = $bindptr->ptrdname();
+ #Modify ptrdname
+ $bindptr->ptrdname("new domain name");
+
+=back
+
+=back
+
+=head2 reclaimable( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the record is reclaimable or not.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get reclaimable
+ my $reclaimable = $object->reclaimable();
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to configure or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined; therefore the record inherits the TTL value from the zone level.
+
+With a specified TTL value, the method overrides the zone values with the specified TTL value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration ,in seconds, that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $bindptr->ttl();
+ #Modify ttl
+ $bindptr->ttl(1800);
+ #Un-override ttl
+ $bindptr->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to specify or retrieve the view in which the PTR record is located.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the default view therefore the PTR record is referenced under the default view.
+
+=over
+
+=item B<Parameter>
+
+Array reference of defined Infoblox::DNS::View objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $bindptr->views();
+ #Modify views, list of Infoblox::DNS::View objects
+ $bindptr->views([$view1]);
+
+=back
+
+=back
+
+=head2 v_cluster( )
+
+=over
+
+Use this method to retrieve the name of the VMware cluster associated with the PTR Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware cluster name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_cluster
+ my $v_cluster = $bindptr->v_cluster();
+
+=back
+
+=back
+
+=head2 v_datacenter( )
+
+=over
+
+Use this method to retrieve the name of the VMware datacenter associated with the PTR Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware datacenter name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_datacenter
+ my $v_datacenter = $bindptr->v_datacenter();
+
+=back
+
+=back
+
+=head2 v_host( )
+
+=over
+
+Use this method to retrieve the name of the VMware host associated with the PTR Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware host name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_host
+ my $v_host = $bindptr->v_host();
+
+=back
+
+=back
+
+=head2 v_name( )
+
+=over
+
+Use this method to retrieve the name of the VMware entity associated with the PTR Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware entity name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_name
+ my $v_name = $bindptr->v_name();
+
+=back
+
+=back
+
+=head2 v_netadapter( )
+
+=over
+
+Use this method to retrieve the name of the physical network adapter through which the VMware entity is connected to the appliance. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the network adapter name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_netadapter
+ my $v_netadapter = $bindptr->v_netadapter();
+
+=back
+
+=back
+
+=head2 v_switch( )
+
+=over
+
+Use this method to retrieve the name of the virtual switch through which the VMware entity is connected to the appliance. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the virtual switch name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_switch
+ my $v_switch = $bindptr->v_switch();
+
+=back
+
+=back
+
+=head2 v_type( )
+
+=over
+
+Use this method to retrieve the type of VMware entity associated with the PTR Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware entity name. The default value is an empty string. The returend value, if any, can be one of the following:
+
+ VirtualMachine
+ HostSystem
+ VirtualCenter
+
+=item B<Example>
+
+ #Get v_type
+ my $v_type = $bindptr->v_type();
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of a DNS PTR record. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $bindptr->zone();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to an object, such as create, search, modify, and remove an object. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to a DNS IPv4 PTR record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the zone prior to a PTR record insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "10.0.0.0/8");
+ unless ($zone) {
+    die("Construct zone failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "10.in-addr.arpa");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create a DNS IPv4 PTR record>
+
+ my $bind_ptr = Infoblox::DNS::Record::PTR->new(
+    ptrdname     => "bind_ptr.domain.com",
+    comment  => " this is a demo bind_ptr record ",
+    ipv4addr => "10.0.0.1"
+  );
+  unless ($bind_ptr) {
+     die("Construct DNS record PTR failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+ print "DNS PTR object created successfully\n";
+
+ #Add the DNS PTR record object to the Infoblox appliance through a session
+ $session->add($bind_ptr)
+     or die("Add record PTR failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS PTR object added to server successfully\n";
+
+B<#Search for a specific DNS IPv4 PTR record>
+
+ #Search for all PTR records that match "10.in-addr.arpa"
+ my @retrieved_objs = $session->search(
+     "object" => "Infoblox::DNS::Record::PTR",
+     "name" => '10\.in-addr.arpa',
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search record PTR failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS PTR object found at least 1 matching entry\n";
+
+ #Search all PTR records that have "bind" in the comment
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => '10\.*\.in-addr.arpa',
+     comment => "bind*"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search record PTR failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS PTR object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a DNS IPv4 PTR record>
+
+ #Get a PTR record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => "1.0.0.10.in-addr.arpa",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get record PTR failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS PTR object found at least 1 matching entry\n";
+#Modify one of the attributes of the specified PTR record
+ $object->comment ("modified comment");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify record PTR failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS PTR object modified successfully \n";
+
+B<#Remove a DNS IPv4 PTR record>
+
+ #Get a PTR record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => "1.0.0.10.in-addr.arpa",
+ );
+
+  my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get record PTR failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS PTR object found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($object)
+     or die("Remove record PTR failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS PTR object removed successfully \n";
+
+B<#Preparation prior to a DNS IPv6 PTR record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the zone prior to a PTR record insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "1234:5678:9abc::/48");
+ unless ($zone) {
+    die("Construct zone failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "c.b.a.9.8.7.6.5.4.3.2.1.ip6.arpa");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create a DNS IPv6 PTR record>
+
+ my $bind_ptr = Infoblox::DNS::Record::PTR->new(
+    ptrdname     => "ip6host.this.com",
+    comment  => " this is a demo bind_ptr record ",
+    ipv6addr => "1234:5678:9abc:1000::1"
+  );
+  unless ($bind_ptr) {
+     die("Construct DNS record PTR failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+ print "DNS PTR object created successfully\n";
+ #Add the DNS PTR record object to the Infoblox  appliance through a session
+        $session->add($bind_ptr)
+            or die("Add record PTR failed: ",
+                   $session->status_code() . ":" . $session->status_detail());
+        print "DNS PTR object added to server successfully\n";
+
+B<#Search for a specific DNS IPv6 PTR record>
+
+ #Search for a PTR record in the zone
+ my @retrieved_objs = $session->search(
+     "object" => "Infoblox::DNS::Record::PTR",
+     "name" => "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.c.b.a.9.8.7.6.5.4.3.2.1.ip6.arpa",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search record PTR failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS PTR object found at least 1 matching entry\n";
+
+B<#Get and modify a DNS IPv6 PTR record>
+
+ #Get PTR record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.c.b.a.9.8.7.6.5.4.3.2.1.ip6.arpa",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get record PTR failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS PTR object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified PTR record
+ $object->comment ("modified comment");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify record PTR failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DNS PTR object modified successfully \n";
+
+B<#Remove a DNS IPv6 PTR record>
+
+ #Get PTR record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::PTR",
+     name   => "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.c.b.a.9.8.7.6.5.4.3.2.1.ip6.arpa",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get record PTR failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS PTR object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove record PTR failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS PTR object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>,
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>,
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>,
+L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,162 @@
+=head1 NAME
+
+Infoblox::Grid::DataCollection::IPInfo - A data collection IP information object.
+
+=head1 DESCRIPTION
+
+The Data Collection IP information object is used to configure the list of data collector virtual machines in the data collection cluster.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a data collection IP information object.
+
+=head2 Infoblox::Grid::DataCollection::Cluster->datacollector_vms( )
+
+=over
+
+Use this method to retrieve the list of data collector virtual machines. This is a read-only attribute.
+See L<Infoblox::Grid::DataCollection::Cluster-E<gt>datacollector_vms()|Infoblox::Grid::DataCollection::Cluster/datacollector_vms()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get datacollector_vms value
+ my $datacollector_vms = $object->datacollector_vms();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of a data collection IP information.
+
+Note that this is a read-only object.
+
+=head2 ip_address( )
+
+=over
+
+Use this method to retrieve the virtual machine IP address. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ip_address value
+ my $ip_address = $object->ip_address();
+
+=back
+
+=back
+
+=head2 nat_enabled( )
+
+=over
+
+Use this method or retrieve the flag that indicates whether the NAT translation of the virtual machine IP address is enabled or disabled. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_nat value
+ my $enable_nat = $object->enable_nat();
+
+=back
+
+=back
+
+=head2 nat_group( )
+
+=over
+
+Use this method to retrieve the virtual machine NAT group. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get nat_group value
+ my $nat_group = $object->nat_group();
+
+=back
+
+=back
+
+=head2 nat_ip( )
+
+=over
+
+Use this method to retrieve the virtual machine external IP address. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get nat_ip value
+ my $nat_ip = $object->nat_ip();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DataCollection::Cluster|Infoblox::Grid::DataCollection::Cluster>, 
+L<Infoblox::Grid::DataCollection::Cluster-E<gt>datacollector_vms()|Infoblox::Grid::DataCollection::Cluster/datacollector_vms()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

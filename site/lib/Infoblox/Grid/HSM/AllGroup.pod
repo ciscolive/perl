@@ -1,0 +1,74 @@
+=head1 NAME
+
+Infoblox::Grid::HSM::AllGroup - All HSM groups.
+
+=head1 DESCRIPTION
+
+This is a read-only object which allows reading of all hsm groups.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::HSM::AllGroup object is a read-only object and does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to the Infoblox::Grid::HSM::AllGroup object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $allgroup = $session->get(object => "Infoblox::Grid::HSM::AllGroup");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of the Infoblox::Grid::HSM::AllGroup object.
+
+=head2 groups( )
+
+=over
+
+Use this method to retrieve the list of HSM groups. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value as an array reference that contains  L<Infoblox::Grid::HSM::Thales::Group|Infoblox::Grid::HSM::ThalesGroup> and L<Infoblox::Grid::HSM::SafeNet::Group|Infoblox::Grid::HSM::SafeNetGroup> object(s).
+
+=item B<Example>
+
+  #Get groups
+  my $groups = $allgroup->groups();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::HSM::SafeNet::Group|Infoblox::Grid::HSM::SafeNetGroup>, L<Infoblox::Grid::HSM::Thales::Group|Infoblox::Grid::HSM::ThalesGroup>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

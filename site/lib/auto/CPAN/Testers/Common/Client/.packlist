@@ -1,0 +1,8 @@
+/opt/perl/site/lib/CPAN/Testers/Common/Client.pm
+/opt/perl/site/lib/CPAN/Testers/Common/Client/Config.pm
+/opt/perl/site/lib/CPAN/Testers/Common/Client/History.pm
+/opt/perl/site/lib/CPAN/Testers/Common/Client/PrereqCheck.pm
+/opt/perl/site/man/man3/CPAN::Testers::Common::Client.3
+/opt/perl/site/man/man3/CPAN::Testers::Common::Client::Config.3
+/opt/perl/site/man/man3/CPAN::Testers::Common::Client::History.3
+/opt/perl/site/man/man3/CPAN::Testers::Common::Client::PrereqCheck.3

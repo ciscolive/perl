@@ -1,0 +1,208 @@
+=head1 NAME
+
+Infoblox::DNS::DNSSecKeyAlgorithm - DNSSEC key algorithm object.
+
+=head1 DESCRIPTION
+
+The DNSSEC key algorithm structure provides for configuring algorithms for Key-signing and Zone-signing keys. Multiple algorithms can be used at the same time per Grid or per zone.
+
+=head1 CONSTRUCTOR
+
+ #Constructor for an DNSSEC key algorithm object
+  my $algorithm = Infoblox::DNS::DNSSecKeyAlgorithm->new(
+     algorithm => "RSAMD5" | "DSA" | "RSASHA1" | "RSASHA256" | "RSASHA512" ,  #Optional / Default is undefined
+     size      => $num,                                                       #Optional / Default is undefined
+   );
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to an DNSSecKeyAlgorithm object.
+
+=head2 Infoblox::Grid::DNS->dnssec_ksk_algorithms( )
+
+=over
+
+Use this function to specify a DNSSEC key signing key algorithm at the grid level on the Infoblox appliance. See L<Infoblox::Grid::DNS-E<gt>dnssec_ksk_algorithms()|Infoblox::Grid::DNS/dnssec_ksk_algorithms()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Create a DNSSEC key algorithm object.
+ my $algorithm = Infoblox::DNS::DNSSecKeyAlgorithm->new(
+     algorithm => 'RSASHA256',
+     size      => 512,
+ );
+
+ #Configure DNSSEC key signing key algorithms on the Infoblox grid object
+ my $response = $grid->dnssec_ksk_algorithms([$algorithm]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DNS->dnssec_zsk_algorithms( )
+
+=over
+
+Use this function to specify a DNSSEC zone signing key algorithm at the grid level on the Infoblox appliance. See L<Infoblox::Grid::DNS-E<gt>dnssec_zsk_algorithms()|Infoblox::Grid::DNS/dnssec_zsk_algorithms()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Create a DNSSEC key algorithm object.
+ my $algorithm = Infoblox::DNS::DNSSecKeyAlgorithm->new(
+     algorithm => 'RSASHA512',
+     size      => 1024,
+ );
+
+ #Configure DNSSEC zone signing key algorithms on the Infoblox grid object
+ my $response = $grid->dnssec_zsk_algorithms([$algorithm]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->dnssec_ksk_algorithms( )
+
+=over
+
+Use this function to specify a DNSSEC key signing key at the member level on the Infoblox appliance. See L<Infoblox::Grid::Member::DNS-E<gt>dnssec_ksk_algorithms()|Infoblox::Grid::Member::DNS/dnssec_ksk_algorithms()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Create a DNSSEC key algorithm object.
+ my $algorithm = Infoblox::DNS::DNSSecKeyAlgorithm->new(
+     algorithm => 'RSASHA512',
+     size      => 1024,
+ );
+
+ #Configure DNSSEC key signing key algorithms on the Infoblox member object
+ my $response = $member->dnssec_ksk_algorithms([$algorithm]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->dnssec_zsk_algorithms( )
+
+=over
+
+Use this function to specify a DNSSEC zone signing key at the member level on the Infoblox appliance. See L<Infoblox::Grid::Member::DNS-E<gt>dnssec_zsk_algorithms()|Infoblox::Grid::Member::DNS/dnssec_zsk_algorithms()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Create a DNSSEC key algorithm object.
+ my $algorithm = Infoblox::DNS::DNSSecKeyAlgorithm->new(
+     algorithm => 'RSASHA512',
+     size      => 1024,
+ );
+
+ #Configure DNSSEC zone signing key algorithms on the Infoblox member object
+ my $response = $member->dnssec_zsk_algorithms([$algorithm]);
+
+=back
+
+=back
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+this section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 algorithm( )
+
+=over
+
+Use this method to set or retrieve signing key algorithm.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'RSAMD5', 'DSA', 'RSASHA1', 'RSASHA256' or 'RSASHA512'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get algorithm value
+ my $algorithm = $dnssec_key_algorithm->algorithm();
+ #Modify algorithm value
+ $dnssec_key_algorithm->algorithm('RSASHA512');
+
+=back
+
+=back
+
+=head2 size( )
+
+=over
+
+Use this method to set or retrieve signing key size, in bits.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The DNSSEC key-signing key possible size depends on the algorithm. Use the following table to determine the possible values for key sizes:
+
+    Algorithm    Key size     Additional restrictions
+  NSEC
+    RSA/MD5      512-4096
+    DSA/SHA1     512-1024     Key size must be divisible by 64
+    RSA/SHA1     512-4096
+    RSA256/SHA2  512-4096
+    RSA512/SHA2  1024-4096
+  NSEC3
+    DSA/SHA1     512-1024     Key size must be divisible by 64
+    RSA/SHA1     512-4096
+    RSA256/SHA2  512-4096
+    RSA512/SHA2  1024-4096
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get size value
+ my $size = $dnssec_key_algorithm->size();
+ #Modify size value
+ $dnssec_key_algorithm->size(1024);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, L<Infoblox::Grid::DNS-E<gt>dnssec_ksk_algorithms()|Infoblox::Grid::DNS/dnssec_ksk_algorithms()>, L<Infoblox::Grid::DNS-E<gt>dnssec_zsk_algorithms()|Infoblox::Grid::DNS/dnssec_zsk_algorithms()>, L<Infoblox::Grid::Member::DNS-E<gt>dnssec_ksk_algorithms()|Infoblox::Grid::Member::DNS/dnssec_ksk_algorithms()>, L<Infoblox::Grid::Member::DNS-E<gt>dnssec_zsk_algorithms()|Infoblox::Grid::Member::DNS/dnssec_zsk_algorithms()>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

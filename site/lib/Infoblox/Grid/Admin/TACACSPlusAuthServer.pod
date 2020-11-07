@@ -1,0 +1,315 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::TACACSPlusAuthServer - TACACS+ Authentication Server object
+
+=head1 DESCRIPTION
+
+Represents a TACACS+ server that is used to authenticate administrators.
+
+=head1 CONSTRUCTOR
+
+ my $tacacs_auth_server = Infoblox::Grid::Admin::TACACSPlusAuthServer->new(
+     fqdn_or_ip       => $fqdn | $ipv4addr         #Required
+     shared_secret    => $string,                  #Required
+     acct_enabled     => "true" | "false"          #Optional / Default is false
+     auth_type        => "PAP" | "CHAP" | "ASCII", #Optional / Default is "CHAP"
+     comment          => $string,                  #Optional / Default is empty
+     disabled         => "true" | "false"          #Optional / Default is false
+     use_mgmt_port    => "true" | "false"          #Optional / Default is false
+     port             => $num,                     #Optional / Default is 49
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an object.
+
+=head2 Infoblox::Grid::Admin::TACACSPlusAuthService->tacacsplus_servers()
+
+=over
+
+Use this method to add a list of TACACS+ Server objects to the TACACS+ Service object on an Infoblox appliance. See L<Infoblox::Grid::Admin::TACACSPlusAuthService|Infoblox::Grid::Admin::TACACSPlusAuthService> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Construct an object
+ my $tacacs_auth_server1 = Infoblox::Grid::Admin::TACACSPlusAuthServer->new(
+                                                            fqdn_or_ip    => '10.0.1.1',
+                                                            shared_secret => 'secret',
+ );
+
+ # Construct another object
+ my $tacacs_auth_server2 = Infoblox::Grid::Admin::TACACSPlusAuthServer->new(
+                                                            fqdn_or_ip    => '10.0.2.1',
+                                                            shared_secret => 'secret',
+ );
+
+ # Configure TACACSPlusAuthServer
+ my $response = $tacacs_auth_service->tacacs_servers([$tacacs_auth_server1, $tacacs_auth_server2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+Use the following methods to access the attributes of an Infoblox::Grid::Admin::TACACSPlusAuthServer object. Specify a parameter to set the attribute's value, or omit the parameter to get the attribute's value.
+
+=head2 acct_enabled( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates if the TACACS+ server is enabled for accounting packets.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get acct_enabled
+   my $acct_enabled = $tacacs_server->acct_enabled();
+   #Modify acct_enabled
+   $tacacs_server->acct_enabled("true");
+
+=back
+
+=back
+
+=head2 auth_type( )
+
+=over
+
+Use this method to set or retrieve the authentication type used by the TACACS+ client and server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is either "PAP", "ASCII" or "CHAP". The default is "CHAP".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get auth_type
+   my $auth_type = $tacacs_server->auth_type( );
+   #Modifying auth_type
+   $tacacs_server->auth_type("PAP");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment about the TACACS+ server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The comment in string format, with a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get comment
+   my $comment = $tacacs_server->comment();
+   #Modify comment
+   $tacacs_server->comment("NAC Authentication TACACS+ server");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the disable flag of the TACACS+ server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get disabled
+   my $disable = $tacacs_server->disabled();
+   #Modify disabled
+   $tacacs_server->disabled("true");
+
+=back
+
+=back
+
+=head2 fqdn_or_ip( )
+
+=over
+
+Use this method to set or retrieve the FQDN or IP address of the TACACS+ server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A string in FQDN (Fully Qualified Domain Name) format, or an IP address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get fqdn_or_ip
+   my $fqdn_or_ip = $tacacs_server->fqdn_or_ip();
+   #Modify fqdn_or_ip
+   $tacacs_server->fqdn_or_ip("10.0.0.1");
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the destination port number on the TACACS+ server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1 and 65535, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get port
+   my $port = $tacacs_server->port( );
+   #Modifying port
+   $tacacs_server->port("49");
+
+=back
+
+=back
+
+=head2 shared_secret( )
+
+=over
+
+Use this method to set the shared secret that the NIOS appliance and the TACACS+ server use to encrypt and decrypt their messages. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The shared secret in string format, with a maximum of 64 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+   #Modify shared_secret
+   $tacacs_server->shared_secret("secret");
+
+=back
+
+=back
+
+=head2 use_mgmt_port( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates if the appliance connects to the TACACS+ server through the MGMT network interface.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get use_mgmt_port
+   my $use_mgmt_port = $tacacs_server_server->use_mgmt_port();
+   #Modify use_mgmt_port
+   $tacacs_server->use_mgmt_port("true");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::TACACSPlusAuthService|Infoblox::Grid::Admin::TACACSPlusAuthService>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,1 @@
+{"name":"Catmandu::LDAP","dist":"Catmandu-LDAP-0.0105","target":"Catmandu::LDAP","pathname":"N/NI/NICS/Catmandu-LDAP-0.0105.tar.gz","provides":{"Catmandu::Importer::LDAP":{"file":"lib/Catmandu/Importer/LDAP.pm","version":"0.0105"},"Catmandu::LDAP":{"file":"lib/Catmandu/LDAP.pm","version":"0.0105"}},"version":"0.0105"}

@@ -1,0 +1,1 @@
+{"pathname":"A/AW/AWNCORP/routines-0.02.tar.gz","target":"routines","dist":"routines-0.02","provides":{"registry":{"version":"0.02","file":"lib/registry.pm"},"routines":{"file":"lib/routines.pm","version":"0.02"}},"version":"0.02","name":"routines"}

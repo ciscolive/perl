@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Mojo/IRC.pm
+/opt/perl/site/lib/Mojo/IRC/Events.pod
+/opt/perl/site/lib/Mojo/IRC/UA.pm
+/opt/perl/site/lib/Mojo/mojo-irc-client.crt
+/opt/perl/site/lib/Mojo/mojo-irc-client.key
+/opt/perl/site/lib/Test/Mojo/IRC.pm
+/opt/perl/site/man/man3/Mojo::IRC.3
+/opt/perl/site/man/man3/Mojo::IRC::Events.3
+/opt/perl/site/man/man3/Mojo::IRC::UA.3
+/opt/perl/site/man/man3/Test::Mojo::IRC.3

@@ -1,0 +1,451 @@
+=head1 NAME
+
+Infoblox::DNS::AllRecords - A synthetic object used to return all record object types belonging to a zone.
+
+=head1 DESCRIPTION
+
+By searching on this object, all the record objects associated with a specific zone can be retrieved
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS AllRecords object.
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS AllRecords object:
+
+  zone           - Required. A zone name in FQDN format.
+  creator        - Optional. The creator of the record. The valid values are 'SYSTEM', 'DYNAMIC' and 'STATIC'.
+  ddns_principal - Optional. The GSS-TSIG principal that owns the record.
+  view           - Optional. The DNS view in which the records are located. By default, the default DNS views is searched.
+  name           - Optional. The name of the matched record. (regular expression).
+  reclaimable    - Optional. The flag that indicates whether the record is reclaimable or not.
+  type           - Optional. The type of record to search for. By default, all record types are searched. Following is the list of valid values for this search field:
+
+                 'All A Records',
+                 'All AAAA Records',
+                 'All Bulk Host',
+                 'All CNAME Records',
+                 'All DNAME Records',
+                 'All DNSKEY Records',
+                 'All DS Records',
+                 'All DTCLBDN Records',
+                 'All Host Address',
+                 'All Host Alias',
+                 'All Host Records',
+                 'All IPV6 Host Address',
+                 'All LBDN Records',
+                 'All MX Records',
+                 'All NAPTR Records',
+                 'All NS Records',
+                 'All NSEC Records',
+                 'All NSEC3 Parameter Records',
+                 'All NSEC3 Records',
+                 'All PTR Records',
+                 'All RSIG Records',
+                 'All Records',
+                 'All SEC Records',
+                 'All SOA Records',
+                 'All SRV Records',
+                 'All TLSA Records',
+                 'All Shared A Records',
+                 'All Shared AAAA Records',
+                 'All Shared MX Records',
+                 'All Shared SRV Records',
+                 'All Shared TXT Records',
+                 'All TXT Records',
+
+=item B<Example>
+
+ # search for all records in the "domain.com" zone in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::AllRecords",
+     zone   => 'domain.com',
+ );
+
+ # search for all TXT records that match the 'rec' name in the "domain.com" zone in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::AllRecords",
+     zone   => 'domain.com',
+     type   => 'All TXT Records',
+     name   => 'rec',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of an AllRecords object. All methods are read-only and cannot be set.
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve the descriptive comment of the record associated with the AllRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $allrecord->comment();
+
+=back
+
+=back
+
+=head2 creator( )
+
+=over
+
+Use this method to retrieve the resource record creator.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get creator
+ my $creator = $allrecord->creator();
+
+=back
+
+=back
+
+=head2 ddns_principal( )
+
+=over
+
+Use this method to retrieve the GSS-TSIG principal that owns the record.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_principal
+ my $ddns_principal = $allrecord->ddns_principal();
+
+=back
+
+=back
+
+=head2 ddns_protected( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether this record is protected from DDNS updates or not.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_protected
+ my $ddns_protected = $allrecord->ddns_protected();
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to retrieve the disable flag of of the record associated with the AllRecords object (if present).
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $allrecord->disable();
+
+=back
+
+=back
+
+=head2 dtc_obscured( )
+
+=over
+
+Use this method to retrieve the LBDN object that obscures this record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get dtc_obscured
+ my $dtc_obscured = $allrecord->dtc_obscured();
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time the associated record was last queried on.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $allrecord->last_queried();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of of the record associated with the AllRecords object. Note that this value could differ from the value of the associated record's name field.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $allrecord->name();
+
+=back
+
+=back
+
+=head2 reclaimable( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the record is reclaimable or not.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get reclaimable
+ my $reclaimable = $object->reclaimable();
+
+=back
+
+=back
+
+=head2 record( )
+
+=over
+
+Use this method to retrieve the record object associated with the AllRecords object.
+
+This object is considered a 'partial' object. See L<Infoblox::Session-E<gt>fill_partial_object()|Infoblox::Session/fill_partial_object()/> for more information on how
+it can be converted to a 'full' API object.
+
+If the AllRecords object refers to a record not currently supported in the Perl API, the member value will be undefined.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get record
+ my $record = $allrecord->record();
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to retrieve the TTL value of of the record associated with the AllRecords object (if present).
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $allrecord->ttl();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the type of the record associated with the AllRecords object. This is a descriptive string
+that identifies the record to which this AllRecords object refers. (For example, 'A record', 'MX record', ...)
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get type
+ my $type = $allrecord->type();
+
+=back
+
+=back
+
+=head2 view( )
+
+=over
+
+Use this method to retrieve the DNS view name of the record associated with the AllRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get view
+ my $view = $allrecord->view();
+
+=back
+
+=back
+
+=head2 zone( )
+
+=over
+
+Use this method to retrieve the zone name of the record associated with the AllRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get zone
+ my $zone = $allrecord->zone();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+ In cases where a large number of matching records exist on the appliance, only a limited number will be returned
+ at a time. If all of the matching records are required, please consider using the paging support via Infoblox::Cursor.
+
+ #Code sample fragment Starts:
+
+    $cursor=$session->new_cursor(
+                                 fetch_size => 100,
+                                 object => "Infoblox::DNS::AllRecords",
+                                 zone   => 'domain.com',
+                                 view   => 'default',
+                                );
+
+    while ($current_record = $cursor->fetch()) {
+        # $current_record will contain a matching AllRecords object
+    }
+
+    # All matching AllRecords will be returned
+    # when the cycle ends.
+
+ If you want full record objects for some of the above, you can add the following code
+
+ #Code sample fragment Starts:
+
+     if( ... some criteria ...) {
+         push @temp, $current_record->record();
+     }
+
+ ####Code Fragment Ends####
+
+ inside the while() cycle and afterwards call
+
+ #Code sample fragment Starts:
+
+ @full_record_objects=$session->fill_partial_object(\@temp);
+
+ ####Code Fragment Ends####
+
+ to fill the wanted objects.
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

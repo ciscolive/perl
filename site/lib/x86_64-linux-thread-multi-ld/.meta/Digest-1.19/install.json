@@ -1,0 +1,1 @@
+{"name":"Digest","target":"T/TO/TODDR/Digest-1.19.tar.gz","provides":{"Digest::file":{"version":"1.19","file":"lib/Digest/file.pm"},"Digest":{"file":"lib/Digest.pm","version":"1.19"},"Digest::base":{"file":"lib/Digest/base.pm","version":"1.19"}},"version":"1.19","dist":"Digest-1.19","pathname":"T/TO/TODDR/Digest-1.19.tar.gz"}

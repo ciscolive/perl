@@ -1,0 +1,11 @@
+/opt/perl/site/lib/Mojolicious/Plugin/Prove.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Prove/Base.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Prove/Controller.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Prove/public/jquery-3.3.1.min.js
+/opt/perl/site/lib/Mojolicious/Plugin/Prove/public/prove_funcs.js
+/opt/perl/site/lib/Mojolicious/Plugin/Prove/templates/prove_exception.html.ep
+/opt/perl/site/lib/Mojolicious/Plugin/Prove/templates/prove_file.html.ep
+/opt/perl/site/lib/Mojolicious/Plugin/Prove/templates/prove_file_list.html.ep
+/opt/perl/site/man/man3/Mojolicious::Plugin::Prove.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::Prove::Base.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::Prove::Controller.3

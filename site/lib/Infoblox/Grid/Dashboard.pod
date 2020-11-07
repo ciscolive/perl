@@ -1,0 +1,517 @@
+=head1 NAME
+
+Infoblox::Grid::Dashboard - A Grid Dashboard object.
+
+=head1 DESCRIPTION
+
+The Grid Dashboard object provides configuration interface to a threshold values for warning and critical ATP, RPZ and Analytics events.
+These values are used to calculate ATP, RPZ and Analytics security statuses.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a Grid Dashboard object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the matching Grid Dashboard object from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Dashboard"
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a Grid Dashboard object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify atp_critical_event_critical_threshold value
+ $grid_dashboard->atp_critical_event_critical_threshold('10');
+ #Submit modification
+ my $response = $session->modify( $grid_dashboard );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Grid Dashboard object.
+
+=head2 atp_critical_event_warning_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard warning threshold for ATP critical event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get atp_critical_event_warning_threshold value
+ my $atp_critical_event_warning_threshold = $dashboard->atp_critical_event_warning_threshold();
+
+ #Modify atp_critical_event_warning_threshold value
+ $dashboard->atp_critical_event_warning_threshold(10);
+
+=back
+
+=back
+
+=head2 atp_critical_event_critical_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard critical threshold for ATP critical event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get atp_critical_event_critical_threshold value
+ my $atp_critical_event_critical_threshold = $dashboard->atp_critical_event_critical_threshold();
+
+ #Modify atp_critical_event_critical_threshold value
+ $dashboard->atp_critical_event_critical_threshold(10);
+
+=back
+
+=back
+
+=head2 atp_major_event_warning_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard warning threshold for ATP major event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get atp_major_event_warning_threshold value
+ my $atp_major_event_warning_threshold = $dashboard->atp_major_event_warning_threshold();
+
+ #Modify atp_major_event_warning_threshold value
+ $dashboard->atp_major_event_warning_threshold(10);
+
+=back
+
+=back
+
+=head2 atp_major_event_critical_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard critical threshold for ATP major event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get atp_major_event_critical_threshold value
+ my $atp_major_event_critical_threshold = $dashboard->atp_major_event_critical_threshold();
+
+ #Modify atp_major_event_critical_threshold value
+ $dashboard->atp_major_event_critical_threshold(10);
+
+=back
+
+=back
+
+=head2 atp_warning_event_warning_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard warning threshold for ATP warning event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get atp_warning_event_warning_threshold value
+ my $atp_warning_event_warning_threshold = $dashboard->atp_warning_event_warning_threshold();
+
+ #Modify atp_warning_event_warning_threshold value
+ $dashboard->atp_warning_event_warning_threshold(10);
+
+=back
+
+=back
+
+=head2 atp_warning_event_critical_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard critical threshold for ATP warning event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get atp_warning_event_critical_threshold value
+ my $atp_warning_event_critical_threshold = $dashboard->atp_warning_event_critical_threshold();
+
+ #Modify atp_warning_event_critical_threshold value
+ $dashboard->atp_warning_event_critical_threshold(10);
+
+=back
+
+=back
+
+=head2 rpz_blocked_hit_warning_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard warning threshold for RPZ blocked hits.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpz_blocked_hit_warning_threshold value
+ my $rpz_blocked_hit_warning_threshold = $dashboard->rpz_blocked_hit_warning_threshold();
+
+ #Modify rpz_blocked_hit_warning_threshold value
+ $dashboard->rpz_blocked_hit_warning_threshold(10);
+
+=back
+
+=back
+
+=head2 rpz_blocked_hit_critical_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard critical threshold for RPZ blocked hits.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpz_blocked_hit_critical_threshold value
+ my $rpz_blocked_hit_critical_threshold = $dashboard->rpz_blocked_hit_critical_threshold();
+
+ #Modify rpz_blocked_hit_critical_threshold value
+ $dashboard->rpz_blocked_hit_critical_threshold(10);
+
+=back
+
+=back
+
+=head2 rpz_substituted_hit_warning_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard warning threshold for RPZ substituted hits.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpz_substituted_hit_warning_threshold value
+ my $rpz_substituted_hit_warning_threshold = $dashboard->rpz_substituted_hit_warning_threshold();
+
+ #Modify rpz_substituted_hit_warning_threshold value
+ $dashboard->rpz_substituted_hit_warning_threshold(10);
+
+=back
+
+=back
+
+=head2 rpz_substituted_hit_warning_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard warning threshold for RPZ substituted hits.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpz_substituted_hit_warning_threshold value
+ my $rpz_substituted_hit_warning_threshold = $dashboard->rpz_substituted_hit_warning_threshold();
+
+ #Modify rpz_substituted_hit_warning_threshold value
+ $dashboard->rpz_substituted_hit_warning_threshold(10);
+
+=back
+
+=back
+
+=head2 rpz_passthru_event_warning_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard warning threshold for RPZ passthru event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpz_passthru_event_warning_threshold value
+ my $rpz_passthru_event_warning_threshold = $dashboard->rpz_passthru_event_warning_threshold();
+
+ #Modify rpz_passthru_event_warning_threshold value
+ $dashboard->rpz_passthru_event_warning_threshold(10);
+
+=back
+
+=back
+
+=head2 rpz_passthru_event_critical_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard critical threshold for RPZ passthru event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpz_passthru_event_critical_threshold value
+ my $rpz_passthru_event_critical_threshold = $dashboard->rpz_passthru_event_critical_threshold();
+
+ #Modify rpz_passthru_event_critical_threshold value
+ $dashboard->rpz_passthru_event_critical_threshold(10);
+
+=back
+
+=back
+
+=head2 analytics_tunneling_event_warning_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard warning threshold for Analytics tunneling event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get analytics_tunneling_event_warning_threshold value
+ my $analytics_tunneling_event_warning_threshold = $dashboard->analytics_tunneling_event_warning_threshold();
+
+ #Modify analytics_tunneling_event_warning_threshold value
+ $dashboard->analytics_tunneling_event_warning_threshold(10);
+
+=back
+
+=back
+
+=head2 analytics_tunneling_event_critical_threshold( )
+
+=over
+
+Use this method to set or retrieve the Grid Dashboard critical threshold for Analytics tunneling event.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get analytics_tunneling_event_critical_threshold value
+ my $analytics_tunneling_event_critical_threshold = $dashboard->analytics_tunneling_event_critical_threshold();
+
+ #Modify analytics_tunneling_event_critical_threshold value
+ $dashboard->analytics_tunneling_event_critical_threshold(10);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

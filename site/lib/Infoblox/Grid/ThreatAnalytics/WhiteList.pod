@@ -1,0 +1,286 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatAnalytics::WhiteList - a Grid Threat Analytics White List object
+
+=head1 DESCRIPTION
+
+The Grid Threat Analytics White List provides information about allowed FQDNs in the DNS tunneling detection feature.
+
+=head1 CONSTRUCTOR
+
+ my $whitelist = Infoblox::Grid::ThreatAnalytics::WhiteList->new(
+    fqdn    => $fqdn,            # Required
+    comment => $string,          # Optional / Default is undefined
+    disable => 'true' | 'false', # Optional / Default is 'false'
+ );
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Infoblox::Grid::ThreatAnalytics::WhiteList object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $whitelist = Infoblox::Grid::ThreatAnalytics::WhiteList->new(
+    fqdn => 'test.com',
+    comment => 'test comment',
+    disable => 'true',
+ );
+
+ #Submit for addition
+ my $response = $session->add( $whitelist );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Infoblox::Grid::ThreatAnalytics::WhiteList object.
+  fqdn    - Optional. The Grid Threat Analytics White List FQDN. 
+  status  - Optional. The Grid Threat Analytics White List status.
+  comment - Optional. The Grid Threat Analytics White List comment.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatAnalytics::WhiteList', 
+     'fqdn'   => 'test.com',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # modify whitelist object
+ $whitelist->comment('comment change');
+
+ # Submit modification
+ my $response = $session->modify( $whitelist );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+Note that 'SYSTEM' Grid Threat Analytics White Lists cannot be removed.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::ThreatAnalytics::WhiteList', 
+     fqdn   => 'test.com');
+
+ #Find the desired object from the retrieved list.
+ my $desired_whitelist = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove( $desired_whitelist );
+
+=back
+
+=back
+
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific Infoblox::Grid::ThreatAnalytics::WhiteList object.
+  fqdn    - Optional. The Grid Threat Analytics White List FQDN. 
+  status  - Optional. The Grid Threat Analytics White List status.
+  comment - Optional. The Grid Threat Analytics White List comment.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     'object' => 'Infoblox::Grid::ThreatAnalytics::WhiteList',
+     'fqdn'   => 'test.*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve Grid Threat Analytics White List comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is desired comment in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $whitelist->comment();
+
+ #Modify comment
+ $whitelist->comment('new comment');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to disable or enable Grid Threat Analytics White List.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable Grid Threat Analytics White List or 'false' to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Exmaple>
+
+ #Get disable
+ my $disable = $whitelist->disable();
+
+ #Modify disable
+ $whitelist->disable('true');
+
+=back
+
+=back
+
+=head2 fqdn( )
+
+=over
+
+Use this method to set or retrieve a fully-qualified domain name (FQDN) of the Grid Threat Analytics White List.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired FQDN in string format.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Exmaple>
+
+ #Get fqdn
+ my $fqdn = $whitelist->fqdn();
+
+ #Modify fqdn
+ $whitelist->fqdn('test2.com');
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status of Grid Threat Analytics White List. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is 'CUSTOM', 'BOTH' or 'SYSTEM'.
+
+=item B<Example>
+
+ #Get status
+ my $status = $whitelist->status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

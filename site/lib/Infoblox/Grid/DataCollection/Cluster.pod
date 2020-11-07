@@ -1,0 +1,375 @@
+=head1 NAME
+
+Infoblox::Grid::DataCollection::Cluster - A data collection cluster object.
+
+=head1 DESCRIPTION
+
+The data collection cluster object provides information and configuration for data collection feature.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a data collection cluster object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+Apply the following attributes to get a specific data collection cluster object:
+
+    comment   - Optional. The data collection cluster comment.
+    name      - Optional. The data collection cluster name.
+    unique_id - Optional. The data collection cluster unique hexadecimal identifier.
+
+=item B<Example>
+
+ #Get cluster with name 'cluster1'
+ my $object = $session->get(
+     object => 'Infoblox::Grid::DataCollection::Cluster',
+     name   => 'cluster1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify disable value
+ $object->disable('true');
+
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+Apply the following attributes to search for a data collection cluster object:
+
+    comment   - Optional. The data collection cluster comment (regexp);
+    name      - Optional. The data collection cluster name (regexp);
+    unique_id - Optional. The data collection cluster unique hexadecimal identifier (regexp).
+
+=item B<Example>
+
+ #Search for cluster that matches /cluster.*/ pattern
+ my @objects = $session->search(
+     object => 'Infoblox::Grid::DataCollection::Cluster',
+     name   => 'cluster.*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a data collection cluster object.
+
+=head2 blacklisted_clusters( )
+
+=over
+
+Use this method to set or retrieve the list of clusters that are prevented from activation.
+
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::DataCollection::BlacklistedCluster|Infoblox::Grid::DataCollection::BlacklistedCluster> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get blacklisted_clusters value
+ my $blacklisted_clusters = $object->blacklisted_clusters();
+
+ #Modify blacklisted_clusters value
+ $object->blacklisted_clusters([$cluster1, $cluster2]);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the data collection cluster comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+ #Modify comment value
+ $object->comment('cluster comment');
+
+=back
+
+=back
+
+=head2 datacollector_vms( )
+
+=over
+
+Use this method to retrieve the list of data collector virtual machines. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an array of L<Infoblox::Grid::DataCollection::IPInfo|Infoblox::Grid::DataCollection::IPInfo> objects.
+
+=item B<Example>
+
+ #Get datacollector_vms value
+ my $datacollector_vms = $object->datacollector_vms();
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the data collection cluster is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the data collection cluster or 'false' to disable/deactivate it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable value
+ my $disable = $object->disable();
+
+ #Modify disable value
+ $object->disable('true');
+
+=back
+
+=back
+
+=head2 enable_registration( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the data collection cluster registration is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the data collection cluster registration or 'false' to prevent it from registration. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_registration value
+ my $enable_registration = $object->enable_registration();
+
+ #Modify enable_registration value
+ $object->enable_registration('true');
+
+=back
+
+=back
+
+=head2 last_activation_time( )
+
+=over
+
+Use this method to retrieve the last activation time for the data collection cluster.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_activation_time value
+ my $last_activation_time = $object->last_activation_time();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the data collection cluster. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+=back
+
+=back
+
+=head2 registration_time( )
+
+=over
+
+Use this method to retrieve the time the data collection cluster was registered. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get registration_time value
+ my $registration_time = $object->registration_time();
+
+=back
+
+=back
+
+=head2 unique_id( )
+
+=over
+
+Use this method to set or retrieve the unique identifier for the data collection cluster.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired hexadecimal identifier in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get unique_id value
+ my $unique_id = $object->unique_id();
+
+ #Modify unique_id value
+ $object->unique_id('ABCD');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DataCollection::BlacklistedCluster|Infoblox::Grid::DataCollection::BlacklistedCluster>, 
+L<Infoblox::Grid::DataCollection::IPInfo|Infoblox::Grid::DataCollection::IPInfo>, 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

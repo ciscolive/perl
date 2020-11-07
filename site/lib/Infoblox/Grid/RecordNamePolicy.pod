@@ -1,0 +1,201 @@
+=head1 NAME
+
+Infoblox::Grid::RecordNamePolicy - Manages the DNS record name policies defined at the grid level.
+
+=head1 DESCRIPTION
+
+Record name policy defines the DNS record name format restrictions at the grid level.
+
+=head1 CONSTRUCTOR
+
+ my $policy = Infoblox::Grid::RecordNamePolicy->new(
+              name  => $string, #Required
+              regex => $regex   #Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to the record name policy object.
+
+=head2 Infoblox::Grid::DNS->record_name_policies( )
+
+=over
+
+Use this function to specify a record name policy at the grid level in the Infoblox appliance.
+
+=over
+
+=item B<Example>
+
+ #Create a RecordNamePolicy object.
+ my $policy = Infoblox::Grid::RecordNamePolicy->new(
+                  name  => "test",
+                  regex => "^[a-zA-Z0-9]+\$",
+                );
+
+ #Configure record name policy on the Infoblox grid object
+ my $response = $grid_dns->record_name_policies([$policy]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attributes values of a record name policy object.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the record name policy name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String with the name of the record name policy.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $policy->name();
+ #Modify name
+ $policy->name("new_name");
+
+=back
+
+=back
+
+=head2  regex( )
+
+=over
+
+Use this method to set or retrieve the record name policy in regular expression format.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The record name policy in regular expression format. It should follow POSIX regular expression rules.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get regex
+ my $regex = $policy->regex();
+ #Modify regex
+ $policy->regex("^[a-zA-Z0-9]*\$");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to a record name policy object, such  as create, modify, and remove. This sample code also includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a record name policy object>
+
+ my $policy1 = Infoblox::Grid::RecordNamePolicy->new(
+     name  => "Allow Any",
+     regex => ".+",
+     );
+ unless ($policy1) {
+      die("Construct record name policy1 object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Record name policy1 object created successfully\n";
+
+ my $policy2 = Infoblox::Grid::RecordNamePolicy->new(
+       name  => "Allow Underscore",
+       regex => "^[-a-zA-Z0-9_.]+\$",
+     );
+
+ unless ($policy2) {
+      die("Construct record name policy1 object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Record name policy2 object created successfully\n";
+
+ my $policy3 = Infoblox::Grid::RecordNamePolicy->new(
+       name  => "Strict Hostname Checking",
+       regex => "^[a-zA-Z0-9]\$|^[a-zA-Z0-9][-a-zA-Z0-9.]*[a-zA-Z0-9]\$",
+     );
+
+ unless ($policy3) {
+      die("Construct record name policy3 object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Record name policy3 object created successfully\n";
+
+ my $policy4 = Infoblox::Grid::RecordNamePolicy->new(
+     name  => "test",
+     regex => "^[a-zA-Z0-9]+\$",
+     );
+ unless ($policy4) {
+      die("Construct record name policy3 object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Record name policy4 object created successfully\n";
+
+B<#Get the Member DNS object to add a record name policy object to it>
+
+ my $grid_dns = $session->get( "object" => "Infoblox::Grid::DNS", "grid" => "Infoblox");
+
+ unless ($grid_dns) {
+          die("Get Grid DNS failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+  }
+ $grid_dns->record_name_policies([$policy1,$policy2,$policy3,$policy4]);
+ $session->modify($grid_dns)
+       or die("modify Grid DNS failed:" ,
+       $session->status_code(), $session->status_detail());
+ print "Modify grid DNS successful for record name policy object\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

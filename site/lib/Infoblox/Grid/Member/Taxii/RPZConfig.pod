@@ -1,0 +1,121 @@
+=head1 NAME
+
+Infoblox::Grid::Member::Taxii::RPZConfig - A Taxii Member RPZ Configuration object.
+
+=head1 DESCRIPTION
+
+The Taxii Member RPZ Configuration object provides configuration for RPZ rule creation through the Taxii protocol.
+Each Grid member running the Taxii server can support a separate set of response policy zones.
+These zones will be accessible via a user configurable name for the STIX collection.
+
+=head1 CONSTRUCTOR
+
+ my $rpz_config = Infoblox::Grid::Member::Taxii::RPZConfig->new(
+     collection_name => $string, #Required
+     zone            => $rpzone, #Required
+ );
+
+=head1 MODULE METHODS
+
+=head2 Infoblox::Grid::Member::Taxii->taxii_rpz_config( )
+
+=over
+
+Use this method to set or retrieve the Taxii service RPZ configuration list.
+See L<Infoblox::Grid::Member::Taxii-E<gt>taxii_rpz_config()|Infoblox::Grid::Member::Taxii/taxii_rpz_config()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get taxii_rpz_config value
+ my $taxii_rpz_config = $object->taxii_rpz_config();
+
+ #Modify taxii_rpz_config value
+ $object->taxii_rpz_config([$conf1, $conf2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 collection_name( )
+
+=over
+
+Use this method to set or retrieve the STIX collection name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired collection name in sstring format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get collection_name value
+ my $collection_name = $object->collection_name();
+
+ #Modify collection_name value
+ $object->collection_name('collection1');
+
+=back
+
+=back
+
+=head2 zone( )
+
+=over
+
+Use this method to set or retrieve the response policy zone that can be modified through the Taxii protocol.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+=back
+
+ #Get zone value
+ my $zone = $object->zone();
+
+ #Modify zone value
+ $object->zone($rp_zone);
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member::Taxii|Infoblox::Grid::Member::Taxii>, 
+L<Infoblox::Grid::Member::Taxii-E<gt>taxii_rpz_config()|Infoblox::Grid::Member::Taxii/taxii_rpz_config()/>, 
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

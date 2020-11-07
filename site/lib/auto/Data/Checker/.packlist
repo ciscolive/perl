@@ -1,0 +1,15 @@
+/opt/perl/site/lib/Data/Checker.pm
+/opt/perl/site/lib/Data/Checker.pod
+/opt/perl/site/lib/Data/Checker/DNS.pm
+/opt/perl/site/lib/Data/Checker/DNS.pod
+/opt/perl/site/lib/Data/Checker/Date.pm
+/opt/perl/site/lib/Data/Checker/Date.pod
+/opt/perl/site/lib/Data/Checker/IP.pm
+/opt/perl/site/lib/Data/Checker/IP.pod
+/opt/perl/site/lib/Data/Checker/Ping.pm
+/opt/perl/site/lib/Data/Checker/Ping.pod
+/opt/perl/site/man/man3/Data::Checker.3
+/opt/perl/site/man/man3/Data::Checker::DNS.3
+/opt/perl/site/man/man3/Data::Checker::Date.3
+/opt/perl/site/man/man3/Data::Checker::IP.3
+/opt/perl/site/man/man3/Data::Checker::Ping.3

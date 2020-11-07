@@ -1,0 +1,729 @@
+=head1 NAME
+
+Infoblox::DNS::RPZRecord::SRV - Response Policy Zone (RPZ) Substitute (SRV Record) Rule object
+
+=head1 DESCRIPTION
+
+An RPZ Substitute (SRV Record) Rule object represents the substitution rule for DNS SRV records.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $srv = Infoblox::DNS::RPZRecord::SRV->new(
+     name     => $fqdn,                 #Required
+     port     => $num,                  #Required
+     priority => $num,                  #Required
+     target   => $fqdn,                 #Required
+     weight   => $num,                  #Required
+     rp_zone  => $rp_zone,              #Required
+     comment  => $string,               #Optional / Default is empty
+     disable  => "true" | "false"       #Optional / Default "false"
+     extattrs              => { $string => $extattr, ... },      #Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, #Optional / Default is undefined
+     ttl      => $num | undef,          #Optional / Default is undefined
+     views    => [$View1],              #Optional / Default is "default" view
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to a Substitute (SRV Record) Rule object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct object
+ my $bind_srv = Infoblox::DNS::RPZRecord::SRV->new(
+     name     => "bind_srv.rpz.com",
+     comment  => "add bind srv bind_srv.rpz.com",
+     priority => 1,
+     port     => 1,
+     weight   => 1,
+     target   => "old.target.test.org",
+     rp_zone  => $response_policy_zone,
+ );
+ # Submit for addition
+ my $response = $session->add( $bind_srv );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get a specified Substitute (SRV Record) Rule object:
+
+  name     - Optional. A name in string format.
+  view     - Optional. The DNS view in which the RPZ Substitute (SRV Record) Rule is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone     - Optional. A zone name in FQDN format.
+  weight   - Optional. The weight of the RPZ Substitute (SRV Record) Rule.
+  port     - Optional. The port of the RPZ Substitute (SRV Record) Rule.
+  priority - Optional. The priority of the RPZ Substitute (SRV Record) Rule.
+  target   - Optional. The target of the RPZ Substitute (SRV Record) Rule.
+  extattrs - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::SRV",
+     name     => "bind_srv.rpz.com",
+     view   => "default" );
+
+ # get all Substitute (SRV Record) Rule in zone "rpz.com" of default view
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::SRV",
+     zone     => "rpz.com",
+     view   => "default" );
+
+ # get all Substitute (SRV Record) Rules with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::SRV",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $bind_srv->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $bind_srv);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::SRV",
+     name     => "bind_srv.rpz.com",
+     view   => "default" );
+ my $desired_srv= $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_srv );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for existing Substitute (SRV Record) Rule objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search for a Substitute (SRV Record) Rule object:
+
+   name    - Required. A name in FQDN (Fully Qualified Domain Name) format (regular expression).
+   view    - Optional. The DNS view in which the RPZ Substitute (SRV Record) Rule is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+   zone    - Optional. A zone name in FQDN format.
+   comment - Optional . A comment in string format (regular expression).
+   weight  - Optional. The weight of the RPZ Substitute (SRV Record) Rule (regular expression).
+   port    - Optional. The port of the RPZ Substitute (SRV Record) Rule (regular expression).
+   priority - Optional. The priority of the RPZ Substitute (SRV Record) Rule (regular expression).
+   target  - Optional. The target of the RPZ Substitute (SRV Record) Rule (regular expression).
+   extattrs     - Optional. A hash reference containing extensible attributes.
+   extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all Substitute (SRV Record) Rule objects in the default DNS view that match "rpz.com" and that contain "bind" in the comment field
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::RPZRecord::SRV",
+     name     => 'rpz\.com',
+     comment  => "bind",
+     view     => "default" );
+
+ # search for all Substitute (SRV Record) Rules in the "rpz.com" zone of the default view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::RPZRecord::SRV",
+     zone     => "rpz.com",
+     view   => "default" );
+
+ # search all Substitute (SRV Record) Rules with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::RPZRecord::SRV",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an RPZ Substitute (SRV Record) Rule.
+
+=head2 comment( )
+
+=over
+
+Use this method to add or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $rpz_srv->comment();
+ #Modify comment
+ $rpz_srv->comment("Modifying the Substitute (SRV Record) Rule comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false, therefore the DNS record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $rpz_srv->disable();
+ #Modify disable
+ $rpz_srv->disable("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Substitute (SRV Record) Rule object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $rpz_srv->extattrs();
+ #Modify extattrs
+ $rpz_srv->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Substitute (SRV Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $rpz_srv->extensible_attributes();
+ #Modify extensible attributes
+ $rpz_srv->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the Substitute (SRV Record) Rule.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get name
+ my $name = $rpz_srv->name();
+ #Modify name
+ $rpz_srv->name("modified_bind_srv.rpz.com");
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to add or retrieve a port.
+
+=over
+
+=item B<Parameter>
+
+The port number for the Substitute (SRV Record) Rule (range from 0 to 65535).
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get port
+ my $port = $rpz_srv->port();
+ #Modify port
+ $bindport->port("2");
+
+=back
+
+=back
+
+=head2 priority( )
+
+=over
+
+Use this method to add or retrieve the priority.
+
+=over
+
+=item B<Parameter>
+
+Number with the priority for the Substitute (SRV Record) Rule (range from 0 to 65535).
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get priority
+ my $priority = $rpz_srv->priority();
+ #Modify priority
+ $rpz_srv->priority("2");
+
+=back
+
+=back
+
+=head2  target( )
+
+=over
+
+Use this method to set or retrieve the target. The target must be in Fully Qualified Domain Name (FQDN) format.
+
+=over
+
+=item B<Parameter>
+
+Text with the target for the Substitute (SRV Record) Rule.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get target
+ my $target = $rpz_srv->target();
+ #Modify target
+ $rpz_srv->target ("new.target.test.org");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to configure or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined; therefore the record inherits the TTL value from the zone level.
+
+With a specified TTL value, the method overrides the zone values with the specified TTL value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $rpz_srv->ttl();
+ #Modify ttl
+ $rpz_srv->ttl(1800);
+ #Un-override ttl
+ $rpz_srv->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to specify or retrieve the views  in which the RPZ Substitute (SRV Record) Rule is located.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the default view, therefore the RPZ Substitute (SRV Record) Rule is located under the default view.
+
+=over
+
+=item B<Parameter>
+
+An array reference of defined Infoblox::DNS::View objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $rpz_srv->views();
+ #Modify views, an array of Infoblox::DNS::View objects
+ $rpz_srv->views([$view1]);
+
+=back
+
+=back
+
+=head2  weight( )
+
+=over
+
+Use this method to set or retrieve the weight.
+
+=over
+
+=item B<Parameter>
+
+The weight of the Substitute (SRV Record) Rule.
+
+=item B<Returns>
+
+If you specified a parameter,the method returns true when the modification succeeds,and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get weight
+ my $weight = $rpz_srv->weight ();
+ #Modify weight
+ $rpz_srv->weight ("3");
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of the Substitute (SRV Record) Rule. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $rpz_srv->zone();
+
+=back
+
+=back
+
+=head2  rp_zone( )
+
+=over
+
+Use this method to set or retrieve the zone object of a Substitute (SRV Record) Rule.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get rp_zone
+ my $rp_zone = $rpz_srv->rp_zone();
+ #Modify rp_zone, reference of Infoblox::DNS::Zone object
+ $rpz_srv->rp_zone($response_policy_zone);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to an object, such as create, search, modify, and remove an object. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to a Substitute (SRV Record) Rule insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the zone prior to an RPZ Substitute (SRV Record) Rule insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "rpz.com",
+                                     rpz_policy => "GIVEN");
+ unless ($zone) {
+    die("Construct zone failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "rpz.com");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create a Substitute (SRV Record) Rule>
+
+ my $bind_srv = Infoblox::DNS::RPZRecord::SRV->new(
+ name     => "bind_srv.rpz.com",
+ comment  => "add bind bind_srv.rpz.com",
+ priority => 1,
+ port     => 1,
+ weight   => 1,
+ target   => "old.target.test.org",
+ rp_zone  => $zone,
+ );
+ unless ($bind_srv) {
+  die("Construct DNS record SRV failed: ",
+      Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Substitute (SRV Record) Rule object created successfully\n";
+
+ #Add the Substitute (SRV Record) Rule object to Infoblox  appliance through a session
+ $session->add($bind_srv)
+  or die("Add record SRV failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (SRV Record) Rule object added to server successfully\n";
+
+B<#Search for a specific Substitute (SRV Record) Rule>
+
+ #Search for RPZ Substitute (SRV Record) Rules that match bind_srv.rpz.com
+ my @retrieved_objs = $session->search(
+  "object" => "Infoblox::DNS::RPZRecord::SRV",
+  "name" => 'bind_srv\.rpz\.com',
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search record SRV failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (SRV Record) Rule object found at least 1 matching entry\n";
+
+ #Search all RPZ Substitute (SRV Record) Rules that match "rpz.com" and that contain "bind" in the comment field
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::SRV",
+  name   => 'rpz\.com',
+  comment => "bind"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search record SRV failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (SRV Record) Rule object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a Substitute (SRV Record) Rule>
+
+ #Get an RPZ Substitute (SRV Record) Rule through the session
+ my @retrieved_objs = $session->get(
+  object => "Infoblox::DNS::RPZRecord::SRV",
+  name   => "bind_srv.rpz.com",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Get record SRV failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Substitute (SRV Record) Rule object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified RPZ Substitute (SRV Record) Rule
+ $object->comment ("modified comment for SRV rec");
+
+ #Apply the changes
+ $session->modify($object)
+  or die("Modify record SRV failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (SRV Record) Rule object modified successfully \n";
+
+B<#Remove a Substitute (SRV Record) Rule>
+
+ #Get a RPZ Substitute (SRV Record) Rule through the session
+ my @retrieved_objs = $session->get(
+  object => "Infoblox::DNS::RPZRecord::SRV",
+  name   => "bind_srv.rpz.com",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Get record SRV failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Substitute (SRV Record) Rule object found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($object)
+  or die("Remove record SRV failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (SRV Record) Rule object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

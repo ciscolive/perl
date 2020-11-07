@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Mojolicious/Command/openapi.pm
+/opt/perl/site/lib/OpenAPI/Client.pm
+/opt/perl/site/man/man3/Mojolicious::Command::openapi.3
+/opt/perl/site/man/man3/OpenAPI::Client.3

@@ -1,0 +1,16 @@
+/opt/perl/site/bin/testauto
+/opt/perl/site/lib/Test/Auto.pm
+/opt/perl/site/lib/Test/Auto/Data.pm
+/opt/perl/site/lib/Test/Auto/Document.pm
+/opt/perl/site/lib/Test/Auto/Parser.pm
+/opt/perl/site/lib/Test/Auto/Plugin.pm
+/opt/perl/site/lib/Test/Auto/Subtests.pm
+/opt/perl/site/lib/Test/Auto/Try.pm
+/opt/perl/site/lib/Test/Auto/Types.pm
+/opt/perl/site/man/man1/testauto.1
+/opt/perl/site/man/man3/Test::Auto.3
+/opt/perl/site/man/man3/Test::Auto::Document.3
+/opt/perl/site/man/man3/Test::Auto::Parser.3
+/opt/perl/site/man/man3/Test::Auto::Plugin.3
+/opt/perl/site/man/man3/Test::Auto::Subtests.3
+/opt/perl/site/man/man3/Test::Auto::Types.3

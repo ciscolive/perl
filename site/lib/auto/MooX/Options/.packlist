@@ -1,0 +1,14 @@
+/opt/perl/site/lib/MooX/Options.pm
+/opt/perl/site/lib/MooX/Options/Descriptive.pm
+/opt/perl/site/lib/MooX/Options/Descriptive/Usage.pm
+/opt/perl/site/lib/MooX/Options/Manual/Man.pod
+/opt/perl/site/lib/MooX/Options/Manual/MooXCmd.pod
+/opt/perl/site/lib/MooX/Options/Manual/NamespaceClean.pod
+/opt/perl/site/lib/MooX/Options/Role.pm
+/opt/perl/site/man/man3/MooX::Options.3
+/opt/perl/site/man/man3/MooX::Options::Descriptive.3
+/opt/perl/site/man/man3/MooX::Options::Descriptive::Usage.3
+/opt/perl/site/man/man3/MooX::Options::Manual::Man.3
+/opt/perl/site/man/man3/MooX::Options::Manual::MooXCmd.3
+/opt/perl/site/man/man3/MooX::Options::Manual::NamespaceClean.3
+/opt/perl/site/man/man3/MooX::Options::Role.3

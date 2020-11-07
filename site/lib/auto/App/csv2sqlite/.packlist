@@ -1,0 +1,4 @@
+/opt/perl/site/bin/csv2sqlite
+/opt/perl/site/lib/App/csv2sqlite.pm
+/opt/perl/site/man/man1/csv2sqlite.1
+/opt/perl/site/man/man3/App::csv2sqlite.3

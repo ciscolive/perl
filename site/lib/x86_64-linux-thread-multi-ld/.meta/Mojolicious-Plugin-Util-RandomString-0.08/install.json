@@ -1,0 +1,1 @@
+{"version":"0.08","target":"Mojolicious::Plugin::Util::RandomString","name":"Mojolicious::Plugin::Util::RandomString","pathname":"A/AK/AKRON/Mojolicious-Plugin-Util-RandomString-0.08.tar.gz","dist":"Mojolicious-Plugin-Util-RandomString-0.08","provides":{"Mojolicious::Plugin::Util::RandomString":{"file":"lib/Mojolicious/Plugin/Util/RandomString.pm","version":"0.08"}}}

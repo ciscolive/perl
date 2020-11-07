@@ -1,0 +1,112 @@
+=head1 NAME
+
+Infoblox::Grid::Member::QueryFQDNResponse - A FQDN query response.
+
+=head1 DESCRIPTION
+
+A FQDN query call response objects. This object is returned from
+L<Infoblox::Session-E<gt>query_fqdn_on_member()|Infoblox::Session/query_fqdn_on_member()/> function call.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+Note that this is a read-only object.
+
+=head2 result( )
+
+=over
+
+Use this method to set or retrieve a dig request return code.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, which can be 'NOERROR', 'FORMERR', 'SERVFAIL', 'NXDOMAIN', 'NOTIMP', 'REFUSED' or 'INTERNAL_ERROR'.
+
+=item B<Example>
+
+ #Get result value
+ my $result = $object->result();
+
+=back
+
+=back
+
+=head2 result_text( )
+
+=over
+
+Use this method to set or retrieve a dig result multilined text.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, a dig result text in string format.
+
+=item B<Example>
+
+ #Get result_text value
+ my $result_text = $object->result_text();
+
+=back
+
+=back
+
+=head2 dig_started( )
+
+=over
+
+Use this method to set or retrieve a timestamp since dig started.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970.
+
+=item B<Example>
+
+ #Get dig_started value
+ my $dig_started = $object->dig_started();
+
+=back
+
+=back
+
+=head2 source_address( )
+
+=over
+
+Use this method to set or retrieve a source IP address of the query.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, the IP address in string format.
+
+=item B<Example>
+
+ #Get source_address value
+ my $source_address = $object->source_address();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>query_fqdn_on_member()|Infoblox::Session/query_fqdn_on_member()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

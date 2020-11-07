@@ -1,0 +1,331 @@
+=head1 NAME
+
+Infoblox::DHCP::Statistics - Manages DHCP statistics.
+
+=head1 DESCRIPTION
+
+The DHCP statistics object is used to view the DHCP statistics of the network in an Infoblox appliance.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::DHCP::Statistics object is automatically generated upon the successful creation of the Infoblox::DHCP::Network object. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session that can be applied to a DHCP statistics object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get the DHCP statistics:
+
+ statistics_object - Required. An object returned via Infoblox::Session->get() or Infoblox::Session->search(). Supported objects are Infoblox::DHCP::Network, Infoblox::DHCP::Range, Infoblox::DHCP::SharedNetwork, and Infoblox::DHCP::MSSuperscope.
+
+=item B<Example>
+
+  # API can return more than 1 answer for DHCP::Statistics
+  # for each member of the network
+  my @network_stats = $session->get(
+           object            => "Infoblox::DHCP::Statistics",
+           statistics_object => $network);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of a DHCP statistics object.
+
+=head2 available_hosts( )
+
+=over
+
+Use this method to retrieve the number of available IP addresses in the given network.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get available_hosts
+ my $available_hosts = $network_stats->available_hosts();
+
+=back
+
+=back
+
+=head2  dynamic_hosts( )
+
+=over
+
+Use this method to retrieve number of hosts which are assigned dynamic IP address.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get dynamic_hosts
+ my $dynamic_hosts = $network_stats->dynamic_hosts();
+
+=back
+
+=back
+
+=head2 dhcp_utilization_status( )
+
+=over
+
+Use this method to retrieve the DHCP utilization status.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. The returned value is one of "FULL", "HIGH", "LOW" or "NORMAL".
+
+=item B<Example>
+
+ #Get member
+ my $status = $network_stats->dhcp_utilization_status();
+
+=back
+
+=back
+
+=head2 static_hosts( )
+
+=over
+
+Use this method to retrieve the number of hosts with fixed addresses.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get static_hosts
+ my $static_hosts = $network_stats->static_hosts();
+
+=back
+
+=back
+
+=head2 usage( )
+
+=over
+
+Use this method to retrieve the percentage used of DHCP addresses in the network.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get usage
+ my $usage = $network_stats->usage();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the get session method on  a DHCP statistics object. Also, this sample code also includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+B<#Preparation prior to getting DHCP statistics>
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $member = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2",
+ );
+
+ unless($member) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ #Create a Network View object
+ my $network_view = Infoblox::DHCP::View->new(
+                     name => "my_network_view",
+ );
+ unless($network_view) {
+             die("Construct Network View object failed: ",
+                   Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network View object created successfully\n";
+
+ #Add the Network View object into the Infoblox appliance through a session
+ $session->add($network_view)
+      or die("Add Network View object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "Network View added successfully\n";
+
+ #Create the Network object with this member
+ my $network = Infoblox::DHCP::Network->new(
+                     network => "1.0.0.0/255.0.0.0",
+                     members => [ $member ],
+                     network_view => $network_view,
+ );
+ unless($network) {
+             die("Construct Network object failed: ",
+                   Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network object created successfully\n";
+
+ #Add the Network object into the Infoblox appliance through a session
+ $session->add($network)
+      or die("Add Network object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "Network added successfully\n";
+
+ #Create the DHCP Range object with this member
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+     network    => "1.0.0.0/8",
+     start_addr => "1.0.0.1",
+     end_addr   => "1.0.0.10",
+     member     => $member,
+     network_view => $network_view,
+ );
+ unless($dhcp_range) {
+      die("Construct DHCP Range failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP range object created successfully\n";
+
+ $session->add($dhcp_range)
+      or die("Add DHCP range object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DHCP range added successfully\n";
+
+ #Create the Fixed Address object
+ my $fixed_address = Infoblox::DHCP::FixedAddr->new(
+                                                "network" => "1.0.0.0/8",
+                                                "ipv4addr" => "1.0.0.2",
+                                                "mac" => "22:22:22:22:22:22",
+                                                "network_view" => $network_view,
+                                                );
+ unless($fixed_address) {
+      die("Construct DHCP Fixed address failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Fixed address object created successfully\n";
+
+ $session->add($fixed_address)
+      or die("Add DHCP Fixed address object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Fixed address added successfully\n";
+
+B<#Get the DHCP statistics>
+
+  my  @result_array = $session->get(
+      object  => "Infoblox::DHCP::Network",
+      network => "1.0.0.0/8",
+      network_view => "my_network_view");
+
+  my $network = $result_array[0];
+  unless ($network) {
+      die("Get Network failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+
+  @result_array = $session->get(
+                                object  => "Infoblox::DHCP::Statistics",
+                                statistics_object  => $network,
+                               );
+
+  my $network_stats = $result_array[0];
+  unless ($network_stats) {
+      die("Get Network statistics failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+
+  print "Get Network Statistics successful\n";
+
+B<#Clean up>
+  # Remove the Network Statistics object that was just retrieved
+  $session->remove($network_stats);
+
+  # Retrieve and remove the Network View object
+  my $network_view = $session->get(
+          object => "Infoblox::DHCP::View",
+          name => "my_network_view",
+  );
+  unless ($network_view) {
+       die("Get Network View failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  }
+  $session->remove($network_view);
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>,L<Infoblox::DHCP::View|Infoblox::DHCP::View>,L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>,L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>,L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

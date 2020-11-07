@@ -1,0 +1,623 @@
+=head1 NAME
+
+Infoblox::DHCP::NetworkUser - a DHCP Network User object.
+
+=head1 DESCRIPTION
+
+The DHCP Network User provides information about Active Directory users such as user's session at a specific IP address, domain, logon and logoff timestamps.
+
+=head1 CONSTRUCTOR
+
+ my $network_user = Infoblox::DHCP::NetworkUser->new(
+    address           => $ipaddr,    # Required
+    domainame         => $str,       # Required
+    first_seen_time   => $epoch,     # Required
+    name              => $str,       # Required
+    network_view      => $view_name, # Required
+    logon_id          => $str,       # Required
+    guid              => $str,       # Required
+    logout_time       => $epoch,     # Optional
+    last_seen_time    => $epoch,     # Optional
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DHCP Network User object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $network_user = Infoblox::DHCP::NetworkUser->new(
+    address      => '10.1.1.1',
+    domainame    => 'AD-7',
+    first_seen_time   => 1234567,
+    name         => 'user1',
+    network_view => $dhcp_view,
+    logon_id     => '10',
+    guid         => '15',
+ );
+
+ #submit for addition
+ my $response = $session->add($network_user);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  address      - Optional. A DHCP Network User address.
+  domainname   - Optional. A DHCP Network User domain name.
+  guid         - Optional. A DHCP Network User group identifier.
+  logon_id     - Optional. A DHCP Network User logon identifier.
+  name         - Optional. A DHCP Network User name.
+  network_view - Optional. A DHCP View object or a string which contains a DHCP View name.
+  parent       - Optional. A DHCP or DNS object associated with the network user. Note that object should be retrieved from the server.
+  user_status  - Optional. A DHCP Network User status.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DHCP::NetworkUser',
+     name   => 'user.*',
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DHCP::NetworkUser',
+     parent => $dhcp_range,
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment
+ $network_user->name('user2');
+ #Submit modification
+ my $response = $session->modify($network_user);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DHCP::NetworkUser',
+     name   => 'user1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_user = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_user);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference> 
+
+ Apply the following attribute to get a specific object:
+
+  address      - Optional. A DHCP Network User address.
+  domainname   - Optional. A DHCP Network User domain name.
+  guid         - Optional. A DHCP Network User group identifier.
+  logon_id     - Optional. A DHCP Network User logon identifier.
+  name         - Optional. A DHCP Network User name.
+  network_view - Optional. A DHCP View object or a string which contains a DHCP View name.
+  parent       - Optional. A DHCP or DNS object associated with the network user. Note that object should be retrieved from the server.
+  user_status  - Optional. A DHCP Network User status.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DHCP::NetworkUser',
+     name   => 'user.*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an IPv4 or IPv6 address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address
+ my $address = $network_user->address();
+ #Modify address
+ $network_user->address('10.10.10.10');
+
+=back
+
+=back
+
+=head2 address_object( )
+
+=over
+
+Use this method to retrieve the DHCP Network User address IPAM object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::IPAM::Address|Infoblox::IPAM::Address> object.
+
+=item B<Example>
+
+ #Get address_object
+ my $address_object = $network_user->address_object();
+
+=back
+
+=back
+
+=head2 data_source( )
+
+=over
+
+Use this method to retrieve the DHCP Network User data source. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The valid return values are 'API', 'MS_SERVER' and 'CISCO_ISE'.
+
+=item B<Example>
+
+ #Get data_source
+ my $data_source = $network_user->data_source();
+
+=back
+
+=back
+
+=head2 data_source_ip( )
+
+=over
+
+Use this method to retrieve the DHCP Network User endpoint data source IP address or FQDN. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get data_source_ip
+ my $data_source_ip = $network_user->data_source_ip();
+
+=back
+
+=back
+
+=head2 domainname( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User domain name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired domain name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domainname
+ my $domainname = $network_user->domainname();
+ #Modify domainname
+ $network_user->domainname('DOMAIN');
+
+=back
+
+=back
+
+=head2 guid( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User group identifier.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired group identifier in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get guid
+ my $guid = $network_user->guid();
+ #Modify guid
+ $network_user->guid('10');
+
+=back
+
+=back
+
+=head2 last_seen_time( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User last active timestamp.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is the number of seconds that have elapsed since January 1st, 1970 UTC. 
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_seen_time
+ my $last_seen_time = $network_user->last_seen_time();
+ #Modify last_seen_time
+ $network_user->last_seen_time(1234567);
+
+=back
+
+=back
+
+=head2 last_updated_time( )
+
+=over
+
+Use this method to retrieve the DHCP Network User last updated timestamp. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_updated_time
+ my $last_updated_time = $network_user->last_updated_time();
+
+=back
+
+=back
+
+=head2 first_seen_time( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User first seen timestamp.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is the number of seconds that have elapsed since January 1st, 1970 UTC. 
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get first_seen_time
+ my $first_seen_time = $network_user->first_seen_time();
+ #Modify first_seen_time
+ $network_user->first_seen_time(1234567);
+
+=back
+
+=back
+
+=head2 logon_id( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User logon identifier.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired logon identifier in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get logon_id
+ my $logon_id = $network_user->logon_id();
+ #Modify logon_id
+ $network_user->logon_id('10');
+
+=back
+
+=back
+
+=head2 logout_time( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User logout timestamp.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get logout_time
+ my $logout_time = $network_user->logout_time();
+ #Modify logout_time
+ $network_user->logout_time(1234567);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $network_user->name();
+ #Modify name
+ $network_user->name('user1');
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to retrieve the DHCP Network User associated with the DHCP Network object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> and L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network> objects.
+
+=item B<Example>
+
+ #Get network
+ my $network = $network_user->network();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User associated with the DHCP View object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired DHCP View name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network_view
+ my $network_view = $network_user->network_view();
+ #Modify network_view
+ $network_user->network_view('internal');
+
+=back
+
+=back
+
+=head2 user_status( )
+
+=over
+
+Use this method to set or retrieve the DHCP Network User status. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'ACTIVE', 'LOGOUT' and 'TIMEOUT'.
+
+=item B<Example>
+
+ #Get user_status
+ my $user_status = $network_user->user_status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>, L<Infoblox::DHCP::View|Infoblox::DHCP::View>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut 

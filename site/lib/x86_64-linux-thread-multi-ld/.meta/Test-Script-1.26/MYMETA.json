@@ -1,0 +1,87 @@
+{
+   "abstract" : "Basic cross-platform tests for scripts",
+   "author" : [
+      "Graham Ollis <plicease@cpan.org>",
+      "Adam Kennedy"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.012, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Test-Script",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "FindBin" : "0",
+            "Test::EOL" : "0",
+            "Test::Fixme" : "0.07",
+            "Test::More" : "0.98",
+            "Test::NoTabs" : "0",
+            "Test::Pod" : "0",
+            "Test::Pod::Coverage" : "0",
+            "Test::Pod::Spelling::CommonMistakes" : "0",
+            "Test::Spelling" : "0",
+            "YAML" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Capture::Tiny" : "0",
+            "File::Spec" : "0.80",
+            "IO::Handle" : "0",
+            "Probe::Perl" : "0.01",
+            "Test2::API" : "1.302015",
+            "Text::ParseWords" : "0",
+            "perl" : "5.008001"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test2::V0" : "0.000060"
+         }
+      }
+   },
+   "provides" : {
+      "Test::Script" : {
+         "file" : "lib/Test/Script.pm",
+         "version" : "1.26"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/plicease/Test-Script/issues"
+      },
+      "homepage" : "https://metacpan.org/pod/Test::Script",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/plicease/Test-Script.git",
+         "web" : "https://github.com/plicease/Test-Script"
+      }
+   },
+   "version" : "1.26",
+   "x_contributors" : [
+      "Adam Kennedy",
+      "Graham Ollis <plicease@cpan.org>",
+      "Brendan Byrd",
+      "Chris White <cxw@cpan.org>"
+   ],
+   "x_generated_by_perl" : "v5.28.1",
+   "x_serialization_backend" : "JSON::PP version 4.05",
+   "x_use_unsafe_inc" : 0
+}

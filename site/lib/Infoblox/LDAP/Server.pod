@@ -1,0 +1,360 @@
+=head1 NAME
+
+Infoblox::LDAP::Server - An LDAP Server object.
+
+=head1 DESCRIPTION
+
+The LDAP Server is used for authentication.
+
+=head1 CONSTRUCTOR
+
+ my $server = Infoblox::LDAP::Server->new(
+     address             => $address_or_fqdn,                # Required
+     base_dn             => $string,                         # Required
+     bind_user_dn        => $string,                         # Required if authentication_type is 'AUTHENTICATED'
+     bind_password       => $string,                         # Required if authentication_type is 'AUTHENTICATED', write-only
+     port                => $uint,                           # Optional, Default is 636
+     version             => 'V2' | 'V3',                     # Optional, Default is 'V3'
+     comment             => $string,                         # Optional
+     authentication_type => 'ANONYMOUS' | 'AUTHENTICATED',   # Optional, Default is 'ANONYMOUS'
+     encryption          => 'NONE' | 'SSL',                  # Optional, Default is 'SSL'
+     use_mgmt_port       => 'true' | 'false',                # Optional, Default is 'false'
+     disable             => 'true' | 'false',                # Optional, Default is 'false'
+ );
+
+=head1 SESSION METHODS
+
+The LDAP Server object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an LDAP server object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve an IP address or FQDN of an LDAP server.
+
+=over
+
+=item B<Parameter>
+
+An IP address or FQDN of an LDAP server in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->address();
+ #Modify attribute value
+ $server->address('10.0.0.1');
+
+=back
+
+=back
+
+=head2 authentication_type( )
+
+=over
+
+Use this method to set or retrieve an authentication type.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'ANONYMOUS' and 'AUTHENTICATED'. The default value is 'ANONYMOUS'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->authentication_type();
+ #Modify attribute value
+ $server->authentication_type('AUTHENTICATED');
+
+=back
+
+=back
+
+=head2 base_dn( )
+
+=over
+
+Use this method to set or retrieve a base DN for the LDAP server.
+
+=over
+
+=item B<Parameter>
+
+A base DN in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->base_dn();
+ #Modify attribute value
+ $server->base_dn('dc=infoblox,dc=com');
+
+=back
+
+=back
+
+=head2 bind_password( )
+
+=over
+
+Use this method to set a user password for authentication. This attribute is required if authentication_type attribute value is 'AUTHENTICATED'. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+An user password in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify attribute value
+ $server->bind_password('password');
+
+=back
+
+=back
+
+=head2 bind_user_dn( )
+
+=over
+
+Use this method to set or retrieve an user DN for authentication. This attribute is required if authentication_type attribute value is 'AUTHENTICATED'.
+
+=over
+
+=item B<Parameter>
+
+An user DN in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->bind_user_dn();
+ #Modify attribute value
+ $server->bind_user_dn('cn=user,dc=infoblox,dc=com');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+A desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->comment();
+ #Modify attribute value
+ $server->comment('LDAP object');
+
+=back
+
+=back
+
+=head2 encryption( )
+
+=over
+
+Use this method to set or retrieve an encryption type.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE' and 'SSL'. The default value is 'SSL'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->encryption();
+ #Modify attribute value
+ $server->encryption('SSL');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to enable or disable an LDAP server.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable an LDAP server or "false" to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->disable();
+ #Modify attribute value
+ $server->disable('true');
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve a port number.
+
+=over
+
+=item B<Parameter>
+
+A port number. The default value is 636.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->port();
+ #Modify attribute value
+ $server->port(389);
+
+=back
+
+=back
+
+=head2 use_mgmt_port( )
+
+=over
+
+Use this method to set or retrieve the flag that allows connections through the management interface.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to allow or "false" to deny it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->use_mgmt_port();
+ #Modify attribute value
+ $server->use_mgmt_port('true');
+
+=back
+
+=back
+
+=head2 version( )
+
+=over
+
+Use this method to set or retrieve an LDAP server version.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'V2' and 'V3'. The default value is 'V3'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $server->version();
+ #Modify attribute value
+ $server->version('V2');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::LDAP::AuthService|Infoblox::LDAP::AuthService>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

@@ -1,0 +1,8 @@
+/opt/perl/site/lib/TOML/Parser.pm
+/opt/perl/site/lib/TOML/Parser/Tokenizer.pm
+/opt/perl/site/lib/TOML/Parser/Tokenizer/Strict.pm
+/opt/perl/site/lib/TOML/Parser/Util.pm
+/opt/perl/site/man/man3/TOML::Parser.3
+/opt/perl/site/man/man3/TOML::Parser::Tokenizer.3
+/opt/perl/site/man/man3/TOML::Parser::Tokenizer::Strict.3
+/opt/perl/site/man/man3/TOML::Parser::Util.3

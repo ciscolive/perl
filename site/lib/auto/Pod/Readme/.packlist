@@ -1,0 +1,16 @@
+/opt/perl/site/bin/pod2readme
+/opt/perl/site/lib/Pod/Readme.pm
+/opt/perl/site/lib/Pod/Readme/Filter.pm
+/opt/perl/site/lib/Pod/Readme/Plugin.pm
+/opt/perl/site/lib/Pod/Readme/Plugin/changes.pm
+/opt/perl/site/lib/Pod/Readme/Plugin/requires.pm
+/opt/perl/site/lib/Pod/Readme/Plugin/version.pm
+/opt/perl/site/lib/Pod/Readme/Types.pm
+/opt/perl/site/man/man1/pod2readme.1
+/opt/perl/site/man/man3/Pod::Readme.3
+/opt/perl/site/man/man3/Pod::Readme::Filter.3
+/opt/perl/site/man/man3/Pod::Readme::Plugin.3
+/opt/perl/site/man/man3/Pod::Readme::Plugin::changes.3
+/opt/perl/site/man/man3/Pod::Readme::Plugin::requires.3
+/opt/perl/site/man/man3/Pod::Readme::Plugin::version.3
+/opt/perl/site/man/man3/Pod::Readme::Types.3

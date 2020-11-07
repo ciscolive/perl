@@ -1,0 +1,302 @@
+=head1 NAME
+
+Infoblox::Grid::CloudAPI::Member  - Infoblox::Grid::CloudAPI::Member  object.
+
+=head1 DESCRIPTION
+
+This object defines an entry in the ACL for cloud API users.
+
+=head1 CONSTRUCTOR
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a CloudAPI Member object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   comment               - Optional. Descriptive comments.
+   extattrs              - Optional. A hash reference containing extensible attributes.
+   extensible_attributes - Optional. A hash reference containing extensible attributes.
+   ipv4addr              - Optional. IPv4 Member address.
+   ipv6addr              - Optional. IPv6 Member address.
+   name                  - Optional. The host name of the parent member.
+
+=item B<Example>
+
+ $session->get(object => "Infoblox::Grid::CloudAPI::Member", allowed_api_admins => "ALL");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ $session->modify($cloud_api_member);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to search a specific object:
+
+   comment               - Optional. Descriptive comments (regular expression).
+   extattrs              - Optional. A hash reference containing extensible attributes.
+   extensible_attributes - Optional. A hash reference containing extensible attributes.
+   ipv4addr              - Optional. IPv4 Member address (regular expression).
+   ipv6addr              - Optional. IPv6 Member address (regular expression).
+   name                  - Optional. The host name of the parent member.
+
+=item B<Example>
+
+ $session->search(object => "Infoblox::Grid::CloudAPI::Member", comment => "some text");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 allow_api_admins( )
+
+=over
+
+Use this method to set or retrieve the definition of administrators who can perform cloud API requests on the Grid Master. The valid value is NONE (no administrator), ALL (all administrators) or LIST (administrators on the ACL).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of the following: NONE, ALL or LIST. Default is ALL.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get allow_api_admins
+ $allow_api_admins = $cloud_api->allow_api_admins();
+ # Modify allow_api_admins
+ $cloud_api->allow_api_admins("ALL");
+
+=back
+
+=back
+
+=head2 allowed_api_admins( )
+
+=over
+
+Use this method to set or retrieve the list of administrators who can perform cloud API requests on the Grid Master.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array containing L<Infoblox::Grid::CloudAPI::User|Infoblox::Grid::CloudAPI::User> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get allowed_api_admins
+ $allowed_api_admins = $cloud_api->allowed_api_admins();
+ # Modify allowed_api_admins
+ $cloud_api->allowed_api_admins([$cloud_user1, $cloud_user2]);
+
+=back
+
+=back
+
+=head2 enable_service( )
+
+=over
+
+Use this method to enable or disable the Cloud API service on the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the Cloud API service or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable_service
+ $enabled_service = $cloud_api->enable_service();
+ # Modify enable_service
+ $cloud_api->enable_service('true');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with an Infoblox::Grid::CloudAPI::Member object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get extattrs
+ my $ref_extattrs = $cloud_api->extattrs();
+ # Modify extattrs
+ $cloud_api->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with an Infoblox::Grid::CloudAPI::Member object
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get extensible attributes
+ my $ref_extensible_attributes = $cloud_api->extensible_attributes();
+ # Modify extensible attributes
+ $cloud_api->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to retrieve an Infoblox DHCP Member object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get member
+ my $member = $cloud_api->member();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status of the Cloud API service on a member. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get status
+ my $status = $cloud_api->status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

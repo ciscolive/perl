@@ -1,0 +1,10 @@
+/opt/perl/site/bin/ss2tk
+/opt/perl/site/bin/ssdiff
+/opt/perl/site/bin/xls2csv
+/opt/perl/site/bin/xlscat
+/opt/perl/site/bin/xlsgrep
+/opt/perl/site/bin/xlsx2csv
+/opt/perl/site/lib/Spreadsheet/Read.pm
+/opt/perl/site/man/man1/xls2csv.1
+/opt/perl/site/man/man1/xlsx2csv.1
+/opt/perl/site/man/man3/Spreadsheet::Read.3

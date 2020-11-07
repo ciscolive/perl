@@ -1,0 +1,16 @@
+/opt/perl/site/lib/ExtUtils/CBuilder.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Base.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/Unix.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/VMS.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/Windows.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/Windows/BCC.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/Windows/GCC.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/Windows/MSVC.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/aix.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/android.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/cygwin.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/darwin.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/dec_osf.pm
+/opt/perl/site/lib/ExtUtils/CBuilder/Platform/os2.pm
+/opt/perl/site/man/man3/ExtUtils::CBuilder.3
+/opt/perl/site/man/man3/ExtUtils::CBuilder::Platform::Windows.3

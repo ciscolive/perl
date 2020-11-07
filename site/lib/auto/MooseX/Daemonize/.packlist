@@ -1,0 +1,12 @@
+/opt/perl/site/lib/MooseX/Daemonize.pm
+/opt/perl/site/lib/MooseX/Daemonize/Core.pm
+/opt/perl/site/lib/MooseX/Daemonize/Pid.pm
+/opt/perl/site/lib/MooseX/Daemonize/Pid/File.pm
+/opt/perl/site/lib/MooseX/Daemonize/WithPidFile.pm
+/opt/perl/site/lib/Test/MooseX/Daemonize.pm
+/opt/perl/site/man/man3/MooseX::Daemonize.3
+/opt/perl/site/man/man3/MooseX::Daemonize::Core.3
+/opt/perl/site/man/man3/MooseX::Daemonize::Pid.3
+/opt/perl/site/man/man3/MooseX::Daemonize::Pid::File.3
+/opt/perl/site/man/man3/MooseX::Daemonize::WithPidFile.3
+/opt/perl/site/man/man3/Test::MooseX::Daemonize.3

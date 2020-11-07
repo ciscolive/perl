@@ -1,0 +1,10 @@
+/opt/perl/site/bin/csv2chart
+/opt/perl/site/lib/App/CSV2Chart.pm
+/opt/perl/site/lib/App/CSV2Chart/API/ToXLSX.pm
+/opt/perl/site/lib/App/CSV2Chart/Command/svg.pm
+/opt/perl/site/lib/App/CSV2Chart/Command/xlsx.pm
+/opt/perl/site/man/man1/csv2chart.1
+/opt/perl/site/man/man3/App::CSV2Chart.3
+/opt/perl/site/man/man3/App::CSV2Chart::API::ToXLSX.3
+/opt/perl/site/man/man3/App::CSV2Chart::Command::svg.3
+/opt/perl/site/man/man3/App::CSV2Chart::Command::xlsx.3

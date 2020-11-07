@@ -1,0 +1,371 @@
+=head1 NAME
+
+Infoblox::Grid::MSServer::AdUser - the Active Directory User object.
+
+=head1 DESCRIPTION
+
+The object provides information about synchronization of the Active Directory users.
+
+=head1 CONSTRUCTOR
+
+ my $ad_user = Infoblox::Grid::MSServer::AdUser->new(
+    enable_user_sync                  => "true" | "false", # Optional / Default is 'true'
+    login_name                        => $string,          # Optional / Default is undefined
+    login_password                    => $string,          # Optional / Default is undefined
+    synchronization_interval          => $uint,            # Optional / Default is undefined
+    override_login                    => "true" | "false", # Optional / Default is 'false'
+    override_enable_user_sync         => "true" | "false", # Optional / Default is 'false'
+    override_synchronization_interval => "true" | "false", # Optional / Default is 'false'
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a part of the Microsoft Server object.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a Active Directory User object.
+
+=head2 Infoblox::Grid::MSServer->ad_user( )
+
+=over
+
+Use this method to set or retrieve structure containing Active Directory User synchronization information. See L<Infoblox::Grid::MSServer-E<gt>ad_user()|Infoblox::Grid::MSServer/ad_user()/> for parameters and return values.
+
+=over 
+
+=item B<Example>
+
+ #Get ad_user value
+ my $ad_user = $msserver->ad_user();
+ #Modify ad_user value
+ my $res = $msserver->ad_user($ad_user);
+
+=back
+
+=back
+
+=head1 METHODS
+
+this section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 enable_user_sync( )
+
+=over
+
+Use this method to enable or disable the Active Directory user information synchronization.
+
+Setting this method to a defined value implicitly sets the override_enable_user_sync method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_enable_user_sync method to "false".
+
+Note that when enable_user_sync is set to a defined value and override_enable_user_sync is set to "false", the last operation takes precedence. Thus the sequence $object->enable_user_sync("true"); $object->override_enable_user_sync("false"); will set override_enable_user_sync to "false", and the sequence $object->override_enable_user_sync("false"); $object->enable_user_sync("true"); will result in override_enable_user_sync="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable Active Directory user information synchronization or "false" to forbid it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_user_sync value
+ my $enable_user_sync = $ad_user->enable_user_sync();
+ #Modify enable_user_sync value
+ $ad_user->enable_user_sync("true");
+
+=back
+
+=back
+
+=head2 last_sync_time( )
+
+=over
+
+Use this method to retrieve the timestamp of the last Active Directory user information synchronization attempt. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_sync_time value
+ my $last_sync_time = $ad_user->last_sync_time();
+
+=back
+
+=back
+
+=head2 last_sync_detail( )
+
+=over
+
+Use this method to retrieve a string containing details of the last Active Directory user information synchronization attempt. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_sync_detail value
+ my $last_sync_detail = $ad_user->last_sync_detail();
+
+=back
+
+=back
+
+=head2 last_sync_status( )
+
+=over
+
+Use this method to retrieve a string containing status of the last Active Directory user information synchronization attempt. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'OK', 'WARNING' or 'ERROR'.
+
+=item B<Example>
+
+ #Get last_sync_status value
+ my $last_sync_status = $ad_user->last_sync_status();
+
+=back
+
+=back
+
+=head2 login_name( )
+
+=over
+
+Use this method to set or retrieve the Active Directory user login name.
+
+Setting this method to a defined value implicitly sets the override_login method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_login attribute to "false".
+
+Note that when login_name is set to a defined value and override_dlogin_name is set to "false", the last operation takes precedence. Thus the sequence $object->login_name('newuser'); $object->override_login("false"); will set override_login to "false", and the sequence $object->override_login("false"); $object->login_name('newuser'); will result in override_login="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+When setting a value that requires a domain name, prepend the domain information followed by a backslash to the username: "domain\username".
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the login name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get login value
+ my $login = $ad_user->login_name();
+ #Modify login value
+ $ad_user->login_name("newuser");
+
+=back
+
+=back
+
+=head2 login_password( )
+
+=over
+
+Use this method to set a password for the Active Directory user. This field is used only if the login field for this member is defined. This is a write-only attribute.
+
+This field cannot be retrieved.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the password.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set the password
+ $ad_user->login_password("iG&ojG97Y");
+
+=back
+
+=back
+
+=head2 override_enable_user_sync( )
+
+=over
+
+The override_enable_user_sync attribute controls whether the enable_user_sync method values of the Active Directory user are used, instead of the Grid default.
+
+The override_enable_user_sync attribute can be specified explicitly. It is also set implicitly when enable_user_sync is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for enable_user_sync. Set the parameter to "false" to inherit the Grid-level setting for enable_user_sync. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_enable_user_sync
+ my $override_enable_user_sync = $ad_user->override_enable_user_sync();
+ #Modify override_enable_user_sync
+ $ad_user->override_enable_user_sync("true");
+
+=back
+
+=back
+
+=head2 override_login( )
+
+=over
+
+The override_login attribute controls whether the login_name method values of the Active Directory user are used, instead of the Grid default.
+
+The override_login attribute can be specified explicitly. It is also set implicitly when login_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for login_name. Set the parameter to "false" to inherit the Grid-level setting for login_name. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_login
+ my $override_login = $ad_user->override_login();
+ #Modify override_login
+ $ad_user->override_login("true");
+
+=back
+
+=back
+
+=head2 override_synchronization_interval( )
+
+=over
+
+The override_synchronization_interval attribute controls whether the synchronization_interval method values of the Active Directory user are used, instead of the Grid default.
+
+The override_synchronization_interval attribute can be specified explicitly. It is also set implicitly when synchronization_interval is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for synchronization_interval. Set the parameter to "false" to inherit the Grid-level setting for synchronization_interval. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_synchronization_interval
+ my $override_synchronization_interval = $ad_user->override_synchronization_interval();
+ #Modify override_synchronization_interval
+ $ad_user->override_synchronization_interval("true");
+
+=back
+
+=back
+
+=head2 synchronization_interval( )
+
+=over
+
+Use this method to set or retrieve the synchronization interval of the Active Directory user.
+
+Setting this method to a defined value implicitly sets the override_synchronization_interval method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_synchronization_interval attribute to "false".
+
+Note that when synchronization_interval is set to a defined value and override_dsynchronization_interval is set to "false", the last operation takes precedence. Thus the sequence $object->synchronization_interval(10); $object->override_synchronization_interval("false"); will set override_synchronization_interval to "false", and the sequence $object->override_synchronization_interval("false"); $object->synchronization_interval(10); will result in override_synchronization_interval="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get synchronization_interval value
+ my $synchronization_interval = $ad_user->synchronization_interval();
+ #Modify synchronization_interval value
+ $ad_user->synchronization_interval(10);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::MSServer|Infoblox::Grid::MSServer>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

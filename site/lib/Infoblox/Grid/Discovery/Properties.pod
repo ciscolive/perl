@@ -1,0 +1,648 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::Properties - Grid discovery properties.
+
+=head1 DESCRIPTION
+
+The object provides information about Grid discovery properties.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::Properties->new(
+    'advanced_polling_settings'     => $adv,                # Required
+    'auto_conversion_settings'      => [$auto_conversion1, ...], # Optional
+    'basic_polling_settings'        => $basic,              # Required
+    'enable_auto_conversion'        => 'true' | 'false'     # Optional
+    'enable_auto_updates'           => 'true' | 'false'     # Optional
+    'snmp3_credentials'             => [$snmp3_1, ...],     # Optional
+    'snmp_credentials'              => [$snmp_1, ...],      # Optional
+    'cli_credentials'               => [$cli1, ...],        # Optional
+    'discovery_blackout_setting'    => $blackout,           # Optional
+    'port_control_blackout_setting' => $blackout,           # Optional
+    'ports'                         => [$port1, ...],       # Optional
+    'ignore_conflict_duration'      => $uint,               # Optional
+    'same_port_control_discovery_blackout' => 'true' | 'false' # Optional
+    'unmanaged_ips_limit'           => $uint,                  # Optional
+    'unmanaged_ips_timeout'         => $uint,                  # Optional
+    'vrf_mapping_rules'             => [$vrf_rule_1, ...],     # Optional
+    'vrf_mapping_policy'            => 'NONE' | 'RULE_BASED' | 'RULE_AND_INTERNAL_BASED', # Optional
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to a object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing object from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $object = $session->get('object' => 'Infoblox::Grid::Discovery::Properties');
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $port = Infoblox::Grid::Discovery::Port->new(
+    'port' => 40,
+    'type' => 'UDP',
+ );
+
+ # Use method to modify ports
+ $object->ports([$port]);
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 advanced_polling_settings( )
+
+=over
+
+Use this method to set or retrieve discovery advanced poll settings.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::AdvancedPollSettings|Infoblox::Grid::Discovery::AdvancedPollSettings> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->advanced_polling_settings();
+ # Modify attribute value
+ $object->advanced_polling_settings($adv);
+
+=back
+
+=back
+
+=head2 auto_conversion_settings( )
+
+=over
+
+Use this method to set or retrieve a list of automatic conversion settings.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::AutoConversionSetting|Infoblox::Grid::Discovery::AutoConversionSetting> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->auto_conversion_settings();
+ # Modify attribute value
+ $object->auto_conversion_settings([$auto_conversion_settings1, $auto_conversion_settings2]);
+
+=back
+
+=back
+
+=head2 basic_polling_settings( )
+
+=over
+
+Use this method to set or retrieve discovery basic poll settings.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::BasicPollSettings|Infoblox::Grid::Discovery::BasicPollSettings> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->basic_polling_settings();
+ # Modify attribute value
+ $object->basic_polling_settings($basic);
+
+=back
+
+=back
+
+=head2 enable_auto_conversion( )
+
+=over
+
+Use this method to set or retrieve the flag that enables automatic conversion of discovered data.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable automatic conversion of discovery data or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->enable_auto_conversion();
+ # Modify attribute value
+ $object->enable_auto_conversion('true');
+
+=back
+
+=back
+
+=head2 enable_auto_updates( )
+
+=over
+
+Use this method to set or retrieve the flag that enables updating discovered data for managed objects.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable updating discovered data for managed objects or 'false' to disable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->enable_auto_updates();
+ # Modify attribute value
+ $object->enable_auto_updates('true');
+
+=back
+
+=back
+
+=head2 cli_credentials( )
+
+=over
+
+Use this method to set or retrieve the discovery CLI credentials.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::CLICredential|Infoblox::Grid::Discovery::CLICredential> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cli_credentials();
+ # Modify attribute value
+ $object->cli_credentials([$cli1, $cli2]);
+
+=back
+
+=back
+
+=head2 discovery_blackout_setting( )
+
+=over
+
+Use this method to set or retrieve the discovery blackout setting.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->discovery_blackout_setting();
+ # Modify attribute value
+ $object->discovery_blackout_setting($blackout);
+
+=back
+
+=back
+
+=head2 ignore_conflict_duration( )
+
+=over
+
+Use this method to set or retrieve the ignore discovery conflict duration.
+
+=over
+
+=item B<Parameter>
+
+The ignore discovery conflict duration in seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ignore_conflict_duration();
+ # Modify attribute value
+ $object->ignore_conflict_duration(3600);
+
+=back
+
+=back
+
+=head2 ports( )
+
+=over
+
+Use this method to set or retrieve ports to scan.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::Port|Infoblox::Grid::Discovery::Port> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ports();
+ # Modify attribute value
+ $object->ports([$port1, $port2]);
+
+=back
+
+=back
+
+=head2 port_control_blackout_setting( )
+
+=over
+
+Use this method to set or retrieve the port control blackout setting.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_control_blackout_setting();
+ # Modify attribute value
+ $object->port_control_blackout_setting($blackout);
+
+=back
+
+=back
+
+=head2 same_port_control_discovery_blackout( )
+
+=over
+
+Use this method to set or retrieve the flag that enables using the same discovery blackout for port control blackout.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to use same discovery blackout for port control blackout or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->same_port_control_discovery_blackout();
+ # Modify attribute value
+ $object->same_port_control_discovery_blackout('true');
+
+=back
+
+=back
+
+=head2 snmp3_credentials( )
+
+=over
+
+Use this method to set or retrieve a list of discovery SNMPv3 credentials.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::SNMP3Credential|Infoblox::Grid::Discovery::SNMP3Credential> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->snmp3_credentials();
+ # Modify attribute value
+ $object->snmp3_credentials([$snmp3_1, $snmp3_2]);
+
+=back
+
+=back
+
+=head2 snmp_credentials( )
+
+=over
+
+Use this method to set or retrieve a list of discovery SNMP v1 and v2 credentials>.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::SNMPCredential|Infoblox::Grid::Discovery::SNMPCredential> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->snmp_credentials();
+ # Modify attribute value
+ $object->snmp_credentials([$snmp1, $snmp2]);
+
+=back
+
+=back
+
+=head2 test_credential( )
+
+=over
+
+Use this method to test credentials.
+
+Note that this method does not perform automatic polling for the operational status. It returns a snapshot of the status at the time when you call the method, which may not be the final status. To get the latest status, the client script needs to provide polling logic for this method until the operation status is 'INPROGRESS' by calling the method with start parameter assigned to the end field in the previous call result. For more details, see the example below.
+
+=over
+
+=item B<Parameter>
+
+ id               - Optional. The test credential ID.
+
+The following members are supported when id is defined:
+
+ start            - Optional. The start position of the text.
+
+The following members are supported when id is not defined:
+
+ view             - Optional. The network view name. The default value is the system-defined default network view.
+
+ type             - Optional if one of the following is defined: cli_credentials, snmp_credential, or snmp3_credential. Otherwise, this member is required. The valid value is 'CLI', 'SNMP' or 'SNMP3'.
+
+ device           - Required if address is not defined. The Infoblox::Grid::Discovery::Device object.
+
+ member           - Optional. The discovery member name.
+
+ address          - Required if device is not defined. The IP address of the device.
+
+ cli_credentials  - Optional. At least one of the following must be defined: cli_credentials, snmp_credential, or snmp3_credential. The array reference that contains Infoblox::Grid::Discovery::CLICredential objects.
+
+ snmp_credential  - Optional. At least one of the following must be defined: cli_credentials, snmp_credential, or snmp3_credential. The Infoblox::Grid::Discovery::SNMPCredential object.
+
+ snmp3_credential - Optional. At least one of the following must be defined: cli_credentials, snmp_credential, or snmp3_credential. The Infoblox::Grid::Discovery::SNMP3Credential object.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::Discovery::TestCredential|Infoblox::Grid::Discovery::TestCredential> object when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ # Get a test credential ID
+ my $result = $object->test_credential(
+    'address'         => '10.0.0.1',
+    'snmp_credential' => $snmp,
+ );
+
+ # Get detailed information by id
+ if (ref($result) eq 'Infoblox::Grid::Discovery::TestCredential') {
+     $result = $object->test_credential('id' => $result->id());
+ }
+
+ # check for the 'COMPLETE' or 'FAILED' status of test credential
+ while (ref($result) eq 'Infoblox::Grid::Discovery::TestCredential' &&
+        $result->status() eq 'INPROGRESS') {
+     $result = $grid->test_credential('id' => $result->id(), 'start' => $result->end());
+ }
+
+=back
+
+=back
+
+=head2 unmanaged_ips_limit( )
+
+=over
+
+Use this method to set or retrieve the limit value for discovered unmanaged IP addresses. This value determines how often users are notified when new unmanaged IP addresses are discovered in a particular network.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer. The minimun value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->unmanaged_ips_limit();
+ # Modify attribute value
+ $object->unmanaged_ips_limit(30);
+
+=back
+
+=back
+
+=head2 unmanaged_ips_timeout( )
+
+=over
+
+Use this method to set or retrieve the timeout value (in seconds) between notifications about new unmanaged IP addresses in a particular network.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer. The minimum value is 60 (one minute), and the maximum value is the number of seconds from the time you set it until January 2038.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->unmanaged_ips_timeout();
+ # Modify attribute value
+ $object->unmanaged_ips_timeout(300);
+
+=back
+
+=back
+
+=head2 vrf_mapping_rules( )
+
+=over
+
+Use this method to set or retrieve a list of VRF mapping rules.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::VRFMappingRule|Infoblox::Grid::Discovery::VRFMappingRule> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vrf_mapping_rules();
+ # Modify attribute value
+ $object->vrf_mapping_rules([$vrf_mapping_rule1, $vrf_mapping_rule2]);
+
+=back
+
+=back
+
+=head2 vrf_mapping_policy( )
+
+=over
+
+Use this method to set or retrieve the VRF mapping policy.
+
+=over
+
+=item B<Parameter>
+
+The policy type used to define the behavior of the VRF mapping. Valid value is one of the following policy types: 'NONE', 'RULE_BASED', 'RULE_AND_INTERNAL_BASED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vrf_mapping_policy();
+ # Modify attribute value
+ $object->vrf_mapping_policy('RULE_AND_INTERNAL_BASED');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::Discovery::SNMPCredential|Infoblox::Grid::Discovery::SNMPCredential>, L<Infoblox::Grid::Discovery::SNMP3Credential|Infoblox::Grid::Discovery::SNMP3Credential>, L<Infoblox::Grid::Discovery::Port|Infoblox::Grid::Discovery::Port>, L<Infoblox::Grid::Discovery::CLICredential|Infoblox::Grid::Discovery::CLICredential>, L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting>,
+L<Infoblox::Grid::Discovery::VRFMappingRule|Infoblox::Grid::Discovery::VRFMappingRule>, L<Infoblox::Grid::Discovery::AutoConversionSetting|Infoblox::Grid::Discovery::AutoConversionSetting>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

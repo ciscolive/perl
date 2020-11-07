@@ -1,0 +1,61 @@
+=head1 NAME
+
+Infoblox::Grid::SNMP::QueriesUser - Grid SNMP QueriesUser object.
+
+=head1 DESCRIPTION
+
+The Grid SNMP Queriesuser object is used to set or retrieve the user name of an SNMPv3 user.
+
+=head1 CONSTRUCTOR
+
+ my $query_user1 = Infoblox::Grid::SNMP::QueriesUser->new(
+          user => $snmp_user1,
+          comment => "query comment 1"
+ );
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an SNMPv3 QueriesUser object.
+
+=head2 user()
+
+=over
+
+Use this method to set or retrieve the user name of an SNMPv3 user.
+
+=over
+
+=item B<Parameter>
+
+A reference to the Infoblox::Grid::SNMP::User object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get query user
+ my $query_user=$grid->snmpv3_query_users();
+ #Set query user
+ $grid->snmpv3_query_users([$query_user1,$query_user2];
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::SNMP::User|Infoblox::Grid::SNMP::User>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

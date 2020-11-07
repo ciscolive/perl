@@ -1,0 +1,135 @@
+=head1 NAME
+
+Infoblox::DTC::Topology::Rule::Source - A DTC Topology Rule Source object.
+
+=head1 DESCRIPTION
+
+A DTC Topology Rule Source object.
+
+=head1 CONSTRUCTOR
+
+ my $rule_source = Infoblox::DTC::Topology::Rule::Source->new(
+    source_type  => 'SUBNET' | 'CONTINENT' | 'COUNTRY' | 'SUBDIVISION' | 
+                    'CITY' | 'EA0' | 'EA1' | 'EA2' | 'EA3',                      #Required
+    source_value => $string,                                                     #Required
+    source_op    => 'IS' | 'IS_NOT',                                             #Optional / Default is 'IS'
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It's retrieved as a part of an L<Infoblox::DTC::Topology::Rule|Infoblox::DTC::Topology::Rule>, and used as a matching conditions for a DTC load balancer.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 source_op( )
+
+=over
+
+Use this method to set or retrieve the operation used to match the value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'IS' and 'IS_NOT'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get source_op value
+ my $source_op = $source->source_op();
+
+ #modify source_op value
+ $source->source_op('IS');
+
+=back
+
+=back
+
+=head2 source_type( )
+
+=over
+
+Use this method to set or retrieve the source type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'SUBNET', 'CONTINENT', 'COUNTRY', 'CITY', 'SUBDIVISION', 'EA0', 'EA1', 'EA2' and 'EA3'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get source_type value
+ my $source_type = $source->source_type();
+
+ #modify source_type value
+ $source->source_type('COUNTRY');
+
+=back
+
+=back
+
+=head2 source_value( )
+
+=over
+
+Use this method to set or retrieve the source value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the desired source value.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get source_value value
+ my $source_value = $source->source_value();
+
+ #modify source_value value
+ $source->source_value('United States');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC::Topology::Rule|Infoblox::DTC::Topology::Rule>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut
+

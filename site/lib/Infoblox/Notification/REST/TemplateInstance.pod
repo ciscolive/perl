@@ -1,0 +1,147 @@
+=head1 NAME
+
+Infoblox::Notification::REST::TemplateInstance - A REST API template instance.
+
+=head1 DESCRIPTION
+
+The REST API template instance is used to configure REST API template setting for notification rule and REST API endpoint.
+
+=head1 CONSTRUCTOR
+
+ my $templ_instance = Infoblox::Notification::REST::TemplateInstance->new(
+     template   => $string,                 #Required
+     parameters => [$param1, $param2, ...], #Optional / Default is empty list
+ );
+
+=head1 SESSION METHODS
+
+The object does not have any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to REST API template instance object.
+
+=head2 Infoblox::Notification::Rule->template_instance( )
+
+=over
+
+Use this method to set or retrieve the REST API template instance.
+See L<Infoblox::Notification::Rule-E<gt>template_instance()|Infoblox::Notification::Rule/template_instance()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get template_instance value
+ my $template_instance = $object->template_instance();
+
+ #Modify template_instance value
+ $object->template_instance($instance);
+
+=back
+
+=back
+
+=head2 Infoblox::Notification::REST::Endpoint->template_instance( )
+
+=over
+
+Use this method to set or retrieve the REST API template instance.
+See L<Infoblox::Notification::REST::Endpoint-E<gt>template_instance()|Infoblox::Notification::REST::Endpoint/template_instance()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get template_instance value
+ my $template_instance = $object->template_instance();
+
+ #Modify template_instance value
+ $object->template_instance($instance);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a REST API template instance object.
+
+=head2 template( )
+
+=over
+
+Use this method to set or retrieve the REST API template name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Notification::REST::Template|Infoblox::Notification::REST::Template> object name.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get template value
+ my $template = $object->template();
+
+ #Modify template value
+ $object->template('template1');
+
+=back
+
+=back
+
+=head2 parameters( )
+
+=over
+
+Use this method to set or retrieve the list of template parameters.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is array of L<Infoblox::Notification::REST::TemplateParameter|Infoblox::Notification::REST::TemplateParameter> objects.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get parameters value
+ my $parameters = $object->parameters();
+
+ #Modify parameters value
+ $object->parameters([$param1, $param2]);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Notification::REST::Template|Infoblox::Notification::REST::Template>,
+L<Infoblox::Notification::REST::TemplateParameter|Infoblox::Notification::REST::TemplateParameter>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

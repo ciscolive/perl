@@ -1,0 +1,15 @@
+/opt/perl/site/lib/HTML/Entities.pm
+/opt/perl/site/lib/HTML/Filter.pm
+/opt/perl/site/lib/HTML/HeadParser.pm
+/opt/perl/site/lib/HTML/LinkExtor.pm
+/opt/perl/site/lib/HTML/Parser.pm
+/opt/perl/site/lib/HTML/PullParser.pm
+/opt/perl/site/lib/HTML/TokeParser.pm
+/opt/perl/site/lib/auto/HTML/Parser/Parser.so
+/opt/perl/site/man/man3/HTML::Entities.3
+/opt/perl/site/man/man3/HTML::Filter.3
+/opt/perl/site/man/man3/HTML::HeadParser.3
+/opt/perl/site/man/man3/HTML::LinkExtor.3
+/opt/perl/site/man/man3/HTML::Parser.3
+/opt/perl/site/man/man3/HTML::PullParser.3
+/opt/perl/site/man/man3/HTML::TokeParser.3

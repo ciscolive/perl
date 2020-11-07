@@ -1,0 +1,380 @@
+=head1 NAME
+
+Infoblox::IFMap::CACertificate - IF-MAP CA Certificate object.
+
+=head1 DESCRIPTION
+
+You can configure the Infoblox appliance as a metadata access point (MAP) and implement the IF-MAP protocol defined by the Trusted Computing Group (TCG, www.trustedcomputinggroup.com). This module provides an interface for configuring CA certificates that the IF-MAP server uses to authenticate IF-MAP clients.
+
+=head1 CONSTRUCTOR
+
+ my $ca_cert=Infoblox::IFMap::CACertificate->new(
+     certificate      => $string, #Required
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an IF-MAP CA Certificate object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a new CA certificate for the IF-MAP server. See L<Infoblox::Session-E<gt>add( )|Infoblox::Session/add( )/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Read the certificate contents from the file
+ open CERTFILE "<cert.pem" or die "Unable to open certificate file";
+ my $pem_cert = join('', <CERTFILE>);
+
+ # Create a new CA certificate object
+ my $cacert = Infoblox::IFMap::CACertificate->new(
+ certificate => $pem_cert
+ );
+
+ # Add the CA certificate
+ my $response = $session->add( $cacert );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the CA certificates configured for the IF-MAP server. See L<Infoblox::Session-E<gt>get( )|Infoblox::Session/get( )/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+Apply the following attributes to get a specific IF-MAP CA certificate object:
+
+ subject                - Optional. String that contains a certificate subject.
+ issuer                 - Optional. String that contains a certificate issuer.
+ valid_not_after        - Optional. String that contains a desired value of the certificate expiration date in ISO 8601 format.
+ valid_not_before       - Optional. String that contains a desired value of the certificate start date in ISO 8601 format.
+
+=item B<Example>
+
+ # Retrieve CA certificate with the subject = "/CN=verisign.com/OU=Verisign"
+ my @retrieved_objs = $session->get(
+ object => "Infoblox::IFMap::CACertificate",
+ subject => "/CN=verisign.com/OU=Verisign"
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a CA certificate.
+
+=over
+
+=item B<Examples>
+
+ # Get the CA certificate
+ my @retrieved_objs = $session->get(
+ object => "Infoblox::IFMap::CACertificate",
+ subject   => "/CN=verisign.com/OU=Verisign"
+ );
+
+ # Find the desired object from the retrieved list.
+ my $desired_cert = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove( $desired_cert );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for the CA certificates configured for the IF-MAP server. You can specify the following attributes in a search: subject, issuer, valid_not_before, and valid_not_after.
+
+=over
+
+=item B<Key References>
+
+Apply the following attributes to search for a specific IF-MAP CA certificate object:
+
+ subject                - Optional. Regex for the certificate subject.
+ issuer                 - Optional. Regex for the certificate issuer.
+ valid_not_after        - Optional. String that contains the desired certificate expiration date in ISO 8601 format. This method supports searching with limit parameters  (see below).
+ valid_not_before       - Optional. String that contains the desired certificate start date in ISO 8601 format. This method supports searching with limit parameters  (see below).
+
+See L<Infoblox::SessionE<sol>search with limit parameters|Infoblox::Session/search with limit parameters> for more information on this functionality.
+
+=item B<Examples>
+
+ # Search for IF-MAP CA certificates issued by Verisign
+ # and with valid not before time in 2010
+ my @retrieved_objs = $session->search(
+ object => "Infoblox::IFMap::CACertificate",
+ issuer => ".*verisign.*",
+ valid_not_before => ">=< 2010-01-01T00:00:00Z,2011-01-01T00:00:00Z",
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 certificate( )
+
+=over
+
+Use this method to retrieve or set the value of the certificate attribute. If no argument is passed, the method returns the current attribute value. The value must be a single certificate in PEM format.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the certificate in PEM format. This is a required attribute.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Examples>
+
+ # Get certificate
+ my $pem_cert = $cert_object->certificate( );
+
+ # Set certificate
+ open CERTFILE "<cert.pem" or die "Unable to open certificate file";
+ my $pem_cert = join('', <CERTFILE>);
+ $cert_object->certificate( $pem_cert );
+
+=back
+
+=back
+
+=head2 subject( )
+
+=over
+
+Use this method to retrieve the value of the subject attribute. This method does not support any argument because the attribute is read-only and is set by the server. It has a value only when it reads an existing certificate from the Infoblox::IFMap::CACertificate object retrieved from the appliance.
+
+=over
+
+=item B<Parameter>
+
+N/A.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+This is a read-only attribute. If you specify a parameter, the method returns an error.
+
+=item B<Examples>
+
+ # Get subject
+ my $subject = $certificate->subject( );
+
+=back
+
+=back
+
+=head2 issuer( )
+
+=over
+
+Use this method to retrieve the value of the =issuer= attribute. This method does not support any argument because the attribute is read-only and is set by the server. It has a value only when it reads an existing certificate from the =Infoblox::IFMap::CACertificate= object.
+
+=over
+
+=item B<Parameter>
+
+N/A.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+This is a read-only attribute. If you specify a parameter, the method returns an error.
+
+=item B<Examples>
+
+ # Get subject
+ my $issuer = $certificate->issuer( );
+
+=back
+
+=back
+
+=head2 valid_not_before( )
+
+=over
+
+Use this method to retrieve the value of the valid_not_before attribute. This method does not support any argument because the attribute is read-only and is set by the server. It has a value only when it reads an existing certificate from the Infoblox::IFMap::CACertificate object. The returned value is the date before the certificate becomes invalid in ISO 8601 format.
+
+=over
+
+=item B<Parameter>
+
+N/A.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+This is a read-only attribute. If you specify a parameter, the method returns an error.
+
+=item B<Examples>
+
+ # Get valid_not_before attribute
+ my $valid_not_before = $certificate->valid_not_before( );
+
+=back
+
+=back
+
+=head2 valid_not_after( )
+
+=over
+
+Use this method to retrieve the value of the valid_not_after attribute. This method does not support any argument because it is read-only and is set by the server. It has a value only when it reads an existing certificate from the Infoblox::IFMap::CACertificate object. The returned value is the date after the certificate becomes invalid in the ISO 8601 format.
+
+=over
+
+=item B<Parameter>
+
+N/A.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+This is a read-only attribute. If you specify a parameter, the method returns an error.
+
+=item B<Examples>
+
+ # Get operation
+ my $valid_not_after = $certificate->valid_not_after( );
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search and remove. This sample also includes error handling for the operations.
+
+B<#Preparations>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+             Infoblox::status_code( ) . ":" . Infoblox::status_detail( ));
+ }
+ print "Session created successfully\n";
+
+ #Get a certificate from the external file
+ local *CERTFILE;
+ open CERTFILE, "<API_unit_test_sample_code/ca_cert.pem" or die "Unable to open certificate file";
+ my $pem_cert = join('', <CERTFILE>);
+ close(CERTFILE);
+
+B<#Create CA certificate object>
+
+ my $ca_certificate= Infoblox::IFMap::CACertificate->new(
+                                                          certificate => $pem_cert
+                                                        );
+ unless($ca_certificate) {
+        die("Construct CA certificate object failed: ",
+                Infoblox::status_code( ) . ":" . Infoblox::status_detail( ));
+ }
+ print "IFMap CA Certificate object created successfully\n";
+
+B<#Add the CA Certificate object to the Infoblox appliance through a session>
+
+ $session->add($ca_certificate)
+     or die("Add IFMap CA certificate object failed: ",
+                        $session->status_code( ) . ":" . $session->status_detail( ));
+ print "IFMap CA Certificate object added to server successfully\n";
+
+ #Get the IFMap CA Certificate object using subject attribute
+ my @retrieved_objs=$session->get(
+                                  object => "Infoblox::IFMap::CACertificate",
+                                  subject => 'CN="Test CA 2",OU="Engineering",O="Infoblox",L="Santa Clara",ST="CA",C="US"'
+                                );
+ my $object = $retrieved_objs[0];
+ unless($object){
+     die("Get IFMap CA Certificate object failed: ",
+                 $session->status_code( ) . ":" . $session->status_detail( ));
+ }
+ print "Get IFMap CA Certificate object found at least 1 matching entry\n";
+
+B<#Search for IFMap CA certificate objects>
+
+ my @retrieved_objs=$session->search(
+                                  object => "Infoblox::IFMap::CACertificate",
+                                  subject => '.*Engineering.*',
+                                  valid_not_before => '>=< 2010-01-01T08:00:00Z,2010-10-01T00:00:00Z'
+                                );
+ my $object = $retrieved_objs[0];
+ unless($object){
+     die("Search for IFMap CA Certificate object failed: ",
+                 $session->status_code( ) . ":" . $session->status_detail( ));
+ }
+ print "Searching IFMap CA Certificate object found at least 1 matching entry\n";
+
+B<#Remove IFMap CA Certificate object>
+
+ #Get IFMap CA Certificate object
+ my @retrieved_objs=$session->get(
+                                  object => "Infoblox::IFMap::CACertificate",
+                                  subject => 'CN="Test CA 2",OU="Engineering",O="Infoblox",L="Santa Clara",ST="CA",C="US"'
+                                );
+ my $object = $retrieved_objs[0];
+ unless($object){
+     die("Get IFMap CA certificate object failed: ",
+                 $session->status_code( ) . ":" . $session->status_detail( ));
+ }
+ print "Get IFMap CA certificate object found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($object)
+     or die("Remove IFMap CA certificate failed: ",
+             $session->status_code( ) . ":" . $session->status_detail( ));
+ print "IFMap CA certificate object removed successfully \n";
+
+B<####PROGRAM ENDS####>
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>add( )|Infoblox::Session/add( )/>,L<Infoblox::Session-E<gt>get( )|Infoblox::Session/get( )/>,L<Infoblox::Session-E<gt>remove( )|Infoblox::Session/remove( )/>,L<Infoblox::Session-E<gt>search( )|Infoblox::Session/search( )/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

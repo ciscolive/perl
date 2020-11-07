@@ -1,0 +1,1 @@
+{"pathname":"T/TI/TINITA/YAML-LibYAML-API-0.012.tar.gz","dist":"YAML-LibYAML-API-0.012","version":"0.012","name":"YAML::LibYAML::API","provides":{"YAML::LibYAML::API::XS":{"version":"0.012","file":"LibYAML/lib/YAML/LibYAML/API/XS.pm"},"YAML::LibYAML::API":{"file":"lib/YAML/LibYAML/API.pm","version":"0.012"}},"target":"YAML::LibYAML::API::XS"}

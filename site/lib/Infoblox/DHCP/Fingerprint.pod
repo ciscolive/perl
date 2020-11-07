@@ -1,0 +1,595 @@
+=head1 NAME
+
+Infoblox::DHCP::Fingerprint - DHCP Fingerprint object.
+
+=head1 DESCRIPTION
+
+DHCP Fingerprint object.
+
+=head1 CONSTRUCTOR
+
+ my $fingerprint = Infoblox::DHCP::Fingerprint->new(
+    name                  => $string,                                 # required
+    device_class          => $string,                                 # required
+    type                  => 'CUSTOM' | 'STANDARD',                   # optional, default is 'CUSTOM'
+    comment               => $string,                                 # optional
+    disable               => 'true' | 'false',                        # optional, default is 'false'
+    vendor_id             => [$string1, $string2, ...],               # optional
+    option_sequence       => [$string1, $string2, ...],               # optional
+    ipv6_option_sequence  => [$string1, $string2, ...],               # optional
+    extattrs              => { $string => $extattr, ... },            # optional / Default is undefined
+    extensible_attributes => $extattrs,                               # optional
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+At least one of option_sequence, ipv6_option_sequence or vendor_id must be defined.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to DHCP Fingerprint objects.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance if the type value is 'CUSTOM'. Otherwise this method is not supported. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $fingerprint = Infoblox::DHCP::Fingerprint->new(
+    name => 'Infoblox',
+    device_class => 'Inc',
+    option_sequence => ['1'],
+ );
+
+ #Submit for addition
+ my $response = $session->add( $fingerprint );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP Fingerprint object:
+
+  name                       - Optional. The name of the DHPC Fingerprint object.
+  device_class               - Optional. The class of DHCP Fingerprint object.
+  type                       - Optional. The type of DHCP Fingerprint object.
+  comment                    - Optional. The comment.
+  extattrs                   - Optional. A hash reference containing extensible attributes.
+  extensible_attributes      - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ # Get DHCP Fingerprint object by name
+ my @retrieved_objs = $session->get(
+    object  => 'Infoblox::DHCP::Fingerprint',
+    name    => 'Infoblox',
+ );
+
+ # Get all base DHCP Fingerprint objects
+ my @retrieved_objs = $session->get(
+    object  => 'Infoblox::DHCP::Fingerprint',
+    type    => 'STANDARD',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Modify comment
+ $fingerprint->comment("This is modified object");
+ # Submit modification
+ my $response = $session->modify( $fingerprint );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance if the type value is 'CUSTOM'. Otherwise this method is not supported. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object by name
+ my @retrieved_objs = $session->get(
+    object    => 'Infoblox::DHCP::Fingerprint',
+    name      => 'Infoblox',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_fingerprint = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_fingerprint );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP Fingerprint objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for specific DHCP Fingerprint objects:
+
+  name                       - Optional. The name of the DHPC Fingerprint object (regular expression).
+  device_class               - Optional. The class of DHCP Fingerprint object (regular expression).
+  type                       - Optional. The type of DHCP Fingerprint object.
+  comment                    - Optional. The comment (regular expression).
+  extattrs                   - Optional. A hash reference containing extensible attributes.
+  extensible_attributes      - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ # Search DHCP Fingerprint object by name
+ my @retrieved_objs = $session->search(
+    object  => 'Infoblox::DHCP::Fingerprint',
+    name    => 'Infoblox',
+ );
+
+ # Search all base DHCP Fingerprint objects
+ my @retrieved_objs = $session->search(
+    object  => 'Infoblox::DHCP::Fingerprint',
+    type    => 'STANDARD',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of DHCP Fingerprint objects.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->comment();
+ #Modify attribute value
+ $fingerprint->comment('new comment');
+
+=back
+
+=back
+
+=head2 device_class( )
+
+=over
+
+Use this method to set or retrieve a class of DHCP Fingerprint object.
+
+=over
+
+=item B<Parameter>
+
+The class in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->device_class();
+ #Modify attribute value
+ $fingerprint->device_class('Infoblox Inc.');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a name of DHCP Fingerprint object.
+
+=over
+
+=item B<Parameter>
+
+The name in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->name();
+ #Modify attribute value
+ $fingerprint->name('custom fingerprint');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to enable or disable a DHCP Fingerprint object.
+
+If a DHCP Fingerprint object is enabled, the option number sequence and vendor_ids for this operating system or device will be included in the list of fingerprints to match incoming lease requests.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable DHCP Fingerprint object or "false" to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->disable();
+ #Modify attribute value
+ $fingerprint->disable('false');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Fingerprint object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $fingerprint->extattrs();
+ #Modify extattrs
+ $fingerprint->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with DHCP Fingerprint objects.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->extensible_attributes();
+ #Modify attribute value
+ $fingerprint->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 option_sequence( )
+
+=over
+
+Use this method to set or retrieve a list (comma separated list) of IPv4 option number sequences of the device or operating system.
+
+At least one of option_sequence, ipv6_option_sequence or vendor_id must be defined.
+
+=over
+
+=item B<Parameter>
+
+Reference to an array of IPv4 option number sequence (comma separated list) in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->option_sequence();
+ #Modify attribute value
+ $fingerprint->option_sequence(['1,2,3']);
+
+=back
+
+=back
+
+=head2 ipv6_option_sequence( )
+
+=over
+
+Use this method to set or retrieve a list (comma separated list) of IPv6 option number sequences of the device or operating system.
+
+At least one of option_sequence, ipv6_option_sequence or vendor_id must be defined.
+
+=over
+
+=item B<Parameter>
+
+Reference to an array of IPv6 option number sequence (comma separated list) in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->ipv6_option_sequence();
+ #Modify attribute value
+ $fingerprint->ipv6_option_sequence(['1,2,3']);
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the type of the DHCP Fingerprint object.
+
+=over
+
+=item B<Parameter>
+
+Valid value can be 'STANDARD' or 'CUSTOM'. Standard fingerprints are the fingerprints from fingerbank. Custom fingerprints are user defined fingerprints.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->type();
+ #Modify attribute value
+ $fingerprint->type('CUSTOM');
+
+=back
+
+=back
+
+=head2 vendor_id( )
+
+=over
+
+Use this method to set or retrieve a list of vendor IDs of the device or operating system.
+
+At least one of option_sequence, ipv6_option_sequence or vendor_id must be defined.
+
+=over
+
+=item B<Parameter>
+
+Reference to an array of vendor ID in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $fingerprint->vendor_id();
+ #Modify attribute value
+ $fingerprint->vendor_id(['3','4']);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify, search and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying DHCP Fingerprint object>
+
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create DHCP Fingerprint object>
+
+ my $fingerprint = Infoblox::DHCP::Fingerprint->new(
+    'name' => 'Infoblox',
+    'device_class' => 'Inc',
+    'option_sequence' => ['1'],
+ );
+
+ unless ($fingerprint) {
+        die("Construct DHCP Fingerprint object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Fingerprint object created successfully\n";
+
+ my $response = $session->add($fingerprint);
+
+ unless ($response) {
+     die("Add DHCP Fingerprint object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"DHCP Fingerprint object added successfully \n";
+
+B<#Search for DHCP Fingerprint object>
+
+ my @retrieved_objs = $session->search(
+    object   => 'Infoblox::DHCP::Fingerprint',
+    name     => 'Infoblox',
+ );
+
+ $fingerprint = $retrieved_objs[0];
+
+ unless ($fingerprint) {
+         die("Search DHCP Fingerprint object object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DHCP Fingerprint object found at least 1 matching entry\n";
+
+B<#Get and modify DHCP Fingerprint object>
+
+ @retrieved_objs = $session->get(
+    object  => 'Infoblox::DHCP::Fingerprint',
+    name    => 'Infoblox',
+ );
+
+ $fingerprint = $retrieved_objs[0];
+
+ unless ($fingerprint) {
+     die("Get DHCP Fingerprint object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get DHCP Fingerprint object successful \n";
+
+ $fingerprint->comment("This is modified object");
+
+ $session->modify($fingerprint)
+    or die("Modify DHCP Fingerprint object failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Fingerprint object modified successfully \n";
+
+B<#Remove DHCP Fingerprint object>
+
+ @retrieved_objs = $session->get(
+    object   => 'Infoblox::DHCP::Fingerprint',
+    name     => 'Infoblox',
+ );
+
+ $fingerprint = $retrieved_objs[0];
+
+ unless ($fingerprint) {
+     die("Get DHCP Fingerprint object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get DHCP Fingerprint object successful \n";
+
+ $session->remove( $fingerprint )
+     or die("Remove DHCP Fingerprint object failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print"DHCP Fingerprint object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

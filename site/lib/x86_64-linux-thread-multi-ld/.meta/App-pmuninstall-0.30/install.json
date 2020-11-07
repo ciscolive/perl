@@ -1,0 +1,1 @@
+{"target":"App::pmuninstall","dist":"App-pmuninstall-0.30","version":"0.30","pathname":"X/XA/XAICRON/App-pmuninstall-0.30.tar.gz","name":"App::pmuninstall","provides":{"App::pmuninstall":{"version":"0.30","file":"lib/App/pmuninstall.pm"}}}

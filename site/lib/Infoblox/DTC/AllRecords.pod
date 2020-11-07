@@ -1,0 +1,223 @@
+=head1 NAME
+
+Infoblox::DTC::AllRecords - A synthetic object used to return all DTC record object types belonging to a DTC server.
+
+=head1 DESCRIPTION
+
+By searching on this object, all the DTC record objects associated with a specific DTC server can be retrieved.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DTC AllRecords object.
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DTC AllRecords object:
+
+  dtc_server - Required. A DTC Server object.
+  type       - Optional. The type of record to search for. By default, all record types are searched. Following is the list of valid values for this search field:
+
+      'All Records',
+      'All DTC A Records'
+      'All DTC AAAA Records'
+      'All DTC CNAME Records'
+      'All DTC NAPTR Records'
+
+=item B<Example>
+
+ # search for all DTC records associated with DTC Server 'server-1'
+
+ my $dtc_server = Infoblox::DTC::Server->new(
+     name => 'server-1',
+     host => '10.0.0.1',
+ );
+
+ my @retrieved_objs = $session->search(
+     object     => "Infoblox::DTC::AllRecords",
+     dtc_server => $dtc_server,
+ );
+
+ # search for all DTC NAPTR records that are associated with DTC Server 'server-1'
+
+ my $dtc_server = Infoblox::DTC::Server->new(
+     name => 'server-1',
+     host => '10.0.0.1',
+ );
+
+ my @retrieved_objs = $session->search(
+     object     => "Infoblox::DTC::AllRecords",
+     type       => 'All DTC NAPTR Records',
+     dtc_server => $dtc_server,
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of a DTC AllRecords object. All methods are read-only and cannot be set.
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve the descriptive comment of the record associated with the DTC AllRecords object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $alldtcrecord->comment();
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to retrieve the disable flag of the record associated with the DTC AllRecords object (if present).
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $alldtcrecord->disable();
+
+=back
+
+=back
+
+=head2 dtc_server( )
+
+=over
+
+Use this method to retrieve the DTC Server with which the DTC record is associated.
+
+=over
+
+=item B<Returns>
+
+The method returns an L<Infoblox::DTC::Server|Infoblox::DTC::Server> partial object.
+
+=item B<Example>
+
+ #Get dtc_server
+ my $dtc_server = $alldtcrecord->dtc_server();
+
+=back
+
+=back
+
+=head2 record( )
+
+=over
+
+Use this method to retrieve the record object associated with the DTC AllRecords object.
+
+This object is considered a 'partial' object. See L<Infoblox::Session-E<gt>fill_partial_object()|Infoblox::Session/fill_partial_object()/> for more information on how
+it can be converted to a 'full' API object.
+
+If the DTC AllRecords object refers to a record that is not currently supported in the Perl API, the member value will be undefined.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get record
+ my $record = $alldtcrecord->record();
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to retrieve the TTL value of the record associated with the DTC AllRecords object (if present).
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $alldtcrecord->ttl();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the type of the record associated with the AllRecords object. This is a descriptive string
+that identifies the record to which this DTC AllRecords object refers. (For example, 'DTC NAPTR record', ...) 
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get type
+ my $type = $alldtcrecord->type();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+For examples see L<Infoblox::DNS::AllRecords|Infoblox::DNS::AllRecords> SAMPLE CODE section.
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, 
+L<Infoblox::DTC::Server|Infoblox::DTC::Server>,
+L<Infoblox::DTC::Record::NAPTR|Infoblox::DTC::Record::NAPTR>,
+L<Infoblox::DTC::Record::A|Infoblox::DTC::Record::A>,
+L<Infoblox::DTC::Record::AAAA|Infoblox::DTC::Record::AAAA>,
+L<Infoblox::DTC::Record::CNAME|Infoblox::DTC::Record::CNAME>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

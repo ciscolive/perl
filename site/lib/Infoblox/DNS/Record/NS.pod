@@ -1,0 +1,548 @@
+=head1 NAME
+
+Infoblox::DNS::Record::NS - DNS NS record object
+
+=head1 DESCRIPTION
+
+An NS record identifies an authoritative DNS server for a domain. Each authoritative DNS server must have an NS record. The appliance automatically creates an NS record when you assign a grid member as the primary server for a zone. You can manually create NS records for other zones.
+
+Note that you must specify only one DNS view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $ns = Infoblox::DNS::Record::NS->new(
+     name                => $name,                    #Required
+     nameserver          => $nameserver,              #Required
+     addresses           => [$ns1, $ns2, ...],        #Required
+     ms_delegation_name  => $name,                    #Optional
+     views               => [$View1]                  #Optional / Default is "default" view
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS NS Record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $nsrecord = Infoblox::DNS::Record::NS->new(
+     nameserver => "ns1.server.isp.org",
+     name       => "domain.com",
+     addresses  => [$ns1, $ns2],
+ );
+ # Submit for addition
+ my $response = $session->add( $nsrecord );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS NS Record object:
+
+  name        - Optional.  A domain name in FQDN (Fully Qualified Domain Name) format.
+  nameserver  - Optional.  A domain name in FQDN (Fully Qualified Domain Name) format.
+  view        - Optional.  The DNS view in which the NS record is located. By default, all DNS views are searched.
+
+=item B<Example>
+
+  my @retrieved_objs = $session->get(
+     object    => "Infoblox::DNS::Record::NS",
+     name      => "domain.com",
+     view      => "default" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the addresses.
+ $nsrecord->addresses([$ns3]);
+ # Submit modification
+ my $response = $session->modify( $nsrecord );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my @retrieved_objs = $session->get(
+     object    => "Infoblox::DNS::Record::NS",
+     name      => "domain.com",
+     view      => "default" );
+ # Find the desired object from the retrieved list.
+ my $desired_ns = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_ns );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS NS Record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS NS Record object:
+
+  name          - Optional. A domain name in FQDN (Fully Qualified Domain Name) format (regular expression).
+  nameserver    - Optional. A domain name in FQDN (Fully Qualified Domain Name) format (regular expression).
+  view          - Optional. The DNS view in which the NS record is located. By default, all DNS views are searched.
+
+=item B<Example>
+
+ # search for all DNS NS objects that match "domain.com" in the default DNS view
+     my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::NS",
+     name   => 'domain\.com',
+     view   => "default" );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an NS record.
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::Record::NS object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 creator( )
+
+=over
+
+Use this method to retrieve the NS record creator. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->creator();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the domain name, in punycode format, of the zone to be redirected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $nsrecord->dns_name();
+
+=back
+
+=back
+
+=head2 ms_delegation_name( )
+
+=over
+
+Use this method to set or retrieve the ms_delegation_name field of the NS record. This method can be used if the primary server of the zone is a Microsoft (r) server. If this NS record is for a subzone zone, it will be the subzone name.
+
+=over
+
+=item B<Parameter>
+
+A subzone name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting ms_delegation_name
+ my $ms_delegation_name = $nsrecord->ms_delegation_name();
+ # Modifying ms_delegation_name (the full FQDN of the zone is "sub.test.com")
+ $nsrecord->ms_delegation_name("sub");
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time when the associated record was last queried. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $nsrecord->last_queried();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the domain name of the zone to be redirected.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+A domain name in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting name
+ my $name = $nsrecord->name();
+ # Modifying name
+ $nsrecord->name("domain.com");
+
+=back
+
+=back
+
+=head2 nameserver( )
+
+=over
+
+Use this method to set or retrieve the domain name of an authoritative server for the redirected zone.
+
+=over
+
+=item B<Parameter>
+
+A domain name in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting nameserver
+ my $nameserver = $nsrecord->nameserver();
+ # Modifying nameserver
+ $nsrecord->nameserver("ns1.server.isp.org");
+
+=back
+
+=back
+
+=head2 addresses( )
+
+=over
+
+Use this method to set or retrieve the IP addresses of the name servers associated with the NS record.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Nameserver::Address|Infoblox::DNS::Nameserver::Address> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting addresses
+ my $nslist = $nsrecord->addresses();
+ # Modifying addresses
+ $nsrecord->addresses([$ns1, $ns2]);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to specify or retrieve the DNS view of the NS record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the 'default' view, which means the NS  record is associated with a zone in the system-defined default view.
+
+=over
+
+=item B<Parameter>
+
+Array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $nsrecord->views();
+ #Modify views, list of Infoblox::DNS::View objects
+ $nsrecord->views([$view1]);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DNS NS record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the zone prior to NS record insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "domain.com");
+ unless ($zone) {
+    die("Construct zone failed: ",
+      Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "domain.com");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create a DNS NS record>
+
+ my $ns1 = Infoblox::DNS::Nameserver::Address->new(
+ 	   	                                           address  => '10.0.0.1',
+    	                                           auto_create_ptr => 'false'
+                                                   );
+
+ my $ns2 = Infoblox::DNS::Nameserver::Address->new(
+                                                   address         => '10.0.0.2',
+                                                   );
+
+  #Construct a DNS NS object
+ my $nsrecord = Infoblox::DNS::Record::NS->new(
+     nameserver => "ns1.server.isp.org",
+     name       => "domain.com",
+     addresses  => [$ns1, $ns2],
+ );
+
+ unless ($nsrecord) {
+    die("Construct DNS record NS failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DNS NS object created successfully\n"; #Add the DNS NS record object to Infoblox appliance through a session
+ $session->add($nsrecord)
+     or die("Add record NS failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS NS object added to server successfully\n";
+
+B<#Search for a specific DNS NS record>
+
+ #Search all NS records that match "domain.com"
+ my @retrieved_objs = $session->search(
+     object     => "Infoblox::DNS::Record::NS",
+     nameserver => "ns1.server.isp.org",
+     name       => 'domain\.com'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search record NS failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS NS object found at least 1 matching entry\n";
+
+B<#Get and modify a DNS NS  record>
+
+ #Get NS record through the session
+ my  @retrieved_objs = $session->get(
+     object     => "Infoblox::DNS::Record::NS",
+     nameserver => "ns1.server.isp.org",
+     name       => "domain.com",
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get record NS failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS NS object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified NS record
+ $object->addresses([$ns1]);
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify record NS failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS NS object modified successfully \n";
+
+B<#Remove a DNS NS  record>
+
+  #Get NS record through the session
+  my @retrieved_objs = $session->get(
+      object     => "Infoblox::DNS::Record::NS",
+      nameserver => "ns1.server.isp.org",
+      name       => "domain.com"
+   );
+    my $object = $retrieved_objs[0];
+    unless ($object) {
+     die("Get record NS failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS NS object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove record NS failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "DNS NS object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

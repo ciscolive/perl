@@ -1,0 +1,17 @@
+/opt/perl/site/lib/Data/Validate.pm
+/opt/perl/site/lib/auto/Data/Validate/autosplit.ix
+/opt/perl/site/lib/auto/Data/Validate/is_alphanumeric.al
+/opt/perl/site/lib/auto/Data/Validate/is_between.al
+/opt/perl/site/lib/auto/Data/Validate/is_equal_to.al
+/opt/perl/site/lib/auto/Data/Validate/is_even.al
+/opt/perl/site/lib/auto/Data/Validate/is_greater_than.al
+/opt/perl/site/lib/auto/Data/Validate/is_hex.al
+/opt/perl/site/lib/auto/Data/Validate/is_integer.al
+/opt/perl/site/lib/auto/Data/Validate/is_less_than.al
+/opt/perl/site/lib/auto/Data/Validate/is_numeric.al
+/opt/perl/site/lib/auto/Data/Validate/is_oct.al
+/opt/perl/site/lib/auto/Data/Validate/is_odd.al
+/opt/perl/site/lib/auto/Data/Validate/is_printable.al
+/opt/perl/site/lib/auto/Data/Validate/length_is_between.al
+/opt/perl/site/lib/auto/Data/Validate/new.al
+/opt/perl/site/man/man3/Data::Validate.3

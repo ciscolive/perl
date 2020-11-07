@@ -1,0 +1,12 @@
+/opt/perl/site/lib/DDP.pm
+/opt/perl/site/lib/Data/Printer.pm
+/opt/perl/site/lib/Data/Printer/Filter.pm
+/opt/perl/site/lib/Data/Printer/Filter/DB.pm
+/opt/perl/site/lib/Data/Printer/Filter/DateTime.pm
+/opt/perl/site/lib/Data/Printer/Filter/Digest.pm
+/opt/perl/site/man/man3/DDP.3
+/opt/perl/site/man/man3/Data::Printer.3
+/opt/perl/site/man/man3/Data::Printer::Filter.3
+/opt/perl/site/man/man3/Data::Printer::Filter::DB.3
+/opt/perl/site/man/man3/Data::Printer::Filter::DateTime.3
+/opt/perl/site/man/man3/Data::Printer::Filter::Digest.3

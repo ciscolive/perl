@@ -1,0 +1,7 @@
+/opt/perl/site/lib/Mojolicious/Plugin/SwaggerUI.pm
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-SwaggerUI/images/Screenshot.png
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-SwaggerUI/resources/public/swagger-ui/swagger-ui-bundle.js
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-SwaggerUI/resources/public/swagger-ui/swagger-ui-standalone-preset.js
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-SwaggerUI/resources/public/swagger-ui/swagger-ui.css
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-SwaggerUI/resources/templates/swagger_ui.html.ep
+/opt/perl/site/man/man3/Mojolicious::Plugin::SwaggerUI.3

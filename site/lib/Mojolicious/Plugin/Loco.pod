@@ -1,0 +1,235 @@
+
+=head1 NAME
+
+Mojolicious::Plugin::Loco - launch a web browser; easy local GUI
+
+=head1 VERSION
+
+version 0.008
+
+=head1 SYNOPSIS
+
+  use Mojolicious::Lite;
+  plugin 'Loco';
+
+  get '/' => "index";
+
+  post '/kick-me' => sub {
+    my $c = shift;
+    return if $c->loco->csrf_fail;
+    # system q(cat /dev/urandom | fdisk);
+    my $bcount = ++$c->session->{bruises};
+    $c->flash(msg => "Ok, that hurt. ($bcount)");
+    $c->redirect_to('/');
+  };
+
+  post '/quit' => sub { shift->loco->quit; };
+
+  app->secrets(['I am the very model of a modern major general'.rand()]);
+  app->start;
+
+  __DATA__
+  @@ index.html.ep
+  % layout 'default';
+  <h1>Ready!</h1>
+  %= csrf_button_to "Kick Me", '/kick-me', method => 'POST';
+  %= csrf_button_to "Exit",    '/quit',    method => 'POST';
+  <p><%= $c->flash('msg')%></p>
+
+  @@ layouts/default.html.ep
+  <!DOCTYPE html><html><head>
+  %= $c->loco->jsload;    # needs to be on every page
+  %= content_for 'head';
+  </head><body>
+  %= content
+  </body>
+  </html>
+
+Save to C<myapp.pl>, and then
+
+  perl myapp.pl daemon
+
+=head1 DESCRIPTION
+
+This plugin allows writing low-effort desktop applications using L<Mojolicious> (even cross-platform ones if your code is sufficiently portable).
+
+When run as a L<daemon|Mojolicious::Command::daemon> listening on an explicit port, the plugin launches an internet browser, passing an initial URL and seed so that subsequent requests from that browser can be distinguished.  Client-side javascript then pings the server regularly until either the server shuts down or the various browser windows are closed.
+
+For applications making changes to the filesystem / local machine state, or handling sensitive data or anything else that matters, please see L</"SECURITY CONSIDERATIONS">
+
+This module is currently experimental; the API may change without notice.
+
+=head1 OPTIONS
+
+=head2 config_key
+
+Key of the configuration hash (C<app-E<gt>config>) containing plugin option values.  Default is C<'loco'>.  If false, then C<app-E<gt>config> is not consulted.
+
+=head2 initial_wait
+
+How many seconds for the server to wait for the initial browser window to finish loading before giving up and shutting down.  Zero means wait forever.  Default is 15.
+
+=head2 final_wait
+
+How many seconds for the server to wait after the last browser window ceases communicating before shutting down (we do not rely on C<window.unload>).  Default is 3.
+
+Since javascript timer events from backgrounded/hidden tabs/windows are typically throttled in current browsers, reducing this below 2 will most likely make the application terminate prematurely if all windows are hidden or minimized.
+
+=head2 entry
+
+URI path for the entry point of your application (i.e., what to display in the initial brower window).  Default is C</>.
+
+=head2 api_path
+
+URI path prefix reserved for use by this plugin.  Endpoints needed by this module live here; this is also where the required javascript file(s) are served from.  Default is C</hb/>; it can be pretty much anything as long as it's distinct from what the rest of your application uses.
+
+=head2 browser
+
+Which browser (executable file) to run.  If false (C<0> or C<''>) then no browser will be invoked.  If a subroutine reference, then it is assumed that calling it with a URI as first argument will launch something useful.  Default is for L<Browser::Open> to launch whatever the default browser is for your system.
+
+=head2 allow_other_sessions
+
+If false (default), L<$c-E<gt>validation-E<gt>csrf_protect|Mojolicious::Validator::Validation#csrf_protect> fails on any session other than the one started from the initial browser launched.  Requests doing this check are then blocked from all other sessions.
+
+If true, L<$c-E<gt>validation-E<gt>csrf_protect|Mojolicious::Validator::Validation#csrf_protect> will behave in the default manner, and you will need to check L</loco-E<gt>id> explicitly.
+
+Read L</"SECURITY CONSIDERATIONS"> if you think you might want to set this.
+
+=head1 HELPERS
+
+=head2 loco->config
+
+Get or set plugin configuration L<options|/OPTIONS>.  Note that most values are only meaningful prior to server start so changing them thereafter won't affect anything.
+
+  $c->loco->config                         # -> full hash of settings
+  $c->loco->config('final_wait')           # -> 3
+  $c->loco->config(final_wait => 200)      # -> $c, sets final_wait
+  $c->loco->config({final_wait => 200})    # -> same
+  app->config('loco')->{final_wait} = 200  # same effect if config_key not changed
+
+=head2 loco->id
+
+Get or set the session id (for the purposes of this plugin).  By default, this is 1 for the launched browser's session and undefined for all others.
+
+=head2 loco->csrf_fail
+
+Renders an HTTP 400 reply and returns true unless C<csrf_token> validation succeeds.  If L</allow_other_sessions> is false, this implicitly also checks L</loco-E<gt>id>.
+
+  return if $c->loco->csrf_fail;
+
+=head2 loco->id_fail
+
+Renders an HTTP 400 reply and returns true unless there is a nonzero session id.
+
+  return if $c->loco->id_fail;
+
+=head2 loco->quit
+
+Stop the server and render a final page if necessary.  This implicitly calls L</loco-E<gt>csrf_fail> and checks L</loco-E<gt>id>.
+
+=head2 loco->jsload
+
+Loads whatever javascript needs to be in the <head> section of every page to be displayed in the browser window.  You most likely want this in your default layout.
+
+  %= $c->loco->jsload;
+
+Or you can be more elaborate
+
+  %= $c->loco->jsload( jquery => 'https://code.jquery.com/jquery-3.3.1.min.js', begin
+        .on_hb(function(h) {
+          // do something on every heartbeat
+	  $('#heartbeat').html(h);
+        })
+  % end );
+
+Options for L</loco-E<gt>jsload> include
+
+=head3 jquery
+
+URL to be loading jquery from.  Default is to use the jquery version included in the Mojolicious distribution.  Specifying an empty string C<''> suppresses jquery loading entirely, if you have already loaded it as part of some other package.
+
+=head3 nofinish
+
+Suppress the default C<on_finish> handler.
+
+=head3 begin
+
+Final C<begin> block, if provided, will be assumed to be javascript code to further configure the heartbeat object (code is preceded by C<$().heartbeat()>), typically to add C<on_hb> or C<on_finish> handlers
+
+=head1 SECURITY CONSIDERATIONS
+
+In a typical desktop application, traffic between the user interface and the application code will be invisible to remote attackers and code running in different processes.  Structuring your application as a Mojolicious server with UI provided by an internet browser using this plugin will, in some cases, expose this traffic and make additional interferences possible.
+
+What follows is a (necessarily incomplete) listing of vulnerabilities you may need to address.
+
+=over
+
+=item Listening on Network-accessible Interfaces/Ports
+
+Using a listening point that is network accessible means the server will (at least initially) accept incoming connection attempts from untrusted remote sites unless you have a reliable firewall to block these.  If, in addition, L</allow_other_sessions> is also set, then these remote clients will be able to obtain working sessions.
+
+By default, Mojolicious servers listen at C<http://*:3000>, where C<*> means all available interfaces, so you need to change this (C<localhost>, C<127.0.0.1>, or C<[::1]>) using either C<$ENV{MOJO_LISTEN}> or the C<-l> command line argument that the L<daemon|Mojolicious::Command::daemon> allows.
+
+=item Cross-Site Scripting
+
+Style-sheets or script pages served by your application should not reveal application secrets (e.g., the current C<csrf_token>).
+
+Pages/templates should not incorporate scripts from untrusted sources.
+
+Use a browser that enforces domain restrictions so that HTML page content and cookies are not observable from scripts running in other domains (most current browsers do this correctly).
+
+=item Cross-Site Request Forgery
+
+Since any webpage may potentially contain links, buttons, or forms targeting your application, you should use and check C<csrf_token> on any requests that change application state, write to the local filesystem, or otherwise make use of privileges beyond those typically available in a browser scripting context.
+
+=item Access From Other Local Processes
+
+With this plugin loaded, C<< $c->validation->csrf_protect >> will fail on sessions other from the one created by the browser launched.
+
+If, however you choose to L</allow_other_sessions> then it is assumed you have some independent means of authenticating them.  Your application will be receiving requests from other local processes (including other browsers you may have installed).  Special care will be needed if, e.g.,
+
+=over
+
+=item *
+
+You are concurrently running instances of alternative/out-dated browsers with cross-site scripting vulnerabiliities visiting untrusted sites that can exploit them.
+
+=item *
+
+There are other local users on your machine.
+
+=item *
+
+Your application runs setuid or otherwise invokes elevated privileges (which could then be used by other processes to bypass various protections).
+
+=back
+
+=back
+
+=head1 METHODS
+
+L<Mojolicious::Plugin::Loco> inherits all methods from
+L<Mojolicious::Plugin> and implements the following new ones.
+
+=head2 register
+
+  $plugin->register($app, entry => '/', initial_wait => 15);
+
+Register plugin in L<Mojolicious> application.  Key-value pairs give default L<option|/OPTIONS> values for this application.  Everything other than L</config_key> may be overridden in the L<application configuration|Mojolicious#config>.
+
+=head1 SEE ALSO
+
+L<Mojolicious>, L<Mojolicious::Guides>, L<https://mojolicious.org>.
+
+=head1 AUTHOR
+
+Roger Crew <wrog@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2018 by Roger Crew.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

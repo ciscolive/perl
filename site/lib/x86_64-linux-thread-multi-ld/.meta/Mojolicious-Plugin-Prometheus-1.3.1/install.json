@@ -1,0 +1,1 @@
+{"provides":{"Mojolicious::Plugin::Prometheus":{"file":"lib/Mojolicious/Plugin/Prometheus.pm","version":"v1.3.1"}},"dist":"Mojolicious-Plugin-Prometheus-1.3.1","pathname":"T/TY/TYLDUM/Mojolicious-Plugin-Prometheus-1.3.1.tar.gz","target":"Mojolicious::Plugin::Prometheus","name":"Mojolicious::Plugin::Prometheus","version":"v1.3.1"}

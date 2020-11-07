@@ -1,0 +1,1 @@
+{"pathname":"D/DA/DAGOLDEN/HTTP-Tiny-UA-0.006.tar.gz","provides":{"HTTP::Tiny::UA":{"file":"lib/HTTP/Tiny/UA.pm","version":"0.006"},"HTTP::Tiny::UA::Response":{"file":"lib/HTTP/Tiny/UA/Response.pm","version":"0.006"}},"target":"HTTP::Tiny::UA::Response","dist":"HTTP-Tiny-UA-0.006","name":"HTTP::Tiny::UA","version":"0.006"}

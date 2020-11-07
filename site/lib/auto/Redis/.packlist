@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Redis.pm
+/opt/perl/site/lib/Redis/Hash.pm
+/opt/perl/site/lib/Redis/List.pm
+/opt/perl/site/lib/Redis/Sentinel.pm
+/opt/perl/site/man/man3/Redis.3
+/opt/perl/site/man/man3/Redis::Hash.3
+/opt/perl/site/man/man3/Redis::List.3
+/opt/perl/site/man/man3/Redis::Sentinel.3

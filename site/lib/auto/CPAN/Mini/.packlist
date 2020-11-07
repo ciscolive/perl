@@ -1,0 +1,6 @@
+/opt/perl/site/bin/minicpan
+/opt/perl/site/lib/CPAN/Mini.pm
+/opt/perl/site/lib/CPAN/Mini/App.pm
+/opt/perl/site/man/man1/minicpan.1
+/opt/perl/site/man/man3/CPAN::Mini.3
+/opt/perl/site/man/man3/CPAN::Mini::App.3

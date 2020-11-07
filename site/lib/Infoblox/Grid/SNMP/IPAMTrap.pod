@@ -1,0 +1,86 @@
+=head1 NAME
+
+Infoblox::Grid::SNMP::IPAMTrap - IPAM Utilization SNMP Trap object.
+
+=head1 DESCRIPTION
+
+The object provides information about the IPAM utilization SNMP trap.
+
+=head1 CONSTRUCTOR
+
+ my $obj = Infoblox::Grid::SNMP::IPAMTrap->new(
+    'enable_email_warnings' => 'true' | 'false',     # optional
+    'enable_snmp_warnings'  => 'true' | 'false',     # optional
+ );
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of an object.
+
+=head2 enable_email_warnings( )
+
+=over
+
+Use this method to enable or disable email notifications.
+
+=over
+
+=item B<Returns>
+
+Specify 'true' to enable email notifications or 'false' to disable it. The default value is 'true'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attrubute value
+ my $value = $obj->enable_email_warnings();
+ #Set attribute value
+ $obj->enable_email_warnings('true');
+
+=back
+
+=back
+
+=head2 enable_snmp_warnings( )
+
+=over
+
+Use this method to enable or disable SNMP notifications.
+
+=over
+
+=item B<Returns>
+
+Specify 'true' to enable SNMP notifications or 'false' to disable it. The default value is 'true'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attrubute value
+ my $value = $obj->enable_snmp_warnings();
+ #Set attribute value
+ $obj->enable_snmp_warnings('true');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

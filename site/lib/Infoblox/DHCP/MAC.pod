@@ -1,0 +1,959 @@
+=head1 NAME
+
+Infoblox::DHCP::MAC - DHCP MAC object.
+
+=head1 DESCRIPTION
+
+A MAC Address is a unique hardware identifier. The Infoblox device can filter address requests by the MAC address of a requesting hosts. The filter instructs the Infoblox device either to grant or deny an address request if the requesting host matches the filter. Also, it is possible configure specific MAC addresses within a filter to expire after a certain amount of time has passed.
+
+=head1 CONSTRUCTOR
+
+ my $mac = Infoblox::DHCP::MAC->new(
+       filter                => $string,        #Required
+       mac                   => $mac_addr,      #Required
+       authentication_time   => $num,           #Optional / Default is empty
+       comment               => $string,        #Optional / Default is empty
+       expiration_time       => $num,           #Optional / Default is 0 for never expire
+       extattrs              => { $string => $extattr, ... },      #Optional / Default is undefined
+       extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+       guest_custom_field1   => $string,        #Optional / Default is empty
+       guest_custom_field2   => $string,        #Optional / Default is empty
+       guest_custom_field3   => $string,        #Optional / Default is empty
+       guest_custom_field4   => $string,        #Optional / Default is empty
+       guest_email           => $string,        #Optional / Default is empty
+       guest_first_name      => $string,        #Optional / Default is empty
+       guest_last_name       => $string,        #Optional / Default is empty
+       guest_middle_name     => $string,        #Optional / Default is empty
+       guest_phone           => $string,        #Optional / Default is empty
+       is_registered_user    => "true" | "false", #Optional / Default is "true"
+       reserved_for_infoblox => $string,        #Optional / Default is "false"
+       username              => $string,        #Optional / Default is empty
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DHCP MAC object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP MAC  object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP MAC object
+ my $mac = Infoblox::DHCP::MAC->new(
+            "mac"                   => "00:00:00:00:00:03",
+            "filter"                => "new",
+            "comment"               => "dhcp mac object",
+            "expiration_time"       => "0",
+            "username"              => "infoblox_user",
+            "authentication_time"   => "0",
+            "reserved_for_infoblox" => "For Infoblox Use only",
+ );
+ #Submit for addition
+ my $response = $session->add($mac)
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP MAC object:
+
+  mac    - Optional. MAC address of the DHCP MAC object.
+  filter - Optional. MAC filter name.
+  comment  - Optional. A comment in string format.
+  username - Optional. Username of the DHCP MAC object.
+  fingerprint - Optional. DHCP fingerprint description.
+  extattrs - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ #Get DHCP MAC object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::MAC",
+     mac    => "00:00:00:00:00:03",
+     filter => "new",
+ );
+
+ # get all objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object                => "Infoblox::DHCP::MAC",
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP MAC object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the expiration time.
+ $mac->expiration_time("1234567890");
+ #Submit modification
+ my $response = $session->modify( $mac );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP MAC object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP MAC object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get DHCP MAC object through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DHCP::MAC",
+     mac        => "00:00:00:00:00:03",
+     filter     => "new",
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_mac = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_mac );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP MAC objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific DHCP MAC Address object:
+
+  comment  - Optional. A comment in string format (regular expression).
+  mac      - Optional. MAC address of the DHCP MAC object (regular expression).
+  username - Optional. Username of the DHCP MAC object (regular expression).
+  filter   - Optional. MAC address filter name (regular expression).
+  fingerprint - Optional. DHCP fingerprint description (regular expression).
+  extattrs - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DHCP MAC objects that are specified in the "new" MAC filter.
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::MAC",
+     mac    => "00:00:00:00:00.*",
+     filter => "new"
+ );
+
+ # search all DHCP MAC associations with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DHCP::MAC",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a DHCP MAC object.
+
+=head2 authentication_time( )
+
+=over
+
+Use this method to set or retrieve the authentication time. Indicates the time when the MAC address was first authenticated.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The absolute UNIX time (seconds since UNIX epoch) when the address was authenticated. The maximum value can extend upto 4294967295.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authentication_time
+ my $authentication_time = $mac->authentication_time();
+ #Modify authentication_time
+ $mac->authentication_time("1234567890");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $mac->comment();
+ #Modify comment
+ $mac->comment("Modified DHCP MAC comment");
+
+=back
+
+=back
+
+=head2 expired( )
+
+=over
+
+Use this method to retrieve the expired flag of the DHCP MAC object .
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get expired
+ my $expired = $mac->expired();
+
+=back
+
+=back
+
+=head2 expiration_time( )
+
+=over
+
+Use this method to set or retrieve the expiration time of the DHCP MAC object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+By default, the MAC address never expires; otherwise, it is the absolute UNIX time (seconds since UNIX epoch) when the address expires. The maximum value can extend upto 4294967295.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get expiration_time
+ my $expiration_time = $mac->expiration_time();
+ #Modify expiration_time
+ $mac->expiration_time("1234567890");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $mac->extattrs();
+ #Modify extattrs
+ $mac->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP MAC object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $mac->extensible_attributes();
+ #Modify extensible attributes
+ $mac->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 fingerprint( )
+
+=over
+
+Use this method to retrieve the description of the DHCP fingerprint of a DHCP MAC object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get fingerprint
+ my $fingerprint = $mac->fingerprint();
+
+=back
+
+=back
+
+=head2 guest_custom_field1 ( )
+
+=over
+
+Use this method to set or retrieve the value in Custom Field 1 of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field1
+   my $guest_custom_field1 = $dhcp->guest_custom_field1();
+   #Modifying guest_custom_field1
+   $dhcp->guest_custom_field1('Custom value 1');
+
+=back
+
+=back
+
+=head2 guest_custom_field2 ( )
+
+=over
+
+Use this method to set or retrieve the value in Custom Field 2 of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field2
+   my $guest_custom_field2 = $dhcp->guest_custom_field2();
+   #Modifying guest_custom_field2
+   $dhcp->guest_custom_field2('Custom value 2');
+
+=back
+
+=back
+
+=head2 guest_custom_field3 ( )
+
+=over
+
+Use this method to set or retrieve the value in Custom Field 3 of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field3
+   my $guest_custom_field3 = $dhcp->guest_custom_field3();
+   #Modifying guest_custom_field3
+   $dhcp->guest_custom_field3('Custom value 3');
+
+=back
+
+=back
+
+=head2 guest_custom_field4 ( )
+
+=over
+
+Use this method to set or retrieve the value in Custom Field 4 of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_custom_field4
+   my $guest_custom_field4 = $dhcp->guest_custom_field4();
+   #Modifying guest_custom_field4
+   $dhcp->guest_custom_field4('Custom value 4');
+
+=back
+
+=back
+
+=head2 guest_email ( )
+
+=over
+
+Use this method to set or retrieve the email address in the Email field of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 128 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_email
+   my $guest_email = $dhcp->guest_email();
+   #Modifying guest_email
+   $dhcp->guest_email('user@domain.com');
+
+=back
+
+=back
+
+=head2 guest_first_name ( )
+
+=over
+
+Use this method to set or retrieve the entry in the First Name field of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_first_name
+   my $guest_first_name = $dhcp->guest_first_name();
+   #Modifying guest_first_name
+   $dhcp->guest_first_name('John');
+
+=back
+
+=back
+
+=head2 guest_last_name ( )
+
+=over
+
+Use this method to set or retrieve the entry in the Last Name field of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_last_name
+   my $guest_last_name = $dhcp->guest_last_name();
+   #Modifying guest_last_name
+   $dhcp->guest_last_name('Doe');
+
+=back
+
+=back
+
+=head2 guest_middle_name ( )
+
+=over
+
+Use this method to set or retrieve the entry in the Middle Name field of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_middle_name
+   my $guest_middle_name = $dhcp->guest_middle_name();
+   #Modifying guest_middle_name
+   $dhcp->guest_middle_name('Robert');
+
+=back
+
+=back
+
+=head2 guest_phone ( )
+
+=over
+
+Use this method to set or retrieve the entry in the Phone field of the guest registration page of this DHCP MAC object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string. The default value is undefined. The maximum length is 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting guest_phone
+   my $guest_phone = $dhcp->guest_phone();
+   #Modifying guest_phone
+   $dhcp->guest_phone('1-555-555-5555');
+
+=back
+
+=back
+
+=head2 filter( )
+
+=over
+
+Use this method to set or retrieve the filter value of the DHCP MAC object .
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the DHCP MAC filter. Maximum length upto 1024 bytes is supported.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get filter
+ my $filter = $mac->filter();
+ #Modify filter
+ $mac->filter("filter1");
+
+=back
+
+=back
+
+=head2 mac( )
+
+=over
+
+Use this method to set or retrieve the MAC address of the DHCP MAC object .
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+MAC Address of the DHCP MAC object. Format for the hexadecimal strings for MAC addresses and vendor prefixes with colons or dashes. Both of the following formats are acceptable: 11:11:11:11:11:11 and 11-11-11-11-11-11.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mac
+ my $mac_value = $mac->mac();
+ #Modify mac
+ $mac->mac("00:00:00:11:11:11");
+
+=back
+
+=back
+
+=head2 is_registered_user( )
+
+=over
+
+Use this method to set or retrieve the is_registered_user flag of the DHCP MAC object. If this flag is "false", then this DHCP MAC object represents a "Guest" registration.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the is_registered_user flag or "false" to deactivate/unset it. The default value for this field is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get is_registered_user
+ my $is_registered_user = $mac->is_registered_user()
+ # Modify is_registered_user
+ $mac->is_registered_user("true");
+
+=back
+
+=back
+
+=head2 reserved_for_infoblox( )
+
+=over
+
+Set this flag to reserve the MAC address for an Infoblox appliance.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Reserved to write comment related to this particular MAC address. Comment cannot exceed 1024 bytes long.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get reserved_for_infoblox
+ my $reserved_for_infoblox = $mac->reserved_for_infoblox();
+ #Modify reserved_for_infoblox
+ $mac->reserved_for_infoblox("reserved for Infoblox");
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to set or retrieve the user name  of the DHCP MAC object .
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+User name of the DHCP MAC object. Used for authenticated DHCP purposes. Maximum of 128 characters supported.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get username
+ my $username = $mac->username();
+ #Modify username
+ $mac->username("user_infoblox");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DHCP MAC object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create a DHCP MAC Filter object
+ my $macfilter = Infoblox::DHCP::Filter::MAC->new ( "name" => "mac_filter");
+
+ unless($macfilter) {
+      die("Construct mac filter failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "MAC Filter object created successfully\n";
+
+ #Verify if the DHCP MAC Filter exists in the Infoblox appliance
+ my $object = $session->get(object => "Infoblox::DHCP::Filter::MAC", name => "mac_filter");
+ unless ($object) {
+    print "mac filter does not exist on server, safe to add the mac filter\n";
+    $session->add($macfilter)
+       or die("Add mac filter failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "DHCP MAC Filter added successfully\n";
+
+B<#Create a DHCP MAC object>
+
+ my $mac = Infoblox::DHCP::MAC->new(
+            "mac"                   => "00:00:00:00:00:01",
+            "filter"                => "mac_filter",
+            "comment"               => "dhcp mac object",
+            "expiration_time"       => "0",
+            "username"              => "infoblox_user",
+            "authentication_time"   => "0",
+            "reserved_for_infoblox" => "For Infoblox Use only",
+ );
+
+ unless($mac) {
+             die("Construct MAC object failed: ",
+                   Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "MAC Address object created successfully\n";
+
+ #Add the MAC Address object into the Infoblox appliance through a session
+ $session->add($mac)
+      or die("Add MAC Address object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DHCP MAC Address object added successfully\n";
+
+B<#Search for a specific DHCP MAC Address object>
+
+ #Search for all DHCP MAC address objects
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::MAC",
+     filter => "mac_filter" );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search for MAC Address object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search MAC Address object found at least 1 matching entry\n";
+
+B<#Get and modify a MAC Address object>
+
+ #Get MAC Address object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::MAC",
+     mac    => "00:00:00:00:00:01",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get MAC Address object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get MAC Address object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the obtained MAC Address object
+ $object->expiration_time("1234567890");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify MAC Address object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "MAC Address object modified successfully \n";
+
+B<#Remove a MAC Address object>
+
+ #Get MAC Address object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::MAC",
+     mac    => "00:00:00:00:00:01",
+     filter => "mac_filter",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get MAC Address object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get MAC Address object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove MAC Address object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "MAC Address object removed successfully \n";
+
+ #Submit the MAC Address Filter object for removal
+ $session->remove($macfilter)
+     or die("Remove MAC Address Filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "MAC Address Filter object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC>, L<Infoblox::DHCP::Filter::RelayAgent|Infoblox::DHCP::Filter::RelayAgent>, L<Infoblox::DHCP::Lease|Infoblox::DHCP::Lease>,L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

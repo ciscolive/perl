@@ -1,0 +1,419 @@
+=head1 NAME
+
+Infoblox::Grid::BFD::Template - a Bidirectional Forwarding Detection (BFD) template object.
+
+=head1 DESCRIPTION
+
+The BFD template is used to configure advanced BFD settings such as time intervals, authentication setting.
+
+=head1 CONSTRUCTOR
+
+ my $bfd_template = Infoblox::Grid::BFD::Template->new(
+     name                  => $string,                            #Required
+     authentication_type   => 'NONE' | 'MD5' | 'METICULOUS-MD5' |
+                              'SHA1' | 'METICULOUS-SHA1',         #Optional / Default is 'NONE'
+     authentication_key    => $string,                            #Optional / Default is undefined
+     authentication_key_id => $string,                            #Optional / Default is undefined
+     detection_multiplier  => $uint,                              #Optional / Default is 3
+     min_rx_interval       => $uint,                              #Optional / Default is 100
+     min_tx_interval       => $uint,                              #Optional / Default is 100
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a BFD template object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add the object to the Infoblox appliance.
+See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $object = Infoblox::Grid::BFD::Template->new(
+     name                  => 'bfd_template1',
+     authentication_type   => 'MD5',
+     authentication_key    => 'secret',
+     authentication_key_id => 42,
+ );
+
+ #Submit for addition
+ my $response = $session->add($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific BFD template object:
+
+  name - Optional. The BFD template name in string format.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::BFD::Template',
+     name   => 'bfd_template1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify the object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify min_rx value
+ $object->min_rx_interval(100);
+
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove the object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP range object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::BFD::Template',
+     name   => 'bfd_template1',
+ );
+
+ #Find the desired object from the retrieved list
+ my $desired_object = $retrieved_objs[0];
+
+ #Submit for removal
+ my $response = $session->remove($desired_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for the BFD template object:
+
+  name - Optional. The BFD template name in string format (regexp).
+
+=item B<Examples>
+
+ # search for objects
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::Grid::BFD::Template',
+     name   => '.*template',
+);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a BFD template object.
+
+=head2 authentication_key( )
+
+=over
+
+Use this method to set or retrieve the authentication key for BFD protocol message-digest authentication. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a authentication key in a string format. 
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify authentication_key value
+ $object->authentication_key('secret');
+
+=back
+
+=back
+
+=head2 authentication_key_id( )
+
+=over
+
+Use this method to set or retrieve the authentication key identifier for BFD protocol authentication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 255. The default is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authentication_key_id value
+ my $authentication_key_id = $object->authentication_key_id();
+
+ #Modify authentication_key_id value
+ $object->authentication_key_id(200);
+
+=back
+
+=back
+
+=head2 authentication_type( )
+
+=over
+
+Use this method to set or retrieve the authentication type for BFD protocol. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'NONE', 'MD5', 'METICULOUS-MD5', 'SHA1', and 'METICULOUS-SHA1'. The default value is 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authentication_type value
+ my $authentication_type = $object->authentication_type();
+
+ #Modify authentication_type value
+ $object->authentication_type('SHA1');
+
+=back
+
+=back
+
+=head2 detection_multiplier( )
+
+=over
+
+Use this method to set or retrieve the detection time multiplier value for BFD protocol.
+
+The negotiated transmit interval, multiplied by this value, provides the detection time for the receiving system in asynchronous BFD mode.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 3 and 50. The default is 3.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get detection_multiplier value
+ my $detection_multiplier = $object->detection_multiplier();
+
+ #Modify detection_multiplier value
+ $object->detection_multiplier(20);
+
+=back
+
+=back
+
+=head2 is_default( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the BFD template is a Grid default or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get is_default value
+ my $is_default = $object->is_default();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the BFD template name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a BFD template name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+ #Modify name value
+ $object->name('template1');
+
+=back
+
+=back
+
+=head2 min_rx_interval( )
+
+=over
+
+Use this method to set or retrieve the minimum receive time (in seconds) for BFD protocol.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 50 and 9999. The default is 100.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get min_rx_interval value
+ my $min_rx_interval = $object->min_rx_interval();
+
+ #Modify min_rx_interval value
+ $object->min_rx_interval(200);
+
+=back
+
+=back
+
+=head2 min_tx_interval( )
+
+=over
+
+Use this method to set or retrieve the minimum transmission time (in seconds) for BFD protocol.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 50 and 9999. The default is 100.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get min_tx_interval value
+ my $min_tx_interval = $object->min_tx_interval();
+
+ #Modify min_tx_interval value
+ $object->min_tx_interval(200);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

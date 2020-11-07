@@ -1,0 +1,128 @@
+=head1 NAME
+
+Infoblox::Grid::LicenseSubPool - a license subpool object.
+
+=head1 DESCRIPTION
+
+The license subpool object shows the license installments that have the same expiry date.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::LicenseSubPool object is a read-only object and does not require manual construction.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+=head2 Infoblox::Grid::LicensePool->subpools( )
+
+=over
+
+Use this method to retrieve the license pool subpools.
+For parameters and return values see L<Infoblox::Grid::LicensePool-E<gt>subpools|Infoblox::Grid::License/subpools()/>.
+
+=item B<Example>
+
+ #Get subpools value
+ my $value = $object->subpools();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of a license subpool object.
+
+=head2 expiration( )
+
+=over
+
+Use this method to retrieve the license subpool expiration timestamp. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the number of seconds elapsed since January 1, 1970, in UTC format.
+
+=item B<Example>
+
+ #Get expiration value
+ my $expiration = $object->expiration();
+
+=back
+
+=back
+
+=head2 installed( )
+
+=over
+
+Use this method to retrive the total number of dynamic licenses allowed for this license sub pool. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get installed value
+ my $value = $object->installed();
+
+=back
+
+=back
+
+=head2 key( )
+
+=over
+
+Use this method to retrieve the license string for the license subpool. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get key value
+ my $value = $object->key();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Grid::LicensePool|Infoblox::Grid::LicensePool>,
+L<Infoblox::Grid::LicensePool-E<gt>subpools|Infoblox::Grid::LicensePool/subpools()/>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

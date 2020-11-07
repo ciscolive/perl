@@ -1,0 +1,220 @@
+=head1 NAME
+
+Infoblox::DNS::GlueRecordAddr - Infoblox DNS Glue Record Object.
+
+=head1 DESCRIPTION
+
+The GlueRecordAddr allows you to specify which interface address the appliance uses to generate the glue record for each view.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::DNS::GlueRecordAddr object is automatically generated upon the successful creation of the Infoblox::DNS::View object. It does not require manual construction.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to a GlueRecordAddr object.
+
+=head2 Infoblox::Grid::Member::DNS->glue_record_addresses( )
+
+=over
+
+Use this function to specify a glue record address for a view at the grid member level. See L<Infoblox::Grid::Member::DNS-E<gt>glue_record_addresses()|Infoblox::Grid::Member::DNS/glue_record_addresses()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Retrieve the list of GlueRecordAddr objects from Member DNS object.
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Member::DNS",
+     name   => "infoblox.localdomain" );
+
+ #select the desired GlueRecordAddr for the view
+ my $Grid_Member_DNS = $retrieved_objs[0];
+ my $ref_all_glue_record_addr = $Grid_Member_DNS->glue_record_addresses();
+ my $glue_record_addr = @$ref_all_glue_record_addr[0];
+
+ # Modify Glue Record Address for the view to use NAT address.
+ $glue_record_addr->glue_record_address("NAT");
+
+ #Save modification to Member DNS object.
+ my $response = $Grid_Member_DNS->glue_record_addresses($ref_all_glue_record_addr);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a GlueRecordAddr object.
+
+=head2 attach_empty_recursive_view( )
+
+=over
+
+Use this method to set or retrieve the attach_empty_recursive_view flag of glue record object. If the attach_empty_recursive_view flag is set to "true", then empty view with recursion enabled will be written into the conf file.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the attach_empty_recursive_view flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attach_empty_recursive_view.
+ my $attach_empty_recursive_view = $glue_record_addr->attach_empty_recursive_view();
+ #Modify attach_empty_recursive_view.
+ $glue_record_addr->attach_empty_recursive_view("true");
+
+=back
+
+=back
+
+=head2 glue_record_address( )
+
+=over
+
+Use this method to set or retrieve the address the appliance uses to generate the glue record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String which specifies the interface address to use. Valid values are "interface", "NAT", or specify an IPv4 or IPv6 address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get glue record address.
+ my $glue_record_address = $glue_record_addr->glue_record_address();
+ #Modify glue record address.
+ $glue_record_addr->glue_record_address("NAT");
+
+=back
+
+=back
+
+=head2 view( )
+
+=over
+
+Use this method to retrieve the view of this Glue Record object
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get view
+ my $glue_record_view = $glue_record_addr->view();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as get and modify. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DNS GlueRecordAddr object modification>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+            master   => "192.168.1.2",
+            username => "admin",
+            password => "infoblox"
+ );
+
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ # Retrieve the list of GlueRecordAddr objects from Member DNS object.
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Member::DNS",
+     name   => "infoblox.localdomain" );
+
+ my $Grid_Member_DNS = $retrieved_objs[0];
+ unless ($Grid_Member_DNS) {
+    die("Retrieve Grid Member DNS object failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Grid Member DNS object retrieve successfully\n";
+
+B<#Modify the Glue Record address>
+
+ my $ref_all_glue_record_addr = $Grid_Member_DNS->glue_record_addresses();
+
+ # Select the desired GlueRecordAddr for the view
+ my $glue_record_addr = @$ref_all_glue_record_addr[0];
+ unless ($glue_record_addr) {
+    die("Glue Record Address not found on Grid Member DNS object: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Glue Record Address found on Grid Member DNS object\n";
+
+ # Modify Glue Record Address for the view to use a custom defined address.
+ $glue_record_addr->glue_record_address("interface")
+     or die("modify glue record failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ print "Glue Record Address modified successfully\n";
+
+ # Save modification to Member DNS object.
+ my $response = $Grid_Member_DNS->glue_record_addresses($ref_all_glue_record_addr);
+ unless($response) {
+     die("Modify glue record on Member DNS failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Glue Record Address updated to Grid Member DNS object successfully\n";
+
+ #submit changes to Infoblox appliance
+ $session->modify($Grid_Member_DNS)
+    or die("Modify Member DNS object on Infoblox appliance failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ print "Grid Member DNS modified on Infoblox appliance successfully\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Grid::Member::DNS-E<gt>glue_record_addresses()|Infoblox::Grid::Member::DNS/glue_record_addresses()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

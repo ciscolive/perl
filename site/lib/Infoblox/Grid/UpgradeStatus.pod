@@ -1,0 +1,459 @@
+=head1 NAME
+
+Infoblox::Grid::UpgradeStatus - Information about the Grid's upgrade status.
+
+=head1 DESCRIPTION
+
+The Upgrade Status object is used to view the upgrade status of an Infoblox Grid.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::UpgradeStatus object is automatically generated. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session that can be applied to an Upgrade Status object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+  my @statistics = $session->get(object => "Infoblox::Grid::UpgradeStatus");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of an Upgrade Status object.
+
+=head2 allow_distribution( )
+
+=over
+
+Use this method to determine if distribution is allowed for the Grid.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get allow_distribution
+ my $allow_distribution = $upgstatus->allow_distribution();
+
+=back
+
+=back
+
+=head2 allow_upgrade( )
+
+=over
+
+Use this method to determine if upgrade is allowed for the Grid.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get allow_upgrade
+ my $allow_upgrade = $upgstatus->allow_upgrade();
+
+=back
+
+=back
+
+=head2 allow_upgrade_cancel( )
+
+=over
+
+Use this method to determine if the Grid is allowed to cancel an upgrade.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get allow_upgrade_cancel
+ my $allow_upgrade_cancel = $upgstatus->allow_upgrade_cancel();
+
+=back
+
+=back
+
+=head2 allow_upgrade_pause( )
+
+=over
+
+Use this method to determine if the Grid is allowed to pause an upgrade.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get allow_upgrade_pause
+ my $allow_upgrade_pause = $upgstatus->allow_upgrade_pause();
+
+=back
+
+=back
+
+=head2 allow_upgrade_resume( )
+
+=over
+
+Use this method to determine if the Grid is allowed to resume an upgrade.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get allow_upgrade_resume
+ my $allow_upgrade_resume = $upgstatus->allow_upgrade_resume();
+
+=back
+
+=back
+
+=head2 allow_upgrade_scheduling( )
+
+=over
+
+Use this method to determine if the Grid is allowed to schedule an upgrade.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get allow_upgrade_scheduling
+ my $allow_upgrade_scheduling = $upgstatus->allow_upgrade_scheduling();
+
+=back
+
+=back
+
+=head2 allow_upgrade_test( )
+
+=over
+
+Use this method to determine if the Grid is allowed to test an upgrade.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get allow_upgrade_test
+ my $allow_upgrade_test = $upgstatus->allow_upgrade_test();
+
+=back
+
+=back
+
+=head2 allow_upload( )
+
+=over
+
+Use this method to determine if the Grid is allowed to upload a build.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get allow_upload
+ my $allow_upload = $upgstatus->allow_upload();
+
+=back
+
+=back
+
+=head2 distribution_schedule_active( )
+
+=over
+
+Use this method to determine if the distribution schedule is active for the Grid.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get distribution_schedule_active
+ my $distribution_schedule_active = $upgstatus->distribution_schedule_active();
+
+=back
+
+=back
+
+=head2 grid_state( )
+
+=over
+
+Use this method to retrieve the Grid state.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are
+
+ "NONE", "DISTRIBUTING_COMPLETE", "DISTRIBUTING_ENDED", "DISTRIBUTING_PAUSED",
+ "DISTRIBUTING", "DISTRIBUTING_FAILED", "DEFAULT", "UPGRADING", "REVERT",
+ "TEST_UPGRADING", "UPGRADING_COMPLETE", "UPGRADING_FAILED",
+ "REVERTING_COMPLETE", "DOWNGRADING_COMPLETE", "UPLOADED",
+ "DOWNGRADING_FAILED", "UPGRADING_PAUSED"
+
+=item B<Example>
+
+ #Get grid_state
+ my $grid_state = $upgstatus->grid_state();
+
+=back
+
+=back
+
+=head2 group_state( )
+
+=over
+
+Use this method to retrieve the group state.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are
+
+ "GROUP_NONE", "GROUP_DISTRIBUTING_WAITING", "GROUP_DISTRIBUTING",
+ "GROUP_DISTRIBUTING_COMPLETE", "GROUP_UPGRADING_WAITING", "GROUP_UPGRADING",
+ "GROUP_UPGRADING_COMPLETE", "GROUP_DISTRIBUTING_FAILED"
+
+=item B<Example>
+
+ #Get group_state
+ my $group_state = $upgstatus->group_state();
+
+=back
+
+=back
+
+=head2 message( )
+
+=over
+
+Use this method to retrieve the grid message.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get message
+ my $message = $upgstatus->message();
+
+=back
+
+=back
+
+=head2 status_time( )
+
+=over
+
+Use this method to retrieve the status time.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get status_time
+ my $status_time = $upgstatus->status_time();
+
+=back
+
+=back
+
+=head2 upgrade_schedule_active( )
+
+=over
+
+Use this method to determine if the upgrade schedule is active.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "true" or "false".
+
+=item B<Example>
+
+ #Get upgrade_schedule_active
+ my $upgrade_schedule_active = $upgstatus->upgrade_schedule_active();
+
+=back
+
+=back
+
+=head2 upgrade_state( )
+
+=over
+
+Use this method to retrieve the upgrade state of the Grid.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "NONE" or "PROGRESSING".
+
+=item B<Example>
+
+ #Get upgrade_state
+ my $upgrade_state = $upgstatus->upgrade_state();
+
+=back
+
+=back
+
+=head2 upgrade_test_status( )
+
+=over
+
+Use this method to retrieve the upgrade test status of the Grid.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "NONE", "PROGRESSING", "COMPLETED" or "FAILED".
+
+=item B<Example>
+
+ #Get upgrade_test_status
+ my $upgrade_test_status = $upgstatus->upgrade_test_status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

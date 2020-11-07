@@ -1,0 +1,223 @@
+=head1 NAME
+
+Infoblox::Grid::EAExpressionOp - A extensible attribute expression operand object.
+
+=head1 DESCRIPTION
+
+The extensible attribute expression operand object is used to build an extensible attribute expression lists. The allowed values for the expression operand object depend on the object they appear to be a part of.
+
+=head1 CONSTRUCTOR
+
+ my $expression = Infoblox::Grid::EAExpressionOp->new(
+     op       => 'AND'| 'ENDLIST'| 'EQ'| 'EXISTS'| 'NOT_EQ'| 'NOT_EXISTS'| 'OR', # Required
+     op1      => $ead,                                                           # Optional / Default is undefined
+     op2      => $string,                                                        # Optional / Default is undefined
+     op1_type => 'FIELD' | 'LIST' | 'STRING',                                    # Optional / Default is undefined
+     op2_type => 'FIELD' | 'LIST' | 'STRING',                                    # Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+=head2 Infoblox::Grid::DNS::ReclamationSetting->ea_expression_list( )
+
+=over
+
+Use this method to set or retrieve the ea_expression list.
+See L<Infoblox::Grid::DNS::ReclamationSetting-E<gt>ea_expression_list()|Infoblox::Grid::DNS::ReclamationSetting/ea_expression_list()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get ea_expression_list value
+ my $ea_expression_list = $object->ea_expression_list();
+
+ #Modify ea_expression_list value
+ $object->ea_expression_list([$start_list, $op1, $op2, $end_list]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 op( )
+
+=over
+
+Use this method to set or retrieve the operation name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'AND', 'ENDLIST', 'EQ', 'EXISTS', 'NOT_EQ', 'NOT_EXISTS' and 'OR'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get op value
+ my $op = $object->op();
+
+ #Modify op value
+ $object->op('AND');
+
+=back
+
+=back
+
+=head2 op1( )
+
+=over
+
+Use this method to set or retrieve the first operand value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ExtensibleAttributeDef|Infoblox::Grid::ExtensibleAttributeDef> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get op1 value
+ my $op1 = $object->op1();
+
+ #Modify op1 value
+ $object->op1($ead);
+
+=back
+
+=back
+
+=head2 op1_type( )
+
+=over
+
+Use this method to set or retrieve the first operand type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'FIELD', 'LIST' and 'STRING'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get op1_type value
+ my $op1_type = $object->op1_type();
+
+ #Modify op1_type value
+ $object->op1_type('LIST');
+
+=back
+
+=back
+
+=head2 op2( )
+
+=over
+
+Use this method to set or retrieve the second operand value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the second operand value.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get op2 value
+ my $op2 = $object->op2();
+
+ #Modify op2 value
+ $object->op2('OP2_VAL');
+
+=back
+
+=back
+
+=head2 op2_type( )
+
+=over
+
+Use this method to set or retrieve the second operand type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'FIELD', 'LIST' and 'STRING'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get op2_type value
+ my $op2_type = $object->op2_type();
+
+ #Modify op2_type value
+ $object->op2_type('STRING');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS::ReclamationSetting|Infoblox::Grid::DNS::ReclamationSetting>, 
+L<Infoblox::Grid::DNS::ReclamationSetting-E<gt>ea_expression_list()|Infoblox::Grid::DNS::ReclamationSetting/ea_expression_list()/>, 
+L<Infoblox::Grid::ExtensibleAttributeDef|Infoblox::Grid::ExtensibleAttributeDef>, 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut
+

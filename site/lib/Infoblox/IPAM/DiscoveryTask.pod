@@ -1,0 +1,741 @@
+=head1 NAME
+
+Infoblox::IPAM::DiscoveryTask - Network discovery configuration
+
+=head1 DESCRIPTION
+
+This class represents the condiguration of network discovery jobs. Configuration parameters in this class have control over the behavior of network discovery jobs.
+
+=head1 CONSTRUCTOR
+
+Both current and scheduled Infoblox::IPAM::DiscoveryTask objects are automatically generated upon the successful installation of the Infoblox appliance. You do not need to create it.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a discovery task object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get a specific IPAM network discovery task object:
+
+  object - Required. It should be set to "Infoblox::IPAM::DiscoveryTask".
+  discovery_task_oid - Optional. The discovery task identifier that can be "current" or "scheduled".
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::IPAM::DiscoveryTask",
+     discovery_task_oid => "current",
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use this method to modify the ping_timeout.
+ $discovery_task->ping_timeout("500");
+ #Submit modification
+ my $response = $session->modify( $discovery_task);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the network discovery task.
+
+=head2 disable_ip_scanning( )
+
+=over
+
+Use this method to enable or disable IP discovery. This is a boolean value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the disable_ip_scanning attribute to "false" to enable IP discovery. Set the attribute to "true" to disable IP discovery. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable_ip_scanning attribute
+ my $disable_ip_scanning = $discovery_task->disable_ip_scanning();
+ #Modify disable_ip_scanning attribute
+ $discovery_task->disable_ip_scanning("true");
+
+=back
+
+=back
+
+=head2 disable_vmware_scanning( )
+
+=over
+
+Use this method to enable or disable VM discovery. This is a boolean value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the disable_vmware_scanning attribute to "false" to enable VM discovery. Set the attribute to "true" to disable VM discovery. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable_vmware_scanning attribute
+ my $disable_vmware_scanning = $discovery_task->disable_vmware_scanning();
+ #Modify disable_vmware_scanning attribute
+ $discovery_task->disable_vmware_scanning("true");
+
+=back
+
+=back
+
+=head2 discovery_task_oid( )
+
+=over
+
+Use this method to retrieve the discovery task identifier. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be "current" or "scheduled".
+
+=item B<Example>
+
+ #Get discovery_task_oid attribute
+ my $discovery_task_oid = $discovery_task->discovery_task_oid();
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve the grid member that will run the discovery. Member is required for network discovery task object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a defined L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> object. The default value is empty.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get member
+ my $member = $discovery_task->member();
+ #Modify member
+ $discovery_task->member($member1); #$member1 is an Infoblox::DHCP::Member object
+
+=back
+
+=back
+
+=head2 mode( )
+
+=over
+
+Use this method to set or retrieve the network discovery mode.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Network discovery mode. Valid values when setting the mode are "FULL", "ICMP", "NETBIOS" and "TCP". Default value is "FULL".
+
+When retrieving the network discovery mode, you can get any value listed above plus the value "CSV" if a CSV discovery job is running.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mode
+ my $mode = $discovery_task->mode();
+ #Modify mode
+ $discovery_task->mode("ICMP");
+
+=back
+
+=back
+
+=head2 merge_data( )
+
+=over
+
+Use this method to set or retrieve the merge data flag that a network discovery uses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The flag indicates whether the GM sorter replaces or merges the discovered data with existing data. The valid values are "true" and "false". The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns "true" when the modification succeeds, and it returns "false" when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get merge_data
+ my $merge_data = $discovery_task->merge_data();
+ #Modify merge_data
+ $discovery_task->merge_data("false");
+
+=back
+
+=back
+
+=head2 networks( )
+
+=over
+
+Use this method to retrieve the DHCP networks on which network discovery jobs search for IP addresses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> objects. Networks must contain at least one Infoblox::DHCP::Network object.
+
+Note: The discovery task object returned from the appliance may or may not contain Infoblox::DHCP::Network objects. Networks must contain at least one Infoblox::DHCP::Network object when calling modify function.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ my $network1 = Infoblox::DHCP::Network->new(
+                                        "network" => "10.0.0.0/24",
+                                );
+ #Get networks
+ my $networks = $discovery_task->networks();
+ #Modify networks
+ $discovery_task->networks([$network1]);
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of a discovery task.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the default network view.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a defined L<Infoblox::DHCP::View|Infoblox::DHCP::View> object. The default value is the system-defined network view.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $discovery_task->network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $discovery_task->network_view($nview);
+
+=back
+
+=back
+
+=head2 ping_retries( )
+
+=over
+
+Use this method to set or retrieve the network discovery ping retry times.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Network discovery ping retry times. Minimium value is 1 and maximum value is 5. Default value is 2.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ping_retries
+ my $ping_retries = $discovery_task->ping_retries();
+ #Modify ping_retries
+ $discovery_task->ping_retries("4");
+
+=back
+
+=back
+
+=head2 ping_timeout( )
+
+=over
+
+Use this method to set or retrieve the network discovery ping timeout.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Network discovery ping timeout. Minimium value is 1 ms and maximum value is 4000 ms. Default value is 1000 ms.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ping_timeout
+ my $ping_timeout = $discovery_task->ping_timeout();
+ #Modify ping_timeout
+ $discovery_task->ping_timeout("500");
+
+=back
+
+=back
+
+=head2 scheduled_run( )
+
+=over
+
+Use this method to set or retrieve the schedule of a discovery task.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting> object. The default value is undef.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get scheduled_run
+ my $scheduled_run = $discovery_task->scheduled_run();
+ #Modify scheduled_run
+ $discovery_task->scheduled_run($schedule_setting);
+
+=back
+
+=back
+
+=head2 state( )
+
+=over
+
+Use this method to retrieve the network discovery state. The discovery state is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Return the state of network discovery.
+
+=item B<Example>
+
+ #Get state
+ my $state = $discovery_task->state();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the network discovery status. The discovery status is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Return the status of network discovery.
+
+=item B<Example>
+
+ #Get status
+ my $status = $discovery_task->status();
+
+=back
+
+=back
+
+=head2  tcp_ports( )
+
+=over
+
+Use this method to set or retrieve the TCP ports that the network discovery jobs use.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::IPAM::TCPPort|Infoblox::IPAM::TCPPort> objects.
+Default TCP ports are:
+
+ ftp               21/tcp     # File Transfer [Control]
+ ssh               22/tcp     # Secure Shell Login
+ telnet            23/tcp     #
+ smtp              25/tcp     # Simple Mail Transfer
+ finger            79/tcp     #
+ http              80/tcp     # World Wide Web HTTP
+ kerberos-sec      88/tcp     # Kerberos (v5)
+ pop3              110/tcp    # PostOffice V.3
+ rpcbind           111/tcp    # portmapper, rpcbind
+ auth              113/tcp    # ident, tap, Authentication Service
+ msrpc             135/tcp    # Microsoft RPC services
+ netbios-ns        137/tcp    # NETBIOS Name Service
+ netbios-dgm       138/tcp    # NETBIOS Datagram Service
+ netbios-ssn       139/tcp    # NETBIOS Session Service
+ imap              143/tcp    # Interim Mail Access Protocol v2
+ https             443/tcp    # secure http (SSL)
+ microsoft-ds      445/tcp    # SMB directly over IP
+ login             513/tcp    # BSD rlogind(8)
+ shell             514/tcp    # BSD rshd(8)
+ printer           515/tcp    # spooler (lpd)
+ klogin            543/tcp    # Kerberos (v4/v5)
+ kerberos          750/tcp    # kdc Kerberos (v4)
+ kdm               1024/tcp   # K Display Manager (KDE version of xdm)
+ NFS-or-IIS        1025/tcp   # IIS, NFS, or listener RFS remote_file_sharing
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get tcp_ports
+ my $ports = $discovery_task->tcp_ports();
+
+ #Modify tcp_ports
+ my $port = Infoblox::IPAM::TCPPort->new(
+        number => '333',
+        comment => 'test_port');
+ push @$ports , $port;
+
+ $discovery_task->tcp_ports($ports);
+
+=back
+
+=back
+
+=head2 tcp_scan_technique( )
+
+=over
+
+Use this method to set or retrieve the TCP scan technique that the network discovery jobs use.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Network discovery TCP scan technique. The scan techniques are identical to Nmap techniques. Valid values are "SYN" and "CONNECT". The default value is "SYN".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get tcp_scan_technique
+ my $tcp_scan_technique= $discovery_task->tcp_scan_technique();
+ #Modify tcp_scan_technique
+ $discovery_task->tcp_scan_technique("CONNECT");
+
+=back
+
+=back
+
+=head2 update_metadata( )
+
+=over
+
+Use this method to set or retrieve the updated metadata flag that the network discovery jobs use.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The flag indicates whether the appliance updates the metadata of the discovered objects. The valid values are "true" and "false". The default value is "true". If the value is "false", only the unmanaged objects are updated.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get update_metadata
+ my $update_metadata = $discovery_task->update_metadata();
+ #Modify update_metadata
+ $discovery_task->update_metadata("false");
+
+=back
+
+=back
+
+=head2 vservers( )
+
+=over
+
+Use this method to set or retrieve the list of VMware vSphere servers for VM discovery.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains the L<Infoblox::IPAM::DiscoveryTask::VServer|Infoblox::IPAM::DiscoveryTask::VServer> objects. The default value is a reference to an empty list.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get vservers
+ my $vservers = $discovery_task->vservers();
+ #Modify vservers
+ my $vserver1 = Infoblox::IPAM::DiscoveryTask::VServer->new(
+        fqdn_or_ip => "vcenter.com",
+        username => "test1",
+        password => "test1",
+    );
+ my $vserver2 = Infoblox::IPAM::DiscoveryTask::VServer->new(
+        fqdn_or_ip => "10.2.3.4",
+        username => "test2",
+        password => "test2",
+    );
+ $discovery_task->vservers([$vserver1,$vserver2]);
+
+=back
+
+=back
+
+=head2 v_network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of a VM discovery.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the default network view.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a defined L<Infoblox::DHCP::View|Infoblox::DHCP::View> object. The default value is the system-defined network view.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $discovery_task->v_network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $discovery_task->v_network_view($nview);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to a network discovery task object, such as getting and modifying an object. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to the get and modify operations on a network discovery task object>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip   = "192.168.1.2";
+ my $host_name = "infoblox.localdomain";
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+     )
+     or die("Constructor for session failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+
+ print"Session created successfully.\n";
+
+ my  @result_array = $session->get(
+       object  => "Infoblox::IPAM::DiscoveryTask" ,
+ );
+
+ my $discovery_task = $result_array[0];
+ unless (ref($discovery_task) eq 'Infoblox::IPAM::DiscoveryTask') {
+        die("Get discovery task failed");
+ }
+ print "Get discovery task successfully\n";
+
+ #Create the Network object
+ my $network = Infoblox::DHCP::Network->new(
+        network => "10.0.0.0/24",
+ );
+
+ $session->add($network)
+    or die("Add network failed: " .
+               $session->status_code() . ":" . $session->status_detail());
+ #modify networks
+ $discovery_task->networks([$network]);
+
+ # modify ping_timeout
+ $discovery_task->ping_timeout("500");
+
+ # modify tcp_ports
+ my $ports = $discovery_task->tcp_ports();
+
+ my $port = Infoblox::IPAM::TCPPort->new(
+        number => '333',
+        comment => 'test_port');
+ push @$ports , $port;
+
+ $discovery_task->tcp_ports($ports);
+
+ # submit changes
+ $session->modify( $discovery_task )
+        or die("Modify discovery task failed: " .
+               $session->status_code() . ":" . $session->status_detail());
+ print "Modify discovery task successfully\n";
+
+ # clean up
+ # remove network
+ $session->remove( $network)
+    or die("Remove network failed: " .
+           $session->status_code() . ":" . $session->status_detail());
+
+ ####### Program Ends ############################
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+L<Infoblox::IPAM::DiscoveryTask::VServer|Infoblox::IPAM::DiscoveryTask::VServer>,L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>,L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>,L<Infoblox::IPAM::TCPPort|Infoblox::IPAM::TCPPort>,L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

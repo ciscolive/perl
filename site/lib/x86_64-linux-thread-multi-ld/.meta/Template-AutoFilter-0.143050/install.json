@@ -1,0 +1,1 @@
+{"name":"Template::AutoFilter","pathname":"M/MI/MITHALDU/Template-AutoFilter-0.143050.tar.gz","dist":"Template-AutoFilter-0.143050","version":"0.143050","provides":{"Template::AutoFilter::Parser":{"file":"lib/Template/AutoFilter/Parser.pm","version":"0.143050"},"Template::AutoFilter":{"file":"lib/Template/AutoFilter.pm","version":"0.143050"}},"target":"Template::AutoFilter"}

@@ -1,0 +1,168 @@
+=head1 NAME
+
+Infoblox::Grid::Member::ServiceStatus - Service Status object.
+
+=head1 DESCRIPTION
+
+This object is used to report the service status on an Infoblox appliance. All methods are to be considered read-only.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a ServiceStatus object.
+
+=head2 Infoblox::Grid::Member->service_status( ), Infoblox::Grid::Member->node1_service_status( ), Infoblox::Grid::Member->node2_service_status( )
+
+=over
+
+Use this function to retrieve a reference to an array of Infoblox::Grid::Member::ServiceStatus objects that represents the service status for an Infoblox appliance.
+
+=over
+
+=item B<Example>
+
+ #Retrieve the member object
+ my $member = $session->get(object => 'Infoblox::Grid::Member', name => 'hostname.com');
+
+ # Access its service status
+ my @services = @{$member->service_status()};
+ print $services[0]->status();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute value of an appliance's service status.
+
+=head2 description( )
+
+=over
+
+Use this method to retrieve the description of the current ServiceStatus object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, which depends on the value of the 'service' method:
+
+ service value (for service_status) returned by this method
+ ===================================================================
+ DHCP - DHCP service status
+ DNS - DNS service status
+ NTP - NTP service status
+ TFTP -  Percentage of the file distribution storage space that is used
+ HTTP_FILE_DIST - Percentage of the file distribution storage space that is used
+ FTP - Percentage of the file distribution storage space that is used
+ BLOXTOOLS - CPU/memory/disk space usage percentage
+ DNS_CACHE_ACCELERATION - DNS Cache Acceleration service status.
+
+ service value (for node1/2_service_status) returned by this method
+ ===========================================================================
+ NODE_STATUS - Node status
+ CPU1_TEMP - CPU1 temperature in Celsius
+ CPU2_TEMP - CPU2 temperature in Celsius
+ DISK_USAGE - Disk usage percentage
+ ENET_LAN - LAN1 interface IP
+ ENET_LAN2 - LAN2 interface IP
+ ENET_HA - HA interface IP
+ ENET_MGMT - MGMT interface IP
+ LCD - State of the LCD process (running/not running)
+ MEMORY - Memory usage percentage
+ REPLICATION - HA replication state
+ DB_OBJECT - Database capacity usage percentage
+ RAID_DISK1 - Disk status and type
+ RAID_DISK2 - Disk status and type
+ RAID_DISK3 - Disk status and type
+ RAID_DISK4 - Disk status and type
+ FAN1 - Fan 1 speed
+ FAN2 - Fan 2 speed
+ FAN3 - Fan 3 speed
+ POWER_SUPPLY - Power status
+ NTP_SYNC - Indicates if there are "reachable" NTP associations
+ TEMP_SYS - System temperature in Celsius
+ RAID_BATTERY - RAID battery status
+ CPU_USAGE - CPU Usage
+ BGP - BGP service status
+ OSPF - OSPF service status
+ OSPF6 - OSPFv6 service status
+ SWAP_USAGE - Swap Usage
+
+=item B<Example>
+
+ #Get description
+ my $description = $service_status->description();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the service status.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "Failed", "Warning", "Working", and "Inactive"
+
+=item B<Example>
+
+ #Get status
+ my $status = $service_status->status();
+
+=back
+
+=back
+
+=head2 service( )
+
+=over
+
+Use this method to retrieve the service identifier.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value. Possible values when the object is retrieved via service_status are:
+
+ANALYTICS, ATP, BLOXTOOLS, CAPTIVE_PORTAL, CLOUD_API, DHCP, DISCOVERY, DNS, DNS_CACHE_ACCELERATION, FTP,
+HSM, HTTP_FILE_DIST, NTP, REPORTING, TAXII, TFTP
+
+Possible values when the object is retrieved via node1/2_service_status are:
+
+AUTH_NAMED, BGP, CORE_FILES, CPU1_TEMP, CPU2_TEMP, CPU_USAGE, CPU_USAGE, DB_OBJECT, DISCOVERY_CAPACITY, 
+DISK_SIZE, DISK_USAGE, ENET_HA, ENET_LAN, ENET_LAN2, ENET_MGMT, EXTERNAL_STORAGE, FAN1, FAN2, 
+FAN3, FAN4, FAN5, FAN6, FAN7, FAN8, JOIN_STATUS, LCD, MEMORY, MGM_SERVICE, NETWORK_CAPACITY, 
+NODE_STATUS, NTP_SYNC, OSPF, OSPF6, PASSIVE_HA_CONNECTIVITY, POWER1, POWER2, POWER3, POWER4, 
+POWER_SUPPLY, RAID_BATTERY, RAID_DISK1, RAID_DISK2, RAID_DISK3, RAID_DISK4, RAID_DISK5, 
+RAID_DISK6, RAID_DISK7, RAID_DISK8, RAID_SUMMARY, REPLICATION, SFP_HA, SFP_LAN, SFP_LAN2, SFP_MGMT, 
+SNIC_CHIP_TEMP, SNIC_CORE_UTIL, SNIC_PCB_TEMP, SNIC_UTIL, SUBGRID_CONN, SWAP_USAGE, SYS_TEMP, VPN_CERT
+
+=item B<Example>
+
+ #Get service
+ my $service = $service_status->service();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

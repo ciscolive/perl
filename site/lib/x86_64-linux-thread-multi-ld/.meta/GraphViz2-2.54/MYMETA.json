@@ -1,0 +1,82 @@
+{
+   "abstract" : "A wrapper for AT&T's Graphviz",
+   "author" : [
+      "Ron Savage (ron@savage.net.au)"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.36, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "GraphViz2",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Pod::Markdown" : "0",
+            "Test::Pod" : "1.48"
+         },
+         "suggests" : {
+            "Config::Tiny" : "2.16",
+            "Date::Simple" : "3.03",
+            "File::HomeDir" : "0.99",
+            "HTML::TreeBuilder" : "4.2",
+            "HTTP::Tiny" : "0.012",
+            "Text::Xslate" : "1.2"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Data::Section::Simple" : "0.02",
+            "File::Which" : "1.21",
+            "IPC::Run3" : "0.048",
+            "Moo" : "2.001001",
+            "Types::Standard" : "1.000005",
+            "perl" : "5.010001"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "1.001002",
+            "Test::Snapshot" : "0.06",
+            "charnames" : "0",
+            "open" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/ronsavage/GraphViz2/issues"
+      },
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ],
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/ronsavage/GraphViz2.git",
+         "web" : "https://github.com/ronsavage/GraphViz2"
+      }
+   },
+   "version" : "2.54",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Promise/XS.pm
+/opt/perl/site/lib/Promise/XS/Deferred.pm
+/opt/perl/site/lib/Promise/XS/Loader.pm
+/opt/perl/site/lib/Promise/XS/Promise.pm
+/opt/perl/site/lib/auto/Promise/XS/XS.so
+/opt/perl/site/man/man3/Promise::XS.3
+/opt/perl/site/man/man3/Promise::XS::Deferred.3
+/opt/perl/site/man/man3/Promise::XS::Promise.3

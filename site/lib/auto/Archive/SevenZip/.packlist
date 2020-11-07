@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Archive/7zip.pm
+/opt/perl/site/lib/Archive/SevenZip.pm
+/opt/perl/site/lib/Archive/SevenZip/API/ArchiveTar.pm
+/opt/perl/site/lib/Archive/SevenZip/API/ArchiveZip.pm
+/opt/perl/site/lib/Archive/SevenZip/Entry.pm
+/opt/perl/site/man/man3/Archive::7zip.3
+/opt/perl/site/man/man3/Archive::SevenZip.3
+/opt/perl/site/man/man3/Archive::SevenZip::API::ArchiveTar.3
+/opt/perl/site/man/man3/Archive::SevenZip::API::ArchiveZip.3
+/opt/perl/site/man/man3/Archive::SevenZip::Entry.3

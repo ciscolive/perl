@@ -1,0 +1,1 @@
+{"name":"match::simple","pathname":"T/TO/TOBYINK/match-simple-0.010.tar.gz","version":"0.010","target":"match::simple","dist":"match-simple-0.010","provides":{"match::smart":{"file":"lib/match/smart.pm","version":"0.010"},"match::simple":{"version":"0.010","file":"lib/match/simple.pm"}}}

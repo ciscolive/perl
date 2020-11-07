@@ -1,0 +1,1 @@
+{"pathname":"Y/YV/YVES/Data-Dump-Streamer-2.40.tar.gz","target":"Data::Dump::Streamer","name":"Data::Dump::Streamer","dist":"Data-Dump-Streamer-2.40","version":"2.40","provides":{"Data::Dump::Streamer":{"file":"lib/Data/Dump/Streamer.pm","version":"2.40"},"Data::Dump::Streamer::Deparser":{"version":"2.40","file":"lib/Data/Dump/Streamer.pm"}}}

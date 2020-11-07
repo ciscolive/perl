@@ -1,0 +1,321 @@
+=head1 NAME
+
+Infoblox::Grid::ScheduledTask::ChangedObject - Scheduled Task Changed Object.
+
+=head1 DESCRIPTION
+
+A Scheduled Task Changed Object is used to retrieve information about objects with changes that were scheduled in L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask>.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::ScheduledTask::ChangedObject is a read-only object and does not require manual construction.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a ChangedObject object.
+
+=head2 Infoblox::Grid::ScheduledTask->changed_objects( )
+
+=over
+
+Use this function to retrieve the changed objects list. See L<Infoblox::Grid::ScheduledTask-E<gt>changed_objects()|Infoblox::Grid::ScheduledTask/changed_objects()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Retrieve the list of ScheduledTask objects
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::ScheduledTask",
+     submitter => "admin" );
+
+ my $task = $retrieved_objs[0];
+
+ # get ChangedObject
+ my $changed_objects = $task->changed_objects();
+ my $obj = $changed_objects->[0];
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of a ChangedObject object.
+
+=head2 action( )
+
+=over
+
+Use this method to retrieve the operation performed on the objects.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the operation in string format. Possible values are:
+
+=over
+
+=item
+
+"Network Discovery" for L<network_discovery_control( )|Infoblox::Session/network_discovery_control( )> service,
+
+=item
+
+"Restart Services" for L<restart( )|Infoblox::Session/restart( )> services,
+
+=item
+
+"Add", "Modify", "Delete" for all other objects.
+
+=back
+
+=item B<Example>
+
+ #Get action
+ my $action = $changed_object->action();
+
+=back
+
+=back
+
+=head2 changed_properties( )
+
+=over
+
+Use this method to retrieve the list of changed properties in the object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns a reference to an array of strings. Each string in the array describes the changes. The descriptions are similiar to the entries in the Change Audit Log column in the GUI.
+
+=item B<Example>
+
+ #Get changed_properties value
+ my $changed_properties = $changed_object->changed_properties();
+ for (@$changed_properties) {
+     print $_,"\n";
+ }
+
+=back
+
+=back
+
+=head2 object_name( )
+
+=over
+
+Use this method to retrieve the name of the changed object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the object name in string format.
+
+=item B<Example>
+
+ #Get object_name
+ my $object_name = $changed_object->object_name();
+
+=back
+
+=back
+
+=head2 object_type( )
+
+=over
+
+Use this method to retrieve the type of the changed object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns an object type in string format, such as "A Record" or "Shared TXT Record".
+
+=item B<Example>
+
+ #Get object_type
+ my $object_type = $changed_object->object_type();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a ScheduledTask object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/24",
+ );
+ unless ($network) {
+     die("Construct Network failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network created successfully\n";
+
+ $session->add($network)
+     or die("Add Network object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "Network object added to server successfully\n";
+
+B<#Create a ScheduledTask object>
+
+ # Create a fixed address
+ my $fixed_addr = Infoblox::DHCP::FixedAddr->new(
+     ipv4addr    => '10.0.0.3',
+     mac         => '11:22:33:44:55:66'
+ );
+ unless ($fixed_addr) {
+     die("Construct FixedAddr failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "FixedAddr created successfully\n";
+
+ # Schedule the addition of a fixed address
+ $session->add($fixed_addr, scheduled_at => "2020-01-01T14:52:00Z")
+     or die("Schedule fixed address add failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "Fixed address add scheduled successfully\n";
+
+B<#Search for a ScheduledTask>
+
+ my @retrieved_objs = $session->search(
+     object    => "Infoblox::Grid::ScheduledTask",
+     submitter => "admin"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Search for a ScheduledTask object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search for a ScheduledTask object found at least 1 matching entry\n";
+ my $objs = $object->changed_objects;
+ my $changed_obj = $objs->[0];
+ my $action = $changed_obj->action();
+ my $object_name= $changed_obj->object_name();
+ my $object_type= $changed_obj->object_type();
+ my $changed_properties= $changed_obj->changed_properties();
+ my $property1 = $changed_properties->[0];
+
+B<#Get and modify a ScheduledTask object>
+
+ #Get the ScheduledTask object from Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+     object         => "Infoblox::Grid::ScheduledTask",
+     scheduled_time => "2020-01-01T14:52:00Z"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get ScheduledTask object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get ScheduledTask object found at least 1 matching entry\n";
+
+ #Modify the ScheduledTask object
+ $object->scheduled_time("2020-02-01T14:52:00Z");
+
+ #Apply the changes.
+ $session->modify($object)
+     or die("Modify ScheduledTask object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "ScheduledTask object modified successfully \n";
+
+B<#Remove a ScheduledTask object>
+
+ #Get the ScheduledTask object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::ScheduledTask",
+     action => "Add"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get ScheduledTask object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get ScheduledTask object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove ScheduledTask object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "ScheduledTask object removed successfully \n";
+
+B<#Cleanup>
+
+ #Get the Network object through the session
+ my @retrieved_objs = $session->get(
+     object  => "Infoblox::DHCP::Network",
+     network => "10.0.0.0/24"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Network object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Network object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove Network object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "Network object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask>, L<Infoblox::Grid::ScheduledTask-E<gt>changed_objects()|Infoblox::Grid::ScheduledTask/changed_objects()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

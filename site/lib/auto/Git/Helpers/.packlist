@@ -1,0 +1,12 @@
+/opt/perl/site/bin/cpan-repo
+/opt/perl/site/bin/delete-git-branches
+/opt/perl/site/bin/gh-open
+/opt/perl/site/bin/travis-open
+/opt/perl/site/lib/Git/Helpers.pm
+/opt/perl/site/lib/Git/Helpers/CPAN.pm
+/opt/perl/site/man/man1/cpan-repo.1
+/opt/perl/site/man/man1/delete-git-branches.1
+/opt/perl/site/man/man1/gh-open.1
+/opt/perl/site/man/man1/travis-open.1
+/opt/perl/site/man/man3/Git::Helpers.3
+/opt/perl/site/man/man3/Git::Helpers::CPAN.3

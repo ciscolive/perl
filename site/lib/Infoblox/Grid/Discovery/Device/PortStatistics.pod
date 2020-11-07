@@ -1,0 +1,127 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::Device::PortStatistics - the device port statistics object.
+
+=head1 DESCRIPTION
+
+The object provides information about device port statistics.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+=head2 admin_down_oper_down_count( )
+
+=over
+
+Use this method to retrieve the total number of interfaces which have administrative state "DOWN" and operating state "DOWN". This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $stats->admin_down_oper_down_count();
+
+=back
+
+=back
+
+=head2 admin_up_oper_down_count( )
+
+=over
+
+Use this method to retrieve the total number of interfaces which have administrative state "UP" and operating state "DOWN". This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $stats->admin_up_oper_down_count();
+
+=back
+
+=back
+
+=head2 admin_up_oper_up_count( )
+
+=over
+
+Use this method to retrieve the total number of interfaces which have administrative state "UP" and operating state "UP". This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $stats->admin_up_oper_up_count();
+
+=back
+
+=back
+
+=head2 interfaces_count( )
+
+=over
+
+Use this method to retrieve the total number of interfaces available on device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $stats->interfaces_count();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

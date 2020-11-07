@@ -1,0 +1,10 @@
+/opt/perl/site/lib/JSON.pm
+/opt/perl/site/lib/JSON/backportPP.pm
+/opt/perl/site/lib/JSON/backportPP/Boolean.pm
+/opt/perl/site/lib/JSON/backportPP/Compat5005.pm
+/opt/perl/site/lib/JSON/backportPP/Compat5006.pm
+/opt/perl/site/man/man3/JSON.3
+/opt/perl/site/man/man3/JSON::backportPP.3
+/opt/perl/site/man/man3/JSON::backportPP::Boolean.3
+/opt/perl/site/man/man3/JSON::backportPP::Compat5005.3
+/opt/perl/site/man/man3/JSON::backportPP::Compat5006.3

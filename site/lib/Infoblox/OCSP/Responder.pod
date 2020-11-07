@@ -1,0 +1,215 @@
+=head1 NAME
+
+Infoblox::OCSP::Responder - an OCSP authentication responder.
+
+=head1 DESCRIPTION
+
+An Infoblox::OCSP::Responder object represents an OCSP authentication responder.
+
+=head1 CONSTRUCTOR
+
+ my $responder = Infoblox::OCSP::Responder->new(
+      address      => $string,               # Required
+      certificate  => $string,               # Required
+      port         => $uint,                 # Optional / Default value is 80
+      comment      => $string,               # Optional
+      disabled     => "true" | "false",      # Optional / Default value is "false"
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to an OCSP authentication responder object.
+
+=head2 Infoblox::Grid::Admin::CertificateAuthService->ocsp_responders( )
+
+=over
+
+Use this function to add or retrieve the OCSP authentication responder object in the Certificate Authentication Service object.
+See L<Infoblox::Grid::Admin::CertificateAuthService-E<gt>ocsp_responders()|Infoblox::Grid::Admin::CertificateAuthService/ocsp_responders()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get ocsp_responders
+ my $responder_list = $auth_service->ocsp_responders();
+
+ #Modify ocsp_responders
+ my $responder1 = Infoblox::OCSP::Responder->new(
+      fqdn_or_ip  => 'domain.com',
+      certificate => '/tmp/cert1.pem',
+ );
+
+ my $responder2 = Infoblox::OCSP::Responder->new(
+      fqdn_or_ip  => '192.168.1.10',
+      certificate => '/tmp/cert2.pem',
+ );
+
+ $auth_service->ocsp_responders([$responder1, $responder2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::OCSP::Responder object.
+
+=head2 certificate( )
+
+=over
+
+Use this method to set the OCSP responder certificate. This attribute is write-only and cannot be retrieved.
+
+=over
+
+=item B<Parameter>
+
+String with a reference to a file.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set certificate
+ $responder->certificate('/tmp/cer.pem');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $responder->comment();
+
+ #Modify comment
+ $responder->comment("Modified comment");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the disabled flag for the OCSP authentication responder.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable the OCSP authentication respondert or "false" to enable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value as "true" or "false".
+
+=item B<Example>
+
+ #Get disabled flag
+ my $disabled = $responder->disabled();
+
+ #Modify disabled flag
+ $responder->disabled("true");
+
+=back
+
+=back
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IP address or the domain name for the OCSP authentication responder.
+
+=over
+
+=item B<Parameter>
+
+String with the IP address or the domain name for the OCSP authentication responder.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address
+ my $address = $responder->address();
+
+ #Modify address
+ $responder->address("192.168.1.2");
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the TCP Port on which the OCSP client communicates with the OCSP responder.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer. Default value is 80.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get port
+ my $port = $responder->port();
+
+ #Modify port
+ $responder->port(90);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::CertificateAuthService|Infoblox::Grid::Admin::CertificateAuthService>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

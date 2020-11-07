@@ -1,0 +1,713 @@
+=head1 NAME
+
+Infoblox::DHCP::View - DHCP Network View object
+
+=head1 DESCRIPTION
+
+Network view provides the ability to manage multiple views of
+IP address spaces from NIOS. These address spaces could be
+overlapping or non-overlapping. When the network view is not
+specified during a write operation, the objects are automatically
+associated with the system-defined default network view.
+
+A network view is a single routing domain, with its own networks and
+shared networks. You can manage the networks in one network view
+independently of the other network views.
+
+=head1 CONSTRUCTOR
+
+  my $network = Infoblox::DHCP::View->new(
+     name                        => $string,                                                           #Required
+     comment                     => $string,                                                           #Optional / Default is undefined
+     ddns_zone_primaries         => [$ddns1, $ddns2, ... ],                                            #Optional / Default is undefined
+     mgm_private                 => 'true' | 'false',                                                  #Optional / Default is 'false'
+     extensible_attributes       => { $string => $string|$num, $string => [ $string|$num, ...], ... }, #Optional / Default is undefined
+     external_ddns_primaries     => [ $Nameserver1,$Nameserver2,...],                                  #Optional / Default is undefined
+     internal_ddns_primaries     => [ $ForwardZone1,$ForwardZone2,...],                                #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that can apply to a DHCP Network View object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a network view object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $network_view = Infoblox::DHCP::View->new(
+        name => "netview",
+ );
+
+ # Submit for adding network view
+ my $response = $session->add( $network_view );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching network view objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP Network View object:
+
+  name                  - Required. A name in string format.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+  my  @result_array = $session->get(
+       object        => "Infoblox::DHCP::View" ,
+       name          => "netview"
+  );
+
+ # get all DHCP view objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+    object => "Infoblox::DHCP::View",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a network object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify comment method.
+ $object->comment("My modified comment");
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my  @result_array = $session->get(
+       object        => "Infoblox::DHCP::View" ,
+       name          => "netview"
+  );
+
+ # find the desired object from the retrieved list.
+ my $desired_network_view = $result_array[0];
+
+ # Submit for removal
+ my $response = $session->remove( $desired_network_view );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for a DHCP Network View object in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DHCP Network View object:
+
+  name                  - Required. A name in string format (regular expression).
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for DHCP Network View object with name 'netview'
+     my @retrieved_objs = $session->search(
+       object       => "Infoblox::DHCP::Network",
+       name         => "^netview\$"
+     );
+
+ # search for DHCP views with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DHCP::View",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP Network View object
+
+=head2 associated_dns_views( )
+
+=over
+
+Use this method to retrieve the list of DNS views associated with this network view. This list is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns an array reference that contains Infoblox::DNS:View object(s).
+
+=item B<Example>
+
+ # Get associated_dns_views
+ my $associated_dns_views = $network_view->associated_dns_views()
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to set or retrieve cloud API related information for the Infoblox::DHCP::View object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a L<Infoblox::Grid::CloudAPI::Info|Infoblox::Grid::CloudAPI::Info> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $network_view->cloud_info();
+ # Modify cloud_info
+ $network_view->cloud_info($cloud_info_object);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment of a DHCP Network View object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for the network view in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get comment
+ my $comment = $network_view->comment();
+ # Modify comment
+ $network_view->comment("add a network view");
+
+=back
+
+=back
+
+=head2 ddns_zone_primaries( )
+
+=over
+
+Use this method to set or retrieve an ordered list of zone primaries that will receive DDNS updates.
+
+=over
+
+=item B<Parameter>
+
+A valid value is a reference to an array of L<Infoblox::DHCP::DDNS|Infoblox::DHCP::DDNS> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ $value = $network_view->ddns_zone_primaries();
+ # Modify the attribute value
+ $network_view->ddns_zone_primaries([$ddns]);
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP view object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $firstview->extensible_attributes();
+ #Modify extensible attributes
+ $firstview->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 external_ddns_primaries( )
+
+=over
+
+Use this method to set or retrieve the network view-level external_ddns_primaries value. This specifies the external zone that is updated dynamically. The DHCP server can send dynamic updates to a specified external name server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A valid value is an array reference that contains L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get external_ddns_primaries
+ my $external_ddns_primaries = $network_view->external_ddns_primaries();
+
+ # Modify external_ddns_primaries
+ my $nameserver1 = Infoblox::DNS::Nameserver->new(
+        ddns_zone => "ns1.del.com",
+        ipv4addr  => "11.11.11.11",
+    );
+ my $nameserver2 = Infoblox::DNS::Nameserver->new(
+         ddns_zone => "3.2.1.in-addr.arpa",
+         ipv4addr  => "22.22.22.22",
+    );
+ 
+ # Nameserver with TSIG security
+ my $nameserver3 = Infoblox::DNS::Nameserver->new(
+         ddns_zone     => 'grid_level.local',
+         ipv4addr      => '10.102.30.122',
+         TSIGalgorithm => 'HMAC-SHA256',
+         TSIGname      => 'kk',
+         TSIGkey       => '+NPBBVYjoNC32hfj8vepUw==',
+ );
+
+ # Nameserver with GSS-TSIG security
+ my $nameserver4 = Infoblox::DNS::Nameserver->new(
+         ipv4addr               => '10.102.30.122',
+         gss_tsig_domain        => 'AD-31.LOCAL',
+         ddns_zone              => 'grid1_level.local',
+         gss_tsig_dns_principal => 'DNS/w8s232-29.ad-31.local@AD-31.LOCAL' 
+ );
+
+ $network_view->external_ddns_primaries([$nameserver1, $nameserver2, $nameserver3, $nameserver4]);
+
+ # Clear external_ddns_primaries list
+ $network_view->external_ddns_primaries([]);
+
+=back
+
+=back
+
+=head2 mgm_private( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the object should be synced to the MGM or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable synchronization of the managed Grid with the MGM or 'false' to forbid it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mgm_private value
+ my $value = $object->mgm_private();
+
+ #Modify mgm_private value
+ $object->mgm_private('true');
+
+=back
+
+=back
+
+=head2 modify_vrf_assignment()
+
+=over
+
+This method is used to assign (unassign) a list of the virtual networks (VRFs) to the network view.
+
+=over
+
+=item B<Parameters>
+
+VRF membership modification mode: ASSIGN or UNASSIGN.
+
+A valid list (array reference) that contains L<Infoblox::Grid::Member::Discovery::VRF|Infoblox::Grid::Member::Discovery::VRF> object(s).
+
+=item B<Returns>
+
+Returns true on success operation, otherwise false.
+
+=item B<Example>
+
+ # Get Network View 
+ my $default_view = $session->get(object => 'Infoblox::DHCP::View', name => 'default');
+ 
+ # Get Infoblox::Grid::Member::Discovery::VRF objects
+ my $vrf1 = $session->get(object => 'Infoblox::Grid::Member::Discovery::VRF', name => 'VirtualNetworkMember1');
+ my $vrf2 = $session->get(object => 'Infoblox::Grid::Member::Discovery::VRF', name => 'VirtualNetworkMember2');
+ 
+ # Assign a list of the VRFs to the Network View
+ my $assign_result = $default_view->modify_vrf_assignment( 
+ 	vrfs => [ $vrf1, $vrf2 ],
+ 	mode => 'ASSIGN'
+ );
+ 
+ # Unassign VRF from Network View
+ my $unassign_result = $default_view->modify_vrf_assignment( 
+ 	vrfs => [ $vrf2 ], 
+ 	mode => 'UNASSIGN'
+ );
+ 
+ # Check of VRF assignment via Infoblox::Grid::Member::Discovery::VRF object
+ $vrf = $session->get(object => 'Infoblox::Grid::Member::Discovery::VRF', name => 'VirtualNetworkMember1'); 
+
+ # Get current network view name associated with VRF
+ print $vrf->network_view;
+
+=back
+
+=back
+
+=head2 internal_ddns_zones( )
+
+=over
+
+Use this method to set or retrieve forward mapping zones which are being served in the grid. Only an authoritative zone can be assigned to this list. All other types of zones will generate an error.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A valid value is an array reference that contains L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get internal_ddns_zones
+ my $internal_ddns_zones = $network_view->internal_ddns_zones();
+
+ # Modify internal_ddns_zones
+ my $nameserver1 = Infoblox::DNS::Nameserver->new(
+        name     => "ns1.del.com",
+        ipv4addr => "11.11.11.11",
+    );
+ my $nameserver2 = Infoblox::DNS::Nameserver->new(
+        name     => "test",
+        ipv6addr => "2006::b671",
+    );
+ my $zone1 = Infoblox::DNS::Zone->new(
+        name     => "test1.com",
+        primary  => [$nameserver1],
+        secondaries => [$nameserver2],
+    );
+ my $zone2 = Infoblox::DNS::Zone->new(
+        name     => "test2.com",
+    );
+ $network_view->internal_ddns_zones([$zone1, $zone2]);
+
+ # Clear internal_ddns_zones list
+ $network_view->internal_ddns_zones([]);
+
+=back
+
+=back
+
+=head2 internal_updates_view( )
+
+=over
+
+Use this method to specify or retrieve the internal updates DNS view value of a network view. When you enable the appliance to send updates to grid members, you must specify which DNS view receives the updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A valid value is an L<Infoblox::DNS::View|Infoblox::DNS::View> object for internal dynamic updates.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get internal_updates_view
+ my $internal_updates_view = $network_view->internal_updates_view();
+ # Modify internal_updates_view
+ my $otherview = Infoblox::DNS::View->new(
+        name => "other",
+     );
+ $network_view->internal_updates_view($otherview);
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $view->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP Network View object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the network view is in string format with a maximum of 64 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get name
+ my $name = $network_view->name()
+ # Modify name
+ $network_view->name("netview_renamed");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DHCP Network View insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DHCP Network View object>
+
+ my $network_view = Infoblox::DHCP::View->new(
+             name     => "netview",
+            );
+
+ my $response = $session->add($network_view)
+        or die("Add Network View failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "Network View added successfully\n";
+
+B<#Search for a specific Network View>
+
+ #Search the network view
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::View",
+     name => '^netview$',
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search Network View failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Network found at least 1 matching entry\n";
+
+B<#Get and modify a Network View attribute>
+
+ #Get Network View through the session
+ my  @retrieved_objs = $session->get(
+            object => "Infoblox::DHCP::View" ,
+            name   => "netview",
+         );
+
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get Network View object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Network View found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified Network View attribute
+ $object->comment("updated comment"); #Apply the changes
+
+ $session->modify($object)
+     or die("Modify Network View attribute failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+
+ print "Network View object modified successfully \n";
+
+B<#Remove a Network View Object>
+
+  #Get Network View object through the session
+  my @retrieved_objs = $session->get(
+            object  => "Infoblox::DHCP::View" ,
+            name    => "netview",
+        );
+
+    my $object = $retrieved_objs[0];
+
+    unless ($object) {
+     die("Get Network View object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get Network View object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove Network View failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ print "Network View removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::DHCP::DDNS|Infoblox::DHCP::DDNS>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

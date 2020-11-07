@@ -1,0 +1,351 @@
+=head1 NAME
+
+Infoblox::DHCP::IPv6OptionSpace - DHCP IPv6 OptionSpace object.
+
+=head1 DESCRIPTION
+
+An Option Space defines a namespace in which vendor options can be defined. This object is for an IPv6 option space. To define a specific vendor option space, add an option space to DHCP.
+
+=head1 CONSTRUCTOR
+
+ my $ipv6os = Infoblox::DHCP::IPv6OptionSpace->new(
+       name               => $string, #Required
+       enterprise_number  => $num,    #Required, if this is a vendor option space.  It is optional otherwise.
+       comment            => $string, #Optional, default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that can be applied to a DHCP IPv6 OptionSpace object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP IPv6 OptionSpace object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP IPV6 OptionSpace object
+ my $ipv6os = Infoblox::DHCP::IPv6OptionSpace->new(
+       name => "infospace",
+       comment => "some comment",
+       enterprise_number => 123,
+ );
+ #Submit for addition
+ my $response = $session->add($ipv6os)
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP IPv6 OptionSpace object:
+
+  name     - Required. Option space name in string format.
+  comment  - Optional. Option space comment.
+  enterprise_number - Optional. Enterprise number.
+
+=item B<Example>
+
+ #Get DHCP IPv6 OptionSpace object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6OptionSpace",
+     name   => "infospace",
+     enterprise_number => 123,
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP IPv6 OptionSpace object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the name.
+ $ipv6os->name("info_space");
+ #Submit modification
+ my $response = $session->modify( $ipv6os );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP IPv6 OptionSpace object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() to retrieve the specific DHCP IPv6 OptionSpace object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get DHCP IPv6 OptionSpace object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6OptionSpace",
+     name   => "info_space",
+     enterprise_number => 123,
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_option_space = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_option_space );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP IPv6 OptionSpace object:
+
+  name     - Optional. Option space name in string format.
+  comment  - Optional. Option space comment (regular expression).
+  enterprise_number - Optional. Enterprise number.
+
+=item B<Example>
+
+ #Get DHCP IPv6 OptionSpace object through the session
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::IPv6OptionSpace",
+     comment => ".*comm.*"
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can used to set and retrieve the attribute values of a DHCP IPv6 OptionSpace object.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve name of IPv6 option space object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If parameter is specified, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If parameter is not specified, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $ipv6os->name();
+ #Modify name
+ $ipv6os->name("info_space");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a comment about the IPv6 option space object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If the parameter is specified, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If the parameter is not specified, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $ipv6os->comment();
+ #Modify comment
+ $ipv6os->comment("my comment");
+
+=back
+
+=back
+
+=head2 enterprise_number( )
+
+=over
+
+Use this method to set or retrieve the enterprise number for the IPv6 option space object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer that represents the enterprise number.
+
+=item B<Returns>
+
+If the parameter is specified, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If the parameter is not specified, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enterprise_number
+ my $enterprise_number = $ipv6os->enterprise_number();
+ #Modify enterprise_number
+ $ipv6os->enterprise_number(345);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an IPv6OptionSpace object, such as get, add, modify and remove. Also sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP IPv6OptionSpace object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create an IPv6OptionSpace object>
+
+ my $ipv6os = Infoblox::DHCP::IPv6OptionSpace->new (
+        "name" => "infospace"
+ );
+
+ unless($ipv6os) {
+      die("Construct IPv6 option_space filter failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "IPv6OptionSpace object created successfully\n";
+
+ #Verify if the DHCP IPv6OptionSpace exists in the Infoblox appliance
+ my $object = $session->get(
+        object => "Infoblox::DHCP::IPv6OptionSpace",
+        name   => "infospace"
+        enterprise_number => 123,
+ );
+ unless ($object) {
+    print "IPv6 option space does not exist on server, safe to add the option_space\n";
+    $session->add($ipv6os)
+       or die("Add IPv6 option space failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "DHCP IPv6 OptionSpace added successfully\n";
+
+B<#Get and Modify an IPv6OptionSpace object>
+
+ #Get IPv6OptionSpace object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6OptionSpace",
+     name   => "infospace"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get IPv6OptionSpace object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get IPv6OptionSpace object found at least 1 matching entry\n";
+
+ #Modify name of the obtained IPv6OptionSpace object
+ $object->name("info_space");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify IPv6OptionSpace object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "IPv6OptionSpace object modified successfully \n";
+
+B<#Remove an IPv6OptionSpace object>
+
+ #Get IPv6OptionSpace object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6OptionSpace",
+     name   => "info_space"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get IPv6OptionSpace object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get IPv6OptionSpace object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove IPv6OptionSpace object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "IPv6OptionSpace object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::IPv6OptionDefinition|Infoblox::DHCP::IPv6OptionDefinition>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

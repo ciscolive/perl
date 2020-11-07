@@ -1,0 +1,4 @@
+/opt/perl/site/bin/generate_perl_completion_script
+/opt/perl/site/lib/Term/Bash/Completion/Generator.pm
+/opt/perl/site/man/man1/generate_perl_completion_script.1
+/opt/perl/site/man/man3/Term::Bash::Completion::Generator.3

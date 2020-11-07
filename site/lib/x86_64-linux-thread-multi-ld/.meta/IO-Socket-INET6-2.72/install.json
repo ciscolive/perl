@@ -1,0 +1,1 @@
+{"name":"IO::Socket::INET6","pathname":"S/SH/SHLOMIF/IO-Socket-INET6-2.72.tar.gz","dist":"IO-Socket-INET6-2.72","version":"2.72","target":"IO::Socket::INET6","provides":{"IO::Socket::INET6":{"file":"lib/IO/Socket/INET6.pm","version":"2.72"}}}

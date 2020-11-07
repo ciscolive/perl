@@ -1,0 +1,82 @@
+{
+   "abstract" : "provide the most appropriate HTTP client with a Future API",
+   "author" : [
+      "Max Maischein <corion@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.1002, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Future-HTTP",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "AnyEvent::HTTP" : "0",
+            "HTTP::Tiny" : "0",
+            "HTTP::Tiny::Paranoid" : "0",
+            "Mojo::UserAgent" : "0",
+            "Net::Async::HTTP" : "0"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "IO::Uncompress::Bunzip2" : "0",
+            "IO::Uncompress::Gunzip" : "0",
+            "IO::Uncompress::Inflate" : "0",
+            "IO::Uncompress::RawInflate" : "0",
+            "MIME::Base64" : "0",
+            "MIME::QuotedPrint" : "0"
+         },
+         "requires" : {
+            "Filter::signatures" : "0.13",
+            "Future" : "0.31",
+            "HTTP::Headers" : "6.07",
+            "HTTP::Tiny" : "0",
+            "Moo" : "2",
+            "perl" : "5.006"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Data::Dumper" : "0",
+            "Test::HTTP::LocalServer" : "0",
+            "Test::More" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "https://dev.perl.org/licenses/"
+      ],
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/Corion/Future-HTTP.git",
+         "web" : "https://github.com/Corion/Future-HTTP"
+      }
+   },
+   "version" : "0.14",
+   "x_serialization_backend" : "JSON::PP version 4.05",
+   "x_static_install" : 1
+}

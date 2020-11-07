@@ -1,0 +1,1 @@
+{"version":"0.08","provides":{"File::UserDirs":{"version":"0.08","file":"lib/File/UserDirs.pm"},"File::BaseDir":{"file":"lib/File/BaseDir.pm","version":"0.08"},"File::IconTheme":{"version":"0.08","file":"lib/File/IconTheme.pm"}},"dist":"File-BaseDir-0.08","target":"File::BaseDir","pathname":"K/KI/KIMRYAN/File-BaseDir-0.08.tar.gz","name":"File::BaseDir"}

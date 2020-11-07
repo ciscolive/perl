@@ -1,0 +1,260 @@
+=head1 NAME
+
+Infoblox::Grid::MSServer::AdSites::Site - object that represents Active Directory Site. 
+
+=head1 DESCRIPTION
+
+The object provides information about Active Directory Site. 
+
+=head1 CONSTRUCTOR
+
+ my $ms_adsite = Infoblox::Grid::MSServer::AdSites::Site->new(
+    domain   => $adsites_domain,                #Required
+    name     => $string,                        #Required
+    networks => [$network1, $network2, ...],    #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to the Active Directory Site.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $site = Infoblox::Grid::MSServer::AdSites::Site->new(
+     domain   => $domain,
+     name     => 'Site0',
+     networks => [$network1, $network2],
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ my $site = $session->get(
+     domain => $domain,
+     name   => 'Site0',
+ );
+
+ $session->remove($site);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+Apply the following attribute to get a specific object:
+
+   name   - Optional. The Active Directory Site name.
+   domain - Optional. An Infoblox::Grid::MSServer::AdSites::Domain object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+    name   => 'Site0',
+    domain => $domain,
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ $site->name('Site2');
+ $session->modify($site);
+
+=back
+
+=back 
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   name   - Optional. The Active Directory Site name.
+   domain - Optional. An Infoblox::Grid::MSServer::AdSites::Domain object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+    name   => 'Site*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 domain( )
+
+=over
+
+Use this method to retrieve Active Directory Domain to which this Active Directory belongs.
+
+Note that you can create a Site object with a given Active Directory Domain but once you've created, you will not be able modify a Domain of existing objects.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::MSServer::AdSites::Domain|Infoblox::Grid::MSServer::AdSites::Domain> object.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain value
+ my $domain = $site->domain();
+
+=back
+
+=back
+
+=head2 move_subnets( )
+
+=over
+
+Use this method to move subnets beetween Active Directory Domain Sites.
+
+=over
+
+=item B<Parameters>
+
+ networks - a list of Infoblox::DHCP::Network and Infoblox::DHCP::IPv6Network objects to perform the move operation on.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #move subnets to the site
+ $site->move_subnets(
+    networks => [$network1, $network2],
+ );
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the Active Directory Site name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the Active Directory Site name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $site->name();
+ #Modify name value
+ $site->name('Site1');
+
+=back
+
+=back
+
+=head2 networks( )
+
+=over
+
+Use this method to set or retrieve the list of networks associated with this Active Directory Site. 
+
+=over
+
+=item B<Parameter>
+
+The valid value is a list of L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::NetworkContainer|Infoblox::DHCP::NetworkContainer>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network> and L<Infoblox::DHCP::IPv6NetworkContainer|Infoblox::DHCP::IPv6NetworkContainer> objects. 
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get networks value
+ my @networks = $site->networks();
+ #Modify networks value
+ $site->networks([$network1, $network2, $network3]);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Grid::MSServer::AdSites::Domain|Infoblox::Grid::MSServer::AdSites::Domain>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network> 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,90 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::VLANInfo - VLAN information associated with the discovery interface.
+
+=head1 DESCRIPTION
+
+The object provides VLAN information associated with the discovery interface.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::VLANInfo->new(
+    'id'   => $string,            # Optional
+    'name' => $string,            # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 id( )
+
+=over
+
+Use this method to set or retrieve the VLAN ID.
+
+=over
+
+=item B<Parameter>
+
+The VLAN ID in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->id();
+ # Modify attribute value
+ $object->id('23');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the VLAN name.
+
+=over
+
+=item B<Parameter>
+
+The VLAN name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+ # Modify attribute value
+ $object->name('vlan');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

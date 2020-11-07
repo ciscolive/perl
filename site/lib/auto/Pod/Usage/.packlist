@@ -1,0 +1,4 @@
+/opt/perl/site/bin/pod2usage
+/opt/perl/site/lib/Pod/Usage.pm
+/opt/perl/site/man/man1/pod2usage.1
+/opt/perl/site/man/man3/Pod::Usage.3

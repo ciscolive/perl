@@ -1,0 +1,331 @@
+=head1 NAME
+
+Infoblox::DNS::Record::DHCID - DNS DHCID record object.
+
+=head1 DESCRIPTION
+
+The DHCID DNS resource record (RR) is used to associate the DNS domain names and DHCP clients using these domain names.
+
+Note that insert/update operations are not allowed for this object.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to the object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS DHCID object:
+
+  name    - Optional. Host name in string format.
+  view    - Optional. The DNS view in which the DHCID record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  dhcid   - Optional. Base-64 encoded string that contains client information.
+  zone    - Optional. A zone name in FQDN format.
+  creator - Optional. Record creator.
+
+=item B<Example>
+
+ # get all DNS DHCID records in the 'domain.com' zone of the default view
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DNS::Record::DHCID',
+     zone   => 'domain.com',
+     view   => 'default' );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DNS::Record::DHCID',
+     name   => 'dhcid.domain.com',
+     view   => 'default' );
+
+ # find the desired object from the retrieved list.
+ my $desired_object = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove($desired_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS DHCID record object:
+
+  name    - Optional. A name in FQDN (Fully Qualified Domain Name) format (regular expression).
+  view    - Optional. The DNS view in which the DHCID record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  dhcid   - Optional. Base-64 encoded string that contains client information (regexp).
+  zone    - Optional. A zone name in FQDN format.
+  creator - Optional. Record creator.
+
+=item B<Example>
+
+ # search for all DNS DHCID objects that match 'domain.com' in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DNS::Record::DHCID',
+     name   => 'domain\.com',
+     view   => 'default' );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a DHCID record.
+
+Note that this is a read-only object.
+
+=head2 creator( )
+
+=over
+
+Use this method to retrieve the record creator. This is a read-only attribute.
+
+=over
+
+=item B<Paramter>
+
+None
+
+=item B<Returns>
+
+Valid return values are 'STATIC', 'DYNAMIC', and 'SYSTEM'.
+
+=item B<Example>
+
+ #Get creator value
+ my $value = $object->creator();
+
+=back
+
+=back
+
+=head2 creation_time( )
+
+=over
+
+Use this method to retrieve the creation time for the record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Valid return value is the number of seconds that has elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get creation_time value
+ my $value = $object->creation_time();
+
+=back
+
+=back
+
+=head2 dhcid( )
+
+=over
+
+Use this method to retrieve the Base64 encoded DHCP client information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get dhcid value
+ my $value = $object->dhcid();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the name in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get dns_name value
+ my $value = $object->dns_name();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name. This is a read-only attribute.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $value = $object->name();
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to retrieve the Time to Live (TTL) value. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, a 32-bit integer (range from 0 to 4294967295).
+
+=item B<Example>
+
+ #Get ttl value
+ my $value = $object->ttl();
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to retrieve the view of a DHCID record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value: the one-element array that contains L<Infoblox::DNS::View|Infoblox::DNS::View> object.
+
+=item B<Example>
+
+ #Get views value
+ my $value = $object->views();
+
+ #Modify views values
+ $object->views([$view1]);
+
+=back
+
+=back
+
+=head2 zone( )
+
+=over
+
+Use this method to retrieve the zone name of a DNS DHCID record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get zone value
+ my $zone = $object->zone();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::DNS::View|Infoblox::DNS::View>,
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

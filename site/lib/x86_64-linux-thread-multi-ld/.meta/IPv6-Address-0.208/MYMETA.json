@@ -1,0 +1,66 @@
+{
+   "abstract" : "IPv6 Address Manipulation Library",
+   "author" : [
+      "Athanasios Douitsis <aduitsis@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "IPv6-Address",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Module::Build" : "0.28"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.28",
+            "perl" : "5.010"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : 0,
+            "Data::Dumper" : 0,
+            "Socket" : 0,
+            "Sub::Install" : 0,
+            "overload" : 0,
+            "perl" : "5.010",
+            "strict" : 0,
+            "warnings" : 0
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : 0,
+            "perl" : "5.010"
+         }
+      }
+   },
+   "provides" : {
+      "IPv4Subnet" : {
+         "file" : "lib/IPv6/Address.pm",
+         "version" : "0.208"
+      },
+      "IPv6::Address" : {
+         "file" : "lib/IPv6/Address.pm",
+         "version" : "0.208"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "https://github.com/aduitsis/IPv6-Address",
+      "repository" : {
+         "url" : "https://github.com/aduitsis/IPv6-Address.git"
+      }
+   },
+   "version" : "0.208",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

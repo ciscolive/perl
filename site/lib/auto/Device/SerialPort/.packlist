@@ -1,0 +1,5 @@
+/opt/perl/site/bin/modemtest
+/opt/perl/site/lib/Device/SerialPort.pm
+/opt/perl/site/lib/auto/Device/SerialPort/SerialPort.so
+/opt/perl/site/man/man1/modemtest.1
+/opt/perl/site/man/man3/Device::SerialPort.3

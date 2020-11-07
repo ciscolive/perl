@@ -1,0 +1,16 @@
+/opt/perl/site/lib/MooseX/Role/Parameterised.pm
+/opt/perl/site/lib/MooseX/Role/Parameterized.pm
+/opt/perl/site/lib/MooseX/Role/Parameterized/Extending.pod
+/opt/perl/site/lib/MooseX/Role/Parameterized/Meta/Role/Parameterized.pm
+/opt/perl/site/lib/MooseX/Role/Parameterized/Meta/Trait/Parameterizable.pm
+/opt/perl/site/lib/MooseX/Role/Parameterized/Meta/Trait/Parameterized.pm
+/opt/perl/site/lib/MooseX/Role/Parameterized/Parameters.pm
+/opt/perl/site/lib/MooseX/Role/Parameterized/Tutorial.pod
+/opt/perl/site/man/man3/MooseX::Role::Parameterised.3
+/opt/perl/site/man/man3/MooseX::Role::Parameterized.3
+/opt/perl/site/man/man3/MooseX::Role::Parameterized::Extending.3
+/opt/perl/site/man/man3/MooseX::Role::Parameterized::Meta::Role::Parameterized.3
+/opt/perl/site/man/man3/MooseX::Role::Parameterized::Meta::Trait::Parameterizable.3
+/opt/perl/site/man/man3/MooseX::Role::Parameterized::Meta::Trait::Parameterized.3
+/opt/perl/site/man/man3/MooseX::Role::Parameterized::Parameters.3
+/opt/perl/site/man/man3/MooseX::Role::Parameterized::Tutorial.3

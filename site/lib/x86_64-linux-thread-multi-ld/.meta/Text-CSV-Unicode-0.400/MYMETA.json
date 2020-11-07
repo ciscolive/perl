@@ -1,0 +1,48 @@
+{
+   "abstract" : "comma-separated values manipulation routines",
+   "author" : [
+      "Robin Barker <rmbarker@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Text-CSV-Unicode",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : 0
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : 0.38
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Text::CSV" : 1,
+            "perl" : 5.008
+         }
+      }
+   },
+   "provides" : {
+      "Text::CSV::Unicode" : {
+         "file" : "lib/Text/CSV/Unicode.pm",
+         "version" : "0.400"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "0.400",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

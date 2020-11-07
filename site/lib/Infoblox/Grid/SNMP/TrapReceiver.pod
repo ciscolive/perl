@@ -1,0 +1,90 @@
+=head1 NAME
+
+Infoblox::Grid::SNMP::TrapReceiver - Grid SNMP TrapReceiver object.
+
+=head1 DESCRIPTION
+
+The Grid SNMP TrapReceiver object is used to set or retrieve the IP address and user name of a trap receiver.
+
+=head1 CONSTRUCTOR
+
+ my $Infoblox::Grid::SNMP::TrapReceiver->new(
+     address => $ip_address,  #Required
+     user => $snmpv3user      #Required
+ );
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an SNMPv3 TrapReceiver object.
+
+=head2 address()
+
+=over
+
+Use this method to set or retrieve the IP address of the trap receiver.
+
+=over
+
+=item B<Parameter>
+
+IPv4 address of the trap receiver
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get trap receiver address
+ my $ip=$trap_receiver->address();
+ #Set trap receiver address
+ $trap_receiver->address("192.168.1.2");
+
+=back
+
+=back
+
+=head2 user()
+
+=over
+
+Use this method to set or retrieve the user name for the trap receiver.
+
+=over
+
+=item B<Parameter>
+
+A reference to the Infoblox::Grid::SNMP::User object or the user name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get trap receiver user
+ my $user=$trap_receiver->user();
+ #Set trap receiver user
+ $trap_receiver->user($user);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::SNMP::User|Infoblox::Grid::SNMP::User>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

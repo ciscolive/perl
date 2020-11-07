@@ -1,0 +1,228 @@
+=head1 NAME
+
+Infoblox::DTC::Query::Parameters - A DTC query call parameters object.
+
+=head1 DESCRIPTION
+
+A DTC query call parameters object.
+
+=head1 CONSTRUCTOR
+
+ my $params = Infoblox::DTC::Query::Parameters->new(
+     address => $string,                          # Required
+     qname   => $string,                          # Required
+     type    => 'A' | 'AAAA' | 'NAPTR' | 'CNAME', # Required
+     lbdn    => $lbdn,                            # Required
+     member  => $string,                          # Required
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It's used as a parameters for a DTC query call.
+
+=head1 MODULE METHODS
+
+=head1 Infoblox::DTC->query( )
+
+=over
+
+Use this method to perform a DTC query on a given member.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::DTC::Query::Parameters|Infoblox::DTC::Query::Parameters> object.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::DTC::Query::Response|Infoblox::DTC::Query::Response> when operation succeeds, and returns 'false' when the operation fails.
+
+=item B<Example>
+
+ #perform DTC query
+ my $response = $dtc->query($params);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve an ostensible IPv4 or IPv6 source address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains an IPv4 or IPv6 address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get address value
+ my $address = $params->address();
+
+ #modify address value
+ $params->address('192.168.1.0');
+
+=back
+
+=back
+
+=head2 lbdn( )
+
+=over
+
+Use this method to set or retrieve a specific LBDN object for querying.
+
+Note that LBDN objects must be first retrieved using the get() or search() operation.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::LBDN|Infoblox::DTC::LBDN> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get lbdn value
+ my $lbdn = $params->lbdn();
+
+ #modify lbdn value
+ $params->lbdn($lbdn);
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve a member name for querying.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the member name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get member value
+ my $member = $params->member();
+
+ #modify member value
+ $params->member('localhost.localdomain');
+
+=back
+
+=back
+
+=head2 qname( )
+
+=over
+
+Use this method to set or retrieve a fully-qualified DNS query name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string, which contains a query name in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get qname value
+ my $qname = $params->qname();
+
+ #modify qname value
+ $params->qname($fqdn);
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the type of desired results.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'A', 'AAAA', 'CNAME' and 'NAPTR'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get type value
+ my $type = $params->type();
+
+ #modify type value
+ $params->type('AAAA');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC-E<gt>query()|Infoblox::DTC/query()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

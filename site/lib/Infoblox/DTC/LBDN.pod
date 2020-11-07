@@ -1,0 +1,708 @@
+=head1 NAME
+
+Infoblox::DTC::LBDN - A DTC Load Balanced Domain Name object.
+
+=head1 DESCRIPTION
+
+A DTC Load Balanced Domain Name object.
+
+=head1 CONSTRUCTOR
+
+ my $lbdn = Infoblox::DTC::LBDN->new(
+    name                  => $string,                                                               #Required     
+    lb_method             => 'GLOBAL_AVAILABILITY' | 'RATIO' | 'ROUND_ROBIN' | 'TOPOLOGY',          #Required
+    patterns              => [$pattern1, $pattern2, ...],                                           #Optional / Default is undefined
+    disable               => 'true' | 'false',                                                      #Optional / Default is 'false'
+    comment               => $string,                                                               #Optional / Default is undefined
+    persistence           => $uint,                                                                 #Optional / Default is undefined
+    topology              => $topology_obj,                                                         #Optional / Default is undefined
+    ttl                   => $uint,                                                                 #Optional / Default is undefined
+    types                 => ['A', 'AAAA', 'NAPTR', 'CNAME'],                                       #Optional / Default is ['A', 'AAAA']
+    override_ttl          => 'true' | 'false',                                                      #Optional / Default is 'false'
+    pools                 => [$pool_link_obj1, $pool_link_obj2, ...],                               #Optional / Default is undefined
+    priority              => $uint,                                                                 #Optional / Default is 1
+    auth_zones            => [$auth_zone1, $auth_zone2, ...],                                       #Optional / Default is undefined
+    extattrs              => { $string => $extattr, ... },                                          #Optional / Default is undefined
+    extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+ );
+    
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DTC LBDN object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $lbdn = Infoblox::DTC::LBDN->new(
+    name      => 'load_bal',
+    lb_method => 'GLOBAL_AVAILABILITY',
+ );
+
+ #submit for addition
+ my $response = $session->add($lbdn);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC LBDN name in a string format.
+  comment               - Optional. A DTC LBDN comment.
+  fqdn                  - Optional. A fully qualified domain name (FQDN).
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  status_member         - Optional. A member that provides the object health status. The default is Grid.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::LBDN',
+     name   => 'load_bal',
+     fqdn   => 'lb.com'
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::LBDN',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $lbdn->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($lbdn);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::LBDN',
+     name   => 'load_bal',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_lbdn = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_lbdn);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference> 
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC LBDN name in a string format.
+  comment               - Optional. A DTC LBDN comment.
+  fqdn                  - Optional. A fully qualified domain name (FQDN).
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  status_member         - Optional. A member that provides the object health status. The default is Grid.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::LBDN',
+     name   => 'load_b.*',
+     fqdn   => 'lb.*'
+ );
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::LBDN',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 auth_zones( )
+
+=over
+
+Use this method to set or retrieve a list of authoritative zones the DTC LBDN is linked to.
+
+Note that two different DTC LBDNs cannot be linked to the same zone if their patterns overlap.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array containing L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get auth_zones value
+ my @auth_zones = $lbdn->auth_zones();
+
+ #modify auth_zones value
+ $lbdn->auth_zones([$zone1, $zone2]);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $lbdn->comment();
+
+ #modify comment value
+ $lbdn->comment('desired comment');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to enable or disable a DTC LBDN object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable an DTC LBDN object or 'false' to enable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get disable value
+ my $disable = $lbdn->disable();
+
+ #modify disable value
+ $lbdn->disable('true');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC LBDN object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get extattrs value
+ my $ref_extattrs = $lbdn->extattrs();
+
+ #Modify extattrs
+ $lbdn->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC LBDN object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $lbdn->extensible_attributes();
+
+ #Modify extensible attributes
+ $lbdn->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 health( )
+
+=over
+
+Use this method to retrieve DTC LBDN health information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::DTC::Health|Infoblox::DTC::Health> object.
+
+=item B<Example>
+
+ #get health value
+ my $health = $lbdn->health();
+
+=back
+
+=back
+
+=head2 lb_method( )
+
+=over
+
+Use this method to set or retrieve a DTC LBDN load balancing method.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'GLOBAL_AVAILABILITY', 'RATIO', 'ROUND_ROBIN' and 'TOPOLOGY'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get lb_method value
+ my $lb_method = $lbdn->lb_method();
+
+ #modify lb_method value
+ $lbdn->lb_method('RATIO');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the DTC LBDN name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $lbdn->name();
+
+ #modify name value
+ $lbdn->name('load_bal1');
+
+=back
+
+=back
+
+=head2 override_ttl( )
+
+=over
+
+The override_ttl attribute controls whether the TTL value in the object is used, instead of the Grid default.
+
+The override_ttl attribute can be specified explicitly. It is also set implicitly when ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set override_ttl flag or 'false' to disable it. Default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get override_ttl value
+ my $override_ttl = $lbdn->override_ttl();
+
+ #modify override_ttl value
+ $lbdn->override_ttl('true');
+
+=back
+
+=back
+
+=head2 patterns( )
+
+=over
+
+Use this method to set or retrieve an array of DNS FQDN patterns. The patterns are used to match DNS query names processed by the DTC LBDN.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of FQDN patterns in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get patterns value
+ my @patterns = $lbdn->patterns();
+
+ #modify patterns value
+ $lbdn->patterns(['???'.domain.com', '*.test.com', 'test.domain.com']);
+
+=back
+
+=back
+
+=head2 persistence( )
+
+=over
+
+Use this method to set or retrieve the maximum time (in seconds) for which client specific DTC LBDN responses are cached.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer. Zero specifies no caching.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get persistence value
+ my $persistence = $lbdn->persistence();
+
+ #modify persistence value
+ $lbdn->persistence(5);
+
+=back
+
+=back
+
+=head2 pools( )
+
+=over
+
+Use this method to set or retrieve the list of pools the DTC LBDN is linked to.
+
+Note that a DTC LBDN linked to a zone must contain at least one enabled pool if lb_method is set to anything other than 'TOPOLOGY'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::DTC::Pool::Link|Infoblox::DTC::Pool::Link> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get pools value
+ my @pools = $lbdn->pools();
+
+ #modify pools value
+ $lbdn->pools([$pool_link1, $pool_link2]);
+
+=back
+
+=back
+
+=head2 priority( )
+
+=over
+
+Use this method to set or retrieve the LBDN pattern match priority for "overlapping" DTC LBDN objects.
+
+LBDNs are "overlapping" if they are simultaneously assigned to a zone and have patterns that can match the same FQDN.
+The matching LBDN with highest priority (lowest ordinal) will be used.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 3. The default is 3.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get priority value
+ my $priority = $object->priority();
+
+ #Modify priority value
+ $object->priority(3);
+
+=back
+
+=back
+
+=head2 topology( )
+
+=over
+
+Use this method to set or retrieve topology rules for the 'TOPOLOGY' load balancing method.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Topology|Infoblox::DTC::Topology> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get topology value
+ my $topology = $lbdn->topology();
+
+ #modify topology value
+ $lbdn->topology($topology);
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set a TTL value.
+
+Setting this method to a defined value implicitly sets the override_ttl method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ttl attribute to 'false'.
+
+Note that when ttl is set to a defined value and override_ttl is set to 'false', the last operation takes precedence. Thus the sequence $object->ttl(10); $object->override_ttl('false'); will set override_ttl to 'false', and the sequence $object->override_ttl('false'); $object->ttl(10); will result in override_ttl='true'.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ttl value
+ my $ttl = $lbdn->ttl();
+
+ #modify ttl value
+ $lbdn->ttl(10);
+
+=back
+
+=back
+
+=head2 types( )
+
+=over
+
+Use this method to set or retrieve the list of record types supported by LBDN.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid valid is an array reference that contains any of the following values: 'A', 'AAA', 'NAPTR', 'CNAME'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get types value
+ my $types = $lbdn->types();
+
+ #modify types value
+ $lbdn->types(['NAPTR']);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>, L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>, L<Infoblox::DTC::Health|Infoblox::DTC::Health>, L<Infoblox::DTC::Pool::Link|Infoblox::DTC::Pool::Link>, L<Infoblox::DTC::Topology|Infoblox::DTC::Topology>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

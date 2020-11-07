@@ -1,0 +1,165 @@
+=head1 NAME
+
+Infoblox::Grid::SNMP::TrapNotification  - Trap Notification object.
+
+=head1 DESCRIPTION
+
+This object represents the trap notification settings of the Infoblox::Grid and Infoblox::Grid::Member object. The object allows you to control which trap categories are enabled, and for which trap categories mail notification will be sent.
+
+=head1 CONSTRUCTOR
+
+Use the following parameters to construct the Infoblox::Grid::SNMP::TrapNotification object
+
+ my $trap_notification = Infoblox::Grid::SNMP::TrapNotification->new(
+    trap_type       =>  $string,              #Required
+    enable_email    =>  "true" | "false",     #Optional / Default is  "false"
+    enable_trap     =>  "true" | "false",     #Optional / Default is  "true"
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to an SNMP Trap Notification object.
+
+=head2 Infoblox::Grid->trap_notifications( )
+
+=over
+
+Use this function to specify trap notification settings at the grid level. See
+L<Infoblox::Grid-E<gt>trap_notifications()|Infoblox::Grid/trap_notifications()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get a reference to a trap notifications array
+ my $trap_notifications = $grid->trap_notifications();
+ #Modify trap notifications
+ my $notifications = $grid->trap_notifications();
+ foreach(@$notifications){if $_->trap_type() eq 'CPU'; $_->enable_email="true";} #Change value for 'CPU' trap
+ $grid->trap_notifications($notifications);
+ $session->modify($grid);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->trap_notifications( )
+
+=over
+
+Use this function to specify a trap notifications at the member level. See L<Infoblox::Grid::Member-E<gt>trap_notifications()|Infoblox::Grid::Member/trap_notifications()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get a reference to a trap notifications array
+ my $trap_notifications = $member->trap_notifications();
+ #Modify trap notifications
+ my $notifications = $member->trap_notifications();
+ foreach(@$notifications){if $_->trap_type() eq 'CPU'; $_->enable_email="true";} #Change value for 'CPU' trap
+ $member->trap_notifications($notifications);
+ $session->modify($member);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of a Trap Notification object.
+
+=head2 enable_email( )
+
+=over
+
+Use this method to retrieve the enable_email flag of a Trap Notification object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the  enable_email flag value.
+
+=item B<Example>
+
+ #Get  enable_email flag
+ my $enable_email = $trap_notification->enable_email();
+ #Set  enable_email flag
+ $trap_notification->enable_email();
+
+=back
+
+=back
+
+=head2 enable_trap( )
+
+=over
+
+Use this method to retrieve the enable_trap flag of a Trap Notification object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the  enable_trap flag attribute value.
+
+=item B<Example>
+
+ #Get  enable_trap flag
+ my $enable_trap = $trap_notification->enable_trap();
+ #Set  enable_trap flag
+ $trap_notification->enable_trap();
+
+=back
+
+=back
+
+=head2 trap_type( )
+
+=over
+
+Use this method to retrieve the category of a trap in the Trap Notification object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the  category of the trap attribute value.
+
+=item B<Example>
+
+ #Get category of trap
+ my $trap_type = $trap_notification->trap_type();
+ #Set category of trap
+ $trap_notification->trap_type();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid|Infoblox::Grid>, L<Infoblox::Grid::Member|Infoblox::Grid::Member>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

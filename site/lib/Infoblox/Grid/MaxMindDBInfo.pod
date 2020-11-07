@@ -1,0 +1,265 @@
+=head1 NAME
+
+Infoblox::Grid::MaxMindDBInfo - an MaxMind Database information object.
+
+=head1 DESCRIPTION
+
+The object provides information about the MaxMind database.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a MaxMindDBInfo object. Note that the object supports only the get method since there is only one such object in the database.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   binary_major_version - Optional. The major binary version of MaxMind database.
+   binary_minor_version - Optional. The minor binary version of MaxMind database.
+   build_time           - Optional. The time at which the MaxMind database was built.
+   database_type        - Optional. The structure of data records.
+   deployment_time      - Optional. The time at which the current MaxMind database was deployed.
+   topology_type        - Optional. The MaxMind database topology type.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::TCP',
+     database_type => 'GeoLite2-Country',
+ );
+
+=back
+
+=back
+
+=head1 MODULE METHODS
+
+=head2 Infoblox::DTC->import_maxminddb( )
+
+=head2 import_maxminddb( )
+
+=over
+
+Use this method to upload MaxMind Database.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to upload a MaxMind Database:
+
+     path - Required. The path to a tar archive that contains the MaxMind Database.
+
+=item B<Returns>
+
+The method returns "true" when an upload of a MaxMind Database has been performed successfully, and returns "false" when the operation fails.
+
+=item B<Example>
+
+ #upload MaxMind DB
+ my $res = $dtc->import_maxminddb(path => $path_to_maxminddb);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 binary_major_version( )
+
+=over
+
+Use this method to retrieve the major version of the MaxMind database binary format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get binary_major_version value
+ my $binary_major_version = $maxminddbinfo->binary_major_version();
+
+=back
+
+=back
+
+=head2 binary_minor_version( )
+
+=over
+
+Use this method to retrieve the minor version of the MaxMind database binary format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #get binary_minor_version value
+ my $binary_minor_version = $maxminddbinfo->binary_minor_version();
+
+=back
+
+=back
+
+=head2 build_time( )
+
+=over
+
+Use this method to retrieve the time when the MaxMind database was built. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get build_time value
+ my $build_time = $maxminddbinfo->build_time();
+
+=back
+
+=back
+
+=head2 database_type( )
+
+=over
+
+Use this method to retrieve the structure of MaxMind database records. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #get database_type value
+ my $database_type = $maxminddbinfo->database_type();
+
+=back
+
+=back
+
+=head2 deployment_time( )
+
+=over
+
+Use this method to retrieve the time when the current MaxMind database was deployed. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #get deployment_time value
+ my $deployment_time = $maxminddbinfo->deployment_time();
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to retrieve the Grid member name on which the current MaxMind database was deployed. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get member value
+ my $value = $object->member();
+
+=back
+
+=back
+
+=head2 topology_type( )
+
+=over
+
+Use this method to retrieve the MaxMind database topology type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The valid return values are 'GEOIP' and 'EA'.
+
+=item B<Example>
+
+ #get topology_type value
+ my $topology_type = $maxminddbinfo->topology_type();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::DTC-E<gt>import_maxminddb()|Infoblox::DTC/import_maxminddb()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

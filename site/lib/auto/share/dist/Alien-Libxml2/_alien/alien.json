@@ -1,0 +1,17 @@
+{
+   "alien_build_version" : "2.37",
+   "cflags" : "-I/usr/include/libxml2",
+   "cflags_static" : "-I/usr/include/libxml2",
+   "install_type" : "system",
+   "legacy" : {
+      "finished_installing" : 1,
+      "install_type" : "system",
+      "original_prefix" : "/opt/perl/site/lib/auto/share/dist/Alien-Libxml2",
+      "version" : "2.9.7"
+   },
+   "libs" : "-lxml2 -lz -llzma -lm -ldl",
+   "libs_static" : "-lxml2 -lz -llzma -lm -ldl",
+   "perl_module_version" : "0.17",
+   "prefix" : "/opt/perl/site/lib/auto/share/dist/Alien-Libxml2",
+   "version" : "2.9.7"
+}

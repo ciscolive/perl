@@ -1,0 +1,1 @@
+{"pathname":"P/PO/POWERMAN/JSON-RPC2-v2.1.2.tar.gz","dist":"JSON-RPC2-v2.1.2","provides":{"JSON::RPC2::Client":{"version":"v2.1.2","file":"lib/JSON/RPC2/Client.pm"},"JSON::RPC2::Server":{"file":"lib/JSON/RPC2/Server.pm","version":"v2.1.2"},"JSON::RPC2":{"file":"lib/JSON/RPC2.pm","version":"v2.1.2"}},"name":"JSON::RPC2","target":"JSON::RPC2","version":"v2.1.2"}

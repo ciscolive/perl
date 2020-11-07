@@ -1,0 +1,79 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DeviceSupportInfoResponse - the device support info response.
+
+=head1 DESCRIPTION
+
+The object is created as a result of L<Infoblox::Grid::Discovery-E<gt>get_device_support_info()|Infoblox::Grid::Discovery/get_device_support_info()/> function call and cannot be added or removed manually.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of a device support info response.
+
+=head2 device_data_collection_status()
+
+=over
+
+Use this method to retrieve the list of Discovery device data collection statuses. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, that is an array of L<Infoblox::Grid::Discovery::DeviceDataCollectionStatus|Infoblox::Grid::Discovery::DeviceDataCollectionStatus> objects.
+
+=item B<Example>
+
+ #Get value
+ my $device_data_collection_status = $device_support_info_response->device_data_collection_status();
+
+=back
+
+=back
+
+=head2 device_support_info()
+
+=over
+
+Use this method to retrieve the list of Discovery device support infos. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, that is an array of L<Infoblox::Grid::Discovery::DeviceSupportInfo|Infoblox::Grid::Discovery::DeviceSupportInfo> objects.
+
+=item B<Example>
+
+ #Get value
+ my $device_support_info = $device_support_info_response->device_support_info();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery|Infoblox::Grid::Discovery>, L<Infoblox::Grid::Discovery::DeviceDataCollectionStatus|Infoblox::Grid::Discovery::DeviceDataCollectionStatus>, L<Infoblox::Grid::Discovery::DeviceSupportInfo|Infoblox::Grid::Discovery::DeviceSupportInfo>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,1 @@
+{"pathname":"M/MS/MSTROUT/App-plx-0.901001.tar.gz","target":"App::plx","version":"0.901001","name":"App::plx","dist":"App-plx-0.901001","provides":{"Perl::Layout::Executor::_self":{"file":"lib/App/plx.pm","version":"0.901001"},"App::plx":{"file":"lib/App/plx.pm","version":"0.901001"}}}

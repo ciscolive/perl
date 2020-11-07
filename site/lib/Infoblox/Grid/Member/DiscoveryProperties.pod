@@ -1,0 +1,571 @@
+=head1 NAME
+
+Infoblox::Grid::Member::DiscoveryProperties - Grid member discovery properties.
+
+=head1 DESCRIPTION
+
+The object provides information about Grid member discovery properties.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Member::DiscoveryProperties->new(
+    'member'                     => $string,                    # Optional
+    'enable_service'             => 'true' | 'false',           # Optional
+    'scan_interfaces'            => [$si1, ...],                # Optional
+    'role'                       => 'DNM' | 'DNP' | 'NONE',     # Optional
+    'seed_routers'               => [$seed1, ...],              # Optional
+    'snmp3_credentials'          => [$snmp3, ...],              # Optional
+    'override_snmp3_credentials' => 'true' | 'false',           # Optional
+    'snmp_credentials'           => [$snmp, ...],               # Optional
+    'override_snmp_credentials'  => 'true' | 'false',           # Optional
+    'cli_credentials'            => [$cli1, ...],               # Optional
+    'override_cli_credentials'   => 'true' | 'false',           # Optional
+    'cisco_apic_configurations'  => [$conf1, ...],              # Optional
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to the object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+  member - Optional. The member name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::Member::DiscoveryProperties',
+     'member' => 'member.com',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify role.
+ $object->role("DNP");
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a object:
+
+  member - Optional. The member name.
+
+=item B<Example>
+
+ # search for all objects
+ my @retrieved_objs = $session->search(
+     'object' => 'Infoblox::Grid::Member::DiscoveryProperties',
+     'member' => 'member.com',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 cisco_apic_configurations( )
+
+=over
+
+Use this method to set or retrieve the list of Cisco APIC configurations for a given probe Member.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Member::Discovery::CiscoAPICConfig|Infoblox::Grid::Member::Discovery::CiscoAPICConfig> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cisco_apic_configurations();
+ # Construct Cisco APIC config
+ my $conf = Infoblox::Grid::Member::Discovery::CiscoAPICConfig->new(
+    'address'        => '10.10.10.2',
+    'ca_certificate' => $ca_cert,
+    'comment'        => 'The comment string.',
+    'network_view'   => 'default',
+    'password'       => 'secret',
+    'protocol'       => 'HTTP',
+    'username'       => 'admin',
+ );
+ $object->cisco_apic_configurations([$conf]);
+
+=back
+
+=back
+
+=head2 default_seed_routers( )
+
+=over
+
+Use this method to retrieve a list of default seed routers. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->default_seed_routers();
+
+=back
+
+=back
+
+=head2 enable_service( )
+
+=over
+
+Use this method to enable or disable the discovery service.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the discovery service or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->enable_service();
+ # Modify attribute value
+ $object->enable_service('true');
+
+=back
+
+=back
+
+=head2 cli_credentials( )
+
+=over
+
+Use this method to set or retrieve the Discovery CLI credentials.
+
+Setting this method to a defined value implicitly sets the override_cli_credentials method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_cli_credentials attribute to "false".
+
+Note that when cli_credentials is set to a defined value and override_cli_credentials is set to "false", the last operation takes precedence. Thus the sequence $object->cli_credentials([$snmp]); $object->override_cli_credentials("false"); will set override_cli_credentials to "false", and the sequence $object->override_cli_credentials("false"); $object->cli_credentials([$snmp]); will result in override_cli_credentials="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::CLICredential|Infoblox::Grid::Discovery::CLICredential> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cli_credentials();
+ # Modify attribute value
+ $object->cli_credentials([$cli1, $cli2]);
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve the member name.
+
+=over
+
+=item B<Parameter>
+
+The member name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->member();
+ # Modify attribute value
+ $object->member('infoblox.com');
+
+=back
+
+=back
+
+=head2 override_snmp3_credentials( )
+
+=over
+
+The override_snmp3_credentials attribute controls whether the snmp3_credentials value in the member is used, instead of the grid default.
+
+The override_snmp3_credentials attribute can be specified explicitly. It is also set implicitly when snmp3_credentials is set to a defined value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_snmp3_credentials flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->override_snmp3_credentials();
+ # Modify attribute value
+ $object->override_snmp3_credentials('true');
+
+=back
+
+=back
+
+=head2 override_cli_credentials( )
+
+=over
+
+The override_cli_credentials attribute controls whether the cli_credentials value in the member is used, instead of the grid default.
+
+The override_cli_credentials attribute can be specified explicitly. It is also set implicitly when cli_credentials is set to a defined value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_cli_credentials flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->override_cli_credentials();
+ # Modify attribute value
+ $object->override_cli_credentials('true');
+
+=back
+
+=back
+
+=head2 override_snmp_credentials( )
+
+=over
+
+The override_snmp_credentials attribute controls whether the snmp_credentials value in the member is used, instead of the grid default.
+
+The override_snmp_credentials attribute can be specified explicitly. It is also set implicitly when snmp_credentials is set to a defined value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_snmp_credentials flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->override_snmp_credentials();
+ # Modify attribute value
+ $object->override_snmp_credentials('true');
+
+=back
+
+=back
+
+=head2 role( )
+
+=over
+
+Use this method to set or retrieve the role of the discovery member.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'DNM', 'DNP' or 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->role();
+ # Modify attribute value
+ $object->role('NONE');
+
+=back
+
+=back
+
+=head2 seed_routers( )
+
+=over
+
+Use this method to set or retrieve seed routers.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::SeedRouter|Infoblox::Grid::Discovery::SeedRouter> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->seed_routers();
+ # Modify attribute value
+ $object->seed_routers([$seed1, $seed2]);
+
+=back
+
+=back
+
+=head2 snmp3_credentials( )
+
+=over
+
+Use this method to set or retrieve discovery SNMPv3 credentials.
+
+Setting this method to a defined value implicitly sets the override_snmp3_credentials method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_snmp3_credentials attribute to "false".
+
+Note that when snmp3_credentials is set to a defined value and override_snmp3_credentials is set to "false", the last operation takes precedence. Thus the sequence $object->snmp3_credentials([$snmp3]); $object->override_snmp3_credentials("false"); will set override_snmp3_credentials to "false", and the sequence $object->override_snmp3_credentials("false"); $object->snmp3_credentials([$snmp3]); will result in override_snmp3_credentials="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::SNMP3Credential|Infoblox::Grid::Discovery::SNMP3Credential> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->snmp3_credentials();
+ # Modify attribute value
+ $object->snmp3_credentials([$snmp3]);
+
+=back
+
+=back
+
+=head2 snmp_credentials( )
+
+=over
+
+Use this method to set or retrieve SNMPv1 and SNMPv2 credentials.
+
+Setting this method to a defined value implicitly sets the override_snmp_credentials method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_snmp_credentials attribute to "false".
+
+Note that when snmp_credentials is set to a defined value and override_snmp_credentials is set to "false", the last operation takes precedence. Thus the sequence $object->snmp_credentials([$snmp]); $object->override_snmp_credentials("false"); will set override_snmp_credentials to "false", and the sequence $object->override_snmp_credentials("false"); $object->snmp_credentials([$snmp]); will result in override_snmp_credentials="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::SNMPCredential|Infoblox::Grid::Discovery::SNMPCredential> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->snmp_credentials();
+ # Modify attribute value
+ $object->snmp_credentials([$snmp]);
+
+=back
+
+=back
+
+=head2 test_credential( )
+
+=over
+
+Use this method to test credentials.
+
+=over
+
+=item B<Parameter>
+
+ id               - Optional. The test credential ID.
+
+The following members are supported when id is defined:
+
+ start            - Optional. The start position of the text.
+
+The following members are supported when id is not defined:
+
+ view             - Optional. The network view name. The default value is the system-defined default network view.
+
+ type             - Optional if one of the following is defined: cli_credentials, snmp_credential or snmp3_credential. Otherwise, this member is required. The valid value is 'CLI', 'SNMP' or 'SNMP3'.
+
+ device           - Required if address is not defined. The Infoblox::Grid::Discovery::Device object.
+
+ member           - Optional. The discovery member name.
+
+ address          - Required if device is not defined. The IP address of the device.
+
+ cli_credentials  - Optional. At least one of the following must be defined: cli_credentials, snmp_credential, or  snmp3_credential. The array reference that contains Infoblox::Grid::Discovery::CLICredential objects.
+
+ snmp_credential  - Optional. At least one of the following must be defined: cli_credentials, snmp_credential, or  snmp3_credential. The Infoblox::Grid::Discovery::SNMPCredential object.
+
+ snmp3_credential - Optional. At least one of the following must be defined: cli_credentials, snmp_credential, or snmp3_credential. The Infoblox::Grid::Discovery::SNMP3Credential object.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::Discovery::TestCredential|Infoblox::Grid::Discovery::TestCredential> object when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ # Get a test credential ID
+ my $result = $object->test_credential(
+    'address'         => '10.0.0.1',
+    'snmp_credential' => $snmp,
+ );
+
+ # Get detailed information by id
+ if (ref($result) eq 'Infoblox::Grid::Discovery::TestCredential') {
+     $result = $object->test_credential('id' => $result->id());
+ }
+
+=back
+
+=back
+
+=head2 scan_interfaces( )
+
+=over
+
+Use this method to set or retrieve the scan interface configuration for a given probe member.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Member::Discovery::ScanInterface|Infoblox::Grid::Member::Discovery::ScanInterface> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->scan_interfaces();
+ # Modify attribute value
+ $object->scan_interfaces([$interface1, $interface2]);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::Member::Discovery::CiscoAPICConfig|Infoblox::Grid::Member::Discovery::CiscoAPICConfig>, L<Infoblox::Grid::Discovery::SNMPCredential|Infoblox::Grid::Discovery::SNMPCredential>, L<Infoblox::Grid::Discovery::SNMP3Credential|Infoblox::Grid::Discovery::SNMP3Credential>, L<Infoblox::Grid::Discovery::SeedRouter|Infoblox::Grid::Discovery::SeedRouter>, L<Infoblox::Grid::Discovery::TestCredential|Infoblox::Grid::Discovery::TestCredential>, L<Infoblox::Grid::Discovery::CLICredential|Infoblox::Grid::Discovery::CLICredential>, L<Infoblox::Grid::Member::Discovery::ScanInterface|Infoblox::Grid::Member::Discovery::ScanInterface>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

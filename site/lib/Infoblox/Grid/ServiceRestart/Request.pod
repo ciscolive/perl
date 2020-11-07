@@ -1,0 +1,372 @@
+=head1 NAME
+
+Infoblox::Grid::ServiceRestart::Request - A Grid Service Restart Request object.
+
+=head1 DESCRIPTION
+
+The Grid Service Restart Request object provides information and statistics about restart service routine of the Restart Service Group.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a Grid Service Restart Request object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+ group  - Optional. A Grid Service Restart Group object.
+ member - Optional. A Grid Member name or object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::ServiceRestart::Request',
+     group  => $group,
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to search for a specific object:
+
+ group  - A Grid Service Restart Group object.
+ member - A Grid Member name or object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::Grid::ServiceRestart::Request',
+     group  => $group,
+ );
+
+=back
+
+=back
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a Grid Service Restart Request object.
+
+=head2 Infoblox::Grid::ServiceRestart::Group->requests( )
+
+=over
+
+Use this method to retrieve restart requests for the Grid Service Restart Group. This is a read-only attribute. See L<Infoblox::Grid::ServiceRestart::Group-E<gt>requests()|Infoblox::Grid::ServiceRestart::Group/requests()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get requests
+ my $requests = $svcrst_group->requests();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 error( )
+
+=over
+
+Use this method to retrieve error messages for failed restart requests. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get error
+ my $error = $svcrst_request->error();
+
+=back
+
+=back
+
+=head2 forced( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether this is force restart request or not. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value
+
+=item B<Example>
+
+ #Get forced
+ my $forced = $svcrst_request->forced();
+
+=back
+
+=back
+
+=head2 group( )
+
+=over
+
+Use this method to retrieve the Grid Service Restart Group object that is associated with the request. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::ServiceRestart::Group|Infoblox::Grid::ServiceRestart::Group> object.
+
+=item B<Example>
+
+ #Get group
+ my $group = $svcrst_request->group();
+
+=back
+
+=back
+
+=head2 last_updated_time( )
+
+=over
+
+Use this method to retrieve the time when the request status has changed. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_updated_time
+ my $last_updated_time = $svcrst_request->last_updated_time();
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to retrieve the Grid Member name for the restart. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get member
+ my $member = $svcrst_request->member();
+
+=back
+
+=back
+
+=head2 needed( )
+
+=over
+
+Use this method to retrieve the value that indicates whether a restart is required or not. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'UNKNOWN', 'CHECKING', 'YES', 'NO' and 'FAILURE'.
+
+=item B<Example>
+
+ #Get needed
+ my $needed = $svcrst_request->needed();
+
+=back
+
+=back
+
+=head2 order( )
+
+=over
+
+Use this method to retrieve the restart order for the Grid Service Restart Request. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get order
+ my $order = $svcrst_request->order();
+
+=back
+
+=back
+
+=head2 result( )
+
+=over
+
+Use this method to retrieve the result of a service restart for a particular Grid Service Restart Request. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'SUCCESS', 'TIMEOUT', 'FAILURE' and 'NORESTART'.
+
+=item B<Example>
+
+ #Get result
+ my $result = $svcrst_request->result();
+
+=back
+
+=back
+
+=head2 service( )
+
+=over
+
+Use this method to retrieve the service to restart for a particular Grid Service Restart Request. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'DNS', 'DHCP', 'DHCPV4' and 'DHCPV6'.
+
+=item B<Example>
+
+ #Get service
+ my $service = $svcrst_request->service();
+
+=back
+
+=back
+
+=head2 state( )
+
+=over
+
+Use this method to retrieve the state of a particular Grid Service Restart Request. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'NEW', 'QUEUED', 'PROCESSING' and 'FINISHED'.
+
+=item B<Example>
+
+ #Get state
+ my $state = $svcrst_request->state();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::ServiceRestart::Group|Infoblox::Grid::ServiceRestart::Group>, L<Infoblox::Grid::ServiceRestart::Group-E<gt>requests()|Infoblox::Grid::ServiceRestart::Group/requests()>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

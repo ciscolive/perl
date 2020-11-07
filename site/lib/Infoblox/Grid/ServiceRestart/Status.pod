@@ -1,0 +1,447 @@
+=head1 NAME
+
+Infoblox::Grid::ServiceRestart::Status - A Grid Service Restart Status object.
+
+=head1 DESCRIPTION
+
+The Grid Service Restart Status object provides information and statistics about restart service routine of the Grid or Restart Service Group.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a Grid Service Restart Status object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+ parent  - Optional. A Grid Service Restart Group or Grid object.
+ grouped - Optional. A grouping type of the status which can be either 'GRID' or 'GROUP'.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object  => 'Infoblox::Grid::ServiceRestart::Status',
+     parent  => $test_group,
+     grouped => 'GROUP',
+
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to search for a specific object:
+
+ parent  - Optional. A Grid Service Restart Group or Grid object.
+ grouped - Optional. A grouping type of the status which can be either 'GRID' or 'GROUP'.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object  => 'Infoblox::Grid::ServiceRestart::Status',
+     parent  => $test_group,
+     grouped => 'GROUP',
+
+ );
+
+=back
+
+=back
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a Grid Service Restart Status object.
+
+=head2 Infoblox::Grid::ServiceRestart::Group->status( )
+
+=over
+
+Use this method to retrieve the Grid Service Restart restart status. This is a read-only attribute. See L<Infoblox::Grid::ServiceRestart::Group-E<gt>status()|Infoblox::Grid::ServiceRestart::Group/status()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get status
+ my $status = $svcrst_group->status();
+
+=back
+
+=back
+
+=head2 Infoblox::Grid->restart_status( )
+
+=over
+
+Use this method to retrieve the Grid restart status. This is a read-only attribute. See L<Infoblox::Grid-E<gt>restart_status()|Infoblox::Grid/restart_status()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get status
+ my $status = $grid->restart_status();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 failures( )
+
+=over
+
+Use this method to retrieve the number of failed service restart requests. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get failures
+ my $failures = $svcrst_status->failures();
+
+=back
+
+=back
+
+=head2 finished( )
+
+=over
+
+Use this method to retrieve the number of completed service restart requests. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get finished
+ my $finished = $svcrst_status->finished();
+
+=back
+
+=back
+
+=head2 parent( )
+
+=over
+
+Use this method to retrieve the Grid or Grid Service Restart Group objects. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value can be either L<Infoblox::Grid|Infoblox::Grid> or L<Infoblox::Grid::ServiceRestart::Group|Infoblox::Grid::ServiceRestart::Group> object.
+
+=item B<Example>
+
+ #Get group
+ my $group = $svcrst_status->group();
+
+=back
+
+=back
+
+=head2 grouped( )
+
+=over
+
+Use this method to retrieve the grouping type of the status which can be either 'GRID' or 'GROUP'. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get failures
+ my $failures = $svcrst_status->failures();
+
+=back
+
+=back
+
+=head2 needed_restart( )
+
+=over
+
+Use this method to retrieve the number of created but unprocessed restart requests. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get no_restart
+ my $needed_restart = $svcrst_status->needed_restart();
+
+=back
+
+=back
+
+=head2 no_restart( )
+
+=over
+
+Use this method to retrieve the number of service restarts that are not required. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get no_restart
+ my $no_restart = $svcrst_status->no_restart();
+
+=back
+
+=back
+
+=head2 pending( )
+
+=over
+
+Use this method to retrieve the number of pending service restart requests. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get pending
+ my $pending = $svcrst_status->pending();
+
+=back
+
+=back
+
+=head2 pending_restart( )
+
+=over
+
+Use this method to retrieve the number of required force restart requests that are still pending. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get pending_restart
+ my $pending_restart = $svcrst_status->pending_restart();
+
+=back
+
+=back
+
+=head2 processing( )
+
+=over
+
+Use this method to retrieve the number of pending restart requests that are not required and not forced. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get processing
+ my $processing = $svcrst_status->processing();
+
+=back
+
+=back
+
+=head2 restarting( )
+
+=over
+
+Use this method to retrieve the number of restarting services. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get restarting
+ my $restarting = $svcrst_status->restarting();
+
+=back
+
+=back
+
+=head2 success( )
+
+=over
+
+Use this method to retrieve the number of successful service restart requests. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get success
+ my $success = $svcrst_status->success();
+
+=back
+
+=back
+
+=head2 timeouts( )
+
+=over
+
+Use this method to retrieve the number of timeouts for service restart requests. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get timeouts
+ my $timeouts = $svcrst_status->timeouts();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::ServiceRestart::Group|Infoblox::Grid::ServiceRestart::Group>, L<Infoblox::Grid::ServiceRestart::Group-E<gt>status()|Infoblox::Grid::ServiceRestart::Group/status()>, L<Infoblox::Grid|Infoblox::Grid>, L<Infoblox::Grid-E<gt>restart_status()|Infoblox::Grid/restart_status()>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

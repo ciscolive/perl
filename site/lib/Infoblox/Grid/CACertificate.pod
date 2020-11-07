@@ -1,0 +1,211 @@
+=head1 NAME
+
+Infoblox::Grid::CACertificate - CA certificate description.
+
+=head1 DESCRIPTION
+
+An Infoblox::Grid::CACertificate object represents a CA certificate description.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an Infoblox::Grid::CACertificate object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+      object => 'Infoblox::Grid::CACertificate',
+      serial => 'serial',
+ );
+
+ my @retrieved_objs = $session->get(
+      object  => 'Infoblox::Grid::CACertificate',
+      issuer => 'issuer',
+ );
+
+ my @retrieved_objs = $session->get(
+      object   => 'Infoblox::Grid::CACertificate',
+      distinguished_name => 'distinguished_name',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the specified serial.
+ my @retrieved_objs = $session->get(
+      object => 'Infoblox::Grid::CACertificate',
+      serial => 'serial',
+ );
+
+ #Find the desired object on the retrieved list.
+ my $desired_ca_cert = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove($desired_ca_cert);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+      object => 'Infoblox::Grid::CACertificate',
+      serial => 'serial',
+ );
+
+ my @retrieved_objs = $session->search(
+      object  => 'Infoblox::Grid::CACertificate',
+      issuer => 'issuer',
+ );
+
+ my @retrieved_objs = $session->search(
+      object   => 'Infoblox::Grid::CACertificate',
+      distinguished_name => 'distinguished_name',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an Infoblox::Grid::CACertificate object.
+
+=head2 distinguished_name( )
+
+=over
+
+Use this method to retrieve certificate subject name. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get distinguished_name
+ my $distinguished_name = $ca_cert->distinguished_name();
+
+=back
+
+=back
+
+=head2 issuer( )
+
+=over
+
+Use this method to retrieve issuer subject name. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get issuer
+ my $issuer = $ca_cert->issuer();
+
+=back
+
+=back
+
+=head2 serial( )
+
+=over
+
+Use this method to retrieve Certificate serial number in hex format. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get serial
+ my $serial = $ca_cert->serial();
+
+=back
+
+=back
+
+=head2 used_by( )
+
+=over
+
+Use this method to retrieve information about usages of the certificate. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value. If the returned value is equal to SSL/TLS - all certificates in CA store can be used for HTTPS and if the returned value is equal to CAS - additionally certificate can be assigned to Certificate Authentication Group.
+
+=item B<Example>
+
+ #Get used_by
+ my $used_by = $ca_cert->used_by();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

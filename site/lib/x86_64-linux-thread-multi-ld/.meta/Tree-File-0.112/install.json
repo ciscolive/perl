@@ -1,0 +1,1 @@
+{"name":"Tree::File","target":"Tree::File","provides":{"Tree::File":{"file":"lib/Tree/File.pm","version":"0.112"},"Tree::File::YAML":{"version":"0.112","file":"lib/Tree/File/YAML.pm"},"Tree::File::LockManager":{"file":"lib/Tree/File.pm","version":"0.112"}},"pathname":"R/RJ/RJBS/Tree-File-0.112.tar.gz","dist":"Tree-File-0.112","version":"0.112"}

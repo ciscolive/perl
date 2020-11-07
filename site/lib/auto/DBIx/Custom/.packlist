@@ -1,0 +1,17 @@
+/opt/perl/site/lib/DBIx/Custom.pm
+/opt/perl/site/lib/DBIx/Custom/Mapper.pm
+/opt/perl/site/lib/DBIx/Custom/Model.pm
+/opt/perl/site/lib/DBIx/Custom/NotExists.pm
+/opt/perl/site/lib/DBIx/Custom/Order.pm
+/opt/perl/site/lib/DBIx/Custom/Query.pm
+/opt/perl/site/lib/DBIx/Custom/Result.pm
+/opt/perl/site/lib/DBIx/Custom/Util.pm
+/opt/perl/site/lib/DBIx/Custom/Where.pm
+/opt/perl/site/man/man3/DBIx::Custom.3
+/opt/perl/site/man/man3/DBIx::Custom::Mapper.3
+/opt/perl/site/man/man3/DBIx::Custom::Model.3
+/opt/perl/site/man/man3/DBIx::Custom::NotExists.3
+/opt/perl/site/man/man3/DBIx::Custom::Order.3
+/opt/perl/site/man/man3/DBIx::Custom::Result.3
+/opt/perl/site/man/man3/DBIx::Custom::Util.3
+/opt/perl/site/man/man3/DBIx::Custom::Where.3

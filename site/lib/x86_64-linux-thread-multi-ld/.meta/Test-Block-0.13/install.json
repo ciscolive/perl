@@ -1,0 +1,1 @@
+{"target":"Test::Block","pathname":"A/AD/ADIE/Test-Block-0.13.tar.gz","dist":"Test-Block-0.13","version":"0.13","name":"Test::Block","provides":{"Test::Block::Plan":{"version":"0","file":"lib/Test/Block.pm"},"Test::Block":{"version":"0.13","file":"lib/Test/Block.pm"}}}

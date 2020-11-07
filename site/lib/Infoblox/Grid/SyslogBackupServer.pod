@@ -1,0 +1,302 @@
+=head1 NAME
+
+Infoblox::Grid::SyslogBackupServer - Syslog Backup Server object.
+
+=head1 DESCRIPTION
+
+The Syslog Backup Server object contains configuration for external servers that are used for replication of rotated log files through SCP or FTP.
+
+=head1 CONSTRUCTOR
+
+ my $syslog_backup_server = Infoblox::Grid::SyslogBackupServer->new(
+     address        => $ipv4addr | $ipv6addr, # Optional
+     directory_path => $string,               # Optional
+     enable         => 'true' | 'false',      # Optional
+     password       => $string,               # Optional
+     port           => $uint,                 # Optional
+     protocol       => 'SCP' | 'FTP',         # Optional
+     username       => $string,               # Optional
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a syslog backup server object.
+
+=head2 Infoblox::Grid->syslog_backup_servers( )
+
+=over
+
+Use this method to set or retrieve an array that contains Grid-level syslog backup server settings.
+See L<Infoblox::Grid-E<gt>syslog_backup_servers()|Infoblox::Grid/syslog_backup_servers()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #get syslog_backup_servers value
+ my $servers = $grid->syslog_backup_servers();
+
+ #modify syslog_backup_servers value
+ $grid->syslog_backup_servers([$server1, $server2]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->syslog_backup_servers( )
+
+=over
+
+Use this method to set or retrieve an array that contains syslog backup server settings for a Grid member.
+See L<Infoblox::Grid::Member-E<gt>syslog_backup_servers()|Infoblox::Grid::Member/syslog_backup_servers()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #get syslog_backup_servers value
+ my $servers = $grid_member->syslog_backup_servers();
+
+ #modify syslog_backup_servers value
+ $grid_member->syslog_backup_servers([$server1, $server2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IPv4 or IPv6 address of a syslog backup server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+An IPv6 address is a 128-bit number represented as eight groups of four hexadecimal digits (i.e. two octets), with each group separated by a colon(:) (example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Leading zeroes and groups of consecutive zeros within the value can be omitted to produce a more compact representation (example: 2001::1, ::1).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get address value
+ my $address = $server->address();
+
+ #modify address value
+ $server->address('192.168.1.5');
+
+=back
+
+=back
+
+=head2 directory_path( )
+
+=over
+
+Use this method to set or retrieve the path for rotated syslog file replication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired path in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get directory_path value
+ my $directory_path = $server->directory_path();
+
+ #modify directory_path value
+ $server->directory_path('/path/to/directory');
+
+=back
+
+=back
+
+=head2 enable( )
+
+=over
+
+Use this method to enable or disable the syslog backup server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable syslog backup server or 'false' to disable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get enable value
+ my $enable = $server->enable();
+
+ #modify enable value
+ $server->enable('true');
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the syslog backup server password. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired password in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #modify password value
+ $server->password('infoblox');
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the transport layer port for connection to the syslog backup server.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 0 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get port value
+ my $port = $server->port();
+
+ #modify port value
+ $server->port(22);
+
+=back
+
+=back
+
+=head2 protocol( )
+
+=over
+
+Use this method to set or retireve the transport layer protocol for the syslog backup server connection.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'FTP' and 'SCP'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get protocol value
+ my $protocol = $server->protocol();
+
+ #modify protocol value
+ $server->protocol('SCP');
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to set or retrieve the username for the syslog backup server.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a desired username in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get username value
+ my $username = $server->username();
+
+ #modify username value
+ $server->username('admin');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid|Infoblox::Grid>, L<Infoblox::Grid::Member|Infoblox::Grid::Member>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

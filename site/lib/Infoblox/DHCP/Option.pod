@@ -1,0 +1,791 @@
+=head1 NAME
+
+Infoblox::DHCP::Option - DHCP Option object.
+
+=head1 DESCRIPTION
+
+An Option sets the value of a DHCP option that has been defined in an option space. DHCP options describe network configuration settings and various services available on the network. These options occur as variable-length fields at the end of DHCP messages.
+
+=head1 CONSTRUCTOR
+
+ my $option = Infoblox::DHCP::Option->new(
+     value        => $num | $string |"true"|"false", #Required
+     name         => $string,                        #Optional - One of name or num must be specified / Default is undefined
+     num          => $num,                           #Optional - One of name or num must be specified / Default is undefined
+     vendor_class => $string,                        #Optional / Default Option Space name is "DHCP"
+ );
+
+Note that in a future NIOS version 'num' will become mandatory and 'name' will become optional.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DHCP Option object.
+
+=head2 Infoblox::Grid::DHCP->options( )
+
+=over
+
+Use this function to specify DHCP options at the grid level on the Infoblox appliance. See L<Infoblox::Grid::DHCP-E<gt>options()|Infoblox::Grid::DHCP/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option1 = Infoblox::DHCP::Option->new(
+               name  => "lease-time",
+               value => "50"
+ );
+ # Configure a DHCP option for a grid
+ my $response = $Grid_DHCP->options([$option1]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DHCP->options( )
+
+=over
+
+Use this function to specify DHCP options at the grid member level on the Infoblox appliance. See L<Infoblox::Grid::Member::DHCP-E<gt>options()|Infoblox::Grid::Member::DHCP/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option2 = Infoblox::DHCP::Option->new(
+               name  => "domain-name",
+               value => "domainname.com"
+ );
+ # Configure a DHCP option for a grid member
+ my $response = $Grid_Member_DHCP->options([$option2]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::Network->options( )
+
+=over
+
+Use this function to specify DHCP options at the network level on the Infoblox appliance. See L<Infoblox::DHCP::Network-E<gt>options()|Infoblox::DHCP::Network/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option3 = Infoblox::DHCP::Option->new(
+               name  => "broadcast",
+               value => "255.0.0.0"
+ );
+ # Configure a DHCP option for a network
+ my $response = $Network_DHCP->options([$option3]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::NetworkTemplate->options( )
+
+=over
+
+Use this function to specify DHCP options at the network template level on the Infoblox appliance. See L<Infoblox::DHCP::NetworkTemplate-E<gt>options()|Infoblox::DHCP::NetworkTemplate/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option4 = Infoblox::DHCP::Option->new(
+               name  => "broadcast",
+               value => "2"
+ );
+ #Construct another DHCP Option object
+ my $option5 = Infoblox::DHCP::Option->new(
+               name  => "routers",
+               value => "1,2"
+ );
+ # Configure a DHCP options for a network template
+ my $response = $Network_Template_DHCP->options([$option4,$option5]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::SharedNetwork->options( )
+
+=over
+
+Use this function to specify DHCP options at the shared network level on the Infoblox appliance. See L<Infoblox::DHCP::SharedNetwork-E<gt>options()|Infoblox::DHCP::SharedNetwork/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option6 = Infoblox::DHCP::Option->new(
+               name  => "subnet-mask",
+               value => "255.255.0.0"
+ );
+ # Configure a DHCP option for a shared network
+ my $response = $Shared_Network_DHCP->options([$option6]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::FixedAddr->options( )
+
+=over
+
+Use this function to specify DHCP options at the fixed address level on the Infoblox appliance. See L<Infoblox::DHCP::FixedAddr-E<gt>options()|Infoblox::DHCP::FixedAddr/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option7 = Infoblox::DHCP::Option->new(
+               name  => "host-name",
+               value => "host1.com"
+ );
+ # Configure a DHCP option for a fixed address
+ my $response = $Fixed_Address_DHCP->options([$option7]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::FixedAddrTemplate->options( )
+
+=over
+
+Use this function to specify DHCP options at the fixed address template level on the Infoblox appliance. See L<Infoblox::DHCP::FixedAddrTemplate-E<gt>options()|Infoblox::DHCP::FixedAddrTemplate/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option8 = Infoblox::DHCP::Option->new(
+               name  => "broadcast",
+               value => "2"
+ );
+ #Construct another DHCP Option object
+ my $option9 = Infoblox::DHCP::Option->new(
+               name  => "routers",
+               value => "1,2"
+ );
+ # Configure a DHCP options for a fixed address template
+ my $response = $Fixed_Address_Template_DHCP->options([$option8,$option9]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::Range->options( )
+
+=over
+
+Use this function to specify DHCP options at the DHCP range level on the Infoblox appliance. See L<Infoblox::DHCP::Range-E<gt>options()|Infoblox::DHCP::Range/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option10 = Infoblox::DHCP::Option->new(
+               name  => "swap-server",
+               value => "1.1.1.1"
+ );
+ # Configure a DHCP option for a DHCP range
+ my $response = $DHCP_Range->options([$option10]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::RangeTemplate->options( )
+
+=over
+
+Use this function to specify DHCP options at the range template level on the Infoblox appliance. See L<Infoblox::DHCP::RangeTemplate-E<gt>options()|Infoblox::DHCP::RangeTemplate/options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option11 = Infoblox::DHCP::Option->new(
+               name  => "broadcast",
+               value => "2"
+ );
+ #Construct another DHCP Option object
+ my $option12 = Infoblox::DHCP::Option->new(
+               name  => "routers",
+               value => "1,2"
+ );
+ # Configure a DHCP options for a range template
+ my $response = $Range_Template_DHCP->options([$option11,$option12]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::Filter::Option->option_list( )
+
+=over
+
+Use this function to specify DHCP options at the filter level on the Infoblox appliance. See L<Infoblox::DHCP::Filter::Option-E<gt>option_list()|Infoblox::DHCP::Filter::Option/option_list()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $option13 = Infoblox::DHCP::Option->new(
+               name  => "pop-server",
+               value => "10.10.10.10"
+ );
+ # Configure a DHCP Option for a filter
+ my $response = $Filter_Option->option_list([$option13]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP option.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the DHCP option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the name of the DHCP option in string format. Valid values are
+
+  "subnet-mask",                            - DHCP Option   1               - ip-address
+  "time-offset",                            - DHCP Option   2               - 32-bit signed integer
+  "routers",                                - DHCP Option   3               - array of ip-address | array of offsets (for templates)
+  "time-servers",                           - DHCP Option   4               - array of ip-address
+  "ien116-name-servers",                    - DHCP Option   5               - array of ip-address
+  "domain-name-servers",                    - DHCP Option   6               - array of ip-address
+  "log-servers",                            - DHCP Option   7               - array of ip-address
+  "cookie-servers",                         - DHCP Option   8               - array of ip-address
+  "lpr-servers",                            - DHCP Option   9               - array of ip-address
+  "impress-servers",                        - DHCP Option  10               - array of ip-address
+  "resource-location-servers",              - DHCP Option  11               - array of ip-address
+  "host-name",                              - DHCP Option  12               - string
+  "boot-size",                              - DHCP Option  13               - 16-bit unsigned integer
+  "merit-dump",                             - DHCP Option  14               - text
+  "domain-name",                            - DHCP Option  15               - text
+  "swap-server",                            - DHCP Option  16               - ip-address
+  "root-path",                              - DHCP Option  17               - text
+  "extensions-path",                        - DHCP Option  18               - text
+  "ip-forwarding",                          - DHCP Option  19               - boolean
+  "non-local-source-routing",               - DHCP Option  20               - boolean
+  "policy-filter",                          - DHCP Option  21               - array of ip-address | ip-address
+  "max-dgram-reassembly",                   - DHCP Option  22               - 16-bit unsigned integer
+  "default-ip-ttl",                         - DHCP Option  23               - 8-bit unsigned integer
+  "path-mtu-aging-timeout",                 - DHCP Option  24               - 32-bit unsigned integer
+  "path-mtu-plateau-table",                 - DHCP Option  25               - array of 16-bit unsigned integer
+  "interface-mtu",                          - DHCP Option  26               - 16-bit unsigned integer
+  "all-subnets-local",                      - DHCP Option  27               - boolean
+  "broadcast",                              - DHCP Option  28               - ip-address | offset (for templates)
+  "perform-mask-discovery",                 - DHCP Option  29               - boolean
+  "mask-supplier",                          - DHCP Option  30               - boolean
+  "router-discovery",                       - DHCP Option  31               - boolean
+  "router-solicitation-address",            - DHCP Option  32               - ip-address
+  "static-routes",                          - DHCP Option  33               - array of ip-address | ip-address
+  "trailer-encapsulation",                  - DHCP Option  34               - boolean
+  "arp-cache-timeout",                      - DHCP Option  35               - 32-bit unsigned integer
+  "ieee802-3-encapsulation",                - DHCP Option  36               - boolean
+  "default-tcp-ttl",                        - DHCP Option  37               - 8-bit unsigned integer
+  "tcp-keepalive-interval",                 - DHCP Option  38               - 32-bit unsigned integer
+  "tcp-keepalive-garbage",                  - DHCP Option  39               - boolean
+  "nis-domain",                             - DHCP Option  40               - text
+  "nis-servers",                            - DHCP Option  41               - array of ip-address
+  "ntp-servers",                            - DHCP Option  42               - array of ip-address
+  "vendor-encapsulated-options",            - DHCP Option  43               - string
+  "netbios-name-servers",                   - DHCP Option  44               - array of ip-address
+  "netbios-dd-server",                      - DHCP Option  45               - array of ip-address
+  "netbios-node-type",                      - DHCP Option  46               - 8-bit unsigned integer(1,2,4,8)
+  "netbios-scope",                          - DHCP Option  47               - text
+  "font-servers",                           - DHCP Option  48               - array of ip-address
+  "x-display-manager",                      - DHCP Option  49               - array of ip-address
+  "dhcp-requested-address",                 - DHCP Option  50               - ip-address
+  "lease-time",                             - DHCP Option  51               - 32-bit unsigned integer
+  "dhcp-option-overload",                   - DHCP Option  52               - 8-bit unsigned integer
+  "dhcp-message-type",                      - DHCP Option  53               - 8-bit unsigned integer
+  "dhcp-server-identifier",                 - DHCP Option  54               - ip-address
+  "dhcp-parameter-request-list",            - DHCP Option  55               - array of 8-bit unsigned integer
+  "dhcp-message",                           - DHCP Option  56               - text
+  "dhcp-max-message-size",                  - DHCP Option  57               - 16-bit unsigned integer
+  "dhcp-renewal-time",                      - DHCP Option  58               - 32-bit unsigned integer
+  "dhcp-rebinding-time",                    - DHCP Option  59               - 32-bit unsigned integer
+  "vendor-class-identifier",                - DHCP Option  60               - string
+  "dhcp-client-identifier",                 - DHCP Option  61               - string
+  "nwip-domain",                            - DHCP Option  62               - string
+  "nwip-suboptions",                        - DHCP Option  63               - string
+  "nisplus-domain",                         - DHCP Option  64               - text
+  "nisplus-servers",                        - DHCP Option  65               - array of ip-address
+  "tftp-server-name",                       - DHCP Option  66               - text
+  "bootfile-name",                          - DHCP Option  67               - text
+  "mobile-ip-home-agent",                   - DHCP Option  68               - array of ip-address
+  "smtp-server",                            - DHCP Option  69               - array of ip-address
+  "pop-server",                             - DHCP Option  70               - array of ip-address
+  "nntp-server",                            - DHCP Option  71               - array of ip-address
+  "www-server",                             - DHCP Option  72               - array of ip-address
+  "finger-server",                          - DHCP Option  73               - array of ip-address
+  "irc-server",                             - DHCP Option  74               - array of ip-address
+  "streettalk-server",                      - DHCP Option  75               - array of ip-address
+  "streettalk-directory-assistance-server", - DHCP Option  76               - array of ip-address
+  "user-class",                             - DHCP Option  77               - text
+  "slp-directory-agent",                    - DHCP Option  78               - boolean | array of ip-address
+  "slp-service-scope",                      - DHCP Option  79               - boolean | text
+  "option-80",                              - DHCP Option  80               - custom defined
+  "fqdn",                                   - DHCP Option  81               - string
+  "relay-agent-information",                - DHCP Option  82               - string
+  "option-83",                              - DHCP Option  83               - custom defined
+  "option-84",                              - DHCP Option  84               - custom defined
+  "nds-servers",                            - DHCP Option  85               - array of ip-address
+  "nds-tree-name",                          - DHCP Option  86               - string
+  "nds-context",                            - DHCP Option  87               - string
+  "option-88",                              - DHCP Option  88               - custom defined
+  "bcms-controller-address",                - DHCP Option  89               - array of ip-address
+  "option-90",                              - DHCP Option  90               - custom defined
+  "client-last-transaction-time",           - DHCP Option  91               - 32-bit unsigned integer
+  "associated-ip",                          - DHCP Option  92               - array of ip-address
+  "option-93",                              - DHCP Option  93               - custom defined
+  "option-94",                              - DHCP Option  94               - custom defined
+  "option-95",                              - DHCP Option  95               - custom defined
+  "option-96",                              - DHCP Option  96               - custom defined
+  "option-97",                              - DHCP Option  97               - custom defined
+  "uap-servers",                            - DHCP Option  98               - text
+  "option-99",                              - DHCP Option  99               - custom defined
+  "option-100",                             - DHCP Option 100               - custom defined
+  "option-101",                             - DHCP Option 101               - custom defined
+  "option-102",                             - DHCP Option 102               - custom defined
+  "option-103",                             - DHCP Option 103               - custom defined
+  "option-104",                             - DHCP Option 104               - custom defined
+  "option-105",                             - DHCP Option 105               - custom defined
+  "option-106",                             - DHCP Option 106               - custom defined
+  "option-107",                             - DHCP Option 107               - custom defined
+  "option-108",                             - DHCP Option 108               - custom defined
+  "option-109",                             - DHCP Option 109               - custom defined
+  "option-110",                             - DHCP Option 110               - custom defined
+  "option-111",                             - DHCP Option 111               - custom defined
+  "netinfo-server-address",                 - DHCP Option 112               - array of ip-address
+  "netinfo-server-tag",                     - DHCP Option 113               - text
+  "default-url",                            - DHCP Option 114               - text
+  "option-115",                             - DHCP Option 115               - custom defined
+  "option-116",                             - DHCP Option 116               - custom defined
+  "option-117",                             - DHCP Option 117               - custom defined
+  "subnet-selection",                       - DHCP Option 118               - string
+  "domain-search",                          - DHCP Option 119               - domain-list
+  "option-120",                             - DHCP Option 120               - custom defined
+  "option-121",                             - DHCP Option 121               - custom defined
+  "option-122",                             - DHCP Option 122               - custom defined
+  "option-123",                             - DHCP Option 123               - custom defined
+  "vivco",                                  - DHCP Option 124               - string
+  "vivso",                                  - DHCP Option 125               - string
+  "option-126",                             - DHCP Option 126               - custom defined
+  "option-127",                             - DHCP Option 127               - custom defined
+  "option-128",                             - DHCP Option 128               - custom defined
+  "option-129",                             - DHCP Option 129               - custom defined
+  "option-130",                             - DHCP Option 130               - custom defined
+  "option-131",                             - DHCP Option 131               - custom defined
+  "option-132",                             - DHCP Option 132               - custom defined
+  "option-133",                             - DHCP Option 133               - custom defined
+  "option-134",                             - DHCP Option 134               - custom defined
+  "option-135",                             - DHCP Option 135               - custom defined
+  "option-136",                             - DHCP Option 136               - custom defined
+  "option-137",                             - DHCP Option 137               - custom defined
+  "option-138",                             - DHCP Option 138               - custom defined
+  "option-139",                             - DHCP Option 139               - custom defined
+  "option-140",                             - DHCP Option 140               - custom defined
+  "option-141",                             - DHCP Option 141               - custom defined
+  "option-142",                             - DHCP Option 142               - custom defined
+  "option-143",                             - DHCP Option 143               - custom defined
+  "option-144",                             - DHCP Option 144               - custom defined
+  "option-145",                             - DHCP Option 145               - custom defined
+  "option-146",                             - DHCP Option 146               - custom defined
+  "option-147",                             - DHCP Option 147               - custom defined
+  "option-148",                             - DHCP Option 148               - custom defined
+  "option-149",                             - DHCP Option 149               - custom defined
+  "option-150",                             - DHCP Option 150               - custom defined
+  "option-151",                             - DHCP Option 151               - custom defined
+  "option-152",                             - DHCP Option 152               - custom defined
+  "option-153",                             - DHCP Option 153               - custom defined
+  "option-154",                             - DHCP Option 154               - custom defined
+  "option-155",                             - DHCP Option 155               - custom defined
+  "option-156",                             - DHCP Option 156               - custom defined
+  "option-157",                             - DHCP Option 157               - custom defined
+  "option-158",                             - DHCP Option 158               - custom defined
+  "option-159",                             - DHCP Option 159               - custom defined
+  "option-160",                             - DHCP Option 160               - custom defined
+  "option-161",                             - DHCP Option 161               - custom defined
+  "option-162",                             - DHCP Option 162               - custom defined
+  "option-163",                             - DHCP Option 163               - custom defined
+  "option-164",                             - DHCP Option 164               - custom defined
+  "option-165",                             - DHCP Option 165               - custom defined
+  "option-166",                             - DHCP Option 166               - custom defined
+  "option-167",                             - DHCP Option 167               - custom defined
+  "option-168",                             - DHCP Option 168               - custom defined
+  "option-169",                             - DHCP Option 169               - custom defined
+  "option-170",                             - DHCP Option 170               - custom defined
+  "option-171",                             - DHCP Option 171               - custom defined
+  "option-172",                             - DHCP Option 172               - custom defined
+  "option-173",                             - DHCP Option 173               - custom defined
+  "option-174",                             - DHCP Option 174               - custom defined
+  "option-175",                             - DHCP Option 175               - custom defined
+  "option-176",                             - DHCP Option 176               - custom defined
+  "option-177",                             - DHCP Option 177               - custom defined
+  "option-178",                             - DHCP Option 178               - custom defined
+  "option-179",                             - DHCP Option 179               - custom defined
+  "option-180",                             - DHCP Option 180               - custom defined
+  "option-181",                             - DHCP Option 181               - custom defined
+  "option-182",                             - DHCP Option 182               - custom defined
+  "option-183",                             - DHCP Option 183               - custom defined
+  "option-184",                             - DHCP Option 184               - custom defined
+  "option-185",                             - DHCP Option 185               - custom defined
+  "option-186",                             - DHCP Option 186               - custom defined
+  "option-187",                             - DHCP Option 187               - custom defined
+  "option-188",                             - DHCP Option 188               - custom defined
+  "option-189",                             - DHCP Option 189               - custom defined
+  "option-190",                             - DHCP Option 190               - custom defined
+  "option-191",                             - DHCP Option 191               - custom defined
+  "option-192",                             - DHCP Option 192               - custom defined
+  "option-193",                             - DHCP Option 193               - custom defined
+  "option-194",                             - DHCP Option 194               - custom defined
+  "option-195",                             - DHCP Option 195               - custom defined
+  "option-196",                             - DHCP Option 196               - custom defined
+  "option-197",                             - DHCP Option 197               - custom defined
+  "option-198",                             - DHCP Option 198               - custom defined
+  "option-199",                             - DHCP Option 199               - custom defined
+  "option-200",                             - DHCP Option 200               - custom defined
+  "option-201",                             - DHCP Option 201               - custom defined
+  "option-202",                             - DHCP Option 202               - custom defined
+  "option-203",                             - DHCP Option 203               - custom defined
+  "option-204",                             - DHCP Option 204               - custom defined
+  "option-205",                             - DHCP Option 205               - custom defined
+  "option-206",                             - DHCP Option 206               - custom defined
+  "option-207",                             - DHCP Option 207               - custom defined
+  "option-208",                             - DHCP Option 208               - custom defined
+  "option-209",                             - DHCP Option 209               - custom defined
+  "option-210",                             - DHCP Option 210               - custom defined
+  "option-211",                             - DHCP Option 211               - custom defined
+  "option-212",                             - DHCP Option 212               - custom defined
+  "option-213",                             - DHCP Option 213               - custom defined
+  "option-214",                             - DHCP Option 214               - custom defined
+  "option-215",                             - DHCP Option 215               - custom defined
+  "option-216",                             - DHCP Option 216               - custom defined
+  "option-217",                             - DHCP Option 217               - custom defined
+  "option-218",                             - DHCP Option 218               - custom defined
+  "option-219",                             - DHCP Option 219               - custom defined
+  "option-220",                             - DHCP Option 220               - custom defined
+  "option-221",                             - DHCP Option 221               - custom defined
+  "option-222",                             - DHCP Option 222               - custom defined
+  "option-223",                             - DHCP Option 223               - custom defined
+  "option-224",                             - DHCP Option 224               - custom defined
+  "option-225",                             - DHCP Option 225               - custom defined
+  "option-226",                             - DHCP Option 226               - custom defined
+  "option-227",                             - DHCP Option 227               - custom defined
+  "option-228",                             - DHCP Option 228               - custom defined
+  "option-229",                             - DHCP Option 229               - custom defined
+  "option-230",                             - DHCP Option 230               - custom defined
+  "option-231",                             - DHCP Option 231               - custom defined
+  "option-232",                             - DHCP Option 232               - custom defined
+  "option-233",                             - DHCP Option 233               - custom defined
+  "option-234",                             - DHCP Option 234               - custom defined
+  "option-235",                             - DHCP Option 235               - custom defined
+  "option-236",                             - DHCP Option 236               - custom defined
+  "option-237",                             - DHCP Option 237               - custom defined
+  "option-238",                             - DHCP Option 238               - custom defined
+  "option-239",                             - DHCP Option 239               - custom defined
+  "option-240",                             - DHCP Option 240               - custom defined
+  "option-241",                             - DHCP Option 241               - custom defined
+  "option-242",                             - DHCP Option 242               - custom defined
+  "option-243",                             - DHCP Option 243               - custom defined
+  "option-244",                             - DHCP Option 244               - custom defined
+  "option-245",                             - DHCP Option 245               - custom defined
+  "option-246",                             - DHCP Option 246               - custom defined
+  "option-247",                             - DHCP Option 247               - custom defined
+  "option-248",                             - DHCP Option 248               - custom defined
+  "option-249",                             - DHCP Option 249               - custom defined
+  "option-250",                             - DHCP Option 250               - custom defined
+  "option-251",                             - DHCP Option 251               - custom defined
+  "option-252",                             - DHCP Option 252               - custom defined
+  "option-253",                             - DHCP Option 253               - custom defined
+  "option-254",                             - DHCP Option 254               - custom defined
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $option->name();
+ #Modify name
+ $option->name("host-name");
+
+=back
+
+=back
+
+=head2 num( )
+
+=over
+
+Use this method to set or retrieve the numeric value of the DHCP option.
+
+Note that specifying "num" without "name" is supported only for predefined options and custom options with names that haven't been modified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the number of the DHCP option. It must be an integer ranging from 1 to 254.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get num
+ my $num = $option->num();
+ #Modify num
+ $option->num("12");
+
+=back
+
+=back
+
+=head2 value( )
+
+=over
+
+Use this method to set or retrieve the custom value of the DHCP option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the data type of the DHCP option. Valid values are
+
+  "boolean"                           - Specify "true" or "false" for boolean values.
+
+  "ip-address"                        - Specify an IPv4 address. An IPv4 address is a 32-bit number in dotted decimal notation.
+                                        It consists of four 8-bit groups of decimal digits separated
+                                        by decimal points (example: "192.168.1.2").
+
+  "array of ip-address"               - Specify a list of IPv4 addresses, each separated by a comma.
+                                        (example: "192.168.1.2, 10.11.12.13, 79.2.3.1")
+
+  "string"                            - Specify a value in ASCII text string or
+                                        a list of hexadecimal characters (0-9, a-f, or A-F) without spaces and separated by colons.
+
+  "text"                              - Specify a value in ASCII text string.
+
+  "8-bit unsigned integer"            - Specify a numeric value between 0 and 255.
+
+  "array of 8-bit unsigned integer"   - Specify a list of 8-bit unsigned integers, each separated by a comma.
+
+  "16-bit unsigned integer"           - Specify a numeric value between 0 and 65535.
+
+  "array of 16-bit unsigned integer"  - Specify a list of 16-bit unsigned integers, each separated by a comma.
+
+  "32-bit unsigned integer"           - Specify a numeric value between 0 and 4294967295.
+
+  "array of 32-bit unsigned integer"  - Specify a list of 32-bit unsigned integers, each separated by a comma.
+
+  "8-bit signed integer"              - Specify a numeric value between -128 and 127.
+
+  "array of 8-bit signed integer"     - Specify a list of 8-bit signed integers, each separated by a comma.
+
+  "16-bit signed integer"             - Specify a numeric value between -32768 and 32767.
+
+  "array of 16-bit signed integer"    - Specify a list of 16-bit signed integers, each separated by a comma.
+
+  "32-bit signed integer"             - Specify a numeric value between -2147483648 and 2147483647.
+
+  "array of 32-bit signed integer"    - Specify a list of 32-bit signed integers, each separated by a comma.
+
+  "domain-list"                       - Specify a list of domain names, each double-quoted and separated by a comma.
+                                        (example: '"domain1.com","domain2.com","domain3.com"')
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $value = $option->value();
+ #Modify value
+ $option->value("abc.com");
+
+=back
+
+=back
+
+=head2 vendor_class( )
+
+=over
+
+Use this method to set an option space name as the vendor class value of a DHCP option or to retrieve an option space name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the defined option space name in string format. The default option space name is "DHCP".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get vendor_class
+ my $name = $option->vendor_class();
+ #Modify vendor_class
+ $option->vendor_class("DHCP");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a DHCP Option object such as add, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP Option object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DHCP Option object>
+
+ my $dhcp_option = Infoblox::DHCP::Option->new(
+     name         => "subnet-mask",
+     num          => "1",
+     value        => "255.0.0.0",
+     vendor_class => "DHCP"
+ );
+ unless($dhcp_option) {
+        die("Construct DHCP option object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP option object created successfully\n";
+
+B<#Get the Grid DHCP object and add a DHCP option to it>
+
+ #Get the Grid DHCP object
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::DHCP",
+     grid   => "Infoblox"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get Grid DHCP object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Grid DHCP object found at least 1 matching entry\n";
+
+ #Apply the changes to the Grid DHCP object
+ $object->options([$dhcp_option]);
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify Grid DHCP object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Grid DHCP object with DHCP option updated to Infoblox appliance successfully\n";
+
+B<#Modify DHCP option>
+
+ #Modify an existing option object
+
+ #Modifying the name of the DHCP option object.
+ $dhcp_option->name("host-name");
+
+ #Modifying the value of the DHCP option object.
+ $dhcp_option->value("infoblox.com");
+
+ #Modifying the number of the DHCP option object.
+ $dhcp_option->num("12");
+
+ #Apply changes to the Grid DHCP object.
+ $object->options([$dhcp_option]);
+
+ #Update Grid DHCP object through the Infoblox session.
+ $session->modify($object)
+             or die("modify Grid DHCP object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        print "Grid DHCP object with modified DHCP option updated to Infoblox appliance successfully\n";
+
+B<#Remove DHCP option>
+
+ #Apply changes to the Grid DHCP object.
+ $object->options([]);
+
+ #Update Grid DHCP object through the Infoblox session.
+ $session->modify($object)
+             or die("modify Grid DHCP object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        print "Removed DHCP option from Grid DHCP object successfully\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Grid::DHCP|Infoblox::Grid::DHCP>, L<Infoblox::Grid::Member::DHCP|Infoblox::Grid::Member::DHCP>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::NetworkTemplate|Infoblox::DHCP::NetworkTemplate>, L<Infoblox::DHCP::SharedNetwork|Infoblox::DHCP::SharedNetwork>, L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>, L<Infoblox::DHCP::FixedAddrTemplate|Infoblox::DHCP::FixedAddrTemplate>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::DHCP::RangeTemplate|Infoblox::DHCP::RangeTemplate>,  L<Infoblox::DHCP::Filter::Option|Infoblox::DHCP::Filter::Option>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

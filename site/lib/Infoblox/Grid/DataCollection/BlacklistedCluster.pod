@@ -1,0 +1,154 @@
+=head1 NAME
+
+Infoblox::Grid::DataCollection::BlacklistedCluster - A Data Collection blacklisted cluster object.
+
+=head1 DESCRIPTION
+
+The Data Collection blacklisted cluster object is used to configure Data Collection cluster blacklist.
+
+=head1 CONSTRUCTOR
+
+ my $blacklisted_cluster = Infoblox::Grid::DataCollection::BlacklistedCluster->new(
+     unique_id => $string, #Required
+     comment   => $string, #Optional / Default is undefined
+     name      => $string, #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a Data Collection blacklisted cluster object.
+
+=head2 Infoblox::Grid::DataCollection::Cluster->blacklisted_clusters( )
+
+=over
+
+Use this method to set or retrieve the list of clusters which are prevented from activation.
+See L<Infoblox::Grid::DataCollection::Cluster-E<gt>blacklisted_clusters()|Infoblox::Grid::DataCollection::Cluster/blacklisted_clusters()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get blacklisted_clusters value
+ my $blacklisted_clusters = $object->blacklisted_clusters();
+
+ #Modify blacklisted_clusters value
+ $object->blacklisted_clusters([$cluster1, $cluster2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a Data Collection blacklisted cluster object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the blacklisted cluster comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired cluster comment in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+ #Modify comment value
+ $object->comment('cluster1 comment');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the blacklisted cluster name. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+=back
+
+=back
+
+=head2 unique_id( )
+
+=over
+
+Use this method to set or retrieve the blacklisted cluster unique hexadecimal identifier.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired cluster unique hexadecimal identifier in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get unique_id value
+ my $unique_id = $object->unique_id();
+
+ #Modify unique_id value
+ $object->unique_id('ABCD');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DataCollection::Cluster|Infoblox::Grid::DataCollection::Cluster>, 
+L<Infoblox::Grid::DataCollection::Cluster-E<gt>blacklisted_clusters()|Infoblox::Grid::DataCollection::Cluster/blacklisted_clusters()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

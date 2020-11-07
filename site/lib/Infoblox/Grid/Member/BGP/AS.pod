@@ -1,0 +1,196 @@
+=head1 NAME
+
+Infoblox::Grid::Member::BGP::AS - BGP (Border Gateway Protocol) Autonomous System (AS) object.
+
+=head1 DESCRIPTION
+
+An Infoblox::BGP::AS object represents a BGP Autonomous System configured at the grid member level.
+
+=head1 CONSTRUCTOR
+
+ my $bgp_as = Infoblox::Grid::Member::BGP::AS->new(
+     as              => $num,                            # Optional / Default value is undefined
+     keepalive       => $num,                            # Optional / Default value is 4
+     holddown        => $num,                            # Optional / Default value is 16
+     neighbors       => [ $neighbor1, $neighbor2, ... ], # Optional / Default value is empty
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a BGP AS object.
+
+=head2 Infoblox::Grid::Member->bgp_as( )
+
+=over
+
+Use this function to specify BGP Autonomous Systems for the grid member. See L<Infoblox::Grid::Member-E<gt>bgp_as()|Infoblox::Grid::Member/bgp_as()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a BGP neighbor
+ my $neighbor = Infoblox::Grid::Member::BGP::Neighbor->new(
+     neighbor_ip          => "172.16.0.1",
+     remote_as           => 1234,
+     interface           => "LAN_HA",
+ );
+
+ #Construct a BGP AS
+ my $autonomous_system = Infoblox::Grid::Member::BGP::AS->new(
+     as          => 269,
+     keepalive       => 4,
+     holddown        => 16,
+     neighbors       => [ $neighbor ]
+ );
+
+ # Configure BGP on the Grid Member object
+ my $response = $Grid_Member->bgp_as([$as]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::BGP::AS object.
+
+=head2 as( )
+
+=over
+
+Use this method to set or retrieve the number of this AS.
+
+A valid AS number is required to advertise to neighbors defined in this AS.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An AS number is a 16-bit integer from 1 to 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get AS number
+ my $as_number = $autonomous_system->as();
+ #Modify AS number
+ $autonomous_system->as(300);
+
+=back
+
+=back
+
+=head2 keepalive( )
+
+=over
+
+Use this method to set or retrieve the AS keepalive timer.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The number of seconds for the keepalive timer. The valid value is from 1 to 21845 seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get AS keepalive timer
+ my $keepalive = $autonomous_system->keepalive();
+ #Modify AS keepalive timer
+ $autonomous_system->keepalive(3600);
+
+=back
+
+=back
+
+=head2 holddown( )
+
+=over
+
+Use this method to set or retrieve the AS hold down timer.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The number of seconds for the hold down timer. The valid value is from 3 to 65535 seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get Autonomous System hold down timer
+ my $holddown = $autonomous_system->holddown();
+ #Modify Autonomous System hold down timer
+ $autonomous_system->holddown(3600);
+
+=back
+
+=back
+
+=head2 neighbors( )
+
+=over
+
+Use this method to set or retrieve the BGP neighbors for the Infoblox::BGP::AS object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::Member::BGP::Neighbor|Infoblox::Grid::Member::BGP::Neighbor> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get AS neighbor list
+ my $neighbors = $autonomous_system->neighbors();
+ #Modify AS neighbors
+ $autonomous_system->neighbors( [ $neighbor1, $neighbor2 ] );
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>, L<Infoblox::Grid::Member::BGP::Neighbor|Infoblox::Grid::Member::BGP::Neighbor>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

@@ -1,0 +1,14 @@
+/opt/perl/site/lib/Mojo/mysql.pm
+/opt/perl/site/lib/Mojo/mysql/Database.pm
+/opt/perl/site/lib/Mojo/mysql/Migrations.pm
+/opt/perl/site/lib/Mojo/mysql/PubSub.pm
+/opt/perl/site/lib/Mojo/mysql/Results.pm
+/opt/perl/site/lib/Mojo/mysql/Transaction.pm
+/opt/perl/site/lib/SQL/Abstract/mysql.pm
+/opt/perl/site/man/man3/Mojo::mysql.3
+/opt/perl/site/man/man3/Mojo::mysql::Database.3
+/opt/perl/site/man/man3/Mojo::mysql::Migrations.3
+/opt/perl/site/man/man3/Mojo::mysql::PubSub.3
+/opt/perl/site/man/man3/Mojo::mysql::Results.3
+/opt/perl/site/man/man3/Mojo::mysql::Transaction.3
+/opt/perl/site/man/man3/SQL::Abstract::mysql.3

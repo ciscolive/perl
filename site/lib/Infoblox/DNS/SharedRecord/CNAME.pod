@@ -1,0 +1,504 @@
+=head1 NAME
+
+Infoblox::DNS::SharedRecord::CNAME - DNS shared CNAME record object.
+
+=head1 DESCRIPTION
+
+A shared CNAME (canonical name) record is similar to a regular CNAME record. It maps a domain name to a different domain name. The difference is that a shared CNAME record should be added into a shared record group. If this shared record group is associated with other zones, then this shared CNAME record will be shared into these zones. For more information about how shared record groups and shared records work, please refer to Infoblox Administrator Guide.
+
+=head1 CONSTRUCTOR
+
+ my $shared_cname = Infoblox::DNS::SharedRecord::CNAME->new (
+     name                  => $string,                                                           # Required
+     canonical             => $string,                                                           # Required
+     shared_record_group   => $string,                                                           # Required
+     comment               => $string,                                                           # Optional / Default is undefined
+     disable               => "true" | "false"                                                   # Optional / Default "false"
+     extattrs              => { $string => $extattr, ... },                                      # Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, # Optional / Default is undefined
+     ttl                   => $num | undef,                                                      # Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS shared CNAME object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $shared_cname = Infoblox::DNS::SharedRecord::CNAME->new(
+     canonical           => "shared_cname_canonical",
+     name                => "shared_cname",
+     comment             => "this is a demo shared CNAME record",
+     disable             => "true",
+     ttl                 => "33",
+     shared_record_group => "test_srg"
+ );
+
+ # Submit for addition
+ my $response = $session->add($shared_cname);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS shared CNAME object:
+
+  name                  - Optional. A host name in string format.
+  comment               - Optional. A desired comment in string format.
+  canonical             - Optional. A host canonical name in string format.
+  extattrs              - Optional. An Infoblox::Grid::Extattr object.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::SharedRecord::CNAME",
+     name   => "shared_cname",
+ );
+
+ # get all CNAME shared records with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object                => "Infoblox::DNS::SharedRecord::CNAME",
+     extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $shared_cname->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify($shared_cname);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::SharedRecord::CNAME",
+     name   => "shared_cname"
+ );
+
+ # Find the desired object from the retrieved list.
+ my $desired_cname = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove($desired_cname);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS shared CNAME record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS shared CNAME record object:
+
+  name                  - Optional. Host name in string format (regular expression).
+  canonical             - Optional. Host canonical name in string format (regular expression).
+  comment               - Optional. A comment in string format (regular expression).
+  extattrs              - Optional. An Infoblox::Grid::Extattr object.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DNS CNAME objects with name which matches 'shared'with name which matches 'shared' expression in default view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::SharedRecord::CNAME",
+     name   => "shared",
+ );
+
+ # search all DNS shared CNAME records with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object                => "Infoblox::DNS::SharedRecord::CNAME",
+    extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a DNS shared CNAME record object.
+
+=head2 canonical( )
+
+=over
+
+Use this method to set or retrieve the canonical name of a DNS shared CNAME record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The canonical name of the host for this shared CNAME record.
+
+Note that this is not the FQDN canonical name of the host name. It is the host name portion of the FQDN name. For example, if the shared CNAME record 'shared_cname' is shared in zone test.com, then the name should be 'shared_cname'. The appliance will append 'test.com' when the shared CNAME record is populated and shared in zone test.com.
+
+A host name can have a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get canonical value
+ my $canonical = $shared_cname->canonical();
+
+ #modify canonical value
+ $shared_cname->canonical('new_canonical');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DNS shared CNAME record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $shared_cname->comment();
+ #Modify comment
+ $shared_cname->comment("Modifying the DNS CNAME comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS shared CNAME record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false, which means the DNS shared CNAME record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $shared_cname->disable();
+ #Modify disable
+ $shared_cname->disable("true");
+
+=back
+
+=back
+
+=head2 dns_canonical( )
+
+=over
+
+Use this method to retrieve the host canonical name in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #get dns_canonical value
+ my $dns_canonical = $shared_cname->dns_canonical();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the host name in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $shared_cname->dns_name();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS shared CNAME record object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $shared_cname->extattrs();
+ #Modify extattrs
+ $shared_cname->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS shared CNAME record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $shared_cname->extensible_attributes();
+ #Modify extensible attributes
+ $shared_cname->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the host name of a DNS shared CNAME record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+The host name of the shared CNAME record. Note that this is not the FQDN name of the host name. It is the host name portion of the FQDN name. For example, if this shared CNAME record 'shared_cname' is shared in zone test.com, then th
+
+A host name can have a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $shared_cname->name();
+ #Modify name
+ $shared_cname->name("shared_cname");
+
+=back
+
+=back
+
+=head2 shared_record_group( )
+
+=over
+
+Use this method to set or retrieve the shared record group of a DNS shared CNAME record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of defined L<Infoblox::DNS::SRG|Infoblox::DNS::SRG> objects. The shared CNAME record will be defined under this shared record group and shared among zones associated with this shared record group.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get shared record group
+ my $srg = $shared_cname->shared_record_group();
+ #Modify shared record group
+ $shared_cname->shared_record_group("test_srg");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value of a DNS shared CNAME record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $shared_cname->ttl();
+ #Modify ttl
+ $shared_cname->ttl(1800);
+ #Un-override ttl
+ $shared_cname->ttl(undef);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::DNS::SRG|Infoblox::DNS::SRG>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

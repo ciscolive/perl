@@ -1,0 +1,6 @@
+/opt/perl/site/lib/Net/Daemon.pm
+/opt/perl/site/lib/Net/Daemon/Log.pm
+/opt/perl/site/lib/Net/Daemon/Test.pm
+/opt/perl/site/man/man3/Net::Daemon.3
+/opt/perl/site/man/man3/Net::Daemon::Log.3
+/opt/perl/site/man/man3/Net::Daemon::Test.3

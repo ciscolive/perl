@@ -1,0 +1,5 @@
+/opt/perl/site/lib/Stream/Buffered.pm
+/opt/perl/site/lib/Stream/Buffered/Auto.pm
+/opt/perl/site/lib/Stream/Buffered/File.pm
+/opt/perl/site/lib/Stream/Buffered/PerlIO.pm
+/opt/perl/site/man/man3/Stream::Buffered.3

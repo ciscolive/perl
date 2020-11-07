@@ -1,0 +1,1 @@
+{"target":"Test::Mojo::Session","pathname":"A/AV/AVKHOZOV/Test-Mojo-Session-1.06.tar.gz","provides":{"Test::Mojo::Session":{"file":"lib/Test/Mojo/Session.pm","version":"1.06"},"Test::Mojo::Role::Session":{"file":"lib/Test/Mojo/Role/Session.pm"}},"dist":"Test-Mojo-Session-1.06","name":"Test::Mojo::Session","version":"1.06"}

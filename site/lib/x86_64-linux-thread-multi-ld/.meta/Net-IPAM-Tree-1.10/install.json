@@ -1,0 +1,1 @@
+{"name":"Net::IPAM::Tree","provides":{"Net::IPAM::Tree":{"version":"1.10","file":"lib/Net/IPAM/Tree.pm"},"Net::IPAM::Tree::Node":{"file":"lib/Net/IPAM/Tree/Node.pm"}},"target":"Net::IPAM::Tree","pathname":"G/GA/GAISSMAI/Net-IPAM-Tree-1.10.tar.gz","dist":"Net-IPAM-Tree-1.10","version":"1.10"}

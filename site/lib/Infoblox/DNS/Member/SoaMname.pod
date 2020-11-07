@@ -1,0 +1,151 @@
+=head1 NAME
+
+Infoblox::DNS::Member::SoaMname - a per-master SOA MNAME information.
+
+=head1 DESCRIPTION
+
+The object contains a per-master SOA MNAME Information.
+
+=head1 CONSTRUCTOR
+
+ my $soa_mname = Infoblox::DNS::Member::SoaMname->new(
+    grid_member => $string,       # Required if ms_server is not specified
+    ms_server   => $string,       # Required if grid_member is not specified
+    mname       => $string,       # Optional
+ );
+
+You cannot set both grid_member and ms_server attributes at the same time.
+
+=head1 SESSION METHODS
+
+The object doesn't support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the object.
+
+=head2 dns_mname( )
+
+=over
+
+Use this method to retrieve the master's SOA MNAME in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $soa_mname->dns_mname();
+
+=back
+
+=back
+
+=head2 grid_member( )
+
+=over
+
+Use this method to set or retrieve the primary server name for the zone.
+
+=over
+
+=item B<Parameter>
+
+The primary server name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $attr = $soa_mname->grid_member();
+ # Modify the attribute value
+ $soa_mname->grid_member('member.com');
+
+=back
+
+=back
+
+=head2 mname( )
+
+=over
+
+Use this method to set or retrieve the master's SOA MNAME.
+
+=over
+
+=item B<Parameter>
+
+The master's SOA MNAME in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $attr = $soa_mname->mname();
+ # Modify the attribute value
+ $soa_mname->mname('dummy-mname.com');
+
+=back
+
+=back
+
+=head2 ms_server( )
+
+=over
+
+Use this method to set or retrieve the IPv4 address or FQDN of the Microsoft (r) Server for the zone.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an IPv4 address (32 bits) or FQDN of the Microsoft (r) Server.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $attr = $soa_mname->ms_server();
+ # Modify the attribute value
+ $soa_mname->ms_server('10.0.0.1');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

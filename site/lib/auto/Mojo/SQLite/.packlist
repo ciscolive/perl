@@ -1,0 +1,12 @@
+/opt/perl/site/lib/Mojo/SQLite.pm
+/opt/perl/site/lib/Mojo/SQLite/Database.pm
+/opt/perl/site/lib/Mojo/SQLite/Migrations.pm
+/opt/perl/site/lib/Mojo/SQLite/PubSub.pm
+/opt/perl/site/lib/Mojo/SQLite/Results.pm
+/opt/perl/site/lib/Mojo/SQLite/Transaction.pm
+/opt/perl/site/man/man3/Mojo::SQLite.3
+/opt/perl/site/man/man3/Mojo::SQLite::Database.3
+/opt/perl/site/man/man3/Mojo::SQLite::Migrations.3
+/opt/perl/site/man/man3/Mojo::SQLite::PubSub.3
+/opt/perl/site/man/man3/Mojo::SQLite::Results.3
+/opt/perl/site/man/man3/Mojo::SQLite::Transaction.3

@@ -1,0 +1,512 @@
+=head1 NAME
+
+Infoblox::DHCP::Filter::NAC - DHCP NAC Filter object.
+
+=head1 DESCRIPTION
+
+If NAC authentication is configured, the appliance receives authentication responses from NAC authentication servers, and it grants or denies a lease request if the authentication response matches conditions defined by the NAC filters.
+
+=head1 CONSTRUCTOR
+
+ my $nac_filter = Infoblox::DHCP::Filter::NAC->new(
+       name                           => $string,                   #Required
+       expression                     => $string,                   #Optional / Default is empty
+       extattrs                       => { $string => $extattr, ... },      #Optional / Default is undefined
+       extensible_attributes          => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+       comment                        => $string,                   #Optional / Default is empty
+       lease_time                     => $time,                     #Optional / Default is empty
+       option_list                    => [$Option1, $Option2,...],  #Optional / Default is empty
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that can be applied to a DHCP NAC Filter object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP NAC Filter object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP NAC Filter object
+ my $nac_filter = Infoblox::DHCP::Filter::NAC->new (
+        name                           => "filter_script",
+        comment                        => "Created through script",
+        expression                     => 'Sophos.ComplianceState="PartialCompliant"',
+ );
+ #Submit for addition
+ my $response = $session->add($nac_filter)
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP NAC Filter object:
+
+  name - Required. Name of the NAC Filter.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ #Get DHCP NAC Filter object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::NAC",
+     name   => "filter_script",
+ );
+
+ # get all objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object                => "Infoblox::DHCP::Filter::NAC",
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP NAC Filter object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the default_nac_address_expiration
+ $nac_filter->comment("modified comment");
+ #Submit modification
+ my $response = $session->modify( $nac_filter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP NAC Filter object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP NAC Filter object, then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get DHCP NAC Filter object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::NAC",
+     name   => "filter_script",
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_nac_filter = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_nac_filter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP NAC Filter objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific DHCP NAC Filter object:
+
+  name - Name of the NAC filter (regular expression).
+  comment - Comment string for the NAC filter (regular expression).
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+ Either a name or comment must be specified.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DHCP NAC Filter objects whose name starts with "filter".
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::Filter::NAC",
+     name    => "filter.*",
+ );
+
+ # search for all DHCP NAC Filter objects whose comment starts with "user1".
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::Filter::NAC",
+     comment    => "user1.*",
+ );
+
+ # search all DHCP NAC Filter associations with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DHCP::Filter::NAC",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to set and retrieve the attribute values of a DHCP NAC Filter object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment of a DHCP NAC Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format, with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $nac_filter->comment();
+ #Modify comment
+ $nac_filter->comment("Modified DHCP NAC Filter comment");
+
+=back
+
+=back
+
+=head2 expression( )
+
+=over
+
+Use this method to set or retrieve the conditional expression of a DHCP NAC Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An expression in string format, with a maximum of 4096 characters. The expression must comply with the NAC filter expression syntax.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting expression
+   my $expression = $nac_filter->expression( );
+   #Modifying expression
+   $nac_filter->expression('Sophos.ComplianceState="PartialCompliant"');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP NAC Filter object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $nac_filter->extattrs();
+ #Modify extattrs
+ $nac_filter->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP NAC Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $nac_filter->extensible_attributes();
+ #Modify extensible attributes
+ $nac_filter->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 lease_time( )
+
+=over
+
+Use this method to set or retrieve a lease_time attribute of a DHCP NAC filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter appropriate values in seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get lease_time
+ my $lease_time = $nac_filter->lease_time();
+ # Modify lease_time
+ $nac_filter->lease_time("7200");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP NAC Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the DHCP NAC filter. The maximum length supported is 1024 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $nac_filter->name();
+ #Modify name
+ $nac_filter->name("filter1");
+
+=back
+
+=back
+
+=head2 option_list( )
+
+=over
+
+Use this method to set or retrieve the option_list of a DHCP NAC filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains the L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> objects. The option list describes filter option configuration settings and various services.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get option_list
+ my $options = $nac_filter->option_list();
+ #Modify option_list
+ $nac_filter->option_list([$option1]);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP NAC Filter object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DHCP NAC Filter object>
+
+ #Create a DHCP NAC Filter object
+ my $nac_filter = Infoblox::DHCP::Filter::NAC->new (
+        name                           => "script_filter",
+        comment                        => "Create through script",
+        expression                     => 'Sophos.ComplianceState="PartialCompliant"',
+ );
+
+ unless($nac_filter) {
+      die("Construct nac filter failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "NAC Filter object created successfully\n";
+
+ #Verify if the DHCP NAC Filter exists in the Infoblox appliance
+ my $object = $session->get(object => "Infoblox::DHCP::Filter::NAC", name => "script_filter");
+ unless ($object) {
+    print "nac filter does not exist on server, safe to add the nac filter\n";
+    $session->add($nac_filter)
+       or die("Add nac filter failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "DHCP NAC Filter added successfully\n";
+
+B<#Search for a specific DHCP NAC Filter object>
+
+ #Search for all DHCP NAC filter objects
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::Filter::NAC",
+     name   => ".*" );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search for NAC Filter object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search NAC Filter object found at least 1 matching entry\n";
+
+B<#Get and modify a NAC Filter object>
+
+ #Get a NAC Filter object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::NAC",
+     name   => "script_filter" );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get NAC Filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get NAC Filter object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the obtained NAC Filter object
+ $object->comment("Modified comment");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify NAC Filter object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "NAC Filter object modified successfully \n";
+
+B<#Remove a NAC Filter object>
+
+ #Get a NAC Filter object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::NAC",
+     name   => "script_filter",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get NAC Filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get NAC Filter object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove NAC Filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "NAC Filter object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::Filter::RelayAgent|Infoblox::DHCP::Filter::RelayAgent>, L<Infoblox::DHCP::Lease|Infoblox::DHCP::Lease>,  L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

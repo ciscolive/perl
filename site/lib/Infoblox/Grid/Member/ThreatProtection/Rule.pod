@@ -1,0 +1,310 @@
+=head1 NAME
+
+Infoblox::Grid::Member::ThreatProtection::Rule - Member Threat Protection Rule object.
+
+=head1 DESCRIPTION
+
+This object provides information about the member Threat protection rule settings.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Grid::Member::ThreatProtection::Rule object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Member Threat Protection::Rule object.
+  sid    - Optional. The Rule ID.
+  rule   - Optional. The Threat Protection Rule object.
+  member - Optional. The Member Threat Protection object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::Member::ThreatProtection::Rule',
+     'sid' => '211111'
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $rule = $session->search('object' => 'Infoblox::Grid::ThreatProtection::Rule', 'sid' => '211111');
+ my $member = $session->get('object' => 'Infoblox::Grid::Member::ThreatProtection');
+ my $member_rule = $session->search('object' => 'Infoblox::Grid::Member::ThreatProtection::Rule', 'member' => $member, 'rule' => $rule);
+
+ my $conf = $member_rule->config();
+ $conf->action('PASS');
+
+ # Use this method to modify attributes of object.
+ $member_rule->disable('true');
+ $member_rule->override_disable('true');
+ $member_rule->config($conf);
+ $member_rule->override_config('true');
+ # Submit modification
+ my $response = $session->modify( $member_rule );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Grid Threat Protection::Rule object.
+  sid    - Optional. The Rule ID.
+  rule   - Optional. The Threat Protection Rule object.
+  member - Optional. The Member Threat Protection object.
+
+=item B<Example>
+
+ my $rule = $session->search('object' => 'Infoblox::Grid::ThreatProtection::Rule', 'sid' => '211111');
+ my $member = $session->get('object' => 'Infoblox::Grid::Member::ThreatProtection');
+ my $member_rule = $session->search('object' => 'Infoblox::Grid::Member::ThreatProtection::Rule',
+     'member' => $member,
+     'rule' => $rule,
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 config( )
+
+=over
+
+Use this method to set or retrieve rule configuration information.
+
+Setting this method to a defined value implicitly sets the override_config method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_config attribute to "false".
+
+Note that when config is set to a defined value and override_config is set to "false", the last operation takes precedence. Thus the sequence $object->config($value); $object->override_config("false"); will set override_config to "false", and the sequence $object->override_config("false"); $object->config($value); will result in override_config="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is reference on L<Infoblox::Grid::ThreatProtection::RuleConfig|Infoblox::Grid::ThreatProtection::RuleConfig> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->config();
+ $value->log_severity('INFORMATIONAL');
+ # Modify attribute value
+ $object->config($value);
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or indicate whether the rule is enabled or disabled for the member.
+
+Setting this method to a defined value implicitly sets the override_disable method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_disable attribute to "false".
+
+Note that when disable is set to a defined value and override_disable is set to "false", the last operation takes precedence. Thus the sequence $object->disable('true'); $object->override_disable("false"); will set override_disable to "false", and the sequence $object->override_disable("false"); $object->disable('true'); will result in override_disable="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is "true" or "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->disable();
+ # Modify attribute value
+ $object->disable(true);
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to retrieve reference to the member object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->member();
+
+=back
+
+=back
+
+=head2 override_config( )
+
+=over
+
+Use this method to set or retrieve the override flag for the rule configuration.
+
+=over
+
+=item B<Parameter>
+
+Valid value is "true" or "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->override_config();
+ # Modify attribute value
+ $object->override_config(true);
+
+=back
+
+=back
+
+=head2 override_disable( )
+
+=over
+
+Use this method to set or retrieve the override flag for the disabled field.
+
+=over
+
+=item B<Parameter>
+
+Valid value is "true" or "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->override_disable();
+ # Modify attribute value
+ $object->override_disable(true);
+
+=back
+
+=back
+
+=head2 rule( )
+
+=over
+
+Use this method to retrieve reference to the rule object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->rule();
+
+=back
+
+=back
+
+=head2 sid( )
+
+=over
+
+Use this method to retrieve the Rule ID. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->sid();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::Member::ThreatProtection|Infoblox::Grid::Member::ThreatProtection>, L<Infoblox::Grid::ThreatProtection::Rule|Infoblox::Grid::ThreatProtection::Rule>, L<Infoblox::Grid::ThreatProtection::RuleConfig|Infoblox::Grid::ThreatProtection::RuleConfig>, L<Infoblox::Grid::ThreatProtection::RuleParam|Infoblox::Grid::ThreatProtection::RuleParam>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

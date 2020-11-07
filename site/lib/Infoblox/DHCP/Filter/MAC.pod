@@ -1,0 +1,613 @@
+=head1 NAME
+
+Infoblox::DHCP::Filter::MAC - DHCP MAC Address Filter object.
+
+=head1 DESCRIPTION
+
+An Infoblox appliance can filter address requests by the MAC address and/or vendor prefix (i.e., the first 6 hexadecimal characters in MAC address) of a requesting host. The filter instructs the infoblox appliance either to grant or deny an address request if the requesting host matches the filter.
+
+=head1 CONSTRUCTOR
+
+ my $mac_filter = Infoblox::DHCP::Filter::MAC->new(
+       name                           => $string,                   #Required
+       comment                        => $string,                   #Optional / Default is empty
+       default_mac_address_expiration => $num,                      #Optional / Default is 0 for never expire
+       enforce_expiration_times       => "true" | "false",          #Optional / Default is "true"
+       extattrs                       => { $string => $extattr, ... },      #Optional / Default is undefined
+       extensible_attributes          => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+       lease_time                     => $time,                     #Optional / Default is empty
+       option_list                    => [$Option1, $Option2,...],  #Optional / Default is empty
+       reserved_for_infoblox          => $string,                   #Optional / Default is empty
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that can be applied to a DHCP MAC Address Filter object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP MAC Address Filter object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP MAC Address Filter object
+ my $mac_filter = Infoblox::DHCP::Filter::MAC->new (
+        name                           => "filter_script",
+        comment                        => "Created through script",
+        default_mac_address_expiration => "70",
+        enforce_expiration_times       => "true",
+        reserved_for_infoblox          => "This is reserved for infoblox",
+ );
+ #Submit for addition
+ my $response = $session->add($mac_filter)
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP MAC Address Filter object:
+
+  name - Required. Name of the MAC Address Filter.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ #Get DHCP MAC Address Filter object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::MAC",
+     name   => "filter_script",
+ );
+
+ # get all objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object                => "Infoblox::DHCP::Filter::MAC",
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP MAC Address Filter object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the default_mac_address_expiration
+ $mac_filter->default_mac_address_expiration("1234");
+ #Submit modification
+ my $response = $session->modify( $mac_filter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP MAC Address Filter object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP MAC Address Filter object, then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get DHCP MAC Address Filter object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::MAC",
+     name   => "filter_script",
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_mac_filter = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_mac_filter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP MAC Address Filter objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific DHCP MAC Address Filter object:
+
+  name - Name of the MAC Address Filter (regular expression).
+  comment - Comment string for the MAC Address Filter (regular expression).
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+ Either name or comment must be specified.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DHCP MAC Address Filter objects whose name starts with "filter".
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::Filter::MAC",
+     name    => "filter.*",
+ );
+
+ # search for all DHCP MAC Address Filter objects whose comment starts with "user1".
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::Filter::MAC",
+     comment    => "user1.*",
+ );
+
+ # search all DHCP MAC Address Filter associations with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DHCP::Filter::MAC",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to set and retrieve the attribute values of a DHCP MAC Address Filter object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment of a DHCP MAC Address Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $mac_filter->comment();
+ #Modify comment
+ $mac_filter->comment("Modified DHCP MAC Address Filter comment");
+
+=back
+
+=back
+
+=head2 default_mac_address_expiration( )
+
+=over
+
+Use this method to set or retrieve the default mac address expiration time of a DHCP MAC Address Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+By default, the MAC address filter never expires; otherwise, it is the absolute interval when the MAC address filter expires. The maximum value can extend up to 4294967295 secs. The minimum value is 60 secs (1 min).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get default_mac_address_expiration
+ my $default_mac_address_expiration = $mac_filter->default_mac_address_expiration();
+ #Modify default_mac_address_expiration
+ $mac_filter->default_mac_address_expiration("1234");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DHCP MAC Address Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value for this field is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $mac_filter->disable();
+ #Modify disable
+ $mac_filter->disable("true");
+
+=back
+
+=back
+
+=head2 enforce_expiration_times( )
+
+=over
+
+Use this method to set or retrieve the enforce_expiration_times flag of a DHCP MAC Address Filter object.
+
+Determines whether lease requests will be denied from expired MAC Addresses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the expired flag or "false" to deactivate/unset it. Default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enforce_expiration_times
+ my $enforce_expiration_times = $mac_filter->enforce_expiration_times();
+ #Modify enforce_expiration_times
+ $mac_filter->enforce_expiration_times("false");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP MAC Address Filter object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $mac_filter->extattrs();
+ #Modify extattrs
+ $mac_filter->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP MAC Address Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $mac_filter->extensible_attributes();
+ #Modify extensible attributes
+ $mac_filter->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 lease_time( )
+
+=over
+
+Use this method to set or retrieve a lease_time attribute of a DHCP MAC address filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter appropriate values in seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get lease_time
+ my $lease_time = $mac_filter->lease_time();
+ # Modify lease_time
+ $mac_filter->lease_time("7200");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP MAC Address Filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the DHCP MAC Address filter. Maximum length up to 1024 bytes is supported.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $mac_filter->name();
+ #Modify name
+ $mac_filter->name("filter1");
+
+=back
+
+=back
+
+=head2 option_list( )
+
+=over
+
+Use this method to set or retrieve the option_list of a DHCP MAC address filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains the L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> objects. The option list describes filter option configuration settings and various services.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get option_list
+ my $options = $mac_filter->option_list();
+ #Modify option_list
+ $mac_filter->option_list([$option1]);
+
+=back
+
+=back
+
+=head2 reserved_for_infoblox( )
+
+=over
+
+Set this flag to reserve the MAC address filter for an Infoblox appliance.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Reserved to write comment related to this particular MAC address filter. The length of comment cannot exceed 1024 bytes long.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get reserved_for_infoblox
+ my $reserved_for_infoblox = $mac_filter->reserved_for_infoblox();
+ #Modify reserved_for_infoblox
+ $mac_filter->reserved_for_infoblox("reserved for Infoblox");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP MAC Address Filter object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DHCP MAC Address Filter object>
+
+ #Create a DHCP MAC Address Filter object
+ my $mac_filter = Infoblox::DHCP::Filter::MAC->new (
+        name                           => "script_filter",
+        comment                        => "Create through script",
+        default_mac_address_expiration => "70",
+        enforce_expiration_times       => "true",
+        reserved_for_infoblox          => "This is reserved for infoblox",
+ );
+
+ unless($mac_filter) {
+      die("Construct mac address filter failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "MAC Address Filter object created successfully\n";
+
+ #Verify if the DHCP MAC Address Filter exists in the Infoblox appliance
+ my $object = $session->get(object => "Infoblox::DHCP::Filter::MAC", name => "script_filter");
+ unless ($object) {
+    print "Mac address filter does not exist on server, safe to add the mac address filter\n";
+    $session->add($mac_filter)
+       or die("Add mac address filter failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "DHCP MAC Address Filter added successfully\n";
+
+B<#Search for a specific DHCP MAC Address Filter object>
+
+ #Search for all DHCP MAC address filter objects
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::Filter::MAC",
+     name   => ".*" );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search for MAC Address Filter object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search MAC Address Filter object found at least 1 matching entry\n";
+
+B<#Get and modify a MAC Address Filter object>
+
+ #Get MAC Address Filter object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::MAC",
+     name   => "script_filter" );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get MAC Address Filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get MAC Address Filter object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the obtained MAC Address Filter object
+ $object->default_mac_address_expiration("1234");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify MAC Address Filter object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "MAC Address Filter object modified successfully \n";
+
+B<#Remove a MAC Address Filter object>
+
+ #Get MAC Address Filter object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::MAC",
+     name   => "script_filter",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get MAC Address Filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get MAC Address Filter object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove MAC Address Filter object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "MAC Address Filter object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::MAC|Infoblox::DHCP::MAC>, L<Infoblox::DHCP::Filter::RelayAgent|Infoblox::DHCP::Filter::RelayAgent>, L<Infoblox::DHCP::Lease|Infoblox::DHCP::Lease>,  L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

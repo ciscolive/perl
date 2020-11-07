@@ -1,0 +1,12 @@
+/opt/perl/site/lib/URI/cpan.pm
+/opt/perl/site/lib/URI/cpan/author.pm
+/opt/perl/site/lib/URI/cpan/dist.pm
+/opt/perl/site/lib/URI/cpan/distfile.pm
+/opt/perl/site/lib/URI/cpan/module.pm
+/opt/perl/site/lib/URI/cpan/package.pm
+/opt/perl/site/man/man3/URI::cpan.3
+/opt/perl/site/man/man3/URI::cpan::author.3
+/opt/perl/site/man/man3/URI::cpan::dist.3
+/opt/perl/site/man/man3/URI::cpan::distfile.3
+/opt/perl/site/man/man3/URI::cpan::module.3
+/opt/perl/site/man/man3/URI::cpan::package.3

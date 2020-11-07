@@ -1,0 +1,1 @@
+{"name":"Module::Compile","pathname":"I/IN/INGY/Module-Compile-0.38.tar.gz","dist":"Module-Compile-0.38","provides":{"Module::Compile":{"file":"lib/Module/Compile.pm","version":"0.38"},"Module::Optimize":{"file":"lib/Module/Optimize.pm"},"Module::Compile::Opt":{"file":"lib/Module/Compile/Opt.pm"}},"version":"0.38","target":"Module::Compile"}

@@ -1,0 +1,1 @@
+{"version":"0.14","pathname":"M/MI/MINIMAL/Mojolicious-Plugin-Bcrypt-0.14.tar.gz","dist":"Mojolicious-Plugin-Bcrypt-0.14","target":"Mojolicious::Plugin::Bcrypt","provides":{"Mojolicious::Plugin::Bcrypt":{"file":"lib/Mojolicious/Plugin/Bcrypt.pm","version":"0.14"}},"name":"Mojolicious::Plugin::Bcrypt"}

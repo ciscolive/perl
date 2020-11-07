@@ -1,0 +1,6 @@
+/opt/perl/site/lib/File/Policy.pm
+/opt/perl/site/lib/File/Policy/Default.pm
+/opt/perl/site/lib/File/Slurp/WithinPolicy.pm
+/opt/perl/site/man/man3/File::Policy.3
+/opt/perl/site/man/man3/File::Policy::Default.3
+/opt/perl/site/man/man3/File::Slurp::WithinPolicy.3

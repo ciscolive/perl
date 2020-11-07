@@ -1,0 +1,546 @@
+=head1 NAME
+
+Infoblox::Grid::RIR::Organization - Regional Internet Registry (RIR) organization object.
+
+=head1 DESCRIPTION
+
+Regional Internet Registry (RIR) organization object.
+
+=head1 CONSTRUCTOR
+
+ my $rir_org = Infoblox::Grid::RIR::Organization->new(
+    id                    => $string,                      # Required
+    rir                   => $rir,                         # Required, an Infoblox::Grid::RIR object
+    extattrs              => { $string => $extattr, ... }, # Required
+    extensible_attributes => $extattrs,                    # Required
+    name                  => $string,                      # Required
+    maintainer            => $string,                      # Required
+    password              => $string,                      # Required, write-only
+    sender_email          => $string,                      # Required
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to RIR organization object.
+
+Support for RIR/SWIP must be enabled at the Grid level. See L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/> method.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $rir_org = Infoblox::Grid::RIR::Organization->new(
+    id                     => 'ORG_ID',
+    name                   => 'RIR organization',
+    maintainer             => 'support',
+    password               => 'infoblox',
+    sender_email           => 'support@infoblox.com',
+    rir                    => $rir,
+    extensible_attributes' => {'RIPE Registry Source' => 'RIPE',
+                               'RIPE Country' => 'United States (US)',
+                               'RIPE Admin Contact' => 'CA1-TEST',
+                               'RIPE Technical Contact' => 'CT1-TEST',
+                               'RIPE Email' => 'admin@infoblox.com'},
+ );
+
+ #Submit for addition
+ my $response = $session->add( $rir_org );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific RIR organization object:
+
+  id           - Optional. The RIR Organization ID.
+  name         - Optional. The RIR organization name.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+    object => 'Infoblox::Grid::RIR::Organization',
+    name   => 'RIR organization',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to set password of a RIR organization object.
+ $rir_org->password('infoblox');
+ # Submit modification
+ my $response = $session->modify( $rir_org );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+    object => 'Infoblox::Grid::RIR::Organization',
+    name   => 'RIR organization',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_rir_org = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_rir_org );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for RIR organization objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search a specific RIR organization object:
+
+  id           - Optional. The RIR Organization ID.
+  name         - Optional. The RIR organization name.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+    object => 'Infoblox::Grid::RIR::Organization',
+    name   => 'RIR organization',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve attribute values of the RIR organization object.
+
+=head2 id( )
+
+=over
+
+Use this method to set or retrieve RIR Organization ID.
+
+=over
+
+=item B<Parameter>
+
+RIR Organization ID in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir_org->id();
+ #Modify attribute value
+ $rir_org->id('ORG-MC1-RIPE');
+
+=back
+
+=back
+
+=head2 rir( )
+
+=over
+
+Use this method to set or retrieve RIR object which is associated with the organization.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::Grid::RIR|Infoblox::Grid::RIR> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir_org->rir();
+ #Modify attribute value
+ $rir_org->rir($rir);
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a RIR organization object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $rir_org->extattrs();
+ #Modify extattrs
+ $rir_org->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a RIR organization object.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values> and L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir_org->extensible_attributes();
+ #Modify attribute value
+ $rir_org->extensible_attributes({'RIPE Registry Source' => 'TEST',
+                                  'RIPE Country' => 'Canada (CA)',
+                                  'RIPE Admin Contact' => 'CA2-TEST',
+                                  'RIPE Technical Contact' => 'CT2-TEST',
+                                  'RIPE Email' => 'support@infoblox.com'});
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve RIR organization name.
+
+=over
+
+=item B<Parameter>
+
+RIR organization name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir_org->name();
+ #Modify attribute value
+ $rir_org->name('New RIR organization');
+
+=back
+
+=back
+
+=head2 maintainer( )
+
+=over
+
+Use this method to set or retrieve the RIR organization maintainer.
+
+=over
+
+=item B<Parameter>
+
+RIR organization maintainer in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir_org->maintainer();
+ #Modify attribute value
+ $rir_org->maintainer('support');
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the password for RIR organization's maintainer. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+The password for RIR organization's maintainer in string format.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set attribute value
+ $rir_org->password('infoblox');
+
+=back
+
+=back
+
+=head2 sender_email( )
+
+=over
+
+Use this method to set or retrieve the sender email address for RIR organization.
+
+=over
+
+=item B<Parameter>
+
+The sender email address for RIR organization in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir_org->sender_email();
+ #Modify attribute value
+ $rir_org->sender_email('support@infoblox.com');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify, search and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying RIR organization object>
+
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $grid = $self->{'session'}->get('object' => 'Infoblox::Grid');
+
+ unless ($grid) {
+     die("Get Grid object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get Grid successful \n";
+
+ $grid->enable_rir_swip('true');
+
+ $session->modify($grid)
+    or die("Modify Grid failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Grid modified successfully \n";
+
+B<#Create RIR organization object>
+
+ my $rir = $self->{'session'}->get('object' => 'Infoblox::Grid::RIR', 'name' => 'RIPE');
+
+ unless ($rir) {
+     die("Get RIR object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get RIR successful \n";
+
+ my $rir_org = Infoblox::Grid::RIR::Organization->new(
+        'id'            => 'RIR_ORG_ID',
+        'name'          => 'RIR organization',
+        'maintainer'    => 'support',
+        'password'      => 'infoblox',
+        'sender_email'  => 'support@infoblox.com',
+        'rir'           => $rir,
+        'extensible_attributes' => {'RIPE RIPE Registry Source' => 'RIPE',
+                                    'RIPE Country' => 'United States (US)',
+                                    'RIPE Admin Contact' => 'CA1-TEST',
+                                    'RIPE Technical Contact' => 'CT1-TEST',
+                                    'RIPE Email' => 'admin@infoblox.com'},
+ );
+
+ unless ($rir_org) {
+     die("Construct RIR organization object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"RIR organization object created successfully\n";
+
+ my $response = $session->add($rir_org);
+
+ unless ($response) {
+     die("Add RIR organization failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"RIR organization added successfully \n";
+
+B<#Search for RIR organization object>
+
+ my @retrieved_objs = $session->search(
+    object => 'Infoblox::Grid::RIR::Organization',
+    id     => 'RIR_ORG_ID',
+ );
+
+ $rir_org = $retrieved_objs[0];
+
+ unless ($rir_org) {
+         die("Search RIR organization object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search RIR organization object found at least 1 matching entry\n";
+
+B<#Get and modify RIR organization object>
+
+ @retrieved_objs = $session->get(
+    object => 'Infoblox::Grid::RIR::Organization',
+    id     => 'RIR_ORG_ID',
+ );
+
+ $rir_org = $retrieved_objs[0];
+
+ unless ($rir_org) {
+     die("Get RIR organization object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get RIR organization successful \n";
+
+ $rir_org->maintainer("admin");
+
+ $session->modify($rir_org)
+    or die("Modify RIR organization failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print "RIR organization modified successfully \n";
+
+B<#Remove RIR organization object>
+
+ @retrieved_objs = $session->get(
+    object => 'Infoblox::Grid::RIR::Organization',
+    id     => 'RIR_ORG_ID',
+ );
+
+ $rir_org = $retrieved_objs[0];
+
+ unless ($rir_org) {
+     die("Get RIR organization object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get RIR organization successful \n";
+
+ $session->remove( $rir_org )
+     or die("Remove RIR organization failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print"RIR organization removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::RIR|Infoblox::Grid::RIR>, L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>, L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

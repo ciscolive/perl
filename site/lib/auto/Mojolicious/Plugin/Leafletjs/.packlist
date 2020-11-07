@@ -1,0 +1,9 @@
+/opt/perl/site/lib/Mojolicious/Plugin/Leafletjs.pm
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-Leafletjs/public/images/layers-2x.png
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-Leafletjs/public/images/layers.png
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-Leafletjs/public/images/marker-icon-2x.png
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-Leafletjs/public/images/marker-icon.png
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-Leafletjs/public/images/marker-shadow.png
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-Leafletjs/public/leaflet.css
+/opt/perl/site/lib/auto/share/dist/Mojolicious-Plugin-Leafletjs/public/leaflet.js
+/opt/perl/site/man/man3/Mojolicious::Plugin::Leafletjs.3

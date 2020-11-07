@@ -1,0 +1,1 @@
+{"pathname":"S/SA/SALVA/Net-SFTP-Foreign-Backend-Net_SSH2-0.11.tar.gz","version":"0.11","provides":{"Net::SFTP::Foreign::Backend::Net_SSH2":{"version":"0.11","file":"lib/Net/SFTP/Foreign/Backend/Net_SSH2.pm"}},"name":"Net::SFTP::Foreign::Backend::Net_SSH2","dist":"Net-SFTP-Foreign-Backend-Net_SSH2-0.11","target":"Net::SFTP::Foreign::Backend::Net_SSH2"}

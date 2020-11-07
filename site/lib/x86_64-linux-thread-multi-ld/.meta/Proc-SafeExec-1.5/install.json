@@ -1,0 +1,1 @@
+{"version":"1.5","target":"Proc::SafeExec","name":"Proc::SafeExec","pathname":"B/BI/BILBO/Proc-SafeExec-1.5.tar.gz","dist":"Proc-SafeExec-1.5","provides":{"Proc::SafeExec::Queue":{"file":"lib/Proc/SafeExec/Queue.pm","version":"1.5"},"Proc::SafeExec":{"file":"lib/Proc/SafeExec.pm","version":"1.5"}}}

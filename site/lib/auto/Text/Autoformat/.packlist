@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Text/Autoformat.pm
+/opt/perl/site/lib/Text/Autoformat/Hang.pm
+/opt/perl/site/lib/Text/Autoformat/NullHang.pm
+/opt/perl/site/man/man3/Text::Autoformat.3

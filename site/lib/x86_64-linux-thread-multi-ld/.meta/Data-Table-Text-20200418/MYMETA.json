@@ -1,0 +1,60 @@
+{
+   "abstract" : "Write data in tabular text format",
+   "author" : [
+      "L<philiprbrenan@gmail.com|mailto:philiprbrenan@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Data-Table-Text",
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "Module::Build" : 0.4224
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "B" : 0,
+            "Carp" : 0,
+            "Cwd" : 0,
+            "Data::Dump" : 0,
+            "Digest::MD5" : 0,
+            "Exporter" : 0,
+            "File::Glob" : 1.17,
+            "File::Path" : 0,
+            "File::Temp" : 0,
+            "IO::Socket::UNIX" : 0,
+            "JSON" : 0,
+            "POSIX" : 0,
+            "Scalar::Util" : 0,
+            "Storable" : 0,
+            "Test2::API" : 0,
+            "Test::More" : 0,
+            "Time::HiRes" : 0,
+            "perl" : "v5.26.1",
+            "utf8" : 0
+         }
+      }
+   },
+   "provides" : {
+      "Data::Table::Text" : {
+         "file" : "lib/Data/Table/Text.pm",
+         "version" : "20200418"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "20200418",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

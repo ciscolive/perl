@@ -1,0 +1,1128 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DeviceInterface - the discovery interface.
+
+=head1 DESCRIPTION
+
+The object provides information about the discovery interface.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to the object.
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify extensible attributes
+ $object->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 admin_status( )
+
+=over
+
+Use this method to retrieve the administrative state of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'UP' or 'DOWN'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->admin_status();
+
+=back
+
+=back
+
+=head2 admin_status_task_info( )
+
+=over
+
+Use this method to retrieve the configured admin status task information.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::Port::Config::AdminStatus|Infoblox::Grid::Discovery::Port::Config::AdminStatus> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->admin_status_task_info();
+
+=back
+
+=back
+
+=head2 cap_if_admin_status_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the admin status of this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_admin_status_ind();
+
+=back
+
+=back
+
+=head2 cap_if_admin_status_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the edit admin status action is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_admin_status_na_reason();
+
+=back
+
+=back
+
+=head2 cap_if_description_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the description of this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_description_ind();
+
+=back
+
+=back
+
+=head2 cap_if_description_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the edit description action is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_description_na_reason();
+
+=back
+
+=back
+
+=head2 cap_if_net_deprovisioning_ipv4_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not deprovision the IPv4 network associated to this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_net_deprovisioning_ipv4_ind();
+
+=back
+
+=back
+
+=head2 cap_if_net_deprovisioning_ipv6_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not deprovision the IPv6 network associated to this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_net_deprovisioning_ipv6_ind();
+
+=back
+
+=back
+
+=head2 cap_if_net_deprovisioning_ipv4_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the deprovision the IPv4 network from this interface is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_net_deprovisioning_ipv4_na_reason();
+
+=back
+
+=back
+
+=head2 cap_if_net_deprovisioning_ipv6_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the deprovision the IPv6 network from this interface is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_net_deprovisioning_ipv6_na_reason();
+
+=back
+
+=back
+
+=head2 cap_if_net_provisioning_ipv4_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the IPv4 network associated to this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_net_provisioning_ipv4_ind();
+
+=back
+
+=back
+
+=head2 cap_if_net_provisioning_ipv6_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the IPv6 network associated to this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_net_provisioning_ipv6_ind();
+
+=back
+
+=back
+
+=head2 cap_if_net_provisioning_ipv4_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the IPv4 network provisioning is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_net_provisioning_ipv4_na_reason();
+
+=back
+
+=back
+
+=head2 cap_if_net_provisioning_ipv6_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the IPv6 network provisioning is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_net_provisioning_ipv6_na_reason();
+
+=back
+
+=back
+
+=head2 cap_if_vlan_assignment_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the VLAN assignement for this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_vlan_assignment_ind();
+
+=back
+
+=back
+
+=head2 cap_if_vlan_assignment_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the VLAN assignment action is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_vlan_assignment_na_reason();
+
+=back
+
+=back
+
+=head2 cap_if_voice_vlan_ind( )
+
+=over
+
+Use this method to retrieve the flag indicates whether or not modify the voice VLAN assignement for this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_vlan_assignment_ind();
+
+=back
+
+=back
+
+=head2 cap_if_voice_vlan_na_reason( )
+
+=over
+
+Use this method to retrieve the reason if the voice VLAN assignment action is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cap_if_voice_vlan_na_reason();
+
+=back
+
+=back
+
+=head2 description( )
+
+=over
+
+Use this method to retrieve the description of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->description();
+
+=back
+
+=back
+
+=head2 description_task_info( )
+
+=over
+
+Use this method to retrieve the configured description task information.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::Port::Config::Description|Infoblox::Grid::Discovery::Port::Config::Description> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->description_task_info();
+
+=back
+
+=back
+
+=head2 device( )
+
+=over
+
+Use this method to retrieve the device object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device();
+
+=back
+
+=back
+
+=head2 duplex( )
+
+=over
+
+Use this method to retrieve the duplex state of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'FULL', 'HALF', 'UNKNOWN' or 'UNSUPPORTED'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->duplex();
+
+=back
+
+=back
+
+=head2 discover_now_status( )
+
+=over
+
+Use this method to retrieve the current discovery status. This attribute is read-only.
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETE', 'FAILED', 'NONE', 'PENDING' or 'RUNNING'.
+
+=item B<Example>
+
+ #Get discover_now_status
+ my $discover_now_status = $object->discover_now_status();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with the DeviceInterface object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $object->extattrs();
+ #Modify extattrs
+ $object->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 ifaddr_infos( )
+
+=over
+
+Use this method to retrieve a list of IFaddr information associated with the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an array reference that contains L<Infoblox::Grid::Discovery::IFAddrInfo|Infoblox::Grid::Discovery::IFAddrInfo> objects.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ifaddr_infos();
+
+=back
+
+=back
+
+=head2 index( )
+
+=over
+
+Use this method to retrieve the interface index number, as reported by SNMP. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->index();
+
+=back
+
+=back
+
+=head2 last_change( )
+
+=over
+
+Use this method to retrieve the timestamp of the last detected interface property change. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->last_change();
+
+=back
+
+=back
+
+=head2 link_aggregation( )
+
+=over
+
+Use this method to retrieve the flag that indicates  whether this is a link aggregation interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'true' or 'false'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->link_aggregation();
+
+=back
+
+=back
+
+=head2 mac( )
+
+=over
+
+Use this method to retrieve the MAC address of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->mac();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $object->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the interface system name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+
+=back
+
+=back
+
+=head2 oper_status( )
+
+=over
+
+Use this method to retrieve the operating state of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'UP' or 'DOWN'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->oper_status();
+
+=back
+
+=back
+
+=head2 port_fast( )
+
+=over
+
+Use this method to retrieve the port fast status of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'ENABLED' or 'DISABLED'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_fast();
+
+=back
+
+=back
+
+=head2 reserved_object( )
+
+=over
+
+Use this method to retrieve the object to which this port is reserved. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be L<Infoblox::DHCP::HostAddr|Infoblox::DHCP::HostAddr>, L<Infoblox::DHCP::IPv6HostAddr|Infoblox::DHCP::IPv6HostAddr>, L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>, L<Infoblox::DHCP::IPv6FixedAddr|Infoblox::DHCP::IPv6FixedAddr> or L<Infoblox::Grid::Member|Infoblox::Grid::Member> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->reserved_object();
+
+=back
+
+=back
+
+=head2 speed( )
+
+=over
+
+Use this method to retrieve the interface speed in bps. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->speed();
+
+=back
+
+=back
+
+=head2 trunk_status( )
+
+=over
+
+Use this method to retrieve the flag that indicates if the interface is tagged as trunk or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'ON' or 'OFF'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->trunk_status();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the interface type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->type();
+
+=back
+
+=back
+
+=head2 vlan_infos( )
+
+=over
+
+Use this method to retrieve a list of VLAN Information associated with this interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an array reference that contains L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo> objects.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vlan_infos();
+
+=back
+
+=back
+
+=head2 vlan_info_task_info( )
+
+=over
+
+Use this method to retrieve the configured VLAN task information.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::Port::Config::VlanInfo|Infoblox::Grid::Discovery::Port::Config::VlanInfo> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vlan_info_task_info();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to retrieve the name of the network view associated with the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_view();
+
+=back
+
+=back
+
+=head2 vrf_name( )
+
+=over
+
+Use this method to retrieve the name of the VRF associated with the interface, if any. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vrf_name();
+
+=back
+
+=back
+
+=head2 vrf_description( )
+
+=over
+
+Use this method to retrieve the VRF description. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vrf_description();
+
+=back
+
+=back
+
+=head2 vrf_route_distinguisher( )
+
+=over
+
+Use this method to retrieve the route distinguisher associated with the VRF. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vrf_route_distinguisher();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>, L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo>, L<Infoblox::Grid::Discovery::IFAddrInfo|Infoblox::Grid::Discovery::IFAddrInfo>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

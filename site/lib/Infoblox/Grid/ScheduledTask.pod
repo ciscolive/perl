@@ -1,0 +1,957 @@
+=head1 NAME
+
+Infoblox::Grid::ScheduledTask - scheduled task object.
+
+=head1 DESCRIPTION
+
+A scheduled task object is used to retrieve information about scheduled tasks. Scheduled tasks are commands that are scheduled by the L<Infoblox::Session|Infoblox::Session> methods, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> and L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, and are called with the scheduled_at parameter.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::ScheduledTask object is automatically generated after the L<Infoblox::Session|Infoblox::Session> methods, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> and L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, are called with the scheduled_at parameter. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the L<Infoblox::Session|Infoblox::Session> module that you can apply to a scheduled task object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+Apply the following attributes to get a specific scheduled task object:
+
+member               - The Grid member name.
+
+scheduled_time       - The L<time|/SCHEDULED DATE AND TIME FORMAT> when the task is scheduled to occur.
+
+submit_time          - The time when the scheduled task was submitted.
+
+submitter            - The name of the user who submitted the task (regular expression).
+
+task_id              - The identifier of a scheduled task.
+
+action               - The type of action performed. When used, the search returns ScheduledTask objects that have ScheduledTask::ChangedObject objects in the changed_objects list with matching 'action' attributes. Possible values are:
+
+                       Add
+                       Modify
+                       Delete
+                       Network Discovery
+                       Restart Services
+
+object_name          - The name of the changed object (regular expression). When used, the search returns ScheduledTask objects that have ScheduledTask::ChangedObject objects in the changed_objects list with matching 'object_name' attirbutes.
+
+object_type          - The type of the changed object (regular expression). When used, the search returns ScheduledTask objects that have ScheduledTask::ChangedObject objects in the changed_objects list with matching 'object_type' attributes. Possible values are:
+
+                       A Record
+                       AAAA Record
+                       Authoritative Zone
+                       Bulk Host
+                       CNAME Record
+                       Delegated Zone
+                       DHCP Range
+                       DNAME Record
+                       DNS View
+                       Fixed Address
+                       Forward Zone
+                       Host Record
+                       IPv4 Network
+                       IPv4 Network Container
+                       IPv6 Network
+                       IPv6 Network Container
+                       MX Record
+                       NS Record
+                       PTR Record
+                       Reservation
+                       Roaming Host
+                       Shared A Record
+                       Shared AAAA Record
+                       Shared MX Record
+                       Shared Network
+                       Shared Record Group
+                       Shared SRV Record
+                       Shared TXT Record
+                       SRV Record
+                       Stub Zone
+                       TXT Record
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::ScheduledTask",
+     task_id    => "34" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the object.
+ $task->scheduled_time( "2008-10-21T10:56:33Z" );
+ # Submit modification
+ my $response = $session->modify( $task );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, use get() or search() to retrieve the specific object first, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the ScheduledTask objects
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::ScheduledTask",
+     submitter  => "admin" );
+ # find the desired object from the retrieved list.
+ my $task = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $task );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for scheduled task objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+The search can be performed on any combination of the following attributes:
+
+member               - The Grid member name.
+
+scheduled_time       - The L<time|/SCHEDULED DATE AND TIME FORMAT> when the task is scheduled to occur. This method supports searching with limit parameters  (see below).
+
+submit_time          - The time when the scheduled task was submitted. This method supports searching with limit parameters  (see below).
+
+submitter            - The name of the user who submitted the task (regular expression).
+
+task_id              - The identifier of a scheduled task.
+
+action               - The type of action performed. When used, the search returns ScheduledTask objects that have ScheduledTask::ChangedObject objects in the changed_objects list with matching 'action' attributes. Possible values are:
+
+                       Add
+                       Modify
+                       Delete
+                       Network Discovery
+                       Restart Services
+
+object_name          - The name of the changed object (regular expression). When used, the search returns ScheduledTask objects that have ScheduledTask::ChangedObject objects in the changed_objects list with matching 'object_name' attirbutes.
+
+object_type          - The type of the changed object (regular expression). When used, the search returns ScheduledTask objects that have ScheduledTask::ChangedObject objects in the changed_objects list with matching 'object_type' attributes. Possible values are:
+
+                       A Record
+                       AAAA Record
+                       Authoritative Zone
+                       Bulk Host
+                       CNAME Record
+                       Delegated Zone
+                       DHCP Range
+                       DNAME Record
+                       DNS View
+                       Fixed Address
+                       Forward Zone
+                       Host Record
+                       IPv4 Network
+                       IPv4 Network Container
+                       IPv6 Network
+                       IPv6 Network Container
+                       MX Record
+                       NS Record
+                       PTR Record
+                       Reservation
+                       Roaming Host
+                       Shared A Record
+                       Shared AAAA Record
+                       Shared MX Record
+                       Shared Network
+                       Shared Record Group
+                       Shared SRV Record
+                       Shared TXT Record
+                       SRV Record
+                       Stub Zone
+                       TXT Record
+
+See L<Infoblox::SessionE<sol>search with limit parameters|Infoblox::Session/search with limit parameters> for more information on this functionality.
+
+=item B<Example>
+
+ # search for all ScheduledTask objects
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::Grid::ScheduledTask",
+     scheduled_time => ">=< 2008-10-21T10:56:33Z,2008-11-21T10:56:33Z");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a ScheduledTask object.
+
+=head2 approval_status( )
+
+=over
+
+Use this method to set or retrieve the approval status if approvals are required for this task.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE', 'APPROVED', 'PENDING' and 'REJECTED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get approval_status value
+ my $approval_status = $task->approval_status();
+
+ #Modify approval_status value
+ $task->approval_status('APPROVED');
+
+=back
+
+=back
+
+=head2 approver( )
+
+=over
+
+Use this method to retrieve the username of the approver. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get approver value
+ my $approver = $task->approver();
+
+=back
+
+=back
+
+=head2 approver_comment( )
+
+=over
+
+Use this method to set or retrieve the approver comment.
+
+=over
+
+=item B<Parameter>
+
+The approver comment in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get approver_comment value
+ my $approver_comment = $task->approver_comment();
+
+ #Modify approver_comment value
+ $task->approver_comment('ok');
+
+=back
+
+=back
+
+=head2 changed_objects( )
+
+=over
+
+Use this method to retrieve information about the objects that are scheduled to be changed.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns a reference to an array of L<Infoblox::Grid::ScheduledTask::ChangedObject|Infoblox::Grid::ScheduledTask::ChangedObject> objects.
+
+=item B<Example>
+
+ #Get changed_objects
+ my $changed_objects = $task->changed_objects();
+ my $obj = $changed_objects->[0];
+
+=back
+
+=back
+
+=head2 dependent_tasks( )
+
+=over
+
+Use this method to retrieve an array of of tasks dependent on this one. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns a reference to an array of L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask> objects.
+
+=item B<Example>
+
+ #Get array of ScheduledTask objects
+ my @dependent_tasks = $task->dependent_tasks();
+
+=back
+
+=back
+
+=head2 execution_details( )
+
+=over
+
+Use this method to retrieve the list of details generated by the execution. This is a read-only field.
+
+=over
+
+=item B<Parameters>
+
+None
+
+=item B<Returns>
+
+The method returns the array of strings that contains details generated by the execution. 
+
+=item B<Example>
+
+ #Get execution_details value
+ my $details = $task->execution_details();
+
+=back
+
+=back
+
+=head2 execution_details_type( )
+
+=over
+
+Use this method to retrieve the type of details generated by the execution after the task has been completed. This is a read-only field.
+
+=over
+
+=item B<Parameters>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'NONE' or 'WARNING'.
+
+=item B<Example>
+
+ #Get execution_details_type value
+ my $details = $task->execution_details_type();
+
+=back
+
+=back
+
+
+=head2 execution_status( )
+
+=over
+
+Use this method to retrieve the status of the task. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETED', 'FAILED' or 'PENDING'.
+
+=item B<Example>
+
+ #Get execution_status
+ my $execution_status = $task->execution_status();
+
+=back
+
+=back
+
+=head2 execution_time( )
+
+=over
+
+Use this method to retrieve the execution time. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get execution_time
+ my $execution_time = $task->execution_time();
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to retrieve the Grid member that has created this task. This is a read-only attribute.
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get member
+ my $member = $task->member();
+
+=back
+
+=back
+
+=head2 is_network_insight_task( )
+
+=over
+
+Use this method to retrieve the flag that indicates if this task is related to network insight. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ $value = $task->is_network_insight_task();
+
+=back
+
+=back
+
+=head2 re_execute_task( )
+
+=over
+
+Use this method to set failed discovery task to be re-executed.
+
+If this flag is set to 'true' a failed Network Insight discovery task will be re-executed, a new task will be created cloned from this one and restarted.
+
+=over
+
+=item B<Parameter>
+
+Boolean to set failed netmri task to be re-executed. Only "true" value makes sense.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get value
+ $value = $task->re_execute_task();
+
+ # Set value
+ $task->re_execute_task('true');
+
+=back
+
+=back
+
+=head2 scheduled_time( )
+
+=over
+
+Use this method to set or retrieve the date and time the task is scheduled to occur.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Scheduled date and time in L<ISO 8601 extended format|/SCHEDULED DATE AND TIME FORMAT> (e.g., 2008-10-21T10:56:33Z or 2008-10-21T10:56:33.001Z).
+
+Use case insensitive value "now" to execute a scheduled task immediately.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get scheduled_time value
+ my $scheduled_time = $task->scheduled_time();
+
+ #Modify scheduled_time value
+ $task->scheduled_time("2008-10-21T10:56:33Z");
+ # Submit modification
+ $session->modify($task);
+
+ # Do it now
+ $task->scheduled_time("Now");
+ # Submit modification
+ $session->modify($task);
+
+=back
+
+=back
+
+=head2 submit_time( )
+
+=over
+
+Use this method to retrieve the time the scheduled task was submitted (when appropriate Session method was called with parameter scheduled_time).
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the submitted date and time in ISO 8601 extended format (e.g., 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z).
+
+=item B<Example>
+
+ #Get submit_time
+ my $submit_time = $task->submit_time();
+
+=back
+
+=back
+
+=head2 submitter_comment( )
+
+=over
+
+Use this method to set or retrieve the submitter comment.
+
+=over
+
+=item B<Parameter>
+
+The submitter comment in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get submitter_comment value
+ my $submitter_comment = $task->submitter_comment();
+
+ #Modify submitter_comment value
+ $task->submitter_comment('ok');
+
+=back
+
+=back
+
+=head2 submitter( )
+
+=over
+
+Use this method to retrieve the name of the user who submitted the task.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the user name in string format.
+
+=item B<Example>
+
+ #Get submitter
+ my $submitter = $task->submitter();
+
+=back
+
+=back
+
+=head2 task_id( )
+
+=over
+
+Use this method to retrieve the identifier of a scheduled task.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the identifier in numeric format.
+
+=item B<Example>
+
+ #Get task_id
+ my $task_id = $task->task_id();
+
+=back
+
+=back
+
+=head2 ticket_number( )
+
+=over
+
+Use this method to set or retrieve the ticket number.
+
+=over
+
+=item B<Parameter>
+
+The ticket number in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ticket_number value
+ my $ticket_number = $task->ticket_number();
+
+ #Modify ticket_number value
+ $task->ticket_number('ok');
+
+=back
+
+=back
+
+=head2 task_type( )
+
+=over
+
+Use this method to retrieve the scheduled task type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value. Valid return value is "OBJECT_CHANGE" and "PORT_CONTROL".
+
+=item B<Example>
+
+ #Get task_type value
+ my $task_type = $task->task_type();
+
+=back
+
+=back
+
+=head2 time_zone( )
+
+=over
+
+Use this method to set or retrieve the time zone.
+
+=over
+
+=item B<Parameter>
+
+The UTC string that represents the time zone. For example "(UTC - 6:00) Central Time (US and Canada)". The default value is "(UTC) Coordinated Universal Time".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $schedule_setting->time_zone();
+
+ #Modify attribute value
+ $schedule_setting->time_zone("(UTC - 6:00) Central Time (US and Canada)");
+
+=back
+
+=back
+
+=head2 predecessor_task( )
+
+=over
+
+Use this method to retrieve the predecessor task. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask> object.
+
+=item B<Example>
+
+ #Get predecessor_task value
+ my $predecessor_task = $task->predecessor_task();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a ScheduledTask object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ # Add a network
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/24",
+ );
+ unless ($network) {
+     die("Construct Network failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network created successfully\n";
+
+ $session->add($network)
+     or die("Add Network object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "Network object added to server successfully\n";
+
+B<#Create a ScheduledTask object>
+
+ # Create a fixed address
+ my $fixed_addr = Infoblox::DHCP::FixedAddr->new(
+     ipv4addr    => '10.0.0.3',
+     mac         => '11:22:33:44:55:66'
+ );
+ unless ($fixed_addr) {
+     die("Construct FixedAddr failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "FixedAddr created successfully\n";
+
+ # Schedule the addition of a fixed address
+ $session->add($fixed_addr, scheduled_at => "2020-01-01T14:52:00Z")
+     or die("Schedule fixed address add failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "Fixed address add scheduled successfully\n";
+
+B<#Search for a ScheduledTask object>
+
+ my @retrieved_objs = $session->search(
+     object    => "Infoblox::Grid::ScheduledTask",
+     submitter => "admin"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Search for a ScheduledTask object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search for a ScheduledTask object found at least 1 matching entry\n";
+
+B<#Get and modify a ScheduledTask object>
+
+ #Get the ScheduledTask object from Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+     object         => "Infoblox::Grid::ScheduledTask",
+     scheduled_time => "2020-01-01T14:52:33Z"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get ScheduledTask object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get ScheduledTask object found at least 1 matching entry\n";
+
+ #Modify the ScheduledTask object
+ $object->scheduled_time("2020-02-01T14:52:33Z");
+
+ #Apply the changes.
+ $session->modify($object)
+     or die("Modify ScheduledTask object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "ScheduledTask object modified successfully \n";
+
+B<#Remove a ScheduledTask object>
+
+ #Get the ScheduledTask object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::ScheduledTask",
+     action => "Add"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get ScheduledTask object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get ScheduledTask object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove ScheduledTask object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "ScheduledTask object removed successfully \n";
+
+B<#Cleanup>
+
+ #Get the Network object through the session
+ my @retrieved_objs = $session->get(
+     object  => "Infoblox::DHCP::Network",
+     network => "10.0.0.0/24"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Network object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Network object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove Network object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "Network object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 SCHEDULED DATE AND TIME FORMAT
+
+Scheduled date and time are represented in ISO 8601 extended format (e.g., 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) with some restrictions:
+
+=over
+
+=item *
+
+Maximal value for year field is 2037.
+
+=back
+
+When the scheduling parameter is used, changes to objects do not occur immediately. Instead, the L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask> object is created, and then executed at the time specified in this parameter.
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask>, L<Infoblox::Grid::ScheduledTask::ChangedObject|Infoblox::Grid::ScheduledTask::ChangedObject>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

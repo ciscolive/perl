@@ -1,0 +1,61 @@
+{
+   "abstract" : "Parse mime-types, match against media ranges",
+   "author" : [
+      "Aristotle Pagaltzis <pagaltzis@gmx.de>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Parse-MIME",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {}
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Exporter" : "0",
+            "perl" : "5.006"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "JSON::PP" : "0",
+            "Test::More" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/ap/Parse-MIME/issues"
+      },
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/ap/Parse-MIME.git",
+         "web" : "https://github.com/ap/Parse-MIME"
+      }
+   },
+   "version" : "1.005",
+   "x_copyright" : {
+      "holder" : "Aristotle Pagaltzis",
+      "year" : 2018
+   },
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

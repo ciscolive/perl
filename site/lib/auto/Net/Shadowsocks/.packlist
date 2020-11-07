@@ -1,0 +1,10 @@
+/opt/perl/site/bin/ssclient.pl
+/opt/perl/site/bin/ssserver.pl
+/opt/perl/site/lib/Net/Shadowsocks.pm
+/opt/perl/site/lib/Net/Shadowsocks/Client.pm
+/opt/perl/site/lib/Net/Shadowsocks/Server.pm
+/opt/perl/site/man/man1/ssclient.pl.1
+/opt/perl/site/man/man1/ssserver.pl.1
+/opt/perl/site/man/man3/Net::Shadowsocks.3
+/opt/perl/site/man/man3/Net::Shadowsocks::Client.3
+/opt/perl/site/man/man3/Net::Shadowsocks::Server.3

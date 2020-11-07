@@ -1,0 +1,8 @@
+/opt/perl/site/lib/MaxMind/DB/Common.pm
+/opt/perl/site/lib/MaxMind/DB/Metadata.pm
+/opt/perl/site/lib/MaxMind/DB/Role/Debugs.pm
+/opt/perl/site/lib/MaxMind/DB/Types.pm
+/opt/perl/site/lib/Test/MaxMind/DB/Common/Data.pm
+/opt/perl/site/lib/Test/MaxMind/DB/Common/Util.pm
+/opt/perl/site/man/man3/MaxMind::DB::Common.3
+/opt/perl/site/man/man3/MaxMind::DB::Metadata.3

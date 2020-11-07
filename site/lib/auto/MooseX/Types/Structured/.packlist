@@ -1,0 +1,14 @@
+/opt/perl/site/lib/MooseX/Meta/TypeCoercion/Structured.pm
+/opt/perl/site/lib/MooseX/Meta/TypeCoercion/Structured/Optional.pm
+/opt/perl/site/lib/MooseX/Meta/TypeConstraint/Structured.pm
+/opt/perl/site/lib/MooseX/Meta/TypeConstraint/Structured/Optional.pm
+/opt/perl/site/lib/MooseX/Types/Structured.pm
+/opt/perl/site/lib/MooseX/Types/Structured/MessageStack.pm
+/opt/perl/site/lib/MooseX/Types/Structured/OverflowHandler.pm
+/opt/perl/site/man/man3/MooseX::Meta::TypeCoercion::Structured.3
+/opt/perl/site/man/man3/MooseX::Meta::TypeCoercion::Structured::Optional.3
+/opt/perl/site/man/man3/MooseX::Meta::TypeConstraint::Structured.3
+/opt/perl/site/man/man3/MooseX::Meta::TypeConstraint::Structured::Optional.3
+/opt/perl/site/man/man3/MooseX::Types::Structured.3
+/opt/perl/site/man/man3/MooseX::Types::Structured::MessageStack.3
+/opt/perl/site/man/man3/MooseX::Types::Structured::OverflowHandler.3

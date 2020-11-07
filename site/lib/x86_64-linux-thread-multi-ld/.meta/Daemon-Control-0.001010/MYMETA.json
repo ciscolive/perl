@@ -1,0 +1,57 @@
+{
+   "abstract" : "Create init scripts in Perl",
+   "author" : [
+      "Kaitlyn Parkhurst (SymKat) I<<symkat@symkat.com>> ( Blog: L<http://symkat.com/> )"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Install version 1.19, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Daemon-Control",
+   "no_index" : {
+      "directory" : [
+         "inc",
+         "t"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.59",
+            "File::Temp" : "0.14",
+            "Test::More" : "0.88"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Cwd" : "0",
+            "File::Path" : "2.08",
+            "File::Spec" : "0",
+            "POSIX" : "0",
+            "perl" : "5.008001"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "http://github.com/symkat/Daemon-Control/issues"
+      },
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ],
+      "x_IRC" : "irc://irc.freenode.org/#perl-daemon-control"
+   },
+   "version" : "0.001010",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

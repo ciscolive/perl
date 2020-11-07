@@ -1,0 +1,92 @@
+=head1 NAME
+
+Infoblox::Grid::ServiceRestart::Group::Order - A Grid Service Restart Group Order object.
+
+=head1 DESCRIPTION
+
+The Grid Service Restart Group Order object controls the restart order of the Service Restart Group for a particular service ('DHCP' or 'DNS'). To specify a restart order, gather all the groups you want to restart for a particular service and then place the Restart Service Groups in the desired order.
+
+Note that the default groups should be placed at the end of the list.
+
+=head1 CONSTRUCTOR
+
+ my $group_order = Infoblox::Grid::ServiceRestart::Group::Order->new(
+     groups => [$group1, $group2, ..., $default_group], #Required
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a Grid Service Restart Group object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $svcrst_group_order = Infoblox::Grid::ServiceRestart::Group::Order->new(
+    groups => [$group1, $group2, $default_group],
+ );
+
+ #Submit for addition
+ my $response = $session->add($svcrst_group_order);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 groups( )
+
+=over
+
+Use this method to set or retrieve the ordered list for Grid Service Restart Groups.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::ServiceRestart::Group|Infoblox::Grid::ServiceRestart::Group> objects.
+
+Note that all groups for the specified service ('DHCP' or 'DNS') are required. Default groups should be placed at the end of the list.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get groups
+ my $groups = $svcrst_gr_order->groups();
+ #Modify groups
+ $svcrst_gr_order->groups([$group1, $group2, $group3]);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Grid::ServiceRestart::Group|Infoblox::Grid::ServiceRestart::Group>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

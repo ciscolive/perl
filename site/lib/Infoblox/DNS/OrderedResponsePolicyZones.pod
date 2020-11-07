@@ -1,0 +1,293 @@
+=head1 NAME
+
+Infoblox::DNS::OrderedResponsePolicyZones - Ordered Response Policy Zones object.
+
+=head1 DESCRIPTION
+
+An object type to set or retrieve an ordered list of Response Policy Zones in a DNS view.
+
+Server will reject zones that are disabled or zones without primary name server assigned.
+
+=head1 CONSTRUCTOR
+
+ my $ordered_rpz = Infoblox::DNS::OrderedResponsePolicyZones->new(
+                       view                   => $view,                                                 #Required
+                       rp_zones               => [$response_policy_zone1, $response_policy_zone2, ...], #Required
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to an Ordered Response Policy Zones object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+No object is added in this method, but the Response Policy Zones for the specified DNS View assume the specified order.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $ordered_rpz = Infoblox::DNS::OrderedResponsePolicyZones->new(
+                                                         view => $view,
+                                                         rp_zones  => [$response_policy_zone1, $response_policy_zone2]
+                                                        );
+ #Submit for addition
+ my $response = $session->add( $ordered_rpz );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Response Policy Zones object:
+
+ view - Required. An Infoblox::DNS::View object.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object   => "Infoblox::DNS::OrderedResponsePolicyZones",
+     view  => $view
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+No object is modified in this method, but the Response Policy Zones for the specified DNS View assume the specified order.
+
+=over
+
+=item B<Example>
+
+ #Use this method to modify the order of Response Policy Zones.
+ $ordered_rpz->rp_zones([$rpz4, $rpz2, $rpz3, $rpz1]);
+ #Submit modification
+ my $response = $session->modify( $ordered_rpz );
+
+=back
+
+=back
+
+=head1 METHODS
+
+Use the following methods to access the attributes of an Infoblox::DNS::OrderedResponsePolicyZones object. Specify a parameter to set the attribute's value, or omit the parameter to get the attribute's value.
+
+=head2 view( )
+
+=over
+
+Use this method to set or retrieve the DNS View object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::DNS::View|Infoblox::DNS::View> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting view
+   my $view = $ordered_rpz->view();
+   #Modifying view
+   $ordered_rpz->view($view1);
+
+=back
+
+=back
+
+=head2 rp_zones( )
+
+=over
+
+Use this method to set or retrieve an ordered list of Response Policy Zones object references.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An array reference of defined L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting zones list reference
+   my $zone_list_ref = $ordered_rpz->rp_zones();
+   #Getting zones list
+   my @zone_list = @{$oz->rp_zones()};
+   #Get Zone from list
+   my $zone = $zone_list[0];
+   #Modifying zones
+   $ordered_rpz->rp_zones([$rpz1, $rpz2, @rpz3]);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to the Response Policy Zone reordering>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $host_ip =  "192.168.1.2";
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+     );
+ unless($session){
+         die("Constructor for session failed: ",
+                Infoblox::status_code(). ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully.\n";
+
+ my $memberns1 = Infoblox::DNS::Member->new(
+    name     => $host_name,
+    ipv4addr => $node_ip,
+ );
+
+ my $rpz_zone = Infoblox::DNS::Zone->new (
+    name     => 'rpz.com',
+    comment  => "this is a demo zone 1",
+    disable  => "false",
+    rpz_policy => "GIVEN",
+    primary => $memberns1,
+ );
+
+ $session->add($rpz_zone)
+    or die("Add zone failed: ",
+               $session->status_code(). ":" .$session->status_detail());
+
+ print"Response policy zone added successfully.\n";
+
+ $rpz_zone = Infoblox::DNS::Zone->new (
+    name     => 'rpz1.com',
+    comment  => "this is a demo zone 2",
+    disable  => "false",
+    rpz_policy => "GIVEN",
+    primary => $memberns1,
+ );
+
+ $session->add($rpz_zone)
+    or die("Add zone failed: ",
+               $session->status_code(). ":" .$session->status_detail());
+
+ print"Response policy zone added successfully.\n";
+
+ $rpz_zone = Infoblox::DNS::Zone->new (
+    name     => 'rpz2.com',
+    comment  => "this is a demo zone 3",
+    disable  => "false",
+    rpz_policy => "GIVEN",
+    primary => $memberns1,
+ );
+
+ $session->add($rpz_zone)
+    or die("Add zone failed: ",
+               $session->status_code(). ":" .$session->status_detail());
+
+ print"Response policy zone added successfully.\n";
+
+B<#Get the current Response Policy Zones order.>
+
+ my $orpz = $session->get(
+     object  => "Infoblox::DNS::OrderedResponsePolicyZones",
+     view => "default",
+ );
+
+ unless($orpz){
+       die("Get Response Policy Zones failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+       }
+
+ print "Get Response Policy Zones object found at least 1 matching entry\n";
+
+ my ($z1, $z2, $z3) = @{$orpz->rp_zones()};
+
+ print "The current order of the Response Policy Zones is : " . $z1->comment() . "," .
+               $z2->comment() . "," . $z3->comment() . "\n";
+
+B<#Modify the Response Policy Zones order.>
+
+ $orpz->rp_zones([$z3, $z2, $z1]);
+
+ #Apply the change
+ $session->modify($orpz)
+      or die("Modify Response Policy Zones failed: ",
+               $session->status_code(). ":" .$session->status_detail());
+
+ print "Response Policy Zones modified successfully.\n";
+
+ $orpz = $session->get(
+    object  => "Infoblox::DNS::OrderedResponsePolicyZones",
+    view => "default",
+ );
+
+ unless($orpz){
+      die("Get Response Policy Zones failed: ",
+               $session->status_code() . ":" . $session->status_detail());
+      }
+
+ print "Get Response Policy Zones object found at least 1 matching entry\n";
+
+ ($z1, $z2, $z3) = @{$orpz->rp_zones()};
+
+ print "The current order of the Response Policy Zones is : " . $z1->comment() . "," .
+               $z2->comment() . "," . $z3->comment() . "\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

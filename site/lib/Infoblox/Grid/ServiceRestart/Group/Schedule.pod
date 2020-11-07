@@ -1,0 +1,179 @@
+=head1 NAME
+
+Infoblox::Grid::ServiceRestart::Group::Schedule - A Grid Service Restart Group Schedule object.
+
+=head1 DESCRIPTION
+
+The Grid Service Restart Group Schedule object provides information about restart service schedule settings for Service Restart Group.
+
+=head1 CONSTRUCTOR
+
+ my $svcrst_schedule = Infoblox::Grid::ServiceRestart::Group::Schedule->new(
+    schedule => $schedule,                                 # Required
+    services => $array_of_services,                        # Optional / Default is ['ALL']
+    mode     => 'GROUPED' | 'SEQUENTIAL' | 'SIMULTANEOUS', # Optional / Default is 'GROUPED'
+    force    => 'true' | 'false',                          # Optional / Default is 'false'
+ );
+
+=head1 MODULE METHODS
+
+=head2 Infoblox::Grid::ServiceRestart::Group->recurring_schedule( )
+
+=over
+
+Use this method to set or retrieve the Grid Service Restart Group Schedule. See L<Infoblox::Grid::ServiceRestart::Group-E<gt>recurring_schedule()|Infoblox::Grid::ServiceRestart::Group/recurring_schedule()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get recurring_schedule
+ my $recurring_schedule = $svcrst_group->recurring_schedule();
+ #Modify recurring_schedule
+ $svcrst_group->recurring_schedule($sched);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 services( )
+
+=over
+
+Use this method to set or retrieve the list of services for a scheduled restart for a particular Grid Service Restart Group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array which contains following values: 'ALL', 'DNS', 'DHCP', 'DHCPV4', 'DHCPV6'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get services
+ my $services = $svcrst_schedule->services();
+ #Modify services
+ $svcrst_schedule->services('DHCP');
+
+=back
+
+=back
+
+=head2 mode( )
+
+=over
+
+Use this method to set or retrieve the service restart mode for a scheduled restart for a particular Grid Service Restart Group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'GROUPED', 'SEQUENTIAL' and 'SIMULTANEOUS'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mode
+ my $mode = $svcrst_schedule->mode();
+ #Modify mode
+ $svcrst_schedule->mode('SEQUENTIAL');
+
+=back
+
+=back
+
+=head2 force( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether a forced scheduled restart will be performed for a particular Grid Service Restart Group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set the flag, and 'false' to unset/deactivate it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get force
+ my $force = $svcrst_schedule->force();
+ #Modify force
+ $svcrst_schedule->force('true');
+
+=back
+
+=back
+
+=head2 schedule( )
+
+=over
+
+Use this method to set or retrieve the schedule settings for a particular Grid Service Restart Group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get schedule
+ my $schedule = $svcrst_schedule->schedule();
+ #Modify schedule
+ $svcrst_schedule->schedule($sched);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ServiceRestart::Group|Infoblox::Grid::ServiceRestart::Group>, L<Infoblox::Grid::ServiceRestart::Group-E<gt>recurring_schedule()|Infoblox::Grid::ServiceRestart::Group/recurring_schedule()>, L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,1458 @@
+=head1 NAME
+
+Infoblox::DHCP::SharedNetwork - DHCP Shared Network object
+
+=head1 DESCRIPTION
+
+You can create a shared network when two subnets share a particular network segment. Before creating a shared
+network, you must first create the subnetworks. For example, you must first create the networks 10.32.1.0 and
+10.30.0.0 before designating them as a shared network.
+
+=head1 CONSTRUCTOR
+
+  my $sharednetwork = Infoblox::DHCP::SharedNetwork->new(
+                  name                             => $string,                          #Required
+                  networks                         => [ $Network1,$Network2,...],       #Required
+                  authority                        => "true" | "false" | undef,         #Optional / Default is undefined
+                  bootfile                         => $filename | undef,                #Optional / Default is undefined
+                  bootserver                       => $ipv4addr | $fqdn | undef,                    #Optional / Default is undefined
+                  comment                          => $string | undef,                  #Optional / Default is undefined
+                  ddns_generate_hostname           => "true" | "false" | undef,         #Optional / Default is undefined
+                  ddns_server_always_updates       => "true" | "false",                 #Optional / Default is "true"
+                  ddns_update_fixed_addresses      => "true" | "false" | undef,         #Optional / Default is undefined
+                  ddns_ttl                         => $num,                             #Optional / Default is zero
+                  ddns_use_option81                => "true" | "false" | undef,         #Optional / Default is undefined
+                  deny_bootp                       => "true" | "false" | undef,         #Optional / Default is undefined
+                  disable                          => "true" | "false",                 #Optional / Default is "false"
+                  enable_ddns                      => "true" | "false" | undef,         #Optional / Default is undefined
+                  extattrs                         => { $string => $extattr, ... },     #Optional / Default is undefined
+                  extensible_attributes            => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+                  ignore_dhcp_option_list_request  => "true" | "false" | undef,         #Optional / Default is "false"
+                  ignore_id                        => 'NONE' | 'CLIENT' | 'MACADDR',    #Optional / Default is 'NONE'
+                  ignore_mac_addresses             => [ "mac_addr", ... ] | undef       #Optional / Default is undefined
+                  lease_scavenge_time              => $number,                          #Optional / Default is -1
+                  network_view                     => $NetworkView,                     #Optional / Default is "default" network view
+                  nextserver                       => $ipv4addr | $fqdn | undef,                    #Optional / Default is undefined
+                  options                          => [$Option1,$Option2,...],          #Optional / Default is empty list
+                  override_ddns_ttl                => "true" | "false",                 #Optional / Default value is "false"
+                  override_lease_scavenge_time     => "true" | "false",                 #Optional / Default value is "false"
+                  override_update_dns_on_lease_renewal  => "true" | "false",            #Optional / Default value is "false"
+                  override_ignore_id               => "true" | "false",                 #Optional / Default value is "false"
+                  pxe_lease_time                   => $num | undef,                     #Optional / Default is undefined
+                  update_dns_on_lease_renewal      => "true" | "false",                 #Optional / Default value is "false"
+                  logic_filters                    => [ $filter_name | $filter_obj, ...], # Optional / Default is undefined
+                  override_logic_filters           => "true' | 'false",                   # Optional / Default value is "false"
+               );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DHCP shared network object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a shared network object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object for network
+ my $network1 = Infoblox::DHCP::Network->new(
+        network => "20.0.0.0/8",
+ );
+
+ #Construct an object shared network
+   my $sharednetwork = Infoblox::DHCP::SharedNetwork->new(
+        name     => "myname",
+        networks => [$network1],
+ );
+
+ # Submit for adding sharednetwork
+ my $response = $session->add( $sharednetwork );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching shared network objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP shared network object:
+
+  name          - Required.    The name of the shared network in string format.
+  network       - Optional.    The network with which the shared network associated.
+  network_view  - Optional.    The network view in which the shared network is located. By default, all network views are searched.
+  extattrs      - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+  my  @result_array = $session->get(
+       object       => "Infoblox::DHCP::SharedNetwork" ,
+       name         => "myname",
+       network_view => "default"
+  );
+
+  my  @result_array = $session->get(
+       object       => "Infoblox::DHCP::SharedNetwork" ,
+       network      => "1.0.0.0/24",
+       network_view => "default"
+  );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a shared network object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify enable_ddns method.
+ $object->enable_ddns("true");
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a shared network object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my  @result_array = $session->get(
+       object       => "Infoblox::DHCP::SharedNetwork" ,
+       name         => "myname",
+       network_view => "default"
+  );
+
+ # find the desired object from retrieved list.
+ my $desired_network = $result_array[0];
+
+ # Submit for removal
+ my $response = $session->remove( $desired_network );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP shared network object in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DHCP shared network object:
+
+  name          - Required. The name of the shared network in string format (regular expression).
+  network       - Optional. The network with which the shared network associated.
+  network_view  - Optional. The network view in which the shared network is located. By default, all network views are searched.
+  extattrs      - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DHCP shared network objects in the "default" network view
+     my @retrieved_objs = $session->search(
+       object    => "Infoblox::DHCP::SharedNetwork",
+       name      => "my.*",
+       network_view => "default"
+     );
+
+ # search all Shared Networks Templates with a given extensible attribute 'Site'
+     my @retrieved_objs = $session->search(
+       object => "Infoblox::DHCP::SharedNetwork",
+       extensible_attributes => { 'Site' => 'Santa Clara' }
+     );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of DHCP a shared network object
+
+=head2 authority( )
+
+=over
+
+Use this method to set or retrieve the authority flag of a shared network object. This setting overrides the member-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the authority flag or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute is inherited from the member-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get authority
+ my $authority = $sharednetwork->authority()
+ # Modify authority
+ $sharednetwork->authority("true");
+
+=back
+
+=back
+
+=head2  bootfile( )
+
+=over
+
+Use this method to set or retrieve a bootfile attribute of a shared network object. You can configure the DHCP server to support clients that use the boot file name option in their DHCPREQUEST messages. This setting overrides the member-level settings.
+The default value is undefined, which indicates that this attribute is inherited from the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::SharedNetwork-E<gt>bootserver()|Infoblox::DHCP::SharedNetwork/bootserver()/> and L<Infoblox::DHCP::SharedNetwork-E<gt>nextserver()|Infoblox::DHCP::SharedNetwork/nextserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The name of the file that the client must download. The file name must be in string format and can have a maximum of 128 characters. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get bootfile
+ my $bootfile = $sharednetwork->bootfile();
+ # Modify bootfile
+ $sharednetwork->bootfile("bootfile1");
+ #Un-override bootfile
+ $sharednetwork->bootfile(undef);
+
+=back
+
+=back
+
+=head2  bootserver( )
+
+=over
+
+Use this method to set or retrieve the bootserver attribute of a shared network object. You can specify the name and/or IP address of the boot server that the host must access in order to boot. This setting overrides the member-level settings.
+The default value is undefined, which indicates that this attribute is inherited from the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::SharedNetwork-E<gt>bootfile()|Infoblox::DHCP::SharedNetwork/bootfile()/> and L<Infoblox::DHCP::SharedNetwork-E<gt>nextserver()|Infoblox::DHCP::SharedNetwork/nextserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The boot server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A boot server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get bootserver
+ my $bootserver = $sharednetwork->bootserver();
+ # Modify bootserver
+ $sharednetwork->bootserver("abc.domain.com");
+ #Un-override bootserver
+ $sharednetwork->bootserver(undef);
+
+=back
+
+=back
+
+=head2  comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment for a shared network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for the network in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get comment
+ my $comment = $sharednetwork->comment();
+ # Modify comment
+ $sharednetwork->comment("add a shared network");
+
+=back
+
+=back
+
+=head2 ddns_generate_hostname( )
+
+=over
+
+Use this method to set or retrieve the ddns_generate_hostname flag of a shared network object. Enable this method to allow only the DHCP server to generate host name. This setting overrides the member-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to generate the host name or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute is inherited from the member-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_generate_hostname
+ my $ddns_generate_hostname = $sharednetwork->ddns_generate_hostname()
+ # Modify ddns_generate_hostname
+ $sharednetwork->ddns_generate_hostname("true");
+ #Un-override
+ $sharednetwork->ddns_generate_hostname(undef);
+
+=back
+
+=back
+
+=head2 ddns_server_always_updates( )
+
+=over
+
+Use this method to set or retrieve the ddns_server_always_updates flag of a shared network object. Enable this method to allow only the DHCP server to update DNS,regardless of the requests from the DHCP clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to allow only the DHCP server to update DNS or "false" to deactivate/unset it. The default value for this field is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_server_always_updates
+ my $ddns_server_always_updates = $sharednetwork->ddns_server_always_updates()
+ # Modify ddns_server_always_updates
+ $sharednetwork->ddns_server_always_updates("true");
+
+=back
+
+=back
+
+=head2 ddns_update_fixed_addresses( )
+
+=over
+
+Use this method to set or retrieve the ddns_update_fixed_addresses flag of a shared network object. By default, the DHCP server does not update DNS when it allocates a fixed address to a client. You can configure the DHCP server to update the A and PTR record of clients with fixed addresses. When you enable this feature and the DHCP server adds A and PTR records for a fixed address, the DHCP server never discards the records. This setting overrides the member-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to update DNS when the device allocates a fixed address to a client or "false" to deactivate/unset it. The default value for this field is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_update_fixed_addresses
+ my $ddns_update_fixed_addresses= $sharednetwork->ddns_update_fixed_addresses()
+ # Modify ddns_update_fixed_addresses
+ $sharednetwork->ddns_update_fixed_addresses("true");
+ #Un-override
+ $sharednetwork->ddns_update_fixed_addresses(undef);
+
+=back
+
+=back
+
+=head2 ddns_ttl( )
+
+=over
+
+Use this method to set or retrieve the DNS update Time to Live (TTL) value of a shared network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_ttl method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_ddns_ttl attribute to "false".
+
+Note that when ddns_ttl is set to a defined value and override_dddns_ttl is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_ttl(12); $object->override_ddns_ttl("false"); will set override_ddns_ttl to "false", and the sequence $object->override_ddns_ttl("false"); $object->ddns_ttl(12); will result in override_ddns_ttl="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration,in seconds, that the update is cached. Zero indicates that the update should not be cached. The default value is zero.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get DNS Update ttl
+ my $dns_ttl = $sharednetwork->ddns_ttl();
+ #Modify DNS Update ttl
+ $sharednetwork->ddns_ttl(1200);
+
+=back
+
+=back
+
+=head2 ddns_use_option81( )
+
+=over
+
+Use this method to set or retrieve the ddns_use_option81 flag of a shared network object. Set this flag to define the settings for option 81 at the network level. This setting overrides the member-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to configure support for option 81 or "false" to deactivate/unset it. The default value for this field is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_use_option81
+ my $ddns_use_option81 = $sharednetwork->ddns_use_option81()
+ # Modify ddns_use_option81
+ $sharednetwork->ddns_use_option81("true");
+ # un-override ddns_use_option81
+ $sharednetwork->ddns_use_option81(undef);
+
+=back
+
+=back
+
+=head2 deny_bootp( )
+
+=over
+
+Use this method to set or retrieve the deny_bootp flag of a DHCP Shared Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the deny_bootp flag or "false" to deactivate/unset it. The default value is undefined, which indicates that this attribute is inherited from the member-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get deny_bootp
+ my $deny_bootp = $sharednetwork->deny_bootp();
+ #Modify deny_bootp
+ $sharednetwork->deny_bootp("true");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a shared network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag and disable the shared network or "false" to unset the flag and enable the shared network. The default value for this field is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get disable
+ my $disable = $sharednetwork->disable()
+ # Modify disable
+ $sharednetwork->disable("true");
+
+=back
+
+=back
+
+=head2 enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the dynamic DNS updates flag of a DHCP shared network object. The DHCP server can send DDNS updates to DNS servers in the same grid and to external DNS servers. This setting overrides the member-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the dynamic DNS updates flag or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute is inherited from the member-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable_ddns
+ my $enable_ddns = $sharednetwork->enable_ddns()
+ # Modify enable_ddns
+ $sharednetwork->enable_ddns("true");
+ # Un-override enable_ddns
+ $sharednetwork->enable_ddns(undef);
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Shared Network object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $sharednetwork->extattrs();
+ #Modify extattrs
+ $sharednetwork->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Shared Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $shared_network->extensible_attributes();
+ #Modify extensible attributes
+ $shared_network->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 ignore_id( )
+
+=over
+
+Use this method to set or retrieve the ignore_id type of a DHCP shared network object. Indicates whether the appliance will ignore DHCP client IDs or MAC addresses. This setting overrides the upper-level settings.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE', 'CLIENT', or 'MACADDR'. The default is 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ $value = $shared_network->ignore_id();
+ # Modify attribute value
+ $shared_network->ignore_id('CLIENT');
+ #Un-override ignore_id
+ $shared_network->ignore_id(undef);
+
+=back
+
+=back
+
+=head2 ignore_mac_addresses( )
+
+=over
+
+Use this method to set or retrieve the ignore_mac_addresses list of a DHCP shared network object. A list of MAC addresses the appliance will ignore. This setting overrides the upper-level settings.
+
+If you enter MAC addresses in the ignore_mac_addresses, then the appliance will ignore them. If you enter empty array, then the appliance will ignore any MAC address.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains string objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ $value = $shared_network->ignore_mac_addresses();
+ # Modify attribute value
+ $shared_network->ignore_mac_addresses(["11::11::11::11::11::11"]);
+
+=back
+
+=back
+
+=head2 ignore_dhcp_option_list_request( )
+
+=over
+
+Use this method to set or retrieve the ignore_dhcp_option_list_request flag of a DHCP shared network object. If this flag is set to true all the defined DHCP options will be returned to the client. This setting overrides the member level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the  ignore_dhcp_option_list_request flag or "false" to deactivate/unset it. The default value is false which indicates that this attribute inherit the member level setting..
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ignore_dhcp_option_list_request
+ my $ignore_dhcp_option_list_request = $sharednetwork->ignore_dhcp_option_list_request();
+ # Un-override ignore_dhcp_option_list_request
+ $sharednetwork->ignore_dhcp_option_list_request(undef);
+ # Modify ignore_dhcp_option_list_request
+ $sharednetwork->ignore_dhcp_option_list_request("true");
+
+=back
+
+=back
+
+=head2 lease_scavenge_time( )
+
+=over
+
+Use this method to set or retrieve the lease_scavenge_time value of a Shared Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_lease_scavenge_time method to "true". Setting the parameter to undefined causes the appliance to use the default from the upper level and automatically resets the override_lease_scavenge_time attribute to "false".
+
+Note that when lease_scavenge_time is set to a defined value and override_lease_scavenge_time is set to "false", the last operation takes precedence. Thus the sequence $object->lease_scavenge_time(604800); $object->override_lease_scavenge_time("false"); will set override_lease_scavenge_time to "false", and the sequence $object->override_lease_scavenge_time("false"); $object->lease_scavenge_time(604800); will result in override_lease_scavenge_time="true".
+
+=over
+
+=item B<Parameter>
+
+An integer that specifies the period of time, in seconds, that free and backup leases remain in the database before they are automatically deleted. To disable lease scavenging, set the parameter to -1. The minimum positive value must be greater than 86400 seconds (1 day). The default value of this parameter is -1, which means that lease scavenging is disabled.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lease_scavenge_time
+ my $lease_scavenge = $sharednetwork->lease_scavenge_time();
+ #Modify lease_scavenge_time
+ $sharednetwork->lease_scavenge_time(30 * 24 * 60 * 60);
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $sharednetwork->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 logic_filters( )
+
+=over
+
+Use this method to set or retrieve all the logic (ordered) filters associated with the DHCP Shared Network.
+
+Filters are used to screen address assignments in a DHCP Shared Network if the addresses are to be assigned to specific hosts.
+
+Setting this method to a defined value implicitly sets the override_logic_filters method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_logic_filters attribute to "false".
+
+Note that when logic_filters is set to a defined value and override_dlogic_filters is set to "false", the last operation takes precedence. Thus the sequence $object->logic_filters($filters); $object->override_logic_filters("false"); will set override_logic_filters to "false", and the sequence $object->override_logic_filters("false"); $object->logic_filters($filters); will result in override_logic_filters="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains either the L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC>, L<Infoblox::DHCP::Filter::NAC|Infoblox::DHCP::Filter::NAC>, L<Infoblox::DHCP::Filter::Option|Infoblox::DHCP::Filter::Option> objects or the names of the corresponding filters. The filters in the list must satisfy the following conditions:
+
+=over
+
+=item Filter name must be globally unique.
+
+=item Filters without expressions must be at the end of the list.
+
+=item The filters should not be disabled.
+
+=back
+
+The default value of the parameter is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get logic_filters
+ my $ref_logic_filters = $sharednetwork->logic_filters();
+ #Modify logic_filters
+ $sharednetwork->logic_filters(["filter_1","filter_2",$exl1]); #$exl1 is an Infoblox::DHCP::Filter::MAC, Infoblox::DHCP::Filter::NAC or Infoblox::DHCP::Filter::Option object.
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of a shared network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the shared network in string format. A name can have a maximum of 32 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $sharednetwork = $sharednetwork->name();
+
+=back
+
+=back
+
+=head2 networks( )
+
+=over
+
+Use this method to retrieve the DHCP networks attribute of a shared network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ my $network1 = Infoblox::DHCP::Network->new(
+                                        "network" => "20.0.0.0/8",
+                                );
+ my $network2 = Infoblox::DHCP::Network->new(
+                                        "network" => "30.0.0.0/8",
+                                );
+
+ #Get networks
+ my $sharednetwork = $sharednetwork->networks();
+ #Modify networks
+ my $sharednetwork = $sharednetwork->networks([$network1, $network2]);
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of the DHCP shared network.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" network view, which means the DHCP shared network is in the default network view.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a defined L<Infoblox::DHCP::View|Infoblox::DHCP::View> object. The default network view value is the system-defined default network view object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $sharednetwork->network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $sharednetwork->network_view($nview);
+
+=back
+
+=back
+
+=head2  nextserver( )
+
+=over
+
+Use this method to set or retrieve the nextserver attribute of a shared network object. You can specify the name and/or IP address of the next server that the host needs to access in order to boot. This setting overrides the member-level settings.
+The default value is undefined which indicates that this attribute is inherited from the member-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::SharedNetwork-E<gt>bootfile()|Infoblox::DHCP::SharedNetwork/bootfile()/> and L<Infoblox::DHCP::SharedNetwork-E<gt>bootserver()|Infoblox::DHCP::SharedNetwork/bootserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The next server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A next server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get nextserver
+ my $nextserver = $sharednetwork->nextserver();
+ # Modify nextserver
+ $sharednetwork->nextserver("blue.domain.com");
+ #Un-override nextserver
+ $sharednetwork->nextserver(undef);
+
+=back
+
+=back
+
+=head2  options( )
+
+=over
+
+Use this method to set or retrieve the options value of a member DHCP server. DHCP options provide network configuration
+settings and various services available on the network for DHCP. This setting overrides the member-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get options
+ my $options = $sharednetwork->options();
+ #Modify options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name  => "lease-time",
+     value => 50
+ );
+
+ $sharednetwork->options([$option1]);
+
+=back
+
+=back
+
+=head2 override_ddns_ttl( )
+
+=over
+
+The override_ddns_ttl attribute controls whether the ddns_ttl value in the DHCP shared network object is used, instead of the grid default.
+
+The override_ddns_ttl attribute can be specified explicitly. It is also set implicitly when ddns_ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_ttl. Set the parameter to "false" to inherit the grid-level setting for ddns_ttl.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_ttl
+    my $override_ddns_ttl=$sharednetwork->override_ddns_ttl( );
+    #Modifying override_ddns_ttl
+    $sharednetwork->override_ddns_ttl("true");
+
+=back
+
+=back
+
+=head2 override_ignore_id( )
+
+=over
+
+The override_ignore_id controls whether the ignore_id in the DHCP shared network is used, instead of the upper-level default.
+
+The override_ignore_id can be specified explicitly. It is also set implicitly when ignore_id is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ignore_id and ignore_mac_addresses. Set the parameter to "false" to inherit the upper-level setting for ignore_id and ignore_mac_addresses.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get attrubute value
+    my $value=$sharednetwork->override_ignore_id();
+    #Modifying attribute value
+    $sharednetwork->override_ignore_id('true');
+
+=back
+
+=back
+
+=head2 override_lease_scavenge_time( )
+
+=over
+
+The override_lease_scavenge_time attribute controls whether the lease_scavenge_time value in the shared network is used, instead of the upper-level default.
+
+The override_lease_scavenge_time attribute can be specified explicitly. It is also set implicitly when lease_scavenge_time is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for lease_scavenge_time. Set the parameter to "false" to inherit the setting for lease_scavenge_time from the upper level.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_lease_scavenge_time
+    my $override_lease_scavenge_time=$sharednetwork->override_lease_scavenge_time( );
+    #Modifying override_lease_scavenge_time
+    $sharednetwork->override_lease_scavenge_time("true");
+
+=back
+
+=back
+
+=head2 override_logic_filters( )
+
+=over
+
+The override_logic_filters attribute controls whether the logic_filters value of the DHCP Shared Network is used, instead of the Grid default.
+
+The override_logic_filters attribute can be specified explicitly. It is also set implicitly when logic_filters is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for logic_filters. Set the parameter to "false" to inherit the Grid-level setting for logic_filters.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_logic_filters
+ my $override_logic_filters=$sharednetwork->override_logic_filters( );
+ #Modifying override_logic_filters
+ $sharednetwork->override_logic_filters("true");
+
+=back
+
+=back
+
+=head2 override_update_dns_on_lease_renewal( )
+
+=over
+
+The override_update_dns_on_lease_renewal attribute controls whether the update_dns_on_lease_renewal value in the DHCP shared network object is used, instead of the grid default.
+
+The override_update_dns_on_lease_renewal attribute can be specified explicitly. It is also set implicitly when update_dns_on_lease_renewal is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for update_dns_on_lease_renewal. Set the parameter to "false" to inherit the grid-level setting for update_dns_on_lease_renewal.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_update_dns_on_lease_renewal
+    my $override_update_dns_on_lease_renewal=$sharednetwork->override_update_dns_on_lease_renewal( );
+    #Modifying override_update_dns_on_lease_renewal
+    $sharednetwork->override_update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 pxe_lease_time( )
+
+=over
+
+Use this method to set or retrieve the PXE lease time value of a shared network object. Some hosts use PXE (Preboot Execution Environment) to boot remotely from a server. To better manage your IP resources, set a different lease time for PXE boot requests. You can configure the DHCP server to allocate an IP address with a shorter lease time to hosts that send PXE boot requests, so IP addresses are not leased longer than necessary. This setting overrides the member-level settings.
+The default value is undefined, which indicates that this attribute is inherited from the member-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration, in seconds, that the update is cached. Zero indicates that the update is not cached. The default value is undefined
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get PXE Lease Time
+ my $pxe_lease_time = $sharednetwork->pxe_lease_time();
+ #Modify PXE Lease Time
+ $sharednetwork->pxe_lease_time(1100);
+ #Un-override PXE Lease Time
+ $sharednetwork->pxe_lease_time(undef);
+
+=back
+
+=back
+
+=head2 update_dns_on_lease_renewal( )
+
+=over
+
+The update_dns_on_lease_renewal attribute controls whether the DHCP server updates DNS when a DHCP lease is renewed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_update_dns_on_lease_renewal method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_update_dns_on_lease_renewal attribute to "false".
+
+Note that when update_dns_on_lease_renewal is set to a defined value and override_update_dns_on_lease_renewal is set to "false", the last operation takes precedence. Thus the sequence $object->update_dns_on_lease_renewal("true"); $object->override_update_dns_on_lease_renewal("false"); will set override_update_dns_on_lease_renewal to "false", and the sequence $object->override_update_dns_on_lease_renewal("false"); $object->update_dns_on_lease_renewal("true"); will result in override_update_dns_on_lease_renewal="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the update_dns_on_lease_renewal flag or "false" to deactivate/unset it.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get update_dns_on_lease_renewal
+    my $update_dns_on_lease_renewal=$sharednetwork->update_dns_on_lease_renewal( );
+    #Modify update_dns_on_lease_renewal
+    $sharednetwork->update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DHCP shared network object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DHCP network object>
+
+ my $network1 = Infoblox::DHCP::Network->new(
+                                        "network" => "10.0.0.0/8",
+                                );
+ my $network2 = Infoblox::DHCP::Network->new(
+                                        "network" => "11.0.0.0/8",
+                                );
+
+ my $response = $session->add($network1)
+ or die("Add \"10.0.0.0/8\"Network failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "Network \"10.0.0.0/8\"added successfully\n";
+
+ my $response = $session->add($network2)
+        or die("Add  \"11.0.0.0\"Network failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "Network  \"11.0.0.0/8\",added successfully\n";
+
+B<#Create a DHCP shared network object>
+
+ my $sharednetwork1 = Infoblox::DHCP::SharedNetwork->new(
+                                        "name"                        => "myname",
+                                        "comment"                     => "add shared network",
+                                        "networks"                    => [ $network1 , $network2 ],
+                                        "disable"                     => "false",
+                                        "authority"                   => "true",
+                                        "enable_ddns"                 => "true",
+                                        "ddns_use_option81"           => "true",
+                                        "ddns_generate_hostname"      => "true",
+                                        "ddns_server_always_updates"  => "true",
+                                        "ddns_update_fixed_addresses" => "true",
+                                        "pxe_lease_time"              => "3600",
+                                        "bootserver"                  => "someserver.com",
+                                        "nextserver"                  => "3.3.3.3",
+                                        "bootfile"                    => "bootfile.com",
+
+                                        );
+
+ my $response = $session->add( $sharednetwork1 )
+ or die("Add Shared Network failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "Shared Network added successfully\n";
+
+B<#Search for a specific shared network object>
+
+ #Search the network
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::SharedNetwork",
+     "name"  => "my.*"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search Shared Network failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Shared Network found at least 1 matching entry\n";
+
+B<#Get and modify a shared network attribute>
+
+ #GetShared Network through the session
+ my  @retrieved_objs = $session->get(
+            object =>"Infoblox::DHCP::SharedNetwork" ,
+            "name" => "myname"
+         );
+
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get Shared Network object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Shared Network found at least 1 matching entry\n";
+
+ #Modify attributes of the specified Network
+ $object->disable("true"); #Apply the changes
+ my $res = $session->modify($object) ;
+ if ( !$res)
+ {
+     print "Modify Shared Network attribute failed: ".$session->status_code() . ":" . $session->status_detail();
+ }
+ else {
+ print "Shared Network object modified successfully \n";
+ }
+
+ #Un-override bootfile
+ $object->bootfile(undef);
+
+ #Un-override bootserver
+ $object->bootserver(undef);
+
+ #Un-override nextserver
+ $object->nextserver(undef);
+
+B<#Remove a shared network object>
+
+  #Get Network object through the session
+  my @retrieved_objs = $session->get(
+            object  => "Infoblox::DHCP::SharedNetwork" ,
+            name    => "myname"
+     );
+
+    my $object = $retrieved_objs[0];
+
+    unless ($object) {
+     die("Get Shared Network object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get Shared Network object found at least 1 matching entry\n";
+
+ #Submit the shared network object for removal
+
+ $session->remove($object)
+     or die("Remove Shared Network failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ print "Shared Network removed successfully \n";
+
+ #Submit the network object for removal
+ my $response = $session->remove($network1)
+ or die("Remove \"10.0.0.0/8\"Network failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "Network \"10.0.0.0/8\"remove successfully\n";
+
+ #Submit the network object for removal
+ my $response = $session->remove($network2)
+        or die("Remove  \"11.0.0.0\"Network failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "Network \"11.0.0.0/8\"remove successfully\
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::View|Infoblox::DHCP::View>, L<Infoblox::DHCP::Option|Infoblox::DHCP::Option>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,6 @@
+/opt/perl/site/lib/Digest/HMAC.pm
+/opt/perl/site/lib/Digest/HMAC_MD5.pm
+/opt/perl/site/lib/Digest/HMAC_SHA1.pm
+/opt/perl/site/man/man3/Digest::HMAC.3
+/opt/perl/site/man/man3/Digest::HMAC_MD5.3
+/opt/perl/site/man/man3/Digest::HMAC_SHA1.3

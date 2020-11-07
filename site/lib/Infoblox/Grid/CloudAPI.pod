@@ -1,0 +1,165 @@
+=head1 NAME
+
+Infoblox::Grid::CloudAPI  - Infoblox::Grid::CloudAPI object.
+
+=head1 DESCRIPTION
+
+This object represents the cloud Grid.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a Grid CloudAPI object.
+
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   allow_api_admins   - Optional. The definition of administrators who can perform cloud API requests on the Grid Master. The valid value is NONE, ALL or LIST.
+   allowed_api_admins   - Optional. The list of administrators who can perform cloud API requests on the Cloud Platform Appliance.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::CloudAPI"
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ $cloud_api->allow_api_admins("ALL");
+ $session->modify($cloud_api);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 allow_api_admins( )
+
+=over
+
+Use this method to set or retrieve the definition of administrators who can perform cloud API requests on the Grid Master. The valid value is NONE (no administrator), ALL (all administrators) or LIST (administrators on the ACL).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of the following: NONE, ALL or LIST. The default is ALL.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get allow_api_admins
+ $allow_api_admins = $cloud_api->allow_api_admins();
+ # Modify allow_api_admin
+ $cloud_api->allow_api_admins("ALL");
+
+=back
+
+=back
+
+=head2 allowed_api_admins( )
+
+=over
+
+Use this method to set or retrieve the list of administrators who can perform cloud API requests on the Grid Master.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array containing L<Infoblox::Grid::CloudAPI::User|Infoblox::Grid::CloudAPI::User> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get allowed_api_admins
+ $allowed_api_admins = $cloud_api->allowed_api_admins();
+ # Modify allowed_api_admins
+ $cloud_api->allowed_api_admins([$cloud_user1, $cloud_user2]);
+
+=back
+
+=back
+
+=head2 enable_recycle_bin( )
+
+=over
+
+Use this method to enable or disable the recycle bin for deleted cloud objects on the Grid Master regardless of whether certificate is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable recycle or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable_recycle_bin
+ $enabled_recycle_bins = $cloud_api->enable_recycle_bin();
+ # Modify enable_recycle_bin
+ $cloud_api->enable_recycle_bin("true");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Grid::CloudAPI::User|Infoblox::Grid::CloudAPI::User>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

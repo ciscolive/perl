@@ -1,0 +1,102 @@
+=head1 NAME
+
+Infoblox::Grid::Member::PreProvisioning::Hardware - PreProvisioning hardware info object.
+
+=head1 DESCRIPTION
+
+An Infoblox::Grid::Member::PreProvisioning::Hardware object represents pre-provisioned data for the hardware model.
+
+=head1 CONSTRUCTOR
+
+ my $hw = Infoblox::Grid::Member::PreProvisioning->new(
+     hwtype          => $string,                  # Optional / one of IB-100,IB-810, IB-820, IB-1410, IB-1420, IB-2210, IB-FLEX,
+                                                  # IB-2220, IB-4010, IB-4030, PT-1400, PT-2200, PT-4000, IB-RSP2, IB-VM, IB-VNIOS
+     hwmodel         => $string,                  # Optional / one of:
+                                                  # - for IB-4010 are Rev1, Rev2;
+                                                  # - for IB-4030 are Rev1, Rev2;
+                                                  # - for PT-4000 is Rev2;
+                                                  # - for IB-RSP2 is [TBD];
+                                                  # - for IB-VNIOS are IB-VM-100, IB-VM-810, IB-VM-820, IB-VM-RSP, IB-VM-1410, IB-VM-1420, IB-VM-2210, IB-VM-2220, IB-VM-4010;
+ );
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::Grid::Member::PreProvisioning::Hardware object.
+
+=head2 hwtype( )
+
+=over
+
+Use this method to set or retrieve the hardware type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a valid hardware type string.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get get hwtype()
+ my $hwt = $hw->hwtype();
+ #Modify hwtype
+ $hw->hwtype('PT-4000');
+
+=back
+
+=back
+
+=head2 hwmodel( )
+
+=over
+
+Use this method to set or retrieve the hardware model.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a valid hardware model string.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get get hwmodel()
+ my $hwm = $hw->hwmodel();
+ #Modify hwmodel
+ $hw->hwmodel('Rev2');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>, L<Infoblox::Grid::Member::PreProvisioning|Infoblox::Grid::Member::PreProvisioning>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut
+
+

@@ -1,0 +1,1 @@
+{"dist":"Bundle-CPAN-1.863","pathname":"A/AN/ANDK/Bundle-CPAN-1.863.tar.gz","version":"1.863","target":"Bundle::CPAN","provides":{"Bundle::CPANxxl":{"file":"CPANxxl.pm","version":"0.4"},"Bundle::CPAN":{"file":"CPAN.pm","version":"1.863"}},"name":"Bundle::CPAN"}

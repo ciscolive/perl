@@ -1,0 +1,12 @@
+/opt/perl/site/lib/File/ChangeNotify.pm
+/opt/perl/site/lib/File/ChangeNotify/Event.pm
+/opt/perl/site/lib/File/ChangeNotify/Watcher.pm
+/opt/perl/site/lib/File/ChangeNotify/Watcher/Default.pm
+/opt/perl/site/lib/File/ChangeNotify/Watcher/Inotify.pm
+/opt/perl/site/lib/File/ChangeNotify/Watcher/KQueue.pm
+/opt/perl/site/man/man3/File::ChangeNotify.3
+/opt/perl/site/man/man3/File::ChangeNotify::Event.3
+/opt/perl/site/man/man3/File::ChangeNotify::Watcher.3
+/opt/perl/site/man/man3/File::ChangeNotify::Watcher::Default.3
+/opt/perl/site/man/man3/File::ChangeNotify::Watcher::Inotify.3
+/opt/perl/site/man/man3/File::ChangeNotify::Watcher::KQueue.3

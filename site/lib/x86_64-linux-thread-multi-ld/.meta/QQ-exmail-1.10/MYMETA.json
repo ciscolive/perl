@@ -1,0 +1,81 @@
+{
+   "abstract" : "QQ::exmail - api for 腾讯企业邮箱",
+   "author" : [
+      "yourself <admz@mail.scuec.edu.cn>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.04, CPAN::Meta::Converter version 2.143240, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "QQ-exmail",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "JSON" : "0",
+            "LWP::Protocol::https" : "0",
+            "LWP::UserAgent" : "0"
+         }
+      }
+   },
+   "provides" : {
+      "QQ::exmail" : {
+         "file" : "lib/QQ/exmail.pm",
+         "version" : "1.10"
+      },
+      "QQ::exmail::department" : {
+         "file" : "lib/QQ/exmail/department.pm",
+         "version" : "1.10"
+      },
+      "QQ::exmail::group" : {
+         "file" : "lib/QQ/exmail/group.pm",
+         "version" : "1.10"
+      },
+      "QQ::exmail::log" : {
+         "file" : "lib/QQ/exmail/log.pm",
+         "version" : "1.10"
+      },
+      "QQ::exmail::mail" : {
+         "file" : "lib/QQ/exmail/mail.pm",
+         "version" : "1.10"
+      },
+      "QQ::exmail::service" : {
+         "file" : "lib/QQ/exmail/service.pm",
+         "version" : "1.10"
+      },
+      "QQ::exmail::tag" : {
+         "file" : "lib/QQ/exmail/tag.pm",
+         "version" : "1.10"
+      },
+      "QQ::exmail::user" : {
+         "file" : "lib/QQ/exmail/user.pm",
+         "version" : "1.10"
+      },
+      "QQ::exmail::useroption" : {
+         "file" : "lib/QQ/exmail/useroption.pm",
+         "version" : "1.10"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "1.10",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

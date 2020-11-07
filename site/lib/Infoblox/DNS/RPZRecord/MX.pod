@@ -1,0 +1,688 @@
+=head1 NAME
+
+Infoblox::DNS::RPZRecord::MX - Response Policy Zone (RPZ) Substitute (MX Record) Rule object
+
+=head1 DESCRIPTION
+
+An RPZ Substitute (MX Record) Rule maps a domain name to a mail exchanger. A mail exchanger is a server that either delivers or forwards mail.
+
+This record represents the substitution rule for DNS MX records.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $mx = Infoblox::DNS::RPZRecord::MX->new(
+     exchanger => $fqdn,                                                                         #Required
+     name      => $fqdn,                                                                         #Required
+     pref      => $num,                                                                          #Required
+     rp_zone   => $rp_zone,                                                                      #Required
+     comment   => $string,                                                                       #Optional / Default is empty
+     disable   => "true" | "false",                                                              #Optional / Default "false"
+     extattrs              => { $string => $extattr, ... },      #Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, #Optional / Default is undefined
+     ttl       => $num | undef,                                                                  #Optional / Default is undefined
+     views     => [$View1]                                                                       #Optional / Default is "default" view
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to an Substitute (MX Record) Rule object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $rpzmx = Infoblox::DNS::RPZRecord::MX->new(
+     name      => "bind_mx.rpz.com",
+     comment   => "add mx bind_mx.rpz.com",
+     pref      => 1,
+     exchanger => "exchanger.rpz.com",
+     rp_zone   => $response_policy_zone,
+ );
+ # Submit for addition
+ my $response = $session->add( $rpzmx );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Substitute (MX Record) Rule object:
+
+  name      - Optional.  A domain name in string format
+  view      - Optional.  The DNS view in which the Substitute (MX Record) Rule is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone      - Optional. A zone name in FQDN format.
+  exchanger - Optional. The exchanger of the Substitute (MX Record) Rule.
+  pref      - Optional. The Preference of the Substitute (MX Record) Rule.
+  extattrs  - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+  my @retrieved_objs = $session->get(
+     object    => "Infoblox::DNS::RPZRecord::MX",
+     name      => "bind_mx.rpz.com",
+     view      => "default" );
+
+  # get all Substitute (MX Record) Rules in the "rpz.com" zone of the default view
+  my @retrieved_objs = $session->get(
+     object    => "Infoblox::DNS::RPZRecord::MX",
+     zone      => "rpz.com",
+     view      => "default" );
+
+ # get all Substitute (MX Record) Rules with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::MX",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $rpzmx->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $rpzmx );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my @retrieved_objs = $session->get(
+     name      => "bind_mx.rpz.com",
+     comment   => "add mx bind_mx.rpz.com",
+     pref      => 1,
+     exchanger => "exchanger.rpz.com",
+     view      => "default" );
+ # find the desired object from retrieved list.
+ my $desired_mx = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_mx );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Substitute (MX Record) Rule objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for an Substitute (MX Record) Rule object:
+
+  name      - Optional. A domain name in string format (regular expression).
+  view      - Optional. The DNS view in which the Substitute (MX Record) Rule is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone      - Optional. A zone name in FQDN format.
+  comment   - Optional. A comment in string format (regular expression).
+  exchanger - Optional. The exchanger of the Substitute (MX Record) Rule (regular expression).
+  pref      - Optional. The Preference of the Substitute (MX Record) Rule (regular expression).
+  extattrs  - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all Substitute (MX Record) Rule objects that match "rpz.com" in the default DNS view
+     my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::RPZRecord::MX",
+     name   => 'rpz\.com',
+     view   => "default" );
+
+ # search for all Substitute (MX Record) Rule objects in the rpz.com zone of the default DNS view
+     my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::RPZRecord::MX",
+     zone   => "rpz.com",
+     view   => "default" );
+
+ # search all Substitute (MX Record) Rules with a given extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::RPZRecord::MX",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an Substitute (MX Record) Rule.
+
+=head2  comment( )
+
+=over
+
+Use this method to add or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for this record in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting comment
+ my $comment = $rpzmx->comment();
+ # Modifying comment
+ $rpzmx->comment("add mx2.rpz.com");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The DNS record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting disable
+ my $disable = $rpzmx->disable()
+ # Modifying disable
+ $rpzmx->disable("true");
+
+=back
+
+=back
+
+=head2 exchanger( )
+
+=over
+
+Use this method to set or retrieve the exchanger.
+
+The name of the mail exchanger in Fully Qualified domain name (FQDN) format.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the mail exchanger for the Substitute (MX Record) Rule.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting exchanger
+ my $exchanger = $rpzmx->exchanger();
+ # Modifying exchanger
+ $rpzmx->exchanger("exchanger2.rpz.com");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Substitute (MX Record) Rule object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $rpzmx->extattrs();
+ #Modify extattrs
+ $rpzmx->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with an Substitute (MX Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $rpzmx->extensible_attributes();
+ #Modify extensible attributes
+ $rpzmx->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the domain name.
+
+The name of the Substitute (MX Record) Rule object in Fully Qualified domain name (FQDN) format.
+
+=over
+
+=item B<Parameter>
+
+Text with the name for the Substitute (MX Record) Rule.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting name
+ my $name = $rpzmx->name();
+ # Modifying name
+ $rpzmx->name("mx2.rpz.com");
+
+=back
+
+=back
+
+=head2 pref( )
+
+=over
+
+Use this method to set or retrieve the Preference value.
+
+The preference value of the Substitute (MX Record) Rule object. The preference value of the RPZ Substitute (MX Record) Rule for the zone range from 0 to 65535. Lower values are more preferred.
+
+=over
+
+=item B<Parameter>
+
+Enter an unsigned integer between 0-65535. The priority determines the order in which a client attempts to
+contact the target mail exchanger. The highest priority is 0 and is queried first.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting pref
+ my $pref = $rpzmx->pref();
+ # Modifying pref
+ $rpzmx->pref(3);
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to configure or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $rpzmx->ttl();
+ #Modify ttl
+ $rpzmx->ttl(1800);
+ #Un-override ttl
+ $rpzmx->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to specify or retrieve the view of the Substitute (MX Record) Rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the 'default' view, which means the RPZ MX  record is located in the default view.
+
+=over
+
+=item B<Parameter>
+
+An array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $rpzmx->views();
+ #Modify views, an array of Infoblox::DNS::View objects
+ $rpzmx->views([$view1]);
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of an Substitute (MX Record) Rule. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $rpzmx->zone();
+
+=back
+
+=back
+
+=head2  rp_zone( )
+
+=over
+
+Use this method to set or retrieve the zone object of a DNS RPZ Substitute (MX Record) Rule.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get rp_zone
+ my $rp_zone = $rpz_mx->rp_zone();
+ #Modify rp_zone, reference of Infoblox::DNS::Zone object
+ $rpz_mx->rp_zone($response_policy_zone);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an Substitute (MX Record) Rule insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the zone prior to Substitute (MX Record) Rule insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "rpz.com");
+ unless ($zone) {
+    die("Construct zone failed: ",
+      Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "rpz.com");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create an Substitute (MX Record) Rule>
+
+ #Construct an Substitute (MX Record) Rule object
+ my $rpzmx = Infoblox::DNS::RPZRecord::MX->new(
+  name      => "bind_mx.rpz.com",
+  comment   => "add mx bind_mx.rpz.com",
+  pref      => 1,
+  exchanger => "exchanger.rpz.com",
+  rp_zone   => $zone,
+ );
+
+ unless ($rpzmx) {
+ die("Construct DNS record MX failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Substitute (MX Record) Rule object created successfully\n"; #Add the Substitute (MX Record) Rule object to Infoblox appliance through a session
+ $session->add($rpzmx)
+  or die("Add record MX failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (MX Record) Rule object added to server successfully\n";
+
+B<#Search for a specific Substitute (MX Record) Rule>
+
+ #Search all Substitute (MX Record) Rules that match "rpz.com"
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::MX",
+  name   => 'rpz\.com'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search record MX failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (MX Record) Rule object found at least 1 matching entry\n";
+
+ #Search all Substitute (MX Record) Rules that start with "bind" and end with "rpz.com"
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::MX",
+  name   => '^bind.*\.rpz\.com$'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search record MX failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Substitute (MX Record) Rule object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify an Substitute (MX Record) Rule  record>
+
+ #Get Substitute (MX Record) Rule through the session
+ my  @retrieved_objs = $session->get(
+  object    => "Infoblox::DNS::RPZRecord::MX",
+  name      => "bind_mx.rpz.com",
+  pref      => 1,
+  exchanger => "exchanger.rpz.com",
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Get record MX failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Substitute (MX Record) Rule object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified Substitute (MX Record) Rule
+ $object->exchanger("exc.rpz.com");
+
+ #Apply the changes
+ $session->modify($object)
+  or die("Modify record MX failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (MX Record) Rule object modified successfully \n";
+
+B<#Remove an Substitute (MX Record) Rule  record>
+
+ #Get Substitute (MX Record) Rule through the session
+ my @retrieved_objs = $session->get(
+   object => "Infoblox::DNS::RPZRecord::MX",
+   name   => "bind_mx.rpz.com"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Get record MX failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Substitute (MX Record) Rule object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+  or die("Remove record MX failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ print "Substitute (MX Record) Rule object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

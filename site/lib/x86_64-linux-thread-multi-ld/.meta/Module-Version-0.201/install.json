@@ -1,0 +1,1 @@
+{"version":"0.201","target":"Module::Version","provides":{"Module::Version":{"file":"lib/Module/Version.pm","version":"0.201"},"Module::Version::App":{"file":"lib/Module/Version/App.pm","version":"0.201"}},"dist":"Module-Version-0.201","pathname":"X/XS/XSAWYERX/Module-Version-0.201.tar.gz","name":"Module::Version"}

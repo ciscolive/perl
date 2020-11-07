@@ -1,0 +1,11 @@
+/opt/perl/site/bin/ptar
+/opt/perl/site/bin/ptardiff
+/opt/perl/site/bin/ptargrep
+/opt/perl/site/lib/Archive/Tar.pm
+/opt/perl/site/lib/Archive/Tar/Constant.pm
+/opt/perl/site/lib/Archive/Tar/File.pm
+/opt/perl/site/man/man1/ptar.1
+/opt/perl/site/man/man1/ptardiff.1
+/opt/perl/site/man/man1/ptargrep.1
+/opt/perl/site/man/man3/Archive::Tar.3
+/opt/perl/site/man/man3/Archive::Tar::File.3

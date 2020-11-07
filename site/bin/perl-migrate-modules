@@ -1,0 +1,207 @@
+#!/opt/perl/bin/perl
+
+use strict;
+use warnings;
+use File::Spec;
+use File::Temp;
+use Getopt::Long::Modern qw(auto_help auto_version);
+use HTTP::Tinyish;
+use IPC::Open3;
+use Module::CoreList;
+use Pod::Usage;
+
+our $VERSION = '0.004';
+
+GetOptions(
+  'include-core|c' => \my $include_core,
+  'from|f=s' => \my @from,
+  'lib|I=s' => \my @libs,
+  'notest|n' => \my $notest,
+  'quiet|q'  => \my $quiet,
+) or die "Invalid options passed\n";
+
+my ($src, $dest) = @ARGV;
+pod2usage() unless defined $src;
+$dest = $src unless defined $dest;
+
+foreach my $perl ($src, $dest) {
+  $perl = File::Spec->rel2abs($perl) unless File::Spec->file_name_is_absolute($perl);
+  $perl = File::Spec->catfile($perl, 'bin', 'perl') if -d $perl;
+  die "Could not find perl executable at $perl\n" unless !-d $perl && -x _;
+}
+
+print "Migrating CPAN modules from $src to $dest\n";
+print "Migrating from @from\n" if @from;
+print "Including @libs\n" if @libs;
+
+my $ua = HTTP::Tinyish->new;
+my $tempdir = File::Temp->newdir;
+my $cpanm = File::Spec->catfile($tempdir, 'cpanm');
+my $url = 'https://cpanmin.us';
+my $response = $ua->mirror($url, $cpanm);
+unless ($response->{success}) {
+  die "Failed to download $url: $response->{content}\n" if $response->{status} == 599;
+  die "Failed to download $url: $response->{status} $response->{reason}\n";
+}
+
+my $from_count = @from;
+my $print_modules = "my %args; \$args{inc_override} = [splice \@ARGV, 0, $from_count] if $from_count; " . <<'EOC';
+$args{extra_libs} = [@ARGV] if @ARGV;
+print "$]\n";
+for (ExtUtils::Installed->new(skip_cwd => 1, %args)->modules) {
+  print "$_\n" unless $_ eq 'Perl';
+}
+EOC
+
+my ($list_pid, $list_out);
+{
+  local $ENV{PERLLIB};
+  local $ENV{PERL5LIB};
+  local $ENV{PERL5OPT};
+  $list_pid = open3 undef, $list_out, '>&STDERR', $src, '-MExtUtils::Installed', '-e', $print_modules, @from, @libs;
+}
+
+chomp(my $perl_version = readline $list_out);
+my @core_modules;
+if ($include_core) {
+  @core_modules = sort keys %{Module::CoreList::find_version($perl_version)};
+  die "Module::CoreList $Module::CoreList::VERSION is too old to retrieve core modules for Perl $perl_version\n"
+    unless @core_modules;
+}
+
+my @opts;
+push @opts, '-n' if $notest;
+push @opts, '-q' if $quiet;
+
+my $install_pid = open3 my $install_in, '>&STDOUT', '>&STDERR', $dest, $cpanm, @opts;
+
+print $install_in map { "$_\n" } @core_modules;
+while (my $module = readline $list_out) { print $install_in $module }
+close $list_out;
+close $install_in;
+
+waitpid $list_pid, 0;
+my $list_exit = $? >> 8;
+waitpid $install_pid, 0;
+my $install_exit = $? >> 8;
+
+die "Module listing failed with exit status $list_exit\n" if $list_exit;
+die "CPAN install failed with exit status $install_exit\n" if $install_exit;
+
+print "Migrated CPAN modules from $src to $dest\n";
+
+=head1 NAME
+
+perl-migrate-modules - Migrate installed CPAN modules from one Perl to another
+
+=head1 SYNOPSIS
+
+  perl-migrate-modules [OPTIONS] [<src-perl>] <dest-perl>
+
+    perl-migrate-modules /path/to/perl-5.28.0 /path/to/perl-5.28.1
+    perl-migrate-modules -nq -Ilib /usr/bin/perl ~/bin/perl
+    perl-migrate-modules --from ~/perl5/lib/perl5 ~/perls/5.20.0
+
+  Options:
+    -c, --include-core           Install core modules from source Perl
+    -h, --help                   Show this message
+    -f <path>, --from=<path>     Search only these path(s) for source modules
+    -I <path>, --lib=<path>      Additional search path(s) for source modules
+    -n, --notest                 Skip testing and test dependencies
+    -q, --quiet                  Show only installation successes and failures
+    -v, --version                Show the version of this script
+
+=head1 DESCRIPTION
+
+Reinstalls all modules found in the source Perl into the destination Perl,
+similar to the C<clone-modules> command for L<perlbrew> or the
+C<migrate-modules> command for L<plenv|https://github.com/tokuhirom/plenv>. The
+Perls may be passed as paths to the base installation directory or paths to the
+F<perl> executable itself. If only one path is passed, it will be used as both
+the source and destination, but the search and install paths can be influenced.
+
+Modules are found in the source Perl's standard C<@INC> search paths by
+default. To specify additional search paths, such as L<local::lib> directories,
+use the C<-I>/C<--lib> option. To specify search paths to use and omit the
+standard search paths, use the C<-f>/C<--from> option.
+
+Modules are installed to the destination Perl using L<cpanm>. To influence the
+install location, activate a L<local::lib> in your environment, or use the
+standard Perl and L<cpanm> environment variables, such as
+L<ExtUtils::MakeMaker/PERL_MM_OPT>, L<Module::Build/PERL_MB_OPT>, and
+L<cpanm/PERL_CPANM_OPT>.
+
+=head1 EXAMPLES
+
+=over
+
+=item *
+
+Basic migration of modules to a newly installed Perl from an existing one:
+
+  $ perl-migrate-modules /opt/perl-5.20.3 /opt/perl-5.22.0
+
+=item *
+
+Migrate modules from an old (inactive) local::lib directory, using
+F</usr/bin/perl> both to find source modules and to install:
+
+  $ perl-migrate-modules --from ~/perl5-old/lib/perl5 /usr/bin/perl
+
+=item *
+
+Migrate modules from the sitelib of a Perl that can no longer be executed,
+using the active Perl executable both to find source modules and to install:
+
+  $ perl-migrate-modules --from ~/.plenv/versions/5.24.0/lib/perl5/site_perl/5.24.0/ $(which perl)
+
+=item *
+
+Migrate modules to a custom local::lib location, using F</opt/perl-5.28.0> to
+find modules within its search paths and using F</opt/perl-5.28.1> to install
+to F</opt/project/local>:
+
+  $ env PERL_CPANM_OPT='-l /opt/project/local' perl-migrate-modules /opt/perl-5.28.0 /opt/perl-5.28.1
+
+=item *
+
+Update all modules installed in the active Perl:
+
+  $ perl-migrate-modules --include-core $(which perl)
+
+=back
+
+=head1 CAVEATS
+
+Only modules with F<.packlist> will be migrated, this will include any module
+installed by CPAN clients, but generally not modules installed by vendor
+packages or core modules. Core modules available from CPAN can be included via
+L<Module::CoreList> with the C<--include-core> option.
+
+Migrated modules will be installed at their latest indexed version, not the
+existing version when found.
+
+Any environment settings that affect Perl's library search and module install
+locations, such as C<PERL5LIB> or an active L<local::lib>, will be ignored
+while searching for modules with the source Perl but will have their normal
+effect on installation into the destination Perl.
+
+=head1 BUGS
+
+Report any issues on the public bugtracker.
+
+=head1 AUTHOR
+
+Dan Book <dbook@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2018 by Dan Book.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0 (GPL Compatible)
+
+=head1 SEE ALSO
+
+L<perlbrew/"COMMAND: CLONE-MODULES">

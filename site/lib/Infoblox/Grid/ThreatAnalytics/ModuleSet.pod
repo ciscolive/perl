@@ -1,0 +1,106 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatAnalytics::ModuleSet - A Grid Threat Analytics moduleset object.
+
+=head1 DESCRIPTION
+
+The Grid Threat Analytics moduleset represents an uploaded Apache Spark Module.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Threat Analytics moduleset object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Threat Analytics moduleset object.
+
+  version - Optional. The Threat Analytics moduleset version.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatAnalytics::ModuleSet',
+     'version' => '1.0',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Threat Analytics moduleset object.
+
+  version - Optional. The Threat Analytics moduleset version.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatAnalytics::ModuleSet',
+     'version' => '1.*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 version( )
+
+=over
+
+Use this method to retrieve the Threat Analytics moduleset version.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get version
+ my $version = $object->version();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,287 @@
+=head1 NAME
+
+Infoblox::DHCP::SplitNetwork - Split network object.
+
+=head1 DESCRIPTION
+
+Once a network is created for DHCP, smaller subnetworks can be configured with larger netmasks. A larger netmask defines a larger number of network addresses and a smaller number of host addresses. Using Infoblox split network feature, the parent network can be split into multiple smaller networks without configuring each of the newly-created networks.
+
+=head1 CONSTRUCTOR
+
+ my $split_network = Infoblox::DHCP::SplitNetwork->new(
+             network                 => $Network|$IPv6Network,   #Required
+             prefix                  => $num,                    #Required
+             add_all_subnetworks     => "true" | "false",        #Optional / Default is "false"
+             auto_create_reversezone => "true" | "false",        #Optional / Default is "false"
+             prefix_collector_ipv6_network_addr => $string,      #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that can be applied to a split network object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $network = Infoblox::DHCP::Network->new(
+                             network => "10.0.0.0/8",
+                             comment => "add network",
+                             );
+
+ my $split_network = Infoblox::DHCP::SplitNetwork->new (
+                        network                 => $network,
+                        prefix                  => 12,
+                        add_all_subnetworks     => "true",
+                        );
+ #Submit for addition
+ my $response = $session->add( $split_network );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute value of a split network object.
+
+=head2 add_all_subnetworks( )
+
+=over
+
+Use this method to set the add_all_subnetworks flag. If this flag is set, then  all possible subnetworks will be added otherwise only networks with fixed  addresses will be added.
+
+Include the specific parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set add_all_subnetworks flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set add_all_subnetworks
+ $split_network->add_all_subnetworks("true");
+
+=back
+
+=back
+
+=head2 auto_create_reversezone( )
+
+=over
+
+Use this method to set the auto_create_reversezone flag. When set, this flag will automatically create reverse-mapping zones for the subnets.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set auto_create_reversezone flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set auto_create_reversezone
+ $split_network->auto_create_reversezone("true");
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to specify the network to be split.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are  L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> or L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Specify network
+ my $network = Infoblox::DHCP::Network->new(
+                      network => "10.0.0.0/8",
+                      comment => "add network",
+                      );
+
+ $split_network->network($network);
+
+ #Specify ipv6 network
+ my $network = Infoblox::DHCP::IPv6Network->new(
+                      network => "10::/48",
+                      comment => "add network",
+                      );
+
+ $split_network->network($network);
+
+=back
+
+=back
+
+=head2 prefix( )
+
+=over
+
+Use this method to specify the appropriate subnet mask for each subnet created after splitting the network.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the subnet mask value. This value must be 1 greater than the subnet mask of the network to be split. The maximum value is 31
+for IPv4 network or 127 for IPv6 network.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Specify prefix
+ $split_network->prefix(16);
+
+=back
+
+=back
+
+=head2 prefix_collector_ipv6_network_addr( )
+
+=over
+
+Use this method to specify the network that contains the DHCP IPv6FixedAddress and IPv6Range objects whose address_type is 'PREFIX' after a network is split.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an IPv6 network address in string format and without any prefix bits appended.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set prefix_collector_ipv6_network_addr( )
+ $split_network->prefix_collector_ipv6_network_addr("2001::");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the split network operation. Also this sample code includes error handling for the operations.
+
+B<#Preparation prior to splitting a network>
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully.\n";
+
+ #Create network prior to splitting the network
+ my $network = Infoblox::DHCP::Network->new(
+                             network => "20.0.0.0/8",
+                             comment => "add network",
+                             );
+ unless($network){
+        die("Construct network object fail: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+
+ print"Network object created successfully.\n";
+
+ #Verify if the network exists
+ my $object = $session->get(
+                object  => "Infoblox::DHCP::Network",
+                network => "20.0.0.0/8"
+                );
+ unless($object){
+        print"Network does not exist on server, safe to add the network.\n";
+        $session->add($network)
+                or die("Add network failed: ",
+                        $session->status_code(). ":" .$session->status_detail());
+        }
+
+ print"Network added successfully.\n";
+
+B<#Split the network>
+
+ my $split_network = Infoblox::DHCP::SplitNetwork->new (
+                         network                 => $network,
+                         prefix                  => 16,
+                         add_all_subnetworks     => "true",
+                         auto_create_reversezone => "true",
+                       );
+ unless($split_network){
+        die("Construct split network object fail: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+
+ print"Split network object created successfully.\n";
+
+ #Split the network
+ $session->add( $split_network )
+          or die("Split network fail:",
+                     $session->status_code(). ":" .$session->status_detail());
+
+ print"Splited network successfully.\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

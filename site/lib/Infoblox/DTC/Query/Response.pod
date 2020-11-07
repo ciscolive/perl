@@ -1,0 +1,81 @@
+=head1 NAME
+
+Infoblox::DTC::Query::Response - A DTC query call response object.
+
+=head1 DESCRIPTION
+
+A DTC query call response object.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a result of a DTC query call.
+
+=head1 MODULE METHODS
+
+=head1 Infoblox::DTC->query( )
+
+=over
+
+Use this method to perform a DTC query on a member.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Query::Parameters|Infoblox::DTC::Query::Parameters> object.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::DTC::Query::Response|Infoblox::DTC::Query::Response> when operation succeeds, and returns 'false' when the operation fails.
+
+=item B<Example>
+
+ #perform DTC query
+ my $response = $dtc->query($params);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 records( )
+
+=over
+
+Use this method to retrieve an array of query call records. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an array of L<Infoblox::DTC::Query::Result|Infoblox::DTC::Query::Result> objects.
+
+=item B<Example>
+
+ #get records value
+ my @records = $response->records();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC-E<gt>query()|Infoblox::DTC/query()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

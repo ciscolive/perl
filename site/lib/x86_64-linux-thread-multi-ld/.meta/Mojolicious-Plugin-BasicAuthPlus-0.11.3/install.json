@@ -1,0 +1,1 @@
+{"name":"Mojolicious::Plugin::BasicAuthPlus","pathname":"B/BL/BLR/Mojolicious-Plugin-BasicAuthPlus-0.11.3.tar.gz","dist":"Mojolicious-Plugin-BasicAuthPlus-0.11.3","version":"0.011003","provides":{"Mojolicious::Plugin::BasicAuthPlus":{"file":"lib/Mojolicious/Plugin/BasicAuthPlus.pm","version":"0.011003"}},"target":"Mojolicious::Plugin::BasicAuthPlus"}

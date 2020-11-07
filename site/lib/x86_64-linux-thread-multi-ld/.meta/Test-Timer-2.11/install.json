@@ -1,0 +1,1 @@
+{"dist":"Test-Timer-2.11","pathname":"J/JO/JONASBN/Test-Timer-2.11.tar.gz","target":"Test::Timer","version":"2.11","provides":{"Test::Timer::TimeoutException":{"version":"2.11","file":"lib/Test/Timer/TimeoutException.pm"},"Test::Timer":{"version":"2.11","file":"lib/Test/Timer.pm"}},"name":"Test::Timer"}

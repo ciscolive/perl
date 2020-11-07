@@ -1,0 +1,809 @@
+=head1 NAME
+
+Infoblox::DHCP::Filter::RelayAgent - DHCP relay agent filter object
+
+=head1 DESCRIPTION
+
+The Infoblox appliance can screen address requests through relay agent filters (DHCP option 82) that assist the agents
+in forwarding address assignments across the proper circuit. When a relay agent receives the DHCPDISCOVER
+message, it can add one or two agent IDs in the DHCP option 82 suboption fields to the message. If the agent ID
+strings match those defined in a relay agent filter applied to a DHCP address range, the Infoblox appliance either assigns
+addresses from that range or denies the request (based on previously configured parameters; that is, the Grant lease
+and Deny lease parameters).
+
+=head1 CONSTRUCTOR
+
+  my $relayagentFilter = Infoblox::DHCP::Filter::RelayAgent->new(
+                 name                        => $string | $ipv4addr,                                                    # Required
+                 comment                     => $string,                                                                # Optional / Default is empty
+                 circuit_id_name             => $string,                                                                # Optional / Default is empty
+                 extattrs                    => { $string => $extattr, ... },                                           # Optional / Default is undefined
+                 extensible_attributes       => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, # Optional / Default is undefined
+                 remote_id_name              => $string,                                                                # Optional / Default is empty
+                 is_circuit_id               => $string,                                                                # Optional / Default is empty
+                 is_remote_id                => $string,                                                                # Optional / Default is empty
+                 is_circuit_id_substring     => 'true' | 'false',                                                       # Optional / Default is 'false'
+                 circuit_id_substring_offset => $uint,                                                                  # Optional / Default is undefined
+                 circuit_id_substring_length => $uint,                                                                  # Optional / Default is undefined
+                 is_remote_id_substring      => 'true' | 'false',                                                       # Optional / Default is 'false'
+                 remote_id_substring_offset  => $uint,                                                                  # Optional / Default is undefined
+                 remote_id_substring_length  => $uint,                                                                  # Optional / Default is undefined
+                );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that can be applied to a DHCP relay agent filter object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP relay agent filter object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my  $relayagentFilter = Infoblox::DHCP::Filter::RelayAgent->new(
+        name             => "relayagent_filter",
+        circuit_id_name  => "circuit",
+        remote_id_name   => "remote"
+         );
+
+ # Submit for adding a relay agent filter
+ my $response = $session->add( $relayagentFilter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching DHCP relay agent filter objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP relay agent filter object:
+
+  name - Required. A relay agent filter name in string format or in ipv4address format.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my  @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::Filter::RelayAgent" ,
+     name   => "relayagent_filter",
+ );
+
+ # get all objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object                => "Infoblox::DHCP::Filter::RelayAgent",
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP relay agent filter object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify circuit id name method.
+ $object->circuit_id_name("diff_Circuit");
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a  DHCP relay agent filter object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my @retrieved_objs = $session->get(
+            object  => "Infoblox::DHCP::Filter::RelayAgent" ,
+            "name"  => "relayagent_filter",
+        );
+
+ # find the desired object from retrieved list.
+ my $desired_obj = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove( $desired_obj);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for a DHCP relay agent filter object in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DHCP Network object:
+
+  name - Required. A relay agent filter name in string format (regular expression).
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  comment - Optional . A comment in string format (regular expression).
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DHCP relayagent objects
+      my @retrieved_objs = $session->search(
+                object   => "Infoblox::DHCP::Filter::RelayAgent",
+                name     => 'relayagent\..*',
+                );
+
+ # search all DHCP relay agent associations with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DHCP::Filter::RelayAgent",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP relay agent filter object.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP relay agent filter object. The name can be an IP address or name of the router acting as relay agent.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the name in string format or in ipv4addr format. An IPv4 address is a 32-bit number in dotted decimal notation.
+It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+The default value for this field is empty.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get name
+ my $name = $relayagentFilter->name()
+ # Modify name
+ $relayagentFilter->name("relay_filter");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DHCP relay agent filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $relayagentFilter->comment();
+ #Modify comment
+ $relayagentFilter->comment("Modified DHCP relay agent filter object comment");
+
+=back
+
+=back
+
+=head2  circuit_id_name( )
+
+=over
+
+Use this method to set or retrieve a circuit_id_name of a DHCP relay agent filter object. This filter identifies the circuit
+between the remote host and the relay agent. For example, the identifier can be the ingress interface number of the circuit
+access unit, perhaps concatenated with the unit ID number and slot number. Also, the circuit ID can be an ATM virtual
+circuit ID or cable data virtual circuit ID.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify circuit id name in string format.
+example:
+Text String: 001122334455
+Binary String: \x00\x11\x22\x33\x44\x55. The default value for this field is empty.
+
+To reset this value, set it to an empty string together with the is_circuit_id flag (anything except "Matches_Value").
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get circuit_id_name
+ my $circuit_id_name = $relayagentFilter->circuit_id_name();
+ # Modify circuit_id_name
+ $relayagentFilter->circuit_id_name("001122334455");
+ # Set is_circuit_id to "Not_Set"
+ $relayagentFilter->is_circuit_id("Not_Set");
+ # Set circuit_id_name to empty string
+ $relayagentFilter->circuit_id_name("");
+
+=back
+
+=back
+
+=head2 circuit_id_substring_length( )
+
+=over
+
+Use this method to set or retrive the circuit ID substring length.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get circuit_id_substring_length value
+ my $circuit_id_substring_length = $relayagentfilter->circuit_id_substring_length();
+
+ #modify circuit_id_substring_length value
+ $relayagentfilter->circuit_id_substring_length(10);
+
+=back
+
+=back
+
+=head2 circuit_id_substring_offset( )
+
+=over
+
+Use this method to set or retrive the circuit ID substring offset.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get circuit_id_substring_offset value
+ my $circuit_id_substring_offset = $relayagentfilter->circuit_id_substring_offset();
+
+ #modify circuit_id_substring_offset value
+ $relayagentfilter->circuit_id_substring_offset(10);
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP relay agent filter object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $relayagentFilter->extattrs();
+ #Modify extattrs
+ $relayagentFilter->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP relay agent filter object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $relayagentFilter->extensible_attributes();
+ #Modify extensible attributes
+ $relayagentFilter->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2  remote_id_name( )
+
+=over
+
+Use this method to set or retrieve a remote ID name attribute of a relay agent filter object. This filter identifies the remote host. The remote ID name can represent many different things such as the caller ID telephone number for a dial-up connection, a user name for logging in to the ISP, a modem ID, etc. When the remote ID name is defined on the relay agent, the DHCP server will have a trusted relationship to identify the remote host. The remote ID name is considered as a trusted identifier.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify remote_id_name in string format.
+example:
+Text String: 001122334455
+Binary String: \x00\x11\x22\x33\x44\x55. The default value for this field is empty.
+
+To reset this value, set it to an empty string together with the is_remote_id flag (anything except "Matches_Value").
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get remote_id_name
+ my $remote_id_name = $relayagentFilter->remote_id_name();
+ # Modify remote_id_name
+ $relayagentFilter->remote_id_name("\x00\x11\x22\x33\x44\x55");
+ # Set is_remote_id to "Not_Set"
+ $relayagentFilter->is_remote_id("Not_Set");
+ # Set remote_id_name to empty string
+ $relayagentFilter->remote_id_name("");
+
+=back
+
+=back
+
+=head2 remote_id_substring_length( )
+
+=over
+
+Use this method to set or retrive the remote ID substring length.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get remote_id_substring_length value
+ my $remote_id_substring_length = $relayagentfilter->remote_id_substring_length();
+
+ #modify remote_id_substring_length value
+ $relayagentfilter->remote_id_substring_length(10);
+
+=back
+
+=back
+
+=head2 remote_id_substring_offset( )
+
+=over
+
+Use this method to set or retrive the remote ID substring offset.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get remote_id_substring_offset value
+ my $remote_id_substring_offset = $relayagentfilter->remote_id_substring_offset();
+
+ #modify remote_id_substring_offset value
+ $relayagentfilter->remote_id_substring_offset(10);
+
+=back
+
+=back
+
+=head2  is_circuit_id( )
+
+=over
+
+Use this method to set or retrieve the is_circuit_id flag of a DHCP relay agent filter object. The possible values for the is_circuit_id flag are Any, Not_Set, Matches_Value. The circuit_id value takes effect only if the value is Matches_Value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify is_circuit_id in string format.
+example:
+Text String: Any
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get is_circuit_id
+ my $is_circuit_id = $relayagentFilter->is_circuit_id();
+ # Modify is_circuit_id
+ $relayagentFilter->is_circuit_id("Any");
+
+=back
+
+=back
+
+=head2 is_circuit_id_substring( )
+
+=over
+
+Use this method to set or retrive the flag that indicates whether the substring of circuit ID, instead of the full circuit ID, is matched.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the circuit ID substring match or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get is_circuit_id_substring
+ my $is_circuit_id_substring = $relayagentFilter->is_circuit_id_substring();
+ # Modify is_circuit_id_substring
+ $relayagentFilter->is_circuit_id_substring("true");
+
+=back
+
+=back
+
+=head2  is_remote_id( )
+
+=over
+
+Use this method to set or retrieve the is_remote_id flag of a DHCP relay agent filter object. The possible values for the is_remote_id flag are Any, Not_Set, Matches_Value. The remote_id value takes effect only if the value is Matches_Value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify is_remote_id in string format.
+example:
+Text String: Not_Set
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get is_remote_id
+ my $is_remote_id = $relayagentFilter->is_remote_id();
+ # Modify is_remote_id
+ $relayagentFilter->is_remote_id("Not_Set");
+
+=back
+
+=back
+
+=head2 is_remote_id_substring( )
+
+=over
+
+Use this method to set or retrive the flag that indicates whether the substring of the remote ID, instead of the full remote ID, is matched.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable remote id substring match or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get is_remote_id_substring
+ my $is_remote_id_substring = $relayagentFilter->is_remote_id_substring();
+ # Modify is_remote_id_substring
+ $relayagentFilter->is_remote_id_substring("true");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP relay agent filter object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create a FilterRule relayagent filter object>
+
+ my $filter = Infoblox::DHCP::FilterRule::RelayAgent->new(
+                filter_name => "relayagent_filter",
+                permission => "grant" );
+
+B<#Create a DHCP relay agent filter object>
+
+ my  $relayagentfilter = Infoblox::DHCP::Filter::RelayAgent->new(
+
+        name             => "relayagent_filter",
+        circuit_id_name  => "circuit",
+        remote_id_name   => "remote"
+       );
+ my $response = $session->add($relayagentfilter)
+        or die("Add DHCP Relay Agent Filter failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP Relay Agent Filter added successfully\n";
+
+B<#Search for a specific DHCP relay agent filter>
+
+ #Search the DHCP Relay Agent Filter
+ my @retrieved_objs = $session->search(
+                object => "Infoblox::DHCP::Filter::RelayAgent",
+                name   => "relayagent.*",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search DHCP Relay Agent Filter  failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Search DHCP relay agent filter found at least 1 matching entry\n";
+
+B<#Get and modify a DHCP relay agent filter attribute>
+
+ #Get  DHCP Relay Agent Filter through the session
+ my  @retrieved_objs = $session->get(
+               object => "Infoblox::DHCP::Filter::RelayAgent" ,
+               name   => "relayagent_filter",
+         );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Network object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get DHCP relay agent filter found at least 1 matching entry\n";
+
+ #Modify the attributes of the specified DHCP Relay Agent Filter object
+ $object->circuit_id_name("diff_Circuit");
+ $object->remote_id_name("diff_remote");
+ $session->modify($object)
+     or die("Modify DHCP Relay Agent Filter attribute failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP Relay Agent Filter object modified successfully \n";
+
+ #Create the Network object with the member
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/8",
+     comment => "add network",
+ );
+ unless($network) {
+        die("Construct Network object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network object created successfully\n";
+
+ #Add the Network object into the Infoblox appliance through a session
+ $session->add($network)
+     or die("Add Network object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+
+ print "Network object added to Infoblox appliance successfully\n";
+
+B<#Create a DHCP Range object that uses the relayagent filter >
+
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+         end_addr                => "10.0.0.10",
+         network                 => "10.0.0.0/8",
+         start_addr              => "10.0.0.1",
+         authority               => "true",
+         filters                 => [$filter],
+ );
+ unless($dhcp_range) {
+        die("Construct DHCP Range object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "DHCP Range object created successfully\n";
+
+ #Add the DHCP Range object into the Infoblox appliance through a session
+ $session->add($dhcp_range)
+     or die("Add DHCP Range object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Range object added to the network successfully\n";
+
+ #Remove the Network object into the Infoblox appliance through a session
+ $session->remove($network)
+     or die("Remove Network object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Network object removed from Infoblox appliance successfully\n";
+
+B<#Remove a DHCP relay agent filter Object>
+
+  #Get object through the session
+  my @retrieved_objs = $session->get(
+           object   => "Infoblox::DHCP::Filter::RelayAgent" ,
+           name     => "relayagent_filter",
+        );
+ my $object = $retrieved_objs[0];    unless ($object) {
+     die("Get a DHCP Relay Agent Filterobject failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get a DHCP relay agent filter object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove a DHCP Relay Agent Filter failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP relay agent filter removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::DHCP::FilterRule::RelayAgent|Infoblox::DHCP::FilterRule::RelayAgent>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

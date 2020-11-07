@@ -1,0 +1,668 @@
+=head1 NAME
+
+Infoblox::LDAP::AuthService - An LDAP Authentication Service object.
+
+=head1 DESCRIPTION
+
+The LDAP Authentication Service.
+
+=head1 CONSTRUCTOR
+
+ my $service = Infoblox::LDAP::AuthService->new(
+     name                           => $string,                           # Required
+     servers                        => [$server1, $server2, ...],         # Required, These are Infoblox::LDAP::Server objects
+     timeout                        => $uint,                             # Optional, Default is 5
+     retries                        => $uint,                             # Optional, Default is 5
+     recovery_interval              => $uint,                             # Optional, Default is 30
+     mode                           => 'ORDERED_LIST'| 'ROUND_ROBIN',     # Optional, Default is 'ORDERED_LIST'
+     ldap_user_attribute            => $string,                           # Required
+     ldap_group_attribute           => $string,                           # Optional, Default is 'memberOf'
+     search_scope                   => BASE' | 'ONELEVEL' | 'SUBTREE',    # Optional, Default is 'ONELEVEL'
+     ea_mapping                     => [$ea_mapping1, $ea_mapping, ...],  # Optional, These are Infoblox::LDAP::EA_Mapping objects
+     comment                        => $string,                           # Optional
+     disable                        => 'true' | 'false',                  # Optional, Default is 'false'
+     ldap_group_authentication_type => 'GROUP_ATTRIBUTE' | 'POSIX_GROUP', # Optional, Default is 'GROUP_ATTRIBUTE'
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an LDAP Authentication Service object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $service = Infoblox::LDAP::AuthService->new(
+    name                => 'LDAPAuthService',
+    servers             => [$server],
+    ldap_user_attribute => 'cn',
+ );
+
+ #Submit for addition
+ my $response = $session->add( $service );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific LDAP Authentication Service object:
+
+  name         - Optional. The LDAP Authentication Service name.
+  comment      - Optional. The comment.
+  search_scope - Optional. The starting point of the LDAP search.
+  mode         - Optional. The LDAP authentication mode.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+    object => 'Infoblox::LDAP::AuthService',
+    name   => 'LDAPAuthService',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify comment of a LDAP Authentication Service.
+ $service->comment("This is modified object");
+ # Submit modification
+ my $response = $session->modify( $service );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+    object => 'Infoblox::LDAP::AuthService',
+    name   => 'LDAPAuthService',
+ )
+ #Find the desired object from the retrieved list.
+ my $desired_device = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_device );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for device objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search a specific LDAP Authentication Service object:
+
+  name         - Optional. The LDAP Authentication Service name.
+  comment      - Optional. The comment.
+  search_scope - Optional. The starting point of the LDAP search.
+  mode         - Optional. The LDAP authentication mode.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+    object => 'Infoblox::LDAP::AuthService',
+    name   => 'LDAPAuthService',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an LDAP Authentication Service object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+A desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->comment();
+ #Modify attribute value
+ $service->comment('LDAP Authentication Service');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to enable or disable an LDAP Authentication Service.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable an LDAP Authentication Service or "false" to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->disable();
+ #Modify attribute value
+ $service->disable('true');
+
+=back
+
+=back
+
+=head2 ea_mapping( )
+
+=over
+
+Use this method to set or retrieve mapping of LDAP fields to extensible attributes.
+
+=over
+
+=item B<Parameter>
+
+An array of an L<Infoblox::LDAP::EA_Mapping|Infoblox::LDAP::EA_Mapping> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->ea_mapping();
+ #Modify attribute value
+ $service->ea_mapping([$ea_mapping1, $ea_mapping2]);
+
+=back
+
+=back
+
+=head2 mode( )
+
+=over
+
+Use this method to set or retrieve an LDAP authentication mode.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'ORDERED_LIST' and 'ROUND_ROBIN'. The default value is 'ORDERED_LIST'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->mode();
+ #Modify attribute value
+ $service->mode('ROUND_ROBIN');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve an LDAP Authentication Service name.
+
+=over
+
+=item B<Parameter>
+
+An LDAP Authentication Service name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->name();
+ #Modify attribute value
+ $service->name('NewLDAPAuthService');
+
+=back
+
+=back
+
+=head2 ldap_group_attribute( )
+
+=over
+
+Use this method to set or retrieve the name of the LDAP attribute that defines group membership.
+
+=over
+
+=item B<Parameter>
+
+A name of the LDAP attribute in string format. The default value is 'memberOf'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->ldap_group_attribute();
+ #Modify attribute value
+ $service->ldap_group_attribute('memberOf');
+
+=back
+
+=back
+
+=head2 ldap_group_authentication_type( )
+
+=over
+
+Use this method to set or retrieve the LDAP group authentication type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'GROUP_ATTRIBUTE' and 'POSIX_GROUP'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ldap_group_authentication_type value
+ my $value = $service->ldap_group_authentication_type();
+ #Modify ldap_group_authentication_type value
+ $service->ldap_group_authentication_type('POSIX_GROUP');
+
+=back
+
+=back
+
+=head2 ldap_user_attribute( )
+
+=over
+
+Use this method to set or retrieve an LDAP userid attribute that is used for search.
+
+=over
+
+=item B<Parameter>
+
+An LDAP userid attribute in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->ldap_user_attribute();
+ #Modify attribute value
+ $service->ldap_user_attribute('cn');
+
+=back
+
+=back
+
+=head2 recovery_interval( )
+
+=over
+
+Use this method to set or retrieve the period of time to wait before trying to contact an LDAP server that has been marked as 'down'.
+
+=over
+
+=item B<Parameter>
+
+The period of time in seconds. The default value is 30.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->recovery_interval();
+ #Modify attribute value
+ $service->recovery_interval(40);
+
+=back
+
+=back
+
+=head2 retries( )
+
+=over
+
+Use this method to set or retrieve maximum number of authentication attempts.
+
+=over
+
+=item B<Parameter>
+
+Maximum number of authentication attempts. The default value is 5.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->retries();
+ #Modify attribute value
+ $service->retries(4);
+
+=back
+
+=back
+
+=head2 search_scope( )
+
+=over
+
+Use this method to set or retrieve the starting point of an LDAP search.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'BASE', 'ONELEVEL' and 'SUBTREE'. The default value is 'ONELEVEL'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->search_scope();
+ #Modify attribute value
+ $service->search_scope('ONELEVEL');
+
+=back
+
+=back
+
+=head2 servers( )
+
+=over
+
+Use this method to set or retrieve the list of LDAP servers used for authentication.
+
+=over
+
+=item B<Parameter>
+
+An array of an L<Infoblox::LDAP::Server|Infoblox::LDAP::Server> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->servers();
+ #Modify attribute value
+ $service->servers([$server1, $server2]);
+
+=back
+
+=back
+
+=head2 timeout( )
+
+=over
+
+Use this method to set or retrieve timeout for authentication.
+
+=over
+
+=item B<Parameter>
+
+Timout in seconds. The default value is 5.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $service->timeout();
+ #Modify attribute value
+ $service->timeout(4);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify, search and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying a LDAP Authentication Service object>
+
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a LDAP Authentication Service object>
+
+ my $server = Infoblox::LDAP::Server->new(
+     'address' => '10.0.0.1',
+     'base_dn' => 'dc=infoblox,dc=com',
+ );
+
+ unless ($server) {
+        die("Construct LDAP server object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "LDAP server object created successfully\n";
+
+ my $service = Infoblox::LDAP::AuthService->new(
+     'name'                => 'papi-ldap-service',
+     'servers'             => [$server],
+     'ldap_user_attribute' => 'cn',
+ );
+
+ unless ($service) {
+        die("Construct LDAP Authentication Service object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "LDAP Authentication Service object created successfully\n";
+
+ my $response = $session->add($service);
+
+ unless ($response) {
+     die("Add LDAP Authentication Service failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print "LDAP Authentication Service added successfully \n";
+
+B<#Search for a LDAP Authentication Service object>
+
+ my @retrieved_objs = $session->search(
+    object => 'Infoblox::LDAP::AuthService',
+    name   => 'papi-ldap-service',
+ );
+
+ $service = $retrieved_objs[0];
+
+ unless ($service) {
+         die("Search LDAP Authentication Service object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search LDAP Authentication Service object found at least 1 matching entry\n";
+
+B<#Get and modify the LDAP Authentication Service object>
+
+ @retrieved_objs = $session->get(
+    object => 'Infoblox::LDAP::AuthService',
+    name   => 'papi-ldap-service',
+ );
+
+ $service = $retrieved_objs[0];
+
+ unless ($service) {
+     die("Get LDAP Authentication Service object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get LDAP Authentication Service successful \n";
+
+ $service->comment("This is modified object");
+
+ $session->modify($service)
+    or die("Modify LDAP Authentication Service failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print "LDAP Authentication Service modified successfully \n";
+
+B<#Remove the LDAP Authentication Service object>
+
+ @retrieved_objs = $session->get(
+    object => 'Infoblox::LDAP::AuthService',
+    name   => 'papi-ldap-service',
+ );
+
+ $service = $retrieved_objs[0];
+
+ unless ($service) {
+     die("Get LDAP Authentication Service object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get LDAP Authentication Service successful \n";
+
+ $session->remove( $service )
+     or die("Remove LDAP Authentication Service failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print "LDAP Authentication Service removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::LDAP::Server|Infoblox::LDAP::Server>, L<Infoblox::LDAP::EA_Mapping|Infoblox::LDAP::EA_Mapping>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

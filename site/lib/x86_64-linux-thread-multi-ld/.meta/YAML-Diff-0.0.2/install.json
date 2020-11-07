@@ -1,0 +1,1 @@
+{"target":"YAML::Diff","provides":{"YAML::Diff::Command":{"file":"lib/YAML/Diff/Command.pm"},"YAML::Diff":{"file":"lib/YAML/Diff.pm","version":"0.000002"}},"version":"0.000002","name":"YAML::Diff","pathname":"I/IN/INGY/YAML-Diff-0.0.2.tar.gz","dist":"YAML-Diff-0.0.2"}

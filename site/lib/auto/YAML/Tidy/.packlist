@@ -1,0 +1,5 @@
+/opt/perl/site/bin/yamltidy
+/opt/perl/site/lib/YAML/Tidy.pm
+/opt/perl/site/lib/YAML/Tidy/Config.pm
+/opt/perl/site/lib/YAML/Tidy/Node.pm
+/opt/perl/site/man/man3/YAML::Tidy.3

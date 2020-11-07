@@ -1,0 +1,277 @@
+=head1 NAME
+
+Infoblox::Grid::Member::Discovery::CiscoAPICConfig - The Cisco APIC controller configuration structure.
+
+=head1 DESCRIPTION
+
+The object provides information about the Cisco APIC controller configuration.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Member::Discovery::CiscoAPICConfig->new(
+    'address'        => $ipaddr | $fqdn,  # Required
+    'ca_certificate' => $ca_cert,         # Optional
+    'comment'        => $string,          # Optional
+    'network_view'   => $string,          # Required
+    'password'       => $string,          # Required
+    'protocol'       => 'HTTP' | 'HTTPS', # Required
+    'username'       => $string,          # Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a Cisco APIC controller configuration structure.
+
+=head2 Infoblox::Grid::Member::DiscoveryProperties->cisco_apic_configurations( )
+
+=over
+
+Use this method to set or retrieve the cisco APIC controller configurations configured for the Grid member discovery properties. See L<Infoblox::Grid::Member::DiscoveryProperties-E<gt>cisco_apic_configurations()|Infoblox::Grid::Member::DiscoveryProperties/cisco_apic_configurations()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get cisco_apic_configurations value
+ my $cisco_apic_configurations = $discovery_properties->cisco_apic_configurations();
+ #Modify cisco_apic_configurations
+ $discovery_properties->cisco_apic_configurations([$cisco_apic_config1, $cisco_apic_config2]);
+
+=back
+
+=back
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve Cisco APIC IP address or FQDN.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The desired Cisco APIC IP address or Fully-Qualified Domain Name (FQDN) in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address();
+ # Modify attribute value
+ my $result = $object->address('10.11.0.1');
+
+=back
+
+=back
+
+=head2 ca_certificate( )
+
+=over
+
+Use this method to set or retrieve the CA certificate.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::CACertificate|Infoblox::Grid::CACertificate> object.
+
+=item B<Returns> 
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ca_certificate();
+ # Modify attribute value
+ my $result = $object->ca_certificate($ca_cert);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment for the Cisco APIC configuration.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->comment();
+ # Modify attribute value
+ $object->comment('APIC configuration');
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view associated with Cisco APIC.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a network view name that is associated with a Cisco APIC in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_view();
+ # Modify attribute value
+ my $result = $object->network_view('papi_network_view');
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set Cisco APIC login password. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Cisco APIC login password.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ # Modify attribute value
+ $object->password('password');
+
+=back
+
+=back
+
+=head2 protocol( )
+
+=over
+
+Use this method to set or retrieve the connection protocol for the Cisco APIC.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'HTTP' and 'HTTPS'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->protocol();
+ # Modify attribute value
+ $object->protocol('HTTP');
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to set or retrieve Cisco APIC login name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired Cisco APIC login name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->username();
+ # Modify attribute value
+ $object->username('username');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member::DiscoveryProperties-E<gt>cisco_apic_configurations()|Infoblox::Grid::Member::DiscoveryProperties/cisco_apic_configurations()/>, L<Infoblox::Grid::Member::DiscoveryProperties|Infoblox::Grid::Member::DiscoveryProperties>, L<Infoblox::Grid::CACertificate|Infoblox::Grid::CACertificate>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

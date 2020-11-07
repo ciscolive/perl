@@ -1,0 +1,52 @@
+{
+   "abstract" : "Reuse and mass produce PDF documents",
+   "author" : [
+      "Lars Lundberg LARSLUND@CPAN.ORG",
+      "Chris Nighswonger CNIGHS@CPAN.ORG"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.42_02, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "PDF-Reuse",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "AutoLoader" : "0",
+            "Carp" : "0",
+            "Compress::Zlib" : "0",
+            "Data::Dumper" : "0",
+            "Digest::MD5" : "0",
+            "Exporter" : "0",
+            "Font::TTF" : "0",
+            "Text::PDF::TTFont0" : "0",
+            "perl" : "5.006"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test" : "0",
+            "Test::Deep" : "0",
+            "Test::More" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.39",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

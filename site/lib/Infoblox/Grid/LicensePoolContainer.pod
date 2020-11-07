@@ -1,0 +1,208 @@
+=head1 NAME
+
+Infoblox::Grid::LicensePoolContainer - License Pool Container object.
+
+=head1 DESCRIPTION
+
+License Pool Container is the list of all license pools existing for a Grid.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::LicensePoolContainer object is a read-only object and does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a License Pool Container object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $retrieved_objs = $session->get(object => "Infoblox::Grid::LicensePoolContainer");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of a License Pool Container object.
+
+=head2 lpc_uid( )
+
+=over
+
+Use this method to retrieve the world-wide unique ID for the license pool container. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get the unique ID for the license pool container
+ my $lpc_uid = $license_pool_container->lpc_uid();
+
+=back
+
+=back
+
+=head2 last_entitlement_update( )
+
+=over
+
+Use this method to retrieve the timestamp of the last entitlement pool update. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get the last entitlement pool update
+ my $last_entitlement_update = $license_pool_container->last_entitlement_update();
+
+=back
+
+=back
+
+=head2 update_licenses( )
+
+=over
+
+Use this method to upload new license file.
+
+=over
+
+=item B<Parameter>
+
+"path"            - Required. Path to the signed file with static/dynamic licenses to upload.
+
+=item B<Returns>
+
+None.
+
+=item B<Example>
+
+ $license_pool_container->update_licenses(path => $path_to_license);
+
+=back
+
+=back
+
+=head2 allocate_licenses( )
+
+=over
+
+Use this method to allocate dynamic licenses to a node.
+
+=over
+
+=item B<Parameter>
+
+"hwid"            - Required. The hardware ID of a physical node to install dynamic licenses to.
+
+"license_pools"   - Required. The license pools from which you allocate dynamic licenses. An array containing L<Infoblox::Grid::LicensePool|Infoblox::Grid::LicensePool> objects.
+
+=item B<Returns>
+
+None.
+
+=item B<Example>
+
+ $license_pool_container->allocate_licenses(hwid => $hwid,
+                                            license_pools => [$licence_pool1, $licence_pool2]);
+
+=back
+
+=back
+
+=head2 download_pool_status( )
+
+=over
+
+Use this method to to download signed file with static licenses/license pools.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+"path"            - The path to the file with licenses to download.
+
+=item B<Example>
+
+ $hash_with_path = $license_pool_container->download_pool_status();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to a License Pool object. This sample code also includes error handling for the operations.
+
+B<#Preparation prior License Pool Container fetching>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox device
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Fetching the License Pool Container objects>
+
+ my $retrieved_objs=$session->get(object=> "Infoblox::Grid::LicensePoolContainer");
+
+ unless($retrieved_objs) {
+     die("Getting the license pool container failed:",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Got the license pool container successfully\n";
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::LicensePool|Infoblox::Grid::LicensePool>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

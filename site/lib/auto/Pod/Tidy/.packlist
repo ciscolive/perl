@@ -1,0 +1,8 @@
+/opt/perl/site/bin/podtidy
+/opt/perl/site/lib/Pod/Tidy.pm
+/opt/perl/site/lib/Pod/Tidy.pod
+/opt/perl/site/lib/Pod/Wrap/Pretty.pm
+/opt/perl/site/lib/Pod/Wrap/Pretty.pod
+/opt/perl/site/man/man1/podtidy.1
+/opt/perl/site/man/man3/Pod::Tidy.3
+/opt/perl/site/man/man3/Pod::Wrap::Pretty.3

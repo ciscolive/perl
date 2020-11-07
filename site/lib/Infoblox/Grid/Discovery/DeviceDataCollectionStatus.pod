@@ -1,0 +1,100 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DeviceDataCollectionStatus - the device data collection status.
+
+=head1 DESCRIPTION
+
+The object provides information about the device data collection status. This is a read-only object.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to a Device Data Collection Status object.
+
+=head2 Infoblox::Grid::Discovery::DeviceSupportInfoResponse->device_data_collection_status( )
+
+=over
+
+Use this method to retrieve the Device data collection statuses. See L<Infoblox::Grid::Discovery::DeviceSupportInfoResponse-E<gt>device_data_collection_status()|Infoblox::Grid::Discovery::DeviceSupportInfoResponse/device_data_collection_status()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get value
+ my $device_data_collection_status = $device_support_info_response->device_data_collection_status();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of a device data collection status.
+
+=head2 data_source()
+
+=over
+
+Use this method to retrieve the source from which device support information is collected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $data_source = $device_data_collection_status->data_source();
+
+=back
+
+=back
+
+=head2 end_time()
+
+=over
+
+Use this method to retrieve the time when the most recent collection from the data sources was completed. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get value
+ my $end_time = $device_data_collection_status->end_time();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery::DeviceSupportInfoResponse|Infoblox::Grid::Discovery::DeviceSupportInfoResponse>, L<Infoblox::Grid::Discovery::DeviceSupportInfo|Infoblox::Grid::Discovery::DeviceSupportInfo>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

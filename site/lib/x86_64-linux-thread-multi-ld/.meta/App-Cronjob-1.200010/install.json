@@ -1,0 +1,1 @@
+{"pathname":"R/RJ/RJBS/App-Cronjob-1.200010.tar.gz","target":"App::Cronjob","name":"App::Cronjob","version":"1.200010","dist":"App-Cronjob-1.200010","provides":{"App::Cronjob":{"file":"lib/App/Cronjob.pm","version":"1.200010"},"App::Cronjob::Exception":{"version":"1.200010","file":"lib/App/Cronjob.pm"}}}

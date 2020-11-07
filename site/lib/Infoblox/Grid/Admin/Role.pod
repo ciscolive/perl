@@ -1,0 +1,423 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::Role - Admin Role object.
+
+=head1 DESCRIPTION
+
+An Admin Role object creates and manages a local admin role on the Infoblox appliance. A Role object is used to aggregate a set of permissions (represented by Permission objects).
+
+=head1 CONSTRUCTOR
+
+ my $role = Infoblox::Grid::Admin::Role->new(
+     name                  => $string,                                                               #Required
+     comment               => $string,                                                               #Optional / Default is undefined
+     disabled              => "true" | "false",                                                      #Optional / Default is "false"
+     extattrs              => { $string => $extattr, ... },                                          #Optional / Default is undefined
+     extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to an Admin Role object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct the Role object
+ my $role = Infoblox::Grid::Admin::Role->new(
+     name                 => "testrole",
+     comment              => "test role",
+ );
+ # Submit for addition
+ my $response = $session->add( $role );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Role object:
+
+  name      - Required. Role name in string format.
+  extattrs  - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::Role",
+     name       => "testrole" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment.
+ $role->comment("This is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $role );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, use get() or search() to retrieve the specific object first, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the role objects with the same starting name
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::Role",
+     name       => "testrole" );
+ # find the desired object from the retrieved list.
+ my $desired_role = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_role );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Admin Role objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific Role object:
+
+  name      - Required. Role name in string format (regular expression).
+  extattrs  - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all Role objects that start with "test"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::Admin::Role",
+     name   => "test.*" );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a Role object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Pertinent information about the admin role, such as its purpose. Comment in string format with a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $role->comment();
+ #Modify comment
+ $role->comment("This is the modified comment for admin role");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the "disabled" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The role is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disabled
+ my $disabled = $role->disabled();
+ #Modify disabled
+ $role->disabled("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Role object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $role->extattrs();
+ #Modify extattrs
+ $role->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Role object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $role->extensible_attributes();
+ #Modify extensible attributes
+ $role->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of an admin role.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the admin role with a maximum of 64 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $role->name();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an Admin Role object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create an Admin Role object>
+
+ my $role = Infoblox::Grid::Admin::Role->new(
+     name                 => "testrole",
+     comment              => "test admin role",
+ );
+
+ unless ($role) {
+        die("Construct role object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Admin Role object created successfully\n";
+
+ #Add the Admin Role object to the Infoblox appliance through a session
+ $session->add($role)
+        or die("Add Admin Role object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin Role object added to server successfully\n";
+
+B<#Search for an Admin Role>
+
+ my @retrieved_objs = $session->search(
+                object => "Infoblox::Grid::Admin::Role",
+                name   => "test.*"
+                );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Admin Role object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Admin Role object found at least 1 matching entry\n";
+
+B<#Get and modify an Admin Role object>
+
+ #Get the Admin Role object from Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::Role",
+     name   => "testrole"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get Admin Role object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin Role object found at least 1 matching entry\n";
+
+ #Modify the Admin Role object
+ $object->name("testrole_renamed");
+ $object->comment("this is a new comment");
+
+ #Apply the changes.
+ $session->modify($object)
+        or die("Modify Admin Role object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Role object modified successfully \n";
+
+ #Accessor methods
+ print "name: " . $object->name() . "\n";
+ print "comment: " . $object->comment() . "\n";
+
+B<#Remove an Admin Role object>
+
+ #Get the Admin Role object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::Role",
+     name   => "testrole_renamed"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Admin Role object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin Role object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+        or die("Remove Admin Role object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin Role object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::Group|Infoblox::Grid::Admin::Group>, L<Infoblox::Grid::Admin::Permission|Infoblox::Grid::Admin::Permission>, L<Infoblox::Grid::Admin::User|Infoblox::Grid::Admin::User>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,1 @@
+{"dist":"DBD-ODBC-1.61","pathname":"M/MJ/MJEVANS/DBD-ODBC-1.61.tar.gz","target":"DBD::ODBC","name":"DBD::ODBC","provides":{"DBD::ODBC::dr":{"file":"ODBC.pm","version":"1.61"},"DBD::ODBC::db":{"file":"ODBC.pm","version":"1.61"},"DBD::ODBC::st":{"file":"ODBC.pm","version":"1.61"},"DBD::ODBC":{"file":"ODBC.pm","version":"1.61"}},"version":"1.61"}

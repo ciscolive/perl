@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Net/Azure/StorageClient.pm
+/opt/perl/site/lib/Net/Azure/StorageClient/Blob.pm
+/opt/perl/site/lib/Net/Azure/StorageClient/Blob/Thread.pm
+/opt/perl/site/lib/Net/Azure/StorageClient/MIMEType.pm
+/opt/perl/site/man/man3/Net::Azure::StorageClient.3
+/opt/perl/site/man/man3/Net::Azure::StorageClient::Blob.3
+/opt/perl/site/man/man3/Net::Azure::StorageClient::Blob::Thread.3
+/opt/perl/site/man/man3/Net::Azure::StorageClient::MIMEType.3

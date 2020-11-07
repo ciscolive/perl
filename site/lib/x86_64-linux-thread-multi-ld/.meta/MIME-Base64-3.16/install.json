@@ -1,0 +1,1 @@
+{"pathname":"C/CA/CAPOEIRAB/MIME-Base64-3.16.tar.gz","provides":{"MIME::QuotedPrint":{"file":"lib/MIME/QuotedPrint.pm","version":"3.16"},"MIME::Base64":{"file":"lib/MIME/Base64.pm","version":"3.16"}},"version":"3.16","target":"C/CA/CAPOEIRAB/MIME-Base64-3.16.tar.gz","dist":"MIME-Base64-3.16","name":"MIME::Base64"}

@@ -1,0 +1,4 @@
+/opt/perl/bin/podchecker
+/opt/perl/lib/Pod/Checker.pm
+/opt/perl/man/man1/podchecker.1
+/opt/perl/man/man3/Pod::Checker.3

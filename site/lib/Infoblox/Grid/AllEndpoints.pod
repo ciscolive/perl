@@ -1,0 +1,253 @@
+=head1 NAME
+
+Infoblox::Grid::AllEndpoints - A class that represents all Grid endpoints.
+
+=head1 DESCRIPTION
+
+The Grid endpoint object provides information about all third party servers.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Grid endpoint object:
+
+  address            - Optional. The FQDN or IP address of the Grid endpoint.
+  comment            - Optional. The Grid endpoint comment in string format.
+  subscribing_member - Optional. The Grid endpoint subscribing member name.
+  type               - Optional. The Grid endpoint type.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object  => 'Infoblox::Grid::AllEndpoints',
+     address => '10.0.0.1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for the object:
+
+  address            - Optional. The FQDN or IP address of the Grid endpoint (regexp).
+  comment            - Optional. The Grid endpoint comment in string format (regexp).
+  subscribing_member - Optional. The Grid endpoint subscribing member name (exact).
+  type               - Optional. The Grid endpoint type (exact).
+
+=item B<Examples>
+
+ # search for objects
+ my @retrieved_objs = $session->search(
+     object       => 'Infoblox::Grid::AllEndpoints',
+     address      => '10.*',
+     comment      => '.*comment',
+);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Grid endpoint.
+
+=head2 address( )
+
+=over
+
+Use this method to retrieve the fully-qualified domain name (FQDN) or IP address of the Grid endpoint. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get address value
+ my $address = $object->address();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve the Grid endpoint comment. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the Grid endpoint is enabled or disabled. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable value
+ my $disable = $object->disable();
+
+=back
+
+=back
+
+=head2 subscribing_member( )
+
+=over
+
+Use this method to retrieve the Grid member host name serving the Grid endpoint. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get subscribing_member value
+ my $subscribing_member = $object->subscribing_member();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the Grid endpoint type. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get type value
+ my $type = $object->type();
+
+=back
+
+=back
+
+=head2 version( )
+
+=over
+
+Use this method to retrieve the Grid endpoint version. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get version value
+ my $version = $object->version();
+
+=back
+
+=back
+
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

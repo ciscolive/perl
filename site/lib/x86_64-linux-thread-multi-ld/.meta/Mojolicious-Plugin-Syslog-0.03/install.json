@@ -1,0 +1,1 @@
+{"target":"Mojolicious::Plugin::Syslog","pathname":"J/JH/JHTHORSEN/Mojolicious-Plugin-Syslog-0.03.tar.gz","provides":{"Mojolicious::Plugin::Syslog":{"version":"0.03","file":"lib/Mojolicious/Plugin/Syslog.pm"}},"version":"0.03","name":"Mojolicious::Plugin::Syslog","dist":"Mojolicious-Plugin-Syslog-0.03"}

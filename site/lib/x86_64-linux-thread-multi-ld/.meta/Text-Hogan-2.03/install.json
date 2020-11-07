@@ -1,0 +1,1 @@
+{"provides":{"Text::Hogan::Compiler":{"version":"2.03","file":"lib/Text/Hogan/Compiler.pm"},"Text::Hogan":{"file":"lib/Text/Hogan.pm","version":"2.03"},"Text::Hogan::Template":{"file":"lib/Text/Hogan/Template.pm","version":"2.03"}},"version":"2.03","dist":"Text-Hogan-2.03","name":"Text::Hogan","pathname":"K/KA/KAORU/Text-Hogan-2.03.tar.gz","target":"Text::Hogan::Compiler"}

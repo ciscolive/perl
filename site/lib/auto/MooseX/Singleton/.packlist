@@ -1,0 +1,10 @@
+/opt/perl/site/lib/MooseX/Singleton.pm
+/opt/perl/site/lib/MooseX/Singleton/Role/Meta/Class.pm
+/opt/perl/site/lib/MooseX/Singleton/Role/Meta/Instance.pm
+/opt/perl/site/lib/MooseX/Singleton/Role/Meta/Method/Constructor.pm
+/opt/perl/site/lib/MooseX/Singleton/Role/Object.pm
+/opt/perl/site/man/man3/MooseX::Singleton.3
+/opt/perl/site/man/man3/MooseX::Singleton::Role::Meta::Class.3
+/opt/perl/site/man/man3/MooseX::Singleton::Role::Meta::Instance.3
+/opt/perl/site/man/man3/MooseX::Singleton::Role::Meta::Method::Constructor.3
+/opt/perl/site/man/man3/MooseX::Singleton::Role::Object.3

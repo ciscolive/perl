@@ -1,0 +1,324 @@
+=head1 NAME
+
+Infoblox::DNS::DDNS::PrincipalCluster::Group - A DDNS Principal Cluster Group object.
+
+=head1 DESCRIPTION
+
+The DDNS Principal Cluster Group object represents a set of DDNS Principal Clusters. A single group can be active at any time.
+
+=head1 CONSTRUCTOR
+
+    my $cluster = Infoblox::DNS::DDNS::PrincipalCluster::Group->new(
+        name     => $string,                     # Required
+        comment  => $string,                     # Optional / Default is undefined
+    );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DDNS Principal Cluster Group object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $object = Infoblox::DNS::DDNS::PrincipalCluster::Group->new(
+    name  => 'cluster1',
+ );
+
+ #submit for addition
+ my $response = $session->add($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name    - Optional. A DDNS Principal Cluster Group name in a string format.
+  comment - Optional. A DDNS Principal Cluster Group comment.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DNS::DDNS::PrincipalCluster::Group',
+     name   => 'cluster1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $object->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DNS::DDNS::PrincipalCluster::Group',
+     name   => 'cluster1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_cluster = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_cluster);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name    - Optional. A DDNS Principal Cluster Group name in a string format.
+  comment - Optional. A DDNS Principal Cluster Group comment.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DNS::DDNS::PrincipalCluster::Group',
+     name   => 'group1',
+ );
+
+=back
+
+=back
+
+=head1 MODULE METHODS
+
+=head2 Infoblox::Grid::DNS->ddns_principal_group( )
+
+=over
+
+Use this method to set or retrieve the DDNS Principal Cluster Group. 
+See L<Infoblox::Grid::DNS-E<gt>ddns_principal_group()|Infoblox::Grid::DNS/ddns_principal_group()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #get ddns_principal_group value
+ my $ddns_principal_group = $object->ddns_principal_group();
+
+ #modify ddns_principal_group value
+ $object->ddns_principal_group($group1);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->ddns_principal_group( )
+
+=over
+
+Use this method to set or retrieve the DDNS Principal Cluster Group. 
+See L<Infoblox::DNS::Zone-E<gt>ddns_principal_group()|Infoblox::DNS::Zone/ddns_principal_group()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #get ddns_principal_group value
+ my $ddns_principal_group = $object->ddns_principal_group();
+
+ #modify ddns_principal_group value
+ $object->ddns_principal_group($group1);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::View->ddns_principal_group( )
+
+=over
+
+Use this method to set or retrieve the DDNS Principal Cluster Group. 
+See L<Infoblox::DNS::View-E<gt>ddns_principal_group()|Infoblox::DNS::View/ddns_principal_group()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #get ddns_principal_group value
+ my $ddns_principal_group = $object->ddns_principal_group();
+
+ #modify ddns_principal_group value
+ $object->ddns_principal_group($group1);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 clusters( )
+
+=over
+
+Use this method to retrieve a list of equivalent DDNS principal clusters. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is array of an L<Infoblox::DNS::DDNS::PrincipalCluster|Infoblox::DNS::DDNS::PrincipalCluster> objects.
+
+=item B<Example>
+
+ #get clusters value
+ my $clusters = $object->clusters();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $object->comment();
+
+ #modify comment value
+ $object->comment('desired comment');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the DDNS Principal Cluster Group name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $object->name();
+
+ #modify name value
+ $object->name('foo');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, 
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, 
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, 
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, 
+L<Infoblox::Grid::DNS-E<gt>ddns_principal_group()|Infoblox::Grid::DNS/ddns_principal_group()/>, 
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, 
+L<Infoblox::DNS::Zone-E<gt>ddns_principal_group()|Infoblox::DNS::Zone/ddns_principal_group()/>, 
+L<Infoblox::DNS::View|Infoblox::DNS::View>, 
+L<Infoblox::DNS::View-E<gt>ddns_principal_group()|Infoblox::DNS::View/ddns_principal_group()/>, 
+
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

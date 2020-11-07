@@ -1,0 +1,359 @@
+=head1 NAME
+
+Infoblox::Grid::CloudAPI::Tenant - Infoblox::Grid::CloudAPI::Tenant object.
+
+=head1 DESCRIPTION
+
+This object represents an administrative concept in Cloud Management Platforms that associates all the network elements (networks, zones, VMs, IPs, ...) that are related and constitutive of the tenant.
+
+=head1 CONSTRUCTOR
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a Grid member object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   comment       - Optional. Descriptive comments.
+   id            - Optional. Unique ID associated with the tenant. Set at creation time only.
+   name          - Required. Name of the tenant.
+   unmanaged     - Optional. Flag to indicate if the tenant is unmanaged. Valid value is 'true' or 'false'.
+
+=item B<Example>
+
+ $session->get(object => "Infoblox::Grid::CloudAPI::Tenant", comment => "comment");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ $session->modify($tenant_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   comment       - Optional. Descriptive comments (regular expression).
+   id            - Optional. Unique ID associated with the tenant. Set at creation time only (regular expression).
+   name          - Required. Name of the tenant (regular expression).
+   unmanaged     - Optional. Flag to indicate if the tenant is unmanaged. Valid value is 'true' or 'false'.
+
+=item B<Example>
+
+ $session->get(object => "Infoblox::Grid::CloudAPI::Tenant", comment => "comment");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get comment
+ $comment = $tenant->comment();
+ # Modify comment
+ $tenant->comment("New comment");
+
+=back
+
+=back
+
+=head2 first_seen( )
+
+=over
+
+Use this method to retrieve the date and time the first time the tenant was seen on the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ # Get first_seen
+ $first_seen = $tenant->first_seen();
+
+=back
+
+=back
+
+=head2 id( )
+
+=over
+
+Use this method to retrieve a unique ID associated with the tenant. Set at creation time only. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get id
+ $id = $tenant->id();
+
+=back
+
+=back
+
+=head2 last_seen( )
+
+=over
+
+Use this method to retrieve the date and time the last time the tenant was seen on the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ # Get last_seen
+ $last_seen = $tenant->last_seen();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the tenant.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF8) with a maximum of 64 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get name
+ $name = $tenant->name();
+ # Modify name
+ $tenant->name("New name");
+
+=back
+
+=back
+
+=head2 network_count( )
+
+=over
+
+Use this method to retrieve the number of networks associated with the tenant. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get network_count
+ $network_count = $tenant->network_count();
+
+=back
+
+=back
+
+=head2 vm_count( )
+
+=over
+
+Use this method to retrieve the number of VMs associated with the tenant. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ # Get vm_count
+ $vm_count = $tenant->vm_count();
+
+=back
+
+=back
+
+=head2 unmanaged( )
+
+=over
+
+Use this method to retrieve the boolean flag used to indicate if the tenant is unmanaged or not. This is a read-only attribute
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value. The valid return value is "true" or "false".
+
+=item B<Example>
+
+ # Get unmanaged
+ $unmanaged = $tenant->unmanaged();
+
+=back
+
+=back
+
+=head2 first_discovered_timestamp( )
+
+=over
+
+Use this method to retrieve the date and time the tenant was first seen on the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ # Get first_discovered_timestamp
+ $first_discovered_timestamp = $tenant->first_discovered_timestamp();
+
+=back
+
+=back
+
+=head2 last_discovered_timestamp( )
+
+=over
+
+Use this method to retrieve the date and time the tenant was last seen on the system. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ # Get last_discovered_timestamp
+ $last_discovered_timestamp = $tenant->last_discovered_timestamp();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,12 @@
+/opt/perl/site/lib/IP/Info.pm
+/opt/perl/site/lib/IP/Info/Response.pm
+/opt/perl/site/lib/IP/Info/Response/Location.pm
+/opt/perl/site/lib/IP/Info/Response/Network.pm
+/opt/perl/site/lib/IP/Info/UserAgent.pm
+/opt/perl/site/lib/IP/Info/UserAgent/Exception.pm
+/opt/perl/site/man/man3/IP::Info.3
+/opt/perl/site/man/man3/IP::Info::Response.3
+/opt/perl/site/man/man3/IP::Info::Response::Location.3
+/opt/perl/site/man/man3/IP::Info::Response::Network.3
+/opt/perl/site/man/man3/IP::Info::UserAgent.3
+/opt/perl/site/man/man3/IP::Info::UserAgent::Exception.3

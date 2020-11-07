@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Net/Async/WebSocket.pm
+/opt/perl/site/lib/Net/Async/WebSocket/Client.pm
+/opt/perl/site/lib/Net/Async/WebSocket/Protocol.pm
+/opt/perl/site/lib/Net/Async/WebSocket/Server.pm
+/opt/perl/site/man/man3/Net::Async::WebSocket.3
+/opt/perl/site/man/man3/Net::Async::WebSocket::Client.3
+/opt/perl/site/man/man3/Net::Async::WebSocket::Protocol.3
+/opt/perl/site/man/man3/Net::Async::WebSocket::Server.3

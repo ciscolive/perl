@@ -1,0 +1,465 @@
+#!/usr/bin/env perl
+use warnings;
+use strict;
+use 5.010000;
+use utf8;
+
+our $VERSION = '0.417';
+
+use Encode                qw( encode decode );
+use File::Path            qw( make_path );
+use File::Spec::Functions qw( catdir catfile curdir );
+use Getopt::Long          qw( GetOptions );
+use Pod::Usage            qw( pod2usage );
+
+use Encode::Locale   qw( decode_argv );
+use File::HomeDir    qw();
+use File::Which      qw( which );
+use Term::ANSIScreen qw( :cursor :screen );
+use Term::Choose     qw( choose );
+use Term::Form       qw();
+
+use App::YTDL::Arguments  qw( from_arguments_to_choices );
+use App::YTDL::Download   qw( download );
+use App::YTDL::Helper     qw( uni_capture );
+use App::YTDL::History    qw( add_uploaders_to_history read_history_files choose_videos_from_saved_uploaders edit_sticky_file );
+use App::YTDL::Video_Info qw( print_video_infos );
+use App::YTDL::Options    qw( read_config_file set_options get_defaults );
+
+binmode STDIN,  ':encoding(utf-8)';
+binmode STDOUT, ':encoding(utf-8)';
+binmode STDERR, ':encoding(utf-8)';
+
+my $old_out_codepage;
+
+BEGIN {
+    if ( $^O eq "MSWin32" ) {
+        require Win32::Console;
+        require Win32::Console::ANSI;
+        $old_out_codepage = Win32::Console::OutputCP();
+        Win32::Console::OutputCP( 65001 );
+        print "\e(U";
+    }
+}
+
+END {
+    if ( $^O eq "MSWin32" ) {
+        Win32::Console::OutputCP( $old_out_codepage ) if $old_out_codepage;
+    }
+}
+
+
+my ( $arg_file, $help, $version );
+GetOptions( 'f|file=s@' => \$arg_file, 'h|?|help' => \$help, 'v|version' => \$version )
+or pod2usage( -message => $!, -verbose => 99, -sections => "SYNOPSIS" );
+
+if ( $version ) {
+    say 'App::YTDL, version ' . $main::VERSION;
+    exit;
+}
+
+my $my_videos = File::HomeDir->my_videos || curdir; ##
+if ( ! -d $my_videos ) {
+    say "Could not find the video directory '$my_videos'!";
+    exit 1;
+}
+
+my $config_home;
+if ( which( 'xdg-user-dir' ) ) {
+    $config_home = File::HomeDir::FreeDesktop->my_config(); ##
+}
+else {
+    $config_home = File::HomeDir->my_data();
+}
+my $config_dir = catdir $config_home, 'getvideo';
+make_path $config_dir;
+
+
+my $set = {
+    ffmpeg                      => which( 'ffmpeg' ),
+    ffprobe                     => which( 'ffprobe' ),
+
+    config_dir                  => $config_dir,
+    config_file                 => catfile( $config_dir, 'config.json' ),
+    history_file                => catfile( $config_dir, 'uploader_history.json' ),
+    sticky_file                 => catfile( $config_dir, 'uploader_sticky.json' ),
+
+    right_margin                => $^O eq 'MSWin32' ? 1 : 2,
+    list_sort_order             => 'Desc',
+    failed_fetching_data        => 'FAILED fetching required data!',
+};
+
+my $opt = get_defaults();
+
+my $youtube_dl = which( 'youtube-dl' );
+if ( ! $youtube_dl ) {
+    say "Could not find 'youtube-dl' - 'youtube-dl' is required - http://rg3.github.io/youtube-dl/.";
+    exit 1;
+};
+$set->{youtube_dl} = [ $youtube_dl ];
+
+read_config_file( $opt, $set->{config_file} );
+set_options( $set, $opt ) if $help;
+
+push @{$set->{youtube_dl}}, '--config-location', $opt->{yt_dl_config_location}  if $opt->{yt_dl_config_location};
+push @{$set->{youtube_dl}}, '--ignore-config',                                  if $opt->{yt_dl_ignore_config};
+push @{$set->{youtube_dl}}, '--no-warnings'                                     if $opt->{no_warnings};
+push @{$set->{youtube_dl}}, '--user-agent',      $opt->{useragent}              if defined $opt->{useragent};
+push @{$set->{youtube_dl}}, '--retries',         $opt->{retries}                if defined $opt->{retries};
+push @{$set->{youtube_dl}}, '--socket-timeout',  $opt->{timeout}                if defined $opt->{timeout};
+push @{$set->{youtube_dl}}, '--prefer-free-formats'                             if $opt->{prefer_free_formats};
+
+
+local $| = 1;
+print locate( 1, 1 ), cldown;
+
+
+read_history_files( $set, $opt );
+
+
+my @ids = @ARGV;
+
+for my $file ( @$arg_file ) {
+    open my $fh, '<:encoding(utf-8)', $file or die $!;
+    while ( my $line = <$fh> ) {
+        next if $line =~ /^\s*\z/;
+        next if $line =~ /^\s*#/;
+        $line =~ s/^\s+|\s+\z//g;
+        push @ids, split /\s+/, $line;
+    }
+    close $fh or die $!;
+}
+
+if ( ! @ids ) {
+    my $trs = Term::Form->new();
+    my $ids = $trs->readline( 'Enter url/id: ' );
+    @ids = split /\s+/, $ids;
+    print up( 1 ), cldown;
+}
+
+my $urls_data = {};
+my $data = {};
+
+if ( @ids ) {
+    my $chosen = from_arguments_to_choices( $set, $opt, $urls_data, $data, @ids );
+    print_video_infos( $set, $opt, $data, $chosen );
+    download( $set, $opt, $data, $chosen );
+    add_uploaders_to_history( $set, $opt, $data ) if $opt->{max_size_history};
+}
+elsif ( ! @ids && ( %{$set->{history}} || %{$set->{sticky}} ) ) {
+    my $clear_screen = 1;
+    my $old_idx = 0;
+
+    MENU: while ( 1 ) {
+        my ( $uploader, $sticky ) = ( '- Uploaders', '  Edit Sticky' );
+        my $menu = [ undef, $uploader, $sticky ];
+        # Choose
+        my $idx = choose(
+            $menu,
+            { prompt => 'Choose:', layout => 3, undef => '  QUIT',
+              clear_screen => $clear_screen, index => 1, default => $old_idx }
+        );
+        if ( ! defined $idx || ! defined $menu->[$idx] ) {
+            exit;
+        }
+        #if ( $opt->{menu_memory} ) {
+        #    if ( $old_idx == $idx && ! $ENV{TC_RESET_AUTO_UP} ) {
+        #        $old_idx = 0;
+        #        next MENU;
+        #    }
+        #    $old_idx = $idx;
+        #}
+        if ( $menu->[$idx] eq $uploader ) {
+            my @chosen_uploaders = choose_videos_from_saved_uploaders( $set, $opt );
+            next if ! @chosen_uploaders;
+            my $chosen = from_arguments_to_choices( $set, $opt, $urls_data, $data, @chosen_uploaders );
+            print_video_infos( $set, $opt, $data, $chosen );
+            my $total = download( $set, $opt, $data, $chosen );
+            $clear_screen = $total ? 0 : 1;
+            say "";
+        }
+        elsif ( $menu->[$idx] eq $sticky ) {
+           edit_sticky_file( $set, $opt );
+        }
+    }
+}
+
+
+if ( ! @ids ) {
+    say "No arguments" and exit;
+}
+
+
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+getvideo - Download YouTube and other videos.
+
+=head1 VERSION
+
+Version 0.417
+
+=cut
+
+=head1 SYNOPSIS
+
+    getvideo -h|-?|--help
+
+    getvideo
+
+    getvideo url [url ...]
+
+    getvideo -f|--file filename
+
+=head1 DESCRIPTION
+
+Download single videos or choose videos from a playlist or an uploader.
+
+Call C<getvideo> followed by the space separated urls or enter the urls after calling C<getvideo>. If the urls are
+entered after calling C<getvideo>, shell metacharacters are escaped automatically.
+
+The urls can also be passed with a file: C<getvideo -f|--file filename>. The urls in the file have to be space separated.
+
+If a passed url results in more than one video, it is shown a menu with the video titles. The user can then choose from
+the menu which videos to download. It is possible to filter the video titles of the list menu with a regexp. The filter
+can be inverted by adding C<!~> and a space in front of the regexp. Use the C<SpaceBar> to select more than one video -
+see L<Term::Choose/USAGE-AND-RETURN-VALUES>.
+
+The different options of C<getvideo> can be reached by calling C<getvideo -h>.
+
+C<App::YTDL> uses L<youtube-dl|http://rg3.github.io/youtube-dl/> to get the info data and to download the videos. To
+list the extractors supported by C<youtube-dl> call C<getvideo -h> and select the entry I<List extractors>.
+
+=head1 Options
+
+=head2 HELP
+
+Shows this HELP text.
+
+=head2 INFO
+
+Shows the path and the version of the running C<getvideo>, the path of the video and configuration directories and the
+version of C<youtube-dl>. If C<ffmpeg> and C<ffprobe> are available, their version is also shown.
+
+=head2 Directory
+
+=head3 Video directory
+
+Choose an alternative main video directory.
+
+=head3 Extractor directory
+
+Create/use extractor directories.
+
+- no
+
+- yes
+
+=head3 Uploader directory
+
+Create/use uploader directories
+
+- no
+
+- yes
+
+- if chosen from an uploader or a playlist
+
+=head3 Filename format info
+
+Which format info should be added to the filename.
+
+- none (unsafe)
+
+- video-height (unsafe)
+
+- format-id
+
+- format-id and video-height
+
+- format-string
+
+I<none> and I<video-height> are unsafe because the don't result in an unambiguous filename and could therefore overwrite
+previously downloaded files.
+
+=head2 Video format
+
+=head3 Resolution
+
+Set the video height.
+
+If set to I<manually>: C<+> => "merge", C<,> => "and", C</> => "or". See C<youtube-dl> documentation format section.
+
+=head3 No video height
+
+If I<Resolution> is set to a "I<res> or less": download videos whose height is unknown.
+
+- no
+
+- yes
+
+=head3 Prefer free formats
+
+Prefer free video formats (I<--prefer-free-formats>).
+
+- no
+
+- yes
+
+=head2 Download
+
+=head3 UserAgent
+
+Set the useragent string (I<--user-agent>).
+
+=head3 Download retries
+
+Set the number of download retries (I<--retries>).
+
+=head3 Timeout
+
+Connection timeout in seconds (I<--socket-timeout>).
+
+=head2 History
+
+=head3 Size history
+
+If no arguments are passed to C<getvideo>, the user can choose videos from uploaders saved in the history file and the
+sticky file.
+
+I<Size history> sets the limit of the number of uploaders saved in the history file. Setting I<size history> to C<0>
+disables the uploader-history.
+
+An uploader can be made sticky. Uploaders made sticky don't count regarding the I<size history> limit. An uploader made
+sticky gets also a new timestamp.
+
+When added to the uploader-history an uploader gets the current timestamp. If the I<size history> limit is reached, the
+uploader with the oldest timestamp is removed first.
+
+=head3 History sort
+
+Sort the history
+
+- by name
+
+- by timestamp
+
+=head2 Uploader video list
+
+=head3 Additional information
+
+For the first [value of I<additional information>] uploader video list entries is downloaded and shown additional
+information. The uploader video list is ordered is adopted from the output returned by C<--dump-single-json> from
+C<youtube-dl>. See also the following option I<Max processes>.
+
+=head3 Max processes
+
+If I<Additional information> is enabled I<Max processes> sets how many data-downloads are done in parallel.
+
+=head3 Sort order
+
+Sort the first  [value of I<additional information>] videos in the list-menu by
+
+- upload date (fallback title);
+
+- title
+
+- view count (fallback upload date)
+
+- duration (fallback upload date)
+
+Fallback is used, if the chosen entry is not available.
+
+=head3 Show view count
+
+Show the view count in the first [value of I<additional information>] uploader video list entries
+
+- if sorted by view count
+
+- always
+
+=head3 Show video id
+
+Show the video id in the entries of the video list.
+
+- no
+
+- yes
+
+=head2 Info output
+
+=head3 Disable warnings
+
+Ignore C<youtube-dl> warnings (I<--no-warnings>).
+
+=head3 Max info width
+
+Set the maximum width of the video info output.
+
+=head3 Max rows of descriptions
+
+Limit the rows of the description in the video info output.
+
+Setting this option to C<0> means no limit.
+
+=head2 Youtube-dl config file
+
+=head3 youtube-dl config file
+
+Location of the C<youtube-dl> configuration file (I<--config-location>).
+
+=head3 Ignore youtube-dl config file
+
+Do not read C<youtube-dl> configuration files (I<--ignore-config>).
+
+=head2 List extractors
+
+List the extractors supported by C<youtube-dl>.
+
+=head2 Extractor descriptions
+
+Output descriptions of supported extractors.
+
+=head1 REQUIREMENTS
+
+=head2 Perl version
+
+Requires Perl version 5.10.0 or greater.
+
+=head2 youtube-dl
+
+A recent version of L<youtube-dl|http://rg3.github.io/youtube-dl/> is required.
+
+=head2 ffmpeg and ffprobe
+
+The I<merge> feature requires C<ffmpeg> and C<ffprobe>.
+
+=head2 Monospaced font
+
+It is required a terminal that uses a monospaced font which supports the printed characters.
+
+=head1 CREDITS
+
+C<App::YTDL> uses L<youtube-dl|http://rg3.github.io/youtube-dl/> to get the data required for the video download.
+
+Thanks to the L<Perl-Community.de|http://www.perl-community.de> and the people form
+L<stackoverflow|http://stackoverflow.com> for the help.
+
+=head1 AUTHOR
+
+Kuerbis <cuer2s@gmail.com>
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright (C) 2013-2020 Kuerbis.
+
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl 5.10.0. For
+details, see the full text of the licenses in the file LICENSE.
+
+=cut

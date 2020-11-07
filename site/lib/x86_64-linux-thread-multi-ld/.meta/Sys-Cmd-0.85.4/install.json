@@ -1,0 +1,1 @@
+{"name":"Sys::Cmd","pathname":"M/ML/MLAWREN/Sys-Cmd-0.85.4.tar.gz","provides":{"Sys::Cmd":{"file":"lib/Sys/Cmd.pm","version":"v0.85.4"},"Sys::Cmd::Template":{"version":"v0.85.4","file":"lib/Sys/Cmd/Template.pm"}},"version":"v0.85.4","dist":"Sys-Cmd-0.85.4","target":"Sys::Cmd"}

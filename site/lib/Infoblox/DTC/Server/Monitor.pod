@@ -1,0 +1,160 @@
+=head1 NAME
+
+Infoblox::DTC::Server::Monitor - A DTC Server Monitor object.
+
+=head1 DESCRIPTION
+
+The DTC Server Monitor object is used to configure DTC Health Monitor for the particular DTC Server.
+
+=head1 CONSTRUCTOR
+
+ my $server_monitor = Infoblox::DTC::Server::Monitor->new(
+     monitor => $tcp_monitor | $icmp_monitor | $snmp_monitor | $sip_monitor | $pdp_monitor | $http_monitor, #Required
+     host    => $fqdn | $ipaddr,                                                                            #Optional / Default is undefined
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to an DTC Server Monitor object.
+
+=head2 Infoblox::DTC::Server->monitors( )
+
+=over
+
+Use this method to set or retrieve the list of DTC health monitors for the DTC Server.
+See L<Infoblox::DTC::Server-E<gt>monitors()|Infoblox::DTC::Server/monitors()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #get monitors value
+ my $monitors = $server->monitors();
+
+ #modify monitors value
+
+ #retrieve TCP monitor
+ my $tcp_monitor = $session->get(
+     object => 'Infoblox::DTC::Monitor::TCP',
+     name   => 'tcp_monitor',
+ );
+
+ #construct DTC server monitor
+ my $monitor = Infoblox::DTC::Server::Monitor->new(
+     monitor => $tcp_monitor,
+     host    => '192.168.1.10',
+ );
+
+ #modify monitors value
+ $server->monitors([$monitor]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 host( )
+
+=over
+
+Use this method to set or retrieve the address that is a subject of the DTC health monitoring.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an IP address or FQDN in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get host value
+ my $value = $object->host();
+
+ #Modify host value
+ $object->host('1.1.1.1');
+
+=back
+
+=back
+
+
+=head2 monitor( )
+
+=over
+
+Use this method to set or retrieve the DTC Health Monitor used to monitor the DTC Server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of following objects:
+L<Infoblox::DTC::Monitor::HTTP|Infoblox::DTC::Monitor::HTTP>,
+L<Infoblox::DTC::Monitor::SIP|Infoblox::DTC::Monitor::SIP>,
+L<Infoblox::DTC::Monitor::PDP|Infoblox::DTC::Monitor::PDP>,
+L<Infoblox::DTC::Monitor::SNMP|Infoblox::DTC::Monitor::SNMP>,
+L<Infoblox::DTC::Monitor::TCP|Infoblox::DTC::Monitor::TCP> or
+L<Infoblox::DTC::Monitor::ICMP|Infoblox::DTC::Monitor::ICMP>.
+
+Note that yo must first retrieve the Monitor object from the session.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get monitor value
+ my $value = $object->monitor();
+
+ #Retrieve TCP monitor
+ my $tcp_monitor = $session->get(
+     object => 'Infoblox::DTC::Monitor::TCP',
+     name   => 'tcp_monitor',
+ );
+
+ #Modify monitor value
+ $object->monitor($tcp_monitor);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC::Server|Infoblox::DTC::Server>,
+L<Infoblox::DTC::Server-E<gt>monitors()|Infoblox::DTC::Server/monitors()/>,
+L<Infoblox::DTC::Monitor::HTTP|Infoblox::DTC::Monitor::HTTP>,
+L<Infoblox::DTC::Monitor::SIP|Infoblox::DTC::Monitor::SIP>,
+L<Infoblox::DTC::Monitor::PDP|Infoblox::DTC::Monitor::PDP>,
+L<Infoblox::DTC::Monitor::SNMP|Infoblox::DTC::Monitor::SNMP>,
+L<Infoblox::DTC::Monitor::TCP|Infoblox::DTC::Monitor::TCP>,
+L<Infoblox::DTC::Monitor::ICMP|Infoblox::DTC::Monitor::ICMP>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

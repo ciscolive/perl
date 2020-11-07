@@ -1,0 +1,69 @@
+{
+   "abstract" : "Deal transparently with shared files distributed as tarballs",
+   "author" : [
+      "Yanick Champoux <yanick@babyl.dyndns.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "File-ShareDir-Tarball",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "File::Find" : 0,
+            "Module::Build" : "0.3601",
+            "Test::File::ShareDir" : "v0.3.0",
+            "Test::More" : "0.88"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.3601"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Archive::Tar" : 0,
+            "Carp" : 0,
+            "Exporter" : 0,
+            "File::ShareDir" : 0,
+            "File::Temp" : 0,
+            "File::chdir" : 0,
+            "parent" : 0,
+            "strict" : 0,
+            "warnings" : 0
+         }
+      }
+   },
+   "provides" : {
+      "File::ShareDir::Tarball" : {
+         "file" : "lib/File/ShareDir/Tarball.pm",
+         "version" : "v0.2.2"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "mailto" : "bug-file-sharedir-tarball at rt.cpan.org",
+         "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=File-ShareDir-Tarball"
+      },
+      "homepage" : "http://search.cpan.org/dist/File-ShareDir-Tarball/",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/yanick/File-ShareDir-Tarball.git",
+         "web" : "https://github.com/yanick/File-ShareDir-Tarball"
+      }
+   },
+   "version" : "0.2.2",
+   "x_author_pledge" : {
+      "version" : 1
+   },
+   "x_authority" : "cpan:YANICK",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

@@ -1,0 +1,1 @@
+{"provides":{"Mojo::SNMP::Dispatcher":{"file":"lib/Mojo/SNMP/Dispatcher.pm"},"Mojo::SNMP":{"version":"0.13","file":"lib/Mojo/SNMP.pm"}},"version":"0.13","target":"Mojo::SNMP","dist":"Mojo-SNMP-0.13","pathname":"J/JH/JHTHORSEN/Mojo-SNMP-0.13.tar.gz","name":"Mojo::SNMP"}

@@ -1,0 +1,503 @@
+=head1 NAME
+
+Infoblox::Grid::SyslogServer - Syslog server object.
+
+=head1 DESCRIPTION
+
+Syslog is a widely used mechanism for logging system events. Infoblox appliances generate syslog messages which can be viewed through the system log viewer and downloaded to a directory on your management station. In addition, the Infoblox appliance can be configured to send the messages to one or more external syslog servers for later analysis. Syslog messages provide information about appliance operations and processes. Also, the appliance can include audit log messages and specific BIND messages among the messages sent to the syslog server.
+
+=head1 CONSTRUCTOR
+
+ my $syslog_server = Infoblox::Grid::SyslogServer->new(
+        address            => $address,                         #Required
+        connection_type    => "tcp" | "udp" | "stcp",           #Optional / Default is "udp"
+        local_interface    => "any" | "mgmt" | "lan",           #Optional / Default is "any"
+        message_source     => "any" | "internal" | "external",  #Optional / Default is "any"
+        port               => $num,                             #Optional / Default is 514 for TCP/UDP, 6514 for STCP
+        severity           => "debug" | "info" | "notice" | "warning" | "err" | "crit" | "alert" | "emerg", #Optional / Default is "debug"
+        certificate        => $fname,  #Optional / Default is undefined
+        
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a syslog server object.
+
+=head2 Infoblox::Grid->syslog_server( )
+
+=over
+
+Use this function to specify a syslog server at the grid level on the Infoblox appliance. See L<Infoblox::Grid-E<gt>syslog_server()|Infoblox::Grid/syslog_server()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a syslog server object
+ my $syslog_server1 = Infoblox::Grid::SyslogServer->new(
+                          address => "1.1.1.1",
+                         );
+
+ #Configure syslog server on the Infoblox grid object
+ my $responce = $grid->syslog_server([$syslog_server1]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->syslog_server( )
+
+=over
+
+Use this function to specify a syslog server at the member level on the Infoblox appliance. See L<Infoblox::Grid::Member-E<gt>syslog_server()|Infoblox::Grid::Member/syslog_server()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a syslog server object
+ my $syslog_server2 = Infoblox::Grid::SyslogServer->new(
+                        address => "2.2.2.2",
+                        severity => "debug",
+                      );
+
+ #Configure syslog server on the grid member object
+ my $responce = $grid_member->syslog_server([$syslog_server2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute value of a syslog server object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IPv4 or IPv6 address of a syslog server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+An IPv6 address is a 128-bit number represented as eight groups of four hexadecimal digits (i.e. two octets), with each group separated by a colon(:) (example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Leading zeroes and groups of consecutive zeros within the value can be omitted to produce a more compact representation (example: 2001::1, ::1).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get address
+ my $address = $syslog_server->address();
+ #Modify address
+ $syslog_server->address("3.3.3.3");
+
+=back
+
+=back
+
+=head2 category_list( )
+
+=over
+
+Use this method to set or retrieve the list of syslog categories for forwarding.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a list containing these values: 'NON_CATEGORIZED', 'ATP', 'DNS_CLIENT', 'DNS_CONFIG', 'DNS_DATABASE', 'DNS_DNSSEC', 'DNS_GENERAL', 'DNS_LAME_SERVERS', 'DNS_NETWORK', 'DNS_NOTIFY', 'DNS_QUERIES', 'DNS_QUERY_REWRITE', 'DNS_RESOLVER', 'DNS_RESPONSES', 'DNS_RPZ', 'DNS_SECURITY', 'DNS_UPDATE', 'DNS_UPDATE_SECURITY', 'DNS_XFER_IN', 'DNS_XFER_OUT', 'DNS_UNBOUND', 'DTC_HEALTHD', 'DTC_IDNSD', 'DHCPD', 'NTP', 'FTPD', 'TFTPD', 'CLOUD_API', 'MS_DNS_SERVER', 'MS_CONNECT_STATUS', 'MS_DNS_ZONE', 'MS_DHCP_SERVER', 'MS_DHCP_LEASE', 'MS_DHCP_CLEAR_LEASE', 'MS_SITES', 'MS_AD_USERS', 'AUTH_COMMON', 'AUTH_NON_SYSTEM', 'AUTH_UI_API', 'AUTH_ACTIVE_DIRECTORY', 'AUTH_RADIUS', 'AUTH_TACACS', 'AUTH_LDAP', 'OUTBOUND_API'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get category_list
+ my $category_list = $syslog_server->category_list();
+
+ #Modify category_list
+ $syslog_server->category_list(['DNS_CLIENT']);
+
+=back
+
+=back
+
+=head2 certificate( )
+
+=over
+
+Use this method to set a path to the file that contains a client certificate. This is a write-only attribute.
+
+Note that the certificate must be set in order to establish an STCP connection.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the path to the client certificate file.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify certificate
+ $syslog_server->certificate('/path/to/certificate.pem');
+
+=back
+
+=back
+
+=head2 connection_type( )
+
+=over
+
+Use this method to set or retrieve the connection type to the external syslog server. This method specifies whether the appliance uses TCP or UDP to connect to the external syslog server.
+
+Note that the certificate must be set in order to establish an STCP connection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are: C<"tcp", "udp", "stcp">. The default value is "udp".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get connection_type
+ my $connection_type = $syslog_server->connection_type();
+ #Modify connection_type
+ $syslog_server->connection_type("tcp");
+
+=back
+
+=back
+
+=head2 local_interface( )
+
+=over
+
+Use this method to set or retrieve the interface through which the appliance sends syslog messages to the syslog server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are: C<"any", "mgmt", "lan">. The default value is "any".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get local_interface
+ my $local_interface = $syslog_server->local_interface();
+ #Modify local_interface
+ $syslog_server->local_interface("lan");
+
+=back
+
+=back
+
+=head2 message_source( )
+
+=over
+
+Use this method to set or retrieve the message source value of the syslog server. This method specifies which syslog messages the appliance sends to the external syslog server:
+
+ Any     : The appliance sends both internal and external syslog messages.
+ Internal: The appliance sends syslog messages that it generates.
+ External: The appliance sends syslog messages that it receives from other appliances, such as syslog servers and routers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are: C<"any", "internal", "external">. The default value is "any".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get message_source
+ my $message_source = $syslog_server->message_source();
+ #Modify message_source
+ $syslog_server->message_source("internal");
+
+=back
+
+=back
+
+=head2 only_category_list( )
+
+=over
+
+Use this method to enable or disable forwarding of syslog messages that belong to the list of categories.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable forwarding or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get only_category_list
+ my $only_category_list = $syslog_server->only_category_list();
+
+ #Modify only_category_list
+ $syslog_server->only_category_list("true");
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the destination port number.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are between 1 and 65535. The default value is 514.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get port
+ my $port = $syslog_server->port();
+ #Modify port
+ $syslog_server->port("515");
+
+=back
+
+=back
+
+=head2 severity( )
+
+=over
+
+Use this method to set or retrieve the severity level for the syslog server. When you set a severity level, grid members send messages for that severity level plus all messages for all severity levels above it. The lowest severity level is "debug", and the highest severity level is "emerg".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are: C<"debug", "info", "notice", "warning", "err", "crit", "alert", "emerg">. The default value is "debug".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get severity
+ my $severity = $syslog_server->severity();
+ #Modify severity
+ $syslog_server->severity("info");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a syslog server object such as add, modify, and remove. Also, this sample code includes error handling for the operations.
+
+B<#Preparation prior to a syslog server object insertion>
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",   #appliance host ip
+     username => "admin",         #appliance user login
+     password => "infoblox"       #appliance password
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully.\n";
+
+B<#Create a syslog server object>
+
+ my $syslog_server = Infoblox::Grid::SyslogServer->new(
+                    address => "1.1.1.1",
+                    severity => "debug"
+                   );
+
+ unless($syslog_server) {
+        die("Construct syslog server object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "syslog server object created successfully\n";
+
+B<#Get Infoblox grid object and add syslog server to it>
+
+ #Get Infoblox grid object
+ my @grid_objs = $session->get(
+            object => "Infoblox::Grid",
+            name   => "Infoblox"
+        );
+
+ my $grid = $grid_objs[0];
+ unless ($grid) {
+        die("Get Grid object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Grid object found at least 1 matching entry\n";
+
+ #Apply the changes to the Grid object
+ $grid->syslog_server([$syslog_server]);
+
+ #Apply the changes
+ $session->modify($grid)
+     or die("Modify Grid object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+
+ print "Grid object with syslog server updated to Infoblox appliance successfully\n";
+
+B<#Modify syslog server object>
+
+ #Get Infoblox grid object
+ my @grid_objs = $session->get(
+            object => "Infoblox::Grid",
+            name   => "Infoblox"
+        );
+
+ unless(scalar(@grid_objs) == 0){
+        my $grid = $grid_objs[0];
+	if($grid){
+		my $syslog_obj = $grid->syslog_server();
+		my @sys_servers = @{$syslog_obj};
+		my $sys_server = $sys_servers[0];
+
+		#Modifying the address of the syslog server object.
+		$sys_server->address("2.2.2.2");
+
+		#Modifying the connection_type of the syslog server object.
+		$sys_server->connection_type("tcp");
+
+		#Modifying the local_interface of the syslog server object.
+		$sys_server->local_interface("lan");
+
+		#Modifying the message_source of the syslog server object.
+		$sys_server->message_source("external");
+
+		#Modifying the port of the syslog server object.
+		$sys_server->port("516");
+
+		#Modifying the severity of the syslog server object.
+		$sys_server->severity("warning");
+
+		#Apply changes to the Grid object.
+		$grid->syslog_server([$sys_server]);
+
+		#Update Grid object through the Infoblox session.
+		$session->modify($grid)
+		             or die("modify Grid object failed: ",
+                		 $session->status_code() . ":" . $session->status_detail());
+		
+		print "Grid object with modified syslog server updated to Infoblox appliance successfully\n";
+	}
+ }
+
+B<#Remove syslog server>
+
+ #Get Infoblox grid object
+ my @grid_objs = $session->get(
+            object => "Infoblox::Grid",
+            name   => "Infoblox"
+        );
+
+ my $grid = $grid_objs[0];
+ unless ($grid) {
+        die("Get Grid object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Grid object found at least 1 matching entry\n";
+
+ #Remove syslog servers from the Grid object.
+ $grid->syslog_server(undef);
+
+ #Update Grid object through the Infoblox session.
+ $session->modify($grid)
+             or die("Remove syslog server from Grid object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+
+ print "Removed syslog server from Grid object successfully\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Grid|Infoblox::Grid>,L<Infoblox::Grid::Member|Infoblox::Grid::Member>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

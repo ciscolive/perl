@@ -1,0 +1,399 @@
+=head1 NAME
+
+Infoblox::DHCP::MSOption - Microsoft (r) Server DHCP Option object.
+
+=head1 DESCRIPTION
+
+DHCP options describe network configuration settings and various services available on the network. These options occur as variable-length fields at the end of DHCP messages.
+
+You can add or change only DHCP options that are in the Microsoft server and NIOS predefined list of options. Options that are not common to both are read-only.
+
+Following are the options that the Microsoft server and the NIOS predefined list of options have in common:
+
+ code    name
+ =======================================================
+   2    'Time Offset'
+   4    'Time Server'
+   5    'Name Servers'
+   7    'Log Servers'
+   8    'Cookie Servers'
+   9    'LPR Servers'
+   10   'Impress Servers'
+   11   'Resource Location Servers'
+   12   'Host Name'
+   13   'Boot File Size'
+   14   'Merit Dump File'
+   16   'Swap Server'
+   17   'Root Path'
+   18   'Extensions Path'
+   19   'IP Layer Forwarding'
+   20   'Nonlocal Source Routing'
+   21   'Policy Filter Masks'
+   22   'Max DG Reassembly Size'
+   23   'Default IP Time-to-live'
+   24   'Path MTU Aging Timeout'
+   25   'Path MTU Plateau Table'
+   26   'MTU Option'
+   27   'All subnets are local'
+   29   'Perform Mask Discovery'
+   30   'Mask Supplier Option'
+   31   'Perform Router Discovery'
+   32   'Router Solicitation Address'
+   33   'Static Route Option'
+   34   'Trailer Encapsulation'
+   35   'ARP Cache Timeout'
+   36   'Ethernet Encapsulation'
+   37   'TCP Default Time-to-live'
+   38   'Keepalive Interval'
+   39   'Keepalive Garbage'
+   40   'NIS Domain Name'
+   41   'NIS Servers'
+   42   'NTP Servers'
+   43   'Vendor Specific Info'
+   44   'WINS/NBNS Servers'
+   45   'NetBIOS over TCP/IP NBDD'
+   46   'WINS/NBT Node Type'
+   47   'NetBIOS Scope ID'
+   48   'X Window System Font'
+   49   'X Window System Display'
+   64   'NIS+ Domain Name'
+   65   'NIS+ Servers'
+   66   'Boot Server Host Name'
+   67   'Bootfile Name'
+   68   'Mobile IP Home Agents'
+   69   'Simple Mail Transport Protocol (SMTP) Servers'
+   70   'Post Office Protocol (POP3) Servers'
+   71   'Network News Transport Protocol (NNTP) Servers'
+   72   'World Wide Web (WWW) Servers'
+   73   'Finger Servers'
+   74   'Internet Relay Chat (IRC) Servers'
+   75   'StreetTalk Servers'
+   76   'StreetTalk Directory Assistance (STDA) Servers'
+
+=head1 CONSTRUCTOR
+
+  my $option = Infoblox::DHCP::MSOption->new(
+     code         => $int,                           #Required
+     value        => $num | $string |"true"|"false", #Required
+     name         => $string,                        #Optional
+     type         => $string,                        #Optional
+     vendor_class => $string,                        #Optional / If not specified, it uses the default Microsoft vendor class
+     user_class   => $string,                        #Optional / If not specified, it uses the default Microsoft user class
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DHCP Option object.
+
+=head2 Infoblox::Grid::MSServer::DHCP->ms_options( )
+
+=over
+
+Use this function to specify DHCP options at the Microsoft server level. See L<Infoblox::Grid::MSServer::DHCP-E<gt>ms_options()|Infoblox::Grid::MSServer::DHCP/ms_options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option object
+ my $opt1 = Infoblox::DHCP::MSOption->new(
+                                          name         => 'Time Offset',
+                                          code         => 2,
+                                          type         => 'long',
+                                          value        => 50,
+                                          vendor_class => 'DHCP Standard Options',
+                                          user_class   => 'Default User Class',
+                                         );
+ # Configure a DHCP option for a Microsoft DHCP server
+ my $response = $MSServer_DHCP->ms_options([$opt1]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::Range->ms_options( )
+
+=over
+
+Use this function to specify Microsoft DHCP options at the range level. See L<Infoblox::DHCP::Range-E<gt>ms_options()|Infoblox::DHCP::Range/ms_options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $opt1 = Infoblox::DHCP::MSOption->new(
+                                          name         => 'LPR Servers',
+                                          code         => 9,
+                                          type         => 'array of ip address',
+                                          value        => '10.4.1.0,10.4.1.1,10.4.1.2',
+                                          vendor_class => 'DHCP Standard Options',
+                                          user_class   => 'Default User Class',
+                                         );
+ # Configure a Microsoft DHCP option for a range
+ my $response = $Range->ms_options([$opt1]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::FixedAddr->ms_options( )
+
+=over
+
+Use this function to specify DHCP options at the fixed address level. See L<Infoblox::DHCP::FixedAddr-E<gt>ms_options()|Infoblox::DHCP::FixedAddr/ms_options()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $opt1 = Infoblox::DHCP::MSOption->new(
+                                          name         => 'Static Route Option',
+                                          code         => 33,
+                                          type         => 'array of ip address pair',
+                                          value        => '10.5.1.0 10.5.1.1,10.5.1.2 10.5.1.3',
+                                         );
+ # Configure a DHCP option for a network
+ my $response = $FixedAddr->ms_options([$opt1]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP option.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the DHCP option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the name of the Microsoft DHCP option in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $option->name();
+ #Modify name
+ $option->name("Static Route Option");
+
+=back
+
+=back
+
+=head2 code( )
+
+=over
+
+Use this method to set or retrieve the code value of the DHCP option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the code of the DHCP option. It must be an integer from 1 to 254.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get code
+ my $code = $option->code();
+ #Modify code
+ $option->code("12");
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the type value of the DHCP option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the type of the DHCP option. It must be one of the following values:
+
+ 'binary'
+ 'byte'
+ 'array of byte'
+ 'array of ip address pair'
+ 'ip address'
+ 'array of ip address'
+ 'long integer'
+ 'array of long integer'
+ 'long'
+ 'array of long'
+ 'array of string'
+ 'array of word'
+ 'encapsulated'
+ 'string'
+ 'word'
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get type
+ my $type = $option->type();
+ #Modify type
+ $option->type("string");
+
+=back
+
+=back
+
+=head2 value( )
+
+=over
+
+Use this method to set or retrieve the custom value of the DHCP option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the data type of the DHCP option. If the type is set to 'array of...', the accepted type is a list of the specified types.
+
+  "binary"                            - Binary data.
+
+  "byte"                              - Specify a numeric value between 0 and 255.
+
+  "encapsulated"                      - Encapsulated data.
+
+  "ip address"                        - Specify an IPv4 address.
+
+  "ip address pair"                   - Specify a pair of IPv4 addresses separated by a space.
+
+  "long"                              - Specify a numeric value between 0 and 4294967295.
+
+  "long integer"                      - Specify a numeric value between 0 and 1.84467441 * 10^19
+
+  "string"                            - Specify either a value in ASCII text string or
+                                        a list of hexadecimal characters (0-9, a-f, or A-F) without spaces and separated by colons.
+
+  "word"                              - Specify a numeric value between 0 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $value = $option->value();
+ #Modify value
+ $option->value("abc.com");
+
+=back
+
+=back
+
+=head2 user_class( )
+
+=over
+
+Use this method to set an option space name as the user class value of a DHCP option or to retrieve an option space name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the defined option space name in string format. The default user class name is "Default User Class".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get user_class
+ my $name = $option->user_class();
+ #Modify user_class
+ $option->user_class("Default User Class");
+
+=back
+
+=back
+
+=head2 vendor_class( )
+
+=over
+
+Use this method to set an option space name as the vendor class value of a DHCP option or to retrieve an option space name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the defined option space name in string format. The default vendor space name is "DHCP Standard Options".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get vendor_class
+ my $name = $option->vendor_class();
+ #Modify vendor_class
+ $option->vendor_class("DHCP Standard Options");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Grid::MSServer::DHCP|Infoblox::Grid::MSServer::DHCP>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

@@ -1,0 +1,1107 @@
+=head1 NAME
+
+Infoblox::DNS::Record::NAPTR  - NAPTR record object.
+
+=head1 DESCRIPTION
+
+A DNS NAPTR object represents a Naming Authority Pointer (NAPTR) resource record. This resource record specifies a regular expression-based rewrite rule that, when applied to an existing string, produces a new domain name or URI.
+
+=head1 CONSTRUCTOR
+
+ my $naptr = Infoblox::DNS::Record::NAPTR->new(
+     name                  => $fqdn,                                                             # Required
+     order                 => $num,                                                              # Required
+     preference            => $num,                                                              # Required
+     flags                 => $string,                                                           # Optional
+     services              => $string,                                                           # Optional
+     regexp                => $string,                                                           # Optional
+     replacement           => $string                                                            # Required
+     comment               => $string,                                                           # Optional / Default is empty
+     disable               => "true" | "false",                                                  # Optional / Default is "false"
+     extattrs              => { $string => $extattr, ... },                                      # Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, # Optional / Default is undefined
+     ttl                   => $num | undef,                                                      # Optional / Default is undefined
+     views                 => [$View1],                                                          # Optional / Default is "default" view
+     creator               => "DYNAMIC" | "STATIC",                                              # Optional / Default is "STATIC"
+     ddns_protected        => "true" | "false",                                                  # Optional / Default is "false"
+     ddns_principal        => $string,                                                           # Optional / Default is undefined
+     forbid_reclamation    => "true" | "false",                                                  # Optional / Default is "false"
+ );
+
+Note that you must specify only one DNS view for the attribute "views".
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that can be applied to an NAPTR record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $naptr = Infoblox::DNS::Record::NAPTR->new(
+     name            => 'naptr.domain.com',
+     order           => 100,
+     preference      => 10,
+     flags           => 'U',
+     services        => 'http+E2U',
+     regexp          => '!http://my[.](.*)!1!i',
+     replacement     => 'domain2.com',
+     comment         => 'Sample NAPTR record',
+     disable         => 'false',
+     ttl             => 84600,
+     views           => [$view1],
+ );
+ # Submit for addition
+ my $response = $session->add( $naptr );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get specific NAPTR record objects:
+
+     comment               - Optional. Descriptive comment in string format
+     creator               - Optional. Record creator.
+     ddns_principal        - Optional. GSS-TSIG principal that owns the record.
+     reclaimable           - Optional. The flag that indicates whether the record is reclaimable or not.
+     extattrs              - Optional. A hash reference containing extensible attributes.
+     extensible_attributes - Optional. A hash reference containing extensible attributes.
+     flags                 - Optional. Flags in string format
+     name                  - Optional. FQDN of the record in string format
+     order                 - Optional. Order parameter (unsigned integer)
+     preference            - Optional. Preference parameter (unsigned integer)
+     replacement           - Optional. Replacement field in string format
+     services              - Optional. Services field in string format
+     view                  - Optional. The DNS view in which the NAPTR record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+     zone                  - Optional. A zone name in FQDN format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::NAPTR",
+     name   => "naptr1.domain.com",
+     view   => "default" );
+
+ #get all DNS A records with the extensible attribute 'Site'
+ my @retrieved_objs = $session->get(
+    object => "Infoblox::DNS::Record::NAPTR",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment.
+ $naptr->comment("this is a modified comment");
+ # Submit the modification
+ my $response = $session->modify( $naptr );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to submit the removal of an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::NAPTR",
+     name   => "naptr1.domain.com",
+     view   => "default" );
+ # Find the desired object in the retrieved list.
+ my $desired_rec = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_rec );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search the NAPTR record objects:
+
+     comment               - Optional. Descriptive comment (regular expression)
+     creator               - Optional. Record creator.
+     ddns_principal        - Optional. GSS-TSIG principal that owns the record.
+     reclaimable           - Optional. The flag that indicates whether the record is reclaimable or not.
+     extattrs              - Optional. A hash reference containing extensible attributes.
+     extensible_attributes - Optional. A hash reference containing extensible attributes.
+     flags                 - Optional. Flags in string format (regular expression)
+     name                  - Optional. FQDN of the record in string format (regular expression)
+     order                 - Optional. Order parameter (unsigned integer, exact search)
+     preference            - Optional. Preference parameter (unsigned integer, exact search)
+     replacement           - Optional. Replacement field in string format (regular expression)
+     services              - Optional. Services field in string format (regular expression)
+     view                  - Optional. The DNS view in which the NAPTR record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only. Only exact search is supported.
+     zone                  - Optional. A zone name in FQDN format (exact search)
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all NAPTR objects that match "domain.com" in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::NAPTR",
+     name   => '.*domain\.com',
+     view   => "default" );
+
+ # search for all NAPTR records in the "domain.com" zone of the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::NAPTR",
+     zone   => "domain.com",
+     view   => "default" );
+
+ #get all NAPTR records with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+   object => "Infoblox::DNS::Record::NAPTR",
+   extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of an NAPTR record object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of an NAPTR record object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the descriptive comment
+ my $comment = $naptr->comment();
+ #Modify the comment
+ $naptr->comment("This is a new comment");
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::Record::NAPTR object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 creator( )
+
+=over
+
+Use this method to set or retrieve the record creator.
+
+Note that changing creator from or to 'SYSTEM' value is not allowed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+The valid values are 'STATIC' and 'DYNAMIC'. The default value is 'STATIC'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get creator value
+ my $creator = $object->creator();
+
+ #Modify creator value
+ $object->creator("DYNAMIC");
+
+=back
+
+=back
+
+=head2 creation_time( )
+
+=over
+
+Use this method to retrieve the creation time for the record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is a number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get creation_time value
+ my $creation_time = $object->creation_time();
+
+=back
+
+=back
+
+=head2 ddns_principal( )
+
+=over
+
+Use this method to set or retrive the GSS-TSIG principal that owns this record.
+
+Note that you cannot set ddns_principal for 'STATIC' and 'SYSTEM' records.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+The GSS-TSIG principal FQDN (Fully Qualified Domain Name) format. The FQDN consists of the hostname followed by the domain name (example: abc.com). A hostname can have a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_principal value
+ my $ddns_principal = $object->ddns_principal();
+
+ #Modify ddns_principal value
+ $object->ddns_principal('foo.com');
+
+=back
+
+=back
+
+=head2 ddns_protected( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether DDNS updates for this record are allowed or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to protect record from DDNS updates and 'false' to allow DDNS updates for the specified record.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_protected value
+ my $ddns_protected = $object->ddns_protected();
+
+ #Modify ddns_protected value
+ $object->ddns_protected('true');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of an NAPTR record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false, which indicates that the NAPTR record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the disable field
+ my $disable = $naptr->disable();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the FQDN, in punycode format, of the NAPTR record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $naptr->dns_name();
+
+=back
+
+=back
+
+=head2 dns_replacement( )
+
+=over
+
+Use this method to retrieve the replacement field, in punycode format, of an NAPTR record object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $naptr->dns_replacement();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a NAPTR record object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $naptr->extattrs();
+ #Modify extattrs
+ $naptr->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with an NAPTR record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get  extensible attributes
+ my $ref_extensible_attributes = $naptr->extensible_attributes();
+ #Modify extensible attributes
+ $naptr->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 flags( )
+
+=over
+
+Use this method to retrieve the flags to control the interpretation of the fields of an NAPTR record object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Currently supported values for the flags field are "U", "S", "P" and "A".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the flags field
+ my $flags = $naptr->flags();
+ #Modify flags
+ $naptr->flags("U");
+
+=back
+
+=back
+
+=head2 forbid_reclamation( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the reclamation is allowed for the record or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to forbid reclamation for the record and 'false' to allow it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get forbid_reclamation
+ my $forbid_reclamation = $object->forbid_reclamation();
+ #Modify forbid_reclamation
+ $object->forbid_reclamation('true');
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time when the associated record was last queried. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $naptr->last_queried();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the FQDN (Fully Qualified Domain Name) of the NAPTR record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+The name parameter is a string in FQDN format. The FQDN consists of the record name followed by the domain name (example: rec.abc.com). A record name can have a maximum of 256 bytes.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the FQDN of the record
+ my $name = $naptr->name();
+ #Modify the FQDN of the record
+ $naptr->name("rec2.domain.com");
+
+=back
+
+=back
+
+=head2 order( )
+
+=over
+
+Use this method to retrieve the order parameter of an NAPTR record. This parameter specifies the order in which the NAPTR rules are applied when multiple rules are present.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The order parameter is a 16-bit unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the order parameter
+ my $order = $naptr->order();
+ #Modify the order
+ $naptr->order(200);
+
+=back
+
+=back
+
+=head2 preference( )
+
+=over
+
+Use this method to retrieve the preference field of an NAPTR record. The preference field determines the order NAPTR records are processed when multiple records with the same order parameter are present.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The preference parameter is a 16-bit integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the preference attribute value
+ my $preference = $naptr->preference();
+ #Modify preference
+ $naptr->preference(300);
+
+=back
+
+=back
+
+=head2 reclaimable( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the record is reclaimable or not.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get reclaimable
+ my $reclaimable = $object->reclaimable();
+
+=back
+
+=back
+
+=head2 regexp( )
+
+=over
+
+Use this method to specify the regular expression-based rewriting rule of an NAPTR record. This should be a POSIX compliant regular expression, including the substitution rule and flags. Refer to RFC 2915 for the field syntax details.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid parameter is a POSIX compliant regular expression or substitution expression.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get regexp
+ my $regexp = $naptr->regexp();
+ #Modify regexp
+ $naptr->regexp("!http://(.*)!1!i");
+
+=back
+
+=back
+
+=head2 replacement( )
+
+=over
+
+Use this method to retrieve the replacement field of an NAPTR record object. For nonterminal NAPTR records, this field specifies the next domain name to look up.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+The replacement field is in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the replacement field
+ my $replacement = $naptr->replacement();
+ #Modify the replacement field
+ $naptr->replacement("__tcp__.domain.com");
+
+=back
+
+=back
+
+=head2 services( )
+
+=over
+
+Use this field to specify services. The services field contains protocol and service identifiers, for example "http+E2U" or "SIPS+D2T".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The services field in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get services
+ my $services = $naptr->services();
+ #Modify services
+ $naptr->services("http+E2U");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined, which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (from 0 to 4294967295) that represents the duration, in seconds, that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the TTL of the record
+ my $ttl = $naptr->ttl();
+ #Modify TTL
+ $naptr->ttl(900);
+ #Use zone ttl settings
+ $naptr->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the DNS view of the NAPTR record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" view, which means the NAPTR record is located in the default DNS view.
+
+=over
+
+=item B<Parameter>
+
+Array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $naptr->views();
+ #Modify views, list of Infoblox::DNS::View objects
+ $naptr->views([$view1]);
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of an NAPTR record. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $naptr->zone();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the session methods on an NAPTR record object.
+
+B<#Preparation prior to a NAPTR record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+B<#Create a session to the Infoblox appliance>
+
+  my $session = Infoblox::Session->new(
+      master   => $host_ip,
+      username => "admin",
+      password => "infoblox"
+  );
+  unless ($session) {
+     die("Construct session failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Session created successfully\n";
+
+  #Create the zone prior to an A record insertion
+  my $zone = Infoblox::DNS::Zone->new(name => "domain.com");
+  unless ($zone) {
+     die("Construct zone failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+  print "Zone object created successfully\n";
+
+  #Verify if the zone exists
+  my $object = $session->get(object => "Infoblox::DNS::Zone", name => "domain.com");
+  unless ($object) {
+     print "Zone does not exist on server, safe to add the zone\n";
+     $session->add($zone)
+        or die("Add zone failed: ",
+               $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Zone added successfully\n";
+
+B<#Create a DNS NAPTR record>
+
+  #Construct a DNS NAPTR object
+  my $bind_naptr = Infoblox::DNS::Record::NAPTR->new(
+      name     => "bind_naptr.domain.com",
+      comment  => " this is a demo bind_naptr record ",
+      services => "http+E2U",
+      flags    => "U",
+      regexp   => "!http://(.*)!1!i",
+      preference => 100,
+      order    => 10,
+      replacement => '_http._tcp.domain.com',
+  );
+  unless ($bind_naptr) {
+     die("Construct DNS NAPTR record failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+  print "DNS NAPTR record object created successfully\n";
+
+  #Add the DNS NAPTR record object to the Infoblox appliance through a session
+  $session->add($bind_naptr)
+      or die("Adding NAPTR record failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  print "DNS NAPTR object added to server successfully\n";
+
+B<#Search for a specific DNS NAPTR record>
+
+  #Search all NAPTR records in the zone
+  my @retrieved_objs = $session->search(
+      object => "Infoblox::DNS::Record::NAPTR",
+      name   => '.*\.domain\.com'
+  );
+  my $object = $retrieved_objs[0];
+  unless ($object) {
+      die("Search for NAPTR record failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Search DNS NAPTR record object found at least 1 matching entry\n";
+
+  #Search for all NAPTR records that start with "bind" in the zone
+  my @retrieved_objs = $session->search(
+      object => "Infoblox::DNS::Record::NAPTR",
+      name   => 'bind.*\.domain\.com'
+  );
+  my $object = $retrieved_objs[0];
+  unless ($object) {
+      die("Search for NAPTR record failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Searching DNS NAPTR object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a DNS NAPTR record>
+
+  #Get a record through the session
+  my @retrieved_objs = $session->get(
+      object => "Infoblox::DNS::Record::NAPTR",
+      name   => "bind_naptr.domain.com"
+  );
+  my $object = $retrieved_objs[0];
+  unless ($object) {
+      die("Get NAPTR record failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Get DNS NAPTR object found at least 1 matching entry\n";
+
+  #Modify some attributes of the specified NAPTR record
+  $object->preference(200);
+  $object->order(100);
+
+  #Apply the changes
+  $session->modify($object)
+      or die("Modify NAPTR record failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  print "DNS NAPTR object modified successfully \n";
+
+B<#Remove a DNS NAPTR record>
+
+  #Get NAPTR record through the session
+  my @retrieved_objs = $session->get(
+      object => "Infoblox::DNS::Record::NAPTR",
+      name   => "bind_naptr.domain.com"
+  );
+  my $object = $retrieved_objs[0];
+  unless ($object) {
+      die("Get NAPTR record failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Get NAPTR DNS object found at least 1 matching entry\n";
+
+  #Submit the object for removal
+  $session->remove($object)
+      or die("Remove NAPTR record failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  print "DNS NAPTR object removed successfully \n";
+
+ #Remove the zone
+
+ #Get Zone object through the session
+ @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Zone",
+     name   => "domain.com"
+ );
+ $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get zone failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get zone object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove zone object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Zone object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add(/)/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify(/)/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove(/)/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search(/)/>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

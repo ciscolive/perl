@@ -1,0 +1,1915 @@
+=head1 NAME
+
+Infoblox::IPAM::Address - IPAM address object
+
+=head1 DESCRIPTION
+
+The IPAM address object is used to view IPv4 and IPv6 address management information in an Infoblox appliance.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::IPAM::Address object is a read-only object and does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session that can be applied to an IPAM address object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+Note that for IPv4 addresses, both used and unused addresses are returned unless 'status' is specified; but IPv6 addresses will only return used addresses.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get the IPAM address object(s). Note that at least one of the following is required: address, start_addr, end_addr, or network.
+
+address                               - Optional. An IPv4 or IPv6 address. Get IPAM information for this address. All other optional arguments are ignored, except for network_view, if 'address' is present.
+
+network                               - Optional. The IPv4 or IPv6 network, in CIDR notation (e.g 1.0.0.0/8 or 2000::/64), where the IPAM address is located.
+
+network_view                          - Optional. The network view in which the network is located. The default is the system-defined default network view.
+
+start_addr                            - Optional. An IPv4 or IPv6 address. Start address of an IPAM address scope. If the start address is not in the specified network, an error is returned.
+
+end_addr                              - Optional. An IPv4 or IPv6 address. End address of an IPAM address scope. If the end address is not in the specified network, an error is returned.
+
+status                                - Optional. The filter type of the IPAM address. Valid values are "used", "unused" and "all". Default value is "all". This argument applies to IPv4 addresses only. When the value is returned ", Unmanaged" or ", Conflict" might be appended to the status member when applicable.
+
+type                                  - Optional. This is exactly the same as the 'status' argument, and is being deprecated in favor of the 'status' argument. This argument applies to IPv4 addresses only.
+
+extattrs                              - Optional. A hash reference containing extensible attributes.
+
+extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+
+fingerprint                           - Optional. DHCP fingerprint description.
+
+discovered_duid                       - Optional. Discovered DHCPv6 UID.
+
+discovered_name                       - Optional. Discovered name.
+
+discoverer                            - Optional. Discoverer name.
+
+first_discovered                      - Optional. Time of the first discovery.
+
+last_discovered                       - Optional. Time of the last discovery.
+
+netbios                               - Optional. Discovered NetBIOS name.
+
+network_component_description         - Optional. Discovered network component description.
+
+network_component_ip                  - Optional. Discovered network component IP address.
+
+network_component_name                - Optional. Discovered network component name.
+
+network_component_port_description    - Optional. Discovered network component port description.
+
+network_component_port_name           - Optional. Discovered network component port name.
+
+network_component_port_number         - Optional. Discovered network component port number.
+
+network_component_type                - Optional. Discovered network component type.
+
+os                                    - Optional. Discovered OS.
+
+port_duplex                           - Optional. Discovered port duplex settings.
+
+port_link_status                      - Optional. Discovered port link status.
+
+port_speed                            - Optional. Discovered port speed settings.
+
+port_status                           - Optional. Discovered port status settings.
+
+port_vlan_description                 - Optional. Discovered port VLAN description.
+
+port_vlan_name                        - Optional. Discovered port VLAN name.
+
+port_vlan_number                      - Optional. Discovered port VLAN number.
+
+v_cluster                             - Optional. Discovered VMware cluster name.
+
+v_datacenter                          - Optional. Discovered VMware datacenter name.
+
+v_host                                - Optional. Discovered VMware server name.
+
+v_name                                - Optional. Discovered VMware host or virtual machine name.
+
+v_netadapter                          - Optional. Discovered VMware physical network adapter name.
+
+v_switch                              - Optional. Discovered VMware virtual switch name.
+
+v_type                                - Optional. Discovered VMware entity type (possible values: "VirtualMachine", "HostSystem", "VirtualCenter").
+
+=item B<Example>
+
+ # case 1
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'network'  => '10.0.0.0/8');
+
+ Since there are no start and end addresses specified, the appliance returns a maximum of 2000 IP addresses, which is the maximum page size of an administrator. If the total number of IP addresses in the network is less than 2000, then it returns all IP addresses.
+
+ # case 2
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'network'    => '10.0.0.0/8',
+                                   'start_addr' => '10.0.0.100');
+
+ This call returns a maximum of 2000 IPAM addresses starting from 10.0.0.100.
+
+ # case 3
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'network'    => '10.0.0.0/8',
+                                   'start_addr' => '10.0.0.100'
+                                   'end_addr'   => '10.0.0.200');
+
+ This call returns 101 IPAM addresses from 10.0.0.100 to 10.0.0.200.
+
+ # case 4
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'address'    => '10.0.0.10');
+
+ This call returns the IPAM address object for 10.0.0.10.
+
+ # case 5
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'network'  => '10.0.0.0/8',
+                                   'start_addr' => '10.0.0.100',
+                                   'end_addr'  => '10.0.0.200',
+                                   'status'          => 'used' );
+
+ This call returns used IPAM addresses from 10.0.0.100 to 10.0.0.200. Note that the filter is applied to the specified scope. Therefore, the number of returned objects could be less than 101, if only a few IP addresses are used in this scope.
+
+ # case 6
+ my @ipam_objects = $session->get( 'object        => 'Infoblox::IPAM::Address',
+                                   'network'      => '10.0.0.0/8',
+                                   'network_view' => 'my_network_view');
+
+ Same as case 1, but this uses the 'my_network_view' network view rather than the system-defined default view.
+
+ # case 7
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'address'    => '10.0.0.5');
+ # case 8
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'network'  => '2000::/64');
+
+ Since there are no start and end addresses specified, the appliance returns a maximum of 2000 used IP addresses, which is the maximum page size of an administrator. If the total number of IP addresses in the network is less than 2000, then it returns all IP addresses.
+
+ # case 9
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'network'    => '2000::/64',
+                                   'start_addr' => '2000::11');
+
+ This call returns a maximum of 2000 used IPv6 addresses starting from 2000::11.
+
+ # case 10
+ my @ipam_objects = $session->get( 'object'     => 'Infoblox::IPAM::Address',
+                                   'network'    => '2000::/64',
+                                   'start_addr' => '2000::11',
+                                   'end_addr'   => '2000::31');
+
+ This call returns used IPv6addresses from '2000::11' to '2000::31'.
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object under the same name
+ my @result_array = $session->get(
+       object        => "Infoblox::IPAM::Address" ,
+       network       => "2001::/64",
+ );
+
+ # find the desired object from the retrieved list.
+ my $desired_ipam_address = $result_array[0];
+
+ # Submit for removal
+ my $response = $session->remove( $desired_ipam_address );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of an IPAM address object.
+
+=head2 conflict_types( )
+
+=over
+
+Use this method to retrieve a list of Discovery conflict types. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get conflict_types
+ my $value = $ipam_address->conflict_types();
+
+=back
+
+=back
+
+=head2 dhcp_client_identifier( )
+
+=over
+
+Use this method to retrieve the DHCP client identifier of an IPAM address object. This method applies to IPv4 addresses only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the DHCP client identifier attribute value.
+
+=item B<Example>
+
+ #Get DHCP client identifier
+ my $identifier = $ipam_address->dhcp_client_identifier();
+
+=back
+
+=back
+
+=head2 discovered_data( )
+
+=over
+
+Use this method to retrieve the discovered data of an IPAM address object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data> object.
+
+=item B<Example>
+
+ #Get discovered_data value
+ my $discovered_data = $object->discovered_data();
+
+=back
+
+=back
+
+=head2 discovered_name( )
+
+=over
+
+Use this method to retrieve the discovered name of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_name
+ my $discovered_name = $ipam_address->discovered_name();
+
+=back
+
+=back
+
+=head2 discover_now_status( )
+
+=over
+
+Use this method to retrieve the current discovery status. This attribute is read-only.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETE', 'FAILED', 'NONE', 'PENDING' or 'RUNNING'.
+
+=item B<Example>
+
+ #Get discover_now_status
+ my $discover_now_status = $ipam_address->discover_now_status();
+
+=back
+
+=back
+
+=head2 duid( )
+
+=over
+
+Use this method to retrieve the DHCPv6 Unique Identifier (DUID) of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the DUID value.
+
+=item B<Example>
+
+ #Get mac address
+ my $duid = $ipam_address->duid();
+
+=back
+
+=back
+
+=head2 discoverer( )
+
+=over
+
+Use this method to retrieve the discoverer of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discoverer value.
+
+=item B<Example>
+
+ #Get discoverer
+ my $discoverer = $ipam_address->discoverer();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with an IPAM address object. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $ipam_address->extattrs();
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns a reference to a hash containing the extensible attributes.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $ipam_address->extensible_attributes();
+
+=back
+
+=back
+
+=head2 fingerprint( )
+
+=over
+
+Use this method to retrieve DHCP fingerprint description of an IPAM address object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get fingerprint
+ my $fingerprint = $ipam_address->fingerprint();
+
+=back
+
+=back
+
+=head2 first_discovered( )
+
+=over
+
+Use this method to retrieve the date and time that the IPAM address object was first discovered.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the date and time that the IPAM address object was fisrt discovered.
+
+=item B<Example>
+
+ #Get first_discovered
+ my $first_discovered = $ipam_address->first_discovered();
+
+=back
+
+=back
+
+=head2 ip_address( )
+
+=over
+
+Use this method to retrieve the IP addresses of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the IP address value. The value can be an IPv4 or IPv6 address.
+
+=item B<Example>
+
+ #Get IP address
+ my $ip_address = $ipam_address->ip_address();
+
+=back
+
+=back
+
+=head2 is_conflict( )
+
+=over
+
+Use this method to find out whether this IPAM address is in conflict with another IPAM address in the system. This method applies to IPv4 addresses only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns true if the IPAM address is in conflict with another in the system, false otherwise.
+
+=item B<Example>
+
+ #Get is_conflict
+ my $conflict = $ipam_address->is_conflict();
+
+=back
+
+=back
+
+=head2 is_invalid_mac( )
+
+=over
+
+Use this method to retrieve the flag used to indicate whether an invalid MAC address is used. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get is_invalid_mac value
+ my $is_invalid_mac = $ipam_address->is_invalid_mac();
+
+=back
+
+=back
+
+=head2 last_discovered( )
+
+=over
+
+Use this method to retrieve the last discovered time of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the last discovered value.
+
+=item B<Example>
+
+ #Get last discovered
+ my $last_discovered = $ipam_address->last_discovered();
+
+=back
+
+=back
+
+=head2 lease_state( )
+
+=over
+
+Use this method to retrieve the lease state of an IPAM address object. This method applies to IPv4 addresses only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the lease state value. A valid state is any of the following string values: free, backup, active, expired, released, abandoned, and reset.
+
+=item B<Example>
+
+ #Get lease state
+ my $lease_state = $ipam_address->lease_state();
+
+=back
+
+=back
+
+=head2 mac_address( )
+
+=over
+
+Use this method to retrieve the MAC address of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the MAC address value.
+
+=item B<Example>
+
+ #Get mac address
+ my $mac_address = $ipam_address->mac_address();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $ipam_address->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the name value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $ipam_address->name();
+
+=back
+
+=back
+
+=head2 netbios_name( )
+
+=over
+
+Use this method to retrieve the NETBIOS name of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the NETBIOS name value.
+
+=item B<Example>
+
+ #Get netbios name
+ my $netbios_name = $ipam_address->netbios_name();
+
+=back
+
+=back
+
+=head2 network_component_description( )
+
+=over
+
+Use this method to retrieve the description of the network device that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device description.
+
+=item B<Example>
+
+ #Get network_component_description
+ my $network_component_description = $ipam_address->network_component_description();
+
+=back
+
+=back
+
+=head2 network_component_ip( )
+
+=over
+
+Use this method to retrieve the IP address of the network device that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device IP address.
+
+=item B<Example>
+
+ #Get network_component_ip
+ my $network_component_ip = $ipam_address->network_component_ip();
+
+=back
+
+=back
+
+=head2 network_component_name( )
+
+=over
+
+Use this method to retrieve the name of the network device that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device name.
+
+=item B<Example>
+
+ #Get network_component_name
+ my $network_component_name = $ipam_address->network_component_name();
+
+=back
+
+=back
+
+=head2 network_component_port_description( )
+
+=over
+
+Use this method to retrieve the description of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port description.
+
+=item B<Example>
+
+ #Get network_component_port_description
+ my $network_component_port_description = $ipam_address->network_component_port_description();
+
+=back
+
+=back
+
+=head2 network_component_port_name( )
+
+=over
+
+Use this method to retrieve the name of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port name.
+
+=item B<Example>
+
+ #Get network_component_port_name
+ my $network_component_port_name = $ipam_address->network_component_port_name();
+
+=back
+
+=back
+
+=head2 network_component_port_number( )
+
+=over
+
+Use this method to retrieve the number of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port number.
+
+=item B<Example>
+
+ #Get network_component_port_number
+ my $network_component_port_number = $ipam_address->network_component_port_number();
+
+=back
+
+=back
+
+=head2 network_component_type( )
+
+=over
+
+Use this method to retrieve the type of the network device that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device type.
+
+=item B<Example>
+
+ #Get network_component_type
+ my $network_component_type = $ipam_address->network_component_type();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to retrieve the network view name of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network view name.
+
+=item B<Example>
+
+ #Get network view
+ my $nview_name = $ipam_address->network_view();
+
+=back
+
+=back
+
+=head2 objects( )
+
+=over
+
+Use this method to retrieve the IPAM address object's associated objects.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns a reference to an array of associated objects. Note that this method has to be explicitly requested via L<Infoblox::Session|Infoblox::Session>'s return_methods member.
+
+Associated objects can be one or more of the following PAPI objects:
+
+ Infoblox::DHCP::FixedAddr
+ Infoblox::DHCP::IPv6FixedAddr
+ Infoblox::DHCP::Lease
+ Infoblox::DNS::BulkHost
+ Infoblox::DNS::Host
+ Infoblox::DNS::Record::A
+ Infoblox::DNS::Record::AAAA
+ Infoblox::DNS::Record::PTR
+
+=item B<Example>
+
+ my @retrieved_obj = $session->get(
+                                   object     => 'Infoblox::IPAM::Address',
+                                   start_addr => '10.0.0.0',
+                                   end_addr   => '10.0.0.9',
+                                   return_methods => ['+objects'],
+                                  );
+
+ # Get the associated objects (if any)
+ my $associated_ref = $retrieved_obj[0]->objects();
+
+=back
+
+=back
+
+=head2 os( )
+
+=over
+
+Use this method to retrieve the OS of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the OS value.
+
+=item B<Example>
+
+ #Get os
+ my $os = $ipam_address->os();
+
+=back
+
+=back
+
+=head2 port_duplex( )
+
+=over
+
+Use this method to retrieve the duplex setting of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port duplex setting. Returned values, if any, are one of the following:
+
+  Full
+  Half
+
+=item B<Example>
+
+ #Get port_duplex
+ my $port_duplex = $ipam_address->port_duplex();
+
+=back
+
+=back
+
+=head2 port_link_status( )
+
+=over
+
+Use this method to retrieve the link status of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port link status of the network device. Returned values, if any, are one of the following:
+
+  Connected
+  Not Connected
+  Unknown
+
+=item B<Example>
+
+ #Get port_link_status
+ my $port_link_status = $ipam_address->port_link_status();
+
+=back
+
+=back
+
+=head2 port_speed( )
+
+=over
+
+Use this method to retrieve the speed of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port speed. Returned values, if any, are one of the following:
+
+  10M
+  100M
+  1G
+  10G
+  100G
+  Unknown
+
+=item B<Example>
+
+ #Get port_speed
+ my $port_speed = $ipam_address->port_speed();
+
+=back
+
+=back
+
+=head2 port_status( )
+
+=over
+
+Use this method to retrieve the status of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port status. Returned values, if any, are one of the following:
+
+  Up
+  Down
+  Unknown
+
+=item B<Example>
+
+ #Get port_status
+ my $port_status = $ipam_address->port_status();
+
+=back
+
+=back
+
+=head2 port_vlan_description( )
+
+=over
+
+Use this method to retrieve the VLAN description of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port VLAN description.
+
+=item B<Example>
+
+ #Get port_vlan_description
+ my $port_vlan_description = $ipam_address->port_vlan_description();
+
+=back
+
+=back
+
+=head2 port_vlan_name( )
+
+=over
+
+Use this method to retrieve the VLAN name of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port VLAN name.
+
+=item B<Example>
+
+ #Get port_vlan_name
+ my $port_vlan_name = $ipam_address->port_vlan_name();
+
+=back
+
+=back
+
+=head2 port_vlan_number( )
+
+=over
+
+Use this method to retrieve the VLAN number of the network device port that is connected to the IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port VLAN number.
+
+=item B<Example>
+
+ #Get port_vlan_number
+ my $port_vlan_number = $ipam_address->port_vlan_number();
+
+=back
+
+=back
+
+=head2 reserved_port( )
+
+=over
+
+Use this method to retrieve the reserved port. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get reserved_port
+ my $value = $ipam_address->reserved_port();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the status value.
+
+=item B<Example>
+
+ #Get status
+ my $status = $ipam_address->status();
+
+=back
+
+=back
+
+=head2 types( )
+
+=over
+
+Use this method to retrieve the type of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the type value. A valid value is a comma-separated list that contains a subset of the following values: A, FA, RESERVATION, RANGE, LEASE, UNMANAGED, HOST, BULKHOST, PTR, NETWORK, and BROADCAST.
+Note that in the subset of values, "FA" refers to "fixed address".
+
+=item B<Example>
+
+ #Get types
+ my $types= $ipam_address->types();
+
+=back
+
+=back
+
+=head2 usage( )
+
+=over
+
+Use this method to retrieve the usage of an IPAM address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the usage value. A valid value is a comma-separated list that contains a subset of the following values: DNS, DHCP.
+
+=item B<Example>
+
+ #Get usage
+ my $usage= $ipam_address->usage();
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to retrieve the user name of an IPAM address object. This method applies to IPv4 addresses only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the user name.
+
+=item B<Example>
+
+ #Get username
+ my $username= $ipam_address->username();
+
+=back
+
+=back
+
+=head2 v_cluster( )
+
+=over
+
+Use this method to retrieve the name of the VMware cluster associated with the IPAM Address object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware cluster name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_cluster
+ my $v_cluster = $ipam_address->v_cluster();
+
+=back
+
+=back
+
+=head2 v_datacenter( )
+
+=over
+
+Use this method to retrieve the name of the VMware datacenter associated with the IPAM Address object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware datacenter name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_datacenter
+ my $v_datacenter = $ipam_address->v_datacenter();
+
+=back
+
+=back
+
+=head2 v_host( )
+
+=over
+
+Use this method to retrieve the name of the VMware host associated with the IPAM Address object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware host name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_host
+ my $v_host = $ipam_address->v_host();
+
+=back
+
+=back
+
+=head2 v_name( )
+
+=over
+
+Use this method to retrieve the name of the VMware entity associated with the IPAM Address object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware entity name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_name
+ my $v_name = $ipam_address->v_name();
+
+=back
+
+=back
+
+=head2 v_netadapter( )
+
+=over
+
+Use this method to retrieve the name of the physical network adapter through which the VMware entity is connected to the appliance. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the network adapter name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_netadapter
+ my $v_netadapter = $ipam_address->v_netadapter();
+
+=back
+
+=back
+
+=head2 v_switch( )
+
+=over
+
+Use this method to retrieve the name of the virtual switch through which the VMware entity is connected to the appliance. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the virtual switch name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_switch
+ my $v_switch = $ipam_address->v_switch();
+
+=back
+
+=back
+
+=head2 v_type( )
+
+=over
+
+Use this method to retrieve the type of VMware entity associated with the IPAM Address object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware entity type. The default value is an empty string. The returned value, if any, can be one of the following:
+
+ VirtualMachine
+ HostSystem
+ VirtualCenter
+
+=item B<Example>
+
+ #Get v_type
+ my $v_type = $ipam_address->v_type();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the get session method on an IPAM address object.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ my $host_ip = "192.168.1.2";
+ my $host_name = "localhost";
+ my $node_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+                master   => $host_ip,
+                username => "admin",
+                password => "infoblox"
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+           name     => $host_name,
+           ipv4addr => $node_ip,
+      );
+
+ #Create a large network object
+ my $network_large = Infoblox::DHCP::Network->new(
+                                           "network" => "10.0.0.0/8",
+                                           "members" => [$memberdhcp],
+                                          );
+
+ $session->add($network_large)
+    or die("Add network failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ #Create another member
+ my $new_member = Infoblox::Grid::Member->new(
+        grid      => "0",
+        name      => "foo.com",
+        ipv4addr  => "3.0.0.2",
+        mask      => "255.255.255.0",
+        gateway   => "3.0.0.1",
+      );
+ $session->add($new_member)
+    or die("Add grid member failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ my $memberdhcp2 = Infoblox::DHCP::Member->new(
+           name     => "foo.com",
+           ipv4addr => "3.0.0.2",
+      );
+
+ #Create a network view
+ my $nview = Infoblox::DHCP::View->new(
+                                   "name" => "my_network_view",
+                                  );
+ $session->add($nview)
+    or die("Add network view failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ #Create a DNS view associated with the network view
+ my $view = Infoblox::DNS::View->new(
+   "name" => "my_dns_view",
+   "network_view" => $nview,
+ );
+ $session->add($view)
+    or die("Add DNS view failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ #Create a DNS Zone in a non-default DNS view
+ my $zone = Infoblox::DNS::Zone->new(
+   "name" => "test.com",
+   "views" => [$view],
+ );
+ $session->add($zone)
+    or die("Add DNS Zone failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ #Create a small IPv4 network object with a non-default network view
+ my $network_small = Infoblox::DHCP::Network->new(
+                                           "network" => "20.0.0.0/24",
+                                           "members" => [$memberdhcp2],
+                                           "network_view" => $nview,
+                                          );
+
+ $session->add($network_small)
+    or die("Add network failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ #Create an IPv6 network object with a non-default network view
+ my $ipv6_network = Infoblox::DHCP::IPv6Network->new(
+     "network" => "2001::/64",
+     "network_view" => $nview,
+ );
+ $session->add($ipv6_network)
+    or die("Add IPv6 network failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ #Construct an IPv4 DHCP range object
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+         start_addr              => "10.0.0.1",
+         end_addr                => "10.0.0.10",
+         authority               => "true",
+         bootfile                => "bootfile1.com",
+         bootserver              => "someserver.com",
+         comment                 => "add range",
+         ddns_generate_hostname  => "true",
+         deny_all_clients        => "true",
+         deny_bootp              => "true",
+         disable                 => "true",
+         enable_ddns             => "true",
+         member                  => $memberdhcp,
+         nextserver              => "3.3.3.3",
+         pxe_lease_time          => "3600",
+         recycle_leases          => "true",
+ );
+
+ $session->add($dhcp_range)
+    or die("Add DHCP range failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ #Construct an IPv4 DHCP fixed address object
+ my $fixed_addr = Infoblox::DHCP::FixedAddr->new(
+       "ipv4addr"       => "10.0.0.15",
+       "mac"            => "11:11:11:11:11:11",
+       "dhcp_client_identifier" => "",
+       "client_identifier_prepend_zero"   => "false",
+       "match_client"   => "MAC",
+       "network"        => "10.0.0.0/8",
+       "bootfile"       => "bootfile",
+       "bootserver"     => "bootserver.com",
+       "comment"        => "add fixed address",
+       "deny_bootp"     => "false",
+       "disable"        => "false",
+       "dynamic"        => "false",
+       "enable_ddns"    => "false",
+       "nextserver"     => "3.3.3.3",
+       "pxe_lease_time" => "3600",
+ );
+
+ $session->add($fixed_addr)
+    or die("Add DHCP range failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ #Construct IPv6 Host and AAAA record objects in a non-default DNS view
+ my $host = Infoblox::DNS::Host->new(
+       "name"           => "host1.test.com",
+       "ipv6addrs"      => ["2001::1", "2001::2", "2001::5"],
+       "views"          => [$view],
+ );
+
+ $session->add($host)
+    or die("Add host failed: " . $session->status_code() . ": " . $session->status_detail());
+
+ my $aaaa = Infoblox::DNS::Record::AAAA->new(
+       "name"           => "myhost1.test.com",
+       "ipv6addr"       => "2001::1",
+       "views"          => [$view],
+ );
+
+ $session->add($aaaa)
+    or die("Add AAAA record failed: " . $session->status_code() . ": " . $session->status_detail());
+
+    # Case 1: Get IPAM address objects using 'network'
+    # This should return 2000 IPAM addresses
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '10.0.0.0/8');
+    unless( scalar(@ipam_objects) == 2000) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 2: Get IPAM address objects using 'start_addr'
+    # This should return 2000 IPAM addresses
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '10.0.0.0/8',
+                                     'start_addr' => '10.0.0.10');
+    unless( scalar(@ipam_objects) == 2000) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 3: Get IPAM address objects using 'start_addr' and 'end_addr'
+   # This should return the specified number of IPAM addresses
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '10.0.0.0/8',
+                                     'start_addr' => '10.0.0.10',
+                                     'end_addr'   => '10.0.0.100');
+
+    unless( scalar(@ipam_objects) == 91 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 4: Get IPAM address objects using 'address'
+    # This should return one IPAM address
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'address'    => '10.0.0.10');
+    unless( scalar(@ipam_objects) == 1 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+   # Case 5: Get IPAM address objects using a 'start_addr' that is close to the end of the network
+   # This should return IPAM addresses from the start_addr to the end of the  network
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '10.0.0.0/8',
+                                     'start_addr' => '10.255.255.100');
+
+    unless( scalar(@ipam_objects) == 156 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 6: Get IPAM address objects using 'start_addr' and 'end_addr'
+   # but the total number of IP addresses in this scope is more than 2000.
+   # This should return 2000 IPAM addresses starting with the start_addr.
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '10.0.0.0/8',
+                                     'start_addr' => '10.0.0.100',
+                                     'end_addr'   => '10.255.255.100');
+
+    unless( scalar(@ipam_objects) == 2000 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+   # Case 7: Get IPAM address objects from a small network.
+   # This should return all IP addresses in this network.
+    my @ipam_objects = $session->get('object'       => 'Infoblox::IPAM::Address',
+                                     'network'      => '20.0.0.0/24',
+                                     'network_view' => 'my_network_view');
+
+    unless( scalar(@ipam_objects) == 256 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 8: Get IPAM address objects using 'type = used'
+   # This should return a total of 11 IP addresses in this network
+   # which includes 10 in the range and 1 fixed address
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '10.0.0.0/8',
+                                     'start_addr' => '10.0.0.0',
+                                     'end_addr'   => '10.0.0.100',
+                                     'type'       => 'used');
+
+    unless( scalar(@ipam_objects) == 11 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 9: Get IPAM address objects using 'type = unused'
+   # This should return a total of 90 (101 - 11 = 90) IP addresses in this network
+   # which excludes 10 in the range and 1 fixed address
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '10.0.0.0/8',
+                                     'start_addr' => '10.0.0.0',
+                                     'end_addr'   => '10.0.0.100',
+                                     'type'       => 'unused');
+
+    unless( scalar(@ipam_objects) == 90 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 10: Get IPAM address objects using 'address'
+   # This should return one IPAM address object for later tests
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'address'    => '10.0.0.15');
+    unless( scalar(@ipam_objects) == 1 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    my $ipam_object = $ipam_objects[0];
+
+    unless($ipam_object->status() eq "Used") {
+        die("Returned IPAM address object's status is wrong");
+    }
+    print("Returned IPAM address object's status correctly\n");
+
+    unless($ipam_object->usage() eq "DHCP") {
+        die("Returned IPAM address object's usage is wrong");
+    }
+    print("Returned IPAM address object's usage correctly\n");
+
+    unless($ipam_object->mac_address() eq $fixed_addr->mac()) {
+        die("Returned IPAM address object's mac address is wrong");
+    }
+    print("Returned IPAM address object's mac address correctly\n");
+
+    unless($ipam_object->dhcp_client_identifier() eq $fixed_addr->dhcp_client_identifier()) {
+        die("Returned IPAM address object's dhcp client identifier is wrong");
+    }
+    print("Returned IPAM address object's dhcp client identifier correctly\n");
+
+    # Case 11: Get IPv6 IPAM address objects using 'network'
+    # This should return 3 used IPAM addresses
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '2001::/64',
+                                     'network_view' => 'my_network_view');
+    unless( scalar(@ipam_objects) == 3) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 12: Get IPv6 IPAM address objects using 'start_addr'
+    # This should return 2 used IPAM addresses (2001::2, 2001::5)
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '2001::/64',
+                                     'start_addr' => '2001::2',
+                                     'network_view' => 'my_network_view');
+    unless( scalar(@ipam_objects) == 2) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 13: Get IPv6 IPAM address objects using 'start_addr' and 'end_addr'
+   # This should return 2 used IPAM addresses
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'network'    => '2001::/64',
+                                     'start_addr' => '2001::1',
+                                     'end_addr'   => '2001::3',
+                                     'network_view' => 'my_network_view');
+    unless( scalar(@ipam_objects) == 2 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    # Case 14: Get IPv6 IPAM address objects using 'address'
+    # This should return one IPAM address
+    my @ipam_objects = $session->get('object'     => 'Infoblox::IPAM::Address',
+                                     'address'    => '2001::5',
+                                     'network_view' => 'my_network_view');
+    unless( scalar(@ipam_objects) == 1 ) {
+        die("Returned IPAM addresses number is not correct");
+    }
+    print("Returned IPAM addresses number correctly\n");
+
+    my $ipam_object = $ipam_objects[0];
+
+    unless($ipam_object->ip_address() eq "2001::5") {
+        die("Returned IPAM address object's address is wrong");
+    }
+    print("Returned IPAM address object's address correctly\n");
+
+    unless($ipam_object->status() eq "Used") {
+        die("Returned IPAM address object's status is wrong");
+    }
+    print("Returned IPAM address object's status correctly\n");
+
+    unless($ipam_object->usage() eq "DNS") {
+        die("Returned IPAM address object's usage is wrong");
+    }
+    print("Returned IPAM address object's usage correctly\n");
+
+  # Remove IPAM Address object
+  unless($session->remove($ipam_object)) {
+          die("Remove IPAM Address object failed");
+  }
+  print "Removed IPAM Address correctly\n";
+
+  my @retrieved_objs = $session->get(
+       object       => "Infoblox::DHCP::Network" ,
+       network      => "10.0.0.0/8",
+  );
+  my $network = $retrieved_objs[0];
+
+  unless($session->remove($network)) {
+          die("Remove Network object failed");
+  }
+  print "Removed network correctly\n";
+
+  @retrieved_objs = $session->get(
+       object       => "Infoblox::DHCP::Network" ,
+       network      => "20.0.0.0/24",
+       network_view => "my_network_view",
+  );
+
+  $network = $retrieved_objs[0];
+
+  unless($session->remove($network)) {
+          die("Remove Network object failed");
+  }
+  print "Removed network correctly\n";
+
+  $view = $session->get(
+      object  => "Infoblox::DNS::View",
+      name    => "my_dns_view",
+  );
+  unless($session->remove($view)) {
+          die("Remove DNS View object failed");
+  }
+  print "Removed DNS view correctly\n";
+
+  $nview = $session->get(
+      object  => "Infoblox::DHCP::View",
+      name    => "my_network_view",
+  );
+  unless($session->remove($nview)) {
+          die("Remove Network View object failed");
+  }
+  print "Removed network view correctly\n";
+
+  $new_member = $session->get(
+      object  => "Infoblox::Grid::Member",
+      name    => "foo.com",
+  );
+  unless($session->remove($new_member)) {
+          die("Remove Grid Member object failed");
+  }
+  print "Removed grid member correctly\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>,
+L<Infoblox::DHCP::View|Infoblox::DHCP::View>,
+L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>,
+L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>,
+L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>,
+L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

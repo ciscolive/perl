@@ -1,0 +1,286 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection::RuleTemplate - Grid Threat Protection Rule Template object.
+
+=head1 DESCRIPTION
+
+This object provides information about the Grid Threat protection rule template settings.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::ThreatProtection::RuleTemplate->new(
+    'name' => $string,        # Required
+ );
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Grid::ThreatProtection::RuleTemplate object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Grid Threat Protection RuleTemplate object.
+  sid    - Optional. The Rule ID.
+  name   - Optional. The name of the Threat protection rule template.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatProtection::RuleTemplate',
+     'name' => 'Whitelist source IP network',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Grid Threat Protection::RuleTemplate object.
+  sid     - Optional. The Rule ID.
+  name    - Optional. The name of the Threat protection rule template.
+  ruleset - Optional. An L<Infoblox::Grid::ThreatProtection::Ruleset|Infoblox::Grid::ThreatProtection::Ruleset> object representing a reference to the ruleset object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     'object' => 'Infoblox::Grid::ThreatProtection::RuleTemplate',
+     'name' => 'Whitelist source IP network',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 allowed_actions( )
+
+=over
+
+Use this method to retrieve allowed actions for the rule template. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->allowed_actions();
+
+=back
+
+=back
+
+=head2 category( )
+
+=over
+
+Use this method to retrieve reference to the rule category. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->category();
+
+=back
+
+=back
+
+=head2 default_config( )
+
+=over
+
+Use this method to retrieve default rule configuration information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->default_config();
+
+=back
+
+=back
+
+=head2 description( )
+
+=over
+
+Use this method to retrieve the description for the rule template. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->description();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name for the rule template. This is a read-only attribute if the object was retrieved from the server.
+
+=over
+
+=item B<Parameter>
+
+The name in string format.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+ # Modify attribute value
+ $object->name('Whitelist source IP network');
+
+=back
+
+=back
+
+=head2 ruleset( )
+
+=over
+
+Use this method to retrieve a reference to the ruleset object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+An L<Infoblox::Grid::ThreatProtection::Ruleset|Infoblox::Grid::ThreatProtection::Ruleset> object.
+
+=item B<Example>
+
+ #Get ruleset value
+ my $value = $object->ruleset();
+
+=back
+
+=back
+
+=head2 sid( )
+
+=over
+
+Use this method to retrieve the Rule ID. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->sid();
+
+=back
+
+=back
+
+=head2 versions( )
+
+=over
+
+Use this method to retrieve information about the rule version. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->versions();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::ThreatProtection|Infoblox::Grid::ThreatProtection>, L<Infoblox::Grid::ThreatProtection::Rule|Infoblox::Grid::ThreatProtection::Rule>, L<Infoblox::Grid::ThreatProtection::RuleConfig|Infoblox::Grid::ThreatProtection::RuleConfig>, L<Infoblox::Grid::ThreatProtection::RuleParam|Infoblox::Grid::ThreatProtection::RuleParam>, L<Infoblox::Grid::ThreatProtection::Ruleset|Infoblox::Grid::ThreatProtection::Ruleset>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

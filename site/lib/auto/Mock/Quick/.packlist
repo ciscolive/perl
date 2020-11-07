@@ -1,0 +1,14 @@
+/opt/perl/site/lib/Mock/Quick.pm
+/opt/perl/site/lib/Mock/Quick/Class.pm
+/opt/perl/site/lib/Mock/Quick/Method.pm
+/opt/perl/site/lib/Mock/Quick/Object.pm
+/opt/perl/site/lib/Mock/Quick/Object/Control.pm
+/opt/perl/site/lib/Mock/Quick/Util.pm
+/opt/perl/site/lib/Object/Quick.pm
+/opt/perl/site/man/man3/Mock::Quick.3
+/opt/perl/site/man/man3/Mock::Quick::Class.3
+/opt/perl/site/man/man3/Mock::Quick::Method.3
+/opt/perl/site/man/man3/Mock::Quick::Object.3
+/opt/perl/site/man/man3/Mock::Quick::Object::Control.3
+/opt/perl/site/man/man3/Mock::Quick::Util.3
+/opt/perl/site/man/man3/Object::Quick.3

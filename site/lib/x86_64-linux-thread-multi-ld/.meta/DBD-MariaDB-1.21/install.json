@@ -1,0 +1,1 @@
+{"target":"DBD::MariaDB","name":"DBD::MariaDB","pathname":"P/PA/PALI/DBD-MariaDB-1.21.tar.gz","version":"1.21","dist":"DBD-MariaDB-1.21","provides":{"DBD::MariaDB":{"version":"1.21","file":"lib/DBD/MariaDB.pm"}}}

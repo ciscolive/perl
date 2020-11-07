@@ -1,0 +1,623 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::RadiusAuthService - RADIUS Authentication Service object
+
+=head1 DESCRIPTION
+
+Represents a group of RADIUS servers that are used to authenticate administrators and DHCP clients.
+
+=head1 CONSTRUCTOR
+
+ my $radius_auth_server = Infoblox::Grid::Admin::RadiusAuthService->new(
+     acct_retries          => $num,                                #Optional / Default is 1000
+     acct_timeout          => $num,                                #Required
+     auth_retries          => $num,                                #Optional / Default is 5
+     auth_timeout          => $num,                                #Required
+     cache_ttl             => $num,                                #Optional / Default is 3600
+     comment               => $string,                             #Optional / Default is empty
+     disabled              => "true" | "false"                     #Optional / Default is false
+     enable_cache          => "true" | "false"                     #Optional / Default is false
+     name                  => $string,                             #Required
+     radius_servers        => [$RadiusAuthServer1, ...],           #Required
+     recovery_ttl          => $num,                                #Optional / Default is 30
+     selection_mode        => "HUNT_GROUP" | "ROUND_ROBIN",        #Optional / Default is "HUNT_GROUP"
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a RADIUS Auth object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $service = Infoblox::Grid::Admin::RadiusAuthService->new(
+                                                             name           => 'some.name.com',
+                                                             radius_servers => [$ads1, $ads2]
+                                                            );
+ #Submit for addition
+ my $response = $session->add( $service );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific RADIUS Auth object:
+
+  name - Required. RADIUS Authentication Service name.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::RadiusAuthService",
+     name   => "some.name.com"
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use this method to modify the comment.
+ $service->comment("this is a modified comment");
+ #Submit modification
+ my $response = $session->modify( $service );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::RadiusAuthService",
+     name   => "some.name.com"
+ );
+
+ #Find the desired object from the retrieved list.
+ my $desired_service = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_service );
+
+=back
+
+=back
+
+=head1 METHODS
+
+Use the following methods to access the attributes of an Infoblox::Grid::Admin::RadiusAuthService object. Specify a parameter to set the attribute's value, or omit the parameter to get the attribute's value.
+
+=head2 acct_retries( )
+
+=over
+
+Use this method to set or retrieve the value that specifies how many times the appliance must resend the RADIUS accounting packet if the appliance does not receive a response.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1 and 10, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting acct_retries
+   my $acct_retries = $radius_service->acct_retries( );
+   #Modifying acct_retries
+   $radius_service->acct_retries("5");
+
+=back
+
+=back
+
+=head2 acct_timeout( )
+
+=over
+
+Use this method to set or retrieve the value, in milliseconds, that specifies how long the appliance must wait for authentication response packets.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1000 and 10000, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting acct_timeout
+   my $acct_timeout = $radius_service->acct_timeout( );
+   #Modifying acct_timeout
+   $radius_service->acct_timeout("5000");
+
+=back
+
+=back
+
+=head2 auth_retries( )
+
+=over
+
+Use this method to set or retrieve the value of how many times to retry if there is no response for the RADIUS authentication packet.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1 and 10, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting auth_retries
+   my $auth_retries = $radius_service->auth_retries( );
+   #Modifying auth_retries
+   $radius_service->auth_retries("5");
+
+=back
+
+=back
+
+=head2 auth_timeout( )
+
+=over
+
+Use this method to set or retrieve the value in milliseconds to wait for authentication response packets.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1000 and 10000, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting auth_timeout
+   my $auth_timeout = $radius_service->auth_timeout( );
+   #Modifying auth_timeout
+   $radius_service->auth_timeout("5000");
+
+=back
+
+=back
+
+=head2 cache_ttl( )
+
+=over
+
+Use this method to set or retrieve the TTL for the authentication response in the authentication cache.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1 and 259200, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting cache_ttl
+   my $cache_ttl = $radius_service->cache_ttl( );
+   #Modifying cache_ttl
+   $radius_service->cache_ttl("3600");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment about the RADIUS Authentication Service object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The comment in string format, with a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get comment
+   my $comment = $radius_service->comment( );
+   #Modify comment
+   $radius_service->comment("RADIUS Authentication Service for NAC authentication");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the disable flag of the RADIUS Authentication Service object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get disable
+   my $disable = $radius_service->disabled( );
+   #Modify disabled
+   $radius_service->disabled("true");
+
+=back
+
+=back
+
+=head2 enable_cache( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates if the authentication cache is enabled on the RADIUS Authentication Service object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get enable_cache
+   my $enable_cache = $radius_service->enable_cache( );
+   #Modify enable_cache
+   $radius_service->enable_cache("true");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the RADIUS Authentication Service object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name in string format, with a maximum of 64 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting name
+   my $name = $radius_service->name( );
+   #Modifying name
+   $radius_service->name("RADIUS Authentication Service");
+
+=back
+
+=back
+
+=head2 selection_mode( )
+
+=over
+
+Use this method to set or retrieve the process the appliance uses to select to which RADIUS server in the RADIUS Authentication Service it sends RADIUS requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "HUNT_GROUP" (ordered list) or "ROUND_ROBIN". The default is "HUNT_GROUP".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting selection_mode
+   my $selection_mode = $radius_service->selection_mode( );
+   #Modifying selection_mode
+   $radius_service->selection_mode("HUNT_GROUP");
+
+=back
+
+=back
+
+=head2 radius_servers( )
+
+=over
+
+Use this method to set or retrieve a list of RADIUS servers assigned to this RADIUS Service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An array reference that contains a list of Infoblox::Grid::Admin::RadiusAuthServer objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting radius_servers
+   my $radius_servers = $radius_service->radius_servers( );
+   #Modifying radius_servers
+   $radius_service->radius_servers([$radius_server1]);
+
+=back
+
+=back
+
+=head2 recovery_interval( )
+
+=over
+
+Use this method to set or retrieve the time in seconds that the appliance waits before re-enabling a RADIUS server marked as DOWN.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1 and 600, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting recovery_interval
+   my $recovery_interval = $radius_service->recovery_interval( );
+   #Modifying recovery_interval
+   $radius_service->recovery_interval("30");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a Radius Auth Service object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $host_ip =  "192.168.1.2";
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+     );
+ unless($session){
+         die("Constructor for session failed: ",
+                Infoblox::status_code(). ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully.\n";
+
+ my $ads1 = Infoblox::Grid::Admin::RadiusAuthServer->new(
+                                                         comment  => 'server 1',
+                                                         fqdn_or_ip => '10.0.1.1',
+                                                         shared_secret => 'secret1',
+                                                        );
+
+ my $ads2 = Infoblox::Grid::Admin::RadiusAuthServer->new(
+                                                         comment  => 'server 2',
+                                                         fqdn_or_ip => 'domain.com',
+                                                         shared_secret => 'secret2',
+                                                       );
+
+B<#Create the RADIUS Auth Service.>
+
+ my $service = Infoblox::Grid::Admin::RadiusAuthService->new(
+                                                             acct_retries   => 2000,
+                                                             auth_retries   => 9,
+                                                             cache_ttl      => 500,
+                                                             disabled       => 'true',
+                                                             enable_cache   => 'true',
+                                                             recovery_ttl   => 50,
+                                                             selection_mode => 'ROUND_ROBIN',
+                                                             acct_timeout   => 1100,
+                                                             auth_timeout   => 1200,
+                                                             name           => 'some.name.com',
+                                                             radius_servers => [$ads1, $ads2]
+                                                          );
+
+ unless($service){
+        die("Construct service object failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+ print "test.com zone object created successfully.\n";
+
+ $session->add($service)
+     or die("Add zone service failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print"Service added successfully.\n";
+
+B<#Get a specific service>
+
+ my @search_result = $session->get(
+     object => "Infoblox::Grid::Admin::RadiusAuthService",
+     name   => "some.name.com"
+ );
+
+ my $search_obj = $search_result[0];
+ unless($search_obj){
+        die("Search service failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        }
+
+ print "Search service object found at least 1 matching entry\n";
+
+B<#Get and modify a RADIUS service>
+
+ $search_obj->comment("this is a modified comment.");
+
+ #Apply the change
+     $session->modify($search_obj)
+         or die("Modify service failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+  print "Service object modified successfully.\n";
+
+B<#Remove a Service >
+
+ my @search_result = $session->get(
+     object => "Infoblox::Grid::Admin::RadiusAuthService",
+     name   => "some.name.com"
+ );
+
+ my $search_obj = $search_result[0];
+ unless($search_obj){
+        die("Search service failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        }
+
+ print "Search service object found at least 1 matching entry\n";
+
+ $session->remove($search_obj)
+     or die("Remove service failed: ",
+              $session->status_code(). ":" .$session->status_detail());
+
+ print "Remove service successfull\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::RadiusAuthServer|Infoblox::Grid::Admin::RadiusAuthServer>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

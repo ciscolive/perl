@@ -1,0 +1,9 @@
+/opt/perl/site/bin/twiggy
+/opt/perl/site/lib/AnyEvent/Server/PSGI.pm
+/opt/perl/site/lib/Plack/Handler/Twiggy.pm
+/opt/perl/site/lib/Twiggy.pm
+/opt/perl/site/lib/Twiggy/Server.pm
+/opt/perl/site/lib/Twiggy/Server/SS.pm
+/opt/perl/site/man/man1/twiggy.1
+/opt/perl/site/man/man3/Plack::Handler::Twiggy.3
+/opt/perl/site/man/man3/Twiggy.3

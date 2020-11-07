@@ -1,0 +1,1 @@
+{"provides":{"BigIP::iControlDeserializer":{"file":"lib/BigIP/iControl.pm","version":"0.098"},"BigIP::iControl":{"file":"lib/BigIP/iControl.pm","version":"0.098"}},"target":"BigIP::iControl","name":"BigIP::iControl","version":"0.098","pathname":"L/LT/LTP/BigIP-iControl-0.098.tar.gz","dist":"BigIP-iControl-0.098"}

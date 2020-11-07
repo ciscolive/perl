@@ -1,0 +1,4 @@
+/opt/perl/site/bin/xslt-parser
+/opt/perl/site/lib/XML/XSLT.pm
+/opt/perl/site/man/man1/xslt-parser.1
+/opt/perl/site/man/man3/XML::XSLT.3

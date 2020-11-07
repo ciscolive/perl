@@ -1,0 +1,1 @@
+{"provides":{"Protocol::Redis::Test":{"file":"lib/Protocol/Redis/Test.pm"},"Protocol::Redis":{"version":"1.0011","file":"lib/Protocol/Redis.pm"}},"target":"Protocol::Redis::Test","pathname":"U/UN/UNDEF/Protocol-Redis-1.0011.tar.gz","dist":"Protocol-Redis-1.0011","name":"Protocol::Redis","version":"1.0011"}

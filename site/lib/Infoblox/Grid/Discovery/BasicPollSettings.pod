@@ -1,0 +1,364 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::BasicPollSettings - basic polling settings.
+
+=head1 DESCRIPTION
+
+The object provides information about basic polling settings.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::BasicPollSettings->new(
+    'auto_arp_refresh_before_switch_port_polling'  => 'true' | 'false',                        # Optional / Default value is 'false'
+    'device_profile'                               => 'true' | 'false',                        # Optional / Default value is 'false'
+    'complete_ping_sweep'                          => 'true' | 'false',                        # Optional / Default value is 'false'
+    'netbios_scanning'                             => 'true' | 'false',                        # Optional / Default value is 'false'
+    'port_scanning'                                => 'true' | 'false',                        # Optional / Default value is 'false'
+    'smart_subnet_ping_sweep'                      => 'true' | 'false',                        # Optional / Default value is 'false'
+    'snmp_collection'                              => 'true' | 'false',                        # Optional / Default value is 'false'
+    'cli_collection'                               => 'true' | 'false',                        # Optional / Default value is 'false'
+    'switch_port_data_collection_polling'          => 'DISABLED' | 'PERIODIC' | 'SCHEDULED',   # Optional
+    'switch_port_data_collection_polling_interval' => $uint,                                   # Optional
+    'switch_port_data_collection_polling_schedule' => $schedule,                               # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 auto_arp_refresh_before_switch_port_polling( )
+
+=over
+
+Use this method to enable or disable auto ARP refresh before switch port polling.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable auto ARP refresh before switch port polling or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->auto_arp_refresh_before_switch_port_polling();
+ # Modify attribute value
+ $object->auto_arp_refresh_before_switch_port_polling('true');
+
+=back
+
+=back
+
+=head2 cli_collection( )
+
+=over
+
+Use this method to disable or enable CLI collection.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable CLI collection or "false" to disable it. Default value if "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cli_collection();
+ # Modify attribute value
+ $object->cli_collection('true');
+
+=back
+
+=back
+
+=head2 complete_ping_sweep( )
+
+=over
+
+Use this method to enable or disable ping sweep.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable ping sweep or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->complete_ping_sweep();
+ # Modify attribute value
+ $object->complete_ping_sweep('true');
+
+=back
+
+=back
+
+=head2 device_profile( )
+
+=over
+
+Use this method to enable or disable DHCP fingerprinting.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable DHCP fingerprinting or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device_profile();
+ # Modify attribute value
+ $object->device_profile('true');
+
+=back
+
+=back
+
+=head2 netbios_scanning( )
+
+=over
+
+Use this method to enable or disable NETBIOS scanning.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable NETBIOS scanning or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->netbios_scanning();
+ # Modify attribute value
+ $object->netbios_scanning('true');
+
+=back
+
+=back
+
+=head2 port_scanning( )
+
+=over
+
+Use this method to enable or disable port scanning.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable port scanning or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_scanning();
+ # Modify attribute value
+ $object->port_scanning('true');
+
+=back
+
+=back
+
+=head2 smart_subnet_ping_sweep( )
+
+=over
+
+Use this method to enable or disable smart subnet ping sweep.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable smart subnet ping sweep or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->smart_subnet_ping_sweep();
+ # Modify attribute value
+ $object->smart_subnet_ping_sweep('true');
+
+=back
+
+=back
+
+=head2 snmp_collection( )
+
+=over
+
+Use this method to enable or disable SNMP collection.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable SNMP collection or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->snmp_collection();
+ # Modify attribute value
+ $object->snmp_collection('true');
+
+=back
+
+=back
+
+=head2 switch_port_data_collection_polling( )
+
+=over
+
+Use this method to set or retrieve the polling mode.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'DISABLED', 'PERIODIC' or 'SCHEDULED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->switch_port_data_collection_polling();
+ # Modify attribute value
+ $object->switch_port_data_collection_polling('SCHEDULED');
+
+=back
+
+=back
+
+=head2 switch_port_data_collection_polling_interval( )
+
+=over
+
+Use this method to set or retrieve the polling interval.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->switch_port_data_collection_polling_interval();
+ # Modify attribute value
+ $object->switch_port_data_collection_polling_interval(100);
+
+=back
+
+=back
+
+=head2 switch_port_data_collection_polling_schedule( )
+
+=over
+
+Use this method to set or retrieve the polling schedule.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->switch_port_data_collection_polling_schedule();
+ # Modify attribute value
+ $object->switch_port_data_collection_polling_schedule($schedule);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

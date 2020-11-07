@@ -1,0 +1,3387 @@
+=head1 NAME
+
+Infoblox::DHCP::Network - DHCP Network object
+
+=head1 DESCRIPTION
+
+When DHCP services are configured on an appliance, a network must be defined that it serves. After a network is created, you can then create all the subnetworks individually or create a parent network that encompasses all the subnetworks.
+
+=head1 CONSTRUCTOR
+
+  my $network = Infoblox::DHCP::Network->new(
+                  network                         => $ipv4_subnet/prefix,               #Required, when creating a network
+                  ipv4addr                        => $ipv4addr,                         #Use this parameter instead of "network", when using a template with 'allow_any_netmask' set to false to create a network.
+                  authority                       => "true" | "false"| undef,           #Optional / Default is undefined
+                  auto_create_reversezone         => "true" | "false"| undef,           #Optional / Default is undefined
+                  bootfile                        => $filename | undef,                 #Optional / Default is undefined
+                  bootserver                      => $ipv4addr | $fqdn | undef,         #Optional / Default is undefined
+                  comment                         => $string| undef,                    #Optional / Default is undefined
+                  ddns_domainname                 => $string| undef,                    #Optional / Default is undefined
+                  ddns_generate_hostname          => "true" | "false" | undef,          #Optional / Default is undefined
+                  ddns_server_always_updates      => "true" | "false",                  #Optional / Default is "true"
+                  ddns_ttl                        => $num,                              #Optional / Default is "0"
+                  ddns_use_option81               => "true" | "false" | undef,          #Optional / Default is undefined
+                  ddns_update_fixed_addresses     => "true" | "false" | undef,          #Optional / Default is undefined
+                  deny_bootp                      => "true" | "false" | undef,          #Optional / Default is undefined
+                  disable                         => "true" | "false",                  #Optional / Default is "false"
+                  email_list                      => [ "admin\@test.com",...] | undef,  #Optional / Default is undefined
+                  enable_ddns                     => "true" | "false" | undef,          #Optional / Default is undefined
+                  enable_dhcp_thresholds          => "true" | "false",                  #Optional / Default is "false"
+                  enable_email_warnings           => "true" | "false",                  #Optional / Default is "false"
+                  enable_snmp_warnings            => "true" | "false",                  #Optional / Default is "false"
+                  extattrs                        => { $string => $extattr, ... },      #Optional / Default is undefined
+                  extensible_attributes           => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Required if 'rir_organization' attribute is defined
+                                                                                                                            #Otherwise is optional
+                  high_water_mark                 => $number,                           #Optional / Default is "95"
+                  high_water_mark_reset           => $number,                           #Optional / Default is "95"
+                  ignore_dhcp_option_list_request => "true" | "false" | undef,          #Optional / Default is undefined
+                  ignore_id                       => 'NONE' | 'CLIENT' | 'MACADDR',     #Optional / Default is 'NONE'
+                  ignore_mac_addresses            => [ "mac_addr", ... ] | undef        #Optional / Default is undefined
+                  lease_scavenge_time             => $number,                           #Optional / Default is "-1"
+                  low_water_mark                  => $number,                           #Optional / Default is "0"
+                  low_water_mark_reset            => $number,                           #Optional / Default is "0"
+                  members                         => [ $Member1,$Member2,...],          #Optional / Default is empty
+                  mgm_private                     => "true" | "false",                  #Optional / Default is "false"
+                  network_container               => $ipv4_subnet/prefix,               #Optional / Default is "/"
+                  network_view                    => $NetworkView,                      #Optional / Default is "default" network view
+                  nextserver                      => $ipv4addr | $fqdn | undef,         #Optional / Default is undefined
+                  options                         => [$Option1,$Option2,...],           #Optional / Default is empty list
+                  override_ddns_domainname        => "true" | "false",                  #Optional / Default value is "false"
+                  override_ddns_ttl               => "true" | "false",                  #Optional / Default value is "false"
+                  override_enable_ifmap_publishing     => "true" | "false",             #Optional / Default value is "false"
+                  override_lease_scavenge_time    => "true" | "false",                  #Optional / Default value is "false"
+                  override_mgm_private            => "true" | "false",                  #Optional / Default value is "false"
+                  override_update_dns_on_lease_renewal => "true" | "false",             #Optional / Default value is "false"
+                  override_ignore_id              => "true" | "false",                  #Optional / Default value is "false"
+                  pxe_lease_time                  => $num | undef,                      #Optional / Default is undefined
+                  recycle_leases                  => "true" | "false" | undef,          #Optional / Default is undefined
+                  rir_organization                => $rir_org,                          #Optional / An Infoblox::Grid::RIR::Organization object
+                  rir_registration_action         => 'NONE' | 'CREATE' | 'MODIFY' | 'DELETE',  # Optional / write-only
+                  rir_registration_status         => 'NOT_REGISTERED' | 'REGISTERED',   #Optional / Default is 'NOT_REGISTERED'
+                  send_rir_request                => 'true' | 'false',                  #Optional / write-only
+                  delete_reason                   => $string,                           #Optional / write-only
+                                                                                        #Required only if 'rir_registration_action' is specified as 'DELETE'
+                  template                        => $string | undef,                   #Optional / Default is undefined
+                  update_dns_on_lease_renewal     => "true" | "false",                  #Optional / Default value is "false"
+                  zone_associations               => [$zone1, $zone2, ... ] | undef,    #Optional / Default is an empty list
+                  discovery_blackout_setting      => $blackout,                         #Optional
+                  port_control_blackout_setting   => $blackout,                         #Optional
+                  override_blackout_setting       => "true" | "false",                  #Optional / Default value is "false"
+                  same_port_control_discovery_blackout => "true" | "false",             #Optional / Default value is "false"
+                  ipam_trap_settings               => $ipam_trap,                       #Optional / An Infoblox::Grid::SNMP::IPAMTrap object
+                  override_ipam_trap_settings      => "true" | "false",                 #Optional / Default value is "false"
+                  ipam_threshold_settings          => $ipam_threshold,                  #Optional / An Infoblox::Grid::SNMP::IPAMThreshold object
+                  override_ipam_threshold_settings => "true" | "false",                 #Optional / Default value is "false"
+                  ipam_email_addresses             => [$email1, $email2, ...],          #Optional / Default is an empty list
+                  override_ipam_email_addresses    => "true" | "false",                 #Optional / Default value is "false"
+                  logic_filters               => [ $filter_name | $filter_obj, ...],    #Optional / Default is undefined
+                  override_logic_filters      => "true' | 'false",                      #Optional / Default value is "false"
+                  subscribe_settings          => $subscribe_settings,                   #Optional / Default is undefined
+                  override_subscribe_settings => 'true' | 'false',                      #Optional / Default is 'false'
+                  discovery_engine_type       => 'NETMRI' | 'NETWORK_INSIGHT' | 'VDISCOVERY' | 'UNKNOWN' | 'NONE', #Optional / Default is 'NONE'
+                  discovered_bridge_domain    => $string,                               #Optional / Default is undefined
+                  discovered_tenant           => $string,                               #Optional / Default is undefined
+               );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that can apply to a DHCP Network object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a network object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values. Notice the syntax difference between simple adding a network and adding a network using a template.
+
+=over
+
+=item B<Example>
+
+ #Adding a network.
+ #Construct an object
+ my $network = Infoblox::DHCP::Network->new(
+        network => "20.0.0.0/8",
+ );
+
+ # Submit for adding a network
+ my $response = $session->add( $network );
+
+ #Adding a network using template
+ #Construct an object
+ my $network = Infoblox::DHCP::Network->new(
+        ipv4addr => '20.0.0.0',
+        template => "mytemplate",
+ );
+
+ # Submit for adding a network
+ my $response = $session->add( $network );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching network objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP Network object:
+
+  network                  - Optional. The IP address and netmask of a network in CIDR format.
+  network_container        - Optional. The network container, in CIDR format, to which this network belongs.
+  network_view             - Optional. The network view in which the network is located. By default, all network views are searched (except when contain_address is specified -- see below).
+  extattrs                 - Optional. A hash reference containing extensible attributes.
+  extensible_attributes    - Optional. A hash reference containing extensible attributes.
+  comment                  - Optional. A comment in string format.
+  contains_address         - Optional. An IPv4 address in string format. If specified, all other search attributes are ignored, except for network_view. When a value for this attribute is provided, network_view defaults to the system-defined default network view, unless specified. The returned network is the smallest network enclosing this IPv4 address.
+  member                   - Optional. The member or Microsoft server serving DHCP for the network. The valid value is an Infoblox::DHCP::Member or Infoblox::DHCP::MSServer object.
+  discovered_bridge_domain - Optional. A bridge domain name in string format.
+  discovered_tenant        - Optional. A tenant name in string format.
+
+=item B<Examples>
+
+  my  @result_array = $session->get(
+       object        => "Infoblox::DHCP::Network" ,
+       network       => "20.0.0.0/8",
+       network_view => "default"
+  );
+
+  my  @result_array = $session->get(
+       object                => "Infoblox::DHCP::Network" ,
+       extensible_attributes => { 'Site' => 'Santa Clara' }
+  );
+
+  my  @result_array = $session->get(
+       object  => "Infoblox::DHCP::Network" ,
+       comment => "my-comment",
+  );
+
+  my  @result_array = $session->get(
+       object  => "Infoblox::DHCP::Network" ,
+       network_container => "10.0.0.0/16",
+  );
+
+  # Returns the smallest network enclosing 10.0.0.1 in the
+  # system-defined default network view.
+  my  @result_array = $session->get(
+       object  => "Infoblox::DHCP::Network" ,
+       contains_address => "10.0.0.1",
+  );
+
+  # Returns the smallest network enclosing 10.0.0.1 in the
+  # specified network view ($network_view_object).
+  my  @result_array = $session->get(
+       object  => "Infoblox::DHCP::Network" ,
+       contains_address => "10.0.0.1",
+       network_view => $network_view_object,
+  );
+
+  # get a DHCP Network by member
+  my $member = Infoblox::DHCP::Member->new(
+       name => "ib-10-0-0-1.infoblox.com",
+       ipv4addr => "10.0.0.1",
+  );
+
+  my  @result_array = $session->get(
+       object => "Infoblox::DHCP::Network",
+       member => $member,
+  );
+
+  my @result_array = $session->get(
+       object  => "Infoblox::DHCP::Network" ,
+       discovered_bridge_domain => "domain1",
+  );
+
+  my @result_array = $session->get(
+       object  => "Infoblox::DHCP::Network" ,
+       discovered_tenant => "tenant1",
+  );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a network object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify enable_ddns method.
+ $object->enable_ddns("true");
+ # Submit modification
+ my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Key References>
+
+ remove_options - Optional. A hash reference containing the following attributes:
+
+ +------------------------------------------------------------------------------------------+
+ | reason             - Optional. The reason for removing the network in string format with |
+ |                      a maximum of 256 bytes.                                             |
+ | send_rir_request   - Optional. Boolean flag that indicates whether the appliance should  |
+ |                      send an API or email request for Regional Internet Registry (RIR).  |
+ |                      Used when 'rir_organization' attribute has been defined.            |
+ +------------------------------------------------------------------------------------------+
+
+=item B<Example>
+
+ # Get the object under the same name
+my  @result_array = $session->get(
+
+       object        => "Infoblox::DHCP::Network" ,
+       network       => "20.0.0.0/8",
+       network_view  => "default"
+  );
+
+ # find the desired object from the retrieved list.
+ my $desired_network = $result_array[0];
+
+ # Submit for removal
+ my $response = $session->remove(
+     $desired_network,
+     remove_options => {'reason' => 'Moved to B3', send_rir_request => 'true'} );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for a DHCP Network object in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DHCP Network object:
+
+  network                  - Optional. The IP address and netmask of a network in CIDR format.
+  network_container        - Optional. The network container, in CIDR format, to which this network belongs.
+  network_view             - Optional. The network view in which the network is located. By default, all network views are searched.
+  extattrs                 - Optional. A hash reference containing extensible attributes.
+  extensible_attributes    - Optional. A hash reference containing extensible attributes.
+  comment                  - Optional. A comment in string format (regular expression).
+  contains_address         - Optional. An IPv4 address in string format. If specified, all other search attributes are ignored, except for network_view. When a value for this attribute is provided, network_view defaults to the system-defined default network view, unless specified. The returned network is the smallest network enclosing this IPv4 address.
+  member                   - Optional. The member or Microsoft server serving DHCP for the network. The valid value is an Infoblox::DHCP::Member or Infoblox::DHCP::MSServer object.
+  discovered_bridge_domain - Optional. A bridge domain name in string format (regular expression).
+  discovered_tenant        - Optional. A tenant name in string format (regular expression).
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # search for all DHCP Network objects
+     my @retrieved_objs = $session->search(
+       object       => "Infoblox::DHCP::Network",
+       network      => '20\.0\.0\..*',
+       network_view => "default"
+     );
+
+ # search network by comment
+     my @retrieved_objs = $session->search(
+     object    => "Infoblox::DHCP::Network",
+     comment   => "my-comment",
+      );
+
+ # search network by network container
+  my @result_array = $session->search(
+       object  => "Infoblox::DHCP::Network" ,
+       network_container => "10.0.0.0/16",
+  );
+
+ # search for all DHCP Network objects defining "Santa Clara" for "Site" extensible attribute
+     my @retrieved_objs = $session->search(
+       object                => "Infoblox::DHCP::Network",
+       extensible_attributes => { 'Site' => 'Santa Clara' }
+     );
+
+ # Returns the smallest network enclosing 10.0.0.1 in the
+ # system-defined default network view.
+     my @result_array = $session->search(
+        object  => "Infoblox::DHCP::Network" ,
+        contains_address => "10.0.0.1",
+     );
+
+ # Returns the smallest network enclosing 10.0.0.1 in the
+ # specified network view ($network_view_object).
+     my @result_array = $session->search(
+        object  => "Infoblox::DHCP::Network" ,
+        contains_address => "10.0.0.1",
+        network_view => $network_view_object,
+     );
+
+  # search for all DHCP Network objects by member
+  my $member = Infoblox::DHCP::Member->new(
+       name => "ib-10-0-0-1.infoblox.com",
+       ipv4addr => "10.0.0.1",
+  );
+
+  my  @result_array = $session->search(
+       object => "Infoblox::DHCP::Network",
+       member => $member,
+  );
+
+  # search network by discovered bridge domain
+  my @result_array = $session->search(
+       object  => "Infoblox::DHCP::Network" ,
+       discovered_bridge_domain => "domain.*",
+  );
+
+  # search network by discovered tenant
+  my @result_array = $session->search(
+       object  => "Infoblox::DHCP::Network" ,
+       discovered_tenant => "tenant.*",
+  );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP Network object
+
+=head2 authority( )
+
+=over
+
+Use this method to set or retrieve the authority of a DHCP network object. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the authority or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute inherit the upper-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get authority
+ my $authority = $network->authority()
+ # Modify authority
+ $network->authority("true");
+
+=back
+
+=back
+
+=head2  auto_create_reversezone( )
+
+=over
+
+Use this method to set the auto_create_reversezone flag of a new DHCP network object. You can set this flag only when creating a new network object.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the auto_create_reversezone flag or "false" to deactivate/unset it. The default value for this field is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ # Modify auto_create_reversezone
+ $network_container->auto_create_reversezone("true");
+
+=back
+
+=back
+
+=head2  bootfile( )
+
+=over
+
+Use this method to set or retrieve a bootfile attribute of a DHCP network object. You can configure the DHCP server to support clients that use boot file name option in their DHCPREQUEST messages. This setting overrides the upper-level settings.
+The default value is undefined, which indicates that this attribute inherits the upper-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::Network-E<gt>bootserver()|Infoblox::DHCP::Network/bootserver()/> and L<Infoblox::DHCP::Network-E<gt>nextserver()|Infoblox::DHCP::Network/nextserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The name, in string format, of the file that the client must download. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get bootfile
+ my $bootfile = $network->bootfile();
+ # Modify bootfile
+ $network->bootfile("bootfile1");
+ #Un-override bootfile
+ $network->bootfile(undef);
+
+=back
+
+=back
+
+=head2  bootserver( )
+
+=over
+
+Use this method to set or retrieve a bootserver attribute of a DHCP network object. You can specify the name and/or IP address of the boot server that host needs to boot. This setting overrides the upper-level settings.
+The default value is undefined, which indicates that this attribute inherits the upper-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::Network-E<gt>bootfile()|Infoblox::DHCP::Network/bootfile()/> and L<Infoblox::DHCP::Network-E<gt>nextserver()|Infoblox::DHCP::Network/nextserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The boot server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A boot server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get bootserver
+ my $bootserver = $network->bootserver();
+ # Modify bootserver
+ $network->bootserver("abc.domain.com");
+ #Un-override bootserver
+ $network->bootserver(undef);
+
+=back
+
+=back
+
+=head2  comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment of a DHCP network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for the network in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get comment
+ my $comment = $network->comment();
+ # Modify comment
+ $network->comment("add a network");
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to set or retrieve cloud API related information for the Infoblox::DHCP::Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a L<Infoblox::Grid::CloudAPI::Info|Infoblox::Grid::CloudAPI::Info> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $network_view->cloud_info();
+ # Modify cloud_info
+ $network_view->cloud_info($cloud_info_object);
+
+=back
+
+=back
+
+=head2 ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the ddns_domainname value of a DHCP Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_domainname method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_ddns_domainname attribute to "false".
+
+Note that when ddns_domainname is set to a defined value and override_dddns_domainname is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_domainname("testdomain"); $object->override_ddns_domainname("false"); will set override_ddns_domainname to "false", and the sequence $object->override_ddns_domainname("false"); $object->ddns_domainname("testdomain"); will result in override_ddns_domainname="true".
+
+=over
+
+=item B<Parameter>
+
+The dynamic DNS domain name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_domainname
+ my $ddns_domainname = $network->ddns_domainname();
+ #Modify ddns_domainname
+ $network->ddns_domainname("test_domain.com");
+
+=back
+
+=back
+
+=head2 ddns_generate_hostname( )
+
+=over
+
+Use this method to set or retrieve the ddns_generate_hostname flag of a DHCP network object. Enable this method to allow only the DHCP server for generating hostname. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to generate hostname or "false" to deactivate/unset it.The default value for this field is undefined, which indicates that this attribute inherit the member level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_generate_hostname
+ my $ddns_generate_hostname = $network->ddns_generate_hostname()
+ # Modify ddns_generate_hostname
+ $network->ddns_generate_hostname("true");
+ #Un-override
+ $network->ddns_generate_hostname(undef);
+
+=back
+
+=back
+
+=head2 ddns_server_always_updates( )
+
+=over
+
+Use this method to set or retrieve the ddns_server_always_updates flag of a DHCP network object. Enable this method to allow only the DHCP server to update DNS,regardless of the requests from the DHCP clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag that enables the DHCP server to always updates DNS or "false" to deactivate/unset it.The default value for this field is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_server_always_updates
+ my $ddns_server_always_updates = $network->ddns_server_always_updates()
+ # Modify ddns_server_always_updates
+ $network->ddns_server_always_updates("true");
+
+=back
+
+=back
+
+=head2 ddns_ttl( )
+
+=over
+
+Use this method to set or retrieve the DNS update Time to Live (TTL) value of a DHCP network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_ttl method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_ddns_ttl attribute to "false".
+
+Note that when ddns_ttl is set to a defined value and override_dddns_ttl is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_ttl(12); $object->override_ddns_ttl("false"); will set override_ddns_ttl to "false", and the sequence $object->override_ddns_ttl("false"); $object->ddns_ttl(12); will result in override_ddns_ttl="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration, in seconds, that the update is cached. Zero indicates that the update is not cached. The default value is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get DNS Update ttl
+ my $dns_ttl = $network->ddns_ttl();
+ #Modify DNS Update ttl
+ $network->ddns_ttl(1200);
+
+=back
+
+=back
+
+=head2 ddns_update_fixed_addresses( )
+
+=over
+
+Use this method to set or retrieve the ddns_update_fixed_addresses flag of a DHCP network object. By default, the DHCP server does not update DNS when it allocates a fixed address to a client. You can configure the DHCP server to update the A and PTR records of a client with a fixed address. When this feature is enabled and the DHCP server adds A and PTR records for a fixed address, the DHCP server never discards the records. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the appliance to update DNS when it assigns a fixed address to a client or "false" to disable it. The default value for this field is undefined, which indicates that this attribute inherit the member level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_update_fixed_addresses
+ my $ddns_update_fixed_addresses= $network->ddns_update_fixed_addresses()
+ # Modify ddns_update_fixed_addresses
+ $network->ddns_update_fixed_addresses("true");
+ #Un-override
+ $network->ddns_update_fixed_addresses(undef);
+
+=back
+
+=back
+
+=head2 ddns_use_option81( )
+
+=over
+
+Use this method to set or retrieve the ddns_use_option81 flag of a DHCP network object. Enable this method to define the settings for option 81 at the network level. This setting overrides the member level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to Configure Support for Option 81 or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute inherit the member level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_use_option81
+ my $ddns_use_option81 = $network->ddns_use_option81()
+ # Modify ddns_use_option81
+ $network->ddns_use_option81("true");
+ # un-override ddns_use_option81
+ $network->ddns_use_option81(undef);
+
+=back
+
+=back
+
+=head2 deny_bootp( )
+
+=over
+
+Use this method to set or retrieve the deny_bootp flag of a DHCP Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the deny_bootp flag or "false" to deactivate/unset it. The default value is undefined, which indicates that this attribute inherit the upper-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get deny_bootp
+ my $deny_bootp = $network->deny_bootp();
+ #Modify deny_bootp
+ $network->deny_bootp("true");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DHCP network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value for this field is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get disable
+ my $disable = $network->disable()
+ # Modify disable
+ $network->disable("true");
+
+=back
+
+=back
+
+=head2 discovered_bridge_domain( )
+
+=over
+
+Use this method to set or retrieve the discovered bridge domain name of a DHCP Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The desired bridge domain name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bridge domain
+ my $bridge_domain = $network->discovered_bridge_domain();
+ #Modify bridge domain
+ $network->discovered_bridge_domain("Domain");
+
+=back
+
+=back
+
+=head2 discovered_tenant( )
+
+=over
+
+Use this method to set or retrieve the discovered tenant name of a DHCP Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The desired tenant name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get tenant
+ my $tenant = $network->discovered_tenant();
+ #Modify tenant
+ $network->discovered_tenant("Tenant");
+
+=back
+
+=back
+
+=head2 discovery_basic_poll_setting( )
+
+=over
+
+Use this method to set or retrieve the discovery_basic_poll_setting value of a DHCP Network object.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is object of L<Infoblox::Grid::Discovery::BasicPollSettings>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_basic_poll_setting
+ my $discovery_basic_poll_setting = $network->discovery_basic_poll_setting();
+ #Modify discovery_basic_poll_setting
+ $network->discovery_basic_poll_setting($poll_setting);
+
+=back
+
+=back
+
+=head2 discovery_exclusion_range( )
+
+=over
+
+Use this method to set or retrieve the discovery_exclusion_range value of a DHCP Network object.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::DHCP::ExclusionRange> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_exclusion_range
+ my $discovery_exclusion_range = $network->discovery_exclusion_range();
+ #Modify discovery_exclusion_range
+ $network->discovery_exclusion_range( [ $exclusion1, $exclusion2 ]);
+
+=back
+
+=back
+
+=head2 discovery_member( )
+
+=over
+
+Use this method to set or retrieve the discovery_member value of a DHCP Network object.
+
+=over
+
+=item B<Parameter>
+
+The discovery member name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_member
+ my $discovery_member = $network->discovery_member();
+ #Modify discovery_member
+ $network->discovery_member("test.localdomain");
+
+=back
+
+=back
+
+=head2 discover_now_status( )
+
+=over
+
+Use this method to retrieve the current discovery status. This attribute is read-only.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETE', 'FAILED', 'NONE', 'PENDING' or 'RUNNING'.
+
+=item B<Example>
+
+ #Get discover_now_status
+ my $discover_now_status = $network->discover_now_status();
+
+=back
+
+=back
+
+=head2 discovery_blackout_setting( )
+
+=over
+
+Use this method to set or retrieve the discovery blackout setting.
+
+Setting this method to a defined value implicitly sets the override_blackout_setting method to "true". If port_control_blackout_setting is undefined, setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_blackout_setting attribute to "false".
+
+Note that when discovery_blackout_setting is set to a defined value and override_blackout_setting is set to "false", the last operation takes precedence. Thus the sequence $network->discovery_blackout_setting($blackout); $network->override_blackout_setting("false"); will set override_blackout_setting to "false", and the sequence $network->override_blackout_setting("false"); $network->discovery_blackout_setting($blackout); will result in override_blackout_setting="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_blackout_setting
+ my $discovery_blackout_setting = $network->discovery_blackout_setting();
+ #Modify discovery_blackout_setting
+ $network->discovery_blackout_setting($blackout);
+
+=back
+
+=back
+
+=head2 discovery_engine_type( )
+
+=over
+
+Use this method to retrieve the DHCP Network discovery engine type. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'NETMRI', 'NETWORK_INSIGHT', 'VDISCOVERY', 'UNKNOWN' or 'NONE'.
+
+=item B<Example>
+
+ #Get discovery_engine_type
+ my $discovery_engine_type = $network->discovery_engine_type();
+
+=back
+
+=back
+
+=head2 email_list( )
+
+=over
+
+Use this method to set or retrieve the e-mail lists to which the appliance sends threshold e-mail messages.
+
+If you enter e-mail addresses in the email_list, then the appliance sends DHCP threshold alarms to the e-mail addresses.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains string objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get email_list
+ my @email_list = $network->email_list();
+ #Modify email_list
+ $network->email_list( [ "admin\@test.com" ] );
+
+=back
+
+=back
+
+=head2 enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the dynamic DNS updates flag of a DHCP network object. The DHCP server can send DDNS updates to DNS servers in the same grid and to external DNS servers. This setting overrides the member level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the dynamic DNS updates flag or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute inherit the member level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable_ddns
+ my $enable_ddns = $network->enable_ddns()
+ # Modify enable_ddns
+ $network->enable_ddns("true");
+ # Un-override enable_ddns
+ $network->enable_ddns(undef);
+
+=back
+
+=back
+
+=head2 enable_dhcp_thresholds( )
+
+=over
+
+Use this method to set or retrieve DHCP thresholds at the network level. These thresholds are the high and low watermarks. If a DHCP range usage goes above or below these percentage values, the Infoblox appliance generates a syslog message and sends an SNMP notification.
+
+Enable this flag to set DHCP thresholds values.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_dhcp_thresholds flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dhcp_thresholds
+ my $enable_dhcp_thresholds = $network->enable_dhcp_thresholds();
+ #Modify enable_dhcp_thresholds
+ $network->enable_dhcp_thresholds("false");
+
+=back
+
+=back
+
+=head2 enable_email_warnings( )
+
+=over
+
+Use this method to send DHCP threshold warnings through e-mail.
+
+Enable this flag if you want the appliance to send DHCP threshold warnings to the "email_list" provided when DHCP threshold is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_email_warnings flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_email_warnings
+ my $enable_email_warnings = $network->enable_email_warnings();
+ #Modify enable_email_warnings
+ $network->enable_email_warnings("false");
+
+=back
+
+=back
+
+=head2 enable_discovery( )
+
+=over
+
+Use this method to set or retrieve the enable_discovery value of a DHCP Network object.  This setting overrides the member level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_enable_discovery method to "true". Setting the parameter to undefined causes the appliance to use the default from the upper level and automatically resets the override_enable_discovery attribute to "false".
+
+Enable this flag if you want to set discovery for this object.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_discovery flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_discovery
+ my $enable_discovery = $network->enable_discovery();
+ #Modify enable_discovery
+ $network->enable_discovery("false");
+
+=back
+
+=back
+
+=head2 enable_ifmap_publishing( )
+
+=over
+
+Use this method to set or retrieve ifmap publishing the option of a DHCP Network object. This setting overrides the member level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set ifmap publishing option or "false" to deactivate/unset it. The default value 'false', which indicates that this attribute inherits the member level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable ifmap publishing
+ my $enable_ifmap_publishing = $network->enable_ifmap_publishing()
+ # Modify enable_ifmap_publishing
+ $network->enable_ifmap_publishing("true");
+ # Un-override enable_ifmap_publishing
+ $network->enable_ifmap_publishing(undef);
+
+=back
+
+=back
+
+=head2 enable_immediate_discovery( )
+
+=over
+
+Use this method to set or retrieve enable_immediate_discovery value of a DHCP Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_immediate_discovery flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_immediate_discovery
+ my $enable_immediate_discovery = $network->enable_immediate_discovery();
+ #Modify enable_immediate_discovery
+ $network->enable_immediate_discovery("false");
+
+=back
+
+=back
+
+=head2 enable_snmp_warnings( )
+
+=over
+
+Use this method to send DHCP threshold warnings through SNMP.
+
+If the flag is enabled, then the appliance sends DHCP threshold warnings through SNMP messages when DHCP threshold is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_snmp_warnings flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_snmp_warnings
+ my $enable_snmp_warnings = $network->enable_snmp_warnings();
+ #Modify enable_snmp_warnings
+ $network->enable_snmp_warnings("false");
+
+=back
+
+=back
+
+=head2 endpoint_sources( )
+
+=over
+
+Use this method to retrieve the list of endpoints that provide object data. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an array of L<Infoblox::CiscoISE::Endpoint|Infoblox::CiscoISE::Endpoint> objects.
+
+=item B<Example>
+
+ #Get endpoint_sources value
+ my $endpoint_sources = $object->endpoint_sources();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP network object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $network->extattrs();
+ #Modify extattrs
+ $network->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP network object
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $network->extensible_attributes();
+ #Modify extensible attributes
+ $network->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2  high_water_mark( )
+
+=over
+
+Use this method to set the percentage value for DHCP range usage above which the Infoblox appliance generates a syslog message and sends a warning.
+
+When the percent of allocated addresses in a DHCP range exceeds the high watermark, the appliance generates a syslog message and sends a warning. Default value for this option is 95.
+
+=over
+
+=item B<Parameter>
+
+The valid value is in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get high_water_mark
+ my $high_water_mark = $network->high_water_mark();
+ #Modify high_water_mark
+ $network->high_water_mark("80");
+
+=back
+
+=back
+
+=head2 high_water_mark_reset( )
+
+=over
+
+Use this method to set or retrieve the high_water_mark_reset value. If the percentage of allocated addresses drops below this value, a corresponding SNMP trap is reset.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A number that specifies the percentage of allocated addresses. The range is from 1 to 100. The high watermark reset value must be lower than the high watermark value. The default value is 95.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get high_water_mark_reset
+ my $high_water_mark_reset = $network->high_water_mark_reset();
+ #Modify high_water_mark_reset
+ $network->high_water_mark_reset(70);
+
+=back
+
+=back
+
+=head2 ignore_id( )
+
+=over
+
+Use this method to set or retrieve the ignore_id type of a DHCP network object. Indicates whether the appliance will ignore DHCP client IDs or MAC addresses. This setting overrides the upper-level settings.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE', 'CLIENT', or 'MACADDR'. The default is 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ $value = $network->ignore_id();
+ # Modify attribute value
+ $network->ignore_id('CLIENT');
+ #Un-override ignore_id
+ $network->ignore_id(undef);
+
+=back
+
+=back
+
+=head2 ignore_mac_addresses( )
+
+=over
+
+Use this method to set or retrieve the ignore_mac_addresses list of a DHCP network object. A list of MAC addresses the appliance will ignore. This setting overrides the upper-level settings.
+
+If you enter MAC addresses in the ignore_mac_addresses, then the appliance will ignore them. If you enter empty array, then the appliance will ignore any MAC address.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains string objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ $value = $network->ignore_mac_addresses();
+ # Modify attribute value
+ $network->ignore_mac_addresses(["11::11::11::11::11::11"]);
+
+=back
+
+=back
+
+=head2 ignore_dhcp_option_list_request( )
+
+=over
+
+Use this method to set or retrieve the ignore_dhcp_option_list_request flag of a DHCP Network object. If this flag is set to false, the appliance returns all the defined DHCP options to the client. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ignore_dhcp_option_list_request flag or "false" to deactivate/unset it. The default value is undefined, which indicates that this attribute inherits the upper-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ignore_dhcp_option_list_request
+ my $ignore_dhcp_option_list_request = $network->ignore_dhcp_option_list_request();
+ # Modify ignore_dhcp_option_list_request
+ $network->ignore_dhcp_option_list_request("true");
+ #Do not override ignore_dhcp_option_list_request
+ $network->ignore_dhcp_option_list_request(undef);
+
+=back
+
+=back
+
+=head2 ipam_email_addresses( )
+
+=over
+
+Use this method to set or retrieve a list of IPAM Utilization email addresses.
+
+Setting this method to a defined value implicitly sets the override_ipam_email_addresses method to "true". Setting the parameter to undefined causes the appliance to use the default from the upper level and automatically resets the override_ipam_email_addresses attribute to "false".
+
+Note that when ipam_email_addresses is set to a defined value and override_ipam_email_addresses is set to "false", the last operation takes precedence. Thus the sequence $object->ipam_email_addresses(['admin@infoblox.com']); $object->override_ipam_email_addresses("false"); will set override_ipam_email_addresses to "false", and the sequence $object->override_ipam_email_addresses("false"); $object->ipam_email_addresses(['admin@infoblox.com']); will result in override_ipam_email_addresses="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains email addresses in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipam_email_addresses
+ my $ipam_email_addresses = $network->ipam_email_addresses();
+ #Modify ipam_email_addresses
+ $network->ipam_email_addresses($ipam_email_addresses);
+
+=back
+
+=back
+
+=head2 ipam_trap_settings( )
+
+=over
+
+Use this method to set or retrieve IPAM Utilization SNMP Trap settings.
+
+Setting this method to a defined value implicitly sets the override_ipam_trap_settings method to "true". Setting the parameter to undefined causes the appliance to use the default from the upper level and automatically resets the override_ipam_trap_settings attribute to "false".
+
+Note that when ipam_trap_settings is set to a defined value and override_ipam_trap_settings is set to "false", the last operation takes precedence. Thus the sequence $object->ipam_trap_settings($ipam_trap); $object->override_ipam_trap_settings("false"); will set override_ipam_trap_settings to "false", and the sequence $object->override_ipam_trap_settings("false"); $object->ipam_trap_settings($ipam_trap); will result in override_ipam_trap_settings="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::SNMP::IPAMTrap|Infoblox::Grid::SNMP::IPAMTrap> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipam_trap_settings
+ my $ipam_trap_settings = $network->ipam_trap_settings();
+ #Modify ipam_trap_settings
+ $network->ipam_trap_settings($ipam_trap_settings);
+
+=back
+
+=back
+
+=head2 ipam_threshold_settings( )
+
+=over
+
+Use this method to set or retrieve IPAM Utilization SNMP Threshold settings.
+
+Setting this method to a defined value implicitly sets the override_ipam_threshold_settings method to "true". Setting the parameter to undefined causes the appliance to use the default from the upper level and automatically resets the override_ipam_threshold_settings attribute to "false".
+
+Note that when ipam_threshold_settings is set to a defined value and override_ipam_threshold_settings is set to "false", the last operation takes precedence. Thus the sequence $object->ipam_threshold_settings($ipam_threshold_settings); $object->override_ipam_trap_settings("false"); will set override_ipam_threshold_settings to "false", and the sequence $object->override_ipam_threshold_settings("false"); $object->ipam_threshold_settings($ipam_threshold_settings); will result in override_ipam_threshold_settings="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::SNMP::IPAMThreashold|Infoblox::Grid::SNMP::IPAMThreshold> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipam_threshold_settings
+ my $ipam_threshold_settings = $network->ipam_threshold_settings();
+ #Modify ipam_threshold_settings
+ $network->ipam_threshold_settings($ipam_threshold_settings);
+
+=back
+
+=back
+
+=head2 lease_scavenge_time( )
+
+=over
+
+Use this method to set or retrieve the lease_scavenge_time value of a DHCP Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_lease_scavenge_time method to "true". Setting the parameter to undefined causes the appliance to use the default from the upper level and automatically resets the override_lease_scavenge_time attribute to "false".
+
+Note that when lease_scavenge_time is set to a defined value and override_lease_scavenge_time is set to "false", the last operation takes precedence. Thus the sequence $object->lease_scavenge_time(604800); $object->override_lease_scavenge_time("false"); will set override_lease_scavenge_time to "false", and the sequence $object->override_lease_scavenge_time("false"); $object->lease_scavenge_time(604800); will result in override_lease_scavenge_time="true".
+
+=over
+
+=item B<Parameter>
+
+An integer that specifies the period of time, in seconds, that free and backup leases remain in the database before they are automatically deleted. To disable lease scavenging, set the parameter to -1. The minimum positive value must be greater than 86400 seconds (1 day). The default value of this parameter is -1, which means that lease scavenging is disabled.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lease_scavenge_time
+ my $lease_scavenge = $network->lease_scavenge_time();
+ #Modify lease_scavenge_time
+ $network->lease_scavenge_time(30 * 24 * 60 * 60);
+
+=back
+
+=back
+
+=head2 logic_filters( )
+
+=over
+
+Use this method to set or retrieve all the logic (ordered) filters associated with the DHCP Network.
+
+Filters are used to screen address assignments in a DHCP Network if the addresses are to be assigned to specific hosts.
+
+Setting this method to a defined value implicitly sets the override_logic_filters method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_logic_filters attribute to "false".
+
+Note that when logic_filters is set to a defined value and override_dlogic_filters is set to "false", the last operation takes precedence. Thus the sequence $object->logic_filters($filters); $object->override_logic_filters("false"); will set override_logic_filters to "false", and the sequence $object->override_logic_filters("false"); $object->logic_filters($filters); will result in override_logic_filters="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains either the L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC>, L<Infoblox::DHCP::Filter::NAC|Infoblox::DHCP::Filter::NAC>, L<Infoblox::DHCP::Filter::Option|Infoblox::DHCP::Filter::Option> objects or the names of the corresponding filters. The filters in the list must satisfy the following conditions:
+
+=over
+
+=item Filter name must be globally unique.
+
+=item Filters without expressions must be at the end of the list.
+
+=item The filters should not be disabled.
+
+=back
+
+The default value of the parameter is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get logic_filters
+ my $ref_logic_filters = $network->logic_filters();
+ #Modify logic_filters
+ $network->logic_filters(["filter_1","filter_2",$exl1]); #$exl1 is an Infoblox::DHCP::Filter::MAC, Infoblox::DHCP::Filter::NAC or Infoblox::DHCP::Filter::Option object.
+
+=back
+
+=back
+
+=head2  low_water_mark( )
+
+=over
+
+Use this method to set the percentage value for DHCP range usage below which the Infoblox appliance generates a syslog message and sends a warning.
+
+When the percent of allocated addresses in a DHCP range goes below the low watermark, the appliance generates a syslog message and sends a warning. Default value for this option is 0.
+
+=over
+
+=item B<Parameter>
+
+The valid value is in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get low_water_mark
+ my $low_water_mark = $network->low_water_mark();
+ #Modify low_water_mark
+ $network->low_water_mark("10");
+
+=back
+
+=back
+
+=head2 low_water_mark_reset( )
+
+=over
+
+Use this method to set or retrieve the low_water_mark_reset value. If the percentage of allocated addresses exceeds this value, a corresponding SNMP trap is reset.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A number that specifies the percentage of allocated addresses. The range is from 1 to 100.  The low watermark reset value must be higher than the low watermark value. The default low watermark reset number is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get low_water_mark_reset
+ my $low_water_mark_reset = $network->low_water_mark_reset();
+ #Modify low_water_mark_reset
+ $network->low_water_mark_reset(10);
+
+=back
+
+=back
+
+=head2 members( )
+
+=over
+
+Use this method to set or retrieve the member or Microsoft (r) server that serves DHCP for a network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> or L<Infoblox::DHCP::MSServer|Infoblox::DHCP::MSServer> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ my $member1 = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2",
+ );
+
+ #Create the Network object with this member
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/8",
+     members => [$member1],
+ );
+
+=back
+
+=back
+
+=head2 mgm_private( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the object should be synced to the MGM or not.
+
+Setting this method to a defined value implicitly sets the override_blackout_setting method to "true". If discovery_blackout_setting is undefined, setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_blackout_setting attribute to "false".
+
+Note that when mgm_private is set to a defined value and override_mgm_private is set to "false", the last operation takes precedence. Thus the sequence $network->mgm_private("true"); $network->override_mgm_private("false"); will set override_mgm_private to "false", and the sequence $network->override_mgm_private("false"); $network->mgm_private("true"); will result in override_mgm_private="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable synchronization of the managed Grid with the MGM or 'false' to forbid it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+Note that this member is loaded on on-demand basis, so to retrieve the value the object must have been retrieved from the session first.
+
+=item B<Example>
+
+ #Get mgm_private value
+ my $value = $object->mgm_private();
+
+ #Modify mgm_private value
+ $object->mgm_private('true');
+
+=back
+
+=back
+
+=head2 mgm_private_overridable( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the overriding of 'mgm_private' flag is allowed or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+Note that this member is loaded on on-demand basis, so to retrieve the value the object must have been retrieved from the session first.
+
+=item B<Example>
+
+ #Get mgm_private_overridable value
+ my $value = $object->mgm_private_overridable();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $network->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to retrieve the network attribute of a DHCP network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network
+ my $network = $network->network();
+
+=back
+
+=back
+
+=head2 network_container( )
+
+=over
+
+Use this method to set or retrieve the network container of a DHCP network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the IP address and netmask of a network in CIDR format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network container
+ my $network_container = $network->network_container();
+ #Modify network container
+ $network->network_container("50.0.0.0/8");
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of the DHCP network.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" network view, which means the network is in the default network view.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a defined L<Infoblox::DHCP::View|Infoblox::DHCP::View> object. The default network view value is the system-defined default network view object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $network->network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $network->network_view($nview);
+
+=back
+
+=back
+
+=head2  nextserver( )
+
+=over
+
+Use this method to set or retrieve the nextserver attribute of a DHCP network object. You can specify the name and/or IP address of the next server that the host needs to boot. This setting overrides the upper-level settings.
+The default value is undefined, which indicates that this attribute inherits the upper-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::Network-E<gt>bootfile()|Infoblox::DHCP::Network/bootfile()/> and L<Infoblox::DHCP::Network-E<gt>bootserver()|Infoblox::DHCP::Network/bootserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The next server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A next server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get nextserver
+ my $nextserver = $network->nextserver();
+ # Modify nextserver
+ $network->nextserver("blue.domain.com");
+ #Un-override nextserver
+ $network->nextserver(undef);
+
+=back
+
+=back
+
+=head2 next_available_ip( )
+
+=over
+
+Use this method to retrieve the next available IP address(es) in the network that was retrieved. Note that to use this method, the object MUST be retrieved through a get or search call, or created with an add call.
+
+=over
+
+=item B<Parameter>
+
+The method accepts the following optional parameters:
+
+  requested_num - The number of IP addresses requested. It must be a number between 1 and 20.
+  excluded - A reference to an array of addresses to be excluded from the results.
+
+=item B<Returns>
+
+This method returns the next available IP address(es) in the network. If requested_num is not specified, a string with the next available address will be returned; otherwise, the method will return a reference to an array of addresses.
+
+Within a DHCP Network object, the next available IP address(es) are the first addresses in this network that match all of the following rules:
+
+   * Are not part of the passed 'excluded' parameter (if specified).
+   * There is no A, PTR, fixed address or host address record matching this IP address
+   * There is no bulk host record with this IP address
+   * There is no unmanaged record matching this IP address
+   * The IP address is not the network or broadcast address of this network
+   * The IP address is not in any DHCP range within this network (including any exclusion range)
+
+=item B<Example>
+
+ # Retrieve a particular network
+ my @retrieved_objs = $session->get(
+                           object   => "Infoblox::DHCP::Network",
+                           network  => "10.0.0.0/8"
+ );
+
+ $dhcp_network = $retrieved_objs[0];
+
+ # Print the next available IP address in the network
+ print $dhcp_network->next_available_ip() . "\n";
+
+ # This will retrieve the next 10 available addresses and print the first one.
+ my $addressesref = $dhcp_network->next_available_ip(requested_num => 10);
+ print @$addressesref[0] . "\n";
+
+ # This will retrieve the next 10 available addresses and exclude two.
+ my $addressesref = $dhcp_network->next_available_ip(requested_num => 10, excluded => ["10.0.0.1", "10.0.0.2"]);
+
+=back
+
+=back
+
+=head2 next_available_network( )
+
+=over
+
+Use this method to retrieve the next available network(s) in the network. Note that to use this method, the object MUST be retrieved through a get or search call, or created with an add call.
+
+=over
+
+=item B<Parameter>
+
+The method accepts the following parameters:
+
+  cidr - (required) The CIDR of the requested networks. It must be a value between 1 and 32, inclusive.
+  requested_num - (optional) The number of networks requested. It must be a value between 1 and 20, inclusive.
+  excluded - (optional) A reference to an array of networks to be excluded from the results.
+
+=item B<Returns>
+
+This method returns the next available network(s) in the network. If requested_num is not specified, a string containing the next available network will be returned; otherwise, the method will return a reference to an array of networks.
+
+A network cannot be returned as the next available network if it cannot be inserted; such as when any of the following conditions exist:
+
+- It's parent network has a DHCP configuration assigned and therefore cannot be converted to a network container.
+
+- It overlaps with an existing network or network container, regardless of whether the existing network has a greater or smaller CIDR than the requested CIDR.
+
+- Its network address or broadcast address is used by a fixed address or a host configured for DHCP.
+
+=item B<Example>
+
+ # Retrieve a particular network
+ my @retrieved_objs = $session->get(
+                           object   => "Infoblox::DHCP::Network",
+                           network  => "10.0.0.0/8"
+ );
+
+ $network = $retrieved_objs[0];
+
+ # Print the next available IPv6 network in the network container
+ print $network->next_available_network(cidr => 12) . "\n";
+
+ # This will retrieve the next 10 available networks and print the first one
+ my $addressesref = $network->next_available_network(requested_num => 10, cidr => 12);
+ print @$addressesref[0] . "\n";
+
+ # This will retrieve the next 10 available networks and exclude two.
+ my $addressesref = $network->next_available_network(cidr => 12, requested_num => 10, excluded => ['10.0.0.0/12']);
+
+=back
+
+=back
+
+=head2  options( )
+
+=over
+
+Use this method to set or retrieve the options value of a member DHCP server. DHCP options provide network configuration
+settings and various services available on the network for DHCP.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get options
+ my $options = $network->options();
+ #Modify options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name => "lease-time",
+     value => 50
+ );
+
+ $network->options([$option1]);
+
+=back
+
+=back
+
+=head2 override_ddns_domainname( )
+
+=over
+
+The override_ddns_domainname attribute controls whether the ddns_domainname value in the DHCP Network is used, instead of the grid default.
+
+The override_ddns_domainname attribute can be specified explicitly. It is also set implicitly when ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_domainname. Set the parameter to "false" to inherit the grid-level setting for ddns_domainname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_domainname
+    my $override_ddns_domainname=$network->override_ddns_domainname( );
+    #Modifying override_ddns_domainname
+    $network->override_ddns_domainname("true");
+
+=back
+
+=back
+
+=head2 override_ddns_ttl( )
+
+=over
+
+The override_ddns_ttl attribute controls whether the ddns_ttl value in the DHCP Network is used, instead of the grid default.
+
+The override_ddns_ttl attribute can be specified explicitly. It is also set implicitly when ddns_ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_ttl. Set the parameter to "false" to inherit the grid-level setting for ddns_ttl.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_ttl
+    my $override_ddns_ttl=$network->override_ddns_ttl( );
+    #Modifying override_ddns_ttl
+    $network->override_ddns_ttl("true");
+
+=back
+
+=back
+
+=head2 override_enable_ifmap_publishing( )
+
+=over
+
+The override_enable_ifmap_publishing controls whether the enable_ifmap_publishing in the DHCP Network is used, instead of the grid default.
+
+The override_enable_ifmap_publishing can be specified explicitly. It is also set implicitly when enable_ifmap_publishing is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for enable_ifmap_publishing. Set the parameter to "false" to inherit the grid-level setting for enable_ifmap_publishing.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_enable_ifmap_publishing
+    my $override_enable_ifmap_publishing=$network->override_enable_ifmap_publishing( );
+    #Modifying override_enable_ifmap_publishing
+    $network->override_enable_ifmap_publishing("true");
+
+=back
+
+=back
+
+=head2 override_blackout_setting( )
+
+=over
+
+The override_blackout_setting attribute controls whether the discovery_blackout_setting and port_control_blackout_setting values in the object are used, instead of the grid default.
+
+The override_blackout_setting attribute can be specified explicitly. It is also set implicitly when discovery_blackout_setting or port_control_blackout_setting is set to a defined value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_blackout_setting flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $network->override_blackout_setting();
+ # Modify attribute value
+ $network->override_blackout_setting('true');
+
+=back
+
+=back
+
+=head2 override_ignore_id( )
+
+=over
+
+The override_ignore_id controls whether the ignore_id in the DHCP network is used, instead of the upper-level default.
+
+The override_ignore_id can be specified explicitly. It is also set implicitly when ignore_id is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ignore_id and ignore_mac_addresses. Set the parameter to "false" to inherit the upper-level setting for ignore_id and ignore_mac_addresses.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get attrubute value
+    my $value=$network->override_ignore_id();
+    #Modifying attribute value
+    $network->override_ignore_id('true');
+
+=back
+
+=back
+
+=head2 override_ipam_email_addresses( )
+
+=over
+
+The override_ipam_email_addresses controls whether the ipam_email_addresses in the DHCP network is used, instead of the upper-level default.
+
+The override_ipam_email_addresses can be specified explicitly. It is also set implicitly when ipam_email_addresses is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipam_email_addresses. Set the parameter to "false" to inherit the upper-level setting for ipam_email_addresses.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get attrubute value
+    my $value=$network->override_ipam_email_addresses();
+    #Modifying attribute value
+    $network->override_ipam_email_addresses('true');
+
+=back
+
+=back
+
+=head2 override_ipam_threshold_settings( )
+
+=over
+
+The override_ipam_threshold_settings controls whether the ipam_threshold_settings in the DHCP network is used, instead of the upper-level default.
+
+The override_ipam_threshold_settings can be specified explicitly. It is also set implicitly when ipam_threshold_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipam_threshold_settings. Set the parameter to "false" to inherit the upper-level setting for ipam_threshold_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get attrubute value
+    my $value=$network->override_ipam_threshold_settings();
+    #Modifying attribute value
+    $network->override_ipam_threshold_settings('true');
+
+=back
+
+=back
+
+=head2 override_ipam_trap_settings( )
+
+=over
+
+The override_ipam_trap_settings controls whether the ipam_trap_settings in the DHCP network is used, instead of the upper-level default.
+
+The override_ipam_trap_settings can be specified explicitly. It is also set implicitly when ipam_trap_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipam_trap_settings. Set the parameter to "false" to inherit the upper-level setting for ipam_trap_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get attrubute value
+    my $value=$network->override_ipam_trap_settings();
+    #Modifying attribute value
+    $network->override_ipam_trap_settings('true');
+
+=back
+
+=back
+
+=head2 override_lease_scavenge_time( )
+
+=over
+
+The override_lease_scavenge_time attribute controls whether the lease_scavenge_time value in the DHCP network is used, instead of the upper-level default.
+
+The override_lease_scavenge_time attribute can be specified explicitly. It is also set implicitly when lease_scavenge_time is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for lease_scavenge_time. Set the parameter to "false" to inherit the setting for lease_scavenge_time from the upper level.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_lease_scavenge_time
+    my $override_lease_scavenge_time=$network->override_lease_scavenge_time( );
+    #Modifying override_lease_scavenge_time
+    $network->override_lease_scavenge_time("true");
+
+=back
+
+=back
+
+=head2 override_logic_filters( )
+
+=over
+
+The override_logic_filters attribute controls whether the logic_filters value of the DHCP Network is used, instead of the Grid default.
+
+The override_logic_filters attribute can be specified explicitly. It is also set implicitly when logic_filters is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for logic_filters. Set the parameter to "false" to inherit the Grid-level setting for logic_filters.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_logic_filters
+ my $override_logic_filters=$network->override_logic_filters( );
+ #Modifying override_logic_filters
+ $network->override_logic_filters("true");
+
+=back
+
+=back
+
+=head2 override_mgm_private( )
+
+=over
+
+The override_mgm_private attribute controls whether the mgm_private value in the object is used, instead of the parent-level default.
+
+The override_mgm_private attribute can be specified explicitly. It is also set implicitly when mgm_private is set to a defined value.
+
+Note that setting override_mgm_private to 'false' sets the original 'mgm_private' value to 'false'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to 'true' to override the parent-level setting for mgm_private. Set the parameter to 'false' to inherit the parent-level setting for mgm_private.
+
+The default value of this parameter is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+Note that this member is loaded on on-demand basis, so to retrieve the value the object must have been retrieved from the session first.
+
+=item B<Example>
+
+ #Get override_mgm_private value
+ my $value = $object->override_mgm_private( );
+
+ #Modify override_mgm_private value
+ $object->override_mgm_private('true');
+
+=back
+
+=back
+
+=head2 override_subscribe_settings( )
+
+=over
+
+The override_subscribe_settings attribute controls whether the subscribe_settings method values of the member are used, instead of the Grid default.
+
+The override_subscribe_settings attribute can be specified explicitly. It is also set implicitly when subscribe_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for subscribe_settings. Set the parameter to "false" to inherit the Grid-level setting for subscribe_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_subscribe_settings value
+ my $override_subscribe_settings = $object->override_subscribe_settings( );
+ #Modify override_subscribe_settings value
+ $object->override_subscribe_settings("true");
+
+=back
+
+=back
+
+=head2 override_update_dns_on_lease_renewal( )
+
+=over
+
+The override_update_dns_on_lease_renewal attribute controls whether the update_dns_on_lease_renewal value in the DHCP Network is used, instead of the grid default.
+
+The override_update_dns_on_lease_renewal attribute can be specified explicitly. It is also set implicitly when update_dns_on_lease_renewal is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for update_dns_on_lease_renewal. Set the parameter to "false" to inherit the grid-level setting for update_dns_on_lease_renewal.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+#Getting override_update_dns_on_lease_renewal
+my $override_update_dns_on_lease_renewal=$network->override_update_dns_on_lease_renewal( );
+#Modifying override_update_dns_on_lease_renewal
+$network->override_update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 port_control_blackout_setting
+
+=over
+
+Use this method to set or retrieve the port control blackout setting.
+
+Setting this method to a defined value implicitly sets the override_blackout_setting method to "true". If discovery_blackout_setting is undefined, setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_blackout_setting attribute to "false".
+
+Note that when port_control_blackout_setting is set to a defined value and override_blackout_setting is set to "false", the last operation takes precedence. Thus the sequence $network->port_control_blackout_setting($blackout); $network->override_blackout_setting("false"); will set override_blackout_setting to "false", and the sequence $network->override_blackout_setting("false"); $network->port_control_blackout_setting($blackout); will result in override_blackout_setting="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get port_control_blackout_setting
+ my $port_control_blackout_setting = $network->port_control_blackout_setting();
+ #Modify port_control_blackout_setting
+ $network->port_control_blackout_setting($blackout);
+
+=back
+
+=back
+
+=head2 pxe_lease_time( )
+
+=over
+
+Use this method to set or retrieve the PXE lease time value of a DHCP Network object. Some hosts use PXE (Preboot Execution Environment) to boot remotely from a server. To better manage your IP resources, set a different lease time for PXE boot requests. You can configure the DHCP server to allocate an IP address with a shorter lease time to hosts that send PXE boot requests, so IP addresses are not leased longer than necessary. This setting overrides the upper-level settings.
+The default value is undefined, which indicates that this attribute inherits the upper-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration, in seconds, that the update is cached. Zero indicates that the update is not cached. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get PXE Lease Time
+ my $pxe_lease_time = $network->pxe_lease_time();
+ #Modify PXE Lease Time
+ $network->pxe_lease_time(1100);
+ #Un-override PXE Lease Time
+ $network->pxe_lease_time(undef);
+
+=back
+
+=back
+
+=head2 recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the recycle_leases flag at the network level.
+
+If the flag is enabled, the leases are kept in the recycle bin until one week after expiration. When the flag is disabled, the leases are irrecoverably deleted.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the recycle_leases flag or "false" to disable it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recycle_leases
+ my $recycle_leases = $network->recycle_leases();
+ #Modify recycle_leases
+ $network->recycle_leases("false");
+
+=back
+
+=back
+
+=head2 resize( )
+
+=over
+
+Use this method to resize a network. Note that to use this method, the object MUST be retrieved through a get or search call, or it must have been created with an add call.
+
+=over
+
+=item B<Parameter>
+
+prefix              - Required. The bitmask prefix length after resizing.
+
+auto_create_reversezone - Optional. Boolean flag indicating whether or not to automatically create the reverse zone.
+
+reason              - Optional. The reason for resizing the network in string format with a maximum of 256 bytes. Used when 'rir_organization' attribute has been defined.
+
+send_rir_request    - Optional. Boolean flag that indicates whether the appliance should send an API or email request for Regional Internet Registry (RIR). Used when 'rir_organization' attribute has been defined.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the Session object's status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ #Get Network through the session
+ my @retrieved_objs = $session->get(
+        object =>"Infoblox::DHCP::Network" ,
+        network => "20.0.0.0/8"
+     );
+ my $network = $retrieved_objs[0];
+
+ # Expand a /24 network to a /16 network, inserting
+ # a corresponding reverse zone in the process.
+ my $response = $network->resize(
+   prefix        => "16"
+   auto_create_reversezone => "true"
+ ) or die("Resize Network failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+
+=back
+
+=back
+
+=head2 restart_if_needed( )
+
+=over
+
+Use this method to set the flag that indicates whether DHCP service should be restarted on a member that is serving DHCP for the changed object referenced in a cloud API request.
+
+=over
+
+=item B<Parameter>
+
+Specify true to restart the DHCP service.
+
+=item B<Returns>
+
+None
+
+=item B<Example>
+
+ # Modify
+ $network->restart_if_needed('true');
+
+=back
+
+=back
+
+=head2 rir( )
+
+=over
+
+Use this method to retrieve the name of the Regional Internet Registry (RIR) that allocated this address space. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'RIPE' or 'NONE'.
+
+=item B<Example>
+
+ #Get rir
+ my $rir = $network->rir();
+
+=back
+
+=back
+
+=head2 rir_organization( )
+
+=over
+
+Use this method to set or retrieve the Regional Internet Registry (RIR) organization object.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::Grid::RIR::Organization|Infoblox::Grid::RIR::Organization> object.
+
+You must enable support for RIR/SWIP at the Grid level before you can set attribute values. See L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/> method.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rir_organization
+ my $rir_organization = $network->rir_organization();
+ #Modify rir_organization
+ $network->rir_organization($rir_org);
+
+=back
+
+=back
+
+=head2 rir_registration_action( )
+
+=over
+
+Use this method to set the registration action of Regional Internet Registry (RIR). This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE', 'CREATE', 'MODIFY' or 'DELETE'.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set rir_registration_action
+ $network->rir_registration_action('CREATE');
+
+=back
+
+=back
+
+=head2 rir_registration_status( )
+
+=over
+
+Use this method to set or retrieve the registration status of Regional Internet Registry (RIR).
+
+=over
+
+=item B<Parameter>
+
+The registration status of Regional Internet Registry (RIR), which can be 'REGISTERED' or 'NOT_REGISTERED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rir_registration_status
+ my $rir_registration_status = $network->rir_registration_status();
+ #Modify rir_registration_status
+ $network->rir_registration_status('NOT_REGISTERED');
+
+=back
+
+=back
+
+=head2 last_rir_registration_update_sent( )
+
+=over
+
+Use this method to retrieve the last registration update timestamp of Regional Internet Registry (RIR). This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_rir_registration_update_sent
+ my $last_rir_registration_update_sent = $network->last_rir_registration_update_sent();
+
+=back
+
+=back
+
+=head2 last_rir_registration_update_status( )
+
+=over
+
+Use this method to retrieve the last registration update status of Regional Internet Registry (RIR). This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_rir_registration_update_status
+ my $last_rir_registration_update_status = $network->last_rir_registration_update_status();
+
+=back
+
+=back
+
+=head2 same_port_control_discovery_blackout( )
+
+=over
+
+Use this method to set or retrieve the flag that enables using the same discovery blackout for port control blackout.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to use same discovery blackout for port control blackout or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $network->same_port_control_discovery_blackout();
+ # Modify attribute value
+ $network->same_port_control_discovery_blackout('true');
+
+=back
+
+=back
+
+=head2 send_rir_request( )
+
+=over
+
+Use this method to set the flag that indicates whether the appliance should send an API or email request for Regional Internet Registry (RIR). This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the send_rir_request flag or "false" to unset it.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set send_rir_request
+ $network->send_rir_request('true');
+
+=back
+
+=back
+
+=head2 subscribe_settings( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE subscribe settings.
+
+Setting this method to a defined value implicitly sets the override_subscribe_settings method to "true". Setting the parameter to undefined causes the appliance to use the Cisco ISE endpoint default and automatically resets the override_subscribe_settings method to "false".
+
+Note that when subscribe_settings is set to a defined value and override_subscribe_settings is set to "false", the last operation takes precedence. Thus the sequence $object->subscribe_settings($value); $object->override_subscribe_settings("false"); will set override_subscribe_settings to "false", and the sequence $object->override_subscribe_settings("false"); $object->subscribe_settings($value); will result in override_subscribe_settings="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::CiscoISE::SubscribeSetting|Infoblox::CiscoISE::SubscribeSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get subscribe_settings value
+ my $subscribe_settings = $object->subscribe_settings();
+ #Modify subscribe_settings value
+ $object->subscribe_settings($settings);
+
+=back
+
+=back
+
+=head2 delete_reason( )
+
+=over
+
+Use this method to specify the reason for deleting the Regional Internet Registry (RIR) registration request. This is a write-only attribute. This field is required only if 'rir_registration_action' is specified as 'DELETE'.
+
+=over
+
+=item B<Parameter>
+
+The reason for deleting the RIR registration request in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set delete_reason
+ $network->delete_reason('invalid');
+
+=back
+
+=back
+
+=head2  template( )
+
+=over
+
+Use this method to set or retrieve the network template name of a DHCP Network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get template
+ my $template = $network->template();
+ #Modify template
+ $network->template("Template_Name");
+
+=back
+
+=back
+
+=head2 zone_associations( )
+
+=over
+
+Use this method to set or retrieve the associated zone information.
+Use the is_default boolean field of the Infoblox::DNS::Zone object to determine or specify the default zone in zone associations of a DHCP network.
+If the value is 'true', the associated zone is the default zone. Otherwise, it is not the default zone. The default value is 'false'.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains Infoblox::DNS::Zone object(s). The default value is an empty list. If the network has a parent, it is possible to use the zone associations of the parent by setting the parameter to undef.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails. If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Examples>
+
+ #Getting zone associations
+ my $zone_associations = $network->zone_associations();
+ #Modifying zone_associations, setting 'test1.com' as the default zone
+ my $zone1 = Infoblox::DNS::Zone->new(
+    name     => "test1.com",
+    is_default => "true",
+ );
+ my $zone2 = Infoblox::DNS::Zone->new(
+    name     => "test2.com",
+    is_default => "false",
+);
+ $network->zone_associations([$zone1, $zone2]);
+ #Clear zone_assocations
+ $network->zone_associations([]);
+ ##Remove the override for zone_associations
+ $network->zone_associations(undef)
+
+=back
+
+=back
+
+=head2 unmanaged( )
+
+=over
+
+Use this method to set or retrieve the network status, which indicates whether the network is unmanaged or not.
+
+=over
+
+=item B<Parameter>
+
+Specify true to mark the network as unmanaged or false as managed.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get network status
+ $unmanaged = $network->unmanaged();
+ # Modify network status
+ $network->unmanaged('true');
+
+=back
+
+=back
+
+=head2 update_dns_on_lease_renewal( )
+
+=over
+
+The update_dns_on_lease_renewal attribute controls whether the DHCP server updates DNS when a DHCP lease is renewed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_update_dns_on_lease_renewal method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_update_dns_on_lease_renewal attribute to "false".
+
+Note that when update_dns_on_lease_renewal is set to a defined value and override_update_dns_on_lease_renewal is set to "false", the last operation takes precedence. Thus the sequence $object->update_dns_on_lease_renewal("true"); $object->override_update_dns_on_lease_renewal("false"); will set override_update_dns_on_lease_renewal to "false", and the sequence $object->override_update_dns_on_lease_renewal("false"); $object->update_dns_on_lease_renewal("true"); will result in override_update_dns_on_lease_renewal="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the update_dns_on_lease_renewal flag or "false" to deactivate/unset it.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+#Get update_dns_on_lease_renewal
+my $update_dns_on_lease_renewal=$network->update_dns_on_lease_renewal( );
+#Modify update_dns_on_lease_renewal
+$network->update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DHCP Network insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+ master   => "192.168.1.2",
+ username => "admin",
+ password => "infoblox"
+ );
+ unless ($session) {
+die("Construct session failed: ",
+    Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DHCP Network object>
+
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+         name     => "infoblox.localdomain",
+         ipv4addr => "192.168.1.2"
+        );
+
+ my  $network = Infoblox::DHCP::Network->new(
+         network => "10.0.0.0/8",
+         comment => "add network",
+         members => [$memberdhcp],
+          );
+
+ my $response = $session->add($network)
+    or die("Add Network failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+
+ print "Network added successfully\n";
+
+ #Search for a specific Network
+
+ #Search the network
+ my @retrieved_objs = $session->search(
+ object  => "Infoblox::DHCP::Network",
+ network => '10\.0\.0\..*'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+ die("Search Network failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Network found at least 1 matching entry\n";
+
+B<#Get and modify a Network attribute>
+
+ #Get Network through the session
+ my @retrieved_objs = $session->get(
+        object =>"Infoblox::DHCP::Network" ,
+        network => "10.0.0.0"
+     );
+
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+ die("Get Network object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Network found at least 1 matching entry\n";
+
+B<#Modify attributes of the specified Network attribute>
+
+ $object->enable_ddns("true"); #Apply the changes
+
+ #Un-override bootfile
+ $object->bootfile(undef);
+
+ #Un-override bootserver
+ $object->bootserver(undef);
+
+ #Un-override nextserver
+ $object->nextserver(undef);
+
+ $session->modify($object)
+ or die("Modify Network attribute failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+
+ print "Network object modified successfully \n";
+
+B<#Resize a network>
+
+ #Get Network through the session
+ my @retrieved_objs = $session->get(
+        object =>"Infoblox::DHCP::Network" ,
+        network => "10.0.0.0/8"
+     );
+ my $object = $retrieved_objs[0];
+
+ #Resize
+ my $response = $object->resize(
+   prefix        => "16"
+ ) or die("Resize Network failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+
+B<#Remove a Network Object>
+
+  #Get Network object through the session
+  my @retrieved_objs = $session->get(
+        object  => "Infoblox::DHCP::Network" ,
+        network => "10.0.0.0"
+    );
+
+my $object = $retrieved_objs[0];
+
+unless ($object) {
+ die("Get Network object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get Network object found at least 1 matching entry\n";
+
+B<#Submit the object for removal>
+
+ $session->remove($object)
+ or die("Remove Network failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+
+ print "Network removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::View|Infoblox::DHCP::View>, L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>, L<Infoblox::DHCP::Option|Infoblox::DHCP::Option>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

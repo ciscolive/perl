@@ -1,0 +1,51 @@
+{
+   "abstract" : "DBI SQL abstraction",
+   "author" : [
+      "Rebecca Turner <me@re-becca.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 5.011, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "DBIx-Abstract",
+   "prereqs" : {
+      "build" : {
+         "requires" : {}
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Check::ISA" : "0",
+            "DBI" : "0",
+            "Scalar::Util" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "DBD::SQLite" : "0",
+            "Test::More" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/iarna/DBIx-Abstract/issues"
+      },
+      "homepage" : "https://github.com/iarna/DBIx-Abstract",
+      "repository" : {
+         "url" : "https://github.com/iarna/DBIx-Abstract.git"
+      }
+   },
+   "version" : "1.04",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

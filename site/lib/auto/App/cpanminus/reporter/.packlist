@@ -1,0 +1,4 @@
+/opt/perl/site/bin/cpanm-reporter
+/opt/perl/site/lib/App/cpanminus/reporter.pm
+/opt/perl/site/man/man1/cpanm-reporter.1
+/opt/perl/site/man/man3/App::cpanminus::reporter.3

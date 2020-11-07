@@ -1,0 +1,1 @@
+{"target":"Test::Settings","pathname":"W/WO/WOLFSAGE/Test-Settings-0.003.tar.gz","dist":"Test-Settings-0.003","name":"Test::Settings","provides":{"Test::S":{"version":"0.003","file":"lib/Test/S.pm"},"Test::Settings":{"file":"lib/Test/Settings.pm","version":"0.003"}},"version":"0.003"}

@@ -1,0 +1,92 @@
+=head1 NAME
+
+Infoblox::Grid::Member::CaptivePortal::File - Captive Portal File object
+
+=head1 DESCRIPTION
+
+This object is used to represent files uploaded to the captive portal. All methods are read-only.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a CaptivePortal::File object.
+
+=head2 Infoblox::Grid::Member::CaptivePortal->files( )
+
+=over
+
+Use this function to retrieve a reference to an array of Infoblox::Grid::Member::CaptivePortal::File objects that represent the files uploaded to the captive portal.
+
+=over
+
+=item B<Example>
+
+ #Retrieve the captive portal object
+ my $member = $session->get(object => 'Infoblox::Grid::Member::CaptivePortal', name => 'cportal.com');
+
+ # Access its files
+ my @files = @{$member->files()};
+ print $files[0]->name();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute value of a file uploaded to a captive portal.
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of the uploaded file.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $service_status->name();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the type of the uploaded file.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value. Valid values are "Logo", "Footer", "Header", and "AUP"
+
+=item B<Example>
+
+ #Get type
+ my $type = $service_type->type();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member::CaptivePortal|Infoblox::Grid::Member::CaptivePortal>/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

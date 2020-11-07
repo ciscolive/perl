@@ -1,0 +1,1 @@
+{"version":"0.11","pathname":"S/SH/SHLOMIF/Term-Shell-0.11.tar.gz","dist":"Term-Shell-0.11","name":"Term::Shell","provides":{"Term::Shell":{"file":"lib/Term/Shell.pm","version":"0.11"},"Term::Shell::OnScopeLeave":{"file":"lib/Term/Shell.pm","version":"0.11"}},"target":"S/SH/SHLOMIF/Term-Shell-0.11.tar.gz"}

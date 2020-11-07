@@ -1,0 +1,1 @@
+{"pathname":"W/WO/WORTHMINE/App-findeps-0.09.tar.gz","provides":{"Common":{"version":"0.09","file":"lib/Common.pm"},"App::findeps":{"file":"lib/App/findeps.pm","version":"0.09"}},"dist":"App-findeps-0.09","name":"App::findeps","version":"0.09","target":"W/WO/WORTHMINE/App-findeps-0.09.tar.gz"}

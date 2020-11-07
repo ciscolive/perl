@@ -1,0 +1,6 @@
+/opt/perl/site/bin/syslogd-sendtest.pl
+/opt/perl/site/bin/syslogd-simple.pl
+/opt/perl/site/lib/Net/Syslogd.pm
+/opt/perl/site/man/man1/syslogd-sendtest.pl.1
+/opt/perl/site/man/man1/syslogd-simple.pl.1
+/opt/perl/site/man/man3/Net::Syslogd.3

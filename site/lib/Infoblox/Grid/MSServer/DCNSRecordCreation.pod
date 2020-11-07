@@ -1,0 +1,122 @@
+=head1 NAME
+
+Infoblox::Grid::MSServer::DCNSRecordCreation - An Infoblox Active Directory Domain Controller object 
+
+=head1 DESCRIPTION
+
+The Active Directory Domain Controller object represents the Active Directory Domain Controller which is allowed for NS Record creation in a DNS Zone.
+
+=head1 CONSTRUCTOR
+
+ my $dcncrecordcreation = Infoblox::Grid::MSServer::DCNSRecordCreation->new(
+     address => $ipv4addr | $ipv6addr, #Required
+     comment => $string,               #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a part of the DNS Zone object. It also can be retrieved as a result of L<Infoblox::Session-E<gt>get_ms_dc_ns_record_creation_list()|Infoblox::Session/get_ms_dc_ns_record_creation_list()/> function.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a AD Domain Controller object.
+
+=head2 Infoblox::DNS::Zone->ms_dc_ns_record_creation( )
+
+=over
+
+Use this method to set or retrieve the list of Active Directory Domain Controllers which are allowed to create NS Record for the DNS Zone.
+See L<Infoblox::DNS::Zone-E<gt>ms_dc_ns_record_creation()|Infoblox::DNS::Zone/ms_dc_ns_record_creation()/> for parameters and return values.
+
+=over 
+
+=item B<Example>
+
+ #Get ms_dc_ns_record_creation
+ my $ms_dc_ns_record_creation = $zone->ms_dc_ns_record_creation();
+
+ #Modify ms_dc_ns_record_creation
+ $zone->ms_dc_ns_record_creation([$msdcns1, $msdcns1]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+this section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the address of a Domain Controller.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired IPv4 or IPv6 address in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address value
+ my $address = $object->address();
+
+ #Set address value
+ $object->address('10.0.0.1');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $address = $object->comment();
+
+ #Set comment value
+ $object->comment('desired-comment');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::Zone-E<gt>ms_dc_ns_record_creation()|Infoblox::DNS::Zone/ms_dc_ns_record_creation()/>, 
+L<Infoblox::Session-E<gt>get_ms_dc_ns_record_creation_list()|Infoblox::Session/get_ms_dc_ns_record_creation_list()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

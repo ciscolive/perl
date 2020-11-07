@@ -1,0 +1,12 @@
+/opt/perl/site/lib/Crypt/SSLeay.pm
+/opt/perl/site/lib/Crypt/SSLeay/CTX.pm
+/opt/perl/site/lib/Crypt/SSLeay/Conn.pm
+/opt/perl/site/lib/Crypt/SSLeay/Err.pm
+/opt/perl/site/lib/Crypt/SSLeay/MainContext.pm
+/opt/perl/site/lib/Crypt/SSLeay/Version.pm
+/opt/perl/site/lib/Crypt/SSLeay/X509.pm
+/opt/perl/site/lib/Net/SSL.pm
+/opt/perl/site/lib/auto/Crypt/SSLeay/SSLeay.so
+/opt/perl/site/man/man3/Crypt::SSLeay.3
+/opt/perl/site/man/man3/Crypt::SSLeay::Version.3
+/opt/perl/site/man/man3/Net::SSL.3

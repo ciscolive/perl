@@ -1,0 +1,304 @@
+=head1 NAME
+
+Infoblox::DHCP::Template - DHCP Template object.
+
+=head1 DESCRIPTION
+
+The DHCP associates L<Infoblox::DHCP::RangeTemplate-E<gt>offset()|Infoblox::DHCP::RangeTemplate/offset()>, L<Infoblox::DHCP::RangeTemplate-E<gt>number_of_addresses()|Infoblox::DHCP::RangeTemplate/number_of_addresses()> and L<Infoblox::DHCP::FixedAddrTemplate-E<gt>offset()|Infoblox::DHCP::FixedAddrTemplate/offset()>, L<Infoblox::DHCP::FixedAddrTemplate-E<gt>number_of_addresses()|Infoblox::DHCP::FixedAddrTemplate/number_of_addresses()> with L<Infoblox::DHCP::NetworkTemplate|Infoblox::DHCP::NetworkTemplate>. When optional fields offset/count are set in this object which is passed to L<Infoblox::DHCP::NetworkTemplate-E<gt>fixed_address_templates()|Infoblox::DHCP::NetworkTemplate/fixed_address_templates()> or L<Infoblox::DHCP::NetworkTemplate-E<gt>range_templates()|Infoblox::DHCP::NetworkTemplate/range_templates()> they are used instead of offset/number_of_addresses values in L<Infoblox::DHCP::RangeTemplate|Infoblox::DHCP::RangeTemplate> and L<Infoblox::DHCP::FixedAddrTemplate|Infoblox::DHCP::FixedAddrTemplate> when creating L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> based on a template.
+
+=head1 CONSTRUCTOR
+
+ my $template = Infoblox::DHCP::Template->new(
+       name                 => $string,       #Required
+       count                => $num,          #Optional
+       offset               => $num,          #Optional
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a DHCP template object.
+
+=head2 Infoblox::DHCP::NetworkTemplate->range_templates( )
+
+=over
+
+Use this function to specify range templates for the DHCP network template object. See L<Infoblox::DHCP::NetworkTemplate-E<gt>range_templates()|Infoblox::DHCP::NetworkTemplate/range_templates()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     #Construct and add a DHCP Range Template object
+     my $range_template = Infoblox::DHCP::RangeTemplate->new(
+              name                 => "custom_range_template",
+              offset               => "20", # this won't be used if specified in Infoblox::DHCP::Template
+              number_of_addresses  => "10", # this won't be used if specified in Infoblox::DHCP::Template
+     );
+     $session->add($range_template);
+
+     #Construct a DHCP Template object
+     my $template = Infoblox::DHCP::Template->new(
+              offset               => "10", # this will be used instead if specified
+              count                => "5", # this will be used instead if specified
+              name                 => "custom_range_template"
+     );
+
+     # Configure DHCP Template on the DHCP Network template object
+     $network_template->range_templates([$template]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::NetworkTemplate->fixed_address_templates( )
+
+=over
+
+Use this function to specify fixed address templates for the DHCP network template object. See L<Infoblox::DHCP::NetworkTemplate-E<gt>fixed_address_templates()|Infoblox::DHCP::NetworkTemplate/fixed_address_templates()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     #Construct and add a DHCP Fixed Address Template object
+     my $fixed_address_template = Infoblox::DHCP::FixedAddrTemplate->new(
+              name                 => "custom_fixed_address_template",
+              offset               => "20", # this won't be used if specified in Infoblox::DHCP::Template
+              number_of_addresses  => "10", # this won't be used if specified in Infoblox::DHCP::Template
+     );
+     $session->add($fixed_address_template);
+
+     #Construct a DHCP Template object
+     my $template = Infoblox::DHCP::Template->new(
+              offset               => "10", # this will be used instead if specified
+              count                => "5", # this will be used instead if specified
+              name                 => "custom_fixed_address_template"
+     );
+
+     # Configure DHCP Template on the DHCP Network template object
+     $network_template->fixed_address_templates([$template]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP range template object.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve name of L<Infoblox::DHCP::RangeTemplate|Infoblox::DHCP::RangeTemplate> or L<Infoblox::DHCP::FixedAddrTemplate|Infoblox::DHCP::FixedAddrTemplate> object assigned to this template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of range template or fixed address template object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get name
+     my $name = $template->name();
+     #Modify name
+     $template->name("custom_range_or_fixed_address_template_name");
+
+=back
+
+=back
+
+=head2 count( )
+
+=over
+
+Use this method to set or retrieve the number of addresses of the DHCP range or fixed address template. This value will be used instead of L<Infoblox::DHCP::RangeTemplate-E<gt>number_of_addresses()|Infoblox::DHCP::RangeTemplate/number_of_addresses()> or L<Infoblox::DHCP::FixedAddrTemplate-E<gt>number_of_addresses()|Infoblox::DHCP::FixedAddrTemplate/number_of_addresses()> if specified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The number of addresses in this template.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get count
+     my $count = $template->count();
+     #Modify count
+     $template->count("10");
+
+=back
+
+=back
+
+=head2 offset( )
+
+=over
+
+Use this method to set or retrieve the address offset of the DHCP range or fixed address template. This value will be used instead of L<Infoblox::DHCP::RangeTemplate-E<gt>offset()|Infoblox::DHCP::RangeTemplate/offset()> or L<Infoblox::DHCP::FixedAddrTemplate-E<gt>offset()|Infoblox::DHCP::FixedAddrTemplate/offset()> if specified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The address offset of this template.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get offset
+     my $offset = $template->offset();
+     #Modify offset
+     $template->offset("10");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a DHCP template object such as add, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP Range object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+    master   => "192.168.1.2",
+    username => "admin",
+    password => "infoblox"
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create the DHCP Range template object>
+
+ my $dhcp_range_template = Infoblox::DHCP::RangeTemplate->new(
+         name                    => "custom_range_template",
+         offset                  => "10",
+         number_of_addresses     => "10",
+ );
+ unless($dhcp_range_template) {
+        die("Construct DHCP Range template object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Range template object created successfully\n";
+
+ #Add the DHCP Range template object into the Infoblox appliance through a session
+ $session->add($dhcp_range_template)
+     or die("Add DHCP Range template object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Range template object added to Infoblox appliance successfully\n";
+
+B<#Create the Fixed Address template object>
+
+ my $dhcp_fixed_address_template = Infoblox::DHCP::FixedAddrTemplate->new(
+         name                    => "custom_fixed_address_template",
+         offset                  => "10",
+         number_of_addresses     => "10",
+ );
+ unless($dhcp_fixed_address_template) {
+        die("Construct DHCP Fixed Address template object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Fixed Address template object created successfully\n";
+
+ #Add the DHCP Fixed Address Template  object into the Infoblox appliance through a session
+ $session->add($dhcp_fixed_address_template)
+     or die("Add DHCP Fixed Address template object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Fixed Address template object added to Infoblox appliance successfully\n";
+
+B<#Create DHCP template objects>
+
+ #Construct a DHCP Template object
+ my $tmpl1 = Infoblox::DHCP::Template->new(
+          offset               => "10", # this will be used instead if specified
+          count                => "5", # this will be used instead if specified
+          name                 => "custom_range_template"
+ );
+
+ unless($tmpl1) {
+        die("Construct DHCP template object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP template object created successfully\n";
+
+ #Construct a DHCP Template objects
+ my $tmpl2 = Infoblox::DHCP::Template->new(
+          offset               => "20", # this will be used instead if specified
+          count                => "3", # this will be used instead if specified
+          name                 => "custom_fixed_address_template"
+ );
+
+ unless($tmpl2) {
+        die("Construct DHCP template object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP template object created successfully\n";
+
+B<#Add DHCP template to DHCP Network Template and insert it>
+
+ my $network_template = Infoblox::DHCP::NetworkTemplate->new(
+         name                    => "network_template",
+         netmask                 => "255.0.0.0",
+         range_templates         => [ $tmpl1 ],
+         fixed_address_templates => [ $tmpl2 ],
+ );
+ unless($network_template) {
+        die("Construct DHCP Network template object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Network template object created successfully\n";
+
+ #Add the DHCP Network template object into the Infoblox appliance through a session
+ $session->add($network_template)
+     or die("Add Network template object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Network template object added to Infoblox appliance successfully\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::RangeTemplate|Infoblox::DHCP::RangeTemplate>, L<Infoblox::DHCP::FixedAddrTemplate|Infoblox::DHCP::FixedAddrTemplate>, L<Infoblox::DHCP::NetworkTemplate|Infoblox::DHCP::NetworkTemplate>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

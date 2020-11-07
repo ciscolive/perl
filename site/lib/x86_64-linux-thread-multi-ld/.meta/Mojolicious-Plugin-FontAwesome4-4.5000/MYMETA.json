@@ -1,0 +1,52 @@
+{
+   "abstract" : "Mojolicious + http://fortawesome.github.io/Font-Awesome/",
+   "author" : [
+      "Jan Henning Thorsen <jhthorsen@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.0401, CPAN::Meta::Converter version 2.150001, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Mojolicious-Plugin-FontAwesome4",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : "0.88"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Mojolicious" : "6.00",
+            "Mojolicious::Plugin::AssetPack" : "0.67"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/jhthorsen/mojolicious-plugin-fontawesome4/issues"
+      },
+      "homepage" : "https://github.com/jhthorsen/mojolicious-plugin-fontawesome4",
+      "repository" : {
+         "url" : "https://github.com/jhthorsen/mojolicious-plugin-fontawesome4.git"
+      }
+   },
+   "version" : "4.5000",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

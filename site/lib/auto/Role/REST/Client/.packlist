@@ -1,0 +1,6 @@
+/opt/perl/site/lib/Role/REST/Client.pm
+/opt/perl/site/lib/Role/REST/Client/Response.pm
+/opt/perl/site/lib/Role/REST/Client/Serializer.pm
+/opt/perl/site/man/man3/Role::REST::Client.3
+/opt/perl/site/man/man3/Role::REST::Client::Response.3
+/opt/perl/site/man/man3/Role::REST::Client::Serializer.3

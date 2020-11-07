@@ -1,0 +1,1 @@
+{"name":"Log::Tree","version":"0.18","target":"Log::Tree::RequiredLogger","dist":"Log-Tree-0.18","pathname":"T/TE/TEX/Log-Tree-0.18.tar.gz","provides":{"Log::Tree::Logger":{"version":"0.18","file":"lib/Log/Tree/Logger.pm"},"Log::Tree::RequiredLogger":{"version":"0.18","file":"lib/Log/Tree/RequiredLogger.pm"},"Log::Tree":{"version":"0.18","file":"lib/Log/Tree.pm"}}}

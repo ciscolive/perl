@@ -1,0 +1,16 @@
+/opt/perl/site/lib/Exporter/Declare.pm
+/opt/perl/site/lib/Exporter/Declare/Export.pm
+/opt/perl/site/lib/Exporter/Declare/Export/Alias.pm
+/opt/perl/site/lib/Exporter/Declare/Export/Generator.pm
+/opt/perl/site/lib/Exporter/Declare/Export/Sub.pm
+/opt/perl/site/lib/Exporter/Declare/Export/Variable.pm
+/opt/perl/site/lib/Exporter/Declare/Meta.pm
+/opt/perl/site/lib/Exporter/Declare/Specs.pm
+/opt/perl/site/man/man3/Exporter::Declare.3
+/opt/perl/site/man/man3/Exporter::Declare::Export.3
+/opt/perl/site/man/man3/Exporter::Declare::Export::Alias.3
+/opt/perl/site/man/man3/Exporter::Declare::Export::Generator.3
+/opt/perl/site/man/man3/Exporter::Declare::Export::Sub.3
+/opt/perl/site/man/man3/Exporter::Declare::Export::Variable.3
+/opt/perl/site/man/man3/Exporter::Declare::Meta.3
+/opt/perl/site/man/man3/Exporter::Declare::Specs.3

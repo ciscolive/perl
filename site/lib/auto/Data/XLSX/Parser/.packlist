@@ -1,0 +1,14 @@
+/opt/perl/site/lib/Data/XLSX/Parser.pm
+/opt/perl/site/lib/Data/XLSX/Parser/DocumentArchive.pm
+/opt/perl/site/lib/Data/XLSX/Parser/Relationships.pm
+/opt/perl/site/lib/Data/XLSX/Parser/SharedStrings.pm
+/opt/perl/site/lib/Data/XLSX/Parser/Sheet.pm
+/opt/perl/site/lib/Data/XLSX/Parser/Styles.pm
+/opt/perl/site/lib/Data/XLSX/Parser/Workbook.pm
+/opt/perl/site/man/man3/Data::XLSX::Parser.3
+/opt/perl/site/man/man3/Data::XLSX::Parser::DocumentArchive.3
+/opt/perl/site/man/man3/Data::XLSX::Parser::Relationships.3
+/opt/perl/site/man/man3/Data::XLSX::Parser::SharedStrings.3
+/opt/perl/site/man/man3/Data::XLSX::Parser::Sheet.3
+/opt/perl/site/man/man3/Data::XLSX::Parser::Styles.3
+/opt/perl/site/man/man3/Data::XLSX::Parser::Workbook.3

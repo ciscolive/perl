@@ -1,0 +1,163 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::ConversionAttributes - conversion attributes.
+
+=head1 DESCRIPTION
+
+The object represents the list of attributes for discovery data conversion.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+=head2 configure_for_dhcp()
+
+=over
+
+Use this method to set the configure_for_dhcp flag of a DHCP Host Address object.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the configure_for_dhcp flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Set value
+ my $value = $conversion_attributes->configure_for_dhcp('true');
+
+=back
+
+=back
+
+=head2 configure_for_dns()
+
+=over
+
+Use this method to set the configure_for_dns flag of a DNS host.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the configure_for_dns flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Set value
+ my $value = $conversion_attributes->configure_for_dns('true');
+
+=back
+
+=back
+
+=head2 disabled()
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the target object should be disabled or not.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Set value
+ my $value = $conversion_attributes->disable('true');
+
+=back
+
+=back
+
+=head2 comment()
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Set value
+ my $value = $conversion_attributes->comment('test comment');
+
+=back
+
+=back
+
+=head2 zone()
+
+=over
+
+Use this method to set the authoritative zone for DNS record.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ my $zone = $discovery->get('object' => 'Infoblox::DNS::Zone', 'name' => 'papi.com');
+ #Set value
+ my $value = $conversion_attributes->zone($zone);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery|Infoblox::Grid::Discovery>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,138 @@
+=head1 NAME
+
+Grid::Member::Communication  - Grid::Member::Communication object.
+
+=head1 DESCRIPTION
+
+The structure stores information regarding service, transport type and preference.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a communication object.
+
+=head2 Infoblox::Grid::Member->member_service_communication( )
+
+=over
+
+Use this function to retrieve a reference to an array of Infoblox::Grid::Member::Communication objects that represents the communication settings for an Infoblox appliance.
+
+=over
+
+=item B<Example>
+
+ #Retrieve the member object
+ my $member = $session->get(object => 'Infoblox::Grid::Member', name => 'hostname.com');
+
+ # Access its communication settings
+ my @communication = @{$member->member_service_communication()};
+ print $communications[0]->type();
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 option( )
+
+=over
+
+Use this method to retrieve the flag when the service is either forced to use one type of transport or have a preference for the transport type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, which can be either "FORCE" or "PREFER".
+
+=item B<Example>
+
+ #Get option
+ my $option = $comm->option();
+
+=back
+
+=back
+
+=head2 service( )
+
+=over
+
+Use this method to set or retrieve services for which communication type can be configured.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of the following: "GRID", "GRID_BACKUP", "NTP", "REPORTING", "REPORTING_BACKUP", "OCSP", "MAIL", "AD".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get service
+ my $service = $comm->service();
+ # Modifying service
+ $comm->service("GRID");
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the transport type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is IPv4 or IPv6.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get type
+ my $type = $comm->type();
+ # Modifying type
+ $comm->type("IPv4");
+
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

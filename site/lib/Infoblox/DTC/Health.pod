@@ -1,0 +1,104 @@
+=head1 NAME
+
+Infoblox::DTC::Health - A DTC health information object.
+
+=head1 DESCRIPTION
+
+The DTC health object provides information about the health status for a specified object.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a part of the following objects: L<Infoblox::DTC::Pool|Infoblox::DTC::Pool>, L<Infoblox::DTC::Server|Infoblox::DTC::Server>, L<Infoblox::DTC::LBDN|Infoblox::DTC::LBDN>.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 availability( )
+
+=over
+
+Use this method to retrieve the color status for availability. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'NONE', 'GREEN', 'YELLOW', 'RED', 'BLUE' and 'GRAY'.
+
+=item B<Example>
+
+ #get availability value
+ my $availability = $health->availability();
+
+=back
+
+=back
+
+=head2 description( )
+
+=over
+
+Use this method to retrieve the textual description of the object's status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #get description value
+ my $description = $health->description();
+
+=back
+
+=back
+
+=head2 enabled_state( )
+
+=over
+
+Use this method to retrieve the enabled state of the object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'NONE', 'ENABLED', 'DISABLED' and 'DISABLED_BY_PARENT'.
+
+=item B<Example>
+
+ #get enabled_state value
+ my $enabled_state = $health->enabled_state();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC::Pool|Infoblox::DTC::Pool>, L<Infoblox::DTC::Server|Infoblox::DTC::Server>, L<Infoblox::DTC::LBDN|Infoblox::DTC::LBDN>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

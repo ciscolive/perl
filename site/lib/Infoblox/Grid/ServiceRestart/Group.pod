@@ -1,0 +1,572 @@
+=head1 NAME
+
+Infoblox::Grid::ServiceRestart::Group - a Grid Service Restart Group object.
+
+=head1 DESCRIPTION
+
+The Grid Service Restart Group object provides information about restart of particular services and members, their order and periodicity.
+
+=head1 CONSTRUCTOR
+
+ my $svcrst_group = Infoblox::Grid::ServiceRestart::Group->new(
+    name                  => $string,                                                               # Required
+    service               => 'DHCP' | 'DNS',                                                        # Required
+    comment               => $string,                                                               # Optional / Default is undefined
+    mode                  => 'SIMULTANEOUS' | 'SEQUENTIAL',                                         # Optional / Default is 
+                                                                                                    # 'SEQUENTIAL' for default restart groups /
+                                                                                                    # 'SIMULTANEOUS' for non-default restart groups
+    members               => $string_array,                                                         # Optional / Default is undefined
+    recurring_schedule    => $svcrst_schedule,                                                      # Optional / Default is undefined
+    extattrs              => { $string => $extattr, ... },                                          # Optional / Default is undefined
+    extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... } # Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a Grid Service Restart Group object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $svcrst_group = Infoblox::Grid::ServiceRestart::Group->new(
+    name    => 'test_group',
+    service => 'DHCP',
+ );
+
+ #Submit for addition
+ my $response = $session->add($svcrst_group);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  comment               - Optional. A Grid Service Restart Group comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  is_default            - Optional. Flag which indicates whether the Grid Service Restart Group is a default restart group or not.
+  name                  - Optional. A Grid Service Restart Group name.
+  position              - Optional. A Grid Service Restart Group position in Restart Service Order object.
+  service               - Optional. A Grid Service Restart Group service name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::ServiceRestart::Group',
+     name   => 'test_group',
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::ServiceRestart::Group',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $svcrst_group->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($svcrst_group);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::ServiceRestart::Group',
+     name   => 'svcrst_group1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_svcrst_group = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_svcrst_group);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  comment               - Optional. A Grid Service Restart Group comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  is_default            - Optional. Flag which indicates whether the Grid Service Restart Group is a default restart group or not.
+  name                  - Optional. A Grid Service Restart Group name.
+  position              - Optional. A Grid Service Restart Group position in Restart Service Order object.
+  service               - Optional. A Grid Service Restart Group service name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::Grid::ServiceRestart::Group',
+     name   => 'svcrst.*',
+ );
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::Grid::ServiceRestart::Group',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve Grid Service Restart Group object comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $svcrst_group->comment();
+ #Modify comment
+ $svcrst_group->comment(50);
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Grid Service Restart Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get extattrs value
+ my $ref_extattrs = $svcrst_group->extattrs();
+
+ #Modify extattrs
+ $svcrst_group->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Grid Service Restart Group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $svcrst_group->extensible_attributes();
+
+ #Modify extensible attributes
+ $svcrst_group->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 is_default( )
+
+=over
+
+Use this method to retrieve the flag which indicates whether the Grid Service Restart Group is a default group or not. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get is_default
+ my $is_default = $svcrst_group->is_default();
+
+=back
+
+=back
+
+=head2 last_updated_time( )
+
+=over
+
+Use this method to retrieve time of the last restart of the Grid Service Restart Group. This is the read-only attribute.
+
+Omit the parameter tor retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_updated_time
+ my $last_updated_time = $svcrst_group->last_updated_time()
+
+=back
+
+=back
+
+=head2 members( )
+
+=over
+
+Use this method to set or retrieve Grid Members associated with the Grid Service Restart Group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference of desired Grid Members names.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get members
+ my $members = $svcrst_group->members();
+ #Modify members
+ $svcrst_group->members(['foo.com', 'bar.com']);
+
+=back
+
+=back
+
+=head2 mode( )
+
+=over
+
+Use this method to set or retrieve the restart mode of Grid Members in the Grid Service Restart Group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Note that if the Service Restart Group is a default one, the default value is 'SEQUENTIAL', 'SIMULTANEOUS' otherwise. 
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'SEQUENTIAL' and 'SIMULTANEOUS'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mode
+ my $mode = $svcrst_group->mode();
+ #Modify mode
+ $svcrst_group->mode('SEQUENTIAL');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the Grid Service Restart Group name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $svcrst_group->name();
+ #Modify name
+ $svcrst_group->name('new_name');
+
+=back
+
+=back
+
+=head2 position( )
+
+=over
+
+Use this method to retrieve the restart position of the Grid Service Restart Group. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get position
+ my $position = $svcrst_group->position();
+
+=back
+
+=back
+
+=head2 recurring_schedule( )
+
+=over
+
+Use this method to set or retrieve the recurring schedule of the Grid Service Restart Group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ServiceRestart::Group::Schedule|Infoblox::Grid::ServiceRestart::Group::Schedule> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recurring_schedule
+ my $recurring_schedule = $svcrst_group->recurring_schedule();
+ #Modify recurring_schedule
+ $svcrst_group->recurring_schedule($svcrst_sched);
+
+=back
+
+=back
+
+=head2 requests( )
+
+=over
+
+Use this method to retrieve the array of Grid Service Restart Requests. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an array of L<Infoblox::Grid::ServiceRestart::Request|Infoblox::Grid::ServiceRestart::Request> objects.
+
+=item B<Example>
+
+ #Get requests
+ my $requests = $svcrst_group->requests();
+
+=back
+
+=back
+
+=head2 service( )
+
+=over
+
+Use this method to set or retrieve the service name for the Grid Service Restart Group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is 'DHCP' or 'DNS'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get service
+ my $service = $svcrst_group->service();
+ #Modify service
+ $svcrst_group->service('DHCP');
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the Grid Service Restart Group restart status. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::ServiceRestart::Status|Infoblox::Grid::ServiceRestart::Status> object.
+
+=item B<Example>
+
+ #Get status
+ my $status = $svcrst_group->status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>, L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>, L<Infoblox::Grid::ServiceRestart::Group::Schedule|Infoblox::Grid::ServiceRestart::Schedule>, L<Infoblox::Grid::ServiceRestart::Request|Infoblox::Grid::ServiceRestart::Request>, L<Infoblox::Grid::ServiceRestart::Status|Infoblox::Grid::ServiceRestart::Status>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

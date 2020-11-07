@@ -1,0 +1,6 @@
+/opt/perl/site/bin/rename
+/opt/perl/site/lib/File/Rename.pm
+/opt/perl/site/lib/File/Rename/Options.pm
+/opt/perl/site/man/man1/rename.1
+/opt/perl/site/man/man3/File::Rename.3
+/opt/perl/site/man/man3/File::Rename::Options.3

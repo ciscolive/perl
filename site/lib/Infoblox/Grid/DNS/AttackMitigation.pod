@@ -1,0 +1,266 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::AttackMitigation - a DNS Attack Mitigation object.
+
+=head1 DESCRIPTION
+
+The DNS Attack Mitigation object provides information about mitigation configuration for DNS attacks.
+
+=head1 CONSTRUCTOR
+
+ my $attack_mitigation = Infoblox::Grid::DNS::AttackMitigation->new(
+    detect_chr                => $attack_detect,   # Optional
+    detect_chr_grace          => $uint,            # Optional
+    detect_nxdomain_responses => $attack_detect,   # Optional
+    detect_udp_drop           => $attack_detect,   # Optional
+    interval                  => $uint,            # Optional
+    mitigate_nxdomain_lru     => 'true' | 'false', # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DNS Attack Mitigation object.
+
+=head2 Infoblox::Grid::DNS->attack_mitigation( )
+
+=over
+
+Use this method to set or retrieve mitigation settings for DNS attacks. See L<Infoblox::Grid::DNS-E<gt>attack_mitigation()|Infoblox::Grid::DNS/attack_mitigation()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get attack_mitigation value
+ my $attack_mitigation = $grid_dns->attack_mitigation();
+ #Modify attack_mitigation
+ $grid_dns->attack_mitigation($attack_mitigation);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->attack_mitigation( )
+
+=over
+
+Use this method to set or retrieve mitigation settings for DNS attacks on the member. See L<Infoblox::Grid::Member::DNS-E<gt>attack_mitigation()|Infoblox::Grid::Member::DNS/attack_mitigation()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get attack_mitigation value
+ my $attack_mitigation = $member_dns->attack_mitigation();
+ #Modify attack_mitigation
+ $member_dns->attack_mitigation($attack_mitigation);
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 detect_chr( )
+
+=over
+
+Use this method to set or retrieve configuration for the Cache Hit Ratio (CHR) changes detection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::AttackDetect|Infoblox::Grid::DNS::AttackDetect> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get detect_chr value
+ my $detect_chr = $attack_mitigation->detect_chr();
+ #Modify detect_chr 
+ $attack_mitigation->detect_chr($detect_chr);
+
+=back
+
+=back
+
+=head2 detect_chr_grace( )
+
+=over
+
+Use this method to set or retrieve the cache usage (in percentage) when Cache Hit Ratio (CHR) detection starts.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 0 and 100. 
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get detect_chr_grace value
+ my $detect_chr_grace = $attack_mitigation->detect_chr_grace();
+ #Modify detect_chr_grace 
+ $attack_mitigation->detect_chr_grace(50);
+
+=back
+
+=back
+
+=head2 detect_nxdomain_responses( )
+
+=over
+
+Use this method to set or retrieve configuration for the recursive queries NXDOMAIN responses detection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::AttackDetect|Infoblox::Grid::DNS::AttackDetect> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get detect_nxdomain_responses value
+ my $detect_nxdomain_responses = $attack_mitigation->detect_nxdomain_responses();
+ #Modify detect_nxdomain_responses 
+ $attack_mitigation->detect_nxdomain_responses($detect_nxdomain_responses);
+
+=back
+
+=back
+
+=head2 detect_udp_drop( )
+
+=over
+
+Use this method to set or retrieve configuration for the UDP packet drop rate detection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::AttackDetect|Infoblox::Grid::DNS::AttackDetect> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get detect_udp_drop value
+ my $detect_udp_drop = $attack_mitigation->detect_udp_drop();
+ #Modify detect_udp_drop 
+ $attack_mitigation->detect_udp_drop($detect_udp_drop);
+
+=back
+
+=back
+
+=head2 interval( )
+
+=over
+
+Use this method to set or retrieve the minimum time interval (in seconds) between changes in attack status.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get interval value
+ my $interval = $attack_mitigation->interval();
+ #Modify interval 
+ $attack_mitigation->interval(50);
+
+=back
+
+=back
+
+=head2 mitigate_nxdomain_lru( )
+
+=over
+
+Use this method to enable or disable impact mitigation of NXDOMAIN responses in cache by tracking NXDOMAIN entries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable impact mitigation of NXDOMAIN responses, or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mitigate_nxdomain_lru value
+ my $mitigate_nxdomain_lru = $attack_mitigation->mitigate_nxdomain_lru();
+ #Modify mitigate_nxdomain_lru 
+ $attack_mitigation->mitigate_nxdomain_lru('true');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Grid::DNS-E<gt>attack_mitigation()|Infoblox::Grid::DNS/attack_mitigation()/>, L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, L<Infoblox::Grid::Member::DNS-E<gt>attack_mitigation()|Infoblox::Grid::Member::DNS/attack_mitigation()/>, L<Infoblox::Grid::DNS::AttackDetect|Infoblox::Grid::AttackDetect>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

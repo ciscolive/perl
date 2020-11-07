@@ -1,0 +1,415 @@
+=head1 NAME
+
+Infoblox::Notification::REST::Template - REST API template object.
+
+=head1 DESCRIPTION
+
+The REST API template object used to define particular template configuration.
+
+=head1 CONSTRUCTOR
+
+ my $templ = Infoblox::Notification::REST::Template->new(
+     name          => $string,        #Required
+     content       => $string,        #Required
+     comment       => $string,        #Optional / Default is undefined
+     outbound_type => 'REST' | 'DXL', #Optional / Default is 'REST'
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a REST API template object.
+
+Note that template object does not support 'add' method. Use L<Infoblox::Session-E<gt>import_data()|Infoblox::Session/import_data()/> of a 'restapi_template' type instead.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific REST API template object:
+
+  comment       - Optional. The REST API template comment in string format.
+  name          - Optional. The REST API template name in string format.
+  action_name   - Optional. The REST API template action name in string format.
+  outbound_type - Optional. The template type.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Notification::REST::Template',
+     name   => 'template1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify the object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify comment value
+ $object->comment('this is a modified comment');
+
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove the object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific REST API template object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Notification::REST::Template',
+     name   => 'template1',
+ );
+
+ #Find the desired object from the retrieved list
+ my $desired_object = $retrieved_objs[0];
+
+ #Submit for removal
+ my $response = $session->remove($desired_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for the REST API template object:
+
+  comment       - Optional. The REST API template comment in string format (regexp).
+  name          - Optional. The REST API template name in string format (regexp).
+  action_name   - Optional. The REST API template action name in string format (regexp).
+  outbound_type - Optional. The template type.
+
+=item B<Examples>
+
+ # search for objects
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::Notification::REST::Template',
+     name   => 'templ.*',
+);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a REST API template instance object.
+
+=head2 action_name( )
+
+=over
+
+Use this method to retrieve the template action name. This is a read-only attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get action_name value
+ my $action_name = $object->action_name();
+
+=back
+
+=back
+
+=head2 added_on( )
+
+=over
+
+Use this method to retrieve the timestamp the template was added. This is a read-only attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970.
+
+=item B<Example>
+
+ #Get added_on value
+ my $added_on = $object->added_on();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+ #Modify comment value
+ $object->comment('new comment');
+
+=back
+
+=back
+
+=head2 content( )
+
+=over
+
+Use this method to set or retrieve the template content.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an well formed JSON string.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get content value
+ my $content = $object->content();
+
+ #Modify content value
+ $object->content($content);
+
+=back
+
+=back
+
+=head2 event_type( )
+
+=over
+
+Use this method to retrieve the template event type. This is a read-only attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get event_type value
+ my $event_type = $object->event_type();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the template name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+ #Modify name value
+ $object->name('new_name');
+
+=back
+
+=back
+
+=head2 outbound_type( )
+
+=over
+
+Use this method to set or retrieve the outbound type for the template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is 'REST' or 'DXL'. The default value is 'REST'.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get outbound_type value
+ my $outbound_type = $object->outbound_type();
+
+ #Modify outbound_type value
+ $object->outbound_type('DXL');
+
+=back
+
+=back
+
+=head2 template_type( )
+
+=over
+
+Use this method to retrieve the template type. This is a read-only attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get template_type value
+ my $template_type = $object->template_type();
+
+=back
+
+=back
+
+=head2 vendor_identifier( )
+
+=over
+
+Use this method to retrieve the template vendor identifier. This is a read-only attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get vendor_identifier value
+ my $vendor_identifier = $object->vendor_identifier();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Session-E<gt>import_data()|Infoblox::Session/import_data()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,1 @@
+{"name":"Net::DNS::Native","target":"Net::DNS::Native","dist":"Net-DNS-Native-0.22","pathname":"O/OL/OLEG/Net-DNS-Native-0.22.tar.gz","provides":{"Net::DNS::Native::Handle":{"file":"lib/Net/DNS/Native.pm","version":"0.22"},"Net::DNS::Native":{"file":"lib/Net/DNS/Native.pm","version":"0.22"}},"version":"0.22"}

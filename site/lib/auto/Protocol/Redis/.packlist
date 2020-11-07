@@ -1,0 +1,5 @@
+/opt/perl/site/lib/Protocol/Redis.pm
+/opt/perl/site/lib/Protocol/Redis/Test.pm
+/opt/perl/site/lib/Protocol/benchmark.pl
+/opt/perl/site/man/man3/Protocol::Redis.3
+/opt/perl/site/man/man3/Protocol::Redis::Test.3

@@ -1,0 +1,105 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::Port::Config::VlanInfo - VLAN information of port configuration.
+
+=head1 DESCRIPTION
+
+The object provides information about the port configuration VLAN.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of the object.
+
+=head2 data_vlan_info( )
+
+=over
+
+Use this method to retrieve information about data VLAN. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->data_vlan_info();
+
+=back
+
+=back
+
+=head2 task_details( )
+
+=over
+
+Use this method to retrieve task details of the port control. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::Port::Control::TaskDetails|Infoblox::Grid::Discovery::Port::Control::TaskDetails> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->task_details();
+
+=back
+
+=back
+
+=head2 voice_vlan_info( )
+
+=over
+
+Use this method to retrieve information about voice VLAN. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->voice_vlan_info();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery::Port::Control::TaskDetails|Infoblox::Grid::Discovery::Port::Control::TaskDetails>, L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface>, L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut
+

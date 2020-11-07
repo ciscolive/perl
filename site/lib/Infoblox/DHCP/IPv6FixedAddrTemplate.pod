@@ -1,0 +1,913 @@
+=head1 NAME
+
+Infoblox::DHCP::IPv6FixedAddrTemplate - DHCP IPv6 Fixed Address Template object
+
+=head1 DESCRIPTION
+
+An IPv6 fixed address template contains a set of predefined properties and can be used to create an IPv6 fixed address object in a quick and consistent way.
+An IPv6 fixed address created from an IPv6 fixed address template inherits the properties defined in the template.
+
+=head1 CONSTRUCTOR
+
+ my $fixed_addr_template = Infoblox::DHCP::IPv6FixedAddrTemplate -> new(
+         name                         => $string,                              #Required
+         comment                      => $string,                              #Optional / Default is undefined
+         domain_name                  => $fqdn,                                #Optional / Default is undefined
+         domain_name_servers          => "$ipv6addr1,$ipv6addr2,...",          #Optional / Default is undefined
+         extattrs                     => { $string => $extattr, ... },         #Optional / Default is undefined
+         extensible_attributes        => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+         number_of_addresses          => $num | undef,                         #Optional / Default is undefined
+         offset                       => $num | undef,                         #Optional / Default is undefined
+         options                      => [$option1, $option2],                 #Optional / Default is empty
+         override_domain_name         => "true" | "false",                     #Optional / Default is "false"
+         override_domain_name_servers => "true" | "false",                     #Optional / Default is "false"
+         override_options             => "true" | "false",                     #Optional / Default is "false"
+         override_preferred_lifetime  => "true" | "false",                     #Optional / Default is "false"
+         override_valid_lifetime      => "true" | "false",                     #Optional / Default is "false"
+         preferred_lifetime           => $num,                                 #Optional / Default is 27000
+         valid_lifetime               => $num,                                 #Optional / Default is 43200
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a DHCP IPv6 Fixed Address Template object.
+
+=head2 Infoblox::DHCP::NetworkTemplate-> fixed_address_templates( )
+
+=over
+
+Use this function to include a fixed address template in a network template on the Infoblox appliance. See L<Infoblox::DHCP::IPv6NetworkTemplate-E<gt>fixed_address_templates()|Infoblox::DHCP::IPv6NetworkTemplate/fixed_address_templates()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+  #Create the IPv6 network template that includes the IPv6 fixed address template
+  my $template = Infoblox::DHCP::Template->new(
+    name                    => "custom_fa_template"
+  );
+  my $network_template = Infoblox::DHCP::IPv6NetworkTemplate->new(
+    name                    => "custom_network_template",
+    comment                 => "add network",
+    fixed_address_templates => [$template]
+  );
+
+=back
+
+=back
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that can be applied to a DHCP IPv6 fixed address template object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP IPv6 fixed address template object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     #Construct a DHCP IPv6 Fixed Address Template object
+     my $fixed_addr_template = Infoblox::DHCP::IPv6FixedAddrTemplate->new(
+     );
+
+     #Submit for addition
+     my $response = $session->add($fixed_addr_template);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()>  for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+  Apply the following attributes to get a specific DHCP IPv6 Fixed Address Template object:
+
+  name - Optional. The name of the fixed address template.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Examples>
+
+     #Get DHCP IPv6 fixed address template object through the session
+     my @retrieved_objs = $session->get(
+         object => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+         name   => "custom_fa_template",
+     );
+
+     my @retrieved_objs = $session->get(
+       object                => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+       extensible_attributes => { 'Site' => 'Santa Clara' }
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()>  for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+  Apply the following attributes to search for a DHCP IPv6 Fixed Address Template object:
+
+  name    - Optional. The name of the fixed address template (regular expression).
+  comment - Optional. The comment of the fixed address template (regular expression).
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+     #Search for a DHCP IPv6 fixed address template object through the session
+     my @retrieved_objs = $session->search(
+         object  => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+         name    => "custom_fa_template",
+         comment => ".*",
+     );
+
+    #Search for DHCP IPv6 Fixed Address Template objects that specify "Santa Clara" for the "Site" extensible attribute
+    my @retrieved_objs = $session->search(
+        object                => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+        extensible_attributes => { 'Site' => 'Santa Clara' }
+    );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP IPv6 fixed address template object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     #Modify the pxe_lease_time
+     $fixed_addr_templateess->pxe_lease_time("1234");
+     #Submit modification
+     my $response = $session->modify( $fixed_addr_templateess );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP IPv6 fixed address template object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()>  for parameters and return values.
+
+To remove a specific object, first use get() to retrieve the DHCP IPv6 Fixed Address Template object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+     #Get DHCP IPv6 fixed address template object through the session
+     my @retrieved_objs = $session->get(
+         object => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+         name   => "custom_fa_template",
+     );
+     #Find the desired object from the retrieved list.
+     my $desired_fixed_addr_template = $retrieved_objs[0];
+     #Submit for removal
+     my $response = $session->remove( $desired_fixed_addr_template );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to set and retrieve the attribute values of a DHCP IPv6 Fixed Address Template object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DHCP IPv6 Fixed Address Template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get comment
+     my $comment = $fixed_addr_template->comment();
+     #Modify comment
+     $fixed_addr_template->comment("Modified DHCP Fixed Address template object comment");
+
+=back
+
+=back
+
+=head2 domain_name( )
+
+=over
+
+Use this method to set or retrieve the domain_name value of a DHCP IPv6 Fixed Address Template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_domain_name method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_domain_name attribute to "false".
+
+Note that when domain_name is set to a defined value and override_domain_name is set to "false", the last operation takes precedence. Thus the sequence $object->domain_name("testdomain"); $object->override_domain_name("false"); will set override_domain_name to "false", and the sequence $object->override_domain_name("false"); $object->domain_name("testdomain"); will result in override_domain_name="true".
+
+=over
+
+=item B<Parameter>
+
+The client's domain name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain_name
+ my $domain_name = $fixed_addr_template->domain_name();
+ #Modify domain_name
+ $fixed_addr_template->domain_name("test_domain.com");
+
+=back
+
+=back
+
+=head2 domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the domain_name_servers value of a DHCP IPv6 fixed address template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_domain_name_servers method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_domain_name_servers attribute to "false".
+
+Note that when domain_name_servers is set to a defined value and override_domain_name_servers is set to "false", the last operation takes precedence. Thus the sequence $object->domain_name_servers("2001::1,2001::2"); $object->override_domain_name_servers("false"); will set override_domain_name_servers to "false", and the sequence $object->override_domain_name_servers("false"); $object->domain_name_servers("2001::1,2001::2"); will result in override_domain_name_servers="true".
+
+=over
+
+=item B<Parameter>
+
+Comma-separated list of the IPv6 addresses of the DNS servers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain_name_servers
+ my $domain_name_servers = $fixed_addr_template->domain_name_servers();
+ #Modify domain_name_servers
+ $fixed_addr_template->domain_name_servers("2001::1,2001::2");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP IPv6 Fixed Address Template object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $fixed_addr_template->extattrs();
+ #Modify extattrs
+ $fixed_addr_template->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP IPv6 Fixed Address Template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $fixed_addr_template->extensible_attributes();
+ #Modify extensible attributes
+ $fixed_addr_template->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP IPv6 Fixed Address Template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the IPv6 fixed address template in string format and with a maximum of 64 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get name
+     my $name = $fixed_address_template->name();
+     #Modify name
+     $fixed_address_template->name("custom_fa_template");
+
+=back
+
+=back
+
+=head2 number_of_addresses( )
+
+=over
+
+Use this method to set or retrieve the number of addresses in a DHCP IPv6 fixed address template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The number of addresses in this fixed address template.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get number_of_addresses
+     my $number_of_addresses = $fixed_address_template-> number_of_addresses();
+     #Modify number_of_addresses
+     $fixed_address_template->number_of_addresses("10");
+
+=back
+
+=back
+
+=head2 offset( )
+
+=over
+
+Use this method to set or retrieve the address offset of an IPv6 fixed address template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The address offset of this IPv6 fixed address template. The offset is calculated from the start address of the IPv6 network template that includes the fixed address template. For example, in the IPv6 network 2001:0:0:10::/8, if the offset is set to 10 and number_of_addresses is set to 10, then 10 fixed address objects will be created. The start address will be 2001:0:0:10::A and the end address will be 2001:0:0:10::14.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get offset
+ my $offset = $fixed_address_template->offset();
+ #Modify offset
+ $fixed_address_template->offset("10");
+
+=back
+
+=back
+
+=head2 options( )
+
+=over
+
+Use this method to set or retrieve the options of a DHCP IPv6 fixed address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+See L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> for parameters and methods available for this object.
+
+Setting this method to a defined value implicitly sets the override_options method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_options attribute to "false".
+
+Note that when the options method is set to a defined value and override_options is set to "false", the last operation takes precedence. Thus the sequence $object->options([ $opt ]); $object->override_options("false"); will set override_options to "false", and the sequence $object->override_options("false"); $object->options([ $opt ]); will result in override_options="true".
+
+=over
+
+=item B<Parameter>
+
+Options describe network configuration settings and various services available on the network. These options occur as variable-length fields at the end of DHCP messages.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get options
+ my $options = $fixed_addr_template->options();
+ #Modify options
+ $fixed_addr_template->options([$option1, $option2]);
+
+=back
+
+=back
+
+=head2 override_domain_name( )
+
+=over
+
+The override_domain_name attribute controls whether the domain_name value in the DHCP IPv6 fixed address template is used, instead of the upper-level default.
+
+The override_domain_name attribute can be specified explicitly. It is also set implicitly when domain_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for domain_name. Set the parameter to "false" to inherit the upper-level setting for domain_name.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_domain_name
+ my $override_domain_name=$fixed_addr_template->override_domain_name( );
+ #Modify override_domain_name
+ $fixed_addr_template->override_domain_name("true");
+
+=back
+
+=back
+
+=head2 override_domain_name_servers( )
+
+=over
+
+The override_domain_name_servers attribute controls whether the domain_name_servers value in the DHCP IPv6 fixed address template is used, instead of the upper-level default.
+
+The override_domain_name_servers attribute can be specified explicitly. It is also set implicitly when domain_name_servers is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for domain_name_servers. Set the parameter to "false" to inherit the upper-level setting for domain_name_servers.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_domain_name_servers
+    my $override_domain_name_servers=$fixed_addr_template->override_domain_name_servers( );
+    #Modify override_domain_name_servers
+    $fixed_addr_template->override_domain_name_servers("true");
+
+=back
+
+=back
+
+=head2 override_options( )
+
+=over
+
+The override_options attribute controls whether the options in the DHCP IPv6 fixed address template are used, instead of the upper-level default.
+
+The override_options attribute can be specified explicitly. It is also set implicitly when options are set to defined values.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for options. Set the parameter to "false" to inherit the upper-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_options
+    my $override_options=$fixed_addr_template->override_options( );
+    #Modify override_options
+    $fixed_addr_template->override_options("true");
+
+=back
+
+=back
+
+=head2 override_preferred_lifetime( )
+
+=over
+
+The override_preferred_lifetime attribute controls whether the preferred_lifetime value in the DHCP IPv6 fixed address template is used, instead of the upper-level default.
+
+The override_preferred_lifetime attribute can be specified explicitly. It is also set implicitly when preferred_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for options. Set the parameter to "false" to inherit the upper-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_preferred_lifetime
+    my $override_preferred_lifetime=$fixed_addr_template->override_preferred_lifetime( );
+    #Modifying override_preferred_lifetime
+    $fixed_addr_template->override_preferred_lifetime("true");
+
+=back
+
+=back
+
+=head2 override_valid_lifetime( )
+
+=over
+
+The override_valid_lifetime attribute controls whether the valid_lifetime value in the DHCP IPv6 fixed address template object is used, instead of the upper-level default.
+
+The override_valid_lifetime attribute can be specified explicitly. It is also set implicitly when valid_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for valid_lifetime. Set the parameter to "false" to inherit the upper-level setting for valid_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_valid_lifetime
+    my $override_valid_lifetime=$fixed_addr_template->override_valid_lifetime( );
+    #Modifying override_valid_lifetime
+    $fixed_addr_template->override_valid_lifetime("true");
+
+=back
+
+=back
+
+=head2 preferred_lifetime( )
+
+=over
+
+Use this method to set or retrieve the preferred lifetime of the DHCP IPv6 fixed address template.
+
+Setting this method to a defined value implicitly sets the override_preferred_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_preferred_lifetime attribute to "false".
+
+Note that when preferred_lifetime is set to a defined value and override_preferred_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->preferred_lifetime(20000); $object->override_preferred_lifetime("false"); will set override_preferred_lifetime to "false", and the sequence $object->override_preferred_lifetime("false"); $object->preferred_lifetime(20000); will result in override_preferred_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+Preferred lifetime value in seconds. The default value is 27000. Note that the preferred lifetime cannot be greater than the valid lifetime.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get preferred_lifetime
+ my $preferred_lifetime = $fixed_addr_template->preferred_lifetime();
+ #Modify preferred_lifetime
+ $fixed_addr_template->preferred_lifetime(12345);
+
+=back
+
+=back
+
+=head2 valid_lifetime( )
+
+=over
+
+Use this method to set or retrieve the valid lifetime of the DHCP IPv6 fixed address template.
+
+Setting this method to a defined value implicitly sets the override_valid_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_valid_lifetime attribute to "false".
+
+Note that when valid_lifetime is set to a defined value and override_valid_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->valid_lifetime(20000); $object->override_valid_lifetime("false"); will set override_valid_lifetime to "false", and the sequence $object->override_valid_lifetime("false"); $object->valid_lifetime(20000); will result in override_valid_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+Valid lifetime value in seconds. The default value is 43200.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get valid_lifetime
+ my $valid_lifetime = $fixed_addr_template->valid_lifetime();
+ #Modify valid_lifetime
+ $fixed_addr_template->valid_lifetime(123456);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify, and remove. Also, this sample includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+
+ unless ($session) {
+     die("Construct session failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $option1 = Infoblox::DHCP::Option->new(
+     "name"  => "dhcp6.fqdn",
+     "value" => "mydomain.com"
+ );
+ unless($option1) {
+     die("Construct option1 object failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "option1 object created successfully\n";
+
+ my $option2 = Infoblox::DHCP::Option->new(
+     "name"     => "dhcp6.info-refresh-time",
+     "value"    => "1000",
+ );
+ unless($option2) {
+     die("Construct option2 object failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "option2 object created successfully\n";
+
+B<#Create a DHCP IPv6 Fixed Address Template object>
+
+ #Create a DHCP IPv6 Fixed Address Template object
+ my $fixed_addr_template = Infoblox::DHCP::IPv6FixedAddrTemplate->new(
+     "name"                  => "custom_fa_template",
+     "comment"               => "add IPv6 fixed address template",
+     "domain_name"           => "test_domain.com",
+     "number_of_addresses"   => 1,
+     "offset"                => 10,
+     "options"               => [ $option1, $option2 ],
+     "preferred_lifetime"    => 1000,
+     "valid_lifetime"        => 3600,
+ );
+ unless($fixed_addr_template) {
+     die("Construct IPv6 Fixed Address template failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6 Fixed Address template object created successfully\n";
+
+ #Verify if the DHCP IPv6 Fixed Address template exists in the Infoblox appliance
+ my $object = $session->get(
+     object => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+     name   => "custom_fa_template"
+ );
+
+ unless ($object) {
+     print "IPv6 Fixed Address template does not exist on server, safe to add the IPv6 fixed address template\n";
+     $session->add($fixed_addr_template)
+         or die("Add IPv6 Fixed Address template failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "DHCP IPv6 Fixed Address template added successfully\n";
+
+B< #Search for a DHCP IPv6 Fixed Address Template object>
+
+ #Search for a DHCP IPv6 fixed address template object through the session
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+     name   => "custom_fa_template",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Search IPv6 Fixed Address template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search IPv6 Fixed Address template object found at least 1 matching entry\n";
+
+B< #Get and modify a DHCP IPv6 Fixed Address Template object>
+
+ #Get DHCP IPv6 fixed address template object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+     name   => "custom_fa_template",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get IPv6 Fixed Address template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get IPv6 Fixed Address template object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the obtained IPv6 Fixed Address Template object
+ $object->valid_lifetime(1234);
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify IPv6 Fixed Address template failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP IPv6 Fixed Address template added successfully\n";
+
+B< #Create the IPv6 network template object and include the IPv6 fixed address template>
+
+ my $template = Infoblox::DHCP::Template->new(
+     name => "custom_fa_template",
+ );
+
+ my $network_template = Infoblox::DHCP::IPv6NetworkTemplate->new(
+     name    => "custom_network_template",
+     comment => "add network",
+     fixed_address_templates => [$template]
+ );
+
+ unless($network_template) {
+     die("Construct Network template object failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "Network template object created successfully\n";
+
+ #Add the IPv6 network template object to the Infoblox appliance through a session
+ my $resp = $session->add($network_template)
+     or die("Add Network object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+
+ print "Network template object added to Infoblox appliance successfully\n";
+
+B<#Remove an IPv6 fixed address template object>
+
+ #Remove an IPv6 network template object
+ $session->remove($network_template)
+     or die("Remove Network Template template object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "Network Template object removed successfully \n";
+
+ #Get an IPv6 Fixed Address Template object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6FixedAddrTemplate",
+     name   => "custom_fa_template",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get IPv6 Fixed Address template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get IPv6 Fixed Address template object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove IPv6 Fixed Address template object failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ print "IPv6 Fixed Address template object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,  L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::DHCP::IPv6NetworkTemplate|Infoblox::DHCP::IPv6NetworkTemplate>, L<Infoblox::DHCP::IPv6FixedAddr|Infoblox::DHCP::IPv6FixedAddr>, L<Infoblox::DHCP::IPv6RangeTemplate|Infoblox::DHCP::IPv6RangeTemplate>,L<Infoblox::DHCP::Template|Infoblox::DHCP::Template>,L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Option|Infoblox::DHCP::Option>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

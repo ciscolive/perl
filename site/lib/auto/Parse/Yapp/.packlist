@@ -1,0 +1,10 @@
+/opt/perl/site/bin/yapp
+/opt/perl/site/lib/Parse/Yapp.pm
+/opt/perl/site/lib/Parse/Yapp/Driver.pm
+/opt/perl/site/lib/Parse/Yapp/Grammar.pm
+/opt/perl/site/lib/Parse/Yapp/Lalr.pm
+/opt/perl/site/lib/Parse/Yapp/Options.pm
+/opt/perl/site/lib/Parse/Yapp/Output.pm
+/opt/perl/site/lib/Parse/Yapp/Parse.pm
+/opt/perl/site/man/man1/yapp.1
+/opt/perl/site/man/man3/Parse::Yapp.3

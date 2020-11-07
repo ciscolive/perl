@@ -1,0 +1,5110 @@
+=head1 NAME
+
+Infoblox::Grid::DNS - DNS objects management and configuration
+
+=head1 DESCRIPTION
+
+This class supports DNS service management and configuration such as time-to-live (TTL) settings, zone transfers, queries, root name servers, dynamic updates, sort lists, Transaction Signatures (TSIG) for DNS and others, all at the grid level.
+
+The service configurations of a grid are inherited by all members, zones, and networks unless you specifically override them for selected members, zones, and networks. For this reason, it is recommended  that you configure services at the grid level before configuring member, zone and network services.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::DNS object is automatically generated upon the successful installation of the Infoblox appliance. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a grid DNS object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the matching grid DNS object from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific grid DNS object:
+
+  name - Required. A grid name in string format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::DNS",
+     name   => "Infoblox"
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a grid DNS object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+If you have applied an access control list to an object, you must restart services after you update the access control list for the changes to take effect. See L<Infoblox::Session-E<gt>restart()|Infoblox::Session/restart()/> method.
+
+=over
+
+=item B<Example>
+
+ #Use this method to modify the grid  DNS service.
+ $grid_dns->allow_recursive_query("true");
+ #Submit modification
+ my $response = $session->modify( $grid_dns );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a grid  DNS object.
+
+=head2 allow_bulkhost_ddns( )
+
+=over
+
+Use this method to set or retrieve the  allow_bulkhost_ddns flag of a grid  DNS object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the allow_bulkhost_ddns flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get  the allow_bulkhost_ddns flag
+ my $allow_bulkhost_ddns = $grid_dns->allow_bulkhost_ddns();
+ #Modify allow bulkhost ddns flag
+ $grid_dns->allow_bulkhost_ddns("true");
+
+=back
+
+=back
+
+=head2 allow_gss_tsig_zone_updates( )
+
+=over
+
+Use this method to set or retrieve the  allow_gss_tsig_zone_updates flag of a grid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the  flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get  the allow_gss_tsig_zone_updates flag
+ my $allow_gss_tsig_zone_updates = $grid_dns->allow_gss_tsig_zone_updates();
+ #Modify allow_gss_tsig_zone_updates flag
+ $grid_dns->allow_gss_tsig_zone_updates("true");
+
+=back
+
+=back
+
+=head2 allow_query( )
+
+=over
+
+Use this method to set or retrieve the list of allowed/denied queries for a Grid DNS object. The list specifies IP addresses and/or networks from which queries are allowed or denied. The appliance can also use TSIG keys to authenticate the queries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses, networks and/or L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey> objects. To deny queries, add "!" as a prefix to addresses and networks. Specify "any" to allow queries from any address. By default, queries are allowed from any address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get allow query list
+ my $allow_query_list = $grid_dns->allow_query();
+ #Modify allow query list
+ $grid_dns->allow_query(["any"]);
+
+ #Specifying TSIG keys
+ my $tsig_key1 = $session->gen_tsig_key();
+ my $query_key = Infoblox::DNS::TSIGKey->new(
+     name => "query_key1",
+     key  => $tsig_key1
+ );
+ #Modify allow query list
+ $grid_dns->allow_query(["10.0.0.10" , "20.0.0.0/24" ,"2001::123a","2003::222/64", "!"."30.0.0.30", $query_key, "!"."40.10.0.0/24","!"."2004::125b","!"."2006::34bc"]);
+ #Use Infoblox::Grid::NamedACL
+ $grid_dns->allow_query($nacl);
+
+=back
+
+=back
+
+=head2 allow_recursive_query( )
+
+=over
+
+Use this method to set or retrieve the  allow_recursive_query flag of a grid  DNS object. If enabled and the Infoblox appliance receives a query for DNS data, it  sends a recursive query to the  configured internal root servers.
+If  there are no internal root  servers configured, the appliance then sends a recursive query to the  Internet root servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the allow_recursive_query flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get allow recursive query flag
+ my $allow_recursive_query = $grid_dns->allow_recursive_query();
+ #Modify allow recursive query flag
+ $grid_dns->allow_recursive_query("true");
+
+=back
+
+=back
+
+=head2 allow_transfer( )
+
+=over
+
+Use this method to set or retrieve the list of allowed/denied zone transfers for a Grid DNS object. The list specifies IP addresses and/or networks from which zone transfers are allowed or denied. It is also possible to specify the TSIG keys of clients that are allowed to perform zone transfers. TSIG keys are used to authenticate zone transfer requests and replies. The same key name and key value must be on the primary and secondary name servers for TSIG-authenticated zone transfers to occur.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses, networks, and/or L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey> objects. To deny zone transfer, add "!" as a prefix to IP addresses and/or networks. Specify "any" to allow transfers from any IP address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get allow transfer list
+ my $allow_transfer_list = $grid_dns->allow_transfer();
+ #Modify allow transfer list
+ $grid_dns->allow_transfer(["any"]);
+
+ #Specifying TSIG keys
+ my $tsig_key1 = $session->gen_tsig_key();
+ my $key1 = Infoblox::DNS::TSIGKey->new(
+     name => "key1",
+     key  => $tsig_key1
+ );
+ my $key2 = Infoblox::DNS::TSIGKey->new(
+     name => "tsig_xfer",
+     key  => ":2xCOMPAT"
+     );
+ #Modify allow transfer list
+ $grid_dns->allow_transfer(["10.0.0.10", "20.0.0.0/24","2004::325f","2007::876c/64","!"."30.0.0.30", $key1, $key2, "!"."40.10.0.0/24"]);
+ #Use Infoblox::Grid::NamedACL
+ $grid_dns->allow_transfer($nacl);
+
+=back
+
+=back
+
+=head2 allow_update( )
+
+=over
+
+Use this method to set or retrieve the list of allowed/denied dynamic updates for a grid DNS object. The list specifies from which IP addresses, networks or TSIG key authenticated hosts dynamic updates are allowed or denied.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses, networks, and/or L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey> objects. To deny updates, add "!" as a prefix to IP addresses and/or networks. Specify "any" to allow updates from any IP address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get allow update list
+ my $allow_update_list = $grid_dns->allow_update();
+ #Modify allow update list
+ $grid_dns->allow_update(["any"]);
+
+ #Creating a TSIG key object.
+ my $update_key1 = $session->gen_tsig_key();
+
+ my $up_key1 = Infoblox::DNS::TSIGKey->new(
+     name => "update_key",
+     key  => $update_key1
+     );
+
+ #Modify allow update list
+ $grid_dns->allow_update(["10.0.0.10", "20.0.0.0/24","2008::129b","!"."30.0.0.30", $up_key1, "!"."40.10.0.0/24","!"."2004::76bc/64"]);
+ #Use Infoblox::Grid::NamedACL
+ $grid_dns->allow_update($nacl);
+
+=back
+
+=back
+
+=head2 anonymize_response_logging( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the anonymization of captured DNS responses is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable anonymization of captured DNS response or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get anonymize_response_logging value
+ my $anonymize_response_logging = $object->anonymize_response_logging();
+
+ #Modify anonymize_response_logging value
+ $object->anonymize_response_logging('true');
+
+=back
+
+=back
+
+=head2 attack_mitigation( )
+
+=over
+
+Use this method to set or retrieve mitigation settings for DNS attacks.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::AttackMitigation|Infoblox::Grid::DNS::AttackMitigation> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attack_mitigation value
+ my $attack_mitigation = $grid_dns->attack_mitigation();
+ #Modify attack_mitigation
+ $grid_dns->attack_mitigation($attack_mitigation);
+
+=back
+
+=back
+
+=head2 auto_blackhole( )
+
+=over
+
+Use this method to set or retrieve the auto blackhole settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::AutoBlackHole|Infoblox::Grid::DNS::AutoBlackHole> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get auto_blackhole value
+ my $auto_blackhole = $grid_dns->auto_blackhole();
+ #Modify auto_blackhole
+ $grid_dns->auto_blackhole($auto_blackhole);
+
+=back
+
+=back
+
+=head2 bind_check_names_policy( )
+
+=over
+
+Use this method to set or retrieve the BIND check names policy, which indicates the action the appliance takes when it
+encounters host names that do not comply with the Strict Hostname Checking policy. This method applies only if
+the host name restriction policy  is set to "Strict Hostname Checking".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The allowed values of the parameter are "fail", "warn" or undefined. This indicates the desired BIND behavior in the case of
+illegal hostnames. The default value is undefined, which means the appliance ignores illegal hostnames.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bind_check_names_policy value
+ my $names_policy = $grid_dns->bind_check_names_policy();
+ #Modify bind_check_names_policy
+ $grid_dns->bind_check_names_policy("warn");
+
+=back
+
+=back
+
+=head2 bind_hostname_directive( )
+
+=over
+
+Use this method to set or retrieve the value of BIND 'hostname' directive.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are "NONE" and "HOSTNAME". The default value is "NONE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get bind_hostname_directive
+   my $bind_hostname_directive = $grid_dns->bind_hostname_directive();
+   #Modify bind_hostname_directive
+   $grid_dns->bind_hostname_directive("HOSTNAME");
+
+=back
+
+=back
+
+=head2 blackhole_list( )
+
+=over
+
+Use this method to set or retrieve the blackhole list of a grid DNS object. This list specifies the IP addresses and networks from which the DNS queries are blocked.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPV4/IPv6 addresses and networks. To allow queries, add "!" as the prefix to the IP addresses and networks. Specify "any" to block DNS queries from any IP address.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the blackhole list
+ my $blackhole_list = $grid_dns->blackhole_list();
+ #Modify the blackhole_list
+ $grid_dns->blackhole_list(["any"]);
+ #Modify the blackhole list
+ $grid_dns->blackhole_list(["10.0.0.10", "20.0.0.0/24","2010::256/64","!"."2011::23cb/64","!"."30.0.0.30", "!"."40.10.0.0/24"]);
+ #Modify the blackhole list
+ $grid_dns->blackhole_list(undef);
+ #Use Infoblox::Grid::NamedACL
+ $grid_dns->blackhole_list($nacl);
+
+=back
+
+=back
+
+=head2 blacklist_action( )
+
+=over
+
+Use this method to specify the action to perform when a domain name matches the pattern defined in a rule that is specified by the blacklist_ruleset method.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "REDIRECT" or "REFUSE". The default value is "REFUSE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Examples>
+
+  #Get blacklist_action
+  my $blacklist_action = $grid_dns->blacklist_action();
+  #Modify blacklist_action
+  $grid_dns->blacklist_action("REDIRECT");
+
+=back
+
+=back
+
+=head2 blacklist_log_query( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether blacklist redirection queries are logged.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable logging, or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get blacklist_log_query
+   my $blacklist_log_query = $grid_dns->nxdomain_log_query( );
+   #Modify blacklist_log_query
+   $grid_dns->blacklist_log_query("true");
+
+=back
+
+=back
+
+=head2 blacklist_redirect_addresses( )
+
+=over
+
+Use this method to specify the IP addresses the appliance includes in the response it sends in place of a blacklisted IP address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of IPv4 addresses. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get blacklist_redirect_addresses
+   my $blacklist_redirect_addresses = $grid_dns->blacklist_redirect_addresses( );
+   #Modify blacklist_redirect_addresses
+   $grid_dns->blacklist_redirect_addresses(["10.0.0.10", "10.0.0.20"]);
+
+=back
+
+=back
+
+=head2 blacklist_redirect_ttl( )
+
+=over
+
+Use this method to set or retrieve the TTL value of the synthetic DNS response that result from blacklist redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer, from 0 to 4294967295, that represents the TTL in seconds. The default value is 60.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get blacklist_redirect_ttl
+   my $blacklist_redirect_ttl = $grid_dns->blacklist_redirect_ttl( );
+   #Modify blacklist_redirect_ttl
+   $grid_dns->blacklist_redirect_ttl(60);
+
+=back
+
+=back
+
+=head2 blacklist_rulesets( )
+
+=over
+
+Use this method to specify or retrieve L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset> object names assigned at the grid level for blacklist redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains the names of the L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset> objects assigned to the grid. The names must be in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get blacklist_rulesets
+   my $blacklist_rulesets = $grid_dns->blacklist_rulesets();
+   #Modify blacklist_rulesets
+   $grid_dns->blacklist_rulesets(["ruleset1", "ruleset2"]);
+
+=back
+
+=back
+
+=head2 bulk_host_name_template( )
+
+=over
+
+Use this method to set or retrieve the default bulk host name format of a grid  DNS object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of a valid bulk host name format.
+
+For instance, if the prefix of a bulk host is I<info>, the IP address range is I<213.19.32.133-213.19.32.134>, and the domain name is I<infoblox.com>.
+If the bulk host name template "Three Octets" is set at the grid level, then the bulk host names will be I<info-213-19-23-133.infoblox.com> and I<info-213-19-23-134.infoblox.com>.
+
+If the bulk host name template specified is "CustomerTemplate"(*#3*#4), the bulk host names will be I<info*023*133.infoblox.com> and I<info-023-134.infoblox.com>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the bulk host name format
+ my $grid_template = $grid_dns->bulk_host_name_template();
+ #Modify bulk host name format
+ $grid_dns->bulk_host_name_template("Three Octets");
+
+=back
+
+=back
+
+=head2 bulk_host_name_templates( )
+
+=over
+
+Use this method to set or retrieve the list of bulk host name templates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference  that contains L<Infoblox::Grid::DNS::BulkHostNameTemplate|Infoblox::Grid::DNS::BulkHostNameTemplate> object(s).
+
+There are four Infoblox predefined bulk host name templates.
+
+Template Name                     Template Format
+
+"Four Octets"                     -$1-$2-$3-$4
+
+"Three Octets"                    -$2-$3-$4
+
+"Two Octets"                      -$3-$4
+
+"One Octet"                       -$4
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bulk_host_name_templates
+ my $bulk_host_name_templates = $grid_dns->bulk_host_name_templates();
+
+ #Modify bulk_host_name_templates
+
+ #Constructing four out-of-box bulk host name templates
+ my $four_octets = Infoblox::Grid::DNS::BulkHostNameTemplate->new(
+     template_name   => "Four Octets",
+     template_format => '-$1-$2-$3-$4'
+ );
+ my $three_octets = Infoblox::Grid::DNS::BulkHostNameTemplate->new(
+     template_name   => "Three Octets",
+     template_format => '-$2-$3-$4'
+ );
+ my $two_octets = Infoblox::Grid::DNS::BulkHostNameTemplate->new(
+     template_name   => "Two Octets",
+     template_format => '-$3-$4'
+ );
+ my $one_octet = Infoblox::Grid::DNS::BulkHostNameTemplate->new(
+     template_name   => "One Octet",
+     template_format => '-$4'
+ );
+
+ #Creating a new bulk host name templates.
+ my $custom_template = Infoblox::Grid::DNS::BulkHostNameTemplate->new(
+     template_name   => "Custom Template",
+     template_format => '-#1-#2-#3-#4'
+ );
+
+ $grid_dns->bulk_host_name_templates([$custom_template, $four_octets, $three_octets, $two_octets, $one_octet]);
+
+=back
+
+=back
+
+=head2 capture_dns_queries_on_all_domains( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the capturing of DNS queries for all domains is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable capturing of DNS queries for all domains or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get capture_dns_queries_on_all_domains value
+ my $capture_dns_queries_on_all_domains = $object->capture_dns_queries_on_all_domains();
+
+ #Modify capture_dns_queries_on_all_domains value
+ $object->capture_dns_queries_on_all_domains('true');
+
+=back
+
+=back
+
+=head2 client_subnet_domains( )
+
+=over
+
+Use this method to set or retrieve the list of zone domain names that are allowed or forbidden for EDNS client subnet (ECS) recursion.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::DNS::ClientSubnetDomain|Infoblox::Grid::DNS::ClientSubnetDomain> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_subnet_domains value
+ my $value = $grid_dns->client_subnet_domains();
+
+ #Construct Infoblox::Grid::DNS::ClientSubnetDomain object
+ my $object = Infoblox::Grid::ClientSubnetDomain->new(
+     domain     => 'domain.com',
+     permission => 'DENY',
+ );
+
+ #Modify client_subnet_domains value
+ $grid_dns->client_subnet_domains([$object]);
+
+=back
+
+=back
+
+=head2 client_subnet_ipv4_prefix_length( )
+
+=over
+
+Use this method to set or retrieve the default IPv4 source prefix length used when sending queries with EDNS client subnet option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 32.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_subnet_ipv4_prefix_length value
+ my $value = $object->client_subnet_ipv4_prefix_length();
+
+ #Modify client_subnet_ipv4_prefix_length value
+ $object->client_subnet_ipv4_prefix_length(30);
+
+=back
+
+=back
+
+=head2 client_subnet_ipv6_prefix_length( )
+
+=over
+
+Use this method to set or retrieve the default IPv6 source prefix length used when sending queries with EDNS client subnet option.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 128.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_subnet_ipv6_prefix_length value
+ my $value = $object->client_subnet_ipv6_prefix_length();
+
+ #Modify client_subnet_ipv6_prefix_length value
+ $object->client_subnet_ipv6_prefix_length(30);
+
+=back
+
+=back
+
+=head2 copy_xfer_to_notify( )
+
+=over
+
+Use this method to enable/disable copying of the allowed IPs from zone transfer list into also-notify statement in named.conf.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable copying of the allowed IPs from zone transfer list into also-notify statement in named.conf. Set the parameter to "false" to disable it.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  # Get attribute value
+  my $value = $grid_dns->copy_xfer_to_notify();
+  # Modify attribute value
+  $grid_dns->copy_xfer_to_notify('true');
+
+=back
+
+=back
+
+=head2 ddns_force_creation_timestamp_update( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the creation timestamp of resource records (RR) should be updated when DDNS update happens even if there is no change to the RR.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to update the creation timestamp of RR on every DDNS update, and 'false' to update the creation timestamp only when RR changes during a DDNS update.
+The default is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_force_creation_timestamp_update value
+ $value = $object->ddns_force_creation_timestamp_update();
+
+ #modify ddns_force_creation_timestamp_update value
+ $object->ddns_force_creation_timestamp_update('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_patterns_list( )
+
+=over
+
+Use this method to set or retrieve an unordered list of restriction patterns for an option of to restrict DDNS updates based on FQDN patterns.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of FQDNs in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_patterns_list value
+ $ddns_restrict_patterns_list = $grid_dns->ddns_restrict_patterns_list();
+
+ #modify ddns_restrict_patterns_list value
+ $grid_dns->ddns_restrict_patterns_list(['foo.com', 'bar.com']);
+
+=back
+
+=back
+
+=head2 ddns_restrict_patterns( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request based on FQDN patterns is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update request restriction base on FQDN patterns and 'false to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_patterns value
+ $ddns_restrict_patterns = $grid_dns->ddns_restrict_patterns();
+
+ #modify ddns_restrict_patterns value
+ $grid_dns->ddns_restrict_patterns('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_static( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request to resource records which are marked as 'STATIC' is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests to resource records which are marked as 'STATIC' and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_static value
+ $ddns_restrict_static = $grid_dns->ddns_restrict_static();
+
+ #modify ddns_restrict_static value
+ $grid_dns->ddns_restrict_static('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_protected( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request to protected resource records is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests to protected resource records and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_protected value
+ $ddns_restrict_protected = $grid_dns->ddns_restrict_protected();
+
+ #modify ddns_restrict_protected value
+ $grid_dns->ddns_restrict_protected('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_secure( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether DDNS update request for principal other than target resource record's principal is restricted.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests restriction for principal other than target resource record's principal and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_secure value
+ $ddns_restrict_secure = $grid_dns->ddns_restrict_secure();
+
+ #modify ddns_restrict_secure value
+ $grid_dns->ddns_restrict_secure('true');
+
+=back
+
+=back
+
+=head2 ddns_principal_tracking( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether the DDNS principal track is enabled or disabled.
+
+DDNS principal tracking includes putting them into resource record affected by update.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS principal tracking and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_principal_tracking value
+ $ddns_principal_tracking = $grid_dns->ddns_principal_tracking();
+
+ #modify ddns_principal_tracking value
+ $grid_dns->ddns_principal_tracking('true');
+
+=back
+
+=back
+
+=head2 ddns_principal_group( )
+
+=over
+
+Use this method to set or retrieve the DDNS principal group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DNS::DDNS::PrincipalCluster::Group|Infoblox::DNS::DDNS::PrincipalCluster::Group> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_principal_group value
+ $ddns_principal_group = $grid_dns->ddns_principal_group();
+
+ #modify ddns_principal_group value
+ $grid_dns->ddns_principal_group($principal_group);
+
+=back
+
+=back
+
+=head2 default_ttl( )
+
+=over
+
+Use this method to set or retrieve the default TTL value of a grid  DNS object. This interval tells the secondary how long the data can be cached.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number for the TTL, in seconds. I<Default> value is 1/2 of lease time or 28800 seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the default TTL
+ my $default_ttl = $grid_dns->default_ttl();
+ #Modify the default TTL
+ $grid_dns->default_ttl(28800);
+
+=back
+
+=back
+
+=head2 disable_edns( )
+
+=over
+
+Use this method to  enable or disable EDNS0 support for queries that require recursive resolution.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable EDNS0 or "false" to enable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the double confirmation of zone deletion flag
+ my $disable_edns = $grid_dns->disable_edns();
+ #Modify disable_edns flag
+ $grid_dns->disable_edns("true");
+
+=back
+
+=back
+
+=head2 dns_cache_acceleration_ttl( )
+
+=over
+
+Use this method to set or retrieve the minimum TTL value, in seconds, that a DNS record must have in order for it to be cached by the DNS Cache Acceleration service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An integer from 1 to 65000 that represents the TTL in seconds. The default value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get dns_cache_acceleration_ttl
+   my $dns_cache_acceleration_ttl = $grid_dns->dns_cache_acceleration_ttl( );
+   #Modify dns_cache_acceleration_ttl
+   $grid_dns->dns_cache_acceleration_ttl(60);
+
+=back
+
+=back
+
+=head2 dns_health_check_anycast_control( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the anycast failure (BFD session down) is enabled on member failure or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable anycast failure on Member failure, and 'false' to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_health_check_anycast_control value
+ my $value = $object->dns_health_check_anycast_control();
+
+ #Modify dns_health_check_anycast_control value
+ $object->dns_health_check_anycast_control('true');
+
+=back
+
+=back
+
+=head2 dns_health_check_domain_list( )
+
+=over
+
+Use this method to set or retrieve the list of domain names for the DNS health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains desired domain names in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_health_check_domain_list value
+ my $value = $object->dns_health_check_domain_list();
+
+ #Modify dns_health_check_domain_list value
+ $object->dns_health_check_domain_list(['foo.com', 'bar.net']);
+
+=back
+
+=back
+
+=head2 dns_health_check_interval( )
+
+=over
+
+Use this method to set or retrieve the time interval (in seconds) for DNS health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 10 and 21600 that represents number of seconds between two health checks.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_health_check_interval value
+ my $value = $object->dns_health_check_interval();
+
+ #Modify dns_health_check_interval value
+ $object->dns_health_check_interval(2000);
+
+=back
+
+=back
+
+=head2 dns_health_check_recursion_flag( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the recursive DNS health check is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable recursive DNS health check queries, and 'false' to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_health_check_recursion_flag value
+ my $value = $object->dns_health_check_recursion_flag();
+
+ #Modify dns_health_check_recursion_flag value
+ $object->dns_health_check_recursion_flag('true');
+
+=back
+
+=back
+
+=head2 dns_health_check_retries( )
+
+=over
+
+Use this method to set or retrieve the number of DNS health check retries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_health_check_retries value
+ my $value = $object->dns_health_check_retries();
+
+ #Modify dns_health_check_retries value
+ $object->dns_health_check_retries(2);
+
+=back
+
+=back
+
+=head2 dns_health_check_timeout( )
+
+=over
+
+Use this method to set or retrieve the DNS health check timeout interval (in seconds).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_health_check_timeout value
+ my $value = $object->dns_health_check_timeout();
+
+ #Modify dns_health_check_timeout value
+ $object->dns_health_check_timeout(10);
+
+=back
+
+=back
+
+=head2 dns_query_capture_file_time_limit( )
+
+=over
+
+Use this method to set or retrieve the time limit (in minutes) for the DNS query capture file.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is unsigned integer between 1 and 10. The default value is 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_query_capture_file_time_limit value
+ my $dns_query_capture_file_time_limit = $object->dns_query_capture_file_time_limit();
+
+ #Modify dns_query_capture_file_time_limit value
+ $object->dns_query_capture_file_time_limit('5');
+
+=back
+
+=back
+
+=head2 dns64_groups( )
+
+=over
+
+Use this method to set or retrieve the list of DNS64 synthesis groups.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::DNS::DNS64Group|Infoblox::Grid::DNS::DNS64Group> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the list of DNS64 synthesis groups
+ my $dns64_groups_list = $grid_dns->dns64_groups();
+
+ #Modify it
+ my $group = $session->get(
+                         object => "Infoblox::Grid::DNS::DNS64Group"),
+                         name => "groupname",
+                         prefix => "groupprefix",
+                       );
+ $grid_dns->dns64_groups([$group]);
+
+=back
+
+=back
+
+=head2 dnssec_enabled( )
+
+=over
+
+Use this method to enable/disable the DNS security extension.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable the DNS security extension. Set the parameter to "false" to disable the feature.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_enabled
+ my $dnssec_enabled = $grid_dns->dnssec_enabled();
+ #Modify dnssec_enabled
+ $grid_dns->dnssec_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_enable_ksk_auto_rollover( )
+
+=over
+
+Use this method to enable automatic rollover for Key-signing key.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable automatic rollover for Key-signing key or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get dnssec_enable_ksk_auto_rollover value
+  my $enable_ksk_auto_rollover = $grid_dns->dnssec_enable_ksk_auto_rollover();
+  #Modify dnssec_enable_ksk_auto_rollover value
+  $grid_dns->dnssec_enable_ksk_auto_rollover("true");
+
+=back
+
+=back
+
+=head2 dnssec_expired_signatures_enabled( )
+
+=over
+
+Use this method to  control whether the DNS grid object accepts expired signatures.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to accept  expired signatures. Set the parameter to "false" to  reject expired signatures.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_expired_signatures_enabled
+ my $dnssec_expired_signatures_enabled = $grid_dns->dnssec_expired_signatures_enabled();
+ #Modify dnssec_expired_signatures_enabled
+ $grid_dns->dnssec_expired_signatures_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_ksk_algorithms( )
+
+=over
+
+Use this method to set or retrieve the DNSSEC key-signing key algorithms of all the zones in the grid.
+
+This property determines which algorithms to use when generating the keys for signing the DNSKEY records.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Currently there are two major versions of the DNSSEC zone encryption mechanism. The difference between the two is in their implementation of the Next Secure (NSEC) records. The older version, which is referred to as NSEC, is based on RFCs 4033-4035. The newer version, which is referred to as NSEC3, is described in RFC 5155.
+
+The valid value is a list containing L<Infoblox::DNS::DNSSecKeyAlgorithm|Infoblox::DNS::DNSSecKeyAlgorithm> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting algorithm
+ my $algorithms = $grid_dns->dnssec_ksk_algorithms();
+
+ # Modifying algorithm
+ $grid_dns->dnssec_ksk_algorithm([$alg1, $alg2]);
+
+=back
+
+=back
+
+=head2 dnssec_ksk_email_notification_enabled( )
+
+=over
+
+Use this method to enable or disable email notifications for KSK related events.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable email notification or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_ksk_email_notification_enabled value
+ my $value = $grid_dns->dnssec_ksk_email_notification_enabled();
+ #Modify dnssec_ksk_email_notification_enabled value
+ $grid_dns->dnssec_ksk_email_notification_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_ksk_rollover_interval()
+
+=over
+
+Use this method to set or retrieve the rollover interval of the KSK keys.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A positive integer that specifies the number of seconds between KSK rollovers. Normally, this parameter should be larger than the
+ZSK rollover interval. The DNSSEC key-signing key rollover interval (in seconds) must be between 1 day and seconds to Jan 2, 2038.
+
+The default value of the dnssec_ksk_rollover_interval parameter is 31536000 (1 year).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting dnssec_ksk_rollover_interval
+ my $ksk_rollover = $grid_dns->dnssec_ksk_rollover_interval();
+
+ # Modifying dnssec_ksk_rollover_interval
+ $grid_dns->dnssec_ksk_rollover_interval(86400);
+
+=back
+
+=back
+
+=head2 dnssec_ksk_rollover_notification_config( )
+
+=over
+
+Use this method to determine the type of events users will be notified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are "NONE", "ALL" and "REQUIRE_MANUAL_INTERVENTION". Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_ksk_rollover_notification_config value
+ my $value = $grid_dns->dnssec_ksk_rollover_notification_config();
+ #Modify dnssec_ksk_rollover_notification_config value
+ $grid_dns->dnssec_ksk_rollover_notification_config("ALL");
+
+=back
+
+=back
+
+=head2 dnssec_ksk_snmp_notification_enabled( )
+
+=over
+
+Use this method to enable or disable SNMP notifiations for KSK related events.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable SNMP notification or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_ksk_snmp_notification_enabled value
+ my $value = $grid_dns->dnssec_ksk_snmp_notification_enabled();
+ #Modify dnssec_ksk_snmp_notification_enabled value
+ $grid_dns->dnssec_ksk_snmp_notification_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_negative_trust_anchors( )
+
+=over
+
+Use this method to set or retrive the list of zones for which the appliance does not perform DNSSEC validation.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of strings that contains the list of zones for which the appliance does not perform DNSSEC validation.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_negative_trust_anchors value
+ my $value = $grid_dns->dnssec_negative_trust_anchors();
+ #Modify dnssec_negative_trust_anchors value
+ $grid_dns->dnssec_negative_trust_anchors($zones);
+
+=back
+
+=back
+
+=head2 dnssec_nsec3_iterations( )
+
+=over
+
+Use this method to define the number of iterations for NSEC3 hashing.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value are integers between 0 and 65535. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_nsec3_iterations value
+ my $iteration = $grid_dns->dnssec_nsec3_iterations();
+ #Modify dnssec_nsec3_iterations value
+ $grid_dns->dnssec_nsec3_iterations();
+
+=back
+
+=back
+
+=head2 dnssec_nsec3_salt_min_length( )
+
+=over
+
+Use this method to define the minimum length for the NSEC3 salt.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value are integers between 0 and 65535. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_nsec3_salt_min_length value
+ my $salt_min_length = $grid_dns->dnssec_nsec3_salt_min_length();
+ #Modify dnssec_nsec3_salt_min_length value
+ $grid_dns->dnssec_nsec3_salt_min_length();
+
+=back
+
+=back
+
+=head2 dnssec_nsec3_salt_max_length( )
+
+=over
+
+Use this method to define the maximum length for the NSEC3 salt.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value are integers between 0 and 65535. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_nsec3_salt_max_length value
+ my $salt_max_length = $grid_dns->dnssec_nsec3_salt_max_length();
+ #Modify dnssec_nsec3_salt_max_length value
+ $grid_dns->dnssec_nsec3_salt_max_length();
+
+=back
+
+=back
+
+=head2 dnssec_signature_expiration( )
+
+=over
+
+Use this method to set or retrieve the expiration time for DNSSEC signatures.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The signature expiration time in seconds. The minimum value is 86400 (1 day), the maximum value is the number of seconds from the time you set it to January 2038.
+
+The default value of dnssec_signature_expiration parameter is 2592000 seconds ( i.e. 30 days).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting dnssec_signature_expiration
+ my $signature_expiration = $grid_dns->dnssec_signature_expiration();
+
+ # Modifying dnssec_signature_expiration
+ $grid_dns->dnssec_signature_expiration(31536000);
+
+=back
+
+=back
+
+=head2 dnssec_validation_enabled( )
+
+=over
+
+Use this method to  enable  and disable DNS  security validation (for the grid appliances working as clients of secure zones).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable the validation. Set to "false" to disable the validation.
+
+The default value of the parameter is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_validation_enabled
+ my $dnssec_validation_enabled = $grid_dns->dnssec_validation_enabled();
+ #Modify dnssec_validation_enabled
+ $grid_dns->dnssec_validation_enabled("false");
+
+=back
+
+=back
+
+=head2 dnssec_blacklist_enabled()
+
+=over
+
+Use this method to enable and disable blacklist rules for DNSSEC-enabled clients.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to apply blacklist rules for DNSSEC-enabled clients. Set to "false" to disable them.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_blacklist_enabled
+ my $dnssec_blacklist_enabled = $grid_dns->dnssec_blacklist_enabled();
+ #Modify dnssec_blacklist_enabled
+ $grid_dns->dnssec_blacklist_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_dns64_enabled()
+
+=over
+
+Use this method to enable and disable DNS64 groups for DNSSEC-enabled clients.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to apply DNS64 groups for DNSSEC-enabled clients. Set to "false" to disable them.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_dns64_enabled
+ my $dnssec_dns64_enabled = $grid_dns->dnssec_dns64_enabled();
+ #Modify dnssec_dns64_enabled
+ $grid_dns->dnssec_dns64_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_nxdomain_enabled()
+
+=over
+
+Use this method to enable and disable NXDOMAIN rules for DNSSEC-enabled clients.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to apply NXDOMAIN rules for DNSSEC-enabled clients. Set to "false" to disable them.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_nxdomain_enabled
+ my $dnssec_nxdomain_enabled = $grid_dns->dnssec_nxdomain_enabled();
+ #Modify dnssec_nxdomain_enabled
+ $grid_dns->dnssec_nxdomain_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_rpz_enabled()
+
+=over
+
+Use this method to enable and disable RPZ policies for DNSSEC-enabled clients.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to apply RPZ policies for DNSSEC-enabled clients. Set to "false" to disable them.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_rpz_enabled
+ my $dnssec_rpz_enabled = $grid_dns->dnssec_rpz_enabled();
+ #Modify dnssec_rpz_enabled
+ $grid_dns->dnssec_rpz_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_trusted_keys( )
+
+=over
+
+Use this method to specify the list of trusted keys for  the DNSSEC feature.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Array reference that contains a list of Infoblox::DNS::DnssecTrustedKey objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns a reference to a list of the trusted keys.
+
+=item B<Example>
+
+ #Get dnssec_trusted_keys
+ my $dnssec_trusted_keys = $grid_dns->dnssec_trusted_keys();
+ #Modify dnssec_trusted_keys
+ my $key1=Infoblox::DNS::DnssecTrustedKey->new(
+    fqdn => "myzone.com",
+    algorithm => "RSAMD5",
+    key       => "c2ltcGxlIGtleQo="
+    );
+ $grid_dns->dnssec_trusted_keys([$key1]);
+
+=back
+
+=back
+
+=head2 dnssec_zsk_algorithms( )
+
+=over
+
+Use this method to set or retrieve the DNSSEC zone-signing key algorithms of all the zones in the grid.
+
+This property determines which algorithms to use when generating the keys for signing the DNSKEY records.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Currently there are two major versions of the DNSSEC zone encryption mechanism. The difference between the two is in their implementation of the Next Secure (NSEC) records. The older version, which is referred to as NSEC, is based on RFCs 4033-4035. The newer version, which is referred to as NSEC3, is described in RFC 5155.
+
+The valid value is a list containing L<Infoblox::DNS::DNSSecKeyAlgorithm|Infoblox::DNS::DNSSecKeyAlgorithm> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting algorithms
+ my $algorithms = $grid_dns->dnssec_zsk_algorithms();
+
+ # Modifying algorithms
+ $grid_dns->dnssec_zsk_algorithm([$alg1, $alg2]);
+
+=back
+
+=back
+
+=head2 dnssec_zsk_rollover_interval()
+
+=over
+
+Use this method to set or retrieve the zone-signing key rollover interval.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A positive integer that specifies the number of seconds between ZSK rollovers. Normally, this parameter should be smaller than
+the KSK rollover interval. The DNSSEC zone-signing key over interval (in seconds) must be between 1 day and the number of seconds from
+present to Jan 2038.
+
+The default value of the dnssec_zsk_rollover_interval parameter is 2592000 seconds ( 30 days).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting dnssec_zsk_rollover_interval
+ my $zsk_rollover = $grid_dns->dnssec_zsk_rollover_interval();
+
+ # Modifying dnssec_ksk_rollover_interval
+ $grid_dns->dnssec_zsk_rollover_interval(86400);
+
+=back
+
+=back
+
+=head2 dnssec_zsk_rollover_mechanism( )
+
+=over
+
+Use this method to set or retrieve the ZSK rollover mechanism type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are "DOUBLE_SIGN" and "PRE_PUBLISH". Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_zsk_rollover_mechanism value
+ my $value = $grid_dns->dnssec_zsk_rollover_mechanism();
+ #Modify dnssec_zsk_rollover_mechanism value
+ $grid_dns->dnssec_zsk_rollover_mechanism("DOUBLE_SIGN");
+
+=back
+
+=back
+
+=head2 domains_to_capture_dns_queries( )
+
+=over
+
+Use this method to set or retrieve the list of domains to capture DNS queries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains desired domain names in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domains_to_capture_dns_queries value
+ my $domains_to_capture_dns_queries = $object->domains_to_capture_dns_queries();
+
+ #Modify domains_to_capture_dns_queries value
+ $object->domains_to_capture_dns_queries(['domain1.com', 'domain2.com']);
+
+=back
+
+=back
+
+=head2 dtc_dnssec_mode( )
+
+=over
+
+Use this method to set or retrieve the DTC DNSSEC operation mode.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'SIGNED' and 'UNSIGNED'. The default value is 'UNSIGNED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dtc_dnssec_mode value
+ my $dtc_dnssec_mode = $object->dtc_dnssec_mode();
+
+ #Modify dtc_dnssec_mode value
+ $object->dtc_dnssec_mode('UNSIGNED');
+
+=back
+
+=back
+
+=head2 dtc_edns_prefer_client_subnet( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the use of the edns-client-subnet option for DTC is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable use of the edns-client-subnet option for DTC or 'false' to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dtc_edns_prefer_client_subnet value
+ my $dtc_edns_prefer_client_subnet = $object->dtc_edns_prefer_client_subnet();
+
+ #Modify dtc_edns_prefer_client_subnet value
+ $object->dtc_edns_prefer_client_subnet('true');
+
+=back
+
+=back
+
+=head2 dtc_topology_ea_list( )
+
+=over
+
+Use this method to set or retrieve the DTC topology extensible attribute definition list. 
+When configuring a DTC topology, users may configure classification as either "Geographic" or "Extensible Attributes".
+Selecting extensible attributes will replace supported MaxMind database labels (Continent, Country, Subdivision, City) with the names of 
+the selection EA types and provide values extracted from DHCP Network Container, Network and Range objects with those extensible attributes.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ExtensibleAttributeDef|Infoblox::Grid::ExtensibleAttributeDef> object name.
+
+Note that number of extensible attribute definition is limited to 4. Only string, enum, and integer extensible attribute definitions may be selected.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dtc_topology_ea_list value
+ my $dtc_topology_ea_list = $object->dtc_topology_ea_list();
+
+ #Modify dtc_topology_ea_list value
+ $object->dtc_topology_ea_list(['Site', 'State']);
+
+=back
+
+=back
+
+=head2 email( )
+
+=over
+
+Use this method to set or retrieve the email address of a grid  DNS object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String with email address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get email address
+ my $email = $grid_dns->email();
+ #Modify email address
+ $grid_dns->email("admin\@infoblox.com");
+
+=back
+
+=back
+
+=head2 enable_blackhole( )
+
+=over
+
+Use this method to set or retrieve the enable_blackhole flag of a grid DNS object. When enabled, the Infoblox appliance does not respond to DNS queries from clients that are in the configured blackhole_list.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_blackhole flag or "false" to deactivate and unset it. The default value is "false".
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_blackhole flag
+ my $enable_blackhole = $grid_dns->enable_blackhole();
+ #Modify enable_blackhole recursive query flag
+ $grid_dns->enable_blackhole("true");
+
+=back
+
+=back
+
+=head2 enable_blacklist( )
+
+=over
+
+Use this method to enable or disable a blacklist globaly.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_blacklist flag or "false" to deactivate/unset it. The default is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_blacklist
+   my $enable_blacklist = $grid_dns->enable_blacklist( );
+   #Modifying enable_blacklist
+   $grid_dns->enable_blacklist("true");
+
+=back
+
+=back
+
+=head2 enable_capture_dns_queries( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the capture of DNS queries is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the capture of DNS queries or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_capture_dns_queries value
+ my $enable_capture_dns_queries = $object->enable_capture_dns_queries();
+
+ #Modify enable_capture_dns_queries value
+ $object->enable_capture_dns_queries('true');
+
+=back
+
+=back
+
+=head2 enable_capture_dns_responses( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the capture of DNS responses is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the capture of DNS responses or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_capture_dns_responses value
+ my $enable_capture_dns_responses = $object->enable_capture_dns_responses();
+
+ #Modify enable_capture_dns_responses value
+ $object->enable_capture_dns_responses('true');
+
+=back
+
+=back
+
+=head2 enable_client_subnet_recursive( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether adding EDNS client subnet options in recursive resolutions is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable adding EDNS client subnet options in recursive resolutions or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_client_subnet_recursive value
+ my $value = $object->enable_client_subnet_recursive();
+
+ #Modify enable_client_subnet_recursive value
+ $object->enable_client_subnet_recursive('true');
+
+=back
+
+=back
+
+=head2 enable_client_subnet_forwarding( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether forwarding EDNS client subnet options to upstream servers is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable forwarding of EDNS client subnet options to upstream servers or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_client_subnet_forwarding value
+ my $value = $object->enable_client_subnet_forwarding();
+
+ #Modify enable_client_subnet_forwarding value
+ $object->enable_client_subnet_forwarding('true');
+
+=back
+
+=back
+
+
+=head2 enable_delete_associated_ptr( )
+
+=over
+
+Use this method to enable or disable the ability to automatically remove associated PTR records while deleting A or AAAA records.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the ability to automatically remove associated PTR records while deleting A or AAAA records or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_delete_associated_ptr flag
+ my $enable_delete_associated_ptr = $grid_dns->enable_delete_associated_ptr();
+ #Modify enable_delete_associated_ptr flag
+ $grid_dns->enable_delete_associated_ptr("true");
+
+=back
+
+=back
+
+=head2 enable_dns_health_check( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the DNS health check is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DNS health check, and 'false' to disable it.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dns_health_check value
+ my $value = $object->enable_dns_health_check();
+
+ #Modify enable_dns_health_check value 
+ $object->enable_dns_health_check('true');
+
+=back
+
+=back
+
+=head2 enable_dns64( )
+
+=over
+
+Use this method to enable/disable DNS64 support.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_dns64 flag or "false" to deactivate and unset it. The default value is "false".
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dns64 flag
+ my $enable_dns64 = $grid_dns->enable_dns64();
+ #Modify enable_dns64 recursive query flag
+ $grid_dns->enable_dns64("true");
+
+=back
+
+=back
+
+=head2 enable_dtc_dns_fall_through( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the DNS traffic control (DTC) is enabled to DNS fall through or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DTC to DNS fall through or 'false' to disable it.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dtc_dns_fall_through value
+ my $value = $grid_dns->enable_dtc_dns_fall_through();
+
+ #Modify enable_dtc_dns_fall_through value
+ $grid_dns->enable_dtc_dns_fall_through('false');
+
+=back
+
+=back
+
+=head2 enable_excluded_domain_names( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the excluding domain names from captured DNS query and response is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the excluding domain names from captured DNS query and response or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_excluded_domain_names value
+ my $enable_excluded_domain_names = $object->enable_excluded_domain_names();
+
+ #Modify enable_excluded_domain_names value
+ $object->enable_excluded_domain_names('true');
+
+=back
+
+=back
+
+=head2 enable_fixed_rrset_order_fqdns( )
+
+=over
+
+Use this method to enable or disable fixed RRset order for specified FQDNs.
+
+The enable_fixed_rrset_order_fqdns attribute can be specified explicitly. It is also set implicitly when fixed_rrset_order_fqdns is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable fixed RRset order for specified FQDNs or "false" to disable it.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_fixed_rrset_order_fqdns flag
+ my $enable_fixed_rrset_order_fqdns = $grid_dns->enable_fixed_rrset_order_fqdns();
+ #Modify enable_fixed_rrset_order_fqdns flag
+ $grid_dns->enable_fixed_rrset_order_fqdns("true");
+
+=back
+
+=back
+
+=head2 enable_ftc( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the Fault Tolerant Caching (FTC) feature is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the FTC feature or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get enable_ftc
+   my $enable_ftc = $grid_dns->enable_ftc();
+   #Modify enable_ftc
+   $grid_dns->enable_ftc('true');
+
+=back
+
+=back
+
+=head2 enable_gss_tsig( )
+
+=over
+
+Use this method to enable/disable the appliance to receive GSS-TSIG authenticated updates from DHCP clients. You must import the keytab file before you enable this feature. See L<Infoblox::Session-E<gt>import_data()|Infoblox::Session/import_data()/>.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the the appliance to receive GSS-TSIG authenticated updates or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get enable_gss_tsig value
+   $my $enable_gss_tsig = $grid_dns->enable_gss_tsig();
+
+   #Modify enable_gss_tsig value
+
+   $session->import_data(
+        type        => 'keytab',
+        path        => '/infoblox/tests/datasets/gss-tsig-gs.keytab',
+        service     => 'dns',
+        virtual_ip  => '192.168.1.2');
+
+   $grid_dns->enable_gss_tsig('true');
+
+=back
+
+=back
+
+=head2 enable_host_rrset_order( )
+
+=over
+
+Use this method to set or retrieve the grid-level enable_host_rrset_order value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_host_rrset_order flag or "false" to deactivate and unset it. The default value is "false".
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable_host_rrset_order
+ my $host_rrset_order = $grid_dns->enable_host_rrset_order();
+ # Set enable_host_rrset_order
+ $grid_dns->enable_host_rrset_order("true");
+
+=back
+
+=back
+
+=head2 enable_hsm_signing( )
+
+=over
+
+Use this method to enable/disable the HSM for DNSSEC key generation and signing. To enable this feature, an HSM group must be configured with at least one enabled HSM.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable HSM signing or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get enable_hsm_signing
+   $grid_dns->enable_hsm_signing( );
+   #Modify enable_hsm_signing
+   $grid_dns->enable_hsm_signing("true");
+
+=back
+
+=back
+
+=head2 enable_query_rewrite( )
+
+=over
+
+Use this method to enable or disable DNS query rewrite.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable DNS query rewrite or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_query_rewrite
+ $grid_dns->enable_query_rewrite( );
+ #Modify enable_query_rewrite
+ $grid_dns->enable_query_rewrite("true");
+
+=back
+
+=back
+
+=head2 excluded_domain_names( )
+
+=over
+
+Use this method to set or retrieve the list of domains that are excluded from DNS response and query capturing.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains desired domain names in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get excluded_domain_names value
+ my $excluded_domain_names = $object->excluded_domain_names();
+
+ #Modify excluded_domain_names value
+ $object->excluded_domain_names(['domain1.com', 'domain2.com']);
+
+=back
+
+=back
+
+=head2 expire_after( )
+
+=over
+
+Use this method to set or retrieve the  expiration time of a grid  DNS object. If the secondary DNS server fails to contact the primary server for the specified interval, the secondary server stops giving out answers about the zone because the zone data is too old to be useful.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the seconds for the expiration time. I<Default> value is 2419200 seconds (4 weeks).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the expiration time
+ my $expire_after = $grid_dns->expire_after();
+ #Modify the expiration time
+ $grid_dns->expire_after(2419200);
+
+=back
+
+=back
+
+=head2 file_transfer_setting( )
+
+=over
+
+Use this method to set or retrieve the DNS capture file transfer settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::FileTransferSetting|Infoblox::Grid::DNS::FileTransferSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get file_transfer_setting value
+ my $file_transfer_setting = $object->file_transfer_setting();
+
+ #Modify file_transfer_setting value
+ $object->file_transfer_setting($file_transfer);
+
+=back
+
+=back
+
+=head2 filter_aaaa( )
+
+=over
+
+Use this method to set or retrieve the type of AAAA filtering for this grid DNS object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "YES", "NO" and "BREAK_DNSSEC". The default value is "NO".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the filter aaaa type
+ my $filter_aaaa = $grid_dns->filter_aaaa();
+ #Modify the filtering
+ $grid_dns->filter_aaaa("YES");
+
+=back
+
+=back
+
+=head2 filter_aaaa_list( )
+
+=over
+
+Use this method to set or retrieve the list of IPv4 addresses and networks from which queries are received. AAAA filtering is applied to these addresses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4 addresses and networks. To return AAAA records for queries received from an IPv4 client, add "!" as the prefix to the IP addresses and networks. Specify "any" to allow AAAA records to be returned for any query received by an IPv4 client.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the filter_aaaa list
+ my $filter_aaaa_list = $grid_dns->filter_aaaa_list();
+ #Modify the filter_aaaa_list
+ $grid_dns->filter_aaaa_list(["any"]);
+ #Modify the filter_aaaa list
+ $grid_dns->filter_aaaa_list(["10.0.0.10", "20.0.0.0/24", "!"."30.0.0.30", "!"."40.10.0.0/24"]);
+ #Modify the filter_aaaa list
+ $grid_dns->filter_aaaa_list(undef);
+ #Use Infoblox::Grid::NamedACL
+ $grid_dns->filter_aaaa_list($nacl);
+
+=back
+
+=back
+
+=head2 forward_only( )
+
+=over
+
+Use this method to set or retrieve the forward only flag of a grid  DNS object. On enabling, the Infoblox appliance will  send queries to  forwarders only, and not to  internal or  Internet root servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the forward_only flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the forward only flag
+ my $forward_only = $grid_dns->forward_only();
+ #Modify the forward only
+ $grid_dns->forward_only("true");
+
+=back
+
+=back
+
+=head2 forward_updates( )
+
+=over
+
+Use this method to set or retrieve the  forward_updates flag of a grid  DNS object. This enables a secondary  server to receive updates from the DHCP server, and then forward them to the primary DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the forward_updates flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the forward updates flag
+ my $forward_updates = $grid_dns->forward_updates();
+ #Modify the forward updates flag
+ $grid_dns->forward_updates("true");
+
+=back
+
+=back
+
+=head2 forwarders( )
+
+=over
+
+Use this method to set or retrieve the forwarders list of a grid  DNS object. A forwarder is essentially a name server  to which other name servers first send all of their off-site  queries. The forwarder builds up a cache of information, avoiding the necessity for the other name servers to send queries off-site.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains IP address(es).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the forwarders list
+ my $forwarders_list = $grid_dns->forwarders();
+ #Modify the forwarders list
+ $grid_dns->forwarders(["2.2.2.2", "3.3.3.3"]);
+
+=back
+
+=back
+
+=head2 fixed_rrset_order_fqdns( )
+
+=over
+
+Use this method to set or retrieve configuration for fixed RRSET order for specified FQDNs.
+
+Setting this method to a defined value implicitly sets the enable_fixed_rrset_order_fqdns method to "true". Setting the parameter to undefined causes the appliance to disable fixed RRset order of FQDNs and automatically resets the enable_fixed_rrset_order_fqdns method to "false".
+
+Note that when fixed_rrset_order_fqdns is set to a defined value and enable_fixed_rrset_order_fqdns is set to "false", the last operation takes precedence. Thus the sequence $object->fixed_rrset_order_fqdns($fqdns); $object->enable_fixed_rrset_order_fqdns("false"); will set enable_fixed_rrset_order_fqdns to "false", and the sequence $object->enable_fixed_rrset_order_fqdns("false"); $object->fixed_rrset_order_fqdns($fqdns); will result in enable_fixed_rrset_order_fqdns="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::DNS::FixedRRSetOrderFQDN|Infoblox::Grid::DNS::FixedRRSetOrderFQDN> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the fixed_rrset_order_fqdns list
+ my $fixed_rrset_order_fqdns = $grid_dns->fixed_rrset_order_fqdns();
+ #Modify the fixed_rrset_order_fqdns list
+ $grid_dns->fixed_rrset_order_fqdns([$fqdn1, $fqdn2]);
+
+=back
+
+=back
+
+=head2 ftc_expired_record_ttl( )
+
+=over
+
+Use this method to set or retrieve the TTL value of the expired Fault Tolerant Caching (FTC) record in DNS responses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer, from 0 to 4294967295, that represents the TTL in seconds. The default value is 5.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get ftc_expired_record_ttl
+   my $ftc_expired_record_ttl = $grid_dns->ftc_expired_record_ttl( );
+   #Modify ftc_expired_record_ttl
+   $grid_dns->ftc_expired_record_ttl(60);
+
+=back
+
+=back
+
+=head2 ftc_expired_record_timeout( )
+
+=over
+
+Use this method to set or retrieve the timeout value after which the expired Fault Tolerant Caching (FTC) record becomes stale and is no longer valid.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer, from 0 to 4294967295, that represents the timeout in seconds. The default value is 86400.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get ftc_expired_record_timeout
+   my $ftc_expired_record_timeout = $grid_dns->ftc_expired_record_timeout( );
+   #Modify ftc_expired_record_timeout
+   $grid_dns->ftc_expired_record_timeout(3600);
+
+=back
+
+=back
+
+=head2 gss_tsig_keys( )
+
+=over
+
+Use this method to set or retrieve the list of Kerberos keys for a Grid DNS object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::KerberosKey|Infoblox::Grid::KerberosKey> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the Kerberos keys list
+ my $kerberos_keys_list = $grid_dns->gss_tsig_keys();
+ #Modify the Kerberos keys list
+ my $kerberos_key1 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test1@LADYBUG.LOCAL',
+        );
+ my $kerberos_key2 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test2@LADYBUG.LOCAL',
+        );
+ $grid_dns->gss_tsig_keys([$kerberos_key1, $kerberos_key2]);
+
+=back
+
+=back
+
+=head2 host_name_restriction_policy( )
+
+=over
+
+Use this method to set or retrieve the default host name restriction policy of a grid  DNS object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String with the name of predefined record policies or  user-defined record policies. The default value is the predefined record policy "Allow Underscore".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get host name restriction policy
+ my $host_name_restriction_policy = $grid_dns->host_name_restriction_policy();
+ #Modify host name restriction policy
+ $grid_dns->host_name_restriction_policy("Allow Any");
+
+=back
+
+=back
+
+=head2 lame_ttl( )
+
+=over
+
+Use this method to set or retrieve the number of seconds to cache lame delegations or lame servers.
+
+=over
+
+=item B<Parameter>
+
+The number of seconds to cache lame delegations or lame servers. The default value is 600.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lame_ttl
+ my $lame_ttl = $grid_dns->lame_ttl();
+ #Modify lame_ttl
+ $grid_dns->lame_ttl(700);
+
+=back
+
+=back
+
+=head2 logging_categories( )
+
+=over
+
+Use this method to set or retrieve the logging categories. It is possible to specify several BIND logging message categories to be captured by syslog.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference  that contains one or more of the following values:
+
+"general"          - Records the BIND messages that are not specifically classified.
+
+"config"           - Records the parsing messages of the configuration file.
+
+"dnssec"           - Records the DNSSEC-signed responses.
+
+"network"          - Records the network operation messages.
+
+"queries"          - Records the query messages.
+
+"query_rewrite"    - Records rewritten queries.
+
+"responses"        - Records the response messages.
+
+"security"         - Records the approved and denied requests.
+
+"xfer-in"          - Records zone transfer messages from the remote name servers to the appliance.
+
+"xfer-out"         - Records zone transfer messages from the Infoblox appliance to remote name servers.
+
+"update"           - Records the dynamic update instances.
+
+"resolver"         - Records the DNS resolution instances, including recursive queries from resolvers.
+
+"notify"           - Records the asynchronous zone change notification messages.
+
+"lame_servers"     - Records bad delegation instances.
+
+"database"         - Records BIND internal database processes.
+
+"client"           - Records client requests.
+
+"rpz"              - Records RPZ messages.
+
+"dtc_gslb"         - Records the DTC GSLB activity.
+
+"dtc_health"       - Records the DTC health monitoring.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the logging categories list
+ my $logging_categories_list = $grid_dns->logging_categories();
+ #Modify the logging categories list
+ $grid_dns->logging_categories(["general", "database", "queries"]);
+
+=back
+
+=back
+
+=head2 logging_facility( )
+
+=over
+
+Use this method to set or retrieve the logging facility of a grid  DNS object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the facility name. Valid values are: "daemon", "local0", "local1", "local2", "local3", "local4", "local5", "local6", and "local7".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the logging facility
+ my $logging_facility = $grid_dns->logging_facility();
+ #Modify the logging facility
+ $grid_dns->logging_facility("daemon");
+
+=back
+
+=back
+
+=head2 max_cache_ttl( )
+
+=over
+
+Use this method to set or retrieve the maximum time (in seconds) for which the server will cache positive answers.
+
+=over
+
+=item B<Parameter>
+
+The maximum time is specified in seconds. The default value is 604800.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_cache_ttl
+ my $max_cache_ttl = $grid_dns->max_cache_ttl();
+ #Modify max_cache_ttl
+ $grid_dns->max_cache_ttl(400);
+
+=back
+
+=back
+
+=head2 max_ncache_ttl( )
+
+=over
+
+Use this method to set or retrieve the maximum time (in seconds) for which the server will cache negative (NXDOMAIN) responses.
+
+=over
+
+=item B<Parameter>
+
+The maximum time is specified in seconds. The default value is 10800. The maximum allowed value is 604800.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_ncache_ttl
+ my $max_ncache_ttl = $grid_dns->max_ncache_ttl();
+ #Modify max_ncache_ttl
+ $grid_dns->max_ncache_ttl(400);
+
+=back
+
+=back
+
+=head2 max_cached_lifetime( )
+
+=over
+
+Use this method to set or retrieve maximum time in seconds a DNS response can be stored in the hardware acceleration cache.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integer between 60 and 86400, inclusive. Default value is 86400.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_cached_lifetime
+ my $max_cached_lifetime = $grid_dns->max_cached_lifetime();
+ #Modify max_cached_lifetime
+ $grid_dns->max_cached_lifetime(400);
+
+=back
+
+=back
+
+=head2 member_secondary_notify( )
+
+=over
+
+Use this method to set or retrieve the  member_secondary_notify flag of a grid  DNS object. When enabled, this feature allows grid members that are authoritative secondary servers to send notification messages to external name servers, if the grid member that is primary for a zone fails or loses connectivity.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set member_secondary_notify flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the member secondary notification flag
+ my $member_secondary_notify = $grid_dns->member_secondary_notify();
+ #Modify the member secondary notification flag
+ $grid_dns->member_secondary_notify("false");
+
+=back
+
+=back
+
+=head2 negative_ttl( )
+
+=over
+
+Use this method to set or retrieve the negative TTL value of a grid  DNS object. This interval tells the secondary how long data can be cached for  "Does Not Respond" responses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number for the negative TTL, in seconds. I<Default> value is 900 seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the negative ttl value
+ my $negative_ttl = $grid_dns->negative_ttl();
+ #Modify the negative ttl value
+ $grid_dns->negative_ttl(800);
+
+=back
+
+=back
+
+=head2 next_secure_type( )
+
+=over
+
+Use this method to set or retrieve resource record type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'NSEC' or 'NSEC3'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the next_secure_type value
+ my $next_secure_type = $grid_dns->next_secure_type();
+ #Modify the next_secure_type value
+ $grid_dns->next_secure_type('NSEC3');
+
+=back
+
+=back
+
+=head2 notify_delay( )
+
+=over
+
+Use this method to specify with how many seconds of delay the notify messages are sent to secondaries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integer between 5 and 86400, inclusive. Default value is 5.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting notify_delay
+   my $notify_delay = $griddns->notify_delay( );
+   #Modifying notify_delay
+   $griddns->notify_delay(5);
+
+=back
+
+=back
+
+=head2 nxdomain_redirect( )
+
+=over
+
+Use this method to enable or disable NXDOMAIN redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the nxdomain_redirect flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting nxdomain_redirect
+   my $nxdomain_redirect = $griddns->nxdomain_redirect( );
+   #Modifying nxdomain_redirect
+   $griddns->nxdomain_redirect("true");
+
+=back
+
+=back
+
+=head2 nxdomain_redirect_addresses( )
+
+=over
+
+Use this method to set the NXDOMAIN redirection addresses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of IPv4 addresses. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_redirect_addresses
+   my $nxdomain_redirect_addresses = $griddns->nxdomain_redirect_addresses( );
+   #Modify nxdomain_redirect_addresses
+   $griddns->nxdomain_redirect_addresses(["10.0.0.10", "10.0.0.20"]);
+
+=back
+
+=back
+
+=head2 nxdomain_redirect_addresses_ipv6( )
+
+=over
+
+Use this method to set the NXDOMAIN redirection IPv6 addresses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of IPv6 addresses. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_redirect_addresses_ipv6
+   my $nxdomain_redirect_addresses_ipv6 = $griddns->nxdomain_redirect_addresses_ipv6( );
+   #Modify nxdomain_redirect_addresses_ipv6
+   $griddns->nxdomain_redirect_addresses_ipv6(["2001:db8::1", "2002:ffff::1"]);
+
+=back
+
+=back
+
+=head2 nxdomain_redirect_ttl( )
+
+=over
+
+Use this method to set or retrieve the TTL value of synthetic DNS responses that result from NXDOMAIN redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer, from 0 to 4294967295, that represents the TTL in seconds. The default value is 60.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_redirect_ttl
+   my $nxdomain_redirect_ttl = $griddns->nxdomain_redirect_ttl( );
+   #Modify nxdomain_redirect_ttl
+   $griddns->nxdomain_redirect_ttl(60);
+
+=back
+
+=back
+
+=head2 nxdomain_log_query( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether NXDOMAIN redirection queries are logged.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable logging, or "false" to deactivate it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_log_query
+   my $nxdomain_log_query = $griddns->nxdomain_log_query( );
+   #Modify nxdomain_log_query
+   $griddns->nxdomain_log_query("true");
+
+=back
+
+=back
+
+=head2 nxdomain_rulesets( )
+
+=over
+
+Use this method to specify or retrieve L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset> object names assigned at the grid level for NXDOMAIN redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains the names of the L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset> objects assigned to the grid. The names must be in string format.  The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_rulesets
+   my $nxdomain_rulesets = $griddns->nxdomain_rulesets();
+   #Modify nxdomain_rulesets
+   $griddns->nxdomain_rulesets(["ruleset1", "ruleset2"]);
+
+=back
+
+=back
+
+=head2 notify_source_port( )
+
+=over
+
+Use this method to set or retrieve the  source port  number for notify messages. When requesting zone transfers from the primary server, some secondary DNS servers use the source port number (the primary server used to send the notify message) as the destination port number in the zone transfer request.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Source port number for notify  messages. Valid values are between 1 and 63999. I<Default> is picked by BIND.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the notify source port value
+ my $notify_source_port = $grid_dns->notify_source_port();
+ #Modify the notify source port value
+ $grid_dns->notify_source_port(77);
+
+=back
+
+=back
+
+=head2 nsgroup_default( )
+
+=over
+
+Use this method to set or retrieve the default nameserver group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the default nameserver group. I<Default> value is None.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the default nameserver group
+ my $nsgroup_default = $grid_dns->nsgroup_default();
+ #Modify the default nameserver group
+ $grid_dns->nsgroup_default("ns_group_A");
+
+=back
+
+=back
+
+=head2 nsgroups( )
+
+=over
+
+Use this method to set or retrieve the list of nameserver groups. A name server group is a collection of one primary DNS server and one or more secondary DNS servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference  that contains L<Infoblox::Grid::DNS::Nsgroup|Infoblox::Grid::DNS::Nsgroup> and L<Infoblox::DNS::Member|Infoblox::DNS::Member> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the nameserver group
+ my $nsgroup = $grid_dns->nsgroups();
+ #Modify the nameserver group
+ #Creating Member objects.
+ my $member1 = Infoblox::DNS::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2",
+     stealth  => "false"
+     );
+
+ #Creating a nameserver object.
+ my $nameserver1 = Infoblox::DNS::Nameserver->new(
+     name     => "ns1.test.extra",
+     ipv4addr => "4.4.4.4",
+     stealth  => "false",
+     TSIGname => "tsig_name",
+     TSIGkey  => "ZX1jVJl7C58GT/sc7Q3ucA=="
+     );
+
+ #Creating a nameserver object.
+ my $nameserver2 = Infoblox::DNS::Nameserver->new(
+     name     => "ns2.test.extra",
+     ipv4addr => "5.5.5.5",
+     stealth  => "false",
+     TSIGname => "tsig_name2",
+     TSIGkey  => "qwqwqwqwqwqwqwqwqwqwqA=="
+     );
+
+ my $nsg1 = Infoblox::Grid::DNS::Nsgroup->new(
+     name        => "ns_group_A",
+     primary     => $member1,
+     secondaries => [$nameserver1, $nameserver2]
+     );
+
+ $grid_dns->nsgroups([$nsg1]);
+
+=back
+
+=back
+
+=head2 preserve_host_rrset_order_on_secondaries( )
+
+=over
+
+Use this method to set or retrieve the grid-level preserve_host_rrset_order_on_secondaries value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the preserve_host_rrset_order_on_secondaries flag or "false" to unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get preserve_host_rrset_order_on_secondaries
+ my $preserve_order = $griddns->preserve_host_rrset_order_on_secondaries();
+ # Set preserve_host_rrset_order_on_secondaries
+ $griddns->preserve_host_rrset_order_on_secondaries("true");
+
+=back
+
+=back
+
+=head2 query_source_port( )
+
+=over
+
+Use this method to set or retrieve the query source port of a grid  DNS object. Specifying a source port number for recursive queries ensures that a firewall will allow the response.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Source port number for recursive queries . Valid values are between 1 and 63999. I<Default> is picked by BIND.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the query source port
+ my $query_source_port = $grid_dns->query_source_port();
+ #Modify the query source port
+ $grid_dns->query_source_port(99);
+
+=back
+
+=back
+
+=head2 query_rewrite_prefix( )
+
+=over
+
+Use this method to set or retrieve the domain name prefix for DNS query rewrite.
+
+=over
+
+=item B<Parameter>
+
+Valid value is the domain name prefix in string format. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get query_rewrite_prefix
+ my $query_rewrite_prefix = $grid_dns->query_rewrite_prefix();
+ #Modify query_rewrite_prefix
+ $grid_dns->query_rewrite_prefix("user-ersgcds");
+
+=back
+
+=back
+
+=head2 query_rewrite_domain_names( )
+
+=over
+
+Use this method to set or retrieve the list of domain names that trigger DNS query rewrite.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains domain names in string format. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get query_rewrite_domain_names
+ my $query_rewrite_domain_names = $grid_dns->query_rewrite_domain_names();
+ #Modify query_rewrite_domain_names
+ $grid_dns->query_rewrite_domain_names(["florida.south", "florida.west"]);
+
+=back
+
+=back
+
+=head2 scavenging_settings( )
+
+=over
+
+Use this method to set or retrieve the Grid-level scavenging settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::ScavengingSetting|Infoblox::Grid::DNS::ScavengingSetting> object.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get scavenging_settings value
+ my $scavenging_settings = $object->scavenging_settings();
+
+ #Modify scavenging_settings value
+ $object->scavenging_settings($scavenging_settings);
+
+=back
+
+=back
+
+=head2 record_name_policies( )
+
+=over
+
+Use this method to set or retrieve the list of record name policies.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference  that contains L<Infoblox::Grid::RecordNamePolicy|Infoblox::Grid::RecordNamePolicy> object(s).
+By default there are three  predefined policies.
+
+Policy Name                     Regex Applied
+
+"Allow Any"                      .+
+
+"Allow Underscore"               ^[-a-zA-Z0-9_.]+$
+
+"Strict Hostname Checking"       ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-a-zA-Z0-9.]*[a-zA-Z0-9]$
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get record name policies
+ my $record_name_policies = $grid_dns->record_name_policies();
+ #Modify record_name_policies
+
+ #Creating record name policy objects.
+ my $recpolicy1 = Infoblox::Grid::RecordNamePolicy->new(
+     regex => "*",
+     name  => "Local Policy",
+     );
+ my $recpolicy2 = Infoblox::Grid::RecordNamePolicy->new(
+     regex => ".+",
+     name  => "Allow Any",
+     );
+ my $recpolicy3 = Infoblox::Grid::RecordNamePolicy->new(
+     regex => "^[-a-zA-Z0-9_.]+\$",
+     name  => "Allow Underscore",
+     );
+ my $recpolicy4 = Infoblox::Grid::RecordNamePolicy->new(
+     regex => "^[a-zA-Z0-9]\$|^[a-zA-Z0-9][-a-zA-Z0-9.]*[a-zA-Z0-9]\$",
+     name  => "Strict Hostname Checking",
+     );
+
+ $grid_dns->record_name_policies([$recpolicy1, $recpolicy2, $recpolicy3, $recpolicy4]);
+
+=back
+
+=back
+
+=head2 recursive_query_list( )
+
+=over
+
+Use this method to set or retrieve the recursive query list of a Grid DNS object. This list specifies from which IP addresses, networks and TSIG key authenticated clients recursive queries are allowed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses, networks, and/or L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey> objects. To deny queries, add "!" as a prefix to IP addresses and/or networks. Specify "any" to allow recursive queries from any IP address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the recursive query list
+ my $recursive_query_list = $grid_dns->recursive_query_list();
+ #Modify the recursive query list
+ $grid_dns->recursive_query_list(["any"]);
+
+ #Creating a TSIG key object
+ my $tsig_key2 = $session->gen_tsig_key();
+
+ my $key2 = Infoblox::DNS::TSIGKey->new(
+     name => "rcl_key",
+     key  => $tsig_key2
+     );
+ #Modify the recursive query list
+ $grid_dns->recursive_query_list(["10.0.0.10", "20.0.0.0/24","2010::256/64", $key2, "!"."2011::23cb/64","!"."30.0.0.30", "!"."40.10.0.0/24"]);
+ #Modify the recursive query list
+ $grid_dns->recursive_query_list(undef);
+ #Use Infoblox::Grid::NamedACL
+ $grid_dns->recursive_query_list($nacl);
+
+=back
+
+=back
+
+=head2 refresh_timer( )
+
+=over
+
+Use this method to set or retrieve the refresh time. This interval tells the secondary how often to send a message to the primary for a zone to check that its data is current, and retrieve fresh data if it is not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the seconds for the refresh time. I<Default> value is 10800 seconds (3 hours).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the refresh time
+ my $refresh_timer = $grid_dns->refresh_timer();
+ #Modify the refresh time
+ $grid_dns->refresh_timer(108);
+
+=back
+
+=back
+
+=head2 resolver_query_timeout( )
+
+=over
+
+Use this method to set or retrieve recursive query timeout.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer that contains the recursive query time (in seconds) for the resolver.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get resolver_query_timeout
+ my $resolver_query_timeout = $grid_dns->resolver_query_timeout();
+ #Modify resolver_query_timeout
+ $grid_dns->resolver_query_timeout(29);
+
+=back
+
+=back
+
+=head2 response_rate_limiting( )
+
+=over
+
+Use this method to set or retrieve response rate limiting settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::ResponseRateLimiting|Infoblox::Grid::DNS::ResponseRateLimiting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get response_rate_limiting
+ my $response_rate_limiting = $grid_dns->response_rate_limiting();
+ #Modify response_rate_limiting
+ $grid_dns->response_rate_limiting($response_rate_limiting);
+
+=back
+
+=back
+
+=head2 restart_setting( )
+
+=over
+
+Use this method to set or retrive Grid DNS service restart settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ServiceRestart|Infoblox::Grid::ServiceRestart> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get restart_setting 
+ my $restart_setting = $grid_dns->restart_setting();
+ #Modify the retry time
+ $grid_dns->restart_setting($restart_setting);
+
+=back
+
+=back
+
+=head2 retry_timer( )
+
+=over
+
+Use this method to set or retrieve the retry time. This interval tells the secondary how long to wait before attempting to recontact the primary after a connection failure occurs between the  two servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the seconds for the retry time. I<Default> value is 3600 seconds (1 hour).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the retry time
+ my $retry_timer = $grid_dns->retry_timer();
+ #Modify the retry time
+ $grid_dns->retry_timer(360);
+
+=back
+
+=back
+
+=head2 rootNS( )
+
+=over
+
+Use this method to set or retrieve the list of customized root nameserver(s).  You can use Internet root name  servers or specify  host  names and IP  addresses of custom root name servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference  that contains L<Infoblox::Grid::RootNameServer|Infoblox::Grid::RootNameServer> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the root nameserver list
+ my $rootNS_list = $grid_dns->rootNS();
+ #Modify the root nameserver list
+ #Creating RootNameServer objects.
+ my $rootns1 = Infoblox::Grid::RootNameServer->new(
+     ipv4addr  => "44.44.44.44",
+     host_name => "test1.com",
+     );
+
+ my $rootns2 = Infoblox::Grid::RootNameServer->new(
+     ipv4addr  => "55.5.5.5",
+     host_name => "test2.com",
+     );
+
+ $grid_dns->rootNS([$rootns1, $rootns2]);
+
+=back
+
+=back
+
+=head2 serial_query_rate( )
+
+=over
+
+Use this method to set or retrieve the number of maximum concurrent SOA queries per second for the Grid.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integer between 20 and 1000, inclusive. Default value is 20.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->serial_query_rate();
+ # Modify attribute value
+ $grid_dns->serial_query_rate(30);
+
+=back
+
+=back
+
+=head2 server_id_directive( )
+
+=over
+
+Use this method to set or retrieve the value for the BIND and UNBOUND 'server-id' directive.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are "NONE" and "HOSTNAME". The default value is "NONE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get server_id_directive
+   my $server_id_directive = $grid_dns->server_id_directive();
+   #Modify server_id_directive
+   $grid_dns->server_id_directive("HOSTNAME");
+
+=back
+
+=back
+
+=head2 sortlist( )
+
+=over
+
+Use this method to set or retrieve the sort list of a grid  DNS object. A sort list sorts the order of addresses in responses made to DNS queries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference  that contains L<Infoblox::DNS::Sortlist|Infoblox::DNS::Sortlist> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the sort list
+ my $sortlist = $grid_dns->sortlist();
+ #Modify the sort list
+ #Creating a SortList object.
+ my $sort1 = Infoblox::DNS::Sortlist->new(
+     match_list      => ["10.20.1.0/24", "10.20.2.0/24"],
+     source_ipv4addr => "1.2.3.4"
+     );
+
+ $grid_dns->sortlist([$sort1]);
+
+=back
+
+=back
+
+=head2 store_locally( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the storing of query capture reports on the appliance is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable storing of query capture reports on the appliance or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get store_locally value
+ my $store_locally = $object->store_locally();
+
+ #Modify store_locally value
+ $object->store_locally('true');
+
+=back
+
+=back
+
+=head2 transfer_excluded_servers( )
+
+=over
+
+Use this method to set or retrieve the  list of excluded servers  for zone transfers of a grid  DNS  object. This list exclude the specified DNS servers during zone  transfers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference  that contains IP  addresses of DNS  servers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the transfer excluded server list
+ my $transfer_excluded_servers = $grid_dns->transfer_excluded_servers();
+ #Modify the transfer excluded server list
+ $grid_dns->transfer_excluded_servers(["10.0.0.10", "20.0.0.0"]);
+
+=back
+
+=back
+
+=head2 transfer_format( )
+
+=over
+
+Use this method to set or retrieve the zone transfer format. The zone transfer format determines the BIND format for a zone transfer. This provides tracking capabilities for single or multiple transfers and their associated servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is one of the  following:
+
+"many_answers" -  Includes as many records as the packet size  allows.
+
+"one_answer"   -  Includes one record per packet.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the zone transfer format
+ my $transfer_format = $grid_dns->transfer_format();
+ #Modify the zone transfer format
+ $grid_dns->transfer_format("many_answers");
+
+=back
+
+=back
+
+=head2 transfers_in( )
+
+=over
+
+Use this method to set or retrieve the number of maximum concurrent transfers for the Grid.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integer between 10 and 100, inclusive. Default value is 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->transfers_in();
+ # Modify attribute value
+ $grid_dns->transfers_in(20);
+
+=back
+
+=back
+
+=head2 transfers_out( )
+
+=over
+
+Use this method to set or retrieve the number of maximum outbound concurrent zone transfers for the Grid.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integers between 1 and 100, inclusive. The default value is 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->transfers_out();
+ # Modify attribute value
+ $grid_dns->transfers_out(20);
+
+=back
+
+=back
+
+=head2 transfers_per_ns( )
+
+=over
+
+Use this method to set or retrieve the number of maximum concurrent transfers per member for the Grid.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integer between 2 and 100, inclusive. Default value is 2.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->transfers_per_ns();
+ # Modify attribute value
+ $grid_dns->transfers_per_ns(3);
+
+=back
+
+=back
+
+=head2 rpz_disable_nsdname_nsip( )
+
+=over
+
+Use this method to set or retrieve the option to disable NSDNAME and NSIP resource records from RPZ feeds.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the filter (to filter out NSDNAME and NSIP resource records). Specify "false" to disable the filter. Valid values are "true" or "false". Default value is "false".
+
+=item B<Returns>
+
+If you specify a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->rpz_disable_nsdname_nsip();
+ # Modify attribute value
+ $grid_dns->rpz_disable_nsdname_nsip("true");
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_enabled( )
+
+=over
+
+Use this method to set or retreive the flag that indicates whether the DNS server ignores RPZ-IP triggers with large prefix lengths or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable ignoring of RPZ-IP triggers with large prefix lengths or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->rpz_drop_ip_rule_enabled();
+ # Modify attribute value
+ $grid_dns->rpz_drop_ip_rule_enabled("true");
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_min_prefix_length_ipv4( )
+
+=over
+
+Use this method to set or retreive minimum prefix length for IPv4 RPZ-IP triggers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 31 that represents prefix length (in bits) for IPv4 RPZ-IP triggers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->rpz_drop_ip_rule_min_prefix_length_ipv4();
+ # Modify attribute value
+ $grid_dns->rpz_drop_ip_rule_min_prefix_length_ipv4("16");
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_min_prefix_length_ipv6( )
+
+=over
+
+Use this method to set or retreive minimum prefix length for IPv6 RPZ-IP triggers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 127 that represents prefix length (in bits) for IPv6 RPZ-IP triggers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->rpz_drop_ip_rule_min_prefix_length_ipv6();
+ # Modify attribute value
+ $grid_dns->rpz_drop_ip_rule_min_prefix_length_ipv6("120");
+
+=back
+
+=back
+
+=head2 rpz_qname_wait_recurse( )
+
+=over
+
+Use this method to enable or disable recursive RPZ lookups.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable recursive RPZ lookups or "false" to disable them. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $grid_dns->rpz_qname_wait_recurse();
+ # Modify attribute value
+ $grid_dns->rpz_qname_wait_recurse("true");
+
+=back
+
+=back
+
+=head2 zone_deletion_double_confirm( )
+
+=over
+
+Use this method to  enable or  disable double confirmation  during zone deletion.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to  enable the zone_deletion_double_confirm flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the double confirmation of zone deletion flag
+ my $zone_deletion_double_confirm = $grid_dns->zone_deletion_double_confirm();
+ #Modify the double confirmation of zone deletion flag
+ $grid_dns->zone_deletion_double_confirm("false");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as get and modify. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying a grid DNS object>
+
+ use strict;
+ use Infoblox;
+
+ #Creating a session to appliance.
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+     );
+ unless( $session ){
+     die("Constructor for session failed:",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print" Session object created successfully \n";
+
+ #Creating RootNameServer objects.
+ my $rootns1 = Infoblox::Grid::RootNameServer->new(
+     ipv4addr  => "44.44.44.44",
+     host_name => "test1.com",
+     );
+ unless( $rootns1 ){
+     die("Constructor for rootnameserver1 failed:",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print" Rootnameserver1 object created successfully \n";
+
+ my $rootns2 = Infoblox::Grid::RootNameServer->new(
+     ipv4addr  => "55.5.5.5",
+     host_name => "test2.com",
+     );
+ unless( $rootns2 ){
+     die("Constructor for rootnameserver2 failed:",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print" Rootnameserver2 object created successfully \n";
+
+ #Creating Transfer Key objects.
+ my $key1 = Infoblox::DNS::TSIGKey->new(
+     name => "tsig_xfer",
+     key  => ":2xCOMPAT"
+     );
+ unless( $key1 ){
+     die("Constructor for transfer key \(key1\) failed:",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print" Transfer key object \(key1\) created successfully \n";
+
+ my $tsig_key1 = $session->gen_tsig_key();
+ unless( $tsig_key1 ){
+     die("Generate tsig_key1 failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ }
+
+ my $key2 = Infoblox::DNS::TSIGKey->new(
+     name => "transfer_key",
+     key  => $tsig_key1
+     );
+ unless( $key2 ){
+     die("Constructor for transfer key \(key2\) failed:",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print" Transfer key object \(key2\) created successfully \n";
+
+ #Creating Update Key object.
+ my $update_key1 = $session->gen_tsig_key();
+ unless( $update_key1 ){
+     die("Generate update_key1 failed:",
+     $session->status_code() . ":" . $session->status_detail());
+ }
+
+ my $up_key1 = Infoblox::DNS::TSIGKey->new(
+     name => "update_key",
+     key  => $update_key1
+     );
+ unless( $up_key1 ){
+     die("Constructor for update key failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print" Update key object created successfully \n";
+
+ #Creating a SortList object.
+ my $sort1 = Infoblox::DNS::Sortlist->new(
+     match_list      => ["10.20.1.0/24", "10.20.2.0/24"],
+     source_ipv4addr => "1.2.3.4"
+     );
+ unless( $sort1 ){
+     die("Constructor for sortlist failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print" Sortlist object created successfully \n";
+
+B<#Get and modify the DNS object>
+
+ #Getting the DNS object from appliance through session.
+ my @result = $session->get(
+     object => "Infoblox::Grid::DNS",
+     name   => "Infoblox"
+     );
+ unless( @result ){
+     die("Get grid DNS failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+ }
+ print" Get grid DNS object found at least 1 matching entry \n";
+
+ my $grid_dns = $result[0];
+ if ($grid_dns) {
+
+ #Modifying the value of the specified object
+    $grid_dns->allow_query(["10.0.0.10", "20.0.0.0/24", "!" . "30.0.0.30", "!" . "40.10.0.0/24"]);
+    $grid_dns->allow_recursive_query("true");
+    $grid_dns->allow_transfer(["10.0.0.10", "20.0.0.0/24", $key1, "!"."30.0.0.30", "!"."40.10.0.0/24", $key2]);
+    $grid_dns->allow_update(["10.0.0.10", "20.0.0.0/24", "!"."30.0.0.30", "!"."40.10.0.0/24", $up_key1]);
+    $grid_dns->default_ttl(28800);
+    $grid_dns->expire_after(2419200);
+    $grid_dns->forwarders(["2.2.2.2", "3.3.3.3"]);
+    $grid_dns->logging_facility("daemon");
+    $grid_dns->negative_ttl(900);
+    $grid_dns->recursive_query_list(["10.0.0.10", "20.0.0.0/24", "!" . "30.0.0.30", "!" . "40.10.0.0/24"]);
+    $grid_dns->refresh_timer(10800);
+    $grid_dns->retry_timer(3600);
+    $grid_dns->rootNS([$rootns1, $rootns2]);
+    $grid_dns->sortlist([$sort1]);
+    $grid_dns->transfer_excluded_servers(["10.0.0.10", "20.0.0.0"]);
+    $grid_dns->transfer_format("many_answers");
+
+  #Applying the changes
+  my $response = $session->modify($grid_dns);
+  unless( $response ){
+     die("Modify grid DNS failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+  }
+  print" Modify grid DNS successful \n";
+ }
+ else {
+    print "No grid DNS object found.";
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::Sortlist|Infoblox::DNS::Sortlist>, 
+L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey>, 
+L<Infoblox::DNS::DnssecTrustedKey|Infoblox::DNS::DnssecTrustedKey>, 
+L<Infoblox::Grid::DNS::Nsgroup|Infoblox::Grid::DNS::Nsgroup>, 
+L<Infoblox::Grid::RootNameServer|Infoblox::Grid::RootNameServer>, 
+L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, 
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL>, 
+L<Infoblox::DNS::DNSSecKeyAlgorithm|Infoblox::DNS::DNSSecKeyAlgorithm>, 
+L<Infoblox::Grid::DNS::FixedRRSetOrderFQDN|Infoblox::Grid::DNS::FixedRRSetOrderFQDN>,
+L<Infoblox::Grid::DNS::ResponseRateLimiting|Infoblox::Grid::DNS::ResponseRateLimiting>, 
+L<Infoblox::Grid::DNS::FileTransferSetting|Infoblox::Grid::DNS::FileTransferSetting>,
+L<Infoblox::Grid::DNS::ClientSubnetDomain|Infoblox::Grid::DNS::ClientSubnetDomain>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

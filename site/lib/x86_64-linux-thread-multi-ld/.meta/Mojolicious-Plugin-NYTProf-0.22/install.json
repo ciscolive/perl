@@ -1,0 +1,1 @@
+{"target":"Mojolicious::Plugin::NYTProf","pathname":"L/LE/LEEJO/Mojolicious-Plugin-NYTProf-0.22.tar.gz","provides":{"Mojolicious::Plugin::NYTProf":{"file":"lib/Mojolicious/Plugin/NYTProf.pm","version":"0.22"}},"name":"Mojolicious::Plugin::NYTProf","version":"0.22","dist":"Mojolicious-Plugin-NYTProf-0.22"}

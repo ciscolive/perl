@@ -1,0 +1,1 @@
+{"pathname":"T/TO/TOBYINK/PerlX-Maybe-1.201.tar.gz","name":"PerlX::Maybe","target":"PerlX::Maybe","provides":{"Syntax::Feature::Maybe":{"version":"1.201","file":"lib/Syntax/Feature/Maybe.pm"},"PerlX::Maybe":{"file":"lib/PerlX/Maybe.pm","version":"1.201"}},"version":"1.201","dist":"PerlX-Maybe-1.201"}

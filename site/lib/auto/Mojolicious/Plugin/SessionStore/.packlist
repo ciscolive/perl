@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Mojolicious/Plugin/SessionStore.pm
+/opt/perl/site/lib/Mojolicious/Sessions/Storable.pm
+/opt/perl/site/man/man3/Mojolicious::Plugin::SessionStore.3
+/opt/perl/site/man/man3/Mojolicious::Sessions::Storable.3

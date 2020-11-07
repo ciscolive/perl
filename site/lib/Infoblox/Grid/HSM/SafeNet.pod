@@ -1,0 +1,281 @@
+=head1 NAME
+
+Infoblox::Grid::HSM::SafeNet - SafeNet HSM (Hardware Security Module) Server object
+
+=head1 DESCRIPTION
+
+An Infoblox::Grid::HSM::SafeNet object represents a server configured in the SafeNet HSM group.
+
+=head1 CONSTRUCTOR
+
+ my $hsm_server = Infoblox::Grid::HSM::SafeNet->new(
+     name                 => $string,                # Required
+     partition_serial     => $uint,                  # Required
+     server_certificate   => $string,                # Required
+     disabled             => "true" | "false",       # Optional / Default value is "false"
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a SafeNet HSM Server object.
+
+=head2 Infoblox::Grid::HSM::SafeNet::Group->hsm_servers( )
+
+=over
+
+Use this function to add or retrieve SafeNet HSM servers in the SafeNet HSM group. See L<Infoblox::Grid::HSM::SafeNet::Group-E<gt>hsm_servers()|Infoblox::Grid::HSM::SafeNetGroup/hsm_servers()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a SafeNet HSM Group
+ my $hsm_group = Infoblox::Grid::HSM::SafeNet::Group->new(
+     name          => 'SafeNetGroup',
+     passphrase    => 'PassPhrase',
+     hsm_servers   => [],
+     hsm_version   => "LunaSA_4",
+ );
+
+ # Configure the SafeNet HSM server in the SafeNet HSM Group object.
+ my $response = $hsm_group->hsm_servers([$hsm_server]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::Grid::HSM::SafeNet object.
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the disabled setting.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable the SafeNet HSM Server object or "false" to enable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value as "true" or "false".
+
+=item B<Example>
+
+ #Get disabled flag
+ my $disabled = $hsm_server->disabled();
+
+ #Modify disabled flag
+ $hsm_server->disabled("true");
+
+=back
+
+=back
+
+=head2 is_fips_compliant( )
+
+=over
+
+Use this method to retrieve the FIPS compliant mode status. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value as "true" or "false".
+
+=item B<Example>
+
+ #Get is_fips_compliant flag
+ my $is_fips_compliant = $hsm_server->is_fips_compliant();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the IP address or the domain name for the HSM.
+
+=over
+
+=item B<Parameter>
+
+String with the IP address or the domain name for the HSM.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $hsm_server->name();
+
+ #Modify name
+ $hsm_server->name("SafeNet");
+
+=back
+
+=back
+
+=head2 partition_capacity( )
+
+=over
+
+Use this method to retrieve the partition capacity percentage used. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get partition_capacity
+ my $partition_capacity = $hsm_server->partition_capacity();
+
+=back
+
+=back
+
+=head2 partition_id( )
+
+=over
+
+Use this method to retrieve the partition label on the HSM. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get partition_id
+ my $partition_id = $hsm_server->partition_id();
+
+=back
+
+=back
+
+=head2 partition_serial( )
+
+=over
+
+Use this method to set or retrieve the serial number of the partition on the HSM.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get partition_serial
+ my $partition_serial = $hsm_server->partition_serial();
+
+ #Modify partition_serial
+ $hsm_server->partition_serial(12345);
+
+=back
+
+=back
+
+=head2 server_certificate( )
+
+=over
+
+Use this method to generate the server certificate of the SafeNet HSM server. This attribute is write-only and cannot be retrieved.
+
+=over
+
+=item B<Parameter>
+
+String with the content of the server certificate or a reference to a file.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set server_certificate as string
+ $hsm_server->server_certificate($cert);
+
+ #Set server_certificate as reference to a file
+ $hsm_server->server_certificate('/tmp/safenet/cert.pem');
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status of the SafeNet HSM server. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value as "UP" or "DOWN".
+
+=item B<Example>
+
+ #Get status
+ my $status = $hsm_server->status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::HSM::SafeNet::Group|Infoblox::Grid::HSM::SafeNetGroup>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

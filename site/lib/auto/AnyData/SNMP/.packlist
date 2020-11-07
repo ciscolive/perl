@@ -1,0 +1,4 @@
+/opt/perl/site/bin/netsh
+/opt/perl/site/lib/AnyData/Format/SNMP.pm
+/opt/perl/site/lib/AnyData/Storage/SNMP.pm
+/opt/perl/site/man/man1/netsh.1

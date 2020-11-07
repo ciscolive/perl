@@ -1,0 +1,6 @@
+/opt/perl/site/bin/cpan-whois
+/opt/perl/site/lib/PAUSE/Users.pm
+/opt/perl/site/lib/PAUSE/Users/User.pm
+/opt/perl/site/lib/PAUSE/Users/UserIterator.pm
+/opt/perl/site/man/man1/cpan-whois.1
+/opt/perl/site/man/man3/PAUSE::Users.3

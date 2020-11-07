@@ -1,0 +1,3180 @@
+=head1 NAME
+
+Infoblox::DNS::View - DNS View object
+
+=head1 DESCRIPTION
+
+DNS views provide the ability to serve one version of DNS data to one set of clients and another version to another set of clients. With DNS views, the Infoblox appliance can provide a different answer to the same DNS query, depending on the source of the query. When the DNS view is not specified, all objects are automatically associated with the default DNS view.
+
+=head1 CONSTRUCTOR
+
+ my $view = Infoblox::DNS::View->new(
+     name                     => $string,                                                                            #Required
+     blacklist_action         => "REDIRECT" | "REFUSE",                                                              #Optional / Default is "REFUSE"
+     blacklist_log_query      => "true" | "false",                                                                   #Optional / Default is "false"
+     blacklist_redirect_addresses => [$ipv4addr, ... ],                                                              #Optional / Default is undefined
+     blacklist_redirect_ttl   => $num,                                                                               #Optional / Default is 60
+     blacklist_rulesets       => [ $rulesetname1, $rulesetname2, ...],                                               #Optional / Default is undefined
+     comment                  => $string,                                                                            #Optional / Default is empty
+     custom_root_name_servers => [$RootNameServer1, $RootNameServer2, ...],                                          #Optional / Default is undefined
+     disable                  => "true" | "false",                                                                   #Optional / Default "false"
+     dns64_groups             => [$group1, $group2, ... ],                                                           #Optional / Default is undefined
+     dnssec_enabled           => "true" | "false" | undef,                                                           #Optional / Default is undefined
+     dnssec_expired_signatures_enabled => "true" | "false",                                                          #Optional / Default is "false"
+     dnssec_validation_enabled         => "true" | "false",                                                          #Optional / Default is "true"
+     dnssec_blacklist_enabled => "true" | "false",                                                                   #Optional / Default is "false"
+     dnssec_negative_trust_anchors => $strig_array                                                                   #Optional / Default value is undefined
+     dnssec_dns64_enabled     => "true" | "false",                                                                   #Optional / Default is "false"
+     dnssec_nxdomain_enabled  => "true" | "false",                                                                   #Optional / Default is "false"
+     dnssec_rpz_enabled       => "true" | "false",                                                                   #Optional / Default is "false"
+     dnssec_trusted_keys               => [$key1, $key2, ...]                                                        #Optional / Default is undefined
+     enable_blacklist         => "true" | "false" | undef,                                                           #Optional / Default is undefined
+     enable_dns64             => "true" | "false" | undef,                                                           #Optional / Default is undefined
+     enable_match_recursive_only => "true" | "false"                                                                 #Optional / Default is "false"
+     enable_fixed_rrset_order_fqdns => "true" | "false" | undef,                                                     #Optional / Default is undefined
+     extattrs                 => { $string => $extattr, ... },                                                       #Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... },                     #Optional / Default is undefined
+     filter_aaaa              => "YES" | "NO" | "BREAK_DNSSEC",                                                      #Optional / Default is "NO"
+     filter_aaaa_list         => [$ipv4addr | $ipv4_subnet/prefix | ...] | $nacl,                                    #Optional / Default is undefined
+     fixed_rrset_order_fqdns  => [$fqdn1, $fqdn2],                                                                   #Optional / Default is undefined
+     forwarders               => [ $ipv4addr, ...],                                                                  #Optional / Default is undefined
+     forward_only             => "true" | "false" | undef,                                                           #Optional / Default is undefined
+     match_clients            => [$ipv4addr | $ipv4_subnet/prefix | $ipv6addr |
+                                  $ipv6_subnet/prefix | "any" | $TSIGKey ...] | $nacl,                               #Optional / Default is undefined
+     match_destinations       => [$ipv4addr | $ipv4_subnet/prefix | $ipv6addr |
+                                  $ipv6_subnet/prefix | "any" | $TSIGKey ...] | $nacl,                               #Optional / Default is undefined
+     max_cache_ttl            => $uint,                                                                              #Optional / Default is 604800 seconds
+     max_ncache_ttl           => $uint,                                                                              #Optional / Default is 10800 seconds
+     network_view             => $Object,                                                                            #Optional / Default is "default" network view
+     notify_delay             => $num,                                                                               #Optional / Default is undefined
+     override_dnssec          => "true"| "false",                                                                    #Optional / Default is "false"
+     override_blacklist       => "true" | "false",                                                                   #Optional / Default is "false"
+     override_dns64           => "true" | "false",                                                                   #Optional / Default is "false"
+     override_filter_aaaa     => "true" | "false",                                                                   #Optional / Default is "false"
+     override_fixed_rrset_order_fqdns => "true", "false",                                                            #Optional / Default is "false"
+     override_forwarders      => "true" | "false",                                                                   #Optional / Default is "false"
+     override_max_cache_ttl   => "true" | "false",                                                                   #Optional / Default is "false"
+     override_max_ncache_ttl  => "true" | "false",                                                                   #Optional / Default is "false"
+     override_nxdomain_redirect => "true"| "false",                                                                  #Optional / Default is "false"
+     override_rpz_qname_wait_recurse => "true" | "false",                                                            #Optional / Default is "false"
+     override_sortlist        => "true"| "false",                                                                    #Optional / Default is "false"
+     recursion                => "true" | "false",                                                                   #Optional / Default "false"
+     rpz_qname_wait_recurse   => "true" | "false",                                                                   #Optional / Default is undefined
+     scavenging_settings     => $scavenging_settings,                                                              #Optional
+     sortlist                 => [ $sortlist1, $sortlist2, ...],                                                     #Optional / Default is undefined
+     use_root_name_servers    => "true" | "false",                                                                   #Optional / Default "false"
+     nxdomain_redirect        => "true" | "false",                                                                   #Optional / Default is "false"
+     nxdomain_redirect_addresses => [$ipv4addr, ...],                                                                #Optional / Default is undefined
+     nxdomain_redirect_addresses_ipv6 => [$ipv6addr, ...],                                                                #Optional / Default is undefined
+     nxdomain_redirect_ttl    => $num                                                                                #Optional / Default is 60
+     nxdomain_log_query       => "true" | "false",                                                                   #Optional / Default is "false"
+     nxdomain_rulesets        => [$reulesetname1, $reulesetname2, ...]                                               #Optional / Default is undefined
+     lame_ttl                 => $uint,                                                                              #Optional / Default is 600
+     override_lame_ttl        => "true" | "false",                                                                   #Optional / Default is "false"
+     response_rate_limiting   => $response_rate_limiting                                                             #Optional / Default is undefined
+     ddns_restrict_patterns_list        => [$string, $string, ...],                                                  #Optional / Default is undefined
+     ddns_restrict_patterns             => "true" | "false",                                                         #Optional / Default is 'false'
+     ddns_restrict_static               => "true" | "false",                                                         #Optional / Default is 'false'
+     ddns_restrict_protected            => "true" | "false",                                                         #Optional / Default is 'false'
+     ddns_restrict_secure               => "true" | "false",                                                         #Optional / Default is 'false'
+     ddns_principal_tracking            => "true" | "false",                                                         #Optional / Default is 'false'
+     ddns_principal_group               => $principal_group,                                                         #Optional / Default is undefined
+     ddns_force_creation_timestamp_update     => "true" | "false",                                                         #Optional / Default is 'false'   
+     override_ddns_patterns_restriction => "true" | "false",                                                         #Optional / Default is 'false'
+     override_ddns_restrict_static      => "true" | "false",                                                         #Optional / Default is 'false'
+     override_ddns_restrict_protected   => "true" | "false",                                                         #Optional / Default is 'false'
+     override_ddns_principal_security   => "true" | "false",                                                         #Optional / Default is 'false'
+     override_ddns_force_creation_timestamp_update => "true" | "false",                                                    #Optional / Default is 'false'
+     override_scavenging_settings                  => "true" | "false",                                                    #Optional / Default is 'false'
+     override_rpz_drop_ip_rule                     => "true" | "false" | undef,                                            #Optional / Default is "false"
+     rpz_drop_ip_rule_enabled                      => "true" | "false" | undef,                                            #Optional / Default is "false"
+     rpz_drop_ip_rule_min_prefix_length_ipv4       => $uint | undef,                                                       #Optional / Default is 29
+     rpz_drop_ip_rule_min_prefix_length_ipv6       => $uint | undef,                                                       #Optional / Default is 112
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to a DNS view object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DNS view object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+If you have applied an access control list to an object, you must restart services after you update the access control list for the changes to take effect. See L<Infoblox::Session-E<gt>restart()|Infoblox::Session/restart()/> method.
+
+=over
+
+=item B<Example>
+
+ #create member
+ my $member1 = Infoblox::DNS::Member->new(
+     name     => "member.com",
+     ipv4addr => "192.168.1.2",
+     lead     => "false",
+     stealth  => "false"
+ );
+
+ #create keys
+ my $key1 = Infoblox::DNS::TSIGKey->new(
+     name => "tsig_xfer",
+     key  => ":2xCOMPAT"
+ );
+
+ my $tsig_key2 = $session->gen_tsig_key();
+
+ my $key2 = Infoblox::DNS::TSIGKey->new(
+     name => "key2",
+     key  => $tsig_key2
+ );
+
+ #create view object using members
+ my $firstview = Infoblox::DNS::View->new(
+     name              => "internal",
+     match_clients     => ["1.1.1.1", $key1 , "10.0.0.0/8", $key2],
+     recursion         => "true",
+     disable           => "false",
+     comment           => "new Internal view"
+     )
+     or die(qq(constructor for view internal failed: ),
+     join(":", Infoblox::status_code(), Infoblox::status_detail()));
+
+ #Add a  View through session
+ $session->add($firstview);
+ unless ($firstview) {
+           die("add view internal failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve an existing DNS view object from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+Apply the following attributes to get a specific DNS view object:
+
+ name - Optional. A name in string format.
+ extattrs     - Optional. A hash reference containing extensible attributes.
+ extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ #get view object from session
+ my @result = $session->get(
+     object => "Infoblox::DNS::View",
+     name   => "internal"
+ );
+
+ my $firstview = $result[0];
+
+ # get all DNS view objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::View",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DNS view object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+If you have applied an access control list to an object, you must restart services after you update the access control list for the changes to take effect. See L<Infoblox::Session-E<gt>restart()|Infoblox::Session/restart()/> method.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment for view object.
+ $firstview->comment("new comment internal view");
+ # Submit modification
+ my $response = $session->modify($firstview);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this function to submit to remove a DNS view object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+B<#Remove an object with a unique name>
+
+  my @result = $session->search(object => "Infoblox::DNS::View", name => "^internal\$");
+  my $firstview = $result[0];
+  #Submit for removal
+  my $response = $session->remove($firstview);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for an existing DNS view object in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+Apply the following attributes to search for a DNS view object:
+
+ name    - Optional. A name in string format (regular expression).
+ extattrs     - Optional. A hash reference containing extensible attributes.
+ extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ #Search for a DNS view by name
+ my @result = $session->search(object => "Infoblox::DNS::View", name => "^internal\$");
+
+ # search for DNS views with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::View",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute value of a DNS view object.
+
+=head2 blacklist_action( )
+
+=over
+
+Use this method to specify the action to perform when a domain name matches the pattern defined in a rule that is specified by the blacklist_ruleset method.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "REDIRECT" or "REFUSE". The default value is "REFUSE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Examples>
+
+  #Get blacklist_action
+  my $blacklist_action = $firstview->blacklist_action();
+  #Modify blacklist_action
+  $firstview->blacklist_action("REDIRECT");
+
+=back
+
+=back
+
+=head2 blacklist_log_query( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether blacklist redirection queries are logged.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable logging, or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get blacklist_log_query
+   my $blacklist_log_query = $firstview->nxdomain_log_query( );
+   #Modify blacklist_log_query
+   $firstview->blacklist_log_query("true");
+
+=back
+
+=back
+
+=head2 blacklist_redirect_addresses( )
+
+=over
+
+Use this method to specify the IP addresses the appliance includes in the response it sends in place of a blacklisted IP address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of IPv4 addresses. The default value is undefined.
+
+Setting this parameter to ["10.0.0.10", "10.0.0.20"] or [], implicitly sets the override_blacklist_redirect attribute to "true". Setting this parameter to undefined causes the appliance to use the member-level blacklist redirection settings and automatically sets the override_blacklist_redirect attribute to "false" if "enable_blacklist_redirect" is also undefined. But if "enable_blacklist_redirect" contains a value, then the override_blacklist_redirect attribute is set to "true".
+
+Note that when blacklist_redirect_addresses contains a valid array reference and override_blacklist_redirect is set to "false", the last operation takes precedence. Thus the sequence $firstview->blacklist_redirect_addresses(["10.0.0.10", "10.0.0.20"]); $firstview->override_blacklist_redirect("false"); sets override_blacklist_redirect to "false", and the sequence $firstview->override_blacklist_redirect("false"); $firstview->blacklist_redirect_addresses(["10.0.0.10", "10.0.0.20"]); sets override_blacklist_redirect to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get blacklist_redirect_addresses
+   my $blacklist_redirect_addresses = $firstview->blacklist_redirect_addresses( );
+   #Modify blacklist_redirect_addresses
+   $firstview->blacklist_redirect_addresses(["10.0.0.10", "10.0.0.20"]);
+
+=back
+
+=back
+
+=head2 blacklist_redirect_ttl( )
+
+=over
+
+Use this method to set or retrieve the TTL value of the synthetic DNS responses that result from blacklist redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer, from 0 to 4294967295, that represents the TTL in seconds. The default value is 60.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get blacklist_redirect_ttl
+   my $blacklist_redirect_ttl = $firstview->blacklist_redirect_ttl( );
+   #Modify blacklist_redirect_ttl
+   $firstview->blacklist_redirect_ttl(60);
+
+=back
+
+=back
+
+=head2 blacklist_rulesets( )
+
+=over
+
+Use this method to specify or retrieve L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset> object names assigned at the grid level for blacklist redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains the names of the L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset> objects assigned to the grid. The names must be in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get blacklist_rulesets
+   my $blacklist_rulesets = $firstview->blacklist_rulesets();
+   #Modify blacklist_rulesets
+   $firstview->blacklist_rulesets(["ruleset1", "ruleset2"]);
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::View object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $firstview->comment();
+ #Modify comment
+ $firstview->comment("modifying the internal view comment");
+
+=back
+
+=back
+
+=head2 custom_root_name_servers( )
+
+=over
+
+Use this method to set or retrieve the list of customized root name servers. You can either select and use Internet root name servers or specify custom root name servers by providing a host name and IP address to which the Infoblox appliance can send queries.Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::DNS::RootNameServer|Infoblox::DNS::RootNameServer> object(s).
+
+=item B<Returns>
+
+If you specify a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get custom_root_name_servers
+ my $rootNS_list = $firstview->custom_root_name_servers();
+ #Modify the root nameserver list
+ #Creating RootNameServer objects.
+ my $rootns1 = Infoblox::DNS::RootNameServer->new(
+     ipv4addr  => "4.4.4.4",
+     host_name => "rns1.test.com",
+     );
+
+ my $rootns2 = Infoblox::DNS::RootNameServer->new(
+     ipv4addr  => "5.5.5.5",
+     host_name => "rns2.test.com",
+     );
+
+ $firstview->custom_root_name_servers([$rootns1, $rootns2]);
+
+=back
+
+=back
+
+=head2 ddns_force_creation_timestamp_update( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the creation timestamp of resource records (RR) should be updated when DDNS update happens even if there is no change to the RR.
+
+Setting this parameter to defined value, implicitly sets the override_ddns_force_creation_timestamp_update attribute to "true".
+Setting this parameter to undefined causes the appliance to use the Grid-level ddns_force_creation_timestamp_update flag and
+automatically sets the override_ddns_force_creation_timestamp_update attribute to "false".
+
+Note that when ddns_force_creation_timestamp_update contains a value and override_ddns_force_creation_timestamp_update is set to "false",
+the last operation takes precedence. Thus the sequence
+$object->ddns_force_creation_timestamp_update("true");
+$object->override_ddns_force_creation_timestamp_update("false");
+sets override_ddns_force_creation_timestamp_update to "false", and the sequence
+$object->override_ddns_force_creation_timestamp_update("false");
+$object->ddns_force_creation_timestamp_update("true");
+sets override_ddns_force_creation_timestamp_update to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to update the creation timestamp of RR on every DDNS update, and 'false' to update the creation timestamp only when RR changes during a DDNS update.
+The default is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_force_creation_timestamp_update value
+ $value = $object->ddns_force_creation_timestamp_update();
+
+ #modify ddns_force_creation_timestamp_update value
+ $object->ddns_force_creation_timestamp_update('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_patterns_list( )
+
+=over
+
+Use this method to set or retrieve an unordered list of restriction patterns for an option of to restrict DDNS updates based on FQDN patterns.
+
+Setting this parameter to any list, implicitly sets the override_ddns_patterns_restriction attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS update restrictions and automatically sets the override_ddns_patterns_restriction attribute to "false" if "ddns_restrict_patterns" is also undefined. But if "ddns_restrict_patterns" contains a value, then the override_ddns_patterns_restriction attribute is set to "true".
+
+Note that when ddns_restrict_patterns_list contains a valid array reference and override_ddns_patterns_restriction is set to "false", the last operation takes precedence. Thus the sequence $firstview->ddns_restrict_patterns_list([$pattern1, $pattern2]); $firstview->override_ddns_patterns_restriction("false"); sets override_ddns_patterns_restriction to "false", and the sequence $firstview->override_ddns_patterns_restriction("false"); $firstview->ddns_restrict_patterns_list([$pattern1, $pattern2]); sets override_ddns_patterns_restriction to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of FQDNs in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_patterns_list value
+ $ddns_restrict_patterns_list = $firstview->ddns_restrict_patterns_list();
+
+ #modify ddns_restrict_patterns_list value
+ $firstview->ddns_restrict_patterns_list(['foo.com', 'bar.com']);
+
+=back
+
+=back
+
+=head2 ddns_restrict_patterns( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request based on FQDN patterns is enabled or disabled.
+
+Setting this parameter to defined value, implicitly sets the override_ddns_patterns_restriction attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS update restrictions and automatically sets the override_ddns_patterns_restriction attribute to "false" if "ddns_restrict_patterns_list" is also undefined. But if "ddns_restrict_patterns_list" contains a value, then the override_ddns_patterns_restriction attribute is set to "true".
+
+Note that when ddns_restrict_patterns contains a value and override_ddns_patterns_restriction is set to "false", the last operation takes precedence. Thus the sequence $firstview->ddns_restrict_patterns("true"); $firstview->override_ddns_patterns_restriction("false"); sets override_ddns_patterns_restriction to "false", and the sequence $firstview->override_ddns_patterns_restriction("false"); $firstview->ddns_restrict_patterns("true"); sets override_ddns_patterns_restriction to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update request restriction base on FQDN patterns and 'false to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_patterns value
+ $ddns_restrict_patterns = $firstview->ddns_restrict_patterns();
+
+ #modify ddns_restrict_patterns value
+ $firstview->ddns_restrict_patterns('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_static( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request to resource records which are marked as 'STATIC' is enabled or disabled.
+
+Setting this parameter to defined value, implicitly sets the override_ddns_restrict_static attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level ddns_restrict_static flag and automatically sets the override_ddns_restrict_static attribute to "false".
+
+Note that when ddns_restrict_static contains a value and override_ddns_restrict_static is set to "false", the last operation takes precedence. Thus the sequence $firstview->ddns_restrict_static("true"); $firstview->override_ddns_restrict_static("false"); sets override_ddns_restrict_static to "false", and the sequence $firstview->override_ddns_restrict_static("false"); $firstview->ddns_restrict_static("true"); sets override_ddns_restrict_static to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests to resource records which are marked as 'STATIC' and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_static value
+ $ddns_restrict_static = $firstview->ddns_restrict_static();
+
+ #modify ddns_restrict_static value
+ $firstview->ddns_restrict_static('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_protected( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request to protected resource records is enabled or disabled.
+
+Setting this parameter to defined value, implicitly sets the override_ddns_restrict_protected attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level ddns_restrict_protected flag and automatically sets the override_ddns_restrict_protected attribute to "false".
+
+Note that when ddns_restrict_protected contains a value and override_ddns_restrict_protected is set to "false", the last operation takes precedence. Thus the sequence $firstview->ddns_restrict_protected("true"); $firstview->override_ddns_restrict_protected("false"); sets override_ddns_restrict_protected to "false", and the sequence $firstview->override_ddns_restrict_protected("false"); $firstview->ddns_restrict_protected("true"); sets override_ddns_restrict_protected to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests to protected resource records and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_protected value
+ $ddns_restrict_protected = $firstview->ddns_restrict_protected();
+
+ #modify ddns_restrict_protected value
+ $firstview->ddns_restrict_protected('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_secure( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether DDNS update request for principal other than target resource record's principal is restricted.
+
+Setting this parameter to a defined value, implicitly sets the override_ddns_principal_security attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS principal security setting and automatically sets the override_ddns_principal_security attribute to "false" if "ddns_principal_tracking" and "ddns_principal_group" are also undefined. But if "ddns_principal_tracking" or "ddns_principal_group" contains a value, then the override_ddns_principal_security attribute is set to "true".
+
+Note that when ddns_restrict_secure contains a value and override_ddns_principal_security is set to "false", the last operation takes precedence. Thus the sequence $firstview->ddns_restrict_secure("true"); $firstview->override_ddns_principal_security("false"); sets override_ddns_principal_security to "false", and the sequence $firstview->override_ddns_principal_security("false"); $firstview->ddns_restrict_secure("true"); sets override_ddns_principal_security to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests restriction for principal other than target resource record's principal and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_secure value
+ $ddns_restrict_secure = $firstview->ddns_restrict_secure();
+
+ #modify ddns_restrict_secure value
+ $firstview->ddns_restrict_secure('true');
+
+=back
+
+=back
+
+=head2 ddns_principal_tracking( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether the DDNS principal track is enabled or disabled.
+
+DDNS principal tracking includes putting principal name into resource record affected by update.
+
+Setting this parameter to a defined value, implicitly sets the override_ddns_principal_security attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS principal security setting and automatically sets the override_ddns_principal_security attribute to "false" if "ddns_restrict_secure" and "ddns_principal_group" are also undefined. But if "ddns_restrict_secure" or "ddns_principal_group" contains a value, then the override_ddns_principal_security attribute is set to "true".
+
+Note that when ddns_principal_tracking contains a value and override_ddns_principal_security is set to "false", the last operation takes precedence. Thus the sequence $firstview->ddns_principal_tracking("true"); $firstview->override_ddns_principal_security("false"); sets override_ddns_principal_security to "false", and the sequence $firstview->override_ddns_principal_security("false"); $firstview->ddns_principal_tracking("true"); sets override_ddns_principal_security to "true".
+
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS principal tracking and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_principal_tracking value
+ $ddns_principal_tracking = $firstview->ddns_principal_tracking();
+
+ #modify ddns_principal_tracking value
+ $firstview->ddns_principal_tracking('true');
+
+=back
+
+=back
+
+=head2 ddns_principal_group( )
+
+=over
+
+Use this method to set or retrieve the DDNS principal group.
+
+Setting this parameter to a defined value, implicitly sets the override_ddns_principal_security attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS principal security setting and automatically sets the override_ddns_principal_security attribute to "false" if "ddns_restrict_secure" and "ddns_principal_tracking" are also undefined. But if "ddns_restrict_secure" or "ddns_principal_tracking" contains a value, then the override_ddns_principal_security attribute is set to "true".
+
+Note that when ddns_principal_group contains a value and override_ddns_principal_security is set to "false", the last operation takes precedence. Thus the sequence $firstview->ddns_principal_group($principal_group); $firstview->override_ddns_principal_security("false"); sets override_ddns_principal_security to "false", and the sequence $firstview->override_ddns_principal_security("false"); $firstview->ddns_principal_group($principal_group); sets override_ddns_principal_security to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DNS::DDNS::PrincipalCluster::Group|Infoblox::DNS::DDNS::PrincipalCluster::Group> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_principal_group value
+ $ddns_principal_group = $firstview->ddns_principal_group();
+
+ #modify ddns_principal_group value
+ $firstview->ddns_principal_group($principal_group);
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS view object.
+
+Include the specific parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false; therefore, the DNS view is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $firstview->disable();
+ #Modify disable
+ $firstview->disable("true");
+
+=back
+
+=back
+
+=head2 dns64_groups( )
+
+=over
+
+Use this method to set or retrieve the list of DNS64 synthesis groups associated with this DNS view.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_dns64 method to "true". Setting the parameter to undefined causes the appliance to use the grid DNS default and automatically resets the override_dns64 method to "false".
+
+Note that when dns64_groups is set to a defined value and override_dns64_groups is set to "false", the last operation takes precedence. Thus the sequence $object->dns64_groups([$group1]); $object->override_dns64("false"); will set override_dns64 to "false", and the sequence $object->override_dns64([$group1]); $object->dns64_groups("testdomain"); will result in override_dns64="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::DNS::DNS64Group|Infoblox::Grid::DNS::DNS64Group> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the list of DNS64 synthesis groups
+ my $dns64_groups_list = $firstview->dns64_groups();
+
+ #Modify it
+ my $group = $session->get(
+                         object => "Infoblox::Grid::DNS::DNS64Group"),
+                         name => "groupname",
+                         prefix => "groupprefix",
+                       );
+ $firstview->dns64_groups([$group]);
+
+=back
+
+=back
+
+=head2 dnssec_enabled( )
+
+=over
+
+Use this method to enable/disable the DNS security extension.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable the DNS security extension. Set it to "false" to disable the feature.
+
+Setting this parameter to "true"/"false" implicitly sets the override_dnssec attribute to "true".
+Setting the parameter to undefined causes the appliance to use the member-level DNS security settings and automatically resets the override_dnssec attribute to "false".
+
+Note that in the case when dnssec_enabled is set to "true"/"false" and override_dnssec is set to "false" simultaneously,
+the last operation takes precedence. Thus the sequence $firstview->dnssec_enabled("false"); $firstview->override_dnssec("false");
+will set override_dnssec to "false", and the sequence   $firstview->override_dnssec("false"); $firstview->dnssec_enabled("false"); will result in override_dnssec="true".
+
+The default value of the parameter is undefined, which means the DNS view inherits the member-level settings.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_enabled
+ my $dnssec_enabled = $firstview->dnssec_enabled();
+ #Modify dnssec_enabled
+ $firstview->dnssec_enabled("true");
+ #Set the value to undefined to inherit the member-level settings.
+ $firstview->dnssec_enabled(undef);
+
+=back
+
+=back
+
+=head2 dnssec_expired_signatures_enabled( )
+
+=over
+
+Use this method to control whether DNS accepts expired signatures.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to accept expired signatures. Set it to "false" to reject expired signatures.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_expired_signatures_enabled
+ my $dnssec_expired_signatures_enabled = $firstview->dnssec_expired_signatures_enabled();
+ #Modify dnssec_expired_signatures_enabled
+ $firstview->dnssec_expired_signatures_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_validation_enabled( )
+
+=over
+
+Use this method to enable/disable DNS security validation.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable the validation. Set the parameter to "false" to disable the validation.
+
+The default value of the parameter is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_validation_enabled
+ my $dnssec_validation_enabled = $firstview->dnssec_validation_enabled();
+ #Modify dnssec_validation_enabled
+ $firstview->dnssec_validation_enabled("false");
+
+=back
+
+=back
+
+=head2 dnssec_blacklist_enabled()
+
+=over
+
+Use this method to enable and disable blacklist rules for DNSSEC-enabled clients.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to apply blacklist rules for DNSSEC-enabled clients. Set to "false" to disable them.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_blacklist_enabled
+ my $dnssec_blacklist_enabled = $firstview->dnssec_blacklist_enabled();
+ #Modify dnssec_blacklist_enabled
+ $firstview->dnssec_blacklist_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_negative_trust_anchors( )
+
+=over
+
+Use this method to set or retrieve the list of zone for which the appliance does not perform DNSSEC validation.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of strings that contains the list of zone for which the appliance does not perform DNSSEC validation.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_negative_trust_anchors value
+ my $value = $view->dnssec_negative_trust_anchors();
+ #Modify dnssec_negative_trust_anchors value
+ $view->dnssec_negative_trust_anchors($zones);
+
+=back
+
+=back
+
+=head2 dnssec_dns64_enabled()
+
+=over
+
+Use this method to enable and disable DNS64 groups for DNSSEC-enabled clients.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to apply DNS64 groups for DNSSEC-enabled clients. Set to "false" to disable them.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_dns64_enabled
+ my $dnssec_dns64_enabled = $grid_dns->dnssec_dns64_enabled();
+ #Modify dnssec_dns64_enabled
+ $grid_dns->dnssec_dns64_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_nxdomain_enabled()
+
+=over
+
+Use this method to enable and disable NXDOMAIN rules for DNSSEC-enabled clients.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to apply NXDOMAIN rules for DNSSEC-enabled clients. Set to "false" to disable them.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_nxdomain_enabled
+ my $dnssec_nxdomain_enabled = $firstview->dnssec_nxdomain_enabled();
+ #Modify dnssec_nxdomain_enabled
+ $firstview->dnssec_nxdomain_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_rpz_enabled()
+
+=over
+
+Use this method to enable and disable RPZ policies for DNSSEC-enabled clients.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to apply RPZ policies for DNSSEC-enabled clients. Set to "false" to disable them.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_rpz_enabled
+ my $dnssec_rpz_enabled = $firstview->dnssec_rpz_enabled();
+ #Modify dnssec_rpz_enabled
+ $firstview->dnssec_rpz_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_trusted_keys( )
+
+=over
+
+Use this method to specify the list of trusted keys for the DNS security extension.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Array reference that contains a list of Infoblox::DNS::DnssecTrustedKey objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns a reference to a list of the trusted keys.
+
+=item B<Example>
+
+ #Get dnssec_trusted_keys
+ my $dnssec_trusted_keys = $firstview->dnssec_trusted_keys();
+ #Modify dnssec_trusted_keys
+ my $key1=Infoblox::DNS::DnssecTrustedKey->new(
+    fqdn => "myzone.com",
+    algorithm => "RSAMD5",
+    key       => "c2ltcGxlIGtleQo="
+    );
+ $firstview->dnssec_trusted_keys([$key1]);
+
+=back
+
+=back
+
+=head2 enable_blacklist( )
+
+=over
+
+Use this method to enable or disable a blacklist in a DNS view.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_blacklist flag or "false" to deactivate/unset it. The default is "false".
+
+Setting this parameter to "true" or "false" implicitly sets the override_blacklist attribute to "true". Setting the parameter to undefined causes the appliance to use the member-level blacklist settings and automatically sets the override_blacklist attribute to "false" if "blacklist_redirect_addresses" is also undefined.
+
+Note that when enable_blacklist is set to "true"/"false" and override_blacklist is set to "false", the last operation takes precedence. Thus the sequence $firstview->enable_blacklist("false"); $firstview->override_blacklist("false"); sets override_blacklist to "false", and the sequence $firstview->override_blacklist("false"); $firstview->enable_blacklist("false"); sets override_blacklist to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting enable_blacklist
+   my $enable_blacklist = $firstview->enable_blacklist( );
+   #Modifying enable_blacklist
+   $firstview->enable_blacklist("true");
+
+=back
+
+=back
+
+=head2 enable_dns64( )
+
+=over
+
+Use this method to enable/disable DNS64 support for this view.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_dns64 method to "true". Setting the parameter to undefined causes the appliance to use the grid DNS default and automatically resets the override_dns64 method to "false".
+
+Note that when enable_dns64 is set to a defined value and override_enable_dns64 is set to "false", the last operation takes precedence. Thus the sequence $object->enable_dns64("true"); $object->override_dns64("false"); will set override_dns64 to "false", and the sequence $object->override_dns64("true"); $object->enable_dns64("testdomain"); will result in override_dns64="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_dns64 flag or "false" to deactivate and unset it. The default value is "false".
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the enable_dns64 flag
+ my $enable_dns64 = $firstview->enable_dns64();
+ #Modify the enable_dns64 flag
+ $firstview->enable_dns64("true");
+
+=back
+
+=back
+
+=head2 enable_match_recursive_only( )
+
+=over
+
+Use this method to enable or disable the match-recursive-only setting for a DNS View on the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable 'match-recursive-only' setting or 'false' to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get enable_match_recursive_only value
+ my $enable_match_recursive_only = $firstview->enable_match_recursive_only();
+
+ #modify enable_match_recursive_only value
+ $firstview->enable_match_recursive_only('true');
+
+=back
+
+=back
+
+=head2 enable_fixed_rrset_order_fqdns( )
+
+=over
+
+Use this method to enable or disable fixed RRset order for specified FQDNs.
+
+Setting this method to a defined value implicitly sets the override_fixed_rrset_order_fqdns method to "true". 
+
+Note that when enable_fixed_rrset_order_fqdns is set to a defined value and override_fixed_rrset_order_fqdns is set to "false", the last operation takes precedence. Thus the sequence $object->enable_fixed_rrset_order_fqdns("true"); $object->override_fixed_rrset_order_fqdns("false"); will set override_fixed_rrset_order_fqdns to "false", and the sequence $object->override_fixed_rrset_order_fqdns("false"); $object->enable_fixed_rrset_order_fqdns("true"); will result in override_fixed_rrset_order_fqdns="true".
+
+The enable_fixed_rrset_order_fqdns attribute can be specified explicitly. It is also set implicitly when fixed_rrset_order_fqdns is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable fixed RRset order for specified FQDNs or "false" to disable it.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_fixed_rrset_order_fqdns flag
+ my $enable_fixed_rrset_order_fqdns = $firstview->enable_fixed_rrset_order_fqdns();
+ #Modify enable_fixed_rrset_order_fqdns flag
+ $firstview->enable_fixed_rrset_order_fqdns("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS view object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $firstview->extattrs();
+ #Modify extattrs
+ $firstview->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS view object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $firstview->extensible_attributes();
+ #Modify extensible attributes
+ $firstview->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 filter_aaaa( )
+
+=over
+
+Use this method to set or retrieve the type of AAAA filtering for this DNS view object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Specifying values in this parameter, such as "YES", implicitly sets the override_filter_aaaa attribute to "true". Setting this parameter and the "filter_aaaa" attribute to undefined causes the appliance to use the grid-level filter_aaaa settings and automatically sets the override_filter_aaaa attribute to "false". But if the "filter_aaaa" attribute contains a value, then the override_filter_aaaa attribute is set to "true".
+
+Note that when filter_aaaa contains a valid value and override_filter_aaaa is set to "false", the last operation takes precedence. Thus the sequence $firstview->filter_aaaa("YES"); $firstview->override_filter_aaaa("false"); sets override_filter_aaaa to "false", and the sequence $firstview->override_filter_aaaa("false"); $firstview->filter_aaaa("true"); sets override_filter_aaaa to "true".
+
+=over
+
+=item B<Parameter>
+
+Valid values are "YES", "NO" and "BREAK_DNSSEC". The default value is "NO".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the filter aaaa type
+ my $filter_aaaa = $firstview->filter_aaaa();
+ #Modify the filtering
+ $firstview->filter_aaaa("YES");
+
+=back
+
+=back
+
+=head2 filter_aaaa_list( )
+
+=over
+
+Use this method to set or retrieve the list of IPv4 addresses and networks from which queries are received. AAAA filtering is applied to these addresses. This setting overrides the grid filter_aaaa_list if override_filter_aaaa is set to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Specifying values in this parameter, such as ["10.0.0.10", "10.0.0.20"] or [], implicitly sets the override_filter_aaaa attribute to "true". Setting this parameter and the "filter_aaaa" attribute to undefined causes the appliance to use the grid-level filter_aaaa settings and automatically sets the override_filter_aaaa attribute to "false". But if the "filter_aaaa" attribute contains a value, then the override_filter_aaaa attribute is set to "true".
+
+Note that when filter_aaaa_list contains a valid array reference and override_filter_aaaa is set to "false", the last operation takes precedence. Thus the sequence $firstview->filter_aaaa_list(["10.0.0.10", "10.0.0.20"]); $firstview->override_filter_aaaa("false"); sets override_filter_aaaa to "false", and the sequence $firstview->override_filter_aaaa("false"); $firstview->filter_aaaa_list(["10.0.0.10", "10.0.0.20"]); sets override_filter_aaaa to "true".
+
+=over
+
+=item B<Parameter>
+
+A valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4 IP addresses and networks. To return AAAA records for queries received from an IPv4 client, add "!" as the prefix to the IP addresses and networks. Specify "any" to allow AAAA records to be returned for any query received by an IPv4 client.
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting filter_aaaa_list
+    my $filter_aaaa_list = $firstview->filter_aaaa_list( );
+    #Modifying filter_aaaa_list
+    $firstview->filter_aaaa_list(["any"]);
+    #Modifying filter_aaaa_list
+    $firstview->filter_aaaa_list(["10.0.0.10", "20.0.0.0/24", "!"."30.0.0.30", "!"."40.10.0.0/24"]);
+    #Use Grid::DNS level filter_aaaa_list
+    $firstview->filter_aaaa_list(undef);
+    $firstview->enable_filter_aaaa(undef);
+    #Use Infoblox::Grid::NamedACL object
+    $firstview->filter_aaaa_list($nacl);
+
+=back
+
+=back
+
+=head2 fixed_rrset_order_fqdns( )
+
+=over
+
+Use this method to set or retrieve configuration for fixed RRSET order for specified FQDNs.
+
+Setting this method to a defined value implicitly sets the enable_fixed_rrset_order_fqdns and override_fixed_rrset_order_fqdns methods to "true". Setting the parameter to undefined causes the appliance to disable fixed RRset order of FQDNs and automatically resets the enable_fixed_rrset_order_fqdns method to "false".
+
+Note that when fixed_rrset_order_fqdns is set to a defined value and enable_fixed_rrset_order_fqdns is set to "false", the last operation takes precedence. Thus the sequence $object->fixed_rrset_order_fqdns($fqdns); $object->enable_fixed_rrset_order_fqdns("false"); will set enable_fixed_rrset_order_fqdns to "false", and the sequence $object->enable_fixed_rrset_order_fqdns("false"); $object->fixed_rrset_order_fqdns($fqdns); will result in enable_fixed_rrset_order_fqdns="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::DNS::FixedRRSetOrderFQDN|Infoblox::Grid::DNS::FixedRRSetOrderFQDN> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the fixed_rrset_order_fqdns list
+ my $fixed_rrset_order_fqdns = $firstview->fixed_rrset_order_fqdns();
+ #Modify the fixed_rrset_order_fqdns list
+ $firstview->fixed_rrset_order_fqdns([$fqdn1, $fqdn2]);
+
+=back
+
+=back
+
+=head2 forwarders( )
+
+=over
+
+Use this method to specify forwarders for the DNS view. A forwarder is essentially a name server to which other name servers first send all of their off-site queries. The forwarder builds up a cache of information, avoiding the need for the other name servers to send queries off-site. This setting overrides the grid-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains Infoblox::DNS::Member, Infoblox::DNS::Nameserver object(s), or IP addresses.
+
+Specifying values in this parameter, for example ["10.0.0.10", "10.0.0.20"] or [], implicitly sets the override_forwarders attribute to "true". Setting this parameter and the "forward_only" attribute to undefined causes the appliance to use the member-level forwarders setting and automatically sets the override_forwarders attribute to "false". But if the "forward_only" attribute contains a value, then the override_forwarders attribute is set to "true".
+
+Note that when forwarders_redirect_addresses contains a valid array reference and override_forwarders is set to "false", the last operation takes precedence. Thus the sequence $firstview->forwarders(["10.0.0.10", "10.0.0.20"]); $firstview->override_forwarders("false"); sets override_forwarders to "false", and the sequence $firstview->override_forwarders("false"); $firstview->forwarders(["10.0.0.10", "10.0.0.20"]); sets override_forwarders to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting forwarders
+   $firstview->forwarders( );
+   #Modifying forwarders
+   $firstview->forwarders( [ "10.0.0.10" ] );
+
+=back
+
+=back
+
+=head2 forward_only( )
+
+=over
+
+Use this method to configure this view to send queries to forwarders only. When the value is "true", the queries are sent to forwarders only, and not to other internal or Internet root servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to use forwarders only or "false" to use forwarders and root servers.  The default is "false"
+
+Setting this parameter to "true" or "false" implicitly sets the override_forwarders attribute to "true". Setting the parameter to undefined causes the appliance to use the member-level forwarders settings and automatically sets the override_forwarders attribute to "false" if "forwarders" is also undefined.
+
+Note that when forward_only is set to "true"/"false" and override_forwarders is set to "false", the last operation takes precedence. Thus the sequence $firstview->forward_only("false"); $firstview->override_forwarders("false"); sets override_forwarders to "false", and the sequence $firstview->override_forwarders("false"); $firstview->forward_only("false"); sets override_forwarders to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get forward_only
+   $firstview->forward_only( );
+   #Modify forward_only
+   $firstview->forward_only("true");
+
+=back
+
+=back
+
+=head2 match_clients( )
+
+=over
+
+Use this method to set or retrieve the  match_clients list. This list specifies IP addresses, networks and/or TSIG keys of the clients that are allowed or denied access to the DNS view.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses or networks. To deny access to IP addresses and/or networks, add "!" as a prefix to IP addresses and/or networks. Specify "any" to allow access to any client. To allow access to a client authorized by a TSIG key, use Infoblox::DNS::TSIGKey objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get match_clients
+ my $clients = $firstview->match_clients();
+ #Modify match_clients
+ $firstview->match_clients(["any"]);
+
+ #Specifying TSIG keys
+ my $tsig_key3 = $session->gen_tsig_key();
+ my $key3 = Infoblox::DNS::TSIGKey->new(
+     name => "key3",
+     key  => $tsig_key3
+ );
+ #Modify match_clients
+ $firstview->match_clients(["10.0.0.10" , $key3, "20.0.0.0/24" ,"2001::123a","2003::222/64","!"."30.0.0.30" , "!"."40.10.0.0/24","!"."2004::125b","!"."2006::34bc"]);
+ #Use Infoblox::Grid::NamedACL
+ $firstview->match_clients($nacl);
+
+=back
+
+=back
+
+=head2 match_destinations( )
+
+=over
+
+Use this method to set or retrieve the  match_destinations list. This list specifies IP addresses, networks and/or TSIG keys of the clients that are allowed or denied access to the DNS view.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses or networks. To deny access to IP addresses and/or networks, add "!" as a prefix to IP addresses and/or networks. Specify "any" to allow access to any client. To allow access to a client authorized by a TSIG key, use Infoblox::DNS::TSIGKey objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get match_destinations
+ my $clients = $firstview->match_destinations();
+ #Modify match_destinations
+ $firstview->match_destinations(["any"]);
+
+ #Specifying TSIG keys
+ my $tsig_key3 = $session->gen_tsig_key();
+ my $key3 = Infoblox::DNS::TSIGKey->new(
+     name => "key3",
+     key  => $tsig_key3
+ );
+ #Modify match_destinations
+ $firstview->match_destinations(["10.0.0.10" , $key3, "20.0.0.0/24" ,"2001::123a","2003::222/64","!"."30.0.0.30" , "!"."40.10.0.0/24","!"."2004::125b","!"."2006::34bc"]);
+ #Use Infoblox::Grid::NamedACL
+ $firstview->match_destinations($nacl);
+
+=back
+
+=back
+
+=head2 max_cache_ttl( )
+
+=over
+
+Use this method to set or retrieve the maximum time (in seconds) for which the server will cache positive answers.
+
+=over
+
+=item B<Parameter>
+
+The maximum time is specified in seconds. The default value is 604800.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_cache_ttl
+ my $max_cache_ttl = $firstview->max_cache_ttl();
+ #Modify max_cache_ttl
+ $firstview->max_cache_ttl(400);
+
+=back
+
+=back
+
+=head2 max_ncache_ttl( )
+
+=over
+
+Use this method to set or retrieve the maximum time (in seconds) for which the server will cache negative (NXDOMAIN) responses.
+
+=over
+
+=item B<Parameter>
+
+The maximum time is specified in seconds. The default value is 10800. The maximum allowed value is 604800.
+
+Setting this parameter implicitle sets the override_max_ncache_ttl attribute to "true". Setting the parameter to undefined causes the appliance to use the Grid-level settings and automatically sets the override_max_ncache_ttl attribute to "false".
+
+Note that when max_ncache_ttl is set and override_max_ncache_ttl is set to "false", the last operation takes precedence. Thus the sequence $firstview->max_ncache_ttl(10800); $firstview->override_max_ncache_ttl("false"); sets override_max_ncache_ttl to "false", and the sequence $firstview->override_max_ncache_ttl("false"); $firstview->max_ncache_ttl(30600); sets override_max_ncache_ttl to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_ncache_ttl
+ my $max_ncache_ttl = $firstview->max_ncache_ttl();
+ #Modify max_ncache_ttl
+ $firstview->max_ncache_ttl(400);
+
+=back
+
+=back
+
+=head2 lame_ttl( )
+
+=over
+
+Use this method to set or retrieve the number of seconds to cache lame delegations or lame servers.
+
+=over
+
+=item B<Parameter>
+
+The number of seconds to cache lame delegations or lame servers. The default value is 600.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lame_ttl
+ my $lame_ttl = $firstview->lame_ttl();
+ #Modify lame_ttl
+ $firstview->lame_ttl(700);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to configure or retrieve the name of a DNS view.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the DNS view in string format. It has a maximum of 64 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get name
+ my $name = $firstview->name();
+ #Modify name
+ $firstview->name("external");
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view object associated with this DNS view object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The value should be a reference of defined Infoblox::DHCP::View objects.
+
+=item B<Returns>
+
+If you specify a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get network_view
+   my $useRootNS = $firstview->network_view( );
+   #Modify network_view
+   $firstview->use_root_name_servers($network_view);
+
+=back
+
+=back
+
+=head2 notify_delay( )
+
+=over
+
+Use this method to specify with how many seconds of delay the notify messages are sent to secondaries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integer between 5 and 86400, inclusive. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting notify_delay
+   my $notify_delay = $firstview->notify_delay( );
+   #Modifying notify_delay
+   $firstview->notify_delay(5);
+
+=back
+
+=back
+
+=head2 override_blacklist( )
+
+=over
+
+The "override_blacklist" attribute controls whether the "enable_blacklist", "blacklist_redirect_addresses", "blacklist_redirect_ttl", "blacklist_log_query", and "blacklist_rulesets" values in the database are used.
+
+The "override_blacklist" attribute can be specified explicitly. It is also set implicitly as follows: "enable_blacklist" => "true"|"false" or "blacklist_redirect_addresses" => ["10.0.0.10", "10.0.0.20"]|[] results in "override_blacklist" => "true", "enable_blacklist" => undef and "blacklist_redirect_addresses" => undef results in "override_blacklist" => "false". If "override_blacklist" is specified explicitly as "true", and "enable_blacklist" => undef or "blacklist_redirect_addresses" => undef, then the explicit value takes precedence. Therefore, "override_blacklist"=>"true", "enable_blacklist"=>undef, and "blacklist_redirect_addresses"=>undef remain unchanged in the database.
+
+Specifying the "blacklist_redirect_ttl", "blacklist_log_query", or "blacklist_rulesets" attributes does not affect the "override_blacklist" value. It is implicitly set only by "enable_blacklist" and "blacklist_redirect_addresses".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the member-level settings of the blacklist redirect attributes. Set the parameter to "false" to inherit the member-level settings. The default is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get override_blacklist
+   my $override_blacklist=$firstview->override_blacklist( );
+   #Modify override_blacklist
+   $firstview->override_blacklist("true");
+
+=back
+
+=back
+
+=head2 override_ddns_force_creation_timestamp_update( )
+
+=over
+
+The override_ddns_force_creation_timestamp_update attribute controls whether the ddns_force_creation_timestamp_update method value of the DNS View is used, instead of the Grid default.
+
+The override_ddns_force_creation_timestamp_update attribute can be specified explicitly. It is also set implicitly when ddns_force_creation_timestamp_update is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_force_creation_timestamp_update. Set the parameter to "false" to inherit the Grid-level setting for ddns_force_creation_timestamp_update.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_force_creation_timestamp_update value
+ my $value = $object->override_ddns_force_creation_timestamp_update();
+
+ #Modify override_ddns_force_creation_timestamp_update value
+ $object->override_ddns_force_creation_timestamp_update("true");
+
+=back
+
+=back
+
+=head2 override_ddns_patterns_restriction( )
+
+=over
+
+The override_ddns_patterns_restriction attribute controls whether the ddns_restrict_patterns_list and ddns_restrict_patterns methods values of the DNS View are used, instead of the Grid default.
+
+The override_ddns_patterns_restriction attribute can be specified explicitly. It is also set implicitly when ddns_restrict_patterns_list or ddns_restrict_patterns is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_restrict_patterns_list and ddns_restrict_patterns. Set the parameter to "false" to inherit the Grid-level setting for ddns_restrict_patterns_list and ddns_restrict_patterns.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_patterns_restriction
+ my $override_ddns_patterns_restriction = $firstview->override_ddns_patterns_restriction();
+ #Modify override_ddns_patterns_restriction
+ $firstview->override_ddns_patterns_restriction("true");
+
+=back
+
+=back
+
+=head2 override_ddns_restrict_static( )
+
+=over
+
+The override_ddns_restrict_static attribute controls whether the ddns_restrict_static method value of the DNS View is used, instead of the Grid default.
+
+The override_ddns_restrict_static attribute can be specified explicitly. It is also set implicitly when ddns_restrict_static is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_restrict_static. Set the parameter to "false" to inherit the Grid-level setting for ddns_restrict_static.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_restrict_static
+ my $override_ddns_restrict_static = $firstview->override_ddns_restrict_static();
+ #Modify override_ddns_restrict_static
+ $firstview->override_ddns_restrict_static("true");
+
+=back
+
+=back
+
+=head2 override_ddns_restrict_protected( )
+
+=over
+
+The override_ddns_restrict_protected attribute controls whether the ddns_restrict_protected method value of the DNS View is used, instead of the Grid default.
+
+The override_ddns_restrict_protected attribute can be specified explicitly. It is also set implicitly when ddns_restrict_protected is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_restrict_protected. Set the parameter to "false" to inherit the Grid-level setting for ddns_restrict_protected.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_restrict_protected
+ my $override_ddns_restrict_protected = $firstview->override_ddns_restrict_protected();
+ #Modify override_ddns_restrict_protected
+ $firstview->override_ddns_restrict_protected("true");
+
+=back
+
+=back
+
+=head2 override_ddns_principal_security( )
+
+=over
+
+The override_ddns_principal_security attribute controls whether the ddns_restrict_secure, ddns_principal_tracking and ddns_principal_group methods values of the DNS View are used, instead of the Grid default.
+
+The override_ddns_principal_security attribute can be specified explicitly. It is also set implicitly when ddns_restrict_secure, ddns_principal_tracking or ddns_principal_group is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_restrict_secure, ddns_principal_tracking and ddns_principal_group. Set the parameter to "false" to inherit the Grid-level setting for ddns_restrict_secure, ddns_principal_tracking and ddns_principal_group.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_principal_security
+ my $override_ddns_principal_security = $firstview->override_ddns_principal_security();
+ #Modify override_ddns_principal_security
+ $firstview->override_ddns_principal_security("true");
+
+=back
+
+=back
+
+=head2 override_dns64( )
+
+=over
+
+The override_dns64 attribute controls whether the DNS64 method values in this DNS view are used, instead of the grid default.
+
+The override_dns64 attribute can be specified explicitly. It is also set implicitly when enable_dns64 or dns64_groups are set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for enable_dns64 and dns64_groups. Set the parameter to "false" to inherit the grid-level setting for enable_dns64 and dns64_groups.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_dns64
+    my $override_dns64=$firstview->override_dns64( );
+    #Modifying override_dns64
+    $firstview->override_dns64("true");
+
+=back
+
+=back
+
+=head2 override_dnssec( )
+
+=over
+
+The override_dnssec attribute controls whether the dnssec_enabled, dnssec_validation_enabled,
+dnssec_expired_signatures_enabled, and dnssec_trusted_keys values in the
+database are used.
+
+The override_dnssec attribute can be specified explicitly. It is also established
+implicitly as follows:
+    "dnssec_enabled" => "true"|"false" results in "override_dnssec" => "true"
+    "dnssec_enabled" => undef results in "override_dnssec" => "false"
+If the override_dnssec attribute is specified explicitly as "true", while dnssec_enabled=>undef,
+the explicit value takes precedence, and override_dnssec=>"true" while
+dnssec_enabled remains unchanged in the DB.
+
+Supplying the dnssec_validation_enabled, dnssec_expired_signatures_enabled, or
+dnssec_trusted_keys attributes does not affect the override_dnssec value. It is
+implicitly affected only by dnssec_enabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the member-level setting of the DNSSEC attributes. Set the parameter to "false" to inherit the grid-member level settings of DNSSec.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_dnssec
+    my $override_dnssec=$firstview->override_dnssec( );
+    #Modifying override_dnssec
+    $firstview->override_dnssec("true");
+
+=back
+
+=back
+
+=head2 override_filter_aaaa( )
+
+=over
+
+The override_filter_aaaa attribute controls whether the AAAA filter method values of the view are used, instead of the grid default.
+
+The override_filter_aaaa attribute can be specified explicitly. It is also set implicitly when filter_aaaa or filter_aaaa_list are set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for filter_aaaa and filter_aaaa_list. Set the parameter to "false" to inherit the grid-level setting for filter_aaaa and filter_aaaa_list.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_filter_aaaa
+    my $override_filter_aaaa=$firstview->override_filter_aaaa( );
+    #Modifying override_filter_aaaa
+    $firstview->override_filter_aaaa("true");
+
+=back
+
+=back
+
+=head2 override_fixed_rrset_order_fqdns( )
+
+=over
+
+The override_fixed_rrset_order_fqdns controls whether the enable_fixed_rrset_order_fqdns and fixed_rrset_order_fqdns values in the database are used.
+
+The override_fixed_rrset_order_fqdns can be specified explicitly. It is also set implicitly as follows: enable_fixed_rrset_order_fqdns => "true" | "false" or fixed_rrset_order_fqdns => $fqdns results in override_fixed_rrset_order_fqdns => "true";
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-leval fixed RRset order settings. Set the parameter to "false" to inherit the Grid-level settings. The default is "false".
+
+=item B<Returns>
+
+When you specify a parameter and the modification succeeds, the method returns "true". When the operation fails, the method returns "false".
+
+When you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_fixed_rrset_order_fqdns flag
+ my $override_fixed_rrset_order_fqdns = $firstview->override_fixed_rrset_order_fqdns();
+ #Modify override_fixed_rrset_order_fqdns flag
+ $firstview->override_fixed_rrset_order_fqdns("true");
+
+=back
+
+=back
+
+=head2 override_forwarders( )
+
+=over
+
+The "override_forwarders" attribute controls whether the "forward_only" and "forwarders" values in the database are used.
+
+The "override_forwarders" attribute can be specified explicitly. It is also set implicitly as follows: "forward_only" => "true"|"false" or "forwarders" => ["10.0.0.10", "10.0.0.20"]|[] results in "override_forwarders" => "true"; "forward_only" => undef and "forwarders" => undef result in "override_forwarders" => "false". If "override_forwarders" is specified explicitly as "true", and "forward_only" => undef or "forwarders" => undef, then the explicit value takes precedence. Therefore, "override_forwarders"=>"true", "forward_only"=>undef, and "forwarders"=>undef remain unchanged in the database.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the member-level settings of the forwarders attributes. Set the parameter to "false" to inherit the member-level settings. The default is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get override_forwarders
+   my $override_forwarders=$firstview->override_forwarders( );
+   #Modify override_forwarders
+   $firstview->override_forwarders("true");
+
+=back
+
+=back
+
+=head2 override_lame_ttl( )
+
+=over
+
+Use this method to set or retrieve the override_lame_ttl attribute that controls whether the lame_ttl method values of the view are used, instead of the Grid default
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for lame_ttl. Set the parameter to "false" to inherit the grid-level setting for lame_ttl. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_lame_ttl
+ my $override_lame_ttl = $firstview->override_lame_ttl();
+ #Modify override_lame_ttl
+ $firstview->override_lame_ttl('true');
+
+=back
+
+=back
+
+=head2 override_max_cache_ttl( )
+
+=over
+
+The override_max_cache_ttl attribute controls whether the max_cache_ttl method values of the member are used, instead of the grid default.
+
+The override_max_cache_ttl attribute can be specified explicitly. It is also set implicitly when max_cache_ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for max_cache_ttl. Set the parameter to "false" to inherit the grid-level setting for max_cache_ttl.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_max_cache_ttl
+ my $override_max_cache_ttl = $firstview->override_max_cache_ttl( );
+ #Modifying override_max_cache_ttl
+ $firstview->override_max_cache_ttl("true");
+
+=back
+
+=back
+
+=head2 override_max_ncache_ttl( )
+
+=over
+
+The override_max_ncache_ttl attribute controls whether the max_ncache_ttl method values of the member are used, instead of the Grid default.
+
+The override_max_ncache_ttl attribute can be specified explicitly. It is also set implicitly when max_ncache_ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for max_ncache_ttl. Set the parameter to "false" to inherit the Grid-level setting for max_ncache_ttl.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_max_ncache_ttl
+ my $override_max_ncache_ttl = $firstview->override_max_ncache_ttl( );
+ #Modifying override_max_ncache_ttl
+ $firstview->override_max_ncache_ttl("true");
+
+=back
+
+=back
+
+=head2 scavenging_settings( )
+
+=over
+
+Use this method to set or retrieve the view-level scavenging settings.
+
+Setting this parameter implicitle sets the override_scavenging_settings attribute to "true". Setting the parameter to undefined causes the appliance to use the Grid-level settings and automatically sets the override_scavenging_settings attribute to "false".
+
+Note that when scavenging_settings is set and override_scavenging_settings is set to "false", the last operation takes precedence. Thus the sequence $object->scavenging_settings($recl_settings); $object->override_scavenging_settings("false"); sets override_scavenging_settings to "false", and the sequence $object->override_scavenging_settings("false"); $object->scavenging_settings($recl_settings); sets override_scavenging_settings to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::ScavengingSetting|Infoblox::Grid::DNS::ScavengingSetting> object.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get scavenging_settings value
+ my $scavenging_settings = $object->scavenging_settings();
+
+ #Modify scavenging_settings value
+ $object->scavenging_settings($scavenging_settings);
+
+=back
+
+=back
+
+=head2 override_scavenging_settings( )
+
+=over
+
+The override_scavenging_settings attribute controls whether the scavenging_settings method values of the DNS View are used, instead of the Grid default.
+
+The override_scavenging_settings attribute can be specified explicitly. It is also set implicitly when scavenging_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for scavenging_settings. Set the parameter to "false" to inherit the Grid-level setting for scavenging_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_scavenging_settings value
+ my $override_scavenging_settings = $object->override_scavenging_settings( );
+
+ #Modify override_scavenging_settings value
+ $object->override_scavenging_settings("true");
+
+=back
+
+=back
+
+=head2 recursion( )
+
+=over
+
+Use this method to enable/disable recursion.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the recursion flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get recursion
+ my $recursion = $firstview->recursion();
+ #Modify recursion
+ $firstview->recursion("false");
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_enabled( )
+
+=over
+
+Use this method to set or retreive the flag that indicates whether the DNS server ignores RPZ-IP triggers with large prefix lengths or not.
+
+Setting this method to a defined value implicitly sets the override_rpz_drop_ip_rule method to "true". Setting the parameter to undefined if rpz_drop_ip_rule_min_prefix_length_ipv4 and rpz_drop_ip_rule_min_prefix_length_ipv6 are undefined causes the appliance to use the Grid default and automatically resets the override_rpz_drop_ip_rule attribute to "false".
+
+Note that when rpz_drop_ip_rule_enabled is set to a defined value and override_rpz_drop_ip_rule is set to "false", the last operation takes precedence. Thus the sequence $object->rpz_drop_ip_rule_enabled("true"); $object->override_rpz_drop_ip_rule("false"); will set override_rpz_drop_ip_rule to "false", and the sequence $object->override_rpz_drop_ip_rule("false"); $object->rpz_drop_ip_rule_enabled("true"); will result in override_rpz_drop_ip_rule="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable ignoring of RPZ-IP triggers with large prefix lengths or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $firstview->rpz_drop_ip_rule_enabled();
+ # Modify attribute value
+ $firstview->rpz_drop_ip_rule_enabled("true");
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_min_prefix_length_ipv4( )
+
+=over
+
+Use this method to set or retreive minimum prefix length for IPv4 RPZ-IP triggers.
+
+Setting this method to a defined value implicitly sets the override_rpz_drop_ip_rule method to "true". Setting the parameter to undefined if rpz_drop_ip_rule_enabled and rpz_drop_ip_rule_min_prefix_length_ipv6 are undefined causes the appliance to use the Grid default and automatically resets the override_rpz_drop_ip_rule attribute to "false".
+
+Note that when rpz_drop_ip_rule_min_prefix_length_ipv4 is set to a defined value and override_rpz_drop_ip_rule is set to "false", the last operation takes precedence. Thus the sequence $object->rpz_drop_ip_rule_min_prefix_length_ipv4("20"); $object->override_rpz_drop_ip_rule("false"); will set override_rpz_drop_ip_rule to "false", and the sequence $object->override_rpz_drop_ip_rule("false"); $object->rpz_drop_ip_rule_min_prefix_length_ipv4("20"); will result in override_rpz_drop_ip_rule="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 31 that represents prefix length (in bits) for IPv4 RPZ-IP triggers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $firstview->rpz_drop_ip_rule_min_prefix_length_ipv4();
+ # Modify attribute value
+ $firstview->rpz_drop_ip_rule_min_prefix_length_ipv4("16");
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_min_prefix_length_ipv6( )
+
+=over
+
+Use this method to set or retreive minimum prefix length for IPv6 RPZ-IP triggers.
+
+Setting this method to a defined value implicitly sets the override_rpz_drop_ip_rule method to "true". Setting the parameter to undefined if rpz_drop_ip_rule_enabled and rpz_drop_ip_rule_min_prefix_length_ipv4 are undefined causes the appliance to use the Grid default and automatically resets the override_rpz_drop_ip_rule attribute to "false".
+
+Note that when rpz_drop_ip_rule_min_prefix_length_ipv6 is set to a defined value and override_rpz_drop_ip_rule is set to "false", the last operation takes precedence. Thus the sequence $object->rpz_drop_ip_rule_min_prefix_length_ipv6("20"); $object->override_rpz_drop_ip_rule("false"); will set override_rpz_drop_ip_rule to "false", and the sequence $object->override_rpz_drop_ip_rule("false"); $object->rpz_drop_ip_rule_min_prefix_length_ipv6("20"); will result in override_rpz_drop_ip_rule="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 127 that represents prefix length (in bits) for IPv6 RPZ-IP triggers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $firstview->rpz_drop_ip_rule_min_prefix_length_ipv6();
+ # Modify attribute value
+ $firstview->rpz_drop_ip_rule_min_prefix_length_ipv6("120");
+
+=back
+
+=back
+
+=head2 rpz_qname_wait_recurse( )
+
+=over
+
+Use this method to enable or disable recursive RPZ lookups.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable recursive RPZ lookups or "false" to disable them. The default value is "false".
+
+Note that if both rpz_qname_wait_recurse and override_rpz_qname_wait_recurse are set to some values, the last operation takes precedence. Thus the sequence $firstview->rpz_qname_wait_recurse("true"); $firstview->override_rpz_qname_wait_recurse("false"); results in inheriting rpz_qname_wait_recurse value from the Grid. And the sequence $firstview->override_rpz_qname_wait_recurse("false"); $firstview->rpz_qname_wait_recurse("true"); sets override_rpz_qname_wait_recurse to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $firstview->rpz_qname_wait_recurse();
+ # Modify attribute value
+ $firstview->rpz_qname_wait_recurse("true");
+
+=back
+
+=back
+
+=head2 response_rate_limiting( )
+
+=over
+
+Use this method to set or retrieve response rate limiting settings for the DNS view.
+
+Setting this method to a defined value implicitly sets the override_response_rate_limiting method to "true". Setting the parameter to undefined causes the appliance to use the Member DNS default and automatically resets the override_response_rate_limiting method to "false".
+
+Note that when response_rate_limiting is set to a defined value and override_response_rate_limiting is set to "false", the last operation takes precedence. Thus the sequence $object->response_rate_limiting($response_rate_limiting); $object->override_response_rate_limiting("false"); will set override_response_rate_limiting to "false", and the sequence $object->override_response_rate_limiting("false"); $object->response_rate_limiting($response_rate_limiting); will result in override_response_rate_limiting="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::ResponseRateLimiting|Infoblox::Grid::DNS::ResponseRateLimiting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get response_rate_limiting
+ my $response_rate_limiting = $firstview->response_rate_limiting();
+ #Modify response_rate_limiting
+ $firstview->response_rate_limiting($response_rate_limiting);
+
+=back
+
+=back
+
+=head2 use_root_name_servers( )
+
+=over
+
+Use this method to enable/disable custom or Internet root name servers. This setting overrides grid root name server settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable custom root name servers. Specify "false" to use Internet root name servers.
+
+=item B<Returns>
+
+If you specify a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get use_root_name_servers
+   my $useRootNS = $firstview->use_root_name_servers( );
+   #Modify use_root_name_servers
+   $firstview->use_root_name_servers("false");
+
+=back
+
+=back
+
+=head2 override_nxdomain_redirect( )
+
+=over
+
+The "override_nxdomain_redirect" attribute controls whether the "nxdomain_redirect", "nxdomain_redirect_addresses", "nxdomain_redirect_addresses_ipv6", "nxdomain_redirect_ttl", "nxdomain_log_query", and "nxdomain_rulesets" values for this DNS view are used.
+
+The "override_nxdomain_redirect" attribute can be specified explicitly. It is also set implicitly as follows:
+"nxdomain_redirect" => "true"|"false" or "nxdomain_redirect_addresses" => ["10.0.0.10", "10.0.0.20"]|[] or "nxdomain_redirect_addresses" => ["2001:db8::1", "2002:ffff::1"]|[] result in "override_nxdomain_redirect" => "true", "nxdomain_redirect" => undef and "nxdomain_redirect_addresses" => undef and "nxdomain_redirect_addresses_ipv6" => undef result in "override_nxdomain_redirect" => "false".
+If "override_nxdomain_redirect" is specified explicitly as "true", and "nxdomain_redirect" => undef, "nxdomain_redirect_addresses" => undef and "nxdomain_redirect_addresses_ipv6" => undef, then the explicit value takes precedence; and "override_nxdomain_redirect"=>"true", "nxdomain_redirect", "nxdomain_redirect_addresses", and "nxdomain_redirect_addresses" remain unchanged in the database.
+
+Specifying the "nxdomain_redirect_ttl", "nxdomain_log_query", or "nxdomain_rulesets" attributes does not affect the "override_nxdomain_redirect" value. It is implicitly set only by "nxdomain_redirect".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the member-level settings of the NXDOMAIN redirect attributes. Set the parameter to "false" to inherit the member-level settings. The default is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get override_nxdomain_redirect
+   my $override_nxdomain_redirect=$firstview->override_nxdomain_redirect( );
+   #Modify override_nxdomain_redirect
+   $firstview->override_nxdomain_redirect("true");
+
+=back
+
+=back
+
+=head2 nxdomain_redirect( )
+
+=over
+
+Use this method to enable or disable NXDOMAIN redirection in a DNS view.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the nxdomain_redirect flag or "false" to deactivate/unset it. The default is "false".
+
+Setting this parameter to "true" or "false" implicitly sets the override_nxdomain_redirect attribute to "true". Setting the parameter to undefined causes the appliance to use the grid-level NXDOMAIN redirection settings and automatically sets the override_nxdomain_redirect attribute to "false" if nxdomain_redirect_addresses or nxdomain_redirect_addresses_ipv6 is also undefined. But if nxdomain_redirect_addresses or nxdomain_redirect_addresses_ipv6 contains a value, then the override_nxdomain_redirect attribute is set to true.
+
+Note that when nxdomain_redirect is set to "true"/"false" and override_nxdomain_redirect is set to "false", the last operation takes precedence. Thus the sequence $firstview->nxdomain_redirect("false"); $firstview->override_nxdomain_redirect("false"); sets override_nxdomain_redirect to "false", and the sequence $firstview->override_nxdomain_redirect("false"); $firstview->nxdomain_redirect("false"); sets override_nxdomain_redirect to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting nxdomain_redirect
+   my $nxdomain_redirect = $firstview->nxdomain_redirect( );
+   #Modifying nxdomain_redirect
+   $firstview->nxdomain_redirect("true");
+
+=back
+
+=back
+
+=head2 nxdomain_redirect_addresses( )
+
+=over
+
+Use this method to specify the IP addresses the appliance includes in the response it sends in place of an NXDOMAIN response.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of IPv4 addresses. The default value is undefined.
+
+Setting this parameter to a defined value implicitly sets the override_nxdomain_redirect attribute to "true". Setting the parameter to undefined causes the appliance to use the grid-level NXDOMAIN redirection settings and automatically sets the override_nxdomain_redirect attribute to "false" if nxdomain_redirect and nxdomain_redirect_addresses_ipv6 is also undefined. But if nxdomain_redirect or nxdomain_redirect_addresses_ipv6 contains a value, then the override_nxdomain_redirect attribute is set to true.
+
+Note that when nxdomain_redirect_addresses contains a valid array reference and override_nxdomain_redirect is set to "false", the last operation takes precedence. Thus the sequence $firstview->nxdomain_redirect_addresses(["10.0.0.10", "10.0.0.20"]); $firstview->override_nxdomain_redirect("false"); sets override_nxdomain_redirect to "false", and the sequence $firstview->override_nxdomain_redirect("false"); $firstview->nxdomain_redirect_addresses(["10.0.0.10", "10.0.0.20"]); sets override_nxdomain_redirect to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_redirect_addresses
+   my $nxdomain_redirect_addresses = $firstview->nxdomain_redirect_addresses( );
+   #Modify nxdomain_redirect_addresses
+   $firstview->nxdomain_redirect_addresses(["10.0.0.10", "10.0.0.20"]);
+
+=back
+
+=back
+
+=head2 nxdomain_redirect_addresses_ipv6( )
+
+=over
+
+Use this method to specify the IP addresses the appliance includes in the response it sends in place of an NXDOMAIN response.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of IPv6 addresses. The default value is undefined.
+
+Setting this parameter to a defined value implicitly sets the override_nxdomain_redirect attribute to "true". Setting the parameter to undefined causes the appliance to use the grid-level NXDOMAIN redirection settings and automatically sets the override_nxdomain_redirect attribute to "false" if nxdomain_redirect and nxdomain_redirect_addresses is also undefined. But if nxdomain_redirect or nxdomain_redirect_addresses contains a value, then the override_nxdomain_redirect attribute is set to true.
+
+Note that when nxdomain_redirect_addresses_ipv6 contains a valid array reference and override_nxdomain_redirect is set to "false", the last operation takes precedence. Thus the sequence $firstview->nxdomain_redirect_addresses_ipv6(["2001:db8::1", "2002:ffff::1"]); $firstview->override_nxdomain_redirect("false"); sets override_nxdomain_redirect to "false", and the sequence $firstview->override_nxdomain_redirect("false"); $firstview->nxdomain_redirect_addresses_ipv6(["2001:db8::1", "2002:ffff::1"]); sets override_nxdomain_redirect to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_redirect_addresses_ipv6
+   my $nxdomain_redirect_addresses_ipv6 = $firstview->nxdomain_redirect_addresses_ipv6( );
+   #Modify nxdomain_redirect_addresses_ipv6
+   $firstview->nxdomain_redirect_addresses_ipv6(["2001:db8::1", "2002:ffff::1"]);
+
+=back
+
+=back
+
+=head2 nxdomain_redirect_ttl( )
+
+=over
+
+Use this method to set or retrieve the TTL value of the synthetic DNS responses that result from NXDOMAIN redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer, from 0 to 4294967295, that represents the TTL in seconds. The default value is 60.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_redirect_ttl
+   my $nxdomain_redirect_ttl = $firstview->nxdomain_redirect_ttl( );
+   #Modify nxdomain_redirect_ttl
+   $firstview->nxdomain_redirect_ttl(60);
+
+=back
+
+=back
+
+=head2 nxdomain_log_query( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether NXDOMAIN redirection queries are logged.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable logging, or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_log_query
+   my $nxdomain_log_query = $firstview->nxdomain_log_query( );
+   #Modify nxdomain_log_query
+   $firstview->nxdomain_log_query("true");
+
+=back
+
+=back
+
+=head2 nxdomain_rulesets( )
+
+=over
+
+Use this method to specify or retrieve L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset> object names assigned at the grid level for NXDOMAIN redirection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains the names of the L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset> objects assigned to the grid. The names must be in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get nxdomain_rulesets
+   my $nxdomain_rulesets = $firstview->nxdomain_rulesets();
+   #Modify nxdomain_rulesets
+   $firstview->nxdomain_rulesets(["ruleset1", "ruleset2"]);
+
+=back
+
+=back
+
+=head2 override_rpz_drop_ip_rule( )
+
+=over
+
+The override_rpz_drop_ip_rule attribute controls whether the rpz_drop_ip_rule_enabled, rpz_drop_ip_rule_min_prefix_length_ipv4 and rpz_drop_ip_rule_min_prefix_length_ipv6 method values of the member are used, instead of the Grid default.
+
+The override_rpz_drop_ip_rule attribute can be specified explicitly. It is also set implicitly when one of rpz_drop_ip_rule_enabled, rpz_drop_ip_rule_min_prefix_length_ipv4 or rpz_drop_ip_rule_min_prefix_length_ipv6 methods is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for rpz_drop_ip_rule_enabled, rpz_drop_ip_rule_min_prefix_length_ipv4 and rpz_drop_ip_rule_min_prefix_length_ipv6 methods. Set the parameter to "false" to inherit the Grid-level setting for rpz_drop_ip_rule_enabled, rpz_drop_ip_rule_min_prefix_length_ipv4 and rpz_drop_ip_rule_min_prefix_length_ipv6 methods.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_rpz_drop_ip_rule
+    my $override_rpz_drop_ip_rule = $firstview->override_rpz_drop_ip_rule( );
+    #Modifying override_rpz_drop_ip_rule
+    $firstview->override_rpz_drop_ip_rule("true");
+
+=back
+
+=back
+
+=head2 override_rpz_qname_wait_recurse( )
+
+=over
+
+The override_rpz_qname_wait_recurse attribute controls whether the rpz_qname_wait_recurse method value for the member is used, instead of the Grid default.
+
+The "override_rpz_qname_wait_recurse" attribute can be specified explicitly. It is also established implicitly as follows: "rpz_qname_wait_recurse" => "true"|"false" results in "override_rpz_qname_wait_recurse" => "true"; "rpz_qname_wait_recurse" => undef results in "override_rpz_qname_wait_recurse" => "false"; If "override_rpz_qname_wait_recurse" is specified explicitly as "true", while "rpz_qname_wait_recurse"=>undef, the explicit value takes precedence, and "override_rpz_qname_wait_recurse"=>"true" while "rpz_qname_wait_recurse" remains unchanged in the database.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for rpz_qname_wait_recurse. Set the parameter to "false" to inherit the Grid-level setting for rpz_qname_wait_recurse value.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_rpz_qname_wait_recurse
+ my $override_rpz_qname_wait_recurse = $firstview->override_rpz_qname_wait_recurse();
+ #Modyfying override_rpz_qname_wait_recurse
+ $firstview->override_rpz_qname_wait_recurse("true");
+
+=back
+
+=back
+
+=head2 override_response_rate_limiting( )
+
+=over
+
+The override_response_rate_limiting attribute controls whether the response_rate_limiting method values of the member are used, instead of the Grid Member default.
+
+The override_response_rate_limiting attribute can be specified explicitly. It is also set implicitly when response_rate_limiting is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the member-level setting for response_rate_limiting. Set the parameter to "false" to inherit the member-level setting for response_rate_limiting.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_response_rate_limiting
+ my $override_response_rate_limiting = $firstview->override_response_rate_limiting( );
+ #Modify override_response_rate_limiting
+ $firstview->override_response_rate_limiting("true");
+
+=back
+
+=back
+
+=head2 override_sortlist( )
+
+=over
+
+The override_sortlist attribute controls whether the sort list value in this DNS view is used, instead of the member default.
+
+The override_sortlist attribute can be specified explicitly. It is also set implicitly when the sort list is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the member-level setting for the sort list. Set the parameter to "false" to inherit the member-level setting for the sort list.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_sortlist
+    my $override_sortlist=$firstview->override_sortlist( );
+    #Modifying override_sortlist
+    $firstview->override_sortlist("true");
+
+=back
+
+=back
+
+=head2 sortlist( )
+
+=over
+
+Use this method to create a sort list.
+
+A sort list determines the order of addresses in responses made to DNS queries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_sortlist method to "true". Setting the parameter to undefined causes the appliance to use the member default and automatically resets the override_sortlist attribute to "false".
+
+Note that when the sort list is set to a defined value and override_sortlist is set to "false", the last operation takes precedence. Thus the sequence $object->sortlist([$s1,$s2]); $object->override_sortlist("false"); will set override_sortlist to "false", and the sequence $object->override_sortlist("false"); $object->sortlist([$s1,$s2]); will result in override_sortlist="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::DNS::Sortlist|Infoblox::DNS::Sortlist> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   my $sort1 = Infoblox::DNS::Sortlist->new (
+                           "source_ipv4addr" => "1.2.3.4",
+                           "match_list"      => [ "10.20.1.0/24" , "10.20.2.0/24"]
+                );
+   $firstview->sortlist( [ $sort1 ] );
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to an object, such as create, search, modify, and remove. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to a DNS view insertion>
+
+  use strict;
+  use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DNS view>
+
+ #create member
+ my $member1 = Infoblox::DNS::Member->new(
+     name     => "member.com",
+     ipv4addr => "192.168.1.2",
+     lead     => "false",
+     stealth  => "false"
+ );
+
+ #create keys
+ my $key1 = Infoblox::DNS::TSIGKey->new(
+     name => "tsig_xfer",
+     key  => ":2xCOMPAT"
+ );
+
+ my $tsig_key2 = $session->gen_tsig_key();
+
+ my $key2 = Infoblox::DNS::TSIGKey->new(
+     name => "key2",
+     key  => $tsig_key2
+ );
+
+ #create View object using members
+ my $firstview = Infoblox::DNS::View->new(
+     name              => "internal",
+     match_clients     => ["1.1.1.1", $key1, "10.0.0.0/8", $key2],
+     recursion         => "true",
+     disable           => "false",
+     comment           => "new Internal view"
+     );
+  unless ($firstview) {
+           die("constructor for view internal failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+      }
+
+ #put View into session
+ $session->add($firstview);
+ unless ($firstview) {
+       die("add view internal failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ }
+
+B<#Search for a specific view>
+
+ #Searching the internal view
+ my @result = $session->search(object => "Infoblox::DNS::View", name => "^internal\$");
+ my $object = $result[0];
+ unless ($object) {
+           die("Search view failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+      }
+ print "Search view object found at least 1 matching entry\n";
+
+B<#Get and modify a DNS view>
+
+ my @result = $session->get(
+     object => "Infoblox::DNS::View",
+     name   => "internal"
+ );
+
+ my $firstview = $result[0];
+ unless ($firstview) {
+          die("Get view failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get view found at least 1 matching entry\n";
+ $firstview->comment("new comment internal view");
+
+ #Apply the changes
+ $session->modify($firstview);
+ unless ($firstview) {
+           die("Modify view failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+      }
+ print "View object modified successfully \n";
+
+B<#Remove a view>
+
+ my @result = $session->get(
+     object => "Infoblox::DNS::View",
+     name   => "internal"
+ );
+
+ my $firstview = $result[0];
+ unless ($firstview) {
+          die("Get view failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get view found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($firstview);
+ unless ($firstview) {
+          die("Remove view failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print "View object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DHCP::View|Infoblox::DHCP::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>,  L<Infoblox::DNS::DnssecTrustedKey|Infoblox::DNS::DnssecTrustedKey>, L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::DNS::Sortlist|Infoblox::DNS::Sortlist>, L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL>, L<Infoblox::Grid::DNS::FixedRRSetOrderFQDN|Infoblox::Grid::DNS::FixedRRSetOrderFQDN>,
+L<Infoblox::Grid::DNS::ResponseRateLimiting|Infoblox::Grid::ResponseRateLimiting>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

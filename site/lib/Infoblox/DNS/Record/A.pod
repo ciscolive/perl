@@ -1,0 +1,1698 @@
+=head1 NAME
+
+Infoblox::DNS::Record::A - DNS A record object.
+
+=head1 DESCRIPTION
+
+An A (address) record maps a domain name to an IPv4 address. To define a specific name-to-address mapping, add an A record to a previously defined authoritative forward-mapping zone.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $bind_a = Infoblox::DNS::Record::A->new (
+     ipv4addr              => $ipv4addr,                                                              # Required
+     name                  => $fqdn,                                                                  # Required
+     comment               => $string,                                                                # Optional / Default is empty
+     disable               => "true" | "false"                                                        # Optional / Default "false"
+     extattrs              => { $string => $extattr, ... },                                           # Optional / Default is undefined
+     extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, # Optional / Default is undefined
+     last_discovered       => $string,                                                                # Optional / Default is empty
+     ttl                   => $num | undef,                                                           # Optional / Default is undefined
+     views                 => [$View1],                                                               # Optional / Default is "default" view
+     creator               => "DYNAMIC" | "STATIC",                                                   # Optional / Default is "STATIC"
+     ddns_protected        => "true" | "false",                                                       # Optional / Default is "false"
+     ddns_principal        => $string,                                                                # Optional / Default is undefined
+     forbid_reclamation    => "true" | "false",                                                       # Optional / Default is "false"
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS A object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $bind_a = Infoblox::DNS::Record::A->new (
+     ipv4addr => "1.1.1.1",
+     name     => "bind_a.domain.com",
+     comment  => "this is a demo bind_a record",
+     disable  => "true",
+     ttl      => "33",
+     views    => [$view1]  );
+ # Submit for addition
+ my $response = $session->add( $bind_a );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS A object:
+
+  name                  - Optional. A host name in string format.
+  view                  - Optional. The DNS view in which the A record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone                  - Optional. A zone name in FQDN format.
+  ipv4addr              - Optional. The address of the host record.
+  reclaimable           - Optional. The flag that indicates whether the record is reclaimable or not.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  creator               - Optional. Record creator.
+  ddns_principal        - Optional. GSS-TSIG principal that owns the record.
+  v_cluster             - Optional. Discovered VMware cluster name.
+  v_datacenter          - Optional. Discovered VMware datacenter name.
+  v_host                - Optional. Discovered VMware server name.
+  v_name                - Optional. Discovered VMware host or virtual machine name.
+  v_netadapter          - Optional. Discovered VMware physical network adapter name.
+  v_switch              - Optional. Discovered VMware virtual switch name.
+  v_type                - Optional. Discovered VMware entity type (possible values: "VirtualMachine", "HostSystem", "VirtualCenter").
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::A",
+     name   => "bind_a.domain.com",
+     view   => "default" );
+
+ #get all DNS A recods with the extensible attribute 'Site'
+ my @retrieved_objs = $session->get(
+    object => "Infoblox::DNS::Record::A",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+ # get DNS A records by v_type:
+ my @retrieved_objs = $session->get(
+    object    => 'Infoblox::DNS::Record::A',
+    v_type    => 'VirtualMachine');
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $bind_a->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $bind_a );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to submit to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Key References>
+
+ remove_options - Optional. A hash reference containing the following attributes:
+
+ +---------------------------------------------------------------------------------------------+
+ | remove_associated_ptr - Optional. Boolean flag that indicates whether the associated PTR    |
+ |                         record should be removed while deleting the specified A record.     |
+ +---------------------------------------------------------------------------------------------+
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::A",
+     name   => "bind_a.domain.com",
+     view   => "default" );
+ # Find the desired object from the retrieved list.
+ my $desired_a = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove(
+     $desired_a,
+     remove_options => {'remove_associated_ptr' => 'true'} );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS A record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for para
+meters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS A record object:
+
+  name                  - Optional. A host name in string format (regular expression).
+  view                  - Optional. The DNS view in which the A record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone                  - Optional. A zone name in FQDN format.
+  comment               - Optional. A comment in string format (regular expression).
+  ipv4addr              - Optional. The address of the host record (regular expression).
+  reclaimable           - Optional. The flag that indicates whether the record is reclaimable or not.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  creator               - Optional. Record creator.
+  ddns_principal        - Optional. GSS-TSIG principal that owns the record.
+  v_cluster             - Optional. Discovered VMware cluster name (regular expression).
+  v_datacenter          - Optional. Discovered VMware datacenter name (regular expression).
+  v_host                - Optional. Discovered VMware server name (regular expression).
+  v_name                - Optional. Discovered VMware host or virtual machine name (regular expression).
+  v_netadapter          - Optional. Discovered VMware physical network adapter name (regular expression).
+  v_switch              - Optional. Discovered VMware virtual switch name (regular expression).
+  v_type                - Optional. Discovered VMware entity type (possible values: "VirtualMachine", "HostSystem", "VirtualCenter").
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DNS A objects that match "domain.com" in the default DNS view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::A",
+     name   => 'domain\.com',
+     view   => "default" );
+
+ # search for all DNS A records in the "domain.com" zone of the default view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::A",
+     zone   => "domain.com",
+     view   => "default" );
+
+ #get all DNS A recods with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+   object => "Infoblox::DNS::Record::A",
+   extensible_attributes => { 'Site' => 'Santa Clara' });
+
+ # search DNS A records by v_datacenter:
+ my @retrieved_objs = $session->search(
+    object       => "Infoblox::DNS::Record::A",
+    v_datacenter => "test.*");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an A record
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $bind_a->comment();
+ #Modify comment
+ $bind_a->comment("Modifying the DNS A comment");
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::Record::A object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 creator( )
+
+=over
+
+Use this method to set or retrieve the record creator.
+
+Note that changing creator from or to 'SYSTEM' value is not allowed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+The valid values are 'STATIC' and 'DYNAMIC'. The default value is 'STATIC'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get creator value
+ my $creator = $object->creator();
+
+ #Modify creator value
+ $object->creator("DYNAMIC");
+
+=back
+
+=back
+
+=head2 creation_time( )
+
+=over
+
+Use this method to retrieve the creation time for the record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is a number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get creation_time value
+ my $creation_time = $object->creation_time();
+
+=back
+
+=back
+
+=head2 ddns_principal( )
+
+=over
+
+Use this method to set or retrive the GSS-TSIG principal that owns this record.
+
+Note that you cannot set ddns_principal for 'STATIC' and 'SYSTEM' records.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+The GSS-TSIG principal FQDN (Fully Qualified Domain Name) format. The FQDN consists of the hostname followed by the domain name (example: abc.com). A hostname can have a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_principal value
+ my $ddns_principal = $object->ddns_principal();
+
+ #Modify ddns_principal value
+ $object->ddns_principal('foo.com');
+
+=back
+
+=back
+
+=head2 ddns_protected( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether DDNS updates for this record are allowed or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to protect record from DDNS updates and 'false' to allow DDNS updates for the specified record.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_protected value
+ my $ddns_protected = $object->ddns_protected();
+
+ #Modify ddns_protected value
+ $object->ddns_protected('true');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The DNS record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $bind_a->disable();
+ #Modify disable
+ $bind_a->disable("true");
+
+=back
+
+=back
+
+=head2 discovered_data( )
+
+=over
+
+Use this method to retrieve the discovered data of an A Record object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data> object.
+
+=item B<Example>
+
+ #Get discovered_data value
+ my $discovered_data = $object->discovered_data();
+
+=back
+
+=back
+
+=head2 discovered_name( )
+
+=over
+
+Use this method to retrieve the discovered name of an A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_name
+ my $discovered_name = $bind_a->discovered_name();
+
+=back
+
+=back
+
+=head2 discoverer( )
+
+=over
+
+Use this method to retrieve the discoverer of an A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discoverer value.
+
+=item B<Example>
+
+ #Get discoverer
+ my $discoverer = $bind_a->discoverer();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the host name in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $bind_a->dns_name();
+
+=back
+
+=back
+
+=head2 first_discovered( )
+
+=over
+
+Use this method to retrieve the date and time that the A Record object was first discovered.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the date and time when the A Record object was first discovered.
+
+=item B<Example>
+
+ #Get first_discovered
+ my $first_discovered = $bind_a->first_discovered();
+
+=back
+
+=back
+
+=head2 forbid_reclamation( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the reclamation is allowed for the record or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to forbid reclamation for the record and 'false' to allow it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get forbid_reclamation
+ my $forbid_reclamation = $object->forbid_reclamation();
+ #Modify forbid_reclamation
+ $object->forbid_reclamation('true');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS A record object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $bind_a->extattrs();
+ #Modify extattrs
+ $bind_a->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS A record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $bind_a->extensible_attributes();
+ #Modify extensible attributes
+ $bind_a->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to set or retrieve the the IPv4 address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.
+168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv4addr
+ my $ipv4addr = $bind_a->ipv4addr();
+ #Modify ipv4addr
+ $bind_a->ipv4addr("2.2.2.2");
+
+=back
+
+=back
+
+=head2 last_discovered( )
+
+=over
+
+Use this method to retrieve the time this object was last seen by a discovery job.
+
+The default value for this field is empty.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_discovered
+ my $last_discovered = $bind_a->last_discovered();
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time when the associated record was last queried. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $bind_a->last_queried();
+
+=back
+
+=back
+
+=head2 mac_address( )
+
+=over
+
+Use this method to retrieve the discovered MAC address of this object.
+
+The default value for this field is empty.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get mac_address
+ my $mac_address = $bind_a->mac_address();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $bind_a->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Hostname in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the hostname followed by the domain name (example: abc.com). A hostname can have
+ a maximum of 256 bytes.
+
+Infoblox also supports wildcard A records. A wildcard A record maps all the hostnames in a domain to a single IP address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $bind_a->name();
+ #Modify name
+ $bind_a->name("bind_a.domain.com");
+
+=back
+
+=back
+
+=head2 netbios( )
+
+=over
+
+Use this method to retrieve the name in the NetBIOS reply that responded to a NetBIOS query.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get netbios
+ my $netbios = $bind_a->netbios();
+
+=back
+
+=back
+
+=head2 network_component_description( )
+
+=over
+
+Use this method to retrieve the description of the network device that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device description.
+
+=item B<Example>
+
+ #Get network_component_description
+ my $network_component_description = $bind_a->network_component_description();
+
+=back
+
+=back
+
+=head2 network_component_ip( )
+
+=over
+
+Use this method to retrieve the IP address of the network device that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device IP address.
+
+=item B<Example>
+
+ #Get network_component_ip
+ my $network_component_ip = $bind_a->network_component_ip();
+
+=back
+
+=back
+
+=head2 network_component_name( )
+
+=over
+
+Use this method to retrieve the name of the network device that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device name.
+
+=item B<Example>
+
+ #Get network_component_name
+ my $network_component_name = $bind_a->network_component_name();
+
+=back
+
+=back
+
+=head2 network_component_port_description( )
+
+=over
+
+Use this method to retrieve the description of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port description.
+
+=item B<Example>
+
+ #Get network_component_port_description
+ my $network_component_port_description = $bind_a->network_component_port_description();
+
+=back
+
+=back
+
+=head2 network_component_port_name( )
+
+=over
+
+Use this method to retrieve the name of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the name of the port on the network device.
+
+=item B<Example>
+
+ #Get network_component_port_name
+ my $network_component_port_name = $bind_a->network_component_port_name();
+
+=back
+
+=back
+
+=head2 network_component_port_number( )
+
+=over
+
+Use this method to retrieve the number of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port number.
+
+=item B<Example>
+
+ #Get network_component_port_number
+ my $network_component_port_number = $bind_a->network_component_port_number();
+
+=back
+
+=back
+
+=head2 network_component_type( )
+
+=over
+
+Use this method to retrieve the type of the network device that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device type.
+
+=item B<Example>
+
+ #Get network_component_type
+ my $network_component_type = $bind_a->network_component_type();
+
+=back
+
+=back
+
+=head2 os( )
+
+=over
+
+Use this method to retrieve the operating system associated with this A record.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get os
+ my $os = $bind_a->os();
+
+=back
+
+=back
+
+=head2 port_duplex( )
+
+=over
+
+Use this method to retrieve the duplex setting of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port duplex setting. Returned values, if any, are one of the following:
+
+  Full
+  Half
+
+=item B<Example>
+
+ #Get port_duplex
+ my $port_duplex = $bind_a->port_duplex();
+
+=back
+
+=back
+
+=head2 port_link_status( )
+
+=over
+
+Use this method to retrieve the link status of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port link status. Returned values, if any, are one of the following:
+
+  Connected
+  Not Connected
+  Unknown
+
+=item B<Example>
+
+ #Get port_link_status
+ my $port_link_status = $bind_a->port_link_status();
+
+=back
+
+=back
+
+=head2 port_speed( )
+
+=over
+
+Use this method to retrieve the speed of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port speed value. Returned values, if any, are one of the following:
+
+  10M
+  100M
+  1G
+  10G
+  100G
+  Unknown
+
+=item B<Example>
+
+ #Get port_speed
+ my $port_speed = $bind_a->port_speed();
+
+=back
+
+=back
+
+=head2 port_status( )
+
+=over
+
+Use this method to retrieve the status of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port status. Returned values, if any, are one of the following:
+
+  Up
+  Down
+  Unknown
+
+=item B<Example>
+
+ #Get port_status
+ my $port_status = $bind_a->port_status();
+
+=back
+
+=back
+
+=head2 port_vlan_description( )
+
+=over
+
+Use this method to retrieve the VLAN description of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN description of the network device port.
+
+=item B<Example>
+
+ #Get port_vlan_description
+ my $port_vlan_description = $bind_a->port_vlan_description();
+
+=back
+
+=back
+
+=head2 port_vlan_name( )
+
+=over
+
+Use this method to retrieve the VLAN name of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN name of the network device port.
+
+=item B<Example>
+
+ #Get port_vlan_name
+ my $port_vlan_name = $bind_a->port_vlan_name();
+
+=back
+
+=back
+
+=head2 port_vlan_number( )
+
+=over
+
+Use this method to retrieve the VLAN number of the network device port that is connected to the A Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port VLAN number.
+
+=item B<Example>
+
+ #Get port_vlan_number
+ my $port_vlan_number = $bind_a->port_vlan_number();
+
+=back
+
+=back
+
+=head2 reclaimable( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the record is reclaimable or not.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get reclaimable
+ my $reclaimable = $object->reclaimable();
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $bind_a->ttl();
+ #Modify ttl
+ $bind_a->ttl(1800);
+ #Un-override ttl
+ $bind_a->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the view of the A record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" view, which means the A record is located under the default view.
+
+=over
+
+=item B<Parameter>
+
+Array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $bind_a->views();
+ #Modify views, list of Infoblox::DNS::View objects
+ $bind_a->views([$view1]);
+
+=back
+
+=back
+
+=head2 v_cluster( )
+
+=over
+
+Use this method to retrieve the name of the VMware cluster associated with the A Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware cluster name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_cluster
+ my $v_cluster = $bind_a->v_cluster();
+
+=back
+
+=back
+
+=head2 v_datacenter( )
+
+=over
+
+Use this method to retrieve the name of the VMware datacenter associated with the A Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware datacenter name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_datacenter
+ my $v_datacenter = $bind_a->v_datacenter();
+
+=back
+
+=back
+
+=head2 v_host( )
+
+=over
+
+Use this method to retrieve the name of the VMware host associated with the A Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware host name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_host
+ my $v_host = $bind_a->v_host();
+
+=back
+
+=back
+
+=head2 v_name( )
+
+=over
+
+Use this method to retrieve the name of the VMware entity associated with the A Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware entity name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_name
+ my $v_name = $bind_a->v_name();
+
+=back
+
+=back
+
+=head2 v_netadapter( )
+
+=over
+
+Use this method to retrieve the name of the physical network adapter through which the VMware entity is connected to the appliance. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the network adapter name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_netadapter
+ my $v_netadapter = $bind_a->v_netadapter();
+
+=back
+
+=back
+
+=head2 v_switch( )
+
+=over
+
+Use this method to retrieve the name of the virtual switch through which the VMware entity is connected to the appliance. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the virtual switch name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_switch
+ my $v_switch = $bind_a->v_switch();
+
+=back
+
+=back
+
+=head2 v_type( )
+
+=over
+
+Use this method to retrieve the type of VMware entity associated with the A Record object. This method is read-only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware entity type. The default value is an empty string. The returned value, if any, can be one of the following:
+
+ VirtualMachine
+ HostSystem
+ VirtualCenter
+
+=item B<Example>
+
+ #Get v_type
+ my $v_type = $bind_a->v_type();
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of a DNS A record. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $bind_a->zone();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DNS A record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox Appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the zone prior to an A record insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "domain.com");
+ unless ($zone) {
+    die("Construct zone failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "domain.com");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create a DNS A record>
+
+ #Construct a DNS A object
+ my $bind_a = Infoblox::DNS::Record::A->new(
+     name     => "bind_a.domain.com",
+     comment  => " this is a demo bind_a record ",
+     ipv4addr => "1.1.1.1"
+ );
+ unless ($bind_a) {
+    die("Construct DNS record A failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DNS A object created successfully\n";
+
+ #Add the DNS A record object to Infoblox Appliance through a session
+ $session->add($bind_a)
+     or die("Add record A failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS A object added to server successfully\n";
+
+B<#Search for a specific DNS A record>
+
+ #Search all A records that match "domain.com"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::A",
+     name   => 'domain\.com'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search record A failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS A object found at least 1 matching entry\n";
+
+ #Search all A records that start with "bind" and end with ".domain.com"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::A",
+     name   => '^bind.*\.domain\.com\$'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search record A failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS A object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a DNS A record>
+
+ #Get A record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::A",
+     name   => "bind_a.domain.com"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get record A failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS A object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified A record
+ $object->ipv4addr("3.3.3.3");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify record A failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS A object modified successfully \n";
+
+B<#Remove a DNS A record>
+
+ #Get A record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::A",
+     name   => "bind_a.domain.com"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get record A failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS A object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove record A failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "DNS A object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>,
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>,
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>,
+L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

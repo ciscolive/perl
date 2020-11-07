@@ -1,0 +1,105 @@
+=head1 NAME
+
+Infoblox::Grid::TestResult - A result object returned by various test functions.
+
+=head1 DESCRIPTION
+
+The result object represents the evaluation status for various test operations (eg Threat Analytics server connectivity, Threat Protection server connectivity).
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of a test result object.
+
+=head2 error_message( )
+
+=over
+
+Use this method to retrieve the single error messages returned by the test operation. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, that is an error message in string format.
+
+=item B<Example>
+
+ #Get error_message value
+ my $error_message = $object->error_message();
+
+=back
+
+=back
+
+=head2 error_messages( )
+
+=over
+
+Use this method to retrieve the list of error messages returned by the test operation. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns an array reference that contains error messages in a string format.
+
+=item B<Example>
+
+ #Get error_messages value
+ my $error_messages = $object->error_messages();
+
+=back
+
+=back
+
+=head2 overall_status( )
+
+=over
+
+Use this method to retrieve the overall status returned by the test operation. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get overall_status value
+ my $overall_status = $object->overall_status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ThreatProtection-E<gt>test_threat_protection_server_connectivity()|Infoblox::Grid::ThreatProtection/test_threat_protection_server_connectivity()/>,
+L<Infoblox::Grid::ThreatAnalytics-E<gt>test_threat_analytics_server_connectivity()|Infoblox::Grid::ThreatAnalytics/test_threat_analytics_server_connectivity()/>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,274 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatInsight::CloudClient - Grid Threat Insight Cloud Client object.
+
+=head1 DESCRIPTION
+
+Use this object to configure the cloud client that is used for integrating with Infoblox Threat Insight in the cloud.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Infoblox::Grid::ThreatInsight::CloudClient object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatInsight::CloudClient',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify some of the attributes of the object.
+ $object->enable('true');
+
+ # Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve values of the Grid Threat Insight Cloud Client object.
+
+=head2 blacklist_rpz_list( )
+
+=over
+
+Use this method to set or retrieve the list of RPZs to which domains detected by the Threat Insight Cloud Client are targeted.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get blacklist_rpz_list value
+ my $blacklist_rpz_list = $object->blacklist_rpz_list();
+
+ #Modify blacklist_rpz_list value
+ $object->blacklist_rpz_list([$rpz_zone]);
+
+=back
+
+=back
+
+=head2 enable( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether Threat Insight on the Cloud Client is enabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the Threat Insight in the Cloud Client and 'false' to disable it. The default is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable value
+ my $enable = $object->enable();
+
+ #Modify enable value
+ $object->enable('true');
+
+=back
+
+=back
+
+=head2 force_refresh( )
+
+=over
+
+Use this method to set the flag that indicates whether force refresh for Response Policy Zones is enabled. This is a write-only attribute.
+
+Note that force refresh takes effect only if at least one new Response Policy Zone is configured. Otherwise, the corresponding CLI command is used.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable force refresh for the Response Policy Zone and 'false' to disable it. The default is 'true'.
+
+=item B<Parameter>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify force_refresh value
+ $object->force_refresh('false');
+
+=back
+
+=back
+
+=head2 interval( )
+
+=over
+
+Use this method to set or retrieve the time interval (in seconds) for the Threat Insight Cloud Client integration.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 60 and 3600. The default value is 600.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get interval value
+ my $interval = $object->interval();
+
+ #Modify interval value
+ $object->interval(3000);
+
+=back
+
+=back
+
+=head2 request_threat_insight_cloud_client_token( )
+
+=over
+
+Use this method to request the Threat Insight Cloud Client authentication token.
+
+=over
+
+=item B<Key Reference>
+
+ email    - Required. The user email address from the Cloud Services Portal for authentication purposes.
+ password - Required. The user password from the Cloud Services Portal for authentication purposes.
+
+=item B<Returns>
+
+The method returns the authentication token if the request succceeds, and returns 0 if it fails.
+
+=item B<Example>
+
+ my $token = $object->request_threat_insight_cloud_client_token(
+     'email'    => 'test@infoblox.com',
+     'password' => 'secret');
+
+=back
+
+=back
+
+
+=head2 test_threat_insight_cloud_client_connectivity( )
+
+=over
+
+Use this method to test the Threat Insight Cloud Client connectivity.
+
+=over
+
+=item B<Key Reference>
+
+ token - Optional. The custom token from the Cloud Services Portal for authentication purposes.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::TestResult|Infoblox::Grid::TestResult> object if the connectivity test occurs, and returns 0 otherwise.
+
+=item B<Example>
+
+ my $res = $object->test_threat_insight_cloud_client_connectivity();
+
+=back
+
+=back
+
+=head2 token( )
+
+=over
+
+Use this method to set the Threat Insight Cloud Client authentication token. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired token in string format.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify token value
+ $object->token('1c7c764a846ee4d304e23de8baf3ef9a');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, 
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

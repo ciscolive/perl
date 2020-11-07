@@ -1,0 +1,156 @@
+=head1 NAME
+
+Infoblox::Grid::UpdatesDownloadMemberConfig - An Updates Download Member Configuration object.
+
+=head1 DESCRIPTION
+
+The Updates Download Member Configuration object provides information and settings for configuring Member that is responsible for updates download.
+
+=head1 CONSTRUCTOR
+
+ my $http_proxy_setting = Infoblox::Grid::UpdatesDownloadMemberConfig->new(
+     member    => $string | undef,                  #Required
+     interface => 'ANY' | 'VIP' | 'LAN2' | 'MGMT', #Required
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a Updates Download Member Configuration object.
+
+=head2 Infoblox::Grid->updates_download_member_config( )
+
+=over
+
+Use this method to set or retrieve the list of updates download member configurations. 
+See L<Infoblox::Grid-E<gt>updates_download_member_config()|Infoblox::Grid/updates_download_member_config()/> for parameters andreturn values.
+
+=over
+
+=item B<Example>
+
+ #Get updates_download_member_config value
+ my $updates_download_member_config = $grid->updates_download_member_config();
+
+ #Modify updates_download_member_config value
+ $grid->updates_download_member_config([$conf1, $conf2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Updates Download Member Configuration object.
+
+=head2 interface( )
+
+=over
+
+Use this method to set or retrieve the source interface for updates download requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ANY', 'VIP', 'LAN2' and 'MGMT'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get interface value
+ my $interface = $obj->interface();
+
+ #Modify interface value
+ $obj->interface('ANY');
+
+=back
+
+=back
+
+=head2 is_online( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the updates download member is on-line or not.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get is_online value
+ my $is_online = $obj->is_online();
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve the updates download member name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired member's name in a string format or undef for Grid Master.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get member value
+ my $member = $obj->member();
+
+ #Modify member value
+ $obj->member('desired-member.com');
+
+ #Modify member value to Grid Master
+ $obj->member(undef);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid|Infoblox::Grid>, 
+L<Infoblox::Grid-E<gt>updates_download_member_config()|Infoblox::Grid/updates_download_member_config()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

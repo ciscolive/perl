@@ -1,0 +1,60 @@
+{
+   "abstract" : "Quickly serve static files",
+   "author" : [
+      "Stefan Adams <sadams@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "unknown"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Mojolicious-Command-static",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc",
+         "t"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "List::MoreUtils" : "0.428",
+            "Mojolicious" : "8.00",
+            "perl" : "5.010001"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/stefanadams/mojolicious-command-static/issues"
+      },
+      "homepage" : "https://stefan.adams.fm",
+      "license" : [
+         "http://www.opensource.org/licenses/artistic-license-2.0"
+      ],
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/stefanadams/mojolicious-command-static.git",
+         "web" : "https://github.com/stefanadams/mojolicious-command-static"
+      },
+      "x_IRC" : "irc://irc.freenode.net/#mojo"
+   },
+   "version" : "0.03",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

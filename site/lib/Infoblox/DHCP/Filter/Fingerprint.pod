@@ -1,0 +1,424 @@
+=head1 NAME
+
+Infoblox::DHCP::Filter::Fingerprint - DHCP Fingerprint Filter object.
+
+=head1 DESCRIPTION
+
+DHCP Fingerprint Filter object.
+
+=head1 CONSTRUCTOR
+
+ my $filter = Infoblox::DHCP::Filter::Fingerprint->new(
+    name          => $string,                                # required
+    fingerprint   => [$fingerprint1, $fingerprint2, ...],    # required, reference to an array of Infoblox::DHCP::Fingerprint objects
+    comment       => $string,                                # optional
+    extattrs      => { $string => $extattr, ... },           # optional / Default is undefined
+    extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to DHCP Fingerprint Filter object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $filter = Infoblox::DHCP::Filter::Fingerprint->new(
+    name        => 'fingerprint_filter',
+    fingerprint => [$fingerprint],
+ );
+
+ #Submit for addition
+ my $response = $session->add( $filter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP Fingerprint Filter object:
+
+  name       - Optional. The name of DHCP Fingerprint Filter object.
+  comment    - Optional. The comment.
+  extattrs   - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ # Get DHCP Fingerprint Filter object by name
+ my @retrieved_objs = $session->get(
+    object    => 'Infoblox::DHCP::Filter::Fingerprint',
+    name      => 'fingerprint_filter',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Modify comment
+ $filter->comment("This is modified object");
+ # Submit modification
+ my $response = $session->modify( $filter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the object by name
+ my @retrieved_objs = $session->get(
+    object   => 'Infoblox::DHCP::Filter::Fingerprint',
+    name     => 'fingerprint_filter',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_filter = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_filter );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP Fingerprint Filter objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for specific DHCP Fingerprint Filter objects:
+
+  name       - Optional. The name of DHCP Fingerprint Filter object (regular expression).
+  comment    - Optional. The comment (regular expression).
+  extattrs   - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ # Search DHCP Fingerprint Filter object by name
+ my @retrieved_objs = $session->search(
+    object    => 'Infoblox::DHCP::Filter::Fingerprint',
+    name      => 'fingerprint_filter',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of DHCP Fingerprint Filter objects.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $filter->comment();
+ #Modify attribute value
+ $filter->comment('new comment');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Fingerprint Filter object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $filter->extattrs();
+ #Modify extattrs
+ $filter->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Fingerprint Filter object.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $extensible_attributes = $filter->extensible_attributes();
+ #Modify extensible attributes
+ $filter->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 fingerprint( )
+
+=over
+
+Use this method to set or retrieve a list of DHCP Fingerprint objects.
+
+=over
+
+=item B<Parameter>
+
+Reference to an array of L<Infoblox::DHCP::Fingerprint|Infoblox::DHCP::Fingerprint> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $filter->fingerprint();
+ #Modify attribute value
+ $filter->fingerprint([$fingerprint]);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP Fingerprint Filter object.
+
+=over
+
+=item B<Parameter>
+
+The name in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $filter->name();
+ #Modify attribute value
+ $filter->name('new_fingerprint_filter');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify, search and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying DHCP Fingerprint Filter object>
+
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create DHCP Fingerprint Filter object>
+
+ my $fingerprint = Infoblox::DHCP::Fingerprint->new('name' => 'Microsoft Windows 8');
+ unless ($fingerprint) {
+        die("Construct DHCP Fingerprint object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Fingerprint object created successfully\n";
+
+ my $filter = Infoblox::DHCP::Filter::Fingerprint->new(
+    'name'        => 'fingerprint_filter',
+    'fingerprint' => [$fingerprint],
+ );
+
+ unless ($filter) {
+        die("Construct DHCP Fingerprint Filter object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Fingerprint Filter object created successfully\n";
+
+ my $response = $session->add($filter);
+
+ unless ($response) {
+     die("Add DHCP Fingerprint Filter object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"DHCP Fingerprint Filter object added successfully \n";
+
+B<#Search for DHCP Fingerprint Filter object>
+
+ my @retrieved_objs = $session->search(
+    object  => 'Infoblox::DHCP::Filter::Fingerprint',
+    name    => 'fingerprint_filter',
+ );
+
+ $filter = $retrieved_objs[0];
+
+ unless ($filter) {
+         die("Search DHCP Fingerprint Filter object object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DHCP Fingerprint Filter object found at least 1 matching entry\n";
+
+B<#Get and modify DHCP Fingerprint Filter object>
+
+ @retrieved_objs = $session->get(
+    object  => 'Infoblox::DHCP::Filter::Fingerprint',
+    name    => 'fingerprint_filter',
+ );
+
+ $filter = $retrieved_objs[0];
+
+ unless ($filter) {
+     die("Get DHCP Fingerprint Filter object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get DHCP Fingerprint Filter object successful \n";
+
+ $filter->comment("This is modified object");
+
+ $session->modify($filter)
+    or die("Modify DHCP Fingerprint Filter object failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Fingerprint Filter object modified successfully \n";
+
+B<#Remove DHCP Fingerprint Filter object>
+
+ @retrieved_objs = $session->get(
+    object  => 'Infoblox::DHCP::Filter::Fingerprint',
+    name    => 'fingerprint_filter',
+ );
+
+ $filter = $retrieved_objs[0];
+
+ unless ($filter) {
+     die("Get DHCP Fingerprint Filter object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get DHCP Fingerprint Filter object successful \n";
+
+ $session->remove( $filter )
+     or die("Remove DHCP Fingerprint Filter object failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print"DHCP Fingerprint Filter object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Fingerprint|Infoblox::DHCP::Fingerprint>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

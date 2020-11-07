@@ -1,0 +1,11 @@
+prefix=/root/.cpanm/work/1602125804.17078/Alien-Sodium-1.0.8.0/blib/lib/auto/share/dist/Alien-Sodium
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libsodium
+Version: 1.0.8
+Description: A portable, cross-compilable, installable, packageable fork of NaCl, with a compatible API.
+
+Libs: -L${libdir} -lsodium
+Cflags: -I${includedir}

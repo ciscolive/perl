@@ -1,0 +1,305 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::ScavengingTask - A DNS scavenging task object.
+
+=head1 DESCRIPTION
+
+The DNS scavenging task object provides information on scavenging process state. This is a read-only object.
+
+The object is created as a result of L<Infoblox::Session-E<gt>run_scavenging()|Infoblox::Session/run_scavenging()/> function call and cannot be added or removed manually.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a DNS scavenging task object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+     associated_object - Optional. The DNS object associated with scavenging process.
+     action            - Optional. The scavenging action.
+     status            - Optional. The scavenging status.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::DNS::ScavengingTask',
+     action => 'ANALYZE',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+     associated_object - Optional. The DNS object associated with scavenging process.
+     action            - Optional. The scavenging action.
+     status            - Optional. The scavenging status.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::Grid::DNS::ScavengingTask',
+     action => 'ANALYZE',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of a DNS scavenging task object.
+
+=head2 action( )
+
+=over
+
+Use this method to retrieve the scavenging action. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'ANALYZE', 'RECLAIM', 'ANALYZE_RECLAIM' and 'RESET'.
+
+=item B<Example>
+
+ #Get action value
+ my $action = $object->action();
+
+=back
+
+=back
+
+=head2 associated_object( )
+
+=over
+
+Use this method to retrieve the object associated with the scavenging task. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::DNS::View|Infoblox::DNS::View> and L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>.
+
+=item B<Example>
+
+ #Get associated_object value
+ my $associated_object = $object->associated_object();
+
+=back
+
+=back
+
+=head2 end_time( )
+
+=over
+
+Use this method to retrieve the end time for the scavenging task. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get end_time value
+ my $end_time = $object->end_time();
+
+=back
+
+=back
+
+=head2 processed_records( )
+
+=over
+
+Use this method to retrieve the number of resource records being processed during the scavenging process. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get processed_records value
+ my $processed_records = $object->processed_records();
+
+=back
+
+=back
+
+=head2 reclaimable_records( )
+
+=over
+
+Use this method to retrieve the number of scavenged resource records during the scavenging process. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get reclaimable_records value
+ my $reclaimable_records = $object->reclaimable_records();
+
+=back
+
+=back
+
+=head2 reclaimed_records( )
+
+=over
+
+Use this method to retrieve the number of reclaimed during the scavenging process resource records. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get reclaimed_records value
+ my $reclaimed_records = $object->reclaimed_records();
+
+=back
+
+=back
+
+=head2 start_time( )
+
+=over
+
+Use this method to retrieve the start time for the scavenging process. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get start_time value
+ my $start_time = $object->start_time();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the scavenging process status. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'CREATED', 'RUNNING'. 'COMPLETED' and 'ERROR'.
+
+=item B<Example>
+
+ #Get status value
+ my $status = $object->status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, 
+L<Infoblox::Session-E<gt>run_scavenging()|Infoblox::Session/run_scavenging()/>, 
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, 
+L<Infoblox::DNS::View|Infoblox::DNS::View>, 
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

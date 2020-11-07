@@ -1,0 +1,58 @@
+{
+   "abstract" : "Compares two or more directories for files that differ",
+   "author" : [
+      "Ivan Wills <ivan.wills@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "App-diffdir",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : "0.98",
+            "Test::Warnings" : "0.026"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : 0.38
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Moo" : "2.000000",
+            "Path::Tiny" : 0,
+            "Text::Diff" : 0,
+            "perl" : "5.010"
+         }
+      }
+   },
+   "provides" : {
+      "App::diffdir" : {
+         "file" : "lib/App/diffdir.pm",
+         "version" : "0.9"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=App::diffdir"
+      },
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ],
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/ivanwills/App-diffdir.git"
+      }
+   },
+   "version" : "0.9",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

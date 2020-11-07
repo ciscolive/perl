@@ -1,0 +1,309 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection::NATRule - a NAT Threat Protection Rule object.
+
+=head1 DESCRIPTION
+
+The NAT Threat Protection Rule object provides information about NAT rules configured for the threat protection NAT mapping feature.
+
+=head1 CONSTRUCTOR
+
+ my $nat_rule = Infoblox::Grid::ThreatProtection::NATRule->new(
+    rule_type     => 'ADDRESS' | 'NETWORK' | 'RANGE', #Required
+    address       => $ipaddress,                      #Required if rule_type is 'ADDRESS'
+    network       => $ipaddress,                      #Required if rule_type is 'NETWORK'
+    cidr          => $uint,                           #Required if rule_type is 'NETWORK'
+    start_address => $ipaddress,                      #Required if rule_type is 'RANGE'
+    end_address   => $ipaddress,                      #Required if rule_type is 'RANGE'
+    nat_ports     => $nat_ports,                      #Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a NAT Port object.
+
+=head2 Infoblox::Grid::ThreatProtection->nat_rules( )
+
+=over
+
+Use this method to set or retrieve the list of rules configured for the threat protection NAT mapping feature. See L<Infoblox::Grid::ThreatProtection-E<gt>nat_rules()|Infoblox::Grid::ThreatProtection/nat_rules()/> for parameters and return values. 
+
+=over
+
+=item B<Example>
+
+ #Get nat_rules
+ my $nat_rules = $nat_rule->nat_rules();
+
+ #Modify nat_rules
+ $nat_rule->nat_rules($nat_rules);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::ThreatProtection->nat_rules( )
+
+=over
+
+Use this method to set or retrieve the list of rules configured for the threat protection NAT mapping feature. See L<Infoblox::Grid::Member::ThreatProtection-E<gt>nat_rules()|Infoblox::Grid::Member::ThreatProtection/nat_rules()/> for parameters and return values. 
+
+=over
+
+=item B<Example>
+
+ #Get nat_rules
+ my $nat_rules = $nat_rule->nat_rules();
+
+ #Modify nat_rules
+ $nat_rule->nat_rules($nat_rules);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Threat Protection NAT Port.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IP address for the threat protection NAT mapping rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired IP address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->address();
+
+ #Modify attribute value
+ $object->address('1.1.1.1');
+
+=back
+
+=back
+
+=head2 cidr( )
+
+=over
+
+Use this method to set or retrieve the network CIDR for the threat protection NAT mapping rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->cidr();
+
+ #Modify attribute value
+ $object->cidr(8);
+
+=back
+
+=back
+
+=head2 end_address( )
+
+=over
+
+Use this method to set or retrieve the end address for the range of the threat protection NAT mapping rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired IP address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->end_address();
+
+ #Modify attribute value
+ $object->end_address('1.1.0.255');
+
+=back
+
+=back
+
+=head2 nat_ports( )
+
+=over
+
+Use this method to set or retrieve the NAT port configuration for the threat protection NAT mapping rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::ThreatProtection::NATPort|Infoblox::Grid::ThreatProtection::NATPort> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->nat_ports();
+
+ #Modify attribute value
+ $object->nat_ports($nat_ports);
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to set or retrieve the network address for the threat protection NAT mapping rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->network();
+
+ #Modify attribute value
+ $object->network('10.0.0.0');
+
+=back
+
+=back
+
+=head2 rule_type( )
+
+=over
+
+Use this method to set or retrieve the rule type for the threat protection NAT mapping rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ADDRESS', 'RANGE', 'NETWORK'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->rule_type();
+
+ #Modify attribute value
+ $object->rule_type('RANGE');
+
+=back
+
+=back
+
+=head2 start_address( )
+
+=over
+
+Use this method to set or retrieve the start address of the range for the threat protection NAT mapping rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired IP address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->start_address();
+
+ #Modify attribute value
+ $object->start_address('1.1.0.255');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ThreatProtection::NATPort|Infoblox::Grid::ThreatProtection::NATPort>, L<Infoblox::Grid::ThreatProtection-E<gt>nat_rules()|Infoblox::Grid::ThreatProtection/nat_rules()/>, L<Infoblox::Grid::ThreatProtection|Infoblox::Grid::ThreatProtection>, L<Infoblox::Grid::Member::ThreatProtection-E<gt>nat_rules()|Infoblox::Grid::Member::ThreatProtection/nat_rules()/>, L<Infoblox::Grid::Member::ThreatProtection|Infoblox::Grid::Member::ThreatProtection>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

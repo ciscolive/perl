@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Git/Repository.pm
+/opt/perl/site/lib/Git/Repository/Command.pm
+/opt/perl/site/lib/Git/Repository/Plugin.pm
+/opt/perl/site/lib/Git/Repository/Tutorial.pod
+/opt/perl/site/lib/Test/Git.pm
+/opt/perl/site/man/man3/Git::Repository.3
+/opt/perl/site/man/man3/Git::Repository::Command.3
+/opt/perl/site/man/man3/Git::Repository::Plugin.3
+/opt/perl/site/man/man3/Git::Repository::Tutorial.3
+/opt/perl/site/man/man3/Test::Git.3

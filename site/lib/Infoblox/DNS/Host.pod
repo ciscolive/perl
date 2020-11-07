@@ -1,0 +1,1214 @@
+=head1 NAME
+
+Infoblox::DNS::Host - DNS Host record object.
+
+=head1 DESCRIPTION
+
+A host record defines attributes for a node, such as the name-to-address and address-to-name mapping. This alleviates having to specify an A record and a PTR record separately for the same node. A host can also define aliases and DHCP fixed address nodes. The zone must be created first before adding a host record for the zone.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $host = Infoblox::DNS::Host->new(
+     ipv4addrs                => [$ipv4addr, $ipv4addr, $FixedAddr, ...], #Required
+     name                     => $fqdn,                                   #Required
+     aliases                  => [$fqdn, $fqdn, ...],  	                  #Optional / Default is empty
+     comment                  => $string,              	                  #Optional / Default is undefined
+     configure_for_dns        => "true" | "false",                        #Optional / Default "true"
+     disable                  => "true" | "false",         		          #Optional / Default "false"
+     extattrs                 => { $string => $extattr, ... },            #Optional / Default is undefined
+     extensible_attributes    => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+     ipv6addrs                => [$ipv6addr, $ipv6addr, ...],             #Optional / Default is empty
+     network_view             => $NetworkView,         	                  #Optional / Default is "default" network view
+     rrset_order              => "cyclic" | "random" | "fixed",           #Optional / Default "cyclic"
+     ttl                      => $num | undef,         		              #Optional / Default is undefined
+     views                    => [$View]                                  #Optional / Default is "default" view
+     cli_credentials          => [$cli1, ...],                            #Optional
+     override_cli_credentials => "true" | "false",                        #Optional / Default is "false"
+     device_type              => $string,                                 #Optional
+     device_vendor            => $string,                                 #Optional
+     device_location          => $string,                                 #Optional
+     device_description       => $string,                                 #Optional
+     allow_telnet             => "true" | "false",                        #Optional / Default is "false"
+     ddns_protected           => "true" | "false",                        #Optional / Default is "false"
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a DNS host record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a host record object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $host = Infoblox::DNS::Host->new(
+     name         => "host1.test.com",
+     aliases      => ["one.foo.com", "two.foo.com"],
+     comment      => "add a host host1.test.com",
+     disable      => "true",
+     ipv4addrs    => ["4.4.4.4"],
+     ipv6addrs    => ["2001::1:2:3:4"],
+     newtork_view => $nview,
+     ttl          => 3600,
+     views        => [$view1],
+ );
+
+ # Submit for addition
+ my $response = $session->add( $host );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS host object:
+
+  name          - Optional. A host name in string format.
+  network_view  - Optional. The network view in which the host record is located. By default, all network views are searched.
+  view          - Optional. The DNS view in which the host record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone          - Optional. A zone name in FQDN format.
+  comment       - Optional. A comment in string format (regular expression)
+  mac           - Optional. A MAC address present in any FixedAddr object in the ipv4addrs member.
+  ipv4addr      - Optional. An IP address in string format (regular expression).
+  ipv6addr      - Optional. An IPv6 address in string format (regular expression).
+  alias         - Optional. An alias of the host in string format (regular expression).
+  extattrs      - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+                       object       => "Infoblox::DNS::Host",
+                       name         => "host1.test.com",
+                       network_view => "default",
+                       view         => "default" );
+
+ my @retrieved_objs = $session->get(
+                       object                => "Infoblox::DNS::Host",
+                       extensible_attributes => { 'Site' => 'Santa Clara' });
+
+ # get all DNS host objects in zone "test.com" of default view
+ my @retrieved_objs = $session->get(
+                       object       => "Infoblox::DNS::Host",
+                       zone         => "test.com",
+                       network_view => "default",
+                       view         => "default" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a host record object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $host->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $host );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a host record object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific host record object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Host",
+     name   => "host1.test.com",
+     view   => "default" );
+ # Find the desired object from the retrieved list.
+ my $desired_host = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_host );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS host record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS host record object:
+
+  name          - Optional. A host name in string format (regular expression).
+  network_view  - Optional. The network view in which the host record is located. By default, all network views are searched.
+  view          - Optional. The DNS view in which the host record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone          - Optional. A zone name in FQDN format.
+  comment       - Optional. A comment in string format (regular expression).
+  mac           - Optional. A MAC address present in any FixedAddr object in the ipv4addrs member (regular expression).
+  ipv4addr      - Optional. An IP address in string format (regular expression).
+  ipv6addr      - Optional. An IPv6 address in string format (regular expression).
+  alias         - Optional. An alias of the host in string format (regular expression).
+  extattrs      - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # search for all DNS host objects that match ".test.com" in the default DNS view
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DNS::Host",
+     name    => '.*\.test\.com',
+     view    => "default",
+     comment => ".*modified comment" );
+
+ # search for DNS host objects defining "Santa Clara" for "Site" extensible attribute
+ my @retrieved_objs = $session->search(
+     object                => "Infoblox::DNS::Host",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+ # search for all DNS host objects in zone "test.com" of default view
+ my @retrieved_objs = $session->search(
+     object       => "Infoblox::DNS::Host",
+     zone         => "test.com",
+     network_view => "default",
+     view         => "default" );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a host record.
+
+=head2 aliases( )
+
+=over
+
+Use this method to set or retrieve the aliases of the host.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Array reference with the aliases for the host. The aliases of the host should be in Fully Qualified Domain Name (FQDN) format. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting aliases
+ my $ref_aliases = $host->aliases();
+ #Modifying aliases
+ $host->aliases(["one1.foo.com", "two2.foo.com"]);
+
+=back
+
+=back
+
+=head2 allow_telnet( )
+
+=over
+
+Use this method to set or retrieve the flag that enables copying SSH credential to TELNET.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to copy SSH credential to TELNET or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $host->allow_telnet();
+ # Modify attribute value
+ $host->allow_telnet('true');
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::Host object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $host->comment();
+ #Modify comment
+ $host->comment("Modifying the DNS host comment");
+
+=back
+
+=back
+
+=head2 configure_for_dns( )
+
+=over
+
+Use this method to set or retrieve the configure_for_dns flag of a DNS host.
+
+When configure_for_dns is false the host will not have parent zone information.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is true.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the configure_for_dns flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get configure_for_dns
+ my $configure_for_dns = $host->configure_for_dns();
+ #Modify configure_for_dns
+ $host->configure_for_dns("false");
+
+=back
+
+=back
+
+=head2 cli_credentials( )
+
+=over
+
+Use this method to set or retrieve the discovery CLI credentials.
+
+Setting this method to a defined value implicitly sets the override_cli_credentials method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_cli_credentials attribute to "false".
+
+Note that when cli_credentials is set to a defined value and override_cli_credentials is set to "false", the last operation takes precedence. Thus the sequence $host->cli_credentials([$cli]); $host->override_cli_credentials("false"); will set override_cli_credentials to "false", and the sequence $host->override_cli_credentials("false"); $host->cli_credentials([$cli]); will result in override_cli_credentials="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::CLICredential|Infoblox::Grid::Discovery::CLICredential> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get cli_credentials
+ my $cli_credentials = $host->cli_credentials();
+ #Modify cli_credentials
+ $host->cli_credentials([$cli1, $cli2]);
+
+=back
+
+=back
+
+=head2 ddns_protected( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether DDNS updates for this record are allowed or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to protect record from DDNS updates and 'false' to allow DDNS updates for the specified record.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_protected value
+ my $ddns_protected = $object->ddns_protected();
+
+ #Modify ddns_protected value
+ $object->ddns_protected('true');
+
+=back
+
+=back
+
+=head2 device_description( )
+
+=over
+
+Use this method to set or retrieve the description of the discovery device.
+
+=over
+
+=item B<Parameter>
+
+The device description in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get device_description
+ my $device_description = $host->device_description();
+ #Modify device_description
+ $host->device_description('example');
+
+=back
+
+=back
+
+=head2 device_location( )
+
+=over
+
+Use this method to set or retrieve the location of the discovery device.
+
+=over
+
+=item B<Parameter>
+
+The device location in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get device_location
+ my $device_location = $host->device_location();
+ #Modify device_location
+ $host->device_location('example');
+
+=back
+
+=back
+
+=head2 device_type( )
+
+=over
+
+Use this method to set or retrieve the type of the discovery device.
+
+=over
+
+=item B<Parameter>
+
+The device type in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get device_type
+ my $device_type = $host->device_type();
+ #Modify device_type
+ $host->device_type('example');
+
+=back
+
+=back
+
+=head2 device_vendor( )
+
+=over
+
+Use this method to set or retrieve the vendor name of the discovery device.
+
+=over
+
+=item B<Parameter>
+
+The device vendor name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get device_vendor
+ my $device_vendor = $host->device_vendor();
+ #Modify device_vendor
+ $host->device_vendor('example');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS host.
+
+The host can be disabled instead of removed. You can avoid removing and re-adding a host when a network appliance is repaired or relocated. When the changes to the physical appliance are complete, the host can be simply re-enabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $host->disable();
+ #Modify disable
+ $host->disable("false");
+
+=back
+
+=back
+
+=head2 dns_aliases( )
+
+=over
+
+Use this method to retrieve the aliases, in punycode format, of the host. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $host->dns_aliases();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the host name in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $host->dns_name();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS Host object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $host->extattrs();
+ #Modify extattrs
+ $host->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $host->extensible_attributes();
+ #Modify extensible attributes
+ $host->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 ipv4addrs( )
+
+=over
+
+Use this method to set or retrieve the IPv4 addresses of the host.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains defined L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr> objects or IPv4 addresses.
+
+An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+If the Infoblox library is loaded with the :hostaddress option, the valid value is an array reference that contains L<Infoblox::DHCP::HostAddr|Infoblox::DHCP::HostAddr> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Gett ipv4addrs
+ my $ref_ipv4addr = $host->ipv4addrs();
+ #Modify ipv4addrs
+ $host->ipv4addrs([$fixedaddr, "2.2.2.2"]); #$fixedaddr is an Infoblox::DHCP::FixedAddr object
+
+=back
+
+=back
+
+=head2 ipv6addrs( )
+
+=over
+
+Use this method to set or retrieve the IPv6 addresses of the host.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains IPv6 addresses in string format.
+
+An IPv6 address is a string consisting of eight groups of four hexadecimal digits, where each group is separated by a colon (:) (example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Various shortcuts exist to shorten the string representation of an IPv6 address, such as omitting the leading zeros of each group and replacing one or any number of consecutive groups of 0 value with two colons(::). i.e. The previous example can be written as 2001:db8:85a3::8a2e:370:7334.
+
+When creating an Infoblox::DNS::Host object, setting this method to [] is not supported. If the Infoblox::DNS::Host object does not have associated IPv6 addresses, simply do not pass the ipv6addrs attribute to the constructor. If [] is set and the Host object is submitted for addition, the following error will be reported: "A host record requires at least one IP address." Setting the method to [] is supported for modify requests.
+
+If the Infoblox library is loaded with the :hostaddress option, the valid value is an array reference that contains L<Infoblox::DHCP::IPv6HostAddr|Infoblox::DHCP::IPv6HostAddr> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Gett ipv6addrs
+ my $ref_ipv6addr = $host->ipv6addrs();
+ #Modify ipv6addrs
+ $host->ipv6addrs(["2001::1", "2002::1:2:3:4"]);
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time when the associated record was last queried. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $host->last_queried();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $host->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Host name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A host name can have a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $host->name();
+ #Modify name
+ $host-> name("host2.test.com");
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of the DNS host.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" network view, which means the DNS host is in the default network view.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a defined L<Infoblox::DHCP::View|Infoblox::DHCP::View> object. The default network view value is the system-defined default network view object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $host->network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $host->network_view($nview);
+
+=back
+
+=back
+
+=head2 override_cli_credentials( )
+
+=over
+
+The override_cli_credentials attribute controls whether the cli_credentials value in the object is used, instead of the grid default.
+
+The override_cli_credentials attribute can be specified explicitly. It is also set implicitly when cli_credentials is set to a defined value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_cli_credentials flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $host->override_cli_credentials();
+ # Modify attribute value
+ $host->override_cli_credentials('true');
+
+=back
+
+=back
+
+=head2 rrset_order( )
+
+=over
+
+Use this method to set or retrieve the rrset_order value. The value of this parameters specifies the order in which resource record sets are returned.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The possible values of the parameter are "cyclic", "random" and "fixed". The default value of this parameter is "cyclic".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get rrset_order
+ my $order = $host->rrset_order()
+ # Set fixed RR set order
+ $host->rrset_order("fixed");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $host->ttl();
+ #Modify ttl
+ $host->ttl(1800);
+ #Un-override ttl
+ $host->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the view of the DNS host.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" view, which means the DNS host is located under the default view.
+
+=over
+
+=item B<Parameter>
+
+Array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects. The default view value is "default".
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $host->views();
+ #Modify views, list of Infoblox::DNS::View objects
+ $host->views([$view1]);
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of a DNS host object. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $host->zone();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a Host record object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DNS host record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox Appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2", #appliance host ip
+     username => "admin",     #appliance user login
+     password => "infoblox"   #appliance password
+ );
+
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Create the zone prior to an host insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "test.com");
+
+ unless ($zone) {
+    die("Construct zone failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone",
+                              name => "test.com");
+ unless ($object) {
+    print "Zone does not exist on server, safe to add the zone\n";
+    $session->add($zone)
+       or die("Add zone failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create a DNS host record>
+
+ #Construct a DNS host object
+
+ my $host = Infoblox::DNS::Host->new(
+     name         => "host1.test.com",
+     aliases      => ["one.foo.com", "two.foo.com"],
+     comment      => "add a host host1.test.com",
+     disable      => "true",
+     ipv4addrs    => ["4.4.4.4"],
+     ipv6addrs    => ["2001::4:4:4:4"],
+     ttl          => 3600,
+ );
+
+ unless ($host) {
+    die("Construct DNS host record failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DNS host object created successfully\n";
+
+ #Add the DNS host record object to Infoblox appliance through a session
+ $session->add($host)
+
+     or die("Add host record failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS host object added to server successfully\n";
+
+B<#Search for a specific DNS host record>
+
+ #Search host record host1.test.com
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Host",
+     name   => 'host1\.test\.com'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search host record failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS host object found at least 1 matching entry\n";
+
+ #Search all host records that start with "add" in the comment
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DNS::Host",
+     comment => "add.*",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search host record failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS host object using regexp in comment field found at least 1 matching entry\n";
+
+ #Search all host records that start with "host1" in the zone
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Host",
+     name   => 'host1.*\.com',
+  );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search host record failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS host object using regexp in name field found at least 1 matching entry\n";
+
+B<#Get and modify a DNS host record>
+
+ #Get host record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Host",
+     name   => "host1.test.com"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get host record failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ #Modify one of the attributes of the specified host record
+ $object->comment("This is the modified comment");
+
+ #Applying the changes
+ $session->modify($object)
+     or die("Modify host record failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS host object modified successfully \n";
+
+B<#Remove a DNS host record.>
+
+ #Get host record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Host",
+     name   => "host1.test.com"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get host record failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get DNS host object successfull\n";
+
+ #Submit the object for removal
+
+ $session->remove($object)
+     or die("Remove host record failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS host object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DHCP::View|Infoblox::DHCP::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>,L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

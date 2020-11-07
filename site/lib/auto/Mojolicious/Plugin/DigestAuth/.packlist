@@ -1,0 +1,5 @@
+/opt/perl/site/lib/Mojolicious/Plugin/DigestAuth.pm
+/opt/perl/site/lib/Mojolicious/Plugin/DigestAuth/DB.pm
+/opt/perl/site/lib/Mojolicious/Plugin/DigestAuth/RequestHandler.pm
+/opt/perl/site/lib/Mojolicious/Plugin/DigestAuth/Util.pm
+/opt/perl/site/man/man3/Mojolicious::Plugin::DigestAuth.3

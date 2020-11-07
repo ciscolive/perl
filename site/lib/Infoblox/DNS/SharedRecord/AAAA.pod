@@ -1,0 +1,614 @@
+=head1 NAME
+
+Infoblox::DNS::SharedRecord::AAAA - DNS AAAA shared record object.
+
+=head1 DESCRIPTION
+
+A shared AAAA record is similar to a regular AAAA record. It maps a domain name to an IPv6 address. The difference is that a shared AAAA record should be added into a shared record group. If this shared record group is associated with other zones, then this shared AAAA record will be shared into these zones. For more information about how shared record groups and shared records work, please refer to Infoblox Administrator Guide.
+
+=head1 CONSTRUCTOR
+
+ my $srg_aaaa = Infoblox::DNS::SharedRecord::AAAA->new (
+     ipv6addr                => $ipv6addr,          #Required
+     name                    => $fqdn,              #Required
+     shared_record_group     => $string,            #Required
+     comment                 => $string,            #Optional / Default is empty
+     disable                 => "true" | "false"    #Optional / Default "false"
+     extattrs                => { $string => $extattr, ... },      #Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, #Optional / Default is undefined
+     ttl                     => $num | undef,       #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS AAAA shared record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a AAAA shared record object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $srg_aaaa = Infoblox::DNS::SharedRecord::AAAA->new(
+     name     => "aaaa1",
+     comment  => "add a shared DNS AAAA aaaa1",
+     ipv6addr => "aaaa:1111:bbbb:2222:cccc:3333:dddd:4444",
+     disable  => "true",
+     ttl      => "33",
+     shared_record_group => "test_srg"  );
+ # Submit for addition
+ my $response = $session->add( $srg_aaaa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS AAAA object:
+
+  name - Required. A host name in string format.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+                       object => "Infoblox::DNS::SharedRecord::AAAA",
+                       name   => "aaaa1");
+
+ # get all shared AAAA records with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::SharedRecord::AAAA",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a AAAA shared record object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $srg_aaaa->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $srg_aaaa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a AAAA shared record object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific AAAA shared record object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::SharedRecord::AAAA",
+     name   => "aaaa1");
+ # Find the desired object from the retrieved list.
+ my $desired_aaaa = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_aaaa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS AAAA shared record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes, to search for a DNS AAAA shared record object:
+
+  name    - Required. Reverse host name in string format (regular expression).
+  comment - Optional. Comment in string format (regular expression).
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DNS AAAA objects
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DNS::SharedRecord::AAAA",
+     name    => ".*",
+     comment => ".*modified comment" );
+
+ # search all DNS shared AAAA records with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::SharedRecord::AAAA",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a DNS shared AAAA record object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DNS shared AAAA record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $srg_aaaa->comment();
+ #Modify comment
+ $srg_aaaa->comment("Modifying the DNS AAAA comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS shared AAAA record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The DNS shared AAAA record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $srg_aaaa->disable();
+ #Modify disable
+ $srg_aaaa->disable("true");
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the host name in punycode format. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $srg_aaaa->dns_name();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS shared AAAA record object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $srg_aaaa->extattrs();
+ #Modify extattrs
+ $srg_aaaa->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS shared AAAA record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $srg_aaaa->extensible_attributes();
+ #Modify extensible attributes
+ $srg_aaaa->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 ipv6addr( )
+
+=over
+
+Use this method to set or retrieve the IPv6 address of a DNS shared AAAA record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number in colon hexadecimal notation. It consists of eight 16-bit groups of hexadecimal digits separated by colons (example: 12ab:0000:0000:0123:4567:89ab:0000:cdef).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6addr
+ my ipv6addr = $srg_aaaa->ipv6addr();
+ #Modify ipv6addr
+ $srg_aaaa->ipv6addr("aaaa:1111:bbbb:2222:cccc:3333:dddd:5555");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the host name of a DNS shared AAAA record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Hostname of this shared AAAA record. This is not the FQDN name of the host name. It should only be the hostname portion of FQDN (Fully Qualified Domain Name) name. For example, if this shared AAAA record 'shared_aaaa' will be shared in zone test.com, then the name should be 'shared_a'. System will append 'test.com' when this shared AAAA record is populated and shared in zone test.com.
+
+A hostname can have a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $shared_aaaaa->name();
+ #Modify name
+ $shared_aaaaa->name("shared_aaaa");
+
+=back
+
+=back
+
+=head2 shared_record_group( )
+
+=over
+
+Use this method to set or retrieve the shared record group of a DNS shared AAAA record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of defined L<Infoblox::DNS::SRG|Infoblox::DNS::SRG> objects. The shared AAAA record will be defined under this shared record group and shared among zones associated with this shared record group.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get shared record group
+ my $srg = $shared_aaaa->shared_record_group();
+ #Modify shared record group
+ $shared_aaaa->shared_record_group("test_srg");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value of a DNS shared AAAA record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $srg_aaaa->ttl();
+ #Modify ttl
+ $srg_aaaa->ttl(1800);
+ #Un-override ttl
+ $srg_aaaa->ttl(undef);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a shared AAAA record object such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DNS shared AAAA shared record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox Appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2", #appliance host ip
+     username => "admin",     #appliance user login
+     password => "infoblox"   #appliance password
+ );
+
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Create the shared record group prior to an shared AAAA record insertion
+ my $srg = Infoblox::DNS::SRG->new(name => "test_srg");
+ unless ($srg) {
+    die("Construct srg failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "SRG object created successfully\n";
+
+ #Verify if the SRG exists
+ my $object = $session->get(object => "Infoblox::DNS::SRg", name => "test_srg");
+ unless ($object) {
+    print "SRG does not exist on server, safe to add the SRG\n";
+    $session->add($SRG)
+       or die("Add SRG failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "SRG added successfully\n";
+
+B<#Create a DNS AAAA shared record>
+
+ #Construct a DNS AAAA object
+
+ my $srg_aaaa = Infoblox::DNS::SharedRecord::AAAA->new(
+     name     => "aaaa1",
+     comment  => "add a DNS shared AAAA aaaa1",
+     ipv6addr => "aaaa:1111:bbbb:2222:cccc:3333:dddd:4444",
+     shared_record_group => "test_srg"
+ );
+
+ unless ($srg_aaaa) {
+    die("Construct DNS shared record AAAA failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DNS shared AAAA object created successfully\n";
+
+ #Add the DNS AAAA shared record object to Infoblox Appliance through a session
+ $session->add($srg_aaaa)
+
+     or die("Add record AAAA failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS AAAA object added to server successfully\n";
+
+B<#Search for a specific DNS AAAA shared record>
+
+ #Search all AAAA shared records in the zone
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::SharedRecord::AAAA",
+     name   => ".*"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search shared record AAAA failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS shared AAAA object found at least 1 matching entry\n";
+
+ #Search all AAAA shared records that start with "add" in the comment
+ my @retrieved_objs = $session->search(
+     object    => "Infoblox::DNS::SharedRecord::AAAA",
+     comment   => "add.*",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search shared record AAAA failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS shared AAAA object found at least 1 matching entry\n";
+
+ #Search all shared AAAA shared records that start with "aaaa1"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::SharedRecord::AAAA",
+     name   => "^aaaa1",
+  );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search shared record AAAA failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS shared AAAA object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a DNS AAAA shared record>
+
+ #Get AAAA shared record through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::SharedRecord::AAAA",
+     name   => "aaaa1"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get shared record AAAA failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ #Modify one of the attributes of the specified AAAA shared record
+ $object->ipv6addr("aaaa:1111:bbbb:2222:cccc:3333:dddd:eeee");
+
+ #Applying the changes
+ $session->modify($object)
+
+     or die("Modify shared record AAAA failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS shared AAAA object modified successfully \n";
+
+B<#Remove a DNS AAAA shared record.>
+
+ #Get AAAA shared record through the session
+ my @retrieved_objs = $session->get(
+     object   => "Infoblox::DNS::SharedRecord::AAAA",
+     name     => "aaaa1"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get record AAAA failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get DNS shared AAAA object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+
+ $session->remove($object)
+     or die("Remove shared record AAAA failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS shared AAAA object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::DNS::SRG|Infoblox::DNS::SRG>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

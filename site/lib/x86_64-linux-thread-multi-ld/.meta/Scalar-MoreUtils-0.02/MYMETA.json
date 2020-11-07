@@ -1,0 +1,37 @@
+{
+   "abstract" : "Provide the stuff missing in Scalar::Util",
+   "author" : [
+      "Robert Krimen <rkrimen@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Scalar-MoreUtils",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : 0
+         }
+      }
+   },
+   "provides" : {
+      "Scalar::MoreUtils" : {
+         "file" : "lib/Scalar/MoreUtils.pm",
+         "version" : "0.02"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "0.02",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

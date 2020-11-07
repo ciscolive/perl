@@ -1,0 +1,5 @@
+/opt/perl/site/lib/B/Hooks/OP/PPAddr.pm
+/opt/perl/site/lib/B/Hooks/OP/PPAddr/Install/Files.pm
+/opt/perl/site/lib/B/Hooks/OP/PPAddr/Install/hook_op_ppaddr.h
+/opt/perl/site/lib/auto/B/Hooks/OP/PPAddr/PPAddr.so
+/opt/perl/site/man/man3/B::Hooks::OP::PPAddr.3

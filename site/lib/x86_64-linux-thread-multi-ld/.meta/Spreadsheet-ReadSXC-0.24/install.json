@@ -1,0 +1,1 @@
+{"name":"Spreadsheet::ReadSXC","pathname":"C/CO/CORION/Spreadsheet-ReadSXC-0.24.tar.gz","dist":"Spreadsheet-ReadSXC-0.24","version":"0.24","provides":{"Spreadsheet::ReadSXC":{"version":"0.24","file":"lib/Spreadsheet/ReadSXC.pm"}},"target":"Spreadsheet::ReadSXC"}

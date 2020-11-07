@@ -1,0 +1,6 @@
+/opt/perl/site/bin/mversion
+/opt/perl/site/lib/Module/Version.pm
+/opt/perl/site/lib/Module/Version/App.pm
+/opt/perl/site/man/man1/mversion.1
+/opt/perl/site/man/man3/Module::Version.3
+/opt/perl/site/man/man3/Module::Version::App.3

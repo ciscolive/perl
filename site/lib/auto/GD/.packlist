@@ -1,0 +1,16 @@
+/opt/perl/site/bin/bdf2gdfont.pl
+/opt/perl/site/lib/GD.pm
+/opt/perl/site/lib/GD/Group.pm
+/opt/perl/site/lib/GD/Image.pm
+/opt/perl/site/lib/GD/Polygon.pm
+/opt/perl/site/lib/GD/Polyline.pm
+/opt/perl/site/lib/GD/Simple.pm
+/opt/perl/site/lib/auto/GD/GD.so
+/opt/perl/site/lib/auto/GD/autosplit.ix
+/opt/perl/site/man/man1/bdf2gdfont.pl.1
+/opt/perl/site/man/man3/GD.3
+/opt/perl/site/man/man3/GD::Group.3
+/opt/perl/site/man/man3/GD::Image.3
+/opt/perl/site/man/man3/GD::Polygon.3
+/opt/perl/site/man/man3/GD::Polyline.3
+/opt/perl/site/man/man3/GD::Simple.3

@@ -1,0 +1,131 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection::RuleConfig - The rule configuration.
+
+=head1 DESCRIPTION
+
+This is an in-memory struct.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::ThreatProtection::RuleConfig->new(
+    'action'         => 'ALERT' | 'PASS' | 'DROP',                           # optional
+    'log_severity'   => 'CRITICAL' | 'MAJOR' | 'WARNING' | 'INFORMATIONAL',  # optional
+    'params'         => [$param1, $param2, ...],                             # required
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the struct.
+
+=head2 action( )
+
+=over
+
+Use this method to set or retrieve the action of the rule.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'ALERT', 'PASS' or 'DROP'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->action();
+ # Modify attribute value
+ $object->action('DROP');
+
+=back
+
+=back
+
+=head2 log_severity( )
+
+=over
+
+Use this method to set or retrieve the severity for the rule log.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'CRITICAL', 'MAJOR', 'WARNING' or 'INFORMATIONAL'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->log_severity();
+ # Modify attribute value
+ $object->log_severity('WARNING');
+
+=back
+
+=back
+
+=head2 params( )
+
+=over
+
+Use this method to set or retrieve rule parameters.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array that contains L<Infoblox::Grid::ThreatProtection::RuleParam|Infoblox::Grid::ThreatProtection::RuleParam> structs.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->params();
+
+ # create expected RuleParam struct
+ my $param = Infoblox::Grid::ThreatProtection::RuleParam->new(
+    'name' => 'SRC_IP',
+    'value' => 'abcd::/64',
+ );
+
+ # Modify attribute value
+ $object->params([$param]);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ThreatProtection::Rule|Infoblox::Grid::ThreatProtection::Rule>, L<Infoblox::Grid::ThreatProtection::RuleParam|Infoblox::Grid::ThreatProtection::RuleParam>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

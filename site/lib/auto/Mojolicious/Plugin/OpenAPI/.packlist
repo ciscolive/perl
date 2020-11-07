@@ -1,0 +1,16 @@
+/opt/perl/site/lib/JSON/Validator/OpenAPI/Mojolicious.pm
+/opt/perl/site/lib/Mojolicious/Plugin/OpenAPI.pm
+/opt/perl/site/lib/Mojolicious/Plugin/OpenAPI/Cors.pm
+/opt/perl/site/lib/Mojolicious/Plugin/OpenAPI/Guides/OpenAPIv2.pod
+/opt/perl/site/lib/Mojolicious/Plugin/OpenAPI/Guides/OpenAPIv3.pod
+/opt/perl/site/lib/Mojolicious/Plugin/OpenAPI/Guides/Swagger2.pod
+/opt/perl/site/lib/Mojolicious/Plugin/OpenAPI/Security.pm
+/opt/perl/site/lib/Mojolicious/Plugin/OpenAPI/SpecRenderer.pm
+/opt/perl/site/man/man3/JSON::Validator::OpenAPI::Mojolicious.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::OpenAPI.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::OpenAPI::Cors.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::OpenAPI::Guides::OpenAPIv2.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::OpenAPI::Guides::OpenAPIv3.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::OpenAPI::Guides::Swagger2.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::OpenAPI::Security.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::OpenAPI::SpecRenderer.3

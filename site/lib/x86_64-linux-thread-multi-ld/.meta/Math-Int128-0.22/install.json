@@ -1,0 +1,1 @@
+{"pathname":"S/SA/SALVA/Math-Int128-0.22.tar.gz","name":"Math::Int128","dist":"Math-Int128-0.22","target":"Math::Int128","provides":{"Math::Int128":{"version":"0.22","file":"lib/Math/Int128.pm"},"Math::UInt128":{"file":"lib/Math/Int128.pm","version":"0.22"},"Math::Int128::die_on_overflow":{"file":"lib/Math/Int128/die_on_overflow.pm","version":"0.22"}},"version":"0.22"}

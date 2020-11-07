@@ -1,0 +1,138 @@
+{
+   "abstract" : "Interface to the libsodium library http://libsodium.org",
+   "author" : [
+      "Alex J. G. Burzyński <ajgb@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.014, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Alien-Sodium",
+   "no_index" : {
+      "directory" : [
+         "eg",
+         "examples",
+         "inc",
+         "share",
+         "t",
+         "xt"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Alien::Build" : "2.15",
+            "Alien::Build::MM" : "0.32",
+            "Alien::Build::Plugin::Build::Autoconf" : "0.04",
+            "Alien::Build::Plugin::Build::Make" : "0",
+            "Alien::Build::Plugin::Probe::Vcpkg" : "2.15",
+            "Config" : "0",
+            "ExtUtils::MakeMaker" : "6.52",
+            "IPC::Cmd" : "0",
+            "Sort::Versions" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Alien::Build" : "2.15",
+            "Alien::Build::MM" : "0.32",
+            "Alien::Build::Plugin::Build::Make" : "0.01",
+            "Alien::Build::Plugin::Fetch::CurlCommand" : "1.19",
+            "Alien::Build::Plugin::Probe::Vcpkg" : "2.15",
+            "ExtUtils::MakeMaker" : "6.52"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Dist::Zilla" : "0",
+            "File::Spec" : "0",
+            "IO::Handle" : "0",
+            "IPC::Open3" : "0",
+            "Pod::Coverage::TrustPod" : "0",
+            "Test::CPAN::Changes" : "0.4",
+            "Test::CheckManifest" : "1.29",
+            "Test::Kwalitee" : "1.22",
+            "Test::More" : "0.88",
+            "Test::Pod" : "1.41",
+            "Test::Pod::Coverage" : "1.08",
+            "Test::Pod::Spelling::CommonMistakes" : "1.000",
+            "Test::Spelling" : "0.12",
+            "Test::Version" : "2.00"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Alien::Base" : "2.15",
+            "Alien::Build" : "0.25",
+            "base" : "0",
+            "strict" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "recommends" : {
+            "CPAN::Meta" : "2.120900",
+            "FFI::Platypus" : "0"
+         },
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.52",
+            "File::Spec" : "0",
+            "Test2::Suite" : "0",
+            "Test2::V0" : "0",
+            "Test::Alien" : "0",
+            "Test::More" : "0.88"
+         }
+      }
+   },
+   "provides" : {
+      "Alien::Sodium" : {
+         "file" : "lib/Alien/Sodium.pm",
+         "version" : "2.000"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/genio/alien-sodium/issues"
+      },
+      "homepage" : "https://github.com/genio/alien-sodium",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/genio/alien-sodium.git",
+         "web" : "https://github.com/genio/alien-sodium"
+      }
+   },
+   "version" : "2.000",
+   "x_alienfile" : {
+      "generated_by" : "Dist::Zilla::Plugin::AlienBuild version 0.30",
+      "requires" : {
+         "share" : {
+            "Alien::Build::Plugin::Gather::IsolateDynamic" : "0.48",
+            "Archive::Tar" : "0",
+            "Config" : "0",
+            "HTTP::Tiny" : "0.044",
+            "IO::Socket::SSL" : "1.56",
+            "IO::Zlib" : "0",
+            "Mojo::DOM" : "0",
+            "Mojolicious" : "7.00",
+            "Net::SSLeay" : "1.49",
+            "Sort::Versions" : "0",
+            "URI" : "0",
+            "URI::Escape" : "0"
+         },
+         "system" : {}
+      }
+   },
+   "x_contributors" : [
+      "Chase Whitener <capoeirab@cpan.org>",
+      "Graham Ollis <plicease@cpan.org>"
+   ],
+   "x_generated_by_perl" : "v5.26.1",
+   "x_serialization_backend" : "JSON::PP version 4.05",
+   "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later"
+}

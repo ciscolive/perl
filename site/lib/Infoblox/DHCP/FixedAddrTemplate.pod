@@ -1,0 +1,1038 @@
+=head1 NAME
+
+Infoblox::DHCP::FixedAddrTemplate - DHCP Fixed Address template object.
+
+=head1 DESCRIPTION
+
+A fixed address template works as a 'cookie cutter' and can be used to create a real fixed address object in a quick and consistant way.
+A Fixed address object created from a fixed address template will inherit most properties defined in fixed address template object so most of the fixed address template properties are the same as the  fixed address object properties.
+
+=head1 CONSTRUCTOR
+
+ my $fixed_addr_template = Infoblox::DHCP::FixedAddrTemplate -> new(
+       name                             => $string,                     #Required
+       number_of_addresses              => $num | undef,                #Optional / Default is undefined
+       offset                           => $num | undef,                #Optional / Default is undefined
+       bootfile                         => $filename | undef,           #Optional / Default is undefined
+       bootserver                       => $ipv4addr | $fqdn | undef,   #Optional / Default is undefined
+       comment                          => $string,                     #Optional / Default is empty
+       deny_bootp                       => "true" | "false" | undef,    #Optional / Default is undefined
+       enable_ddns                      => "true" | "false",            #Optional / Default is false
+       ddns_domainname                  => $string | undef,             #Optional / Default is undefined
+       ddns_hostname                    => $string | undef,             #Optional / Default is undefined
+       extattrs                         => { $string => $extattr, ... },      #Optional / Default is undefined
+       extensible_attributes            => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+
+       ignore_dhcp_option_list_request  => "true" | "false" | undef,    #Optional / Default is false
+       nextserver                       => $ipv4addr | $fqdn | undef,   #Optional / Default is undefined
+       options                          => [$option1, $option2, ...]    #Optional / Default is empty
+       override_ddns_domainname         => "true" | "false",            #Optional / Default value is "false"
+       pxe_lease_time                   => $time,                       #Optional / Default is empty
+       logic_filters                    => [ $filter_name | $filter_obj, ...], # Optional / Default is undefined
+       override_logic_filters           => "true' | 'false",                   # Optional / Default value is "false"
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a DHCP fixed address template  object.
+
+=head2 Infoblox::DHCP::NetworkTemplate-> fixed_address_templates( )
+
+=over
+
+Use this function to specify a fixed address template at network template on the Infoblox appliance. See L<Infoblox::DHCP::NetworkTemplate-E<gt>fixed_address_templates()|Infoblox::DHCP::NetworkTemplate/fixed_address_templates()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+  #Create the Network Template object with fixed address template
+   my $template = Infoblox::DHCP::Template->new(
+     name                    => "custom_fa_template"
+   );
+   my $network_template = Infoblox::DHCP::NetworkTemplate->new(
+     name                    => "custom_network_template",
+     comment                 => "add network",
+     fixed_address_templates => [$template]
+   );
+
+=back
+
+=back
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that can be applied to a DHCP Fixed Address template object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP Fixed Address template object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     #Construct a DHCP Fixed Address template object
+     my $fixed_addr_template = Infoblox::DHCP::FixedAddrTemplate->new(
+            "name"                  => "custom_fa_template",
+            "offset"                => "10",
+            "number_of_addresses"   => "1",
+            "bootfile"              => "bootfile",
+            "bootserver"            => "bootserver.com",
+            "comment"               => "add fixed address",
+            "deny_bootp"            => "false",
+            "enable_ddns"           => "false",
+            "nextserver"            => "3.3.3.3",
+            "options"               => [ $option1,  $option2 ],
+            "pxe_lease_time"        => "3600",
+     );
+
+     #Submit for addition
+     my $response = $session->add($fixed_addr_template);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()>  for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+  Apply the following attributes to get a specific DHCP Fixed Address template object:
+
+  name - Optional. The name of the Fixed address template.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Examples>
+
+     #Get DHCP Fixed Address template object through the session
+     my @retrieved_objs = $session->get(
+         object => "Infoblox::DHCP::FixedAddrTemplate",
+         name   => "custom_fa_template",
+     );
+
+     my @retrieved_objs = $session->get(
+       object                => "Infoblox::DHCP::FixedAddrTemplate",
+       extensible_attributes => { 'Site' => 'Santa Clara' }
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()>  for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+  Apply the following attributes to search for a DHCP Fixed Address template object:
+
+  name    - Optional. The name of the fixed address template (regular expression).
+  comment - Optional. The comment of the fixed address template (regular expression).
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+     #Search DHCP Fixed Address template object through the session
+     my @retrieved_objs = $session->search(
+         object  => "Infoblox::DHCP::FixedAddrTemplate",
+         name    => "custom_fa_template",
+         comment => ".*",
+     );
+
+    #Search for DHCP Fixed Address template objects defining "Santa Clara" for "Site" extensible attribute
+    my @retrieved_objs = $session->search(
+        object                => "Infoblox::DHCP::FixedAddrTemplate",
+        extensible_attributes => { 'Site' => 'Santa Clara' }
+    );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP Fixed Address template object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     #Use method to modify the pxe_lease_time
+     $fixed_addr_templateess->pxe_lease_time("1234");
+     #Submit modification
+     my $response = $session->modify( $fixed_addr_templateess );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP Fixed Address template object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()>  for parameters and return values.
+
+To remove a specific object, first use get() to retrieve the specific DHCP Fixed Address template object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+     #Get DHCP Fixed Address template object through the session
+     my @retrieved_objs = $session->get(
+         object => "Infoblox::DHCP::FixedAddrTemplate",
+         name   => "custom_fa_template",
+     );
+     #Find the desired object from the retrieved list.
+     my $desired_fixed_addr_template = $retrieved_objs[0];
+     #Submit for removal
+     my $response = $session->remove( $desired_fixed_addr_template );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to set and retrieve the attribute values of a DHCP Fixed Address template object.
+
+=head2 bootfile( )
+
+=over
+
+Use this method to set or retrieve the bootfile value of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::FixedAddrTemplate-E<gt>bootserver()|Infoblox::DHCP::FixedAddrTemplate/bootserver()/> and L<Infoblox::DHCP::FixedAddrTemplate-E<gt>nextserver()|Infoblox::DHCP::FixedAddrTemplate/nextserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The name of the file that the client must download. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get bootfile
+     my $bootfile = $fixed_addr_template->bootfile();
+     #Modify bootfile
+     $fixed_addr_template->bootfile("boot_file");
+     #Un-override bootfile
+     $fixed_addr_template->bootfile(undef);
+
+=back
+
+=back
+
+=head2 bootserver( )
+
+=over
+
+Use this method to set or retrieve the bootserver of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::FixedAddrTemplate-E<gt>bootfile()|Infoblox::DHCP::FixedAddrTemplate/bootfile()/> and L<Infoblox::DHCP::FixedAddrTemplate-E<gt>nextserver()|Infoblox::DHCP::FixedAddrTemplate/nextserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The boot server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A boot server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get bootserver
+     my $bootserver = $fixed_addr_template->bootserver();
+     #Modify bootserver
+     $fixed_addr_template->bootserver("bootserver2.com");
+     #Un-override bootserver
+     $fixed_addr_template->bootserver(undef);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get comment
+     my $comment = $fixed_addr_template->comment();
+     #Modify comment
+     $fixed_addr_template->comment("Modified DHCP Fixed Address template object comment");
+
+=back
+
+=back
+
+=head2 deny_bootp( )
+
+=over
+
+Use this method to set or retrieve the deny_bootp flag of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the deny_bootp flag or "false" to deactivate/unset it. The default value is undefined which indicates that this attribute inherits the upper-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get deny_bootp
+     my $deny_bootp = $fixed_addr_template->deny_bootp();
+     #Modify deny_bootp
+     $fixed_addr_template->deny_bootp("true");
+
+=back
+
+=back
+
+=head2 enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the enable_ddns flag of a DHCP Fixed Address template object.
+If enable_ddns value is specified as "true", then the A and PTR records corresponding to the Fixed Address template object will be placed on the DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_ddns flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get enable_ddns
+     my $enable_ddns = $fixed_addr_template->enable_ddns();
+     #Modify enable_ddns
+     $fixed_addr_template->enable_ddns("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Fixed Address template object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $fixed_addr_template->extattrs();
+ #Modify extattrs
+ $fixed_addr_template->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Fixed Address template object
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $fixed_addr_template->extensible_attributes();
+ #Modify extensible attributes
+ $fixed_addr_template->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the ddns_domainname value of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_domainname method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_ddns_domainname attribute to "false".
+
+Note that when ddns_domainname is set to a defined value and override_dddns_domainname is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_domainname("testdomain"); $object->override_ddns_domainname("false"); will set override_ddns_domainname to "false", and the sequence $object->override_ddns_domainname("false"); $object->ddns_domainname("testdomain"); will result in override_ddns_domainname="true".
+
+=over
+
+=item B<Parameter>
+
+Desired name for the dynamic DNS domain name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_domainname
+ my $ddns_domainname = $fixed_addr->ddns_domainname();
+ #Modify ddns_domainname
+ $fixed_addr->ddns_domainname("test_domain.com");
+
+=back
+
+=back
+
+=head2 ddns_hostname( )
+
+=over
+
+Use this method to set or retrieve the ddns_hostname value of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name for the dynamic DNS host name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_hostname
+ my $ddns_hostname = $fixed_addr->ddns_hostname();
+ #Modify ddns_hostname
+ $fixed_addr->ddns_hostname("test_host");
+
+=back
+
+=back
+
+=head2 ignore_dhcp_option_list_request( )
+
+=over
+
+Use this method to set or retrieve the ignore_dhcp_option_list_request flag of a DHCP fixed address teplate object. If this flag is set to false all the defined DHCP options will be returned to the client. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ignore_dhcp_option_list_request flag or "false" to deactivate it. The default value is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ignore_dhcp_option_list_request
+ my $ignore_dhcp_option_list_request = $fixed_addr_template->ignore_dhcp_option_list_request();
+ # Modify ignore_dhcp_option_list_request
+ $fixed_addr_template->ignore_dhcp_option_list_request("true");
+ # Un-override ignore_dhcp_option_list_request
+ $fixed_addr_template->ignore_dhcp_option_list_request(undef);
+
+=back
+
+=back
+
+=head2 logic_filters( )
+
+=over
+
+Use this method to set or retrieve all the logic (ordered) filters associated with the DHCP Fixed Address Template.
+
+Filters are used to screen address assignments for the DHCP Fixed Address Template if the addresses are to be assigned to specific hosts.
+
+Setting this method to a defined value implicitly sets the override_logic_filters method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_logic_filters attribute to "false".
+
+Note that when logic_filters is set to a defined value and override_dlogic_filters is set to "false", the last operation takes precedence. Thus the sequence $object->logic_filters($filters); $object->override_logic_filters("false"); will set override_logic_filters to "false", and the sequence $object->override_logic_filters("false"); $object->logic_filters($filters); will result in override_logic_filters="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains either the L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC>, L<Infoblox::DHCP::Filter::NAC|Infoblox::DHCP::Filter::NAC>, L<Infoblox::DHCP::Filter::Option|Infoblox::DHCP::Filter::Option> objects or the names of the corresponding filters. The filters in the list must satisfy the following conditions:
+
+=over
+
+=item Filter name must be globally unique.
+
+=item Filters without expressions must be at the end of the list.
+
+=item The filters should not be disabled.
+
+=back
+
+The default value of the parameter is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get logic_filters
+ my $ref_logic_filters = $fixed_addr_template->logic_filters();
+ #Modify logic_filters
+ $fixed_addr_template->logic_filters(["filter_1","filter_2",$exl1]); #$exl1 is an Infoblox::DHCP::Filter::MAC, Infoblox::DHCP::Filter::NAC or Infoblox::DHCP::Filter::Option object.
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the fixed address template in string format with a maximum of 64 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get name
+     my $name = $fixed_address_template->name();
+     #Modify name
+     $fixed_address_template->name("custom_fa_template");
+
+=back
+
+=back
+
+=head2 nextserver( )
+
+=over
+
+Use this method to set or retrieve the nextserver value of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::DHCP::FixedAddrTemplate-E<gt>bootfile()|Infoblox::DHCP::FixedAddrTemplate/bootfile()/> and L<Infoblox::DHCP::FixedAddrTemplate-E<gt>bootserver()|Infoblox::DHCP::FixedAddrTemplate/bootserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The next server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A next server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get nextserver
+     my $nextserver = $fixed_addr_template->nextserver();
+     #Modify nextserver
+     $fixed_addr_template->nextserver("3.3.3.4");
+     #Un-override nextserver
+     $fixed_addr_template->nextserver(undef);
+
+=back
+
+=back
+
+=head2 number_of_addresses( )
+
+=over
+
+Use this method to set or retrieve the number of addresses in a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The number of addresses in this fixed address template.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get number_of_addresses
+     my $number_of_addresses = $fixed_address_template-> number_of_addresses();
+     #Modify number_of_addresses
+     $fixed_address_template->number_of_addresses("10");
+
+=back
+
+=back
+
+=head2 offset( )
+
+=over
+
+Use this method to set or retrieve the address offset of a Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The address offset of this fixed address template. The offset is calculated from the start address of network template to which the fixed address template is assigned to. For example, if offset is set to 10 and number_of_addresses is set to 10, and network is set to 10.0.0.0/8, then there will be 10 fixed address object created and start address will be 10.0.0.10 and end address will be 10.0.0.20.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get offset
+     my $offset = $fixed_address_template->offset();
+     #Modify offset
+     $fixed_address_template->offset("10");
+
+=back
+
+=back
+
+=head2 options( )
+
+=over
+
+Use this method to set or retrieve the options of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+See L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> for parameters and methods available for this object.
+
+=over
+
+=item B<Parameter>
+
+Options describe network configuration settings and various services available on the network. These options occur as variable-length fields at the end of DHCP messages.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get options
+     my $options = $fixed_addr_template->options();
+     #Modify options
+     $fixed_addr_template->options([$option1, $option2]);
+
+=back
+
+=back
+
+=head2 override_ddns_domainname( )
+
+=over
+
+The override_ddns_domainname attribute controls whether the ddns_domainname value in the DHCP Fixed Address is used, instead of the grid default.
+
+The override_ddns_domainname attribute can be specified explicitly. It is also set implicitly when ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_domainname. Set the parameter to "false" to inherit the grid-level setting for ddns_domainname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_domainname
+    my $override_ddns_domainname=$fixed_addr_template->override_ddns_domainname( );
+    #Modifying override_ddns_domainname
+    $fixed_addr_template->override_ddns_domainname("true");
+
+=back
+
+=back
+
+=head2 override_logic_filters( )
+
+=over
+
+The override_logic_filters attribute controls whether the logic_filters value of the DHCP Fixed Address Template is used, instead of the Grid default.
+
+The override_logic_filters attribute can be specified explicitly. It is also set implicitly when logic_filters is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for logic_filters. Set the parameter to "false" to inherit the Grid-level setting for logic_filters.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_logic_filters
+ my $override_logic_filters=$fixed_addr_template->override_logic_filters( );
+ #Modifying override_logic_filters
+ $fixed_addr_template->override_logic_filters("true");
+
+=back
+
+=back
+
+=head2 pxe_lease_time( )
+
+=over
+
+Use this method to set or retrieve the pxe_lease_time value of a DHCP Fixed Address template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter appropriate values in the Days, Hours, Mins and Secs fields. User can specify the duration of time it takes a host to connect to a boot server, such as a TFTP server, and download the file it needs to boot.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get pxe_lease_time
+     my $pxe_lease_time = $fixed_addr_template->pxe_lease_time();
+     #Modify pxe_lease_time
+     $fixed_addr_template->pxe_lease_time("369");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify, and remove. Also, this sample includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $option1 = Infoblox::DHCP::Option->new(
+                                           "name"  => "fqdn",
+                                           "value" => "mydomain.com"
+                                          );
+ unless($option1) {
+      die("Construct option1 object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "option1 object created successfully\n";
+
+ my $option2 = Infoblox::DHCP::Option->new(
+                                           "name"     => "merit-dump",
+                                            "value"   => "sometextdump",
+                                          );
+ unless($option2) {
+      die("Construct option2 object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "option2 object created successfully\n";
+
+B<#Create a DHCP Fixed Address template object>
+
+ #Create a DHCP Fixed Address template object
+ my $fixed_addr_template = Infoblox::DHCP::FixedAddrTemplate->new(
+     "name"                  => "custom_fa_template",
+     "offset"                => "10",
+     "number_of_addresses"   => "1",
+     "comment"               => "add fixed address template",
+     "enable_ddns"           => "TRUE",
+     "ddns_domainname"       => "test_domain.com",
+     "ddns_hostname"         => "test_host",
+     "pxe_lease_time"        => "3600",
+     "bootserver"            => "someserver.com",
+     "nextserver"            => "3.3.3.3",
+     "bootfile"              => "bootfile.com",
+     "options"               => [ $option1, $option2 ],
+ );
+ unless($fixed_addr_template) {
+      die("Construct Fixed Address template failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Fixed Address template object created successfully\n";
+
+ #Verify if the DHCP Fixed Address templateexists in the Infoblox appliance
+ my $object = $session->get(
+        object => "Infoblox::DHCP::FixedAddrTemplate",
+        name   => "custom_fa_template"
+ );
+
+ unless ($object) {
+    print "Fixed Address template does not exist on server, safe to add the fixed address template\n";
+    $session->add($fixed_addr_template)
+       or die("Add Fixed Address template failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "DHCP Fixed Address template added successfully\n";
+
+B< #Search a DHCP Fixed Address template object>
+
+ #Search DHCP Fixed Address template object through the session
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::FixedAddrTemplate",
+     name   => "custom_fa_template",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Search Fixed Address template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Fixed Address template object found at least 1 matching entry\n";
+
+B< #Get and modify a DHCP Fixed Address template object>
+
+ #Get DHCP Fixed Address template object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::FixedAddrTemplate",
+     name   => "custom_fa_template",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get Fixed Address template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Fixed Address template object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the obtained Fixed Address template object
+ $object->pxe_lease_time("1234");
+
+ #Un-override bootfile
+ $object->bootfile(undef);
+
+ #Un-override bootserver
+ $object->bootserver(undef);
+
+ #Un-override nextserver
+ $object->nextserver(undef);
+
+ #Apply the changes
+ $session->modify($object)
+   or die("Modify Fixed Address template failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "DHCP Fixed Address template added successfully\n";
+
+B< #Create the Network Template object with fixed address template>
+
+ my $template = Infoblox::DHCP::Template->new(
+     name => "custom_fa_template",
+ );
+
+ my $network_template = Infoblox::DHCP::NetworkTemplate->new(
+     name    => "custom_network_template",
+     comment => "add network",
+     fixed_address_templates => [$template]
+ );
+
+ unless($network_template) {
+        die("Construct Network template object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "Network template object created successfully\n";
+
+ #Add the Network template object into the Infoblox appliance through a session
+ my $resp = $session->add($network_template)
+ or die("Add Network object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+
+ print "Network template object added to Infoblox appliance successfully\n";
+
+B<#Remove a Fixed Address template object>
+
+ #Remove a Network Template object
+ $session->remove($network_template)
+     or die("Remove Network Template template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Network Template object removed successfully \n";
+
+ #Get Fixed Address template object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::FixedAddrTemplate",
+     name   => "custom_fa_template",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Fixed Address template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Fixed Address template object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove Fixed Address template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Fixed Address template object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,  L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::DHCP::NetworkTemplate|Infoblox::DHCP::NetworkTemplate>, L<Infoblox::DHCP::RangeTemplate|Infoblox::DHCP::RangeTemplate>,L<Infoblox::DHCP::Template|Infoblox::DHCP::Template>,L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::Option|Infoblox::DHCP::Option>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

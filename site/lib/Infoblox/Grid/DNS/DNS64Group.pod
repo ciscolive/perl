@@ -1,0 +1,629 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::DNS64Group - DNS64 Synthesis Group object
+
+=head1 DESCRIPTION
+
+A DNS64 synthesis group is used to configure the DNS64 feature.
+
+=head1 CONSTRUCTOR
+
+ my $group = Infoblox::Grid::DNS::DNS64Group->new(
+     name                  => $string,                                                                    #Required
+     prefix                => $ipv6prefix,                                                                #Required
+     clients               => [ $ipv4addr | $ipv4_subnet/prefix | $ipv6addr | $ipv6_subnet/prefix ,... ] | $nacl, #Optional / Default is an empty list
+     comment               => $string,                                                                    #Optional
+     disable               => "true" | "false"                                                            #Optional / Default is "false"
+     dnssec_dns64_enabled  => "true" | "false"                                                            #Optional / Default is "false"    
+     exclude               => [ $ipv4addr | $ipv4_subnet/prefix | $ipv6addr | $ipv6_subnet/prefix ,... ] | $nacl, #Optional / Default is an empty list
+     extattrs              => { $string => $extattr, ... },                                               #Optional / Default is undefined
+     extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... },          #Optional / Default is undefined
+     mapped                => [ $ipv4addr | $ipv4_subnet/prefix | $ipv6addr | $ipv6_subnet/prefix ,... ] | $nacl, #Optional / Default is an empty list
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a DNS64 synthesis group object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+If you have applied an access control list to an object, you must restart services after you update the access control list for the changes to take effect. See L<Infoblox::Session-E<gt>restart()|Infoblox::Session/restart()/> method.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $group = Infoblox::Grid::DNS::DNS64Group->new(
+     name        => "dns64group_A",
+     prefix      => "64:FF9B::/96",
+     );
+
+ #Submit for addition
+ my $response = $session->add( $group );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS64 synthesis group object:
+
+  name                  - Optional. Group name in string format.
+  prefix                - Optional. An IPv6 prefix.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  comment               - Optional. User-specified comment for the group.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::DNS::DNS64Group",
+     name   => "dns64group_A",
+     );
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::DNS::DNS64Group",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+If you have applied an access control list to an object, you must restart services after you update the access control list for the changes to take effect. See L<Infoblox::Session-E<gt>restart()|Infoblox::Session/restart()/> method.
+
+=over
+
+=item B<Example>
+
+ #Use this method to modify the comment.
+ $group->comment("this is a modified comment");
+ #Submit modification
+ my $response = $session->modify( $group );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::DNS::DNS64Group",
+     name   => "dns64group_A",
+      );
+ #Find the desired object on the retrieved list
+ my $desired_nsgroup= $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_nsgroup );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS64 synthesis group objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS64 synthesis group object:
+
+  name                  - Optional. Group name in string format. (regular expression)
+  prefix                - Optional. An IPv6 prefix. (regular expression)
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  comment               - Optional. User-specified comment for the group. (regular expression)
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # Search for all DNS64 synthesis group objects
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::DNS::DNS64Group",
+     name   => ".*",
+     );
+
+ # Search for all DNS64 synthesis group objects with "Santa Clara" as the value for the "Site" extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::DNS::DNS64Group",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a DNS64 synthesis group object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment field of the DNS64 synthesis group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Comment of the group in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting comment
+ my $comment = $group->comment();
+ #Modifying comment
+ $group->comment("Some comment");
+
+=back
+
+=back
+
+=head2 clients( )
+
+=over
+
+Use this method to set or retrieve the clients ACL list of a DNS64 synthesis group object. This is the list of clients for which synthesized records are returned. The default is "any".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses and networks. To exclude addresses and networks, add "!" as a prefix to the IP addresses and networks. The default value is an empty list.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Getting clients
+  my $clients = $group->clients();
+  #Modifying clients
+  $group->clients(["2001::333/64", "!2001::1234", "20.0.0.0/8"]);
+  #Use Infoblox::Grid::NamedACL
+  $group->clients($nacl);
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS64 synthesis group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $fixed_addr->disable();
+ #Modify disable
+ $fixed_addr->disable("true");
+
+=back
+
+=back
+
+=head2 dnssec_dns64_enabled( )
+
+=over
+
+Use this method to set or retrieve the dnssec_dns64_enabled flag of a DNS64 synthesis group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the dnssec_dns64_enabled flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_dns64_enabled
+ my $dnssec_dns64_enabled = $group->dnssec_dns64_enabled();
+ #Modify dnssec_dns64_enabled
+ $group->dnssec_dns64_enabled('true');
+
+=back
+
+=back
+
+=head2 exclude( )
+
+=over
+
+Use this method to set or retrieve the exclude ACL list of a DNS64 synthesis group object. AAAA records which match this ACL are treated as non-existent for the purposes of synthesis. By default, the ACL is empty and no records match.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses and networks. To exclude addresses and networks, add "!" as a prefix to the IP addresses and networks. The default value is an empty list.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Getting exclude
+  my $exclude = $group->exclude();
+  #Modifying exclude
+  $group->exclude(["2001::333/64", "!2001::1234"]);
+  #Use Infoblox::Grid::NamedACL
+  $group->exclude($nacl);
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS64 synthesis group object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $group->extattrs();
+ #Modify extattrs
+ $group->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS64 synthesis group object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $group->extensible_attributes();
+ #Modify extensible attributes
+ $group->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the DNS64 synthesis group name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the group in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting name
+ my $name = $group->name();
+ #Modifying name
+ $group->name("ns_group_2");
+
+=back
+
+=back
+
+=head2 mapped( )
+
+=over
+
+Use this method to set or retrieve the mapped ACL list of a DNS64 synthesis group object. The appliance generates AAAA records only for A records that match this ACL. If the ACL is empty, as it is by default, then all records will match.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses and networks. To deny addresses and networks, add "!" as a prefix to the IP addresses and networks. The default value is an empty list.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Getting mapped
+  my $mapped = $group->mapped();
+  #Modifying mapped
+  $group->mapped(["40.10.0.0/24", "!40.10.3.4]);
+  #Use Infoblox::Grid::NamedACL
+  $group->mapped($nacl);
+
+=back
+
+=back
+
+=head2 prefix( )
+
+=over
+
+Use this method to set or retrieve the DNS64 synthesis group prefix. The prefix is an IPv6 subnet prefix with a length of /32, /40, /48, /56, /64, or /96.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Prefix of the group in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting prefix
+ my $prefix = $group->prefix();
+ #Modifying prefix
+ $group->prefix("64:FF9B::/96");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as modify and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to the addition of a DNS64 synthesis group object>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox device
+ my $session = Infoblox::Session->new(
+                                      master   => "192.168.1.2",
+                                      username => "admin",
+                                      password => "infoblox"
+                                     );
+ unless ($session) {
+     die("Construct session failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DNS64 synthesis group object and add it to the appliance>
+
+ my $group = Infoblox::Grid::DNS::DNS64Group->new(
+                                                  name => 'testgroup',
+                                                  prefix => '64:FF9B::/96',
+                                                  clients => ["2001::333/64", "!2001::1234", "20.0.0.0/8"],
+                                                  comment => 'some comment',
+                                                 );
+
+ unless ($group) {
+     die("Construct DNS64 synthesis group failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DNS64 synthesis group object created successfully\n";
+
+ my $response = $session->add( $group );
+ unless ($response) {
+     die("Adding DNS64 synthesis group failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Add DNS64 synthesis group success.\n" if ( $response );
+
+B<#Add the DNS64 synthesis group object to the grid and enable it>
+
+ my @result_array = $session->get( "object" => "Infoblox::Grid::DNS" ,  "grid" => "Infoblox" );
+
+ if ( defined @result_array  and scalar( @result_array ) > 0 ) {
+     my $object = $result_array[0];
+     if ( ref( $object ) eq "Infoblox::Grid::DNS" ) {
+         $object->dns64_groups( [ $group ] );
+         $object->enable_dns64("true");
+
+         $response = $session->modify( $object );
+         print "Add DNS64 synthesis group to grid dns properties success.\n" if ( $response );
+     }
+
+     unless ($object) {
+         die("Add DNS64 synthesis group to grid dns properties failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+     }
+ }
+
+B<#Modify the DNS64 synthesis group object>
+
+ @result_array = $session->get( "object" => "Infoblox::Grid::DNS::DNS64Group" ,  name => "testgroup" );
+
+ if ( defined @result_array  and scalar( @result_array ) > 0 ) {
+     my $object = $result_array[0];
+     if ( ref( $object ) eq "Infoblox::Grid::DNS::DNS64Group" ) {
+
+         $object->clients(["2001::333/64", "!2001::1234"]);
+
+         $response = $session->modify( $object );
+         print "Modify DNS64 synthesis group success.\n" if ( $response );
+     }
+
+     unless ($object) {
+         die("Modify Group failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+     }
+ }
+
+B<#Remove a DNS64 synthesis group object>
+
+B<#First let's remove it from the grid configuration>
+
+ @result_array = $session->get( "object" => "Infoblox::Grid::DNS" ,  "grid" => "Infoblox" );
+
+ if ( defined @result_array  and scalar( @result_array ) > 0 ) {
+     my $object = $result_array[0];
+     if ( ref( $object ) eq "Infoblox::Grid::DNS" ) {
+
+         $object->dns64_groups( [ ] );
+         $object->enable_dns64( "false" );
+
+         $response = $session->modify( $object );
+         print "Remove DNS64 synthesis group from the grid success.\n" if ( $response );
+     }
+
+     unless ($object) {
+         die("Remove DNS64 synthesis group failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+     }
+ }
+
+B<#And now remove the group>
+
+ @result_array = $session->get( "object" => "Infoblox::Grid::DNS::DNS64Group" ,  name => "testgroup" );
+
+ if ( defined @result_array  and scalar( @result_array ) > 0 ) {
+     my $object = $result_array[0];
+     if ( ref( $object ) eq "Infoblox::Grid::DNS::DNS64Group" ) {
+
+         $response = $session->remove( $object );
+         print "Remove DNS64 synthesis group success.\n" if ( $response );
+     }
+
+     unless ($object) {
+         die("Remove DNS64 synthesis group failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+     }
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

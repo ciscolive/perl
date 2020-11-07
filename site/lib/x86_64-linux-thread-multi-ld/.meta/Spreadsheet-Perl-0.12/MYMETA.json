@@ -1,0 +1,46 @@
+{
+   "abstract" : "Pure Perl implementation of a spreadsheet engine",
+   "author" : [
+      "<Khemir Nadim ibn Hamouda. <nadim@khemir.net>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.56, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "unknown"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Spreadsheet-Perl",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Data::Table" : "1.5",
+            "Data::TreeDumper" : "0.12",
+            "Spreadsheet::ConvertAA" : "0.02",
+            "Term::Size::Any" : "0.001",
+            "Text::ASCIITable" : "0.12"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.12",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

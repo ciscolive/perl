@@ -1,0 +1,78 @@
+=head1 NAME
+
+Infoblox::Grid::SmartFolder::GroupByValue - Smart Folder Group By Value object
+
+=head1 DESCRIPTION
+
+Defines a group value as part of an L<Infoblox::Grid::SmartFolderChildren|Infoblox::Grid::SmartFolderChildren> query.
+
+=head1 CONSTRUCTOR
+
+ my $group_by_value = Infoblox::Grid::SmartFolder::GroupByValue->new(
+     name                    => $string,            #Required
+     value                   => $string,            #Required
+ );
+
+=head1 MODULE METHODS
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure a SmartFolder::GroupByValue object.
+
+=head2 name( )
+
+=over
+
+Use this method to specify the extensible attribute, object type, or object name that is used to group objects.
+
+=over
+
+=item B<Parameter>
+
+Valid values are strings corresponding to the names.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=back
+
+=back
+
+=head2 value( )
+
+=over
+
+Use this method to specify the value of the extensible attribute, object type, or object name.
+
+=over
+
+=item B<Parameter>
+
+Valid values are strings corresponding to the required extensible or normal attribute values.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::SmartFolderChildren|Infoblox::Grid::SmartFolderChildren>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

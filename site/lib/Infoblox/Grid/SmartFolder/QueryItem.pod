@@ -1,0 +1,404 @@
+=head1 NAME
+
+Infoblox::Grid::SmartFolder::QueryItem - Smart Folder Query Item object
+
+=head1 DESCRIPTION
+
+Manipulates a Smart Folder Query Item object that contains information about a query to be stored in a global or personal smart folder.
+
+=head1 CONSTRUCTOR
+
+ my $query_item = Infoblox::Grid::SmartFolder::QueryItem->new(
+     name                    => $string,   #Required
+     is_extensible_attribute => $string,   #Optional / Default is "true"
+     operator                => "eq" | "ne" | "lt" | "gt" | "leq" | "geq" | "begins with" | "does not begin with" | "ends with" | "does not end with" | "has value" | "does not have value" | "within" | "on" | "today" | "yesterday" | "this week" | "this month",   #Required
+     value                   => $string | $num | $boolean | type of extensible attribute definition,  #Optional / Default is undefined
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a query item object.
+
+=head2 Infoblox::Grid::GlobalSmartFolder->query_items( )
+
+=over
+
+Use this function to specify a list of query items to store in a global smart folder.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $query_item1 = Infoblox::Grid::SmartFolder::QueryItem->new(
+     name                   => "Building",
+     is_extensible_attibute => "true",
+     operator               => "eq",
+     value                  => "office1"
+ );
+
+ #Construct an object
+   my $query_item2 = Infoblox::Grid::SmartFolder::QueryItem->new(
+     name                   => "address",
+     is_extensible_attibute => "false",
+     operator               => "ne",
+     value                  => "10.0.0.1"
+ );
+
+ # Configure query items
+ my $response = $GlobalSmartFolder->query_items([$query_item1,$query_item2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a SmartFolder::QueryItem object.
+
+=head2 is_extensible_attribute( )
+
+=over
+
+Use this method to indicate whether this smart folder query item is an extensible or not. When the attribute is_extensible_attribute is C<"true">, the query item is an extensible attribute. When it is C<"false">, it is a normal attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are C<"true"> or C<"false">.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting is_extensible_attribute
+ my $is_extensible_attribute = $query_item->is_extensible_attribute();
+ # Modifying is_extensible_attribute
+ $query_item->is_extensible_attribute("true");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the smart folder query item. The possible values for the name attribute are
+
+ address
+ circuit_id
+ comment
+ disabled
+ duid
+ is_leaf_network
+ last_discovered_timestamp
+ locked
+ mac_address
+ name
+ network_component_name
+ network_component_port_name
+ network_view
+ port_vlan_name
+ record_type
+ remote_id
+ server_association_type
+ service
+ service_status
+ type
+ unmanaged
+ v_cluster
+ v_datacenter
+ v_entity_type
+ v_host
+ was_conflict
+ zone_func
+ zone_type
+
+or any valid extensible attribute definition name present in the system.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired name for the smart folder query item.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting name
+ my $name = $query_item->name();
+ # Modifying name
+ $query_item->name("Region");
+
+=back
+
+=back
+
+=head2 operator( )
+
+=over
+
+Use this method to set or retrieve the operator used in the query.
+
+=over
+
+=item B<Parameter>
+
+Valid values are any of the following strings: "eq", "ne", "lt", "gt", "geq", "leq", "begins with", "does not begin with", "ends with", "does not end with", "has value", "does not have value", "within", "on", "today", "yesterday", "this week", "this month" and "inheritance state equals".
+
+"has_value" and "does not have value" apply to extensible attribute values only.
+
+For valid values for 'value' parameter for the "within" operator, please see the description of the 'value' method.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting operator
+ my $operator = $query_item->operator();
+ # Modifying operator
+ $query_item->operator("today");
+
+=back
+
+=back
+
+=head2 value( )
+
+=over
+
+Use this method to set or retrieve the value used in the query.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired value in string format.
+
+For the "within" operator, the following format is supported: n [d/w/m], where n is the number of days/weeks/months depending on the unit following it. The unit is required.  For example, 4d (4 days), 1w (1 week), or 7m (7 months)
+
+For the following query items, a boolean value 'true' or 'false' will be expected: "disabled", "is_leaf_network", "locked".
+
+For a "type" query item, a valid value is one of:
+
+ 'All'
+ 'AllNetwork'
+ 'AllTemplate'
+ 'DhcpFailoverAssoc'
+ 'DhcpFilter'
+ 'DHCPObjects'
+ 'DhcpRange'
+ 'DhcpRangeTemplate'
+ 'DNSObjects'
+ 'FixedAddress'
+ 'FixedAddressTemplate'
+ 'Host'
+ 'IPAMObjects'
+ 'IPv4DHCPObjects'
+ 'IPv6DhcpFilter'
+ 'IPv6DHCPObjects'
+ 'IPv6DhcpRange'
+ 'IPv6DhcpRangeTemplate'
+ 'IPv6FixedAddress'
+ 'IPv6FixedAddressTemplate'
+ 'IPv6Lease'
+ 'IPv6Network'
+ 'IPv6NetworkTemplate'
+ 'IPv6OptionSpace'
+ 'IPv6SharedNetwork'
+ 'MacFilterAddress'
+ 'Member'
+ 'Network'
+ 'NetworkTemplate'
+ 'Network/Zone/Range/Member'
+ 'NsGroup'
+ 'OptionFilterMatchRule'
+ 'OptionSpace'
+ 'Reservation'
+ 'ResourceRecord'
+ 'RoamingHost'
+ 'SharedNetwork'
+ 'SharedRecordGroup'
+ 'View'
+ 'Zone'
+
+For a "record_type" query item a valid value is one of:
+
+ 'A'
+ 'AAAA'
+ 'All types'
+ 'CNAME'
+ 'DNAME'
+ 'MX'
+ 'PTR'
+ 'SRV'
+ 'TXT'
+
+For a "service_status" query item a valid value is one of:
+
+ 'FAILED'
+ 'INACTIVE'
+ 'OFFLINE'
+ 'WARNING'
+ 'WORKING'
+
+For a "zone_func" query item a valid value is one of:
+
+ 'Forward-mapping Zone'
+ 'IPv4 Reverse-mapping Zone'
+ 'IPv6 Reverse-mapping Zone'
+
+For a "zone_type" query item a valid value is one of:
+
+ 'Authoritative'
+ 'Delegation'.
+ 'Forward'
+ 'Stub'
+
+For a "v_type" query item a valid value is one of:
+
+ 'HostSystem'
+ 'VirtualCenter'
+ 'VirtualMachine'
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting value
+ my $value = $query_item->value();
+ # Modifying value
+ $query_item->value("Santa Clara");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, modify. This sample also includes error handling for the operations.
+
+B<##Preparation prior to a smart folder query item object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a smart folder query item object>
+
+ my $query_item = Infoblox::Grid::SmartFolder::QueryItem->new(
+     name                     => "Country",
+     is_extensible_attribute  => "true",
+     operator                 => "eq",
+     value                    => "Canada",
+ );
+ unless ($query_item){
+      die("Construct smart folder query item failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ print "SmartFolder::QueryItem object created successfully\n";
+
+B<#Create a personal smart folder and use $query_item>
+
+  #create a personal smart folder and use $query_item
+  my $smart_folder = Infoblox::Grid::PersonalSmartFolder->new(
+     name         => "my_personal_folder",
+     query_items  => [$query_item],
+ );
+
+ #put smart folder into session
+ $session->add($smart_folder)
+   or die("Smart folder creation failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+ print "Smart folder creation successful\n";
+
+B<#Get and modify the query items>
+
+ #get the personal smart folder object from session
+ my @result = $session->get(
+     object => "Infoblox::Grid::PersonalSmartFolder",
+     name   => "my_personal_folder"
+ );
+
+ unless (scalar(@result) == 0) {
+     my $smart_folder = $result[0];
+
+     if ($smart_folder) {
+
+       #modify query_items
+       $query_item->value("France");
+       $smart_folder->query_items([$query_item]);
+
+       #update session
+       $session->modify($smart_folder)
+         or die("modify smart_folder my_personal_folder failed: ",
+             $session->status_code(), $session->status_detail());
+     }
+ } else {
+   print "No smart folder found.";
+ }
+
+B<#Clean up>
+
+ @result = $session->get(
+     object => "Infoblox::Grid::PersonalSmartFolder",
+     name   => "my_personal_folder"
+ );
+
+ unless (scalar(@result) == 0) {
+     $session->remove($result[0]);
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Grid::GlobalSmartFolder|Infoblox::Grid::GlobalSmartFolder>,L<Infoblox::Grid::PersonalSmartFolder|Infoblox::Grid::PersonalSmartFolder>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

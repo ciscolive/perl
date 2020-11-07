@@ -1,0 +1,698 @@
+=head1 NAME
+
+Infoblox::DTC::Monitor::SIP - A DTC SIP Health Monitor object.
+
+=head1 DESCRIPTION
+
+The DTC SIP Health Monitor determines the health of a SIP servers such as SIP Proxies and Session Border Controllers, and SIP gateways by issuing SIP options to a server and examining the response provided by the server. The service is considered available if the received response matches the expected response.
+
+=head1 CONSTRUCTOR
+
+ my $sip_monitor = Infoblox::DTC::Monitor::SIP->new(
+    name                  => $string,                                                               #Required
+    ciphers               => [$cipher1, $cipher2, ...],                                             #Optional / Default is undefined
+    client_cert           => $certificate                                                           #Optional / Default is undefined
+    comment               => $string,                                                               #Optional / Default is undefined
+    interval              => $uint,                                                                 #Optional / Default is undefined
+    port                  => $uint,                                                                 #Optional / Default is undefined
+    request               => $string,                                                               #Optional / Default is undefined
+    result                => 'ANY' | 'CODE_IS' | 'CODE_IS_NOT',                                     #Optional / Default is undefined
+    result_code           => $uint,                                                                 #Optional / Default is undefined
+    retry_down            => $uint,                                                                 #Optional / Default is undefined 
+    retry_up              => $uint,                                                                 #Optional / Default is undefined
+    timeout               => $uint,                                                                 #Optional / Default is undefined
+    transport             => 'TCP' | 'UDP' | 'TLS' | 'SIPS',                                        #Optional / Default is undefined
+    validate_cert         => 'true' | 'false',                                                      #Optional / Default is 'false'
+    extattrs              => { $string => $extattr, ... },                                          #Optional / Default is undefined
+    extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DTC SIP Monitor object
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $sip_monitor = Infoblox::DTC::Monitor::SIP->new(
+    name  => 'sip_monitor1',
+ );
+
+ #submit for addition
+ my $response = $session->add($sip_monitor);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC SIP Monitor name in a string format.
+  comment               - Optional. A DTC SIP Monitor comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::SIP',
+     name   => 'sip_monitor1',
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::SIP',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $sip_monitor->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($sip_monitor);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::SIP',
+     name   => 'sip_monitor1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_sip_monitor = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_sip_monitor);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC SIP Monitor name in a string format.
+  comment               - Optional. A DTC SIP Monitor Descriptive comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Monitor::SIP',
+     name   => 'sip_monitor1',
+ );
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Monitor::SIP',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 ciphers( )
+
+=over
+
+Use this method to set or retrieve a list of ciphers for a secure TLS or SIPS connection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of ciphers in a string format. Ciphers use an OpenSSL syntax. Empty array is equivalent to 'ALL' in an OpenSSL notation.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ciphers value
+ my @ciphers = $sip_monitor->ciphers();
+
+ #modify ciphers value
+ $sip_monitor->ciphers(['RC4-MD5', 'KRB5-RC4-MD5']);
+
+=back
+
+=back
+
+=head2 client_cert( )
+
+=over
+
+Use this method to set or retrieve a client certificate, supplied in a secure TLS or SIPS mode if present.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Certificate|Infoblox::DTC::Certificate> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get client_cert value
+ my $cert = $sip_monitor->client_cert();
+
+ #modify client_cert value
+ $sip_monitor->client_cert($cert);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment for a DTC SIP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $sip_monitor->comment();
+
+ #modify comment value
+ $sip_monitor->comment('desired comment');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC SIP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get extattrs value
+ my $ref_extattrs = $sip_monitor->extattrs();
+
+ #Modify extattrs
+ $sip_monitor->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC SIP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $sip_monitor->extensible_attributes();
+
+ #Modify extensible attributes
+ $sip_monitor->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 interval( )
+
+=over
+
+Use this method to set or retrieve the time interval for the SIP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get interval value
+ my $interval = $sip_monitor->interval();
+
+ #modify interval value
+ $sip_monitor->interval(10);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a DTC SIP Health Monitor name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $sip_monitor->name();
+
+ #modify name value
+ $sip_monitor->name('sip_monitor1');
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the port value for SIP or SIPS requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get port value
+ my $port = $sip_monitor->port();
+
+ #modify port value
+ $sip_monitor->port(8080);
+
+=back
+
+=back
+
+=head2 request( )
+
+=over
+
+Use this method to set or retrieve an SIP request to send.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string of 1024 characters maximum.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get request value
+ my $request = $sip_monitor->request();
+
+ #modify request value
+ $sip_monitor->request('GET /');
+
+=back
+
+=back
+
+=head2 result( )
+
+=over
+
+Use this method to set or retrieve the type of expected result.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ANY', 'CODE_IS' and 'CODE_IS_NOT'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get result value
+ my $result = $sip_monitor->result();
+
+ #modify result value
+ $sip_monitor->result('CODE_IS');
+
+=back
+
+=back
+
+=head2 result_code( )
+
+=over
+
+Use this method to set or retrieve the expected return code.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 0 and 999.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get result_code value
+ my $result_code = $sip_monitor->result_code();
+
+ #modify result_code value
+ $sip_monitor->result_code(300);
+
+=back
+
+=back
+
+=head2 retry_down( )
+
+=over
+
+Use this method to set or retrieve the number of times the server appears offline after it was online so it is treated as dead.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get retry_down value
+ my $retry_down = $sip_monitor->retry_down();
+
+ #modify retry_down value
+ $sip_monitor->retry_down(3);
+
+=back
+
+=back
+
+=head2 retry_up( )
+
+=over
+
+Use this method to set or retrieve the number of times the server appears online after it was offline so it is treated as alive.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get retry_up value
+ my $retry_up = $sip_monitor->retry_up();
+
+ #modify retry_up value
+ $sip_monitor->retry_up(3);
+
+=back
+
+=back
+
+=head2 timeout( )
+
+=over
+
+Use this method to set or retrieve the value of a timeout for SIP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 15.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get timeout value
+ my $timeout = $sip_monitor->timeout();
+
+ #modify timeout value
+ $sip_monitor->timeout(7);
+
+=back
+
+=back
+
+=head2 transport( )
+
+=over
+
+Use this method of set or retrieve the type of transport layer protocol being used for SIP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'TCP', 'UDP', 'SIPS' and 'TLS'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get transport value
+ my $transport = $sip_monitor->transport();
+
+ #modify transport value
+ $sip_monitor->transport('UDP');
+
+=back
+
+=back
+
+=head2 validate_cert( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the validation of the remote server's certificate is enabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable remote server's certificate validation and 'false' to disable it. The default is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get validate_cert value
+ my $validate_cert = $http_monitor->validate_cert();
+
+ #modify validate_cert value
+ $http_monitor->validate_cert('false');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>, L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>, L<Infoblox::DTC::Certificate|Infoblox::DTC::Certificate>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

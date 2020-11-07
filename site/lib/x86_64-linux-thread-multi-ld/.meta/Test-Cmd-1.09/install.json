@@ -1,0 +1,1 @@
+{"dist":"Test-Cmd-1.09","target":"Test::Cmd","pathname":"N/NE/NEILB/Test-Cmd-1.09.tar.gz","provides":{"Test::Cmd":{"version":"1.09","file":"lib/Test/Cmd.pm"},"Test::Cmd::Common":{"version":"1.09","file":"lib/Test/Cmd/Common.pm"}},"name":"Test::Cmd","version":"1.09"}

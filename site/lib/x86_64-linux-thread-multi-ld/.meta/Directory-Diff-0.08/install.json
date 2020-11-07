@@ -1,0 +1,1 @@
+{"pathname":"B/BK/BKB/Directory-Diff-0.08.tar.gz","version":"0.08","name":"Directory::Diff","target":"Directory::Diff","provides":{"Directory::Diff::Copy":{"file":"lib/Directory/Diff/Copy.pm","version":"0.08"},"Directory::Diff":{"version":"0.08","file":"lib/Directory/Diff.pm"}},"dist":"Directory-Diff-0.08"}

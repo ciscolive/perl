@@ -1,0 +1,4 @@
+/opt/perl/site/bin/test-yaml
+/opt/perl/site/lib/Test/YAML.pm
+/opt/perl/site/lib/Test/YAML.pod
+/opt/perl/site/man/man3/Test::YAML.3

@@ -1,0 +1,2162 @@
+=head1 NAME
+
+Infoblox::DHCP::IPv6FixedAddr - DHCP IPv6 Fixed Address object.
+
+=head1 DESCRIPTION
+
+An IPv6 Fixed Address is a specific IP address that a DHCP server always assigns when a lease request comes from a particular MAC address of the client. This is an IPv6 representation of a fixed address.
+
+=head1 CONSTRUCTOR
+
+ my $ipv6fa = Infoblox::DHCP::IPv6FixedAddr -> new(
+       duid                            => $string,                     # Required
+       address_type                    => "ADDRESS" | "PREFIX" | "BOTH", # Optional / Default is "ADDRESS"
+       comment                         => $string,                     # Optional / Default is empty
+       configure_for_dhcp              => "true" | "false",            # Optional / Default is "false"
+                                                                       # When both the IP address and DUID are present, the default value is "true"
+                                                                       # Applicable only when adding this fixed address to a host
+       disable                         => "true" | "false",            # Optional / Default is "false"
+       domain_name                     => $string,                     # Optional / Default is undefined
+       domain_name_servers             => "$ipv6addr1,$ipv6addr2,...", # Optional / Default is undefined
+       extattrs                        => { $string => $extattr, ... },#Optional / Default is undefined
+       extensible_attributes           => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+       ipv6addr                        => $ipv6addr,                   # Optional / one of ipv6addr or ipv6prefix is required
+       ipv6prefix                      => $ipv6addr,                   # Optional / one of ipv6addr or ipv6prefix is required
+       ipv6prefix_bits                 => $ipv6addr,                   # Optional / Required if ipv6prefix is specified
+       match_client                    => $string,                     # Optional / Default is "DUID"
+                                                                       # Possible values are:
+                                                                       #  "DUID", "RESERVED",
+       name                            => $string,                     # Optional / Default is undefined
+       network                         => $ipv6network,                # Optional / Default is undefined
+       network_view                    => $NetworkView,                # Optional / Default is "default" network view
+       options                         => [$option1, $option2, ...]    # Optional / Default is empty
+       override_domain_name            => "true" | "false",            # Optional / Default value is "false"
+       override_domain_name_servers    => "true" | "false",            # Optional / Default value is "false"
+       override_options                => "true" | "false",            # Optional / Default value is "false"
+       override_preferred_lifetime     => "true" | "false",            # Optional / Default value is "false"
+       override_valid_lifetime         => "true" | "false",            # Optional / Default value is "false"
+       preferred_lifetime              => $num,                        # Optional / Default is "27000"
+       template                        => $string,                     # Optional / Default is undefined
+       valid_lifetime                  => $num,                        # Optional / Default is 43200
+       cli_credentials                 => [$cli1, ...],                # Optional
+       override_cli_credentials        => "true" | "false",            # Optional / Default is "false"
+       reserved_interface              => $interface,                  # Optional
+       device_type                     => $string,                     # Optional
+       device_vendor                   => $string,                     # Optional
+       device_location                 => $string,                     # Optional
+       device_description              => $string,                     # Optional
+       allow_telnet                    => "true" | "false",            # Optional / Default is "false"
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DHCP IPv6 Fixed Address object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP IPv6 Fixed Address object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP IPv6 Fixed Address object
+ my $ipv6fa = Infoblox::DHCP::IPv6FixedAddr->new(
+        duid                    => "0001",
+        comment                 => "add ipv6 fixed address using uid",
+        disable                 => "false",
+        match_client            => "DUID",
+        network                 => "2001::/24",
+        network_view            => $nview,
+        options                 => [ $option1,  $option2, $option3,  $option4, $option5, $option6 ],
+ );
+
+ #Submit for addition
+ my $response = $session->add($ipv6fa)
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP IPv6 Fixed Address object:
+
+  comment                               - Optional. User-specified comment for the fixed address.
+  duid                                  - Optional. DUID of the fixed address.
+  ipv6addr                              - Optional. IPv6 address of the fixed address.
+  network                               - Optional. Network address of the fixed address.
+  network_view                          - Optional. Network view in which the fixed address is located. By default, all network views are searched.
+  extattrs                              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+
+  discovered_duid                       - Optional. Discovered DHCPv6 UID.
+  discovered_name                       - Optional. Discovered name.
+  discoverer                            - Optional. Discoverer name.
+  first_discovered                      - Optional. Time of the first discovery.
+  last_discovered                       - Optional. Time of the last discovery.
+  netbios                               - Optional. Discovered NetBIOS name.
+  network_component_description         - Optional. Discovered network component description.
+  network_component_ip                  - Optional. Discovered network component IP address.
+  network_component_name                - Optional. Discovered network component name.
+  network_component_port_description    - Optional. Discovered network component port description.
+  network_component_port_name           - Optional. Discovered network component port name.
+  network_component_port_number         - Optional. Discovered network component port number.
+  network_component_type                - Optional. Discovered network component type.
+  os                                    - Optional. Discovered OS.
+  port_duplex                           - Optional. Discovered port duplex settings.
+  port_link_status                      - Optional. Discovered port link status.
+  port_speed                            - Optional. Discovered port speed settings.
+  port_status                           - Optional. Discovered port status settings.
+  port_vlan_description                 - Optional. Discovered port VLAN description.
+  port_vlan_name                        - Optional. Discovered port VLAN name.
+  port_vlan_number                      - Optional. Discovered port VLAN number.
+
+=item B<Examples>
+
+ #Get DHCP IPv6 Fixed Address object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6FixedAddr",
+     duid   => "0001",
+ );
+ my @retrieved_objs = $session->get(
+     object       => "Infoblox::DHCP::IPv6FixedAddr",
+     ipv6addr     => "2001::1",
+     network_view => "default",
+ );
+
+ my @retrieved_objs = $session->get(
+    object                => "Infoblox::DHCP::IPv6FixedAddr",
+    extensible_attributes => { 'Site' => 'Santa Clara' }
+);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP IPv6 Fixed Address object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the preferred_lifetime
+ $ipv6fa->preferred_lifetime("1234567");
+ #Submit modification
+ my $response = $session->modify( $ipv6fa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP IPv6 Fixed Address object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP IPv6 Fixed Address object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get DHCP IPv6 Fixed Address object through the session
+ my @retrieved_objs = $session->get(
+     object       => "Infoblox::DHCP::IPv6FixedAddr",
+     duid         => "0001",
+     network_view => "default"
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_ipv6fa = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_ipv6fa );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP IPv6 Fixed Address object and matching Host object with MAC address in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific DHCP IPv6 Fixed Address object:
+
+  comment                               - Optional. User-specified comment for the fixed address.
+  duid                                  - Optional. DUID of the fixed address.
+  ipv6addr                              - Optional. IPv6 address of the fixed address.
+  network                               - Optional. Network address of the fixed address.
+  network_view                          - Optional. Network view in which the fixed address is located. By default, all network views are searched.
+  discovered_duid                       - Optional. Discovered DHCPv6 UID (exact search only).
+  discovered_name                       - Optional. Discovered name(regex).
+  discoverer                            - Optional. Discoverer name(regex).
+  first_discovered                      - Optional. Time of the first discovery (in ISO format, exact search only).
+  last_discovered                       - Optional. Time of the last discovery (in ISO format, exact search only).
+  netbios                               - Optional. Discovered NetBIOS name(regex).
+  network_component_description         - Optional. Discovered network component description(regex).
+  network_component_ip                  - Optional. Discovered network component IP address(regex).
+  network_component_name                - Optional. Discovered network component name(regex).
+  network_component_port_description    - Optional. Discovered network component port description(regex).
+  network_component_port_name           - Optional. Discovered network component port name(regex).
+  network_component_port_number         - Optional. Discovered network component port number (exact search only).
+  network_component_type                - Optional. Discovered network component type(regex).
+  os                                    - Optional. Discovered OS (regex).
+  port_duplex                           - Optional. Discovered port duplex settings (exact search only).
+  port_link_status                      - Optional. Discovered port link status (exact search only).
+  port_speed                            - Optional. Discovered port speed settings (exact search only).
+  port_status                           - Optional. Discovered port status settings (exact search only).
+  port_vlan_description                 - Optional. Discovered port VLAN description(regex).
+  port_vlan_name                        - Optional. Discovered port VLAN name(regex).
+  port_vlan_number                      - Optional. Discovered port VLAN number(exact search only).
+
+  extattrs                              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes                 - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # Search for all DHCP IPv6 Fixed Address objects that are specified in the network "2001::/24" in the "default" network view.
+ my @retrieved_objs = $session->search(
+     object       => "Infoblox::DHCP::IPv6FixedAddr",
+     duid         => "0001",
+     network      => "2001::/24",
+     network_view => "default"
+ );
+
+ # Search for all DHCP IPv6 Fixed Address objects with "Santa Clara" for the "Site" extensible attribute
+ my @retrieved_objs = $session->search(
+     object                => "Infoblox::DHCP::IPv6FixedAddr",
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a DHCP IPv6 Fixed Address object.
+
+=head2 address_type( )
+
+=over
+
+Use this method to set or retrieve the address type of a DHCP IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "ADDRESS", "PREFIX", or "BOTH". When the address type is "ADDRESS", a value for the 'ipv6addr' member is required. When the address type is "PREFIX", values for 'ipv6prefix' and 'ipv6prefix_bits' are required. When the address type is "BOTH", values for 'ipv6addr', 'ipv6prefix', and 'ipv6prefix_bits' are all required.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address_type
+ my $address_type = $ipv6fa->address_type();
+ #Modify address_type
+ $ipv6fa->address_type("PREFIX");
+
+=back
+
+=back
+
+=head2 allow_telnet( )
+
+=over
+
+Use this method to set or retrieve the flag that enables copying SSH credential to TELNET.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to copy SSH credential to TELNET or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $ipv6fa->allow_telnet();
+ # Modify attribute value
+ $ipv6fa->allow_telnet('true');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DHCP IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $ipv6fa->comment();
+ #Modify comment
+ $ipv6fa->comment("Modified DHCP IPv6 Fixed Address object comment");
+
+=back
+
+=back
+
+=head2 configure_for_dhcp( )
+
+=over
+
+Use this method to set or retrieve the configure_for_dhcp flag of a DHCP IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the configure_for_dhcp flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get configure_for_dhcp
+ my $configure_for_dhcp = $ipv6fa->configure_for_dhcp();
+ #Modify configure_for_dhcp
+ $ipv6fa->configure_for_dhcp("true");
+
+=back
+
+=back
+
+=head2 cli_credentials( )
+
+=over
+
+Use this method to set or retrieve the discovery CLI credentials.
+
+Setting this method to a defined value implicitly sets the override_cli_credentials method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_cli_credentials attribute to "false".
+
+Note that when cli_credentials is set to a defined value and override_cli_credentials is set to "false", the last operation takes precedence. Thus the sequence $ipv6fa->cli_credentials([$cli]); $ipv6fa->override_cli_credentials("false"); will set override_cli_credentials to "false", and the sequence $ipv6fa->override_cli_credentials("false"); $ipv6fa->cli_credentials([$cli]); will result in override_cli_credentials="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::Discovery::CLICredential|Infoblox::Grid::Discovery::CLICredential> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get cli_credentials
+ my $cli_credentials = $ipv6fa->cli_credentials();
+ #Modify cli_credentials
+ $ipv6fa->cli_credentials([$cli1, $cli2]);
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DHCP::IPv6FixedAddr object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 device_description( )
+
+=over
+
+Use this method to set or retrieve the description of the discovery device.
+
+=over
+
+=item B<Parameter>
+
+The device description in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get device_description
+ my $device_description = $ipv6fa->device_description();
+ #Modify device_description
+ $ipv6fa->device_description('example');
+
+=back
+
+=back
+
+=head2 device_location( )
+
+=over
+
+Use this method to set or retrieve the location of the discovery device.
+
+=over
+
+=item B<Parameter>
+
+The device location in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get device_location
+ my $device_location = $ipv6fa->device_location();
+ #Modify device_location
+ $ipv6fa->device_location('example');
+
+=back
+
+=back
+
+=head2 device_type( )
+
+=over
+
+Use this method to set or retrieve the type of the discovery device.
+
+=over
+
+=item B<Parameter>
+
+The device type in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get device_type
+ my $device_type = $ipv6fa->device_type();
+ #Modify device_type
+ $ipv6fa->device_type('example');
+
+=back
+
+=back
+
+=head2 device_vendor( )
+
+=over
+
+Use this method to set or retrieve the vendor name of the discovery device.
+
+=over
+
+=item B<Parameter>
+
+The device vendor name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get device_vendor
+ my $device_vendor = $ipv6fa->device_vendor();
+ #Modify device_vendor
+ $ipv6fa->device_vendor('example');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DHCP IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $ipv6fa->disable();
+ #Modify disable
+ $ipv6fa->disable("true");
+
+=back
+
+=back
+ 
+=head2 discovered_data( )
+
+=over
+
+Use this method to retrieve the discovered data of a DHCP IPv6 Fixed Address object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data> object.
+
+=item B<Example>
+
+ #Get discovered_data value
+ my $discovered_data = $object->discovered_data();
+
+=back
+
+=back
+
+=head2 discovered_duid( )
+
+=over
+
+Use this method to retrieve the discovered DHCPv6 UID (DUID) of a DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_duid
+ my $discovered_duid = $ipv6fa->discovered_duid();
+
+=back
+
+=back
+
+=head2 discovered_name( )
+
+=over
+
+Use this method to retrieve the discovered name of a DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_name
+ my $discovered_name = $ipv6fa->discovered_name();
+
+=back
+
+=back
+
+=head2 discoverer( )
+
+=over
+
+Use this method to retrieve the discoverer of a DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discoverer value.
+
+=item B<Example>
+
+ #Get discoverer
+ my $discoverer = $ipv6fa->discoverer();
+
+=back
+
+=back
+
+=head2 discover_now_status( )
+
+=over
+
+Use this method to retrieve the current discovery status. This attribute is read-only.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETE', 'FAILED', 'NONE', 'PENDING' or 'RUNNING'.
+
+=item B<Example>
+
+ #Get discover_now_status
+ my $discover_now_status = $ipv6fa->discover_now_status();
+
+=back
+
+=back
+
+=head2 domain_name( )
+
+=over
+
+Use this method to set or retrieve the domain_name value of a DHCP IPv6 fixed address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_domain_name method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_domain_name attribute to "false".
+
+Note that when domain_name is set to a defined value and override_domain_name is set to "false", the last operation takes precedence. Thus the sequence $object->domain_name("testdomain"); $object->override_domain_name("false"); will set override_domain_name to "false", and the sequence $object->override_domain_name("false"); $object->domain_name("testdomain"); will result in override_domain_name="true".
+
+=over
+
+=item B<Parameter>
+
+The client's domain name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain_name
+ my $domain_name = $ipv6fa->domain_name();
+ #Modify domain_name
+ $ipv6fa->domain_name("test_domain.com");
+
+=back
+
+=back
+
+=head2 domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the domain_name_servers value of a DHCP IPv6 fixed address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_domain_name_servers method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_domain_name_servers attribute to "false".
+
+Note that when domain_name_servers is set to a defined value and override_domain_name_servers is set to "false", the last operation takes precedence. Thus the sequence $object->domain_name_servers("2001::1,2001::2"); $object->override_domain_name_servers("false"); will set override_domain_name_servers to "false", and the sequence $object->override_domain_name_servers("false"); $object->domain_name_servers("2001::1,2001::2"); will result in override_domain_name_servers="true".
+
+=over
+
+=item B<Parameter>
+
+The comma-separated list of domain name server addresses in IPv6 address format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain_name_servers
+ my $domain_name_servers = $ipv6fa->domain_name_servers();
+ #Modify domain_name_servers
+ $ipv6fa->domain_name_servers("2001::1,2001::2");
+
+=back
+
+=back
+
+=head2 duid( )
+
+=over
+
+Use this method to set or retrieve the DHCPv6 Unique Identifier (DUID) of the IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The DUID of the matching client in hexadecimal format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get duid
+ my $duid = $ipv6fa->duid();
+ #Modify duid
+ $ipv6fa->duid("1c2edfaa");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with an IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $ipv6fa->extattrs();
+ #Modify extattrs
+ $ipv6fa->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with an IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $ipv6fa->extensible_attributes();
+ #Modify extensible attributes
+ $ipv6fa->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 first_discovered( )
+
+=over
+
+Use this method to retrieve the date and time that the DHCP IPv6 Fixed Address object was first discovered.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the date and time that the DHCP IPv6 Fixed Address object was first discovered.
+
+=item B<Example>
+
+ #Get first_discovered
+ my $first_discovered = $ipv6fa->first_discovered();
+
+=back
+
+=back
+
+=head2 ipv6addr( )
+
+=over
+
+Use this method to set or retrieve the the IPv6 address of the IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number represented as eight groups of four hexadecimal digits (i.e. two octets), each group separated by a colon(:) (example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Leading zeroes and groups of consecutive zeros within the value can be omitted to produce a more compact representation (example: 2001::1, ::1), and dotted-quad notation can be used to express IPv4-mapped IPv6 addresses (example: ::ffff:192.0.2.128).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6addr
+ my ipv6addr = $ipv6fa->ipv6addr();
+ #Modify ipv6addr
+ $ipv6fa->ipv6addr("aaaa:1111:bbbb:2222:cccc:3333:dddd:5555");
+
+=back
+
+=back
+
+=head2 ipv6prefix( )
+
+=over
+
+Use this method to set or retrieve the IPv6 prefix of a DHCP IPv6 Fixed Address object. The prefix must belong to the list of global prefixes defined in the L<Infoblox::Grid::DHCP|Infoblox::Grid::DHCP> object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+IPv6 prefix from the list of global IPv6 prefixes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+ls.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6prefix
+ my $ipv6prefix = $ipv6fa->ipv6prefix();
+ #Modify ipv6prefix
+ $ipv6fa->ipv6prefix("2001::");
+
+=back
+
+=back
+
+=head2 ipv6prefix_bits( )
+
+=over
+
+Use this method to set or retrieve the prefix bits for the DHCP IPv6 Fixed Address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 2 and 128.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6prefix_bits
+ my $ipv6prefix_bits = $ipv6fa->ipv6prefix_bits();
+ #Modify ipv6prefix_bits
+ $ipv6fa->ipv6prefix_bits(32);
+
+=back
+
+=back
+
+=head2 last_discovered( )
+
+=over
+
+Use this method to retrieve the time this object was last seen by a discovery job.
+
+The default value for this field is empty.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_discovered
+ my $last_discovered = $ipv6fa->last_discovered();
+
+=back
+
+=back
+
+=head2 match_client( )
+
+=over
+
+Use this method to set or retrieve the match_client value of a DHCP Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+    match_client "DUID": The fixed IP address is leased to the matching DUID.
+
+=item B<Returns>
+
+    If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+    If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get match_client
+ my $match_client = $ipv6fa->match_client();
+ #Modify match_client
+ $ipv6fa->match_client("DUID");
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $ipv6fa->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DHCP IPv6 Fixed Address object. The same name can be used for multiple fixed addresses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify a name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the name
+ my $name = $ipv6fa->name();
+ #Modify the name
+ $ipv6fa->name("pop-server");
+
+=back
+
+=back
+
+=head2 netbios( )
+
+=over
+
+Use this method to retrieve the name in the NetBIOS reply that responded to a NetBIOS query.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get NetBIOS
+ my $netbios = $ipv6fa->netbios();
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to retrieve the network value of a DHCP IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the address and netmask of the network in CIDR format (example: 2001::/64).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network
+ my $network = $ipv6addr->network();
+ #Modify network
+ $ipv6fa->network("2001::/24");
+
+=back
+
+=back
+
+=head2 network_component_description( )
+
+=over
+
+Use this method to retrieve the description of the network device that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device description.
+
+=item B<Example>
+
+ #Get network_component_description
+ my $network_component_description = $ipv6fa->network_component_description();
+
+=back
+
+=back
+
+=head2 network_component_ip( )
+
+=over
+
+Use this method to retrieve the IP address of the network device that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the IP address of the network device.
+
+=item B<Example>
+
+ #Get network_component_ip
+ my $network_component_ip = $ipv6fa->network_component_ip();
+
+=back
+
+=back
+
+=head2 network_component_name( )
+
+=over
+
+Use this method to retrieve the name of the network device that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device name.
+
+=item B<Example>
+
+ #Get network_component_name
+ my $network_component_name = $ipv6fa->network_component_name();
+
+=back
+
+=back
+
+=head2 network_component_port_description( )
+
+=over
+
+Use this method to retrieve the description of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the description of the port on the network device.
+
+=item B<Example>
+
+ #Get network_component_port_description
+ my $network_component_port_description = $ipv6fa->network_component_port_description();
+
+=back
+
+=back
+
+=head2 network_component_port_name( )
+
+=over
+
+Use this method to retrieve the name of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the name of the port on the network device.
+
+=item B<Example>
+
+ #Get network_component_port_name
+ my $network_component_port_name = $ipv6fa->network_component_port_name();
+
+=back
+
+=back
+
+=head2 network_component_port_number( )
+
+=over
+
+Use this method to retrieve the number of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port number.
+
+=item B<Example>
+
+ #Get network_component_port_number
+ my $network_component_port_number = $ipv6fa->network_component_port_number();
+
+=back
+
+=back
+
+=head2 network_component_type( )
+
+=over
+
+Use this method to retrieve the type of the network device that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device type.
+
+=item B<Example>
+
+ #Get network_component_type
+ my $network_component_type = $ipv6fa->network_component_type();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of the DHCP fixed address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" network view, which means the fixed address is in the default network view.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a defined L<Infoblox::DHCP::View|Infoblox::DHCP::View> object. The default network view value is the system-defined default network view object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $ipv6fa->network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $ipv6fa->network_view($nview);
+
+=back
+
+=back
+
+=head2 options( )
+
+=over
+
+Use this method to set or retrieve the options of a DHCP IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_options method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_options attribute to "false".
+
+Note that when the options method is set to a defined value and override_options is set to "false", the last operation takes precedence. Thus the sequence $object->options([ $opt ]); $object->override_options("false"); will set override_options to "false", and the sequence $object->override_options("false"); $object->options([ $opt ]); will result in override_options="true".
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get options
+ my $options = $ipv6fa->options();
+ #Modify options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name   => "dhcp6.rapid-commit",
+     value  => "true"
+ );
+ $ipv6fa->options([$option1);
+
+=back
+
+=back
+
+=head2 os( )
+
+=over
+
+Use this method to retrieve the operating system associated with this fixed address.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get OS
+ my $os = $ipv6fa->os();
+
+=back
+
+=back
+
+=head2 override_domain_name( )
+
+=over
+
+The override_domain_name attribute controls whether the domain_name value in the DHCP IPv6 fixed address is used, instead of the upper-level default.
+
+The override_domain_name attribute can be specified explicitly. It is also set implicitly when domain_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for domain_name. Set the parameter to "false" to inherit the upper-level setting for domain_name.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_domain_name
+ my $override_domain_name=$ipv6fa->override_domain_name( );
+ #Modify override_domain_name
+ $ipv6fa->override_domain_name("true");
+
+=back
+
+=back
+
+=head2 override_domain_name_servers( )
+
+=over
+
+The override_domain_name_servers attribute controls whether the domain_name_servers value in the DHCP IPv6 fixed address is used, instead of the upper-level default.
+
+The override_domain_name_servers attribute can be specified explicitly. It is also set implicitly when domain_name_servers is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for domain_name_servers. Set the parameter to "false" to inherit the upper-level setting for domain_name_servers.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_domain_name_servers
+    my $override_domain_name_servers=$ipv6fa->override_domain_name_servers( );
+    #Modify override_domain_name_servers
+    $ipv6fa->override_domain_name_servers("true");
+
+=back
+
+=back
+
+=head2 override_cli_credentials( )
+
+=over
+
+The override_cli_credentials attribute controls whether the cli_credentials value in the object is used, instead of the grid default.
+
+The override_cli_credentials attribute can be specified explicitly. It is also set implicitly when cli_credentials is set to a defined value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_cli_credentials flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $ipv6fa->override_cli_credentials();
+ # Modify attribute value
+ $ipv6fa->override_cli_credentials('true');
+
+=back
+
+=back
+
+=head2 override_options( )
+
+=over
+
+The override_options attribute controls whether the options in the DHCP IPv6 fixed address are used, instead of the upper-level default.
+
+The override_options attribute can be specified explicitly. It is also set implicitly when options are set to defined values.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for valid_lifetime. Set the parameter to "false" to inherit the upper-level setting for valid_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_options
+    my $override_options=$ipv6fa->override_options( );
+    #Modify override_options
+    $ipv6fa->override_options("true");
+
+=back
+
+=back
+
+=head2 override_preferred_lifetime( )
+
+=over
+
+The override_preferred_lifetime attribute controls whether the preferred_lifetime value in the DHCP IPv6 fixed address is used, instead of the upper-level default.
+
+The override_preferred_lifetime attribute can be specified explicitly. It is also set implicitly when preferred_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for valid_lifetime. Set the parameter to "false" to inherit the upper-level setting for valid_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_preferred_lifetime
+    my $override_preferred_lifetime=$ipv6fa->override_preferred_lifetime( );
+    #Modify override_preferred_lifetime
+    $ipv6fa->override_preferred_lifetime("true");
+
+=back
+
+=back
+
+=head2 override_valid_lifetime( )
+
+=over
+
+The override_valid_lifetime attribute controls whether the valid_lifetime value in the DHCP IPv6 fixed address is used, instead of the upper-level default.
+
+The override_valid_lifetime attribute can be specified explicitly. It is also set implicitly when valid_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for valid_lifetime. Set the parameter to "false" to inherit the upper-level setting for valid_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_valid_lifetime
+    my $override_valid_lifetime=$ipv6fa->override_valid_lifetime( );
+    #Modify override_valid_lifetime
+    $ipv6fa->override_valid_lifetime("true");
+
+=back
+
+=back
+
+=head2 port_duplex( )
+
+=over
+
+Use this method to retrieve the duplex setting of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port duplex setting. The returned value, if any, is one of the following:
+
+  Full
+  Half
+
+=item B<Example>
+
+ #Get port_duplex
+ my $port_duplex = $ipv6fa->port_duplex();
+
+=back
+
+=back
+
+=head2 port_link_status( )
+
+=over
+
+Use this method to retrieve the link status of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns the link status of the network device port. The returned value, if any, is one of the following:
+
+  Connected
+  Not Connected
+  Unknown
+
+=item B<Example>
+
+ #Get port_link_status
+ my $port_link_status = $ipv6fa->port_link_status();
+
+=back
+
+=back
+
+=head2 port_speed( )
+
+=over
+
+Use this method to retrieve the speed of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port speed. The returned value, if any, is one of the following:
+
+  10M
+  100M
+  1G
+  10G
+  100G
+  Unknown
+
+=item B<Example>
+
+ #Get port_speed
+ my $port_speed = $ipv6fa->port_speed();
+
+=back
+
+=back
+
+=head2 port_status( )
+
+=over
+
+Use this method to retrieve the status of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port status. The returned value, if any, is one of the following:
+
+  Up
+  Down
+  Unknown
+
+=item B<Example>
+
+ #Get port_status
+ my $port_status = $ipv6fa->port_status();
+
+=back
+
+=back
+
+=head2 port_vlan_description( )
+
+=over
+
+Use this method to retrieve the VLAN description of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN description of the network device port.
+
+=item B<Example>
+
+ #Get port_vlan_description
+ my $port_vlan_description = $ipv6fa->port_vlan_description();
+
+=back
+
+=back
+
+=head2 port_vlan_name( )
+
+=over
+
+Use this method to retrieve the VLAN name of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port VLAN name.
+
+=item B<Example>
+
+ #Get port_vlan_name
+ my $port_vlan_name = $ipv6fa->port_vlan_name();
+
+=back
+
+=back
+
+=head2 port_vlan_number ( )
+
+=over
+
+Use this method to retrieve the VLAN number of the network device port that is connected to the DHCP IPv6 Fixed Address object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port VLAN number.
+
+=item B<Example>
+
+ #Get port_vlan_number
+ my $port_vlan_number  = $ipv6fa->port_vlan_number ();
+
+=back
+
+=back
+
+=head2 preferred_lifetime( )
+
+=over
+
+Use this method to set or retrieve the preferred_lifetime value of a DHCP IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_preferred_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_preferred_lifetime attribute to "false".
+
+Note that when preferred_lifetime is set to a defined value and override_preferred_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->preferred_lifetime(20000); $object->override_preferred_lifetime("false"); will set override_preferred_lifetime to "false", and the sequence $object->override_preferred_lifetime("false"); $object->preferred_lifetime(20000); will result in override_preferred_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (valid range from 1 to 4294967295) that represents the lifetime, in seconds. The default value is 27000.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get preferred_lifetime
+ my $preferred_lifetime = $ipv6fa->preferred_lifetime();
+ #Modify preferred_lifetime
+ $ipv6fa->preferred_lifetime("369");
+
+=back
+
+=back
+
+=head2  template( )
+
+=over
+
+Use this method to set or retrieve the fixed address template name for a DHCP IPv6 Fixed Address object.
+
+Template is the name of a DHCP IPv6 Fixed Address template which will be used to create the DHCP IPv6 Fixed Address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+The template parameter can be used to only add a new DHCP IPv6 Fixed Address and cannot be used during object modify or returned during object get.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get template
+ my $template = $ipv6fa->template();
+ #Modify template
+ $ipv6fa->template("Template_Name");
+
+=back
+
+=back
+
+=head2 valid_lifetime( )
+
+=over
+
+Use this method to set or retrieve the valid_lifetime value of a DHCP IPv6 Fixed Address object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer, from 1 to 4294967295, that represents the lifetime, in seconds. The default value is 43200.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get valid_lifetime
+ my $valid_lifetime = $ipv6fa->valid_lifetime();
+ #Modify valid_lifetime
+ $ipv6fa->valid_lifetime("36900");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DHCP IPv6 Fixed Address object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create an IPv6 network object
+ my $network = Infoblox::DHCP::IPv6Network->new(
+                                            "network" => "2001::/64",
+                                           );
+ unless($network) {
+      die("Construct IPv6 Network object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "IPv6 Network object created successfully\n";
+
+ $session->add($network)
+     or die("Add network failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "Network added successfully\n";
+
+ my $option1 = Infoblox::DHCP::Option->new(
+     "name"  => "dhcp6.fqdn",
+     "value" => "mydomain.com"
+ );
+ unless($option1) {
+     die("Construct option1 object failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "option1 object created successfully\n";
+
+ my $option2 = Infoblox::DHCP::Option->new(
+     "name"     => "dhcp6.info-refresh-time",
+     "value"    => "1000",
+ );
+ unless($option2) {
+     die("Construct option2 object failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "option2 object created successfully\n";
+
+B<#Create a DHCP IPv6 Fixed address object>
+
+ #Create a DHCP IPv6 Fixed Address object
+ my $ipv6fa = Infoblox::DHCP::IPv6FixedAddr->new(
+        "ipv6addr"       => "2001::4",
+        "network"        => "2001::/64",
+        "duid"           => "000000111111",
+        "comment"        => "add fixed address",
+        "domain_name"    => "foo.com",
+        "domain_name_servers" => "2002::1,2002::2",
+        "preferred_lifetime" => 1234,
+        "override_preferred_lifetime" => "true",
+        "valid_lifetime" => 123456,
+        "override_valid_lifetime" => "true",
+        "options"        => [ $option1 , $option2 ],
+        );
+ unless($ipv6fa) {
+      die("Construct IPv6 fixed address failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6 Fixed address object created successfully\n";
+
+ #Verify if the DHCP IPv6 Fixed Address exists in the Infoblox appliance
+ my $object = $session->get(object => "Infoblox::DHCP::IPv6FixedAddr", duid => "00:00:00:11:11:11");
+ unless ($object) {
+    print "IPv6 fixed address does not exist on server, safe to add the fixed address\n";
+    $session->add($ipv6fa)
+       or die("Add IPv6 fixed address failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "DHCP IPv6 Fixed address added successfully\n";
+
+B<#Create a DHCP IPv6 Fixed address object using a template>
+
+ #Create a DHCP IPv6 Fixed Address template object
+ my $ipv6fa_template = Infoblox::DHCP::IPv6FixedAddrTemplate->new(
+     "name"                  => "custom_fa_template",
+     "offset"                => "10",
+     "number_of_addresses"   => "1",
+     "comment"               => "add fixed address template",
+     "valid_lifetime"        => 86400,
+ );
+ unless($ipv6fa_template) {
+      die("Construct IPv6 fixed address failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6 Fixed address template object created successfully\n";
+
+ $session->add($ipv6fa_template)
+       or die("Add IPv6 fixed address template failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Fixed address template added successfully\n";
+
+ #Create a DHCP IPv6 Fixed Address object
+ my $ipv6fa = Infoblox::DHCP::IPv6FixedAddr->new(
+     "network"        => "2001::/64",
+     "ipv6addr"       => "2001::2",
+     "match_client"   => "DUID",
+     "duid"           => "010203040505",
+     "template"       => "custom_fa_template"
+ );
+ unless($ipv6fa) {
+      die("Construct fixed address failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP IPv6 Fixed address object created successfully\n";
+
+ $session->add($ipv6fa)
+       or die("Add fixed address failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ print "DHCP IPv6 Fixed address added successfully\n";
+
+B<#Search for a specific DHCP IPv6 Fixed Address object>
+
+ #Search for all DHCP IPv6 Fixed address objects under the network 2001::/64
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::IPv6FixedAddr",
+     duid     => "0000001111.*",
+     network => "2001::/64" );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search for IPv6 Fixed Address object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search IPv6 Fixed Address object found at least 1 matching entry\n";
+
+B<#Get and modify a DHCP IPv6 Fixed Address object>
+
+ #Get DHCP IPv6 Fixed Address object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6FixedAddr",
+     duid    => "000000111111",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get IPv6 Fixed Address object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get IPv6 Fixed Address object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the obtained IPv6 Fixed Address object
+ $object->preferred_lifetime("1235");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify IPv6 Fixed Address object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "IPv6 Fixed Address object modified successfully \n";
+
+B<#Remove an IPv6 Fixed Address object>
+
+ #Get IPv6 Fixed Address object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6FixedAddr",
+     duid    => "000000111111",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get IPv6 Fixed Address object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get IPv6 Fixed Address object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove IPv6 Fixed Address object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "IPv6 Fixed Address object removed successfully \n";
+
+ #Submit the Network object for removal
+ $session->remove($network)
+     or die("Remove Network object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Network object removed successfully \n";
+
+ #Submit the Fixed Address Template object for removal
+ $session->remove($ipv6fa_template)
+     or die("Remove IPv6 Fixed Address Template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "IPv6 Fixed Address Template object removed successfully \n";
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>,
+L<Infoblox::DHCP::View|Infoblox::DHCP::View>,
+L<Infoblox::DHCP::IPv6Range|Infoblox::DHCP::IPv6Range>,
+L<Infoblox::DHCP::IPv6Lease|Infoblox::DHCP::IPv6Lease>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::DHCP::IPv6FixedAddrTemplate|Infoblox::DHCP::IPv6FixedAddrTemplate>,
+L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,55 @@
+{
+   "abstract" : "interface to PAUSE's users file (00whois.xml)",
+   "author" : [
+      "Neil Bowers <neil@bowers.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.012, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "PAUSE-Users",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Moo" : "0",
+            "MooX::Role::CachedURL" : "0.04",
+            "Text::Table::Tiny" : "0",
+            "autodie" : "0",
+            "feature" : "0",
+            "perl" : "5.014000",
+            "strict" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0.88"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "https://github.com/neilbowers/PAUSE-Users",
+      "repository" : {
+         "url" : "https://github.com/neilbowers/PAUSE-Users.git"
+      }
+   },
+   "version" : "0.09",
+   "x_generated_by_perl" : "v5.28.2",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

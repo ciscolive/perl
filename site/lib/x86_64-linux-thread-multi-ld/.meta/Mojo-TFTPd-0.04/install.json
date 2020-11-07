@@ -1,0 +1,1 @@
+{"version":"0.04","dist":"Mojo-TFTPd-0.04","target":"Mojo::TFTPd","provides":{"Mojo::TFTPd::Connection":{"file":"lib/Mojo/TFTPd/Connection.pm"},"Mojo::TFTPd":{"version":"0.04","file":"lib/Mojo/TFTPd.pm"}},"name":"Mojo::TFTPd","pathname":"H/HA/HARRYL/Mojo-TFTPd-0.04.tar.gz"}

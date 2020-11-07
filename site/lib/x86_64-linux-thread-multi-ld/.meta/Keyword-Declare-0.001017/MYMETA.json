@@ -1,0 +1,53 @@
+{
+   "abstract" : "Declare new Perl keywords...via a keyword...named C<keyword>",
+   "author" : [
+      "Damian Conway <DCONWAY@CPAN.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.143240, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Keyword-Declare",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc",
+         "demo",
+         "dlib"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "7"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "7"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "B::Hooks::EndOfScope" : "0",
+            "Keyword::Simple" : "0",
+            "List::Util" : "1.45",
+            "PPR" : "0.000015",
+            "perl" : "5.012"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.001017",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

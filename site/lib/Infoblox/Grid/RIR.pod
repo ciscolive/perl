@@ -1,0 +1,285 @@
+=head1 NAME
+
+Infoblox::Grid::RIR - Regional Internet Registry (RIR) object.
+
+=head1 DESCRIPTION
+
+Regional Internet Registry (RIR) object.
+
+=head1 CONSTRUCTOR
+
+ my $rir = Infoblox::Grid::RIR->new(
+    communication_mode   => 'API' | 'EMAIL' | 'NONE', # Required
+    name                 => 'RIPE',                   # Optional, Default is 'RIPE'
+    email                => $string,                  # Optional
+    override_email       => 'true' | 'false',         # Optional, Default is 'false'
+    url                  => $string,                  # Optional
+    override_url         => 'true' | 'false',         # Optional, Default is 'false'
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a RIR object.
+
+Support for RIR/SWIP must be enabled at the Grid level. See L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/> method.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific RIR object:
+
+  name    - Optional. The RIR name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+    object => 'Infoblox::Grid::RIR',
+    name   => 'RIPE',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify email of a RIR object.
+ $rir->email('support@infoblox.com');
+ # Submit modification
+ my $response = $session->modify( $rir );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for RIR objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search a specific RIR object:
+
+  name         - Optional. The RIR name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+    object => 'Infoblox::Grid::RIR',
+    name   => 'RIPE',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a RIR object.
+
+=head2 communication_mode( )
+
+=over
+
+Use this method to set or retrieve a communication mode for RIR.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'API', 'EMAIL' and 'NONE'. The default value is 'API'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir->communication_mode();
+ #Modify attribute value
+ $rir->communication_mode('EMAIL');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a name of RIR.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'RIPE'. The default value is 'RIPE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir->name();
+ #Modify attribute value
+ $rir->name('RIPE');
+
+=back
+
+=back
+
+=head2 email( )
+
+=over
+
+Use this method to set or retrieve an email address for RIR.
+
+=over
+
+=item B<Parameter>
+
+Email address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir->email();
+ #Modify attribute value
+ $rir->email('support@infoblox.com');
+
+=back
+
+=back
+
+=head2 url( )
+
+=over
+
+Use this method to set or retrieve the Web API URL for RIR.
+
+=over
+
+=item B<Parameter>
+
+Web API URL in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir->url();
+ #Modify attribute value
+ $rir->url('http://www.infoblox.com');
+
+=back
+
+=back
+
+=head2 override_email( )
+
+=over
+
+Use this method to set or retrieve the override_email flag of RIR.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to override the predefined email address or "false" to use the predefined email address. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir->override_email();
+ #Modify attribute value
+ $rir->override_email('true');
+
+=back
+
+=back
+
+=head2 override_url( )
+
+=over
+
+Use this method to set or retrieve the override_url flag of RIR.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to override the predefined Web API URL or "false" to use the predefined Web API URL. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $rir->override_url();
+ #Modify attribute value
+ $rir->override_url('true');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

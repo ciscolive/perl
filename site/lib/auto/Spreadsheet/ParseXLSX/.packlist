@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Spreadsheet/ParseXLSX.pm
+/opt/perl/site/lib/Spreadsheet/ParseXLSX/Decryptor.pm
+/opt/perl/site/lib/Spreadsheet/ParseXLSX/Decryptor/Agile.pm
+/opt/perl/site/lib/Spreadsheet/ParseXLSX/Decryptor/Standard.pm
+/opt/perl/site/man/man3/Spreadsheet::ParseXLSX.3
+/opt/perl/site/man/man3/Spreadsheet::ParseXLSX::Decryptor.3
+/opt/perl/site/man/man3/Spreadsheet::ParseXLSX::Decryptor::Agile.3
+/opt/perl/site/man/man3/Spreadsheet::ParseXLSX::Decryptor::Standard.3

@@ -1,0 +1,4 @@
+/opt/perl/site/bin/cpan-listchanges
+/opt/perl/site/lib/App/cpanlistchanges.pm
+/opt/perl/site/man/man1/cpan-listchanges.1
+/opt/perl/site/man/man3/App::cpanlistchanges.3

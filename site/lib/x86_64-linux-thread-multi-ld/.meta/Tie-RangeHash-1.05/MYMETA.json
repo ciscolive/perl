@@ -1,0 +1,56 @@
+{
+   "abstract" : "Allows hashes to associate values with a range of keys",
+   "author" : [
+      "Robert Rothenberg <rrwo at cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Tie-RangeHash",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : 0
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Algorithm::SkipList" : 1.02,
+            "base" : 0,
+            "perl" : "5.006"
+         }
+      }
+   },
+   "provides" : {
+      "Algorithm::SkipList::NumericRangeNode" : {
+         "file" : "lib/Tie/RangeHash.pm"
+      },
+      "Algorithm::SkipList::StringRangeNode" : {
+         "file" : "lib/Tie/RangeHash.pm"
+      },
+      "Tie::RangeHash" : {
+         "file" : "lib/Tie/RangeHash.pm",
+         "version" : "1.05"
+      },
+      "Tie::RangeHash::TYPE_NUMBER" : {
+         "file" : "lib/Tie/RangeHash.pm"
+      },
+      "Tie::RangeHash::TYPE_STRING" : {
+         "file" : "lib/Tie/RangeHash.pm"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "1.05",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

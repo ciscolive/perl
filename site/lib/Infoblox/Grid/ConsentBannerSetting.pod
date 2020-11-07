@@ -1,0 +1,119 @@
+=head1 NAME
+
+Infoblox::Grid::ConsentBannerSetting - The consent banner setting.
+
+=head1 DESCRIPTION
+
+The consent banner setting object controls the banner displayed on the login page of Grid Manager.
+
+=head1 CONSTRUCTOR
+
+ my $consent = Infoblox::Grid::ConsentBannerSetting->new(
+     enable    => "true" | "false", #Mandatory
+     message   => $string,          #Optional / Default is empty
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a consent banner setting object.
+
+=head2 Infoblox::Grid->consent_banner_setting( )
+
+=over
+
+Use this function to specify the consent banner settings for the Grid. See L<Infoblox::Grid-E<gt>consent_banner_setting()|Infoblox::Grid/consent_banner_setting()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $grid = $session->get(object => 'Infoblox::Grid');
+
+ my $banner = Infoblox::Grid::ConsentBannerSetting->new(enable => 'true', message => 'Consent message');
+ $grid->consent_banner_setting($banner);
+ my $response = $session->modify($grid);
+ unless($response) {
+      die("Modify grid failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+ print "Grid banner setting modified successfully\n";
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a consent banner setting object.
+
+=head2 enable( )
+
+=over
+
+Use this method to set the enable flag.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the banner or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable
+ my $enable = $banner->enable();
+ #Modify enable
+ $banner->enable("true");
+
+=back
+
+=back
+
+=head2 message( )
+
+=over
+
+Use this method to set the message that will be displayed on the login page of Grid Manager.
+
+=over
+
+=item B<Parameter>
+
+A string containing the message.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get message
+ my $message = $banner->message();
+ #Modify message
+ $banner->message("Test message");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid|Infoblox::Grid>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

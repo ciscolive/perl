@@ -1,0 +1,1012 @@
+=head1 NAME
+
+Infoblox::Grid::ExtensibleAttributeDef - Extensible Attribute Definition object.
+
+=head1 DESCRIPTION
+
+The Extensible Attribute Definition object is used to create or modify the definition of an extensible attribute. After the definition is created, the attribute can be defined on other Infoblox objects. 
+
+=head1 Searching Extensible Attributes
+
+When searching for integer, string and date extensible attributes, the following constructs are supported, in addition to specifying the actual desired value.
+
+=head2 String Searching
+
+The string search can be modified by specifying the string in the following format:
+
+ stringattr => { value => $wantedstring, ... options ... }
+
+the following options are supported:
+
+ case_insensitive => "true" | "false" # Optional. If "true", the string search will be case insensitive. The default is "false".
+
+Following is an example of a string search:
+
+ @result = $session->search(object => 'Infoblox::DNS::Record::A',
+                            extensible_attributes => { stringattr => { value => "some string", case_insensitive => "true"});
+
+=head2 Integer Searching
+
+Integer searches support the following where X and Y are integers:
+
+=over
+
+=item B<> '> X' or '< X' - Matches if the extensible attribute value is GREATER or LESS than X respectively.
+
+=item B<> '>= X' or '<= X' - Matches if the extensible attribute value is GREATER THAN OR EQUALS or is LESS THAN OR EQUALS X respectively.
+
+=item B<> '!= X' or '/= X' - Matches if the extensible attribute value DOES NOT EQUAL X.
+
+=item B<> '>=< X,Y' - Matches if the extensible attribute value is GREATER THAN OR EQUALS X AND is LESS THAN OR EQUALS Y.
+
+=back
+
+=over
+
+Following are examples of integer searches:
+
+ @result = $session->search(object => 'Infoblox::DNS::Record::A',
+                            extensible_attributes => { integerattr => '<= 5'});
+
+ @result = $session->search(object => 'Infoblox::DNS::Record::A',
+                            extensible_attributes => { integerattr => '!= 5'});
+
+ @result = $session->search(object => 'Infoblox::DNS::Record::A',
+                            extensible_attributes => { integerattr => '>=< 5,10'});
+
+=back
+
+=head2 Date Searching
+
+Valid values for dates when searching are:
+
+=over
+
+=item B<> The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<> A string matching 'YYYY-MM-DD'.
+
+=item B<> 'today', 'yesterday', 'tomorrow'.
+
+=item B<> 'this week', 'this month'.
+
+=back
+
+=over
+
+=back
+
+Date searches support the following where X and Y are dates:
+
+=over
+
+=item B<> '> X' or '< X' - Matches if the extensible attribute value is GREATER or LESS than X respectively.
+
+=item B<> '>= X' or '<= X' - Matches if the extensible attribute value is GREATER THAN OR EQUALS or is LESS THAN OR EQUALS X respectively.
+
+=item B<> '>=< X,Y' - Matches if the extensible attribute value is GREATER THAN OR EQUALS X AND is LESS THAN OR EQUALS Y. This is supported only for epoch or YYYY-MM-DD strings.
+
+=item B<> '- n' or '+ n' where n is an integer - Matches if the extensible attribute value is within the past or next n days respectively, excluding today.
+
+=back
+
+=over
+
+Following are examples of date searches:
+
+ @result = $session->search(object => 'Infoblox::DNS::Record::A',
+                            extensible_attributes => { dateattr => '<= yesterday'});
+
+ @result = $session->search(object => 'Infoblox::DNS::Record::A',
+                            extensible_attributes => { dateattr => 'this week'});
+
+ @result = $session->search(object => 'Infoblox::DNS::Record::A',
+                            extensible_attributes => { dateattr => '>=< 2010-10-20,2010-11-01'});
+
+ @result = $session->search(object => 'Infoblox::DNS::Record::A',
+                            extensible_attributes => { dateattr => '- 3'});
+
+=back
+
+=head1 Extensible Attribute Values
+
+The valid value for an extensible attribute is a hash reference containing the names of extensible attributes and their associated values.
+
+The names must be those of existing Infoblox::Grid::ExtensibleAttributeDef objects in the database.
+
+For email, URL, and string types, the value is a string with a maximum of 256 characters.
+
+For a list, the value is a string with a maximum of 64 characters.
+
+For an integer, the value is an integer from -2147483648 through 2147483647.
+
+For a date, the value is the number of seconds that have elapsed since January 1st, 1970 UTC or a string of the format YYYY-MM-DD. Any date entered will be converted to an epoch time corresponding to that day at 11:01am UTC.
+
+The default value for the member is undefined.
+
+=head1 CONSTRUCTOR
+
+ my $ext_attr_def = Infoblox::Grid::ExtensibleAttributeDef->new(
+     name                => $string,                                                              #Required
+     type                => "string" | "integer" | "email" | "date" | "list" | "url",             #Optional / Default is "string"
+     comment             => $string,                                                              #Optional / Default is undefined
+     audit_log           => "true" | "false",                                                     #Optional / Default is "false"
+     inheritable         => "true" | "false",                                                     #Optional / Default is "false"
+     multiple            => "true" | "false",                                                     #Optional / Default is "false"
+     cloud_api           => "true" | "false",                                                     #Optional / Default is "false"
+     mgm_private         => "true" | "false",                                                     #Optional / Default is "false"
+     grid_master         => "true" | "false",                                                     #Optional / Default is "false"
+     default_value       => $string | $num,                                                       #Optional / Default is undefined
+     list_values         => [$Value1, $Value2, ...],                                              #Optional / Default is undefined
+     min                 => $num,                                                                 #Optional / Default is undefined
+     max                 => $num,                                                                 #Optional / Default is undefined
+     allowed_object_types=> [$string, $string, ...]                                               #Optional / Default is undefined
+     user_input          => 'recommended' | 'required' | 'optional',                              #Optional / Default is 'optional'
+     descendants_action  => $descendants,                                                         #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to an Extensible Attribute Definition object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Construct an Extensible Attribute Definition object
+ my $ext_attr_def = Infoblox::Grid::ExtensibleAttributeDef->new(
+     name                 => "test_ext_attr",
+     comment              => "test extensible attribute",
+     type                 => "integer"
+ );
+ # Submit for addition
+ my $response = $session->add( $ext_attr_def );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Extensible Attribute Definition object:
+
+  name      - Required. Extensible Attribute Definition name in string format.
+  namespace - Optional. Extensible Attribute Definition namespace.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::ExtensibleAttributeDef",
+     name       => "test_ext_attr" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment.
+ $ext_attr_def->comment("This is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $ext_attr_def );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, use get() or search() to retrieve the specific object first, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the Extensible Attribute Definition object matching the given name
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::ExtensibleAttributeDef",
+     name       => "test_ext_attr" );
+ # Find the desired object from the retrieved list.
+ my $ext_attr_def = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $ext_attr_def );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Extensible Attribute Definition objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific Extensible Attribute Definition object:
+
+  name      - Optional. Extensible Attribute Definition name (regular expression).
+  comment   - Optional. Extensible Attribute Definition comment (regular expression).
+  namespace - Optional. Extensible Attribute Definition namespace.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all Extensible Attribute Definition objects starting with "test"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::ExtensibleAttributeDef",
+     name   => "test.*" );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of an Extensible Attribute Definition object.
+
+=head2 allowed_object_types( )
+
+=over
+
+Use this method to set or retrieve the object types on which the extensible attribute can be defined.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Parameter is an array reference that contains the list of object types on which the extensible attribute can be defined. The following object types are supported here:
+
+ Infoblox::Grid::Member
+ Infoblox::Grid::Admin::User
+ Infoblox::Grid::Admin::Role
+ Infoblox::DHCP::FailOver
+ Infoblox::DHCP::Filter::Fingerprint
+ Infoblox::DHCP::Filter::MAC
+ Infoblox::DHCP::Filter::NAC
+ Infoblox::DHCP::Filter::Option
+ Infoblox::DHCP::Filter::RelayAgent
+ Infoblox::DHCP::Fingerprint
+ Infoblox::DHCP::FixedAddr
+ Infoblox::DHCP::FixedAddrTemplate
+ Infoblox::DHCP::IPv6FixedAddr
+ Infoblox::DHCP::IPv6FixedAddrTemplate
+ Infoblox::DHCP::IPv6Network
+ Infoblox::DHCP::IPv6Network
+ Infoblox::DHCP::IPv6NetworkContainer
+ Infoblox::DHCP::IPv6NetworkContainer
+ Infoblox::DHCP::IPv6NetworkTemplate
+ Infoblox::DHCP::IPv6Range
+ Infoblox::DHCP::IPv6RangeTemplate
+ Infoblox::DHCP::IPv6SharedNetwork
+ Infoblox::DHCP::MAC
+ Infoblox::DHCP::MSSuperscope
+ Infoblox::DHCP::Network
+ Infoblox::DHCP::NetworkContainer
+ Infoblox::DHCP::NetworkTemplate
+ Infoblox::DHCP::Range
+ Infoblox::DHCP::RangeTemplate
+ Infoblox::DHCP::RoamingHost
+ Infoblox::DHCP::SharedNetwork
+ Infoblox::DHCP::View
+ Infoblox::DNS::BulkHost
+ Infoblox::DNS::Host
+ Infoblox::DNS::RPZRecord::A
+ Infoblox::DNS::RPZRecord::AAAA
+ Infoblox::DNS::RPZRecord::AAAAIpAddress
+ Infoblox::DNS::RPZRecord::AIpAddress
+ Infoblox::DNS::RPZRecord::CNAME
+ Infoblox::DNS::RPZRecord::CNAME::ClientIpAddress
+ Infoblox::DNS::RPZRecord::CNAME::ClientIpAddressDN
+ Infoblox::DNS::RPZRecord::CNAME::IpAddress
+ Infoblox::DNS::RPZRecord::CNAME::IpAddressDN
+ Infoblox::DNS::RPZRecord::MX
+ Infoblox::DNS::RPZRecord::NAPTR
+ Infoblox::DNS::RPZRecord::PTR
+ Infoblox::DNS::RPZRecord::SRV
+ Infoblox::DNS::RPZRecord::TXT
+ Infoblox::DNS::Record::A
+ Infoblox::DNS::Record::AAAA
+ Infoblox::DNS::Record::CNAME
+ Infoblox::DNS::Record::DNAME
+ Infoblox::DNS::Record::MX
+ Infoblox::DNS::Record::NS
+ Infoblox::DNS::Record::PTR
+ Infoblox::DNS::Record::SRV
+ Infoblox::DNS::Record::TLSA
+ Infoblox::DNS::Record::TXT
+ Infoblox::DNS::SharedRecord::A
+ Infoblox::DNS::SharedRecord::AAAA
+ Infoblox::DNS::SharedRecord::CNAME
+ Infoblox::DNS::SharedRecord::MX
+ Infoblox::DNS::SharedRecord::SRV
+ Infoblox::DNS::SharedRecord::TXT
+ Infoblox::DNS::SRG
+ Infoblox::DNS::View
+ Infoblox::DNS::Zone
+ Infoblox::DTC::LBDN
+ Infoblox::DTC::Monitor::HTTP
+ Infoblox::DTC::Monitor::ICMP
+ Infoblox::DTC::Monitor::PDP
+ Infoblox::DTC::Monitor::SIP
+ Infoblox::DTC::Monitor::SNMP
+ Infoblox::DTC::Monitor::TCP
+ Infoblox::DTC::Pool
+ Infoblox::DTC::Server
+ Infoblox::DTC::Topology
+ Infoblox::Grid::AllEndpoints
+ Infoblox::Grid::DNS
+ Infoblox::Grid::DNS::DNS64Group
+ Infoblox::Grid::DNS::Nsgroup
+ Infoblox::Grid::DNS::Nsgroup::ForwardStubServer
+ Infoblox::Grid::DNS::Nsgroup::ForwardingMember
+ Infoblox::Grid::DNS::Nsgroup::DelegationMember
+ Infoblox::Grid::Discovery::Device
+ Infoblox::Grid::Discovery::DeviceInterface
+ Infoblox::Grid::MSServer
+ Infoblox::Grid::Member::DNS
+ Infoblox::Grid::NamedACL
+ Infoblox::Grid::RIR::Organization
+ Infoblox::Grid::SNMP::User
+ Infoblox::Grid::ServiceRestart::Group
+
+If the parameter is undefined, the extensible attribute can be defined on all object types. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get allowed object types
+ my $ref_allowed_object_types = $ext_attr_def->allowed_object_types();
+ # Modify allowed object types
+ $ext_attr_def->allowed_object_types(['Infoblox::DHCP::Range', 'Infoblox::DHCP::RangeTemplate']);
+
+=back
+
+=back
+
+=head2 audit_log( )
+
+=over
+
+Use this method to set or retrieve the "audit_log" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the audit_log flag or "false" to deactivate/unset it. When the flag is set the extensible attribute name and value assigned to an object are logged in the audit log when a change occurs on the object. The default value for this field is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get audit_log flag
+ my $audit_log = $ext_attr_def->audit_log();
+ # Modify audit_log flag
+ $ext_attr_def->audit_log("true");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Comment in string format with a maximum of 256 characters. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $ext_attr_def->comment();
+ #Modify comment
+ $ext_attr_def->comment("This is the modified comment for extensible attribute definition");
+
+=back
+
+=back
+
+=head2 default_value( )
+
+=over
+
+Use this method to set or retrieve the value used to pre-populate the attribute value in the GUI.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Default value used to pre-populate the attribute value in the GUI. For email, URL, and string types, the value is a string with a maximum of 256 characters. For a list, the value is a string with a maximum of 64 characters. For an integer, the value is an integer from -2147483648 through 2147483647. For a date, the value is the number of seconds that have elapsed since January 1st, 1970 UTC. The default value is undefined.
+
+Note that, for a date, the time value is automatically modified to 11:01:00 before insertion, so you may not get the same value that you've inserted upon retrieval.
+e.g. 1000000 (1970-01-12T13:46:40Z) will be returned as 990060 (1970-01-12T11:01:00Z).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get default value of an extensible attribute of type string
+ my $ext_attr_def = $ext_attr_def->default_value();
+ # Modify default value
+ $ext_attr_def->default_value("Router");
+
+=back
+
+=back
+
+=head2 descendants_action( )
+
+=over
+
+Use this method to set the actions for extensible attributes that exist on descendants. This attribute is write-only and cannot be retrieved.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::ExtensibleAttributeDef::Descendants|Infoblox::Grid::ExtensibleAttributeDef::Descendants> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify attribute value
+ $ext_attr_def->descendants_action($descendants);
+
+=back
+
+=back
+
+=head2 inheritable( )
+
+=over
+
+Use this method to set or retrieve the "inheritable" flag.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the inheritable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get inheritable flag
+ my $inheritable = $ext_attr_def->inheritable();
+ # Modify inheritable flag
+ $ext_attr_def->inheritable("true");
+
+=back
+
+=back
+
+=head2 list_values( )
+
+=over
+
+Use this method to set or retrieve the list of values that can be defined for the list type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Parameter is an array reference that contains L<Infoblox::Grid::ExtensibleAttributeDef::ListValue|Infoblox::Grid::ExtensibleAttributeDef::ListValue/> values associated with an extensible attribute object defined as the "list" type. This parameter is not used for other types. The default value for this field is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get list of values
+ my $ref_list_values = $ext_attr_def->list_values();
+
+ # Add a new value to the list
+ my $ref_list_values = $ext_attr_def->list_values();
+ push @$ref_list_values, Infoblox::Grid::ExtensibleAttributeDef::ListValue->new(value => 'Santa Clara');
+ $ext_attr_def->list_values($ref_list_values);
+
+ # Rename a value in the list
+ my $ref_list_values = $ext_attr_def->list_values();
+ foreach my $value (@$ref_list_values)
+ {
+    if ($value->value() eq 'San Francisco')
+    {
+        $value->value('Los Angeles');
+    }
+ }
+ $ext_attr_def->list_values($ref_list_values);
+
+=back
+
+=back
+
+=head2 max( )
+
+=over
+
+Use this method to set or retrieve the maximal length of string for string type or maximal value for integer type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For a string, the value is an integer from 1 through 256. For an integer, the value is an integer from -2147483648 through 2147483647. This parameter is not used for other types. Using the L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> function you can only define a value greater than the current one. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get max
+ my $ext_attr_def = $ext_attr_def->max();
+ # Modify max
+ $ext_attr_def->max(23);
+
+=back
+
+=back
+
+=head2 min( )
+
+=over
+
+Use this method to set or retrieve the minimal length of string for string type or minimal value for integer type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For a string, the value is an integer from 1 through 256. For an integer, the value is an integer from -2147483648 through 2147483647. This parameter is not used for other types. Using the L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> function you can only define a value lesser than the current one. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get min
+ my $ext_attr_def = $ext_attr_def->min();
+ # Modify min
+ $ext_attr_def->min(3);
+
+=back
+
+=back
+
+=head2 multiple( )
+
+=over
+
+Use this method to set or retrieve the "multiple" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the multiple flag or "false" to deactivate/unset it. When the flag is set multiple values can be assigned to an extensible attribute. Using the L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> function you can change this flag from "false" to "true". The reverse operation is not allowed. The default value for this field is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get multiple flag
+ my $audit_log = $ext_attr_def->multiple();
+ # Modify multiple flag
+ $ext_attr_def->multiple("true");
+
+=back
+
+=back
+
+=head2 cloud_api( )
+
+=over
+
+Use this method to set or retrieve the "cloud_api" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the cloud_api flag or "false" to deactivate or unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_api flag
+ my $cloud_api = $ext_attr_def->cloud_api();
+ # Modify cloud_api flag
+ $ext_attr_def->cloud_api("true");
+
+=back
+
+=back
+
+=head2 grid_master( )
+
+=over
+
+Use this method to set or retrieve the "grid_master" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the grid_master flag or "false" to deactivate or unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get grid_master flag
+ my $grid_master = $ext_attr_def->grid_master();
+ # Modify grid_master flag
+ $ext_attr_def->grid_master("true");
+
+=back
+
+=back
+
+=head2 mgm_private( )
+
+=over
+
+Use this method to set or retrieve the "mgm_private" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the mgm_private flag or "false" to deactivate or unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get mgm_private flag
+ my $mgm_private = $ext_attr_def->mgm_private();
+ # Modify mgm_private flag
+ $ext_attr_def->mgm_private("true");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of an extensible attribute definition.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the extensible attribute with a maximum of 128 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get name
+ my $name = $ext_attr_def->name();
+ # Modify name
+ $ext_attr_def->name("Class");
+
+=back
+
+=back
+
+=head2 namespace( )
+
+=over
+
+Use this method to retrieve the extensible attribute definition namespace. This is a read-only attribute.
+
+Specific extensible attribute definitions with 'RIPE' namespace will be added only when support for RIR/SWIP is enabled at the Grid level for the first time. See L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/> method.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'default', 'MSADSITES', 'RIPE' or 'CLOUD'.
+
+=item B<Example>
+
+ # Get namespace
+ $namespace = $ext_attr_def->namespace();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the type of an extensible attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Parameter is a string. The default value for this field is "string". Currenty the supported object types are 'string', 'integer', 'email', 'date', 'list' and 'url'. Modification of the type using the L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> function is not allowed.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get type
+ my $type = $ext_attr_def->type();
+
+=back
+
+=back
+
+=head2 user_input( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the extensible attribute value is required, recommended or optional.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'recommended', 'required' or 'optional'. The default value is 'optional'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get user_input
+ my $user_input = $ext_attr_def->user_input();
+ #Modify user_input
+ $ext_attr_def->user_input('required');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, get, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an Extensible Attribute Definition object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create an Extensible Attribute Definition object>
+
+ my $ext_attr_def = Infoblox::Grid::ExtensibleAttributeDef->new(
+     name                 => "test_extensible_atttribute",
+     comment              => "test extensibleatttribute",
+     type                 => "integer",
+     min                  => -50,
+     max                  => 50,
+ );
+
+ unless ($ext_attr_def) {
+        die("Construct extensible attribute definition object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Extensible Attribute Definition object created successfully\n";
+
+ #Add this object to the Infoblox appliance through a session
+ $session->add($ext_attr_def)
+        or die("Add Extensible Attribute Definition object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Extensible Attribute Definition object added to server successfully\n";
+
+B<#Get and modify an Extensible Attribute Definition object>
+
+ #Get the object from Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::ExtensibleAttributeDef",
+     name   => "test_extensible_atttribute"
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get Extensible Attribute Definition object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Extensible Attribute Definition object found at least 1 matching entry\n";
+
+ #Modify the object
+ $object->comment("this is a new comment");
+ $object->min(-100);
+ $object->max(100);
+
+ #Apply the changes.
+ $session->modify($object)
+        or die("Modify Extensible Attribute definition object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Extensible Attribute definition object modified successfully \n";
+
+ #Accessor methods
+ print "name: " . $object->name() . "\n";
+ print "comment: " . $object->comment() . "\n";
+ print "min: " . $object->min() . "\n";
+ print "max: " . $object->max() . "\n";
+
+B<#Remove an Extensible Attribute Definition object>
+
+ #Get the object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::ExtensibleAttributeDef",
+     name   => "test_extensible_atttribute"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Extensible Attribute Definition object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Extensible Attribute Definition object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+        or die("Remove Extensible Attribute Definition object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Extensible Attribute Definition object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Grid::ExtensibleAttributeDef::Descendants|Infoblox::Grid::ExtensibleAttributeDef::Descendants>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

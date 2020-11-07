@@ -1,0 +1,1 @@
+{"pathname":"R/RM/RMBARKER/Text-CSV-Unicode-0.400.tar.gz","version":"0.400","provides":{"Text::CSV::Unicode":{"file":"lib/Text/CSV/Unicode.pm","version":"0.400"}},"target":"Text::CSV::Unicode","dist":"Text-CSV-Unicode-0.400","name":"Text::CSV::Unicode"}

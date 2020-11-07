@@ -1,0 +1,891 @@
+=head1 NAME
+
+Infoblox::Grid::ScheduledBackup - Scheduled Backup object.
+
+=head1 DESCRIPTION
+
+The Scheduled Backup object is used to schedule system backups.
+
+=head1 CONSTRUCTOR
+
+ #Constructor for a ScheduledBackup object
+ my $backup = Infoblox::Grid::ScheduledBackup->new (
+         backup_type => "LOCAL" | "TFTP" | "FTP" | "SCP",   #Optional / Default is "LOCAL"
+         keep_local_copy  => "true" | "false",              #Optional / Default is "false"
+         backup_frequency => "Weekly" | "Daily" | "Hourly", #Optional / Default is "Daily"
+         weekday => "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday"  #Optional / Default is "0"
+         hour_of_day      => $num,                          #Optional / Default is 3
+         minute_of_hour   => $num,                          #Optional / Default is 0
+         user             => $string,                       #Optional / Default is undefined
+         password         => $string,                       #Optional / Default is undefined
+         backup_server    => $string,                       #Optional / Default is undefined
+         path             => $string,                       #Optional / Default is undefined
+         disabled         => "true" | "false",              #Optional / Default is "false"
+
+         source            => "DB" | "REPORTING"            #Optional / Default is "DB"
+         status            => "IDLE" | "TRIGGERED" | "IN_PROGRESS" | "FINISHED" | "FAILED", #Optional / Default is "IDLE"
+         operation_state   => 'TRIGGERED',                  #Optional / Default is undefined
+         operation         => "NONE" | "BACKUP" | "RESTORE", #Optional / Default is "NONE"
+         restore_type      => "FTP" | "SCP",                #Optional / Default is "FTP"
+         restore_host      => $string,                      #Optional / Default is undefined
+         restore_username  => $string,                      #Optional / Default is undefined
+         restore_password  => $string,                      #Optional / Default is undefined
+         restore_directory => $string,                      #Optional / Default is undefined
+         nios_data         => 'true' | 'false',             #Optional / If any of nios_data and discovery_data is not
+                                                            #defined, nios_data is 'true'.
+         discovery_data    => 'true' | 'false',             #Optional / If any of nios_data and discovery_data is not
+                                                            #defined, discovery_data is 'false'.
+         splunk_app_data   => 'true' | 'false',             #Optional / Default is 'false'
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a ScheduledBackup object.
+
+=head2 Infoblox::Grid->scheduled_backup( )
+
+=over
+
+Use this function to specify a ScheduledBackup object. See L<Infoblox::Grid-E<gt>scheduled_backup()|Infoblox::Grid/scheduled_backup()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Retrieve the list of ScheduledBackup objects from the Grid object.
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid",
+     name   => "Infoblox"
+ );
+
+ my $Grid_obj = $retrieved_objs[0];
+
+ # construct a ScheduledBackup object
+ my $backup = Infoblox::Grid::ScheduledBackup->new (
+     backup_type => "LOCAL",
+     backup_frequency => "Weekly",
+     weekday => "0", # "0" is the same as "Sunday"
+     hour_of_day => "4",
+     minute_of_hour => "0",
+     user  => "username",
+     password => "user-password",
+     backup_server  => "my-backup-server",
+     path => "/tmp/infoblox/database.tar.gz",
+     disabled => "false",
+ );
+
+ # Modify the scheduled backup list
+ $Grid_obj->scheduled_backup($backup);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a ScheduledBackup object.
+
+=head2 backup_type( )
+
+=over
+
+Use this method to set or retrieve the destination of the backup files. You can back up system files to a local directory, a TFTP server, an FTP server, or an SSH server that supports SCP.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "LOCAL", "TFTP", "FTP" or "SCP". The default value is "LOCAL".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get backup_type
+ my $backup_type = $backup->backup_type();
+ #Modify backup_type
+ $backup->backup_type("FTP");
+
+=back
+
+=back
+
+=head2 keep_local_copy( )
+
+=over
+
+Use this method to control whether a local backup is created in addition to a remote one. This option works only if you also specify a remote backup type (TFTP, FTP, or SCP). You cannot enable this option using the "LOCAL" backup type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "true" and "false". The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get keep_local_copy
+ my $keep_local_copy = $backup->keep_local_copy();
+ #Modify keep_local_copy
+ $backup->backup_type("true");
+
+=back
+
+=back
+
+=head2 backup_frequency( )
+
+=over
+
+Use this method to set or retrieve the frequency of backups.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "Weekly", "Daily" or "Hourly". The default value is "Daily".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Get backup frequency
+ my $backup_backup_frequency = $backup->backup_frequency();
+ #Modify backup frequency
+ $backup->backup_frequency("Weekly");
+
+=back
+
+=back
+
+=head2 weekday( )
+
+=over
+
+Use this method to set or retrieve the day of the week when the backup is performed. This is required only when backup_frequency is set to "Weekly".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "0", "1", "2", "3", "4", "5", "6", "7", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" or "Saturday". "0" means "Sunday", "1" - "Monday". etc. The default value is "6" (Saturday).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get weekday
+ my $weekday = $backup->weekday();
+ #Modify weekday
+ $backup->weekday("0");
+
+=back
+
+=back
+
+=head2 execute( )
+
+=over
+
+Use this method to set the state for Reporting scheduled backup / restore operation. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+The valid value is 'TRIGGER'. The default is undefined.
+
+=item B<Returns>
+
+None
+
+=item B<Example>
+
+ #Modify operation_state value
+ $object->execute('TRIGGER');
+
+=back
+
+=back
+
+=head2 hour_of_day( )
+
+=over
+
+Use this method to set or retrieve the hour when the backup is performed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A number from 0 through 23. The default value is 3 (3:00 A.M.).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get hour_of_day
+ my $hour_of_day = $backup->hour_of_day();
+ #Modify hour_of_day
+ $backup->hour_of_day("4");
+
+=back
+
+=back
+
+=head2 minute_of_hour( )
+
+=over
+
+Use this method to set or retrieve the minute of the hour when the backup is performed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A number from 0 through 59. The default value is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get minute_of_hour
+ my $minute_of_hour = $backup->minute_of_hour();
+ #Modify minute_of_hour
+ $backup->minute_of_hour("5");
+
+=back
+
+=back
+
+=head2 nios_data( )
+
+=over
+
+Use this method to enable or disable the backup and restore of NIOS data.
+
+If any of nios_data and discovery_data is not defined, nios_data is 'true'.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable backup/restore of NIOS data. Set the parameter to "false" to disable the object. The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get nios_data
+ my $nios_data = $backup->nios_data();
+ #Modify nios_data
+ $backup->nios_data("true");
+
+=back
+
+=back
+
+=head2 discovery_data( )
+
+=over
+
+Use this method to enable or disable the backup and restore of Network Automation data.
+
+If any of nios_data and discovery_data is not defined, discovery_data is 'false'.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable backup/restore of Network Automation data. Set the parameter to "false" to disable the object. The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_data
+ my $nios_data = $backup->discovery_data();
+ #Modify discovery_data
+ $backup->discovery_data("true");
+
+=back
+
+=back
+
+=head2 splunk_app_data( )
+
+=over
+
+Use this method to enable or disable the backup and restore of Splunk application data.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable backup/restore of Splunk application data. Set the parameter to "false" to disable the object. The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get splunk_app_data
+ my $nios_data = $backup->splunk_app_data();
+ #Modify splunk_app_data
+ $backup->splunk_app_data("true");
+
+=back
+
+=back
+
+=head2 user( )
+
+=over
+
+Use this method to set or retrieve the user name on the backup server. This is required only when backup_type is set to "FTP" or "SCP".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The user name in string format with a maximum of 1024 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get user
+ my $user = $backup->user();
+ #Modify user
+ $backup->user("admin1");
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the user password on the backup server. This is required only when backup_type is set to "FTP" or "SCP". This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+The password in string format with a maximum of 64 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify password
+ $backup->password("userpassword");
+
+=back
+
+=back
+
+=head2 backup_server( )
+
+=over
+
+Use this method to set or retrieve the IP address of the backup server. This is required only when backup_type is set to "FTP", "TFTP" or "SCP".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IP address of the backup server.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get backup_server
+ my $backup_server = $backup->backup_server();
+ #Modify backup_server
+ $backup->backup_server("my-backup-server");
+
+=back
+
+=back
+
+=head2 path( )
+
+=over
+
+Use this method to set or retrieve the directory path to the backup file stored on the server. This is required only when backup_type is set to "FTP" or "SCP".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired path in string format with a maximum of 1024 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get path
+ my $path = $backup->path();
+ #Modify path
+ $backup->path("/tmp/infoblox/database.tar.gz");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to disable the ScheduledBackup object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to disable the ScheduledBackup object. Set the parameter to "false" to enable the object. The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disabled
+ my $disabled = $backup->disabled();
+ #Modify disabled
+ $backup->disabled("true");
+
+=back
+
+=back
+
+=head2 source( )
+
+=over
+
+Use thi method to set or retrieve the source of ScheduledBackup object.
+
+=over
+
+=item B<Parameter>
+
+Can be set to "DB" to operate with Grid ScheduledBackup object or to "REPORTING" to operate with Reporting ScheduledBackup object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get source
+ my $source = $backup->source();
+ #Modify source
+ $backup->source("REPORTING");
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to set or retrieve the status of the Reporting ScheduledBackup object.
+
+=over
+
+=item B<Parameter>
+
+Either "TRIGGERED" or "IN_PROGRESS" to identify that Reporting backup/restore is running. Status "FINISHED" means Reporting backup/restore succeeded. Status "FAILED" means Reporting backup/restore failed. The default value of this parameter is "IDLE".
+
+Set status to "TRIGGERED" to run a Reporting manual backup. Use this for a Reporting manual backup only.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get status
+ my $status = $backup->status();
+ #Modify status
+ $backup->status("TRIGGERED");
+
+=back
+
+=back
+
+=head2 operation( )
+
+=over
+
+Use this method to set or retrieve the operation of the Reporting ScheduledBackup object.
+
+=over
+
+=item B<Parameter>
+
+Specify "BACKUP" to indicate that a Reporting backup must be performed, or specify "RESTORE" to indicate that a Reporting restore must be performed. The default value is "NONE".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get operation
+ my $operation = $backup->operation();
+ #Modify operation
+ $backup->operation("RESTORE");
+
+=back
+
+=back
+
+=head2 restore_type( )
+
+=over
+
+Use this method to set or retrieve the destination of the restore files when the operation is set to "RESTORE". You can back up system files to an FTP server, or an SSH server that supports SCP.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "FTP" or "SCP". The default value is "FTP".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get restore_type
+ my $restore_type = $backup->restore_type();
+ #Modify restore_type
+ $backup->restore_type("FTP");
+
+=back
+
+=back
+
+=head2 restore_host( )
+
+=over
+
+Use this method to set or retrieve the IP address of the restore server when the operation is set to "RESTORE".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IP address of the restore server.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get backup_server
+ my $restore_host = $backup->restore_host();
+ #Modify restore_host
+ $backup->restore_host("my-restore-server");
+
+=back
+
+=back
+
+=head2 restore_username( )
+
+=over
+
+Use this method to set or retrieve the user name that is used to log in to the restore server. This is required only when "RESTORE" operation is performed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The user name in string format with a maximum of 1024 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get user
+ my $restore_username = $backup->restore_username();
+ #Modify user
+ $backup->restore_username("admin1");
+
+=back
+
+=back
+
+=head2 restore_password( )
+
+=over
+
+Use this method to set the user password that is used to log in to the restore server. This is required only when "RESTORE" operation is performed. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+The restore_password in string format with a maximum of 64 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify restore_password
+ $backup->restore_password("userpassword");
+
+=back
+
+=back
+
+=head2 restore_directory( )
+
+=over
+
+Use this method to set or retrieve the directory path to the restored file on the server. This is required only when "RESTORE" operation is performed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired path in string format with a maximum of 1024 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get restore_directory
+ my $restore_directory = $backup->restore_directory();
+ #Modify restore_directory
+ $backup->restore_directory("/tmp");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to an object such as create, modify, and remove an object. This sample code also includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Add a ScheduledBackup object>
+
+ my @result_array = $session->get( "object" => "Infoblox::Grid", "name" => "Infoblox");
+ if( scalar( @result_array ) > 0 )
+  {
+         my $Grid_obj = $result_array[0];
+         unless ($Grid_obj) {
+                 die("Get Grid object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+         }
+         # construct a ScheduledBackup object
+         my $backup = Infoblox::Grid::ScheduledBackup->new (
+             backup_type => "LOCAL",
+             backup_frequency => "Weekly",
+             weekday => "0", # "0" is the same as "Sunday"
+             hour_of_day => "4",
+             minute_of_hour => "0",
+             user  => "username",
+             password => "user-password",
+             backup_server  => "10.0.3.4",
+             path => "/tmp/infoblox/database.tar.gz",
+             disabled => "false",
+         );
+
+         # Add ScheduledBackup to Grid object.
+         $Grid_obj->scheduled_backup($backup);
+
+         $session->modify($Grid_obj)
+             or die("Modify Grid failed: ",$session->status_code(). ":" .$session->status_detail());
+         print "ScheduledBackup added to Grid object sucessfully\n";
+ } else {
+     print "No Grid object found.";
+ }
+
+B<#Modify an existing ScheduledBackup object>
+
+ @result_array = $session->get( "object" => "Infoblox::Grid", "name" => "Infoblox");
+ if( scalar( @result_array ) > 0 )
+  {
+         my $Grid_obj = $result_array[0];
+         unless ($Grid_obj) {
+                 die("Get Grid object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+         }
+
+          # get ScheduledBackup from Grid object.
+          my $backup= $Grid_obj->scheduled_backup();
+
+          #modify the backup frequency
+          $backup->backup_frequency("Daily");
+
+          # Add ScheduledBackup to Grid object.
+          $Grid_obj->scheduled_backup($backup);
+
+          $session->modify($Grid_obj)
+             or die("Modify Grid failed: ",$session->status_code(). ":" .$session->status_detail());
+          print "ScheduledBackup modified on Grid object sucessfully\n";
+ } else {
+     print "No Grid object found.";
+ }
+
+B<#Remove an existing ScheduledBackup object>
+
+ @result_array = $session->get( "object" => "Infoblox::Grid", "name" => "Infoblox");
+ if( scalar( @result_array ) > 0 )
+  {
+         my $Grid_obj = $result_array[0];
+         unless ($Grid_obj) {
+                 die("Get Grid object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+         }
+
+          # empty ScheduledBackup list on Grid object.
+          $Grid_obj->scheduled_backup([]);
+
+          $session->modify($Grid_obj)
+             or die("Modify Grid failed: ",$session->status_code(). ":" .$session->status_detail());
+          print "ScheduledBackup removed on Grid object sucessfully\n";
+ } else {
+     print "No Grid object found.";
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid|Infoblox::Grid>, L<Infoblox::Grid-E<gt>scheduled_backup()|Infoblox::Grid/scheduled_backup()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

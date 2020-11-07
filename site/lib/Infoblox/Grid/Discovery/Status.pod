@@ -1,0 +1,509 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::Status - the discovery status of discovered data.
+
+=head1 DESCRIPTION
+
+The object provides information about the discovery status of discovered data.
+
+=head1 SESSION METHOD
+
+This section describes all the methods in Infoblox::Session that you can apply to the object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+  address - Optional. The IP address of the device.
+  name    - Optional. The device name.
+  network_view - Optional. The network view name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::Discovery::Status',
+     'address' => '10.0.0.1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a object:
+
+  address - Optional. The IP address of the device (regular expression).
+  name    - Optional. The device name (regular expression).
+  network_view - Optional. The network view name.
+
+=item B<Example>
+
+ # search for all objects
+ my @retrieved_objs = $session->search(
+     'object' => 'Infoblox::Grid::Discovery::Status',
+     'address' => '10.0.0.1',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to retrieve the IP address of the device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address();
+
+=back
+
+=back
+
+=head2 cli_collection_enabled( )
+
+=over
+
+Use this method to retrieve the flag that indicates if CLI collection is enabled. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'true' or 'false'.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $status->cli_collection_enabled();
+
+=back
+
+=back
+
+=head2 existence_info( )
+
+=over
+
+Use this method to retrieve information about the device existence status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::StatusInfo|Infoblox::Grid::Discovery::StatusInfo> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->existence_info();
+
+=back
+
+=back
+
+=head2 fingerprint_enabled( )
+
+=over
+
+Use this method to retrieve the flag that indicates if DHCP fingerprinting is enabled. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'true' or 'false'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->fingerprint_enabled();
+
+=back
+
+=back
+
+=head2 fingerprint_info( )
+
+=over
+
+Use this method to retrieve information about the device fingerptint status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::StatusInfo|Infoblox::Grid::Discovery::StatusInfo> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->fingerprint_info();
+
+=back
+
+=back
+
+=head2 first_seen( )
+
+=over
+
+Use this method to retrieve the timestamp when the device was first discovered. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->first_seen();
+
+=back
+
+=back
+
+=head2 last_action( )
+
+=over
+
+Use this method to retrieve the timestamp of the last detected interface property change. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->last_action();
+
+=back
+
+=back
+
+=head2 last_seen( )
+
+=over
+
+Use this method to retrieve the timestamp when the device was last discovered. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->last_seen();
+
+=back
+
+=back
+
+=head2 last_timestamp( )
+
+=over
+
+Use this method to retrieve the timestamp of the last action executed for the device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->last_timestamp();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the device name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to retrieve the network view name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_view();
+
+=back
+
+=back
+
+=head2 reachable_info( )
+
+=over
+
+Use this method to retrieve information about the device reachable status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::StatusInfo|Infoblox::Grid::Discovery::StatusInfo> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->reachable_info();
+
+=back
+
+=back
+
+=head2 snmp_collection_enabled( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether SNMP collection is enabled for the device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'true' or 'false'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->snmp_collection_enabled();
+
+=back
+
+=back
+
+=head2 snmp_collection_info( )
+
+=over
+
+Use this method to retrieve information about the device SNMP collection status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::StatusInfo|Infoblox::Grid::Discovery::StatusInfo> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->snmp_collection_info();
+
+=back
+
+=back
+
+=head2 snmp_credential_info( )
+
+=over
+
+Use this method to retrieve information about the device SNMP credential status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an L<Infoblox::Grid::Discovery::StatusInfo|Infoblox::Grid::Discovery::StatusInfo> object.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->snmp_credential_info();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status of the device. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'OK', 'ERROR' or 'NON_REACHABLE'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->status();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the device type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->type();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::Discovery::StatusInfo|Infoblox::Grid::Discovery::StatusInfo>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

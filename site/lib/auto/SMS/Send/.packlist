@@ -1,0 +1,8 @@
+/opt/perl/site/lib/SMS/Send.pm
+/opt/perl/site/lib/SMS/Send/AU/Test.pm
+/opt/perl/site/lib/SMS/Send/Driver.pm
+/opt/perl/site/lib/SMS/Send/Test.pm
+/opt/perl/site/man/man3/SMS::Send.3
+/opt/perl/site/man/man3/SMS::Send::AU::Test.3
+/opt/perl/site/man/man3/SMS::Send::Driver.3
+/opt/perl/site/man/man3/SMS::Send::Test.3

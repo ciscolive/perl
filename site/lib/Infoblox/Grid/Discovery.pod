@@ -1,0 +1,377 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery - Grid discovery functions.
+
+=head1 DESCRIPTION
+
+The object provides access to the Grid discovery and Network Insight functions.
+
+=head1 CONSTRUCTOR
+
+ my $discovery = Infoblox::Grid::Discovery->new(
+    'session' => $session,      # Required
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+=head2 clear_network_port_assignment( )
+
+=over
+
+Use this method to clear network provision information on given router or switch-router device interfaces for given networks.
+
+Note that this function is always executed as part of scheduled task. Also the function goes through approval process if it is applicable.
+
+=over
+
+=item B<Parameter>
+
+network_deprovision_info    - Required. An array reference that contains L<Infoblox::Grid::Discovery::NetworkDeprovisionInfo|Infoblox::Grid::Discovery::NetworkDeprovisionInfo> objects.
+scheduled_at                - Required. Scheduled time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> for date and time (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) or 'now' which will set scheduled date and time to the current date and time.
+
+=item B<Returns>
+
+The method returns true when a scheduled task has been created successfully, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $res = $discovery->clear_network_port_assignment('scheduled_at' => $scheduled_time, 'network_deprovision_info' => [$deprovision_info1, $deprovision_info2]);
+
+=back
+
+=back
+
+=head2 control_ip_address( )
+
+=over
+
+Use this method to control multiple IP addresses.
+
+=over
+
+=item B<Parameter>
+
+addresses      - Required. An array reference that contains IP addresses.
+network_view   - Optional. The network view name.
+exclude        - Optional. The flag for exclude. Valid value is 'true' or 'false'.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $res = $discovery->control_ip_address('addresses' => ['10.0.0.1', '10.0.0.2']);
+
+=back
+
+=back
+
+=head2 control_switch_port( )
+
+=over
+
+Use this method to configure the interface of a given switch device.
+
+Note that this function is always executed as part of scheduled task. Also the function goes through approval process if it is applicable. This function is used for both IPAM IP address object port configuration and device interface port control.
+
+=over
+
+=item B<Parameter>
+
+port_config     - Required. An array reference that contains L<Infoblox::Grid::Discovery::Port::Control|Infoblox::Grid::Discovery::Port::Control> objects.
+scheduled_at    - Required. Scheduled time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> for date and time (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) or 'now' which will set scheduled date and time to the current date and time.
+
+=item B<Returns>
+
+The method returns "true" when a scheduled task has been created successfully, and returns "false" when the operation fails.
+
+=item B<Example>
+
+ my $res = $discovery->control_switch_port('scheduled_at' => $scheduled_time, 'port_configs' => [$config1, $config2]);
+
+=back
+
+=back
+
+=head2 diagnostics( )
+
+=over
+
+Use this method to execute discovery diagnostics for the IP address.
+
+=over
+
+=item B<Parameter>
+
+address           - Required. The IP address.
+community_string  - Optional. The communitry string.
+force_test        - Optional. The flag for force test. Valid value is 'true' or 'false'.
+discovery_member  - Optional. The discovery member name.
+network_view      - Optional. The network view name.
+debug_snmp        - Optional. The flag for enable/disable SNMP debug (enabled by default). Valid value is 'true' or 'false'.
+
+=item B<Returns>
+
+The method returns a discovery diagnostic status ID in string format when the operations succeeds, and returns false when teh operation fails.
+
+=item B<Example>
+
+ my $id = $discovery->diagnostics('address' => '10.0.0.1');
+
+=back
+
+=back
+
+=head2 diagnostics_status( )
+
+=over
+
+Use this method to retrieve the discovery diagnostic status.
+
+=over
+
+=item B<Parameter>
+
+id     - Required. The discovery diagnostic status ID.
+start  - Optional. The start position of the text.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::Discovery::DiagnosticsStatus|Infoblox::Grid::Discovery::DiagnosticsStatus> object when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $object = $discovery->diagnostics_status('id' => $id);
+
+=back
+
+=back
+
+=head2 discovery_data_conversion( )
+
+=over
+
+Use this method to convert discovery data to specified objects.
+
+=over
+
+=item B<Parameter>
+
+type - Required. The object type of the converted object. Valid value is one of the following object types: A_RECORD, AAAA_RECORD, PTR_RECORD, HOST_RECORD, FIXED_ADDRESS, IPV6_FIXED_ADDRESS.
+addresses - Required. An array reference that contains L<Infoblox::IPAM::Address|Infoblox::IPAM::Address> objects retrieved from the appliance.
+attributes - Optional. An L<Infoblox::Grid::Discovery::ConversionAttributes|Infoblox::Grid::Discovery::ConversionAttributes> object.
+extensible_attributes - Optional. The list of extensible attributes associated with the created objects. Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+The method returns an array reference that contains L<Infoblox::Grid::Discovery::DiscoveryDataConversionResult|Infoblox::Grid::Discovery::DiscoveryDataConversionResult> objects if the operation succeeds.
+
+=item B<Example>
+
+ my $address = $discovery->get('object' => 'Infoblox::IPAM::Address', 'ip_address' => '10.0.0.31');
+ my $zone = $discovery->get('object' => 'Infoblox::DNS::Zone', 'name' => 'papi.com');
+ my $attrs = Infoblox::Grid::Discovery::ConversionAttributes->new(
+     'configure_for_dns' => 'true',
+     'configure_for_dhcp' => 'true',
+     'comment' => 'convert',
+     'disabled' => 'false',
+     'zone' => $zone);
+ my $results = $discovery->discovery_data_conversion(
+     'type' => 'HOST_RECORD',
+     'attributes' => $attrs,
+     'addresses' => [$address],
+     'extensible_attributes' => {'Site' => Infoblox::Grid::Extattr->new('value' => 'test.com')});
+
+=back
+
+=back
+
+=head2 get_device_support_info( )
+
+=over
+
+Use this method to retrieve such information about device as device support statuses and device support info.
+
+=over
+
+=item B<Parameter>
+
+device - Required. An L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> object.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::Discovery::DeviceSupportInfoResponse|Infoblox::Grid::Discovery::DeviceSupportInfoResponse> object.
+
+=item B<Example>
+
+ my $res = $discovery->get_device_support_info('device' => $device);
+
+=back
+
+=back
+
+=head2 get_job_devices( )
+
+=over
+
+Use this method to get the list of devices on wich the network insight job is processing.
+
+This function should be called only if the task is related to network insight port control job.
+
+=over
+
+=item B<Parameter>
+
+task            - Required. An L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask> object or a task ID.
+
+=item B<Returns>
+
+The method returns an array reference that contains L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> object if operation succeeds, and returns "false" when the operation fails.
+
+=item B<Example>
+
+ # Get value by task_id
+ my $devices = $discovery->get_job_devices('task' => $task_id);
+
+ # Get value by scheduled_task object
+ my $devices = $discovery->get_job_devices('task' => $scheduled_task);
+
+=back
+
+=back
+
+=head2 get_job_process_details( )
+
+=over
+
+Use this method to get a network insight job processing logs related to a given task.
+
+This function should be called only if the task is related to network insight port control job.
+
+=over
+
+=item B<Parameter>
+
+device          - Required. An L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> object.
+task            - Required. An L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask> object or a task ID.
+start_line      - Optional. Valid value is unsigned integer representing starting line of a log stream. Default value is 0.
+
+=item B<Returns>
+
+The method returns a L<Infoblox::Grid::Discovery::JobProcessDetails|Infoblox::Grid::Discovery::JobProcessDetails> object if operation succeeds, and returns "false" if operation fails.
+
+=item B<Example>
+
+ # Get job prcess details
+ my $job_process_details = $discovery->get_job_process_details('device' => $device, 'task' => $scheduled_task, 'start_line' => 10);
+
+=back
+
+=back
+
+=head2 provision_network_dhcp_relay( )
+
+=over
+
+Use this method to provision only DHCP relay information for given devices.
+
+Note that this function is always executed as part of scheduled task. Also the function goes through approval process if it is applicable.
+
+=over
+
+=item B<Parameter>
+
+interfaces          - Required. An array reference that contains L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface> objects.
+network             - Required. The IP address and netmask of a network in CIDR format.
+scheduled_at        - Required. Scheduled time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> for date and time (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) or 'now' which will set scheduled date and time to the current date and time.
+enable_dhcp_relay   - Optional. Enables DHCP relay. Valid value is 'true' and 'false'. Default value is 'false'.
+network_view        - Optional. The network view name.
+
+=item B<Returns>
+
+The method returns 'true' when a scheduled task has been created successfully, and returns 'false' when the operation fails.
+
+=item B<Example>
+
+ my $res = $discovery->provision_network_dhcp_relay('scheduled_at' => 'now', 'interfaces' => \@interfaces, 'network' => $network);
+
+=back
+
+=back
+
+=head2 provision_network_port( )
+
+=over
+
+Use this method to provision the network with interface and assign default router ip address on a device.
+
+Note that this function is always executed as part of scheduled task. Also the function goes through approval process if it is applicable.
+
+=over
+
+=item B<Parameter>
+
+device              - Optional. An L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> object. At least one of device or interface is required.
+interface           - Optional. An L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface> object. At least one of device or interface is required.
+network             - Required. The IP address and netmask of a network in CIDR format to operate on.
+router_ip           - Required. Router IP address to operate on.
+scheduled_at        - Required. Scheduled time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> for date and time (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) or 'now' which will set scheduled date and time to the current date and time.
+enable_dhcp_relay   - Optional. Enables DHCP relay. Valid value is 'true' and 'false'. Default value is 'false'.
+network_view        - Optional. An L<Infoblox::DHCP::View|Infoblox::DHCP::View> object.
+vlan_info           - Optional. An L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo> object.
+
+=item B<Returns>
+
+The method returns 'true' when a scheduled task has been created successfully, and returns 'false' when the operation fails.
+
+=item B<Example>
+
+ my $res = $discovery->provision_network_port('scheduled_at' => '2008-10-21T10:56:00Z', 'device' => $device, 'network' => '10.0.0.0/8', router_ip => '10.0.0.1');
+
+=back
+
+=back
+
+=head2 start_discovery( )
+
+=over
+
+Use this method to start discovery on specified objects.
+
+=over
+
+=item B<Parameter>
+
+objects - Required. An array reference that contains L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP:IPv6Network>, L<Infoblox::DHCP::NetworkContainer|Infoblox::DHCP::NetworkContainer> and L<Infoblox::DHCP::IPv6NetworkContainer|Infoblox::DHCP::IPv6NetworkContainer> objects that have been retrieved from the appliance.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my @networks = $discovery->get('object' => 'Infoblox::DHCP::Network');
+ my $res = $discovery->start_discovery('objects' => \@networks);
+
+=back
+
+=back
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery::DiagnosticsStatus|Infoblox::Grid::Discovery::DiagnosticsStatus>, L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>, L<Infoblox::DHCP::NetworkContainer|Infoblox::DHCP::NetworkContainer>, L<Infoblox::DHCP::IPv6NetworkContainer|Infoblox::DHCP::IPv6NetworkContainer>, L<Infoblox::Grid::Discovery::NetworkDeprovisionInfo|Infoblox::Grid::Discovery::NetworkDeprovisionInfo>, L<Infoblox::Grid::Discovery::Port::Control|Infoblox::Grid::Discovery::Port::Control>, L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>, L<Infoblox::Grid::Discovery::JobProcessDetails|Infoblox::Grid::Discovery::JobProcessDetails>, L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface>, L<Infoblox::Grid::Discovery::VLANInfo|Infoblox::Grid::Discovery::VLANInfo>, L<Infoblox::Grid::Discovery::DiscoveryDataConversionResult|Infoblox::Grid::Discovery::DiscoveryDataConversionResult>, L<Infoblox::Grid::Discovery::ConversionAttributes|Infoblox::Grid::Discovery::ConversionAttributes>, L<Infoblox::Grid::Discovery::DeviceSupportInfoResponse|Infoblox::Grid::Discovery::DeviceSupportInfoResponse>.
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,493 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::ScavengingSetting - A DNS scavenging settings object.
+
+=head1 DESCRIPTION
+
+The DNS scavenging settings object provides information about DNS records scavenging configuration such as the conditions under which records can be reclaimed and periodicity of the scavening operations.
+
+=head1 CONSTRUCTOR
+
+ my $reclamation_setting = Infoblox::Grid::DNS::ScavengingSetting->new(
+     ea_expression_list          => [$ea_expr1, $ea_expr2, ...], # Optional / Default is undefined
+     enable_auto_reclamation     => 'true' | 'false',            # Optional / Default is 'false'
+     enable_recurrent_scavenging => 'true' | 'false',            # Optional / Default is 'false'
+     enable_rr_last_queried      => 'true' | 'false',            # Optional / Default is 'false'
+     enable_scavenging           => 'true' | 'false',            # Optional / Default is 'false'
+     enable_zone_last_queried    => 'true' | 'false',            # Optional / Default is 'false'
+     expression_list             => [$expr1, $expr2, ...],       # Optional / Default is undefined
+     reclaim_associated_records  => 'true' | 'false',            # Optional / Default is 'false'
+     scavenging_schedule         => $sched_setting,              # Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+=head2 Infoblox::Grid::DNS->scavenging_settings( )
+
+=over
+
+Use this method to set or retrieve the Grid-level scavenging settings.
+See L<Infoblox::Grid::DNS-E<gt>scavenging_settings()|Infoblox::Grid::DNS/scavenging_settings()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get scavenging_settings value
+ my $scavenging_settings = $object->scavenging_settings();
+
+ #Modify scavenging_settings value
+ $object->scavenging_settings($scavenging_settings);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::View->scavenging_settings( )
+
+=over
+
+Use this method to set or retrieve the DNS view-level scavenging settings.
+See L<Infoblox::DNS::View-E<gt>scavenging_settings()|Infoblox::DNS::View/scavenging_settings()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get scavenging_settings value
+ my $scavenging_settings = $object->scavenging_settings();
+
+ #Modify scavenging_settings value
+ $object->scavenging_settings($scavenging_settings);
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->scavenging_settings( )
+
+=over
+
+Use this method to set or retrieve the DNS zone-level scavenging settings.
+See L<Infoblox::DNS::Zone-E<gt>scavenging_settings()|Infoblox::DNS::Zone/scavenging_settings()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get scavenging_settings value
+ my $scavenging_settings = $object->scavenging_settings();
+
+ #Modify scavenging_settings value
+ $object->scavenging_settings($scavenging_settings);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a DNS scavenging settings object.
+
+=head2 ea_expression_list( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes expression list.
+
+The particular record is treated as reclaimable if the extensible attribute expression condition evaluates to 'true' and scavenging is not manually disabled on the given record.
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::EAExpressionOp|Infoblox::Grid::EAExpressionOp> objects.
+
+The following is a table of allowed expression operand parameters:
+
+  +----------+--------------------------------------------------------+-----------+-------------------------------------------------+--------------------------------+
+  | op1_type | op1                                                    | op2_type  | op2                                             |  op                            |
+  +----------+--------------------------------------------------------+-----------+-------------------------------------------------+--------------------------------+
+  | FIELD    | Infoblox::Grid::ExtensibleAttributeDef                 | STRING    | $value                                          | EQ, NOT_EQ                     |
+  |          | Infoblox::Grid::ExtensibleAttributeDef                 | undef     | undef                                           | EXISTS, NOT_EXISTS             |
+  +----------+--------------------------------------------------------+-----------+-------------------------------------------------+--------------------------------+
+  | LIST     | undef                                                  | undef     | undef                                           | AND, OR, ENDLIST               |
+  +----------+--------------------------------------------------------+-----------+-------------------------------------------------+--------------------------------+
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ea_expression_list value
+ my $ea_expression_list = $object->ea_expression_list();
+
+ #Construct expression (Site == LA OR Site == CA) 
+
+ my $ead = Infoblox::Grid::ExtensibleAttributeDef->new(
+     name => 'Site',
+ );
+
+ my $start_list = Infoblox::Grid::EAExpressionOp->new(
+     op1_type => 'LIST',
+     op       => 'OR',
+ );
+
+ my $ea_op1 = Infoblox::Grid::EAExpressionOp->new(
+     op1_type => 'FIELD',
+     op1      => $ead,
+     op2_type => 'STRING',
+     op2      => 'LA',
+     op       => 'EQ',
+ );
+
+ my $ea_op2 = Infoblox::Grid::EAExpressionOp->new(
+     op1_type => 'FIELD',
+     op1      => $ead,
+     op2_type => 'STRING',
+     op2      => 'CA',
+     op       => 'EQ',
+ );
+
+ my $end_list = Infoblox::Grid::EAExpressionOp->new(
+     op1_type => 'LIST',
+     op       => 'ENDLIST',
+ );
+
+ #Modify ea_expression_list value
+ $object->ea_expression_list([$start_list, $ea_op1, $ea_op2, $end_list]);
+
+=back
+
+=back
+
+=head2 enable_scavenging( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the resource record scavenging is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the resource record reclamation or 'false' to disable it. The default value is 'false'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_scavenging value
+ my $enable_scavenging = $object->enable_scavenging();
+
+ #Modify enable_scavenging value
+ $object->enable_scavenging('true');
+
+=back
+
+=back
+
+=head2 enable_recurrent_scavenging( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the recurrent resource record scavenging is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the recurrent resource record scavenging or 'false' to disable it. The default value is 'false'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_recurrent_scavenging value
+ my $enable_recurrent_scavenging = $object->enable_recurrent_scavenging();
+
+ #Modify enable_recurrent_scavenging value
+ $object->enable_recurrent_scavenging('true');
+
+=back
+
+=back
+
+=head2 enable_rr_last_queried( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the resource record last queried monitoring in affected zones is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the resource record last queried monitoring or 'false' to disable it. The default value is 'false'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_rr_last_queried value
+ my $enable_rr_last_queried = $object->enable_rr_last_queried();
+
+ #Modify enable_rr_last_queried value
+ $object->enable_rr_last_queried('true');
+
+=back
+
+=back
+
+=head2 enable_zone_last_queried( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the last queried monitoring for affected zones is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the last queried monitoring for affected zones or 'false' to disable it. The default value is 'false'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_zone_last_queried value
+ my $enable_zone_last_queried = $object->enable_zone_last_queried();
+
+ #Modify enable_zone_last_queried value
+ $object->enable_zone_last_queried('true');
+
+=back
+
+=back
+
+=head2 enable_auto_reclamation( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the automatic resource record reclamation is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the automatic resource record reclamation or 'false' to disable it. The default value is 'false'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_auto_reclamation value
+ my $enable_auto_reclamation = $object->enable_auto_reclamation();
+
+ #Modify enable_auto_reclamation value
+ $object->enable_auto_reclamation('true');
+
+=back
+
+=back
+
+=head2 reclaim_associated_records( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the associated resource record reclamation is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the associated resource record reclamation or 'false' to disable it. The default value is 'false'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+G #Get reclaim_associated_records value
+ my $reclaim_associated_records = $object->reclaim_associated_records();
+
+ #Modify reclaim_associated_records value
+ $object->reclaim_associated_records('true');
+
+=back
+
+=back
+
+=head2 expression_list( )
+
+=over
+
+Use this method to set or retrieve the expression list.
+
+The particular record is treated as reclaimable if expression condition evaluates to 'true' for given record if reclamation hasn't been manually disabled on a given resource record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::ExpressionOp|Infoblox::Grid::ExpressionOp> objects.
+
+The following is a table of allowed expression operand parameters:
+
+  +----------+--------------------------------------------------------+-----------+-------------------------------------------------+--------------------------------+
+  | op1_type | op1                                                    | op2_type  | op2                                             |  op                            |
+  +----------+--------------------------------------------------------+-----------+-------------------------------------------------+--------------------------------+
+  |          | rtype    - the resource record type                    | STRING    | A, AAAA, CNAME, DNAME, MX, NAPTR, PTR, SRV, TXT | EQ, NOT_EQ                     |
+  |          | ctime    - the resource record creation time           | STRING    | $uint                                           | GT (in days)                   |
+  |          | qtime    - the resource record last queried time       | STRING    | $uint                                           | GT (in days)                   |
+  | FIELD    | stime    - the resource record last seen time          | STRING    | $uint                                           | GT (in days)                   |
+  |          | rcreator - the resource record creator                 | STRING    | STATIC, DYNAMIC                                 | EQ                             |
+  |          | assocr   - the resource record associated record       | undef     | undef                                           | EXISTS, NOT_EXISTS             |
+  +----------+--------------------------------------------------------+-----------+-------------------------------------------------+--------------------------------+
+  | LIST     | undef                                                  | undef     | undef                                           | AND, OR, ENDLIST               |
+  +----------+--------------------------------------------------------+-----------+-------------------------------------------------+--------------------------------+
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get expression_list value
+ my $expression_list = $object->expression_list();
+
+ #Construct expression (rcreator == DYNAMIC AND ctime > 10)
+
+ my $start_list = Infoblox::Grid::ExpressionOp->new(
+     op1_type => 'LIST',
+     op       => 'AND',
+ );
+
+ my $op1 = Infoblox::Grid::ExpressionOp->new(
+     op1_type => 'FIELD',
+     op1      => 'rcreator',
+     op2_type => 'STRING',
+     op2      => 'DYNAMIC',
+     op       => 'EQ',
+ );
+
+ my $op2 = Infoblox::Grid::ExpressionOp->new(
+     op1_type => 'FIELD',
+     op1      => 'ctime',
+     op2_type => 'STRING',
+     op2      => '10',
+     op       => 'GT',
+ );
+
+ my $end_list = Infoblox::Grid::ExpressionOp->new(
+     op1_type => 'LIST',
+     op       => 'ENDLIST',
+ );
+
+ #Modify expression_list value
+ $object->expression_list([$start_list, $op1, $op2, $end_list]);
+
+=back
+
+=back
+
+=head2 scavenging_schedule( )
+
+=over
+
+Use this method to set or retrieve the scavenging schedule settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting> object.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get scavenging_schedule value
+ my $scavenging_schedule = $object->scavenging_schedule();
+
+ #Modify scavenging_schedule value
+ $object->scavenging_schedule($schedule);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, 
+L<Infoblox::Grid::DNS-E<gt>scavenging_settings()|Infoblox::Grid::DNS/scavenging_settings()/>, 
+L<Infoblox::DNS::View|Infoblox::DNS::View>, 
+L<Infoblox::DNS::View-E<gt>scavenging_settings()|Infoblox::DNS::View/scavenging_settings()/>, 
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, 
+L<Infoblox::DNS::Zone-E<gt>scavenging_settings()|Infoblox::DNS::Zone/scavenging_settings()/>, 
+L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting>, 
+L<Infoblox::Grid::ExpressionOp|Infoblox::Grid::ExpressionOp>, 
+L<Infoblox::Grid::EAExpressionOp|Infoblox::Grid::EAExpressionOp>, 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

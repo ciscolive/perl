@@ -1,0 +1,149 @@
+=head1 NAME
+
+Infoblox::Grid::Extattr - an extensible attribute representation for an attribute.
+
+=head1 DESCRIPTION
+
+An object that provides an extensible attribute representation for an attribute.
+
+=head1 CONSTRUCTOR
+
+ my $extattr = Infoblox::Grid::Extattr->new(
+    value                 => $scalar | [$scalar1, $scalar2, ...],      # required
+    inheritance_operation => 'DELETE' | 'INHERIT' | 'OVERRIDE',        # optional
+    descendants_action    => $descendants,                             # optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the extensible attribute representation for an attribute.
+
+=head2 descendants_action( )
+
+=over
+
+Use this method to set the actions for extensible attributes that exist on descendants. This attribute is write-only and cannot be retrieved.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::ExtensibleAttributeDef::Descendants|Infoblox::Grid::ExtensibleAttributeDef::Descendants> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify attribute value
+ $extattr->descendants_action($descendants);
+
+=back
+
+=back
+
+=head2 inheritance_operation( )
+
+=over
+
+Use this method to set the operation that will be performed on an extensible attribute. This attribute is write-only and cannot be retrieved.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'DELETE', 'INHERIT' or 'OVERRIDE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify attribute value
+ $extattr->inheritance_operation('INHERIT');
+
+=back
+
+=back
+
+=head2 inheritance_source( )
+
+=over
+
+Use this method to retrieve the object from which the extensible attribute was inherited. This attribute is read-only and cannot be set
+
+This object is considered a 'partial' object. See L<Infoblox::Session-E<gt>fill_partial_object()|Infoblox::Session/fill_partial_object()/> for more information on how it can be converted to a 'full' API object.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $extattr->inheritance_source();
+
+=back
+
+=back
+
+=head2 value( )
+
+=over
+
+Use this method to set or retrieve the value of the extensible attribute representation for an attribute.
+
+=over
+
+=item B<Parameter>
+
+For email, URL, and string types, the value is a string with a maximum of 256 characters.
+
+For a list, the value is a reference to an array of strings with a maximum of 64 characters.
+
+For an integer, the value is an integer from -2147483648 through 2147483647.
+
+For a date, the value is the number of seconds that have elapsed since January 1st, 1970 UTC or a string in YYYY-MM-DD format. Any date entered will be converted to an epoch time corresponding to that day at 11:01am UTC.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $extattr->value();
+ #Modify attribute value
+ $extattr->value('www.infoblox.com');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::ExtensibleAttributeDef::Descendants|Infoblox::Grid::ExtensibleAttributeDef::Descendants>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

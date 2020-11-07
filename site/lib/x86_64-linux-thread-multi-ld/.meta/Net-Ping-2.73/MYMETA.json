@@ -1,0 +1,54 @@
+{
+   "abstract" : "check a remote host for reachability",
+   "author" : [
+      "Reini Urban <rurban@cpan.org>",
+      "Steve Peters <steve@fisharerojo.org>",
+      "Matthew Musgrove <mr.muskrat@gmail.com>",
+      "Karl Williamson <khw@cpan.org>",
+      "Brian Fraser <fraserbn@gmail.com>",
+      "Mark Gardner <mjgardner@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.38, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "unknown"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Net-Ping",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Socket" : "2.007",
+            "Test::More" : "0",
+            "Time::HiRes" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "2.73",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

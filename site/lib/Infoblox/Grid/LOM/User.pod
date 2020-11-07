@@ -1,0 +1,183 @@
+=head1 NAME
+
+Infoblox::Grid::LOM::User - User information for the Lights Out Management functionality.
+
+=head1 DESCRIPTION
+
+An Infoblox::Grid::LOM::User object represents a user for the LOM functionality.
+
+=head1 CONSTRUCTOR
+
+ my $user   = Infoblox::Grid::LOM::User->new(
+      name     => $string,             # Required
+      password => $string,             # Required
+      role     => "OPERATOR" | "USER", # Required
+      disable  => "true" | "false",    # Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a LOM User object.
+
+=head2 Infoblox::Grid::Member->bgp_as( )
+
+=over
+
+Use this function to specify BGP Autonomous Systems for the grid member. See L<Infoblox::Grid::Member-E<gt>bgp_as()|Infoblox::Grid::Member/bgp_as()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a LOM User
+ my $lomuser = Infoblox::Grid::LOM::User->new(
+      name     => 'username',
+      password => 'password',
+      role     => 'OPERATOR',
+      disable  => 'false,
+ );
+
+ # Configure the LOM user on the grid object
+ $grid->lom_users([$lomuser]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::Grid::LOM::User object.
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag for the user.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the disable
+ my $disable = $lom_user->disable();
+ #Modify the disable
+ $lom_user->disable('false');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the user.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the user in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the name
+ my $name = $lom_user->name();
+ #Modify the name
+ $lom_user->name('username');
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the password the user will use to authenticate. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The password for the user in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify the password
+ $lom_user->password('password');
+
+=back
+
+=back
+
+=head2 role( )
+
+=over
+
+Use this method to set or retrieve the role of the user.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "OPERATOR" and "USER".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the role
+ my $role = $lom_user->role();
+ #Modify the role
+ $lom_user->role('OPERATOR');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>, L<Infoblox::Grid::Member::BGP::Neighbor|Infoblox::Grid::Member::BGP::Neighbor>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

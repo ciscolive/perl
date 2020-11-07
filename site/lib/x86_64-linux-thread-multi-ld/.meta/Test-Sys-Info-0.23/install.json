@@ -1,0 +1,1 @@
+{"pathname":"B/BU/BURAK/Test-Sys-Info-0.23.tar.gz","provides":{"Test::Sys::Info":{"file":"lib/Test/Sys/Info.pm","version":"0.23"},"Test::Sys::Info::Driver":{"version":"0.23","file":"lib/Test/Sys/Info/Driver.pm"}},"dist":"Test-Sys-Info-0.23","version":"0.23","target":"Test::Sys::Info","name":"Test::Sys::Info"}

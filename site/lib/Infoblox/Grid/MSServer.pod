@@ -1,0 +1,1358 @@
+=head1 NAME
+
+Infoblox::Grid::MSServer - Microsoft (r) Grid Server object.
+
+=head1 DESCRIPTION
+
+A grid Microsoft DNS Server object is a single Microsoft DNS server that is managed by a grid member.
+
+=head1 CONSTRUCTOR
+
+ my $ms_member = Infoblox::Grid::MSServer->new(
+     address                  => $ip_or_fqdn,                                   #Required
+     ad_sites                 => $ad_sites,                                     #Optional
+     ad_user                  => $ad_user,                                      #Optional
+     comment                  => $string,                                       #Optional / Default value is empty
+     disable                  => "true" | "false"                               #Optional / Default value is "false"
+     extattrs                 => { $string => $extattr, ... },                  #Optional / Default is undefined
+     extensible_attributes    => { $string => $string | $num,
+                                   $string => [ $string | $num, ... ], ... },   #Optional / Default is undefined
+     login                    => $string,                                       #Required
+     password                 => $string,                                       #Optional / Default value is empty
+     managing_member          => $Member,                                       #Optional / Default value is empty
+     read_only                => "true" | "false",                              #Optional / Default value is "true"
+     synchronization_interval => $num,                                          #Optional / Default value is 2
+     logging_mode             => "minimum" | "normal" | "advanced" | "full",    #Optional / Default value is "normal"
+     network_view             => $NetworkView,                                  #Optional / Default is "default" network view
+     dns_view                 => $DnsView,                                      #Optional / Default is "default" view
+     log_destination          =>  "SYSLOG" | "MSLOG",                           #Optional / Default is undefined
+     override_log_destination => "true" | "false",                              #Optional / Default value is "false"
+     max_connection           => $num,                                          #Optional / Default is undefined
+     override_max_connection  => "true" | "false",                              #Optional / Default value is "false"
+     rpc_timeout              => $num,                                          #Optional / Default is undefined
+     override_rpc_timeout     => "true" | "false",                              #Optional / Default value is "false"
+);
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 Infoblox::DNS::Zone Considerations
+
+The following apply to zones assigned to Microsoft DNS servers:
+
+=head2 Methods with no effect
+
+=over
+
+The following methods have no effect on a Microsoft DNS server that is assigned to a zone:
+
+=over
+
+=item allow_transfer()
+
+=item allow_query( )
+
+=item allow_update( )
+
+=item allow_update_forwarding( )
+
+=item bind_check_names_policy( )
+
+=item create_underscore_zones( )
+
+=item disable_forwarding( )
+
+=item forward_only( )
+
+=item forward_to( )
+
+=item import_from( )
+
+=item override_delegated_ttl( )
+
+=item override_grid_zone_timer( )
+
+=item override_grid_email( )
+
+=item override_serial_number( )
+
+=item prefix( )
+
+=item remove_sub_zones( )
+
+=item soa_negative_ttl( )
+
+=item shared_record_groups( )
+
+=back
+
+Values set or retrieved using the member that manages the Microsoft DNS server apply only to that grid member if it is assigned to a zone.
+
+=back
+
+=head2 Applicable methods
+
+=over
+
+The following methods apply to any grid member or Microsoft DNS server assigned to the zone:
+
+=over
+
+=item comment( )
+
+=item delegated_ttl( )
+
+=item disable( )
+
+=item email( )
+
+=item extensible_attributes( )
+
+=item host_name_restriction_policy( )
+
+=item locked( )
+
+=item name( )
+
+=item ns_group( )
+
+=item multiple_primaries( )
+
+=item secondaries( )
+
+=item soa_default_ttl( )
+
+=item soa_expire( )
+
+=item member_soa_mnames( )
+
+=item soa_refresh( )
+
+=item soa_retry( )
+
+=item member_soa_serials( )
+
+=item stub_from( )
+
+=item stub_members( )
+
+=item zone( )
+
+=back
+
+=back
+
+=head1 Infoblox::DNS considerations
+
+The following objects cannot be used with a Microsoft DNS Server object or with a Zone object whose primary server is a Microsoft DNS Server object:
+
+=over
+
+=item Infoblox::DNS::BulkHost
+
+=item Infoblox::DNS::DnssecTrustedKey
+
+=item Infoblox::DNS::Host
+
+=item Infoblox::DNS::SRG
+
+=item Infoblox::DNS::RootNameServer
+
+=item Infoblox::DNS::Sortlist
+
+=item Infoblox::DNS::TSIGKey
+
+=item Infoblox::DNS::Record
+
+=over
+
+=item DNAME (only with Windows Server 2008 and later)
+
+=item DS, RRSIG, DNSKEY, NSEC, NSEC3, NSEC3PARAM (read-only on Windows Server 2008 R2 and later)
+
+=back
+
+=back
+
+=head1 Infoblox::Grid::DNS considerations
+
+The following methods can be applied to DNS zones managed by a Microsoft DNS server:
+
+=over
+
+=item default_ttl( )
+
+=item email( )
+
+=item host_name_restriction_policy( )
+
+=item zone_deletion_double_confirm( )
+
+=back
+
+The following methods have no effect on any zone managed by a Microsoft DNS server:
+
+=over
+
+=item allow_bulkhost_ddns( )
+
+=item allow_gss_tsig_zone_updates( )
+
+=item allow_transfer( )
+
+=item allow_query( )
+
+=item allow_recursive_query( )
+
+=item allow_update( )
+
+=item bind_check_names_policy( )
+
+=item blackhole_list( )
+
+=item bulk_host_name_template( )
+
+=item bulk_host_name_templates( )
+
+=item dnssec_enabled( )
+
+=item dnssec_expired_signatures_enabled( )
+
+=item dnssec_ksk_algorithm()
+
+=item dnssec_ksk_rollover_interval()
+
+=item dnssec_ksk_size()
+
+=item dnssec_signature_expiration( )
+
+=item dnssec_validation_enabled( )
+
+=item dnssec_trusted_keys( )
+
+=item dnssec_zsk_algorithm()
+
+=item dnssec_zsk_rollover_interval()
+
+=item dnssec_zsk_size()
+
+=item enable_blackhole( )
+
+=item expire_after( )
+
+=item forward_only( )
+
+=item forward_updates( )
+
+=item forwarders( )
+
+=item logging_categories( )
+
+=item logging_facility( )
+
+=item member_secondary_notify( )
+
+=item negative_ttl( )
+
+=item notify_source_port( )
+
+=item nsgroup_default( )
+
+=item nsgroups( )
+
+=item query_source_port( )
+
+=item record_name_policies( )
+
+=item recursive_query_list( )
+
+=item refresh_timer( )
+
+=item retry_timer( )
+
+=item rootNS( )
+
+=item sortlist( )
+
+=item transfer_excluded_servers( )
+
+=item transfer_format( )
+
+=back
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a grid member object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $grid_msserver = Infoblox::Grid::MSServer->new(
+                                              address                  => '10.0.0.1',
+                                              comment                  => 'This is an MS DNS Server',
+                                              disable                  => 'true',
+                                              extensible_attributes    => { Site => 'Main Office'},
+                                              login                    => 'user',
+                                              password                 => 'password',
+                                              managing_member          => 'managing.member.com',
+                                              read_only                => 'false',
+                                              synchronization_interval => 5,
+                                              logging_mode             => 'minimum',
+     );
+ #Submit for addition
+ my $response = $session->add( $grid_msserver );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific grid member object:
+
+  address - Optional. A member address or name in FQDN format.
+  comment - Optional. A comment in string format
+  read_only - Optional. A boolean value
+  managing_member - Optional. A name in FQDN format.
+  network_view  -  Optional. The network view served by the member.
+  dns_view -  Optional. The DNS view served by the member.
+  extattrs - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object  => "Infoblox::Grid::MSServer",
+     address => "10.0.0.1");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment of a Microsoft DNS server managed by the grid.
+ $grid_msserver->comment("This is modified object");
+ # Submit modification
+ my $response = $session->modify( $grid_msserver );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::MSServer",
+     name   => "10.0.0.1");
+ #Find the desired object from the retrieved list.
+ my $desired_gridmsserver = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_gridmsserver );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Microsoft DNS Server objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+Apply the following attributes to search for a Microsoft DNS Server object
+
+  address - Optional. A member address or name in FQDN format (regular expression).
+  comment - Optional. A comment in string format (regular expression).
+  read_only - Optional. A boolean value
+  managing_member - Optional. The FQDN of the grid member that manages the Microsoft DNS server?
+  network_view  -  Optional. The network view served by the member.
+  dns_view -  Optional. The DNS view served by the member.
+  extattrs - Optional. A hash reference containing extensible attributes.
+  extensible_attributes   - Optional. A hash reference that contains extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all matching grid msserver objects
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::Grid::MSServer",
+     extensible_attributes => { Site => 'Local'},
+     );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Microsoft DNS server.
+
+=head2 address()
+
+=over
+
+Retrieve or set the IP address or FQDN of the Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The Microsoft DNS server name in FQDN format or IPV4 format
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address
+ my $address = $msserver->address();
+
+=back
+
+=back
+
+=head2 ad_domain( )
+
+=over
+
+Use this method to retrieve the Active Directory domain name of the Microsoft Server. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ad_domin value
+ my $ad_domain = $object->ad_domain();
+
+=back
+
+=back
+
+=head2 ad_sites()
+
+=over
+
+Use this method to set or retrieve structure containing Active Directory Sites information.  
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::MSServer::AdSites|Infoblox::Grid::MSServer::AdSites> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ad_sites value
+ my $ad_sites = $msserver->ad_sites();
+
+ #Modify ad_sites value
+ my $res = $msserver->ad_sites($ad_sites);
+
+=back
+
+=back
+
+=head2 ad_user()
+
+=over
+
+Use this method to set or retrieve the object that contains Active Directory User synchronization information.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::MSServer::AdUser|Infoblox::Grid::MSServer::AdUser> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ad_user value
+ my $ad_user = $msserver->ad_user();
+
+ #Modify ad_user value
+ my $res = $msserver->ad_user($ad_user);
+
+=back
+
+=back
+
+=head2 comment()
+
+=over
+
+Retrieve or set a user-defined string related to this Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get comment
+  my $comment = $msserver->comment();
+  #Modify comment
+  $msserver->comment("Modifying the MS DNS server comment");
+
+=back
+
+=back
+
+=head2 disable()
+
+=over
+
+Retrieve or set the disable() flag of this Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get disable
+  my $disable = $msserver->disable();
+  #Modify disable
+  $msserver->disable("true");
+
+=back
+
+=back
+
+=head2 login()
+
+=over
+
+Retrieve or set the login name that the grid member uses to connect to the Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+When setting a value that requires a domain name, prepend the domain information followed by a backslash to the username: "domain\username".
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the login name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get login
+  my $login = $msserver->login();
+  #Modify login
+  $msserver->login("newuser");
+
+=back
+
+=back
+
+=head2 password()
+
+=over
+
+Set the password that the grid member uses to connect to the Microsoft DNS server. This field is used only if the login field for this member is defined. This is a write-only attribute.
+
+This field can not be retrieved.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the password.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+  #Set the password
+  $msserver->password("iG&ojG97Y");
+
+=back
+
+=back
+
+=head2 network_view()
+
+=over
+
+Retrieve or set the name of the network view associated with this member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the name of the network view associated with this member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get network_view
+  my $network_view = $msserver->network_view();
+  #Modify network_view
+  $msserver->network_view("external");
+
+=back
+
+=back
+
+=head2 dns_view()
+
+=over
+
+Retrieve or set the name of the DNS view that applies to this Microsoft DNS server. If this field is set to undefined, the default view is used. The DNS view must be set to a DNS view linked to the Microsoft DNS server network view.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the name of the DNS view associated with the Microsoft DNS server
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get dns_view
+  my $dns_view = $msserver->dns_view();
+  #Modify dns_view
+  $msserver->dns_view("external");
+
+=back
+
+=back
+
+=head2 log_destination( )
+
+=over
+
+Use this method to direct the logging of synchronization messages to the syslog or mslog.
+
+Setting this method to a defined value implicitly sets the override_log_destination method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_log_destination method to "false".
+
+Note that when log_destination is set to a defined value and override_log_destination is set to "false", the last operation takes precedence. Thus the sequence $object->log_destination("MSLOG"); $object->override_log_destination("false"); will set override_log_destination to "false", and the sequence $object->override_log_destination("false"); $object->log_destination("MSLOG"); will result in override_log_destination="true".
+
+=over
+
+=item B<Parameter>
+
+Valid values are "SYSLOG" and "MSLOG".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get log_destination value
+ my $log_destination = $msserver->log_destination();
+ #Modify log_destination value
+ $msserver->log_destination("SYSLOG");
+
+=back
+
+=back
+
+=head2 max_connection( )
+
+=over
+
+Use this method to set or retrieve the maximum number of connections to a Microsoft server.
+
+Setting this method to a defined value implicitly sets the override_max_connection method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_max_connection method to "false".
+
+Note that when max_connection is set to a defined value and override_max_connection is set to "false", the last operation takes precedence. Thus the sequence $object->max_connection(20); $object->override_max_connection("false"); will set override_max_connection to "false", and the sequence $object->override_max_connection("false"); $object->max_connection(20); will result in override_max_connection="true".
+
+=over
+
+=item B<Parameter>
+
+Valid values are integers between 2 and 40 inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_connection value
+ my $max_connection = $msserver->max_connection();
+ #Modify max_connection value
+ $msserver->max_connection(20);
+
+=back
+
+=back
+
+=head2 managing_member()
+
+=over
+
+Retrieve or set the grid member responsible for the synchronization of this Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the name of the grid member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get managing_member
+  my $managing_member = $msserver->managing_member();
+  #Modify managing_member
+  $msserver->managing_member("example.member.com");
+
+=back
+
+=back
+
+=head2 override_log_destination( )
+
+=over
+
+The override_log_destination attribute controls whether the log_destination method values of the Microsoft Server are used, instead of the Grid default.
+
+The override_log_destination attribute can be specified explicitly. It is also set implicitly when log_destination is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for log_destination. Set the parameter to "false" to inherit the Grid-level setting for log_destination. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_log_destination
+ my $override_log_destination = $msserver->override_log_destination();
+ #Modify override_log_destination
+ $msserver->override_log_destination("true");
+
+=back
+
+=back
+
+=head2 override_max_connection( )
+
+=over
+
+The override_max_connection attribute controls whether the max_connection method values of the Microsoft Server are used, instead of the Grid default.
+
+The override_max_connection attribute can be specified explicitly. It is also set implicitly when max_connection is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for max_connection. Set the parameter to "false" to inherit the grid-level setting for max_connection. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_max_connection
+ my $override_max_connection = $msserver->override_max_connection();
+ #Modify override_max_connection
+ $msserver->override_max_connection("true");
+
+=back
+
+=back
+
+=head2 override_rpc_timeout( )
+
+=over
+
+The override_rpc_timeout attribute controls whether the rpc_timeout method values of the Microsoft Server are used, instead of the Grid default.
+
+The override_rpc_timeout attribute can be specified explicitly. It is also set implicitly when rpc_timeout is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for rpc_timeout. Set the parameter to "false" to inherit the grid-level setting for rpc_timeout. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_rpc_timeout
+ my $override_rpc_timeout = $msserver->override_rpc_timeout();
+ #Modify override_rpc_timeout
+ $msserver->override_rpc_timeout("true");
+
+=back
+
+=back
+
+=head2 read_only()
+
+=over
+
+Retrieve or set the synchronization mode of this Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting the read_only mode to true synchronizes all data from the Microsoft DNS server to the grid and forbids any change on the grid that could be synchronized to the Microsoft DNS server.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get read_only
+  my $read_only = $msserver->read_only();
+  #Modify read_only
+  $msserver->read_only("false");
+
+=back
+
+=back
+
+=head2 root_ad_domain( )
+
+=over
+
+Use this method to retrieve the Active Directory root domain name of the Microsoft Server. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ad_domin value
+ my $root_ad_domain = $object->root_ad_domain();
+
+=back
+
+=back
+
+=head2 rpc_timeout( )
+
+=over
+
+Use this method to set or retrieve the timeout value in seconds for RPC connections to Microsoft Server.
+
+Setting this method to a defined value implicitly sets the override_rpc_timeout method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_rpc_timeout method to "false".
+
+Note that when rpc_timeout is set to a defined value and override_rpc_timeout is set to "false", the last operation takes precedence. Thus the sequence $object->rpc_timeout(10); $object->override_rpc_timeout("false"); will set override_rpc_timeout to "false", and the sequence $object->override_rpc_timeout("false"); $object->rpc_timeout(10); will result in override_rpc_timeout="true".
+
+=over
+
+=item B<Parameter>
+
+Valid values are integers between 0 and 65535 inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpc_timeout value
+ my $rpc_timeout = $msserver->rpc_timeout();
+ #Modify rpc_timeout value
+ $msserver->rpc_timeout(10);
+
+=back
+
+=back
+
+=head2 synchronization_interval()
+
+=over
+
+Retrieve or set the synchronization interval of this Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The synchronization interval controls how often data on the Microsoft DNS server is synchronized with the grid. The value is specified in minutes.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a number that specifies the synchronization interval in minutes. The default value is 2 minutes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get synchronization_interval
+  my $synchronization_interval = $msserver->synchronization_interval();
+  #Modify synchronization_interval
+  $msserver->synchronization_interval(5);
+
+=back
+
+=back
+
+=head2 logging_mode()
+
+=over
+
+Retrieve or set the synchronization logging verbosity of this Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is "minimum", "normal", "advanced", or "full". The default value is "normal".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get logging_mode
+  my $logging_mode = $msserver->logging_mode();
+  #Modify logging_mode
+  $msserver->logging_mode("advanced");
+
+=back
+
+=back
+
+=head2 version()
+
+=over
+
+Retrieve the version of this Microsoft DNS server. The returned version is a string, such as "Microsoft Windows Server 2003".
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get version
+  my $version = $msserver->version();
+
+=back
+
+=back
+
+=head2 is_AD()
+
+=over
+
+Retrieve the Active Directory flag of the Microsoft DNS server. The method returns "true" if the Microsoft DNS server has Active Directory capabilities or "false" if it does not.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get is_AD
+  my $is_AD = $msserver->is_AD();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Microsoft DNS server object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $msserver->extattrs();
+ #Modify extattrs
+ $msserver->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $msserver->extensible_attributes();
+ #Modify extensible attributes
+ $msserver->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify, search and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying a grid msserver object>
+
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create a grid member object
+
+ my $grid_member = Infoblox::Grid::Member->new(
+     name          => "hostname.com",
+     ipv4addr      => "3.0.0.2",
+     mask          => "255.0.0.0",
+     gateway       => "3.0.0.1",
+     comment       => "Script Generated"
+     );
+ unless ($grid_member) {
+        die("Construct grid member object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Grid member object created successfully\n";
+
+ #Adding the member object to appliance through session
+ my $response = $session->add( $grid_member );
+
+ unless ($response) {
+     die("Add grid member failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Grid member added successfully \n";
+
+ my $msserver = Infoblox::Grid::MSServer->new(
+                                              address                  => '10.0.0.1',
+                                              comment                  => 'basic member',
+                                              disable                  => 'true',
+                                              extensible_attributes    => { Site => 'Local'},
+                                              login                    => 'user',
+                                              password                 => 'password',
+                                              managing_member          => 'hostname.com',
+                                              read_only                => 'false',
+                                              synchronization_interval => 5,
+                                              logging_mode             => 'minimum',
+                                             );
+
+ unless ($msserver) {
+        die("Construct grid MS DNS server object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Grid MS DNS server object created successfully\n";
+
+ #Adding the member object to appliance through session
+ $response = $session->add( $msserver );
+
+ unless ($response) {
+     die("Add grid MS DNS server failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Grid MS DNS server added successfully \n";
+
+B<#Search for a grid Microsoft DNS server object>
+
+  my @retrieved_objs = $session->search(
+      object => "Infoblox::Grid::MSServer",
+      comment => "basic.*");
+  my $object = $retrieved_objs[0];
+
+  unless ($object) {
+         die("Search grid MS DNS server object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Search grid MS DNS server object found at least 1 matching entry\n";
+
+B<#Get and modify the msserver object>
+
+ #Get grid member through session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::MSServer",
+     address => "10.0.0.1"
+     );
+ my $msserver = $retrieved_objs[0];
+
+ unless ($msserver) {
+     die("Get grid MS DNS server object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get grid MS DNS server successful \n";
+
+ # Modify one of the attributes of the selected Microsoft DNS server.
+
+ $msserver->comment("Modified MS DNS server object");
+
+ #Applying the changes
+ $session->modify($msserver)
+    or die("Modify grid MS DNS server failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print"Grid MS DNS server modified successfully \n";
+
+B<#Remove the created objects object>
+
+ #Get grid member through session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::MSServer",
+     address => "10.0.0.1"
+     );
+ my $desired_msserver = $retrieved_objs[0];
+
+ unless ($desired_msserver) {
+     die("Get grid MS DNS server object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get grid member successful \n";
+
+ #Submit the object for removal
+ $session->remove( $desired_msserver )
+     or die("Remove grid MS DNS server failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print"Grid MS DNS server removed successfully \n";
+
+ #Get grid member through session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Member",
+     name   => "hostname.com"
+     );
+ my $desired_grid_member = $retrieved_objs[0];
+
+ unless ($desired_grid_member) {
+     die("Get grid member object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get grid member successful \n";
+
+ #Submit the object for removal
+ $session->remove( $desired_grid_member )
+     or die("Remove grid member failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print"Grid member removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::MSServer::AdSites|Infoblox::Grid::MSServer::AdSites>, L<Infoblox::Grid::MSServer::AdUser|Infoblox::Grid::MSServer::AdUser>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

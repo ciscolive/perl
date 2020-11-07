@@ -1,0 +1,134 @@
+=head1 NAME
+
+Infoblox::Grid::UpgradeGroup::Member - Upgrade Group Member object
+
+=head1 DESCRIPTION
+
+This object is used to represent Upgrade Group Grid members.
+
+=head1 CONSTRUCTOR
+
+ my $member = Infoblox::Grid::UpgradeGroup::Member->new(
+     member         => $string, # Required, name of the member
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to an Upgrade Group Member object.
+
+=head2 Infoblox::Grid::UpgradeGroup->members( )
+
+=over
+
+Use this function to specify the members that belong to this upgrade group. See L<Infoblox::Grid::UpgradeGroup-E<gt>members()|Infoblox::Grid::UpgradeGroup/members()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $member1 = Infoblox::Grid::UpgradeGroup::Member->new(
+                                                        member => 'hostname.com',
+                                                       );
+ unless($member1) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ #Create the upgrade group object with this member
+ my $sgu = Infoblox::Grid::UpgradeGroup->new(
+                                             name                         => "groupname1",
+                                             comment                      => "group name 1 comment",
+                                             distribution_policy          => "sequentially",
+                                             upgrade_policy               => "simultaneously",
+                                             distribution_dependent_group => 'distgroup1',
+                                             upgrade_dependent_group      => 'distgroup2',
+                                             distribution_time            => '2020-12-22T11:22:33Z',
+                                             upgrade_time                 => '2021-12-22T11:22:33Z',
+                                             members                      => [$member1],
+                                             );
+
+ my $response = $session->add($sgu)
+ unless($response) {
+      die("Add upgrade group failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+ print "Upgrade group created successfully\n";
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of an Upgrade Group Member object.
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve the name of the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the grid member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get member
+ my $member = $member->member();
+ #Modify member
+ $member->member("192.168.1.3");
+
+=back
+
+=back
+
+=head2 time_zone( )
+
+=over
+
+Use this method to retrieve the time zone of the member.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get time_zone
+ my $time_zone = $member->time_zone();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::UpgradeGroup|Infoblox::Grid::UpgradeGroup>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

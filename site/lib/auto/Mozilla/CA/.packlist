@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Mozilla/CA.pm
+/opt/perl/site/lib/Mozilla/CA/cacert.pem
+/opt/perl/site/lib/Mozilla/mk-ca-bundle.pl
+/opt/perl/site/man/man3/Mozilla::CA.3

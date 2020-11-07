@@ -1,0 +1,14 @@
+/opt/perl/site/lib/MooseX/Clone.pm
+/opt/perl/site/lib/MooseX/Clone/Meta/Attribute/Trait/Clone.pm
+/opt/perl/site/lib/MooseX/Clone/Meta/Attribute/Trait/Clone/Base.pm
+/opt/perl/site/lib/MooseX/Clone/Meta/Attribute/Trait/Clone/Std.pm
+/opt/perl/site/lib/MooseX/Clone/Meta/Attribute/Trait/Copy.pm
+/opt/perl/site/lib/MooseX/Clone/Meta/Attribute/Trait/NoClone.pm
+/opt/perl/site/lib/MooseX/Clone/Meta/Attribute/Trait/StorableClone.pm
+/opt/perl/site/man/man3/MooseX::Clone.3
+/opt/perl/site/man/man3/MooseX::Clone::Meta::Attribute::Trait::Clone.3
+/opt/perl/site/man/man3/MooseX::Clone::Meta::Attribute::Trait::Clone::Base.3
+/opt/perl/site/man/man3/MooseX::Clone::Meta::Attribute::Trait::Clone::Std.3
+/opt/perl/site/man/man3/MooseX::Clone::Meta::Attribute::Trait::Copy.3
+/opt/perl/site/man/man3/MooseX::Clone::Meta::Attribute::Trait::NoClone.3
+/opt/perl/site/man/man3/MooseX::Clone::Meta::Attribute::Trait::StorableClone.3

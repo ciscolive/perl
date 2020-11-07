@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PDL::Fit::Linfit - routines for fitting data with linear combinations of functions.</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:WENWU@mojo.(none)" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#FUNCTIONS">FUNCTIONS</a>
+    <ul>
+      <li><a href="#linfit1d">linfit1d</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>PDL::Fit::Linfit - routines for fitting data with linear combinations of functions.</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>This module contains routines to perform general curve-fits to a set (linear combination) of specified functions.</p>
+
+<p>Given a set of Data:</p>
+
+<pre><code>  (y0, y1, y2, y3, y4, y5, ...ynoPoints-1)</code></pre>
+
+<p>The fit routine tries to model y as:</p>
+
+<pre><code>  y&#39; = beta0*x0 + beta1*x1 + ... beta_noCoefs*x_noCoefs</code></pre>
+
+<p>Where x0, x1, ... x_noCoefs, is a set of functions (curves) that the are combined linearly using the beta coefs to yield an approximation of the input data.</p>
+
+<p>The Sum-Sq error is reduced to a minimum in this curve fit.</p>
+
+<p><b>Inputs:</b></p>
+
+<dl>
+
+<dt id="data">$data</dt>
+<dd>
+
+<p>This is your data you are trying to fit. Size=n</p>
+
+</dd>
+<dt id="functions">$functions</dt>
+<dd>
+
+<p>2D array. size (n, noCoefs). Row 0 is the evaluation of function x0 at all the points in y. Row 1 is the evaluation of of function x1 at all the points in y, ... etc.</p>
+
+<p>Example of $functions array Structure:</p>
+
+<p>$data is a set of 10 points that we are trying to model using the linear combination of 3 functions.</p>
+
+<pre><code> $functions = ( [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],  # Constant Term
+                [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],  # Linear Slope Term
+                [ 0, 2, 4, 9, 16, 25, 36, 49, 64, 81] # quadradic term
+            )</code></pre>
+
+</dd>
+</dl>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code>    $yfit = linfit1d $data, $funcs</code></pre>
+
+<h1 id="FUNCTIONS">FUNCTIONS</h1>
+
+<h2 id="linfit1d">linfit1d</h2>
+
+<p>1D Fit linear combination of supplied functions to data using min chi^2 (least squares).</p>
+
+<pre><code> Usage: ($yfit, [$coeffs]) = linfit1d [$xdata], $data, $fitFuncs, [Options...]</code></pre>
+
+<pre><code>  Signature: (xdata(n); ydata(n); $fitFuncs(n,order); [o]yfit(n); [o]coeffs(order))</code></pre>
+
+<p>Uses a standard matrix inversion method to do a least squares/min chi^2 fit to data.</p>
+
+<p>Returns the fitted data and optionally the coefficients.</p>
+
+<p>One can thread over extra dimensions to do multiple fits (except the order can not be threaded over - i.e. it must be one fixed set of fit functions <code>fitFuncs</code>.</p>
+
+<p>The data is normalised internally to avoid overflows (using the mean of the abs value) which are common in large polynomial series but the returned fit, coeffs are in unnormalised units.</p>
+
+<pre><code>  # Generate data from a set of functions
+  $xvalues = sequence(100);
+  $data = 3*$xvalues + 2*cos($xvalues) + 3*sin($xvalues*2); 
+  
+  # Make the fit Functions
+  $fitFuncs = cat $xvalues, cos($xvalues), sin($xvalues*2);
+  
+  # Now fit the data, Coefs should be the coefs in the linear combination
+  #   above: 3,2,3
+  ($yfit, $coeffs) = linfit1d $data,$fitFuncs;
+  </code></pre>
+
+<pre><code>  Options:
+     Weights    Weights to use in fit, e.g. 1/$sigma**2 (default=1)</code></pre>
+
+
+</body>
+
+</html>
+
+

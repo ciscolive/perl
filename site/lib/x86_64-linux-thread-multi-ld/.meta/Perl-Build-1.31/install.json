@@ -1,0 +1,1 @@
+{"pathname":"S/SK/SKAJI/Perl-Build-1.31.tar.gz","target":"Perl::Build","dist":"Perl-Build-1.31","provides":{"Perl::Build":{"file":"lib/Perl/Build.pm","version":"1.31"},"Perl::Build::Built":{"file":"lib/Perl/Build/Built.pm","version":"1.31"}},"name":"Perl::Build","version":"1.31"}

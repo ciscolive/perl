@@ -1,0 +1,1 @@
+{"version":"1.008","name":"Test::Requires::Git","pathname":"B/BO/BOOK/Test-Requires-Git-1.008.tar.gz","target":"Test::Requires::Git","provides":{"Test::Requires::Git":{"version":"1.008","file":"lib/Test/Requires/Git.pm"}},"dist":"Test-Requires-Git-1.008"}

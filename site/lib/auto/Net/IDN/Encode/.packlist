@@ -1,0 +1,16 @@
+/opt/perl/site/lib/Net/IDN/Encode.pm
+/opt/perl/site/lib/Net/IDN/Overview.pod
+/opt/perl/site/lib/Net/IDN/Punycode.pm
+/opt/perl/site/lib/Net/IDN/Punycode/PP.pm
+/opt/perl/site/lib/Net/IDN/Standards.pod
+/opt/perl/site/lib/Net/IDN/UTS46.pm
+/opt/perl/site/lib/Net/IDN/UTS46/_Mapping.pm
+/opt/perl/site/lib/auto/Net/IDN/Punycode/Punycode.bs
+/opt/perl/site/lib/auto/Net/IDN/Punycode/Punycode.so
+/opt/perl/site/man/man3/Net::IDN::Encode.3
+/opt/perl/site/man/man3/Net::IDN::Overview.3
+/opt/perl/site/man/man3/Net::IDN::Punycode.3
+/opt/perl/site/man/man3/Net::IDN::Punycode::PP.3
+/opt/perl/site/man/man3/Net::IDN::Standards.3
+/opt/perl/site/man/man3/Net::IDN::UTS46.3
+/opt/perl/site/man/man3/Net::IDN::UTS46::_Mapping.3

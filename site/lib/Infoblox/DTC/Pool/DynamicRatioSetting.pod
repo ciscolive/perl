@@ -1,0 +1,263 @@
+=head1 NAME
+
+Infoblox::DTC::Pool::DynamicRatioSetting - An DTC Pool dynamic ratio setting object.
+
+=head1 DESCRIPTION
+
+The DTC Pool dynamic ratio setting object provides settings for dynamic ratio load balancing if you later select preferred
+or alternate as the load balancing method.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::DTC::Pool::DynamicRatioSetting->new(
+     method                => 'MONITOR' | 'ROUND_TRIP_DELAY', # Optional
+     monitor               => $dtc_monitor,                   # Optional
+     monitor_metric        => $string,                        # Optional
+     monitor_weighing      => 'RATIO' | 'PRIORITY',           # Optional
+     invert_monitor_metric => 'true' | 'false',               # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions can be applied to the object.
+
+=head2 Infoblox::DTC::Pool->dynamic_ratio_preferred( )
+
+=over
+
+Use this method to set or retrieve the preferred dynamic ratio load balancing settings. 
+See L<Infoblox::DTC::Pool-E<gt>dynamic_ratio_preferred()|Infoblox::DTC::Pool/dynamic_ratio_preferred()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #get dynamic_ratio_preferred value
+ my $dynamic_ratio_preferred = $pool->dynamic_ratio_preferred();
+
+ #Construct dynamic_ratio_preferred value
+ my $dynamic_ratio = Infoblox::DTC::Pool::DynamicRatioSetting->new(
+     method                => 'ROUND_TRIP_DELAY',
+     invert_monitor_metric => 'true',
+ );
+
+ #modify dynamic_ratio_preferred value
+ $pool->dynamic_ratio_preferred($dynamic_ratio);
+
+=back
+
+=back
+
+=head2 Infoblox::DTC::Pool->dynamic_ratio_alternate( )
+
+=over
+
+Use this method to set or retrieve the alternate dynamic ratio load balancing settings. 
+See L<Infoblox::DTC::Pool-E<gt>dynamic_ratio_alternate()|Infoblox::DTC::Pool/dynamic_ratio_alternate()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #get dynamic_ratio_alternate value
+ my $dynamic_ratio_alternate = $pool->dynamic_ratio_alternate();
+
+ #modify dynamic_ratio_alternate value
+ $pool->dynamic_ratio_alternate($dynamic_ratio);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 method( )
+
+=over
+
+Use this method to set or retrieve the dynamic ratio load balancing method.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'MONITOR' and 'ROUND_TRIP_DELAY'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get method value
+ my $method = $object->method();
+
+ #Modify method value
+ $object->method('MONITOR');
+
+=back
+
+=back
+
+=head2 monitor( )
+
+=over
+
+Use this method to set or retrieve the DTC monitor that will be used for the dynamic ratio load balancing.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Monitor::TCP|Infoblox::DTC::Monitor::TCP>, L<Infoblox::DTC::Monitor::ICMP|Infoblox::DTC::Monitor::ICMP>, L<Infoblox::DTC::Monitor::SIP|Infoblox::DTC::Monitor::SIP>, L<Infoblox::DTC::Monitor::HTTP|Infoblox::DTC::Monitor::HTTP>, or L<Infoblox::DTC::Monitor::PDP|Infoblox::DTC::Monitor::PDP> objects.
+
+Note that you must retrieve the object from the server first, or set the name of the monitor.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get monitor value
+ my $monitor = $object->monitor();
+
+ #Construct Infoblox::DTC::Monitor::SNMP object (should be an existing object)
+ my $snmp_monitor = Infoblox::DTC::Monitor::SNMP->new(name => 'snmp1');
+
+ #Modify monitor value
+ $object->monitor($snmp_monitor);
+
+=back
+
+=back
+
+=head2 monitor_metric( )
+
+=over
+
+Use this method to set or retrieve the DTC monitor metric that will be used for dynamic weighing.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired metric in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get monitor_metric value
+ my $monitor_metric = $object->monitor_metric();
+
+ #Modify monitor_metric value
+ $object->monitor_metric('222');
+
+=back
+
+=back
+
+=head2 monitor_weighing( )
+
+=over
+
+Use this method to set or retrieve the weighing settings for the dynamic ratio load balancing servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'PRIORITY' and 'RATIO'.
+'PRIORITY' means that all clients will be forwarded to the least loaded server. 'RATIO' means that distribution will be calculated based on dynamic weights.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get monitor_weighing value
+ my $monitor_weighing = $object->monitor_weighing();
+
+ #Modify monitor_weighing value
+ $object->monitor_weighing('RATIO');
+
+=back
+
+=back
+
+=head2 invert_monitor_metric( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the inverted value of the monitor metric is used.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+Specify 'true' to force the server to use the inverted monitor metric and 'false' to use the direct metric value. The default is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get invert_monitor_metric value
+ my $invert_monitor_metric = $object->invert_monitor_metric();
+
+ #Modify invert_monitor_metric value
+ $object->invert_monitor_metric('true');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC::Pool|Infoblox::DTC::Pool>,
+L<Infoblox::DTC::Pool-E<gt>dynamic_ratio_preferred()|Infoblox::DTC::Pool/dynamic_ratio_preferred()>,
+L<Infoblox::DTC::Pool-E<gt>dynamic_ratio_alternate()|Infoblox::DTC::Pool/dynamic_ratio_alternate()>,
+L<Infoblox::DTC::Monitor::TCP|Infoblox::DTC::Monitor::TCP>,
+L<Infoblox::DTC::Monitor::ICMP|Infoblox::DTC::Monitor::ICMP>,
+L<Infoblox::DTC::Monitor::SIP|Infoblox::DTC::Monitor::SIP>,
+L<Infoblox::DTC::Monitor::HTTP|Infoblox::DTC::Monitor::HTTP>,
+L<Infoblox::DTC::Monitor::PDP|Infoblox::DTC::Monitor::PDP>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

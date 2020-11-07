@@ -1,0 +1,17 @@
+prompt user
+    match /[Uu]ser/
+
+prompt generic
+    match /\(Cisco Controller\) >/
+
+macro disable_paging
+    send config paging disable
+
+macro enable_paging
+    send config paging enable
+
+macro config_ap_syslog_host_global
+    send config ap syslog host global %s
+    follow /Are you sure/ with y\n
+    match generic
+

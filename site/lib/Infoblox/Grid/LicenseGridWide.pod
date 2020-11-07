@@ -1,0 +1,252 @@
+=head1 NAME
+
+Infoblox::Grid::LicenseGridWide - a Grid-wide license object.
+
+=head1 DESCRIPTION
+
+A Grid-wide license is assigned and locked to the Grid to activate the licensed feature on all eligible appliances.
+The Grid-wide license object is used to display infromation related to Grid-wide license (i.e. expiration date, limit value).
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::LicenseGridWide object is a read-only object and does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a Grid-wide license object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $retrieved_objs = $session->get(object => "Infoblox::Grid::LicenseGridWide");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search the Grid-wide license object(s):
+
+     "type"  - Optional. The license type.
+     "limit" - Optional. The limitation of dynamic license.
+     "key"   - Optional. The license string.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::LicenseGridWide",
+     type   => "DNS"
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a Grid-wide license object from the Infoblox device. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #search for a specific object
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::LicenseGridWide",
+     type   => "DNS"
+ );
+
+ my $object = $retrieved_objs[0];
+
+ #remove the object
+ my $response = $session->remove($object);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of a Grid-wide license object.
+
+=head2 expiration( )
+
+=over
+
+Use this method to retrieve the Grid-wide license expiration timestamp. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the number of seconds elapsed since January 1, 1970, in UTC format.
+
+=item B<Example>
+
+ #Get expiration value
+ my $expiration = $object->expiration();
+
+=back
+
+=back
+
+=head2 expiration_status( )
+
+=over
+
+Use this method to retrieve the Grid-wide license expiration status. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get expiration_status value
+ my $expiration_status = $object->expiration_status();
+
+=back
+
+=back
+
+=head2 key( )
+
+=over
+
+Use this method to retrieve the license string for the Grid-wide license. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get key value
+ my $value = $object->key();
+
+=back
+
+=back
+
+=head2 limit( )
+
+=over
+
+Use this method to retrieve the number of dynamic licenses that can be allocated from the Grid-wide license. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get limit value
+ my $value = $object->limit();
+
+=back
+
+=back
+
+=head2 limit_context( )
+
+=over
+
+Use this method to retrieve the context of the license limit. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get limit_context value
+ my $limit_context = $object->limit_context();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the license type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get type value
+ my $value = $object->type();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

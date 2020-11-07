@@ -1,0 +1,97 @@
+{
+   "abstract" : "query, download and build perl modules from CPAN sites",
+   "author" : [
+      "Andreas Koenig <andreas.koenig.gmwojprw@franz.ak.mind.de>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.150010",
+   "keywords" : [
+      "CPAN",
+      "module",
+      "module installation"
+   ],
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "CPAN",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Archive::Tar" : "0",
+            "Archive::Zip" : "0",
+            "CPAN::Meta" : "0",
+            "CPAN::Meta::Requirements" : "2.121",
+            "CPAN::Meta::YAML" : "0",
+            "CPAN::Perl::Releases" : "0",
+            "Compress::Bzip2" : "0",
+            "Compress::Zlib" : "0",
+            "Data::Dumper" : "0",
+            "Digest::MD5" : "0",
+            "Digest::SHA" : "0",
+            "Expect" : "0",
+            "Exporter" : "0",
+            "Exporter::Heavy" : "0",
+            "ExtUtils::CBuilder" : "0",
+            "File::Copy" : "0",
+            "File::HomeDir" : "0",
+            "File::Spec" : "0",
+            "File::Temp" : "0",
+            "File::Which" : "0",
+            "HTTP::Tiny" : "0",
+            "IO::Compress::Base" : "0",
+            "IO::Zlib" : "0",
+            "JSON::PP" : "0",
+            "LWP::UserAgent" : "0",
+            "Log::Log4perl" : "0",
+            "MIME::Base64" : "0",
+            "Module::Build" : "0",
+            "Net::FTP" : "0",
+            "Net::Ping" : "0",
+            "Parse::CPAN::Meta" : "0",
+            "Pod::Perldoc" : "0",
+            "Pod::Perldoc::ToMan" : "0",
+            "Scalar::Util" : "0",
+            "Socket" : "0",
+            "Term::ReadKey" : "0",
+            "Test::Harness" : "2.62",
+            "Test::More" : "0",
+            "Text::Glob" : "0",
+            "Text::ParseWords" : "0",
+            "Text::Wrap" : "0",
+            "YAML" : "0",
+            "YAML::Syck" : "0",
+            "YAML::XS" : "0",
+            "perl" : "5.006002"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/andk/cpanpm"
+      }
+   },
+   "version" : "2.28",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

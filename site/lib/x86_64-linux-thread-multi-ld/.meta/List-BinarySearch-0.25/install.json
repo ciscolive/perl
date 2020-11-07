@@ -1,0 +1,1 @@
+{"dist":"List-BinarySearch-0.25","version":"0.25","pathname":"D/DA/DAVIDO/List-BinarySearch-0.25.tar.gz","target":"List::BinarySearch","name":"List::BinarySearch","provides":{"List::BinarySearch::PP":{"file":"lib/List/BinarySearch/PP.pm","version":"0.25"},"List::BinarySearch":{"version":"0.25","file":"lib/List/BinarySearch.pm"}}}

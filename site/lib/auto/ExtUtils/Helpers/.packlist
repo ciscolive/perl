@@ -1,0 +1,8 @@
+/opt/perl/site/lib/ExtUtils/Helpers.pm
+/opt/perl/site/lib/ExtUtils/Helpers/Unix.pm
+/opt/perl/site/lib/ExtUtils/Helpers/VMS.pm
+/opt/perl/site/lib/ExtUtils/Helpers/Windows.pm
+/opt/perl/site/man/man3/ExtUtils::Helpers.3
+/opt/perl/site/man/man3/ExtUtils::Helpers::Unix.3
+/opt/perl/site/man/man3/ExtUtils::Helpers::VMS.3
+/opt/perl/site/man/man3/ExtUtils::Helpers::Windows.3

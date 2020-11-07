@@ -1,0 +1,10 @@
+/opt/perl/site/lib/HTTP/Entity/Parser.pm
+/opt/perl/site/lib/HTTP/Entity/Parser/JSON.pm
+/opt/perl/site/lib/HTTP/Entity/Parser/MultiPart.pm
+/opt/perl/site/lib/HTTP/Entity/Parser/OctetStream.pm
+/opt/perl/site/lib/HTTP/Entity/Parser/UrlEncoded.pm
+/opt/perl/site/man/man3/HTTP::Entity::Parser.3
+/opt/perl/site/man/man3/HTTP::Entity::Parser::JSON.3
+/opt/perl/site/man/man3/HTTP::Entity::Parser::MultiPart.3
+/opt/perl/site/man/man3/HTTP::Entity::Parser::OctetStream.3
+/opt/perl/site/man/man3/HTTP::Entity::Parser::UrlEncoded.3

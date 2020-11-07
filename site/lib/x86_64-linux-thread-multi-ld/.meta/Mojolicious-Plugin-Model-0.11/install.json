@@ -1,0 +1,1 @@
+{"name":"Mojolicious::Plugin::Model","target":"Mojolicious::Plugin::Model","provides":{"MojoX::Model":{"file":"lib/MojoX/Model.pm"},"Mojolicious::Plugin::Model":{"version":"0.11","file":"lib/Mojolicious/Plugin/Model.pm"}},"version":"0.11","pathname":"A/AV/AVKHOZOV/Mojolicious-Plugin-Model-0.11.tar.gz","dist":"Mojolicious-Plugin-Model-0.11"}

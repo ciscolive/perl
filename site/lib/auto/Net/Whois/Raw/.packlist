@@ -1,0 +1,8 @@
+/opt/perl/site/bin/pwhois
+/opt/perl/site/lib/Net/Whois/Raw.pm
+/opt/perl/site/lib/Net/Whois/Raw/Common.pm
+/opt/perl/site/lib/Net/Whois/Raw/Data.pm
+/opt/perl/site/man/man1/pwhois.1
+/opt/perl/site/man/man3/Net::Whois::Raw.3
+/opt/perl/site/man/man3/Net::Whois::Raw::Common.3
+/opt/perl/site/man/man3/Net::Whois::Raw::Data.3

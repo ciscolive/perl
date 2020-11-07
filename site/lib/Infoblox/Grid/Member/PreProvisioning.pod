@@ -1,0 +1,94 @@
+=head1 NAME
+
+Infoblox::Grid::Member::PreProvisioning - Pre-Provisioned member object.
+
+=head1 DESCRIPTION
+
+An Infoblox::Grid::Member::PreProvisioning object represents pre-provisioned data for a Grid member.
+
+=head1 CONSTRUCTOR
+
+ my $pp = Infoblox::Grid::Member::PreProvisioning->new(
+     hardware_info   => [$hw1, $hw2, ...],                  # Optional / an array of Infoblox::Grid::Member::PreProvisioning::Hardware objects
+     licenses         => [$lic1, $lic2, ...],                # Optional / Default value is undefined
+ );
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::Grid::Member::PreProvisioning object.
+
+=head2 hardware_info( )
+
+=over
+
+Use this method to set or retrieve the hardware information.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array of L<Infoblox::Grid::Member::PreProvisioning::Hardware|Infoblox::Grid::Member::PreProvisioning::Hardware> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get get hardware_info()
+ my $hw = $pp->hardware_info();
+ #Modify hardware_info
+ $pp->hardware_info([$hw1, $hw2]);
+
+=back
+
+=back
+
+=head2 licenses( )
+
+=over
+
+Use this method to set or retrieve pre-provisioning licenses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array of valid licenses for each IB model type for the pre-provisioinig feature.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get get license()
+ my $lics = $pp->license();
+ #Modify hardwary_info
+ $pp->license(['dns', 'dhcp']);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>, L<Infoblox::Grid::Member::PreProvisioning::Hardware|Infoblox::Grid::Member::PreProvisioning::Hardware>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

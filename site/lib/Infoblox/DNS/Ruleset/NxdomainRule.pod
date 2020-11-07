@@ -1,0 +1,121 @@
+=head1 NAME
+
+Infoblox::DNS::Ruleset::NxdomainRule - Rule of Ruleset object
+
+=head1 DESCRIPTION
+
+Represents a rule that is used to match domain names.
+
+=head1 CONSTRUCTOR
+
+ my $rule = Infoblox::DNS::Ruleset::NxdomainRule->new(
+              pattern => $string,                   #Required
+              action => $string,                    #Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to an Infoblox::DNS::Ruleset::NxdomainRule object.
+
+=head2 Infoblox::DNS::Ruleset->nxdomain_rules( )
+
+=over
+
+Use this method to add a list of Infoblox::DNS::Ruleset::NxdomainRule objects to the Ruleset object of an Infoblox appliance. See Infoblox::DNS::Ruleset->nxdomain_rules() for parameters and return values.
+
+=over
+
+=item B<Example>
+
+#Construct a rule
+ my $rule1 = Infoblox::DNS::Ruleset::NxdomainRule->new(
+              pattern  => "www.a.zone.com",
+              action => "PASS"
+ );
+
+# Configure a rule for the Ruleset object
+ $ruleset->nxdomain_rules([$rule1]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods you can use to configure and retrieve the attribute values of a Rule object.
+
+=head2 pattern( )
+
+=over
+
+Use this method to specify the pattern that is used to match domain names.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The pattern in string format, with a maximum of 1024 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get pattern
+ my $pattern = $ruleset_item->pattern();
+ #Modify pattern
+ $ruleset_item->pattern("^*$");
+
+=back
+
+=back
+
+=head2 action( )
+
+=over
+
+Use this method to specify the action to perform when a domain name matches the pattern defined in this Infoblox::DNS::Ruleset::NxdomainRule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is "PASS", "REDIRECT" or "MODIFY".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get action
+ my $action = $ruleset_item->action();
+ #Modify action
+ $ruleset_item->action("PASS");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DNS::Ruleset|Infoblox::DNS::Ruleset>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

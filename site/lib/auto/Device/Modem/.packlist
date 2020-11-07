@@ -1,0 +1,12 @@
+/opt/perl/site/lib/Device/Modem.pm
+/opt/perl/site/lib/Device/Modem/FAQ.pod
+/opt/perl/site/lib/Device/Modem/Log/File.pm
+/opt/perl/site/lib/Device/Modem/Log/Syslog.pm
+/opt/perl/site/lib/Device/Modem/Protocol/Xmodem.pm
+/opt/perl/site/lib/Device/Modem/UsRobotics.pm
+/opt/perl/site/man/man3/Device::Modem.3
+/opt/perl/site/man/man3/Device::Modem::FAQ.3
+/opt/perl/site/man/man3/Device::Modem::Log::File.3
+/opt/perl/site/man/man3/Device::Modem::Log::Syslog.3
+/opt/perl/site/man/man3/Device::Modem::Protocol::Xmodem.3
+/opt/perl/site/man/man3/Device::Modem::UsRobotics.3

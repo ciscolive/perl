@@ -1,0 +1,355 @@
+=head1 NAME
+
+Infoblox::DNS::Record::DTCLBDN - A DTC Load Balanced Domain Name Record object.
+
+=head1 DESCRIPTION
+
+A DTC Load Balanced Domain Name Record object.
+
+=head1 CONSTRUCTOR
+
+A DTC Load Balanced Domain Name Record is automatically created when the Load Balanced Domain Name obscures the existing A or AAAA record.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a DTC Load Balanced Domain Name Record object object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  comment              - Optional. Descriptive comments.
+  extattrs             - Optional. A hash reference containing extensible attributes.
+  extensible_atributes - Optional. Extensible attributes associated with a Grid Member object
+  name                 - Optional. Host name in string format.
+  view                 - Optional. The DNS view in which the DTC Load Balanced Domain Name Record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone                 - Optional. The DNS zone in which the DTC Load Balanced Domain Name Record is located.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::DTCLBDN",
+     name   => "dtclbdn.domain.com",
+     view   => "default" );
+
+ # get all DTC Load Balanced Domain Name Records in the "domain.com" zone of the default view
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::DTCLBDN",
+     zone   => "domain.com",
+     view   => "default" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  comment              - Optional. Descriptive comments.
+  extattrs             - Optional. A hash reference containing extensible attributes.
+  extensible_atributes - Optional. Extensible attributes associated with a Grid Member object
+  name                 - Optional. Host name in string format.
+  view                 - Optional. The DNS view in which the DTC Load Balanced Domain Name Record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone                 - Optional. The DNS zone in which the DTC Load Balanced Domain Name Record is located.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::DTCLBDN",
+     name   => "dtclbdn.domain.com",
+     view   => "default" );
+
+ # get all DTC Load Balanced Domain Name Records in the "domain.com" zone of the default view
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::DTCLBDN",
+     zone   => "domain.com",
+     view   => "default" );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve a user comment. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $dtclbdn->comment();
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to retrieve the disabled state for a DTC Load Balanced Doamin Name. This is a read-ony attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get disable value
+ my $disable = $dtclbdn->disable();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC Load Balanced Domain Name object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Use this method to set or retrieve the extensible attributes associated with a DTC Load Balanced Domain Name object. This is a read-only attribute.
+
+=item B<Example>
+
+ #get extattrs value
+ my $extattrs = $dtclbdn->extattrs();
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC Load Balancing Domain Name object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get extensible_attributes value
+ my $ea = $dtclbdn->extensible_attributes();
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time when the associated record was last queried. This is a read-only attribute.  This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $dtclbdn->last_queried();
+
+=back
+
+=back
+
+=head2 lbdn( )
+
+=over
+
+Use this method to retrieve a DTC Load Balanced Domain Name object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value that can be an L<Infoblox::DTC::LBDN|Infoblox::DTC::LBDN> object.
+
+=item B<Example>
+
+ #get lbdn value
+ my $lbdn = $dtclbdn->lbdn();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of a DTC Load Balanced Domain Name object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $dtclbdn->name();
+
+=back
+
+=back
+
+=head2 pattern( )
+
+=over
+
+Use this method to retrieve a DNS FQDN pattern that generated this record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get pattern value
+ my $pattern = $dtclbdn->pattern();
+
+=back
+
+=back
+
+=head2 view( )
+
+=over
+
+Use this method to retrieve the view name of a DTC Load Balanced Domain Name Record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get view value
+ my $view = $dtclbdn->view();
+
+=back
+
+=back
+
+=head2 zone( )
+
+=over
+
+Use this method to retrieve the zone name of a DTC Load Balanced Domain Name Record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #get zone value
+ my $zone = $dtclbdn->zone();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::DTC::LBDN|Infoblox::DTC::LBDN>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

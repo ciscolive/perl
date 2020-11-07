@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Term/Choose.pm
+/opt/perl/site/lib/Term/Choose/Constants.pm
+/opt/perl/site/lib/Term/Choose/LineFold.pm
+/opt/perl/site/lib/Term/Choose/LineFold/CharWidthAmbiguousWide.pm
+/opt/perl/site/lib/Term/Choose/LineFold/CharWidthDefault.pm
+/opt/perl/site/lib/Term/Choose/Linux.pm
+/opt/perl/site/lib/Term/Choose/Screen.pm
+/opt/perl/site/lib/Term/Choose/ValidateOptions.pm
+/opt/perl/site/lib/Term/Choose/Win32.pm
+/opt/perl/site/man/man3/Term::Choose.3

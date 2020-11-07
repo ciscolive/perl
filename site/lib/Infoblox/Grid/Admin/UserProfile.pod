@@ -1,0 +1,349 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::User::Profile - User Profile object.
+
+=head1 DESCRIPTION
+
+Object that represents the user profile of the admin that is logged in.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a User Profile object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $user_profile = $session->get(object => "Infoblox::Grid::Admin::User::Profile");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a User Profile object.
+
+=head2 admin_group( )
+
+=over
+
+Use this method to retrieve the Admin Group object to which the admin belongs. An admin user can belong to only one admin group at a time. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value as L<Infoblox::Grid::Admin::Group|Infoblox::Grid::Admin::Group> object.
+
+=item B<Example>
+
+ #Get admin_group
+ my $admin_group = $user_profile->admin_group();
+
+=back
+
+=back
+
+=head2 days_to_expire( )
+
+=over
+
+Use this method to retrieve the number of days left before the admin's password expires. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. -1 means that the password doesn't expire.
+
+=item B<Example>
+
+ #Get days_to_expire
+ my $days_to_expire = $user_profile->days_to_expire();
+
+=back
+
+=back
+
+=head2 email( )
+
+=over
+
+Use this method to set or retrieve the email address of the admin.
+
+=over
+
+=item B<Parameter>
+
+String with the email address of the admin.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get email
+ my $email = $user_profile->email();
+ #Modify email
+ $user_profile->email("usertest\@infoblox.com");
+
+=back
+
+=back
+
+=head2 global_search_on_ea( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether extensible attribute values will be returned by global search or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set global_search_on_ea flag or 'false' to unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get global_search_on_ea
+ my $global_search_on_ea = $user_profile->global_search_on_ea();
+
+ #Modify global_search_on_ea
+ $user_profile->global_search_on_ea('true');
+
+=back
+
+=back
+
+=head2 last_login( )
+
+=over
+
+Use this method to retrieve the timestamp of when the admin last logged in. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the timestamp.
+
+=item B<Example>
+
+ #Get last_login
+ my $last_login = $user_profile->last_login();
+
+=back
+
+=back
+
+=head2 old_password( )
+
+=over
+
+Use this method to specify the current password that will be replaced by a new password. To change a password in the database, you must provide both the current and new password values. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+Current password that the admin uses to log in.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify password
+ $user_profile->old_password("infoblox");
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the new password of the admin. To change a password in the database, you must provide both the current and new password values. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+New password of the admin.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify password
+ $user_profile->password("infobloxone");
+
+=back
+
+=back
+
+=head2 table_size( )
+
+=over
+
+Use this method to set or retrieve the number of lines of data a table or a single list view can contain.
+
+=over
+
+=item B<Parameter>
+
+The number of lines, which can be from 10 to 256.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get table_size
+ my $table_size = $user_profile->table_size();
+ #Modify table_size
+ $user_profile->table_size(20);
+
+=back
+
+=back
+
+=head2 time_zone( )
+
+=over
+
+Use this method to set or retrieve the time zone of the admin user.
+
+=over
+
+=item B<Parameter>
+
+The UTC string that represents the time zone. For example "(UTC - 6:00) Central Time (US and Canada)".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get time zone
+ my $time_zone = $user_profile->time_zone();
+ #Modify time zone
+ $user_profile->time_zone("(UTC - 6:00) Central Time (US and Canada)");
+
+=back
+
+=back
+
+=head2 user_type( )
+
+=over
+
+Use this method to retrieve the admin type. This attribute is read-only and cannot be modified.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value as "LOCAL" or "REMOTE".
+
+=item B<Example>
+
+ #Get user_type
+ my $user_type = $user_profile->user_type();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a User Profile object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Get a User Profile object>
+
+ #Get the user profile object from Infoblox appliance through a session
+ my $user_profile = $session->get(object => "Infoblox::Grid::Admin::User::Profile);
+
+ unless ($user_profile) {
+        die("Get User Profile object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::Group|Infoblox::Grid::Admin::Group>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

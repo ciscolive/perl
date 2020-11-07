@@ -1,0 +1,22 @@
+# Index created by AutoSplit for blib/lib/Net/DNS/ToolKit.pm
+#    (file acts as timestamp)
+package Net::DNS::ToolKit;
+sub getflags  ;
+sub putflags  ;
+sub get_qdcount  ;
+sub get_ancount  ;
+sub get_nscount  ;
+sub get_arcount  ;
+sub put_qdcount  ;
+sub put_ancount  ;
+sub put_nscount  ;
+sub put_arcount  ;
+sub newhead  ;
+sub sec2time 
+;
+sub ttlAlpha2Num 
+;
+sub collapse  ;
+sub strip  ;
+sub get_ns  ;
+1;

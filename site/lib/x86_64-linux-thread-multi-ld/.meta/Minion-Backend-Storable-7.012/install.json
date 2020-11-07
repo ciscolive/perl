@@ -1,0 +1,1 @@
+{"name":"Minion::Backend::Storable","version":"7.012","pathname":"N/NI/NICZERO/Minion-Backend-Storable-7.012.tar.gz","dist":"Minion-Backend-Storable-7.012","provides":{"Minion::Backend::Storable":{"file":"lib/Minion/Backend/Storable.pm","version":"7.012"},"Minion::Backend::Sereal":{"version":"7.012","file":"lib/Minion/Backend/Sereal.pm"}},"target":"Minion::Backend::Storable"}

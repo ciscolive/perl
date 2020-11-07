@@ -1,0 +1,2 @@
+/opt/perl/site/lib/Plack/Middleware/FixMissingBodyInRedirect.pm
+/opt/perl/site/man/man3/Plack::Middleware::FixMissingBodyInRedirect.3

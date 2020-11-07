@@ -1,0 +1,45 @@
+{
+   "abstract" : "Site policy for file I/O functions",
+   "author" : [
+      "British Broadcasting Corporation"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.46, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "unknown"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "File-Policy",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "File::Slurp" : "0",
+            "File::Spec::Functions" : "0",
+            "Log::Trace" : "0",
+            "Test::Assertions" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "1.005",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

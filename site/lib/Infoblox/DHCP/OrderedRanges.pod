@@ -1,0 +1,293 @@
+=head1 NAME
+
+Infoblox::DHCP::OrderedRanges - Ordered Ranges object.
+
+=head1 DESCRIPTION
+
+An object type to set or retrieve an ordered list of DHCP ranges in a network.
+
+=head1 CONSTRUCTOR
+
+ my $ordered_ranges = Infoblox::DHCP::OrderedRanges->new(
+                       network                   => $network,                   #Required
+                       ranges                    => [$range1, $range2, ...],    #Required
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to an Ordered Ranges object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+No object is added in this method, but the ranges for the specified network assume the specified order.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $ordered_ranges = Infoblox::DHCP::OrderedRanges->new(
+													     network => $network,
+                                                         ranges  => [$range1, $range2]
+                                                        );
+ #Submit for addition
+ my $response = $session->add( $ordered_ranges );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Ordered Ranges object:
+
+ network - Required. An Infoblox::DHCP::Network object.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object   => "Infoblox::DHCP::OrderedRanges",
+     network  => $network
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+No object is modified in this method, but the ranges for the specified network assume the specified order.
+
+=over
+
+=item B<Example>
+
+ #Use this method to modify the comment.
+ $ordered_ranges->ranges([$range4, $range2, $range3, $range1]);
+ #Submit modification
+ my $response = $session->modify( $ordered_ranges );
+
+=back
+
+=back
+
+=head1 METHODS
+
+Use the following methods to access the attributes of an Infoblox::DHCP::OrderedRanges object. Specify a parameter to set the attribute's value, or omit the parameter to get the attribute's value.
+
+=head2 network( )
+
+=over
+
+Use this method to set or retrieve the parent network object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting network
+   my $network = $ordered_ranges->network();
+   #Modifying network
+   $ordered_ranges->network($nw1);
+
+=back
+
+=back
+
+=head2 ranges( )
+
+=over
+
+Use this method to set or retrieve an ordered list of DHCP ranges object references.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A list of L<Infoblox::DHCP::Range|Infoblox::DHCP::Range> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting ranges
+   my $ranges_ref = $ordered_ranges->ranges();
+   #Modifying ranges
+   $ordered_ranges->ranges([$range1, $range2, @range3]);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to the range reordering>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $host_ip =  "192.168.1.2";
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+     );
+ unless($session){
+         die("Constructor for session failed: ",
+                Infoblox::status_code(). ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully.\n";
+
+ my $network = Infoblox::DHCP::Network->new(
+                                            network   => "10.0.0.0/255.255.0.0",
+                                            comment   => "add network",
+                                           );
+
+ $session->add($network)
+     or die("Add network failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print"Network added successfully.\n";
+
+ my $range = Infoblox::DHCP::Range->new(
+                                        start_addr              => "10.0.0.1",
+                                        end_addr                => "10.0.0.10",
+                                        network                 => "10.0.0.0/16",
+                                        comment                 => "range 1",
+                                       );
+
+ $session->add($range)
+     or die("Add range failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print"Range added successfully.\n";
+
+ $range = Infoblox::DHCP::Range->new(
+                                      start_addr              => "10.0.0.21",
+                                      end_addr                => "10.0.0.30",
+                                      network                 => "10.0.0.0/16",
+                                      comment                 => "range 2",
+                                    );
+
+ $session->add($range)
+     or die("Add range failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print"Range added successfully.\n";
+
+ $range = Infoblox::DHCP::Range->new(
+                                      start_addr              => "10.0.0.31",
+                                      end_addr                => "10.0.0.40",
+                                      network                 => "10.0.0.0/16",
+                                      comment                 => "range 3",
+                                    );
+
+ $session->add($range)
+     or die("Add range failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print"Range added successfully.\n";
+
+B<#Get the current range order.>
+
+ my $tnetwork = Infoblox::DHCP::Network->new(
+                                              network   => "10.0.0.0/255.255.0.0",
+                                             );
+ my $or = $session->get(
+      object  => "Infoblox::DHCP::OrderedRanges",
+      network => $tnetwork
+ );
+
+ unless($or){
+        die("Get ordered ranges failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        }
+
+ print "Get ordered ranges object found at least 1 matching entry\n";
+
+ my ($r1, $r2, $r3) = @{$or->ranges()};
+
+ print "The current order of the ranges is : " . $r1->comment() . "," .
+                $r2->comment() . "," . $r3->comment() . "\n";
+
+B<#Modify the range order.>
+
+ $or->ranges([$r3, $r2, $r1]);
+
+ #Apply the change
+ $session->modify($or)
+       or die("Modify ordered ranges failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print "Ordered ranges modified successfully.\n";
+
+ $or = $session->get(
+     object  => "Infoblox::DHCP::OrderedRanges",
+     network => $tnetwork
+ );
+
+ unless($or){
+       die("Get ordered ranges failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+       }
+
+ print "Get ordered ranges object found at least 1 matching entry\n";
+
+ ($r1, $r2, $r3) = @{$or->ranges()};
+
+ print "The current order of the ranges is : " . $r1->comment() . "," .
+                $r2->comment() . "," . $r3->comment() . "\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

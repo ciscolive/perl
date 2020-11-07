@@ -1,0 +1,286 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::AuthPolicy - Authentication Policy object
+
+=head1 DESCRIPTION
+
+This object represents the grid authentication policy.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to the Grid Authentication Policy object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the grid authentication policy from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+No parameters are required.
+
+=item B<Example>
+
+ my $auth_policy = $session->get(
+         object => "Infoblox::Grid::Admin::AuthPolicy",
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify the grid authentication policy on the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Changing the default group
+ $auth_policy->default_group($group);
+ #Submit modification
+ my $response = $session->modify( $auth_policy );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the grid authentication policy.
+
+=head2 admin_groups( )
+
+=over
+
+Use this method to set or retrieve the list of local admin groups that are mapped to remote administration groups. The default value is an empty list.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::Admin::Group|Infoblox::Grid::Admin::Group/> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns "true" when the modification succeeds, and returns "false" when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the admin groups list
+ my $admin_groups = $auth_policy->admin_groups();
+
+ #Modify the admin_groups
+ $auth_policy->admin_groups([$admingroup1,$admingroup2]);
+
+=back
+
+=back
+
+=head2 auth_services( )
+
+=over
+
+Use this method to set or retrieve the list of authentication services that grid members use to authenticate admins. The default is a list that contains the LocalUserAuthService object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains an ordered list of 
+L<Infoblox::Grid::Admin::AdAuthService|Infoblox::Grid::Admin::AdAuthService/>, 
+L<Infoblox::Grid::Admin::LocalUserAuthService|Infoblox::Grid::Admin::LocalUserAuthService/>, 
+L<Infoblox::Grid::Admin::TACACSPlusAuthService|Infoblox::Grid::Admin::TACACSPlusAuthService/>, 
+L<Infoblox::LDAP::AuthService|Infoblox::LDAP::AuthService>, 
+L<Infoblox::Grid::Admin::CertificateAuthService|Infoblox::Grid::Admin::CertificateAuthService>, 
+L<Infoblox::Grid::Admin::RadiusAuthService|Infoblox::Grid::Admin::RadiusAuthService/> 
+objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns "true" when the modification succeeds, and returns "false" when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the services list
+ my $auth_services = $auth_policy->auth_services();
+ #Modify the auth_services
+ $auth_policy->auth_services([$radius1, $local, $ad2]);
+
+=back
+
+=back
+
+=head2 default_group( )
+
+=over
+
+Use this method to set or retrieve the default admin group that provides authentication in case no valid group is found. The default value is none (represented by undef).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::Admin::Group|Infoblox::Grid::Admin::Group/> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns "true" when the modification succeeds, and returns "false" when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the default group
+ my $default_group = $auth_policy->default_group();
+
+ #Modify the default_group
+ $auth_policy->default_group($group2);
+
+=back
+
+=back
+
+=head2 usage_type( )
+
+=over
+
+Use this method to set or retrieve remote policies usage.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'FULL' to define the list of remote users, their passwords and their group ownership, and specify 'AUTH_ONLY' to validate passwords of local users only. The default value is 'FULL'.
+
+
+=item B<Returns>
+
+If you specified a parameter, the method returns "true" when the modification succeeds, and returns "false" when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get usage_type value 
+ my $usage_type = $auth_policy->usage_type();
+
+ #Modify usage_type value
+ $auth_policy->usage_type('AUTH_ONLY');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as get and modify. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying an auth policy object>
+
+ use strict;
+ use Infoblox;
+
+ #Creating a session to appliance.
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+     );
+ unless( $session ){
+     die("Constructor for session failed:",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print" Session object created successfully \n";
+
+B<#Retrieving the auth policy object>
+
+ my $policy = $session->get(
+                            object => 'Infoblox::Grid::Admin::AuthPolicy',
+                           ) || die("Retrieval of the auth policy failed: ",
+                  Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+B<#Retrieving the local user auth service>
+
+ my $local_auth = $session->get(
+                                object => 'Infoblox::Grid::Admin::LocalUserAuthService',
+                               ) || die("Retrieval of the local user auth service failed: ",
+                  Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+B<#Creation of a Radius auth server/service pair>
+
+ my $ads = Infoblox::Grid::Admin::RadiusAuthServer->new(
+                                                        fqdn_or_ip => '10.1.0.1',
+                                                        shared_secret => 'secret',
+                                                       ) ||
+   die("Couldn't create the auth server: ",
+       Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+ my $service = Infoblox::Grid::Admin::RadiusAuthService->new(
+                                                             acct_timeout => 1100,
+                                                             auth_timeout => 1100,
+                                                             name => 'some.name.com',
+                                                             radius_servers => [$ads]
+                                                            ) ||
+   die("Couldn't create the auth service: ",
+       Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+ $session->add($service) || die("Couldn't add the auth service: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+B<#Retrieving the auth service created above>
+
+ my $radius_auth = $session->get(
+                                 object => 'Infoblox::Grid::Admin::RadiusAuthService',
+                                 name   => 'some.name.com',
+                          ) || die("Retrieval of the radius auth service failed: ",
+                  Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+B<#Modify the authpolicy>
+
+ $policy->auth_services([$radius_auth,$local_auth]);
+
+ $session->modify($policy) || die("Policy modify failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::Group|Infoblox::Grid::Admin::Group/>, 
+L<Infoblox::Grid::Admin::AdAuthService|Infoblox::Grid::Admin::AdAuthService/>, 
+L<Infoblox::Grid::Admin::TACACSPlusAuthService|Infoblox::Grid::Admin::TACACSPlusAuthService/>, 
+L<Infoblox::Grid::Admin::LocalUserAuthService|Infoblox::Grid::Admin::LocalUserAuthService/>, 
+L<Infoblox::Grid::Admin::RadiusAuthService|Infoblox::Grid::Admin::RadiusAuthService/>, 
+L<Infoblox::LDAP::AuthService|Infoblox::LDAP::AuthService>, 
+L<Infoblox::Grid::Admin::CertificateAuthService|Infoblox::Grid::Admin::CertificateAuthService>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/modify()/>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

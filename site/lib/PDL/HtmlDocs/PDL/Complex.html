@@ -1,0 +1,552 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PDL::Complex - handle complex numbers</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:WENWU@mojo.(none)" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#TIPS-TRICKS-CAVEATS">TIPS, TRICKS &amp; CAVEATS</a></li>
+  <li><a href="#EXAMPLE-WALK-THROUGH">EXAMPLE WALK-THROUGH</a></li>
+  <li><a href="#OPERATORS">OPERATORS</a></li>
+  <li><a href="#FUNCTIONS">FUNCTIONS</a>
+    <ul>
+      <li><a href="#cplx">cplx</a></li>
+      <li><a href="#complex">complex</a></li>
+      <li><a href="#real">real</a></li>
+      <li><a href="#r2C">r2C</a></li>
+      <li><a href="#i2C">i2C</a></li>
+      <li><a href="#Cr2p">Cr2p</a></li>
+      <li><a href="#Cp2r">Cp2r</a></li>
+      <li><a href="#Cmul">Cmul</a></li>
+      <li><a href="#Cprodover">Cprodover</a></li>
+      <li><a href="#Cscale">Cscale</a></li>
+      <li><a href="#Cdiv">Cdiv</a></li>
+      <li><a href="#Ccmp">Ccmp</a></li>
+      <li><a href="#Cconj">Cconj</a></li>
+      <li><a href="#Cabs">Cabs</a></li>
+      <li><a href="#Cabs2">Cabs2</a></li>
+      <li><a href="#Carg">Carg</a></li>
+      <li><a href="#Csin">Csin</a></li>
+      <li><a href="#Ccos">Ccos</a></li>
+      <li><a href="#Ctan">Ctan</a></li>
+      <li><a href="#Cexp">Cexp</a></li>
+      <li><a href="#Clog">Clog</a></li>
+      <li><a href="#Cpow">Cpow</a></li>
+      <li><a href="#Csqrt">Csqrt</a></li>
+      <li><a href="#Casin">Casin</a></li>
+      <li><a href="#Cacos">Cacos</a></li>
+      <li><a href="#Catan">Catan</a></li>
+      <li><a href="#Csinh">Csinh</a></li>
+      <li><a href="#Ccosh">Ccosh</a></li>
+      <li><a href="#Ctanh">Ctanh</a></li>
+      <li><a href="#Casinh">Casinh</a></li>
+      <li><a href="#Cacosh">Cacosh</a></li>
+      <li><a href="#Catanh">Catanh</a></li>
+      <li><a href="#Cproj">Cproj</a></li>
+      <li><a href="#Croots">Croots</a></li>
+      <li><a href="#re-im">re, im</a></li>
+      <li><a href="#rCpolynomial">rCpolynomial</a></li>
+    </ul>
+  </li>
+  <li><a href="#AUTHOR">AUTHOR</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>PDL::Complex - handle complex numbers</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<pre><code>  use PDL;
+  use PDL::Complex;</code></pre>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>This module features a growing number of functions manipulating complex numbers. These are usually represented as a pair <code>[ real imag ]</code> or <code>[ magnitude phase ]</code>. If not explicitly mentioned, the functions can work inplace (not yet implemented!!!) and require rectangular form.</p>
+
+<p>While there is a procedural interface available (<code>$x/$y*$c &lt;=&gt; Cmul (Cdiv ($x, $y), $c)</code>), you can also opt to cast your pdl&#39;s into the <code>PDL::Complex</code> datatype, which works just like your normal piddles, but with all the normal perl operators overloaded.</p>
+
+<p>The latter means that <code>sin($x) + $y/$c</code> will be evaluated using the normal rules of complex numbers, while other pdl functions (like <code>max</code>) just treat the piddle as a real-valued piddle with a lowest dimension of size 2, so <code>max</code> will return the maximum of all real and imaginary parts, not the &quot;highest&quot; (for some definition)</p>
+
+<h1 id="TIPS-TRICKS-CAVEATS">TIPS, TRICKS &amp; CAVEATS</h1>
+
+<ul>
+
+<li><p><code>i</code> is a constant exported by this module, which represents <code>-1**0.5</code>, i.e. the imaginary unit. it can be used to quickly and conveniently write complex constants like this: <code>4+3*i</code>.</p>
+
+</li>
+<li><p>Use <code>r2C(real-values)</code> to convert from real to complex, as in <code>$r = Cpow $cplx, r2C 2</code>. The overloaded operators automatically do that for you, all the other functions, do not. So <code>Croots 1, 5</code> will return all the fifths roots of 1+1*i (due to threading).</p>
+
+</li>
+<li><p>use <code>cplx(real-valued-piddle)</code> to cast from normal piddles into the complex datatype. Use <code>real(complex-valued-piddle)</code> to cast back. This requires a copy, though.</p>
+
+</li>
+<li><p>This module has received some testing by Vanuxem Gr&eacute;gory (g.vanuxem at wanadoo dot fr). Please report any other errors you come across!</p>
+
+</li>
+</ul>
+
+<h1 id="EXAMPLE-WALK-THROUGH">EXAMPLE WALK-THROUGH</h1>
+
+<p>The complex constant five is equal to <code>pdl(1,0)</code>:</p>
+
+<pre><code>   pdl&gt; p $x = r2C 5
+   5 +0i</code></pre>
+
+<p>Now calculate the three cubic roots of of five:</p>
+
+<pre><code>   pdl&gt; p $r = Croots $x, 3
+   [1.70998 +0i  -0.854988 +1.48088i  -0.854988 -1.48088i]</code></pre>
+
+<p>Check that these really are the roots:</p>
+
+<pre><code>   pdl&gt; p $r ** 3
+   [5 +0i  5 -1.22465e-15i  5 -7.65714e-15i]</code></pre>
+
+<p>Duh! Could be better. Now try by multiplying <code>$r</code> three times with itself:</p>
+
+<pre><code>   pdl&gt; p $r*$r*$r
+   [5 +0i  5 -4.72647e-15i  5 -7.53694e-15i]</code></pre>
+
+<p>Well... maybe <code>Cpow</code> (which is used by the <code>**</code> operator) isn&#39;t as bad as I thought. Now multiply by <code>i</code> and negate, which is just a very expensive way of swapping real and imaginary parts.</p>
+
+<pre><code>   pdl&gt; p -($r*i)
+   [0 -1.70998i  1.48088 +0.854988i  -1.48088 +0.854988i]</code></pre>
+
+<p>Now plot the magnitude of (part of) the complex sine. First generate the coefficients:</p>
+
+<pre><code>   pdl&gt; $sin = i * zeroes(50)-&gt;xlinvals(2,4) + zeroes(50)-&gt;xlinvals(0,7)</code></pre>
+
+<p>Now plot the imaginary part, the real part and the magnitude of the sine into the same diagram:</p>
+
+<pre><code>   pdl&gt; use PDL::Graphics::Gnuplot
+   pdl&gt; gplot( with =&gt; &#39;lines&#39;,
+              PDL::cat(im ( sin $sin ),
+                       re ( sin $sin ),
+                       abs( sin $sin ) ))</code></pre>
+
+<p>An ASCII version of this plot looks like this:</p>
+
+<pre><code>  30 ++-----+------+------+------+------+------+------+------+------+-----++
+     +      +      +      +      +      +      +      +      +      +      +
+     |                                                                   $$|
+     |                                                                  $  |
+  25 ++                                                               $$  ++
+     |                                                              ***    |
+     |                                                            **   *** |
+     |                                                         $$*        *|
+  20 ++                                                       $**         ++
+     |                                                     $$$*           #|
+     |                                                  $$$   *          # |
+     |                                                $$     *           # |
+  15 ++                                            $$$       *          # ++
+     |                                          $$$        **           #  |
+     |                                      $$$$          *            #   |
+     |                                  $$$$              *            #   |
+  10 ++                            $$$$$                 *            #   ++
+     |                        $$$$$                     *             #    |
+     |                 $$$$$$$                         *             #     |
+   5 ++       $$$############                          *             #    ++
+     |*****$$$###            ###                      *             #      |
+     *    #*****                #                     *             #      |
+     | ###      ***              ###                **              #      |
+   0 ##            ***              #              *               #      ++
+     |                *              #             *              #        |
+     |                 ***            #          **               #        |
+     |                    *            #        *                #         |
+  -5 ++                    **           #      *                 #        ++
+     |                       ***         ##  **                 #          |
+     |                          *          #*                  #           |
+     |                           ****    ***##                #            |
+ -10 ++                              ****     #              #            ++
+     |                                         #             #             |
+     |                                          ##         ##              |
+     +      +      +      +      +      +      +  ### + ###  +      +      +
+ -15 ++-----+------+------+------+------+------+-----###-----+------+-----++
+     0      5      10     15     20     25     30     35     40     45     50</code></pre>
+
+<h1 id="OPERATORS">OPERATORS</h1>
+
+<p>The following operators are overloaded:</p>
+
+<dl>
+
+<dt id="addition">+, += (addition)</dt>
+<dd>
+
+</dd>
+<dt id="subtraction">-, -= (subtraction)</dt>
+<dd>
+
+</dd>
+<dt id="multiplication-Cmul">*, *= (multiplication; <a href="#Cmul">Cmul</a>)</dt>
+<dd>
+
+</dd>
+<dt id="division-Cdiv">/, /= (division; <a href="#Cdiv">Cdiv</a>)</dt>
+<dd>
+
+</dd>
+<dt id="exponentiation-Cpow">**, **= (exponentiation; <a href="#Cpow">Cpow</a>)</dt>
+<dd>
+
+</dd>
+<dt id="atan2-4-quadrant-arc-tangent">atan2 (4-quadrant arc tangent)</dt>
+<dd>
+
+</dd>
+<dt id="nonsensical-comparison-operator-Ccmp">&lt;=&gt; (nonsensical comparison operator; <a href="#Ccmp">Ccmp</a>)</dt>
+<dd>
+
+</dd>
+<dt id="sin-Csin">sin (<a href="#Csin">Csin</a>)</dt>
+<dd>
+
+</dd>
+<dt id="cos-Ccos">cos (<a href="#Ccos">Ccos</a>)</dt>
+<dd>
+
+</dd>
+<dt id="exp-Cexp">exp (<a href="#Cexp">Cexp</a>)</dt>
+<dd>
+
+</dd>
+<dt id="abs-Cabs">abs (<a href="#Cabs">Cabs</a>)</dt>
+<dd>
+
+</dd>
+<dt id="log-Clog">log (<a href="#Clog">Clog</a>)</dt>
+<dd>
+
+</dd>
+<dt id="sqrt-Csqrt">sqrt (<a href="#Csqrt">Csqrt</a>)</dt>
+<dd>
+
+</dd>
+<dt id="just-as-nonsensical-as-Ccmp">&lt;, &lt;=, ==, !=, &gt;=, &gt; (just as nonsensical as <a href="#Ccmp">Ccmp</a>)</dt>
+<dd>
+
+</dd>
+<dt id="increment-decrement-they-affect-the-real-part-of-the-complex-number-only">++, -- (increment, decrement; they affect the real part of the complex number only)</dt>
+<dd>
+
+</dd>
+<dt id="stringification">&quot;&quot; (stringification)</dt>
+<dd>
+
+</dd>
+</dl>
+
+<h1 id="FUNCTIONS">FUNCTIONS</h1>
+
+<h2 id="cplx">cplx</h2>
+
+<p>Cast a real-valued piddle to the complex datatype.</p>
+
+<p>The first dimension of the piddle must be of size 2. After this the usual (complex) arithmetic operators are applied to this pdl, rather than the normal elementwise pdl operators. Dataflow to the complex parent works. Use <code>sever</code> on the result if you don&#39;t want this.</p>
+
+<pre><code> cplx($real_valued_pdl)</code></pre>
+
+<h2 id="complex">complex</h2>
+
+<p>Cast a real-valued piddle to the complex datatype <i>without</i> dataflow and <i>inplace</i>.</p>
+
+<p>Achieved by merely reblessing a piddle. The first dimension of the piddle must be of size 2.</p>
+
+<pre><code> complex($real_valued_pdl)</code></pre>
+
+<h2 id="real">real</h2>
+
+<p>Cast a complex valued pdl back to the &quot;normal&quot; pdl datatype.</p>
+
+<p>Afterwards the normal elementwise pdl operators are used in operations. Dataflow to the real parent works. Use <code>sever</code> on the result if you don&#39;t want this.</p>
+
+<pre><code> real($cplx_valued_pdl)</code></pre>
+
+<h2 id="r2C">r2C</h2>
+
+<pre><code>  Signature: (r(); [o]c(m=2))</code></pre>
+
+<p>convert real to complex, assuming an imaginary part of zero</p>
+
+<p>r2C does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="i2C">i2C</h2>
+
+<pre><code>  Signature: (r(); [o]c(m=2))</code></pre>
+
+<p>convert imaginary to complex, assuming a real part of zero</p>
+
+<p>i2C does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cr2p">Cr2p</h2>
+
+<pre><code>  Signature: (r(m=2); float+ [o]p(m=2))</code></pre>
+
+<p>convert complex numbers in rectangular form to polar (mod,arg) form. Works inplace</p>
+
+<p>Cr2p does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cp2r">Cp2r</h2>
+
+<pre><code>  Signature: (r(m=2); [o]p(m=2))</code></pre>
+
+<p>convert complex numbers in polar (mod,arg) form to rectangular form. Works inplace</p>
+
+<p>Cp2r does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cmul">Cmul</h2>
+
+<pre><code>  Signature: (a(m=2); b(m=2); [o]c(m=2))</code></pre>
+
+<p>complex multiplication</p>
+
+<p>Cmul does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cprodover">Cprodover</h2>
+
+<pre><code>  Signature: (a(m=2,n); [o]c(m=2))</code></pre>
+
+<p>Project via product to N-1 dimension</p>
+
+<p>Cprodover does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cscale">Cscale</h2>
+
+<pre><code>  Signature: (a(m=2); b(); [o]c(m=2))</code></pre>
+
+<p>mixed complex/real multiplication</p>
+
+<p>Cscale does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cdiv">Cdiv</h2>
+
+<pre><code>  Signature: (a(m=2); b(m=2); [o]c(m=2))</code></pre>
+
+<p>complex division</p>
+
+<p>Cdiv does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Ccmp">Ccmp</h2>
+
+<pre><code>  Signature: (a(m=2); b(m=2); [o]c())</code></pre>
+
+<p>Complex comparison operator (spaceship).</p>
+
+<p>Ccmp orders by real first, then by imaginary. Hm, but it is mathematical nonsense! Complex numbers cannot be ordered.</p>
+
+<p>Ccmp does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cconj">Cconj</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>complex conjugation. Works inplace</p>
+
+<p>Cconj does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cabs">Cabs</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c())</code></pre>
+
+<p>complex <code>abs()</code> (also known as <i>modulus</i>)</p>
+
+<p>Cabs does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cabs2">Cabs2</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c())</code></pre>
+
+<p>complex squared <code>abs()</code> (also known <i>squared modulus</i>)</p>
+
+<p>Cabs2 does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Carg">Carg</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c())</code></pre>
+
+<p>complex argument function (&quot;angle&quot;)</p>
+
+<p>Carg does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Csin">Csin</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<pre><code>  sin (a) = 1/(2*i) * (exp (a*i) - exp (-a*i)). Works inplace</code></pre>
+
+<p>Csin does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Ccos">Ccos</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<pre><code>  cos (a) = 1/2 * (exp (a*i) + exp (-a*i)). Works inplace</code></pre>
+
+<p>Ccos does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Ctan">Ctan</h2>
+
+<p>Complex tangent</p>
+
+<pre><code>  tan (a) = -i * (exp (a*i) - exp (-a*i)) / (exp (a*i) + exp (-a*i))</code></pre>
+
+<p>Does not work inplace.</p>
+
+<h2 id="Cexp">Cexp</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<pre><code>  exp (a) = exp (real (a)) * (cos (imag (a)) + i * sin (imag (a))). Works inplace</code></pre>
+
+<p>Cexp does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Clog">Clog</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<pre><code>  log (a) = log (cabs (a)) + i * carg (a). Works inplace</code></pre>
+
+<p>Clog does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cpow">Cpow</h2>
+
+<pre><code>  Signature: (a(m=2); b(m=2); [o]c(m=2))</code></pre>
+
+<p>complex <code>pow()</code> (<code>**</code>-operator)</p>
+
+<p>Cpow does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Csqrt">Csqrt</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>Works inplace</p>
+
+<p>Csqrt does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Casin">Casin</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>Works inplace</p>
+
+<p>Casin does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cacos">Cacos</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>Works inplace</p>
+
+<p>Cacos does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Catan">Catan</h2>
+
+<p>Return the complex <code>atan()</code>.</p>
+
+<p>Does not work inplace.</p>
+
+<h2 id="Csinh">Csinh</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<pre><code>  sinh (a) = (exp (a) - exp (-a)) / 2. Works inplace</code></pre>
+
+<p>Csinh does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Ccosh">Ccosh</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<pre><code>  cosh (a) = (exp (a) + exp (-a)) / 2. Works inplace</code></pre>
+
+<p>Ccosh does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Ctanh">Ctanh</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>Works inplace</p>
+
+<p>Ctanh does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Casinh">Casinh</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>Works inplace</p>
+
+<p>Casinh does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cacosh">Cacosh</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>Works inplace</p>
+
+<p>Cacosh does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Catanh">Catanh</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>Works inplace</p>
+
+<p>Catanh does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Cproj">Cproj</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2))</code></pre>
+
+<p>compute the projection of a complex number to the riemann sphere. Works inplace</p>
+
+<p>Cproj does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="Croots">Croots</h2>
+
+<pre><code>  Signature: (a(m=2); [o]c(m=2,n); int n =&gt; n)</code></pre>
+
+<p>Compute the <code>n</code> roots of <code>a</code>. <code>n</code> must be a positive integer. The result will always be a complex type!</p>
+
+<p>Croots does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h2 id="re-im">re, im</h2>
+
+<p>Return the real or imaginary part of the complex number(s) given.</p>
+
+<p>These are slicing operators, so data flow works. The real and imaginary parts are returned as piddles (ref eq PDL).</p>
+
+<h2 id="rCpolynomial">rCpolynomial</h2>
+
+<pre><code>  Signature: (coeffs(n); x(c=2,m); [o]out(c=2,m))</code></pre>
+
+<p>evaluate the polynomial with (real) coefficients <code>coeffs</code> at the (complex) position(s) <code>x</code>. <code>coeffs[0]</code> is the constant term.</p>
+
+<p>rCpolynomial does not process bad values. It will set the bad-value flag of all output piddles if the flag is set for any of the input piddles.</p>
+
+<h1 id="AUTHOR">AUTHOR</h1>
+
+<p>Copyright (C) 2000 Marc Lehmann &lt;pcg@goof.com&gt;. All rights reserved. There is no warranty. You are allowed to redistribute this software / documentation as described in the file COPYING in the PDL distribution.</p>
+
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p>perl(1), <a href="PDL.html">PDL</a>.</p>
+
+
+</body>
+
+</html>
+
+

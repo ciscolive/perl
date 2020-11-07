@@ -1,0 +1,416 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::AdvancedPollSettings - advanced polling settings.
+
+=head1 DESCRIPTION
+
+The object provides information about advanced polling settings.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::AdvancedPollSettings->new(
+    'arp_aggregate_limit'               => $uint,                 # Optional
+    'arp_cache_refresh_interval'        => $uint,                 # Optional
+    'dhcp_router_as_seed'               => 'true' | 'false',      # Optional / Default is 'false'
+    'disable_discovery_outside_ipam'    => 'true' | 'false',      # Optional / Default is 'false'
+    'enable_purge_expired_endhost_data' => 'true' | 'false',      # Optional / Default is 'false'
+    'ping_retries'                      => $uint,                 # Optional
+    'ping_sweep_interval'               => $uint,                 # Optional
+    'ping_timeout'                      => $uint,                 # Optional
+    'polling_authenticate_snmpv1_only'  => 'true' | 'false',      # Optional / Default is 'false'
+    'purge_expired_device_data'         => $uint,                 # Optional
+    'purge_expired_endhost_data'        => $uint,                 # Optional
+    'route_limit'                       => $uint,                 # Optional
+    'tcp_scan_technique'                => 'CONNECT' | 'SYN',     # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head2 arp_aggregate_limit( )
+
+=over
+
+Use this method to set or retrieve the ARP aggregate limit.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->arp_aggregate_limit();
+ # Modify attribute value
+ $object->arp_aggregate_limit(10);
+
+=back
+
+=back
+
+=head2 arp_cache_refresh_interval( )
+
+=over
+
+Use this method to set or retrieve the refresh interval for ARP cache in second.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->arp_cache_refresh_interval();
+ # Modify attribute value
+ $object->arp_cache_refresh_interval(5);
+
+=back
+
+=back
+
+=head2 dhcp_router_as_seed( )
+
+=over
+
+Use this method to enable or disable the flag that controls using DHCP routers as seed routers for discovery.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the flag or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->dhcp_router_as_seed();
+ # Modify attribute value
+ $object->dhcp_router_as_seed('true');
+
+=back
+
+=back
+
+=head2 disable_discovery_outside_ipam( )
+
+=over
+
+Use this method to enable or disable the discovery of networks that are not in IPAM.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable the discovery of networks that are not in IPAM or "false" to enable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->disable_discovery_outside_ipam();
+ # Modify attribute value
+ $object->disable_discovery_outside_ipam('true');
+
+=back
+
+=back
+
+=head2 enable_purge_expired_endhost_data( )
+
+=over
+
+Use this method to enable or disable the purge of expired end host data.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the purge of expired end host data or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->enable_purge_expired_endhost_data();
+ # Modify attribute value
+ $object->enable_purge_expired_endhost_data('true');
+
+=back
+
+=back
+
+=head2 ping_retries( )
+
+=over
+
+Use this method to set or retrieve ping retries.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ping_retries();
+ # Modify attribute value
+ $object->ping_retries(3);
+
+=back
+
+=back
+
+=head2 ping_sweep_interval( )
+
+=over
+
+Use this method to set or retrieve the hourly wait interval between ping sweeps for individual discovery ranges.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ping_sweep_interval();
+ # Modify attribute value
+ $object->ping_sweep_interval(1);
+
+=back
+
+=back
+
+=head2 ping_timeout( )
+
+=over
+
+Use this method to set or retrieve the ping timeout in seconds.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ping_timeout();
+ # Modify attribute value
+ $object->ping_timeout(10);
+
+=back
+
+=back
+
+=head2 polling_authenticate_snmpv1_only( )
+
+=over
+
+Use this method to enable or disable polling and authenticating using SNMPv1 only.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable polling and authenticating using SNMPv1 only or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->polling_authenticate_snmpv1_only();
+ # Modify attribute value
+ $object->polling_authenticate_snmpv1_only('true');
+
+=back
+
+=back
+
+=head2 purge_expired_device_data( )
+
+=over
+
+Use this method to set or retrieve the number of days a device remains in database after it is no longer found in network.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->purge_expired_device_data();
+ # Modify attribute value
+ $object->purge_expired_device_data(5);
+
+=back
+
+=back
+
+=head2 purge_expired_endhost_data( )
+
+=over
+
+Use this method to set or retrieve the number of days an end host remains in database after it is no longer found in network.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->purge_expired_endhost_data();
+ # Modify attribute value
+ $object->purge_expired_endhost_data(5);
+
+=back
+
+=back
+
+=head2 route_limit( )
+
+=over
+
+Use this method to set or retrieve the route limit.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->route_limit();
+ # Modify attribute value
+ $object->route_limit(10);
+
+=back
+
+=back
+
+=head2 tcp_scan_technique( )
+
+=over
+
+Use this method to set or retrieve the TCP scan method.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'CONNECT' or 'SYN'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->tcp_scan_technique();
+ # Modify attribute value
+ $object->tcp_scan_technique('SYN');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

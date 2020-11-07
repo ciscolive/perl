@@ -1,0 +1,836 @@
+=head1 NAME
+
+Infoblox::Grid::ApprovalWorkflow - An approval object.
+
+=head1 DESCRIPTION
+
+The approval object.
+
+=head1 CONSTRUCTOR
+
+ my $approval = Infoblox::Grid::ApprovalWorkflow->new(
+    'submitter_group'           => $string,                             # Required
+    'approval_group'            => $string,                             # Required
+    'ticket_number_used'        => 'UNUSED' | 'OPTIONAL' | 'REQUIRED',  # Optional, Default is 'UNUSED'
+    'submitter_comment_used'    => 'UNUSED' | 'OPTIONAL' | 'REQUIRED',  # Optional, Default is 'UNUSED'
+    'approver_comment_used'     => 'UNUSED' | 'OPTIONAL' | 'REQUIRED',  # Optional, Default is 'UNUSED'
+    'enable_notify_user'        => 'true' | 'false',                    # Optional, Default is 'false'
+    'enable_notify_group'       => 'true' | 'false',                    # Optional, Default is 'true'
+    'approval_notify_enable'    => 'true' | 'false',                    # Optional, Default is 'true'
+    'approval_notify_to'        => 'SUBMITTER' | 'APPROVER' | 'BOTH',   # Optional, Default is 'BOTH'
+    'approved_notify_enable'    => 'true' | 'false',                    # Optional, Default is 'true'
+    'approved_notify_to'        => 'SUBMITTER' | 'APPROVER' | 'BOTH',   # Optional, Default is 'BOTH'
+    'rejected_notify_enable'    => 'true' | 'false',                    # Optional, Default is 'true'
+    'rejected_notify_to'        => 'SUBMITTER' | 'APPROVER' | 'BOTH',   # Optional, Default is 'BOTH'
+    'succeeded_notify_enable'   => 'true' | 'false',                    # Optional, Default is 'true'
+    'succeeded_notify_to'       => 'SUBMITTER' | 'APPROVER' | 'BOTH',   # Optional, Default is 'BOTH'
+    'failed_notify_enable'      => 'true' | 'false',                    # Optional, Default is 'true'
+    'failed_notify_to'          => 'SUBMITTER' | 'APPROVER' | 'BOTH',   # Optional, Default is 'BOTH'
+    'rescheduled_notify_enable' => 'true' | 'false',                    # Optional, Default is 'true'
+    'rescheduled_notify_to'     => 'SUBMITTER' | 'APPROVER' | 'BOTH',   # Optional, Default is 'BOTH'
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an approval object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $approval = Infoblox::Grid::ApprovalWorkflow->new(
+    submitter_group => 'user-group',
+    approval_group  => 'admin-group',
+ );
+
+ #Submit for addition
+ my $response = $session->add( $approval );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific approval object:
+
+  submitter_group   - Optional. The submitter group name.
+  approval_group    - Optional. The approval group name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+    object          => 'Infoblox::Grid::ApprovalWorkflow',
+    submitter_group => 'user-group',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify ticket_number_used attribute of an approval object.
+ $approval->ticket_number_used('REQUIRED');
+ # Submit modification
+ my $response = $session->modify( $approval );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects
+ my @retrieved_objs = $session->get(
+    object          => 'Infoblox::Grid::ApprovalWorkflow',
+    submitter_group => 'user-group',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_approval = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_approval );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for approval objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search a specific approval object:
+
+  submitter_group   - Optional. The submitter group name.
+  approval_group    - Optional. The approval group name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+    object          => 'Infoblox::Grid::ApprovalWorkflow',
+    submitter_group => 'user-group',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an approval object.
+
+=head2 approval_group( )
+
+=over
+
+Use this method to set or retrieve an approval group name.
+
+=over
+
+=item B<Parameter>
+
+The approval group name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->approval_group();
+ #Modify attribute value
+ $approval->approval_group('admin-group');
+
+=back
+
+=back
+
+=head2 submitter_group( )
+
+=over
+
+Use this method to set or retrieve a submitter group name.
+
+=over
+
+=item B<Parameter>
+
+The submitter group name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->submitter_group();
+ #Modify attribute value
+ $approval->submitter_group('user_group');
+
+=back
+
+=back
+
+=head2 approval_notify_enabled( )
+
+=over
+
+Use this method to enable or disable sending approval task notifications.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to disable this mode or "true" to enable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->approval_notify_enabled();
+ #Modify attribute value
+ $approval->approval_notify_enabled('false');
+
+=back
+
+=back
+
+=head2 approval_notify_to( )
+
+=over
+
+Use this method to set or retrieve to whom approval task notifications are sent.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'APPROVER', 'BOTH' and 'SUBMITTER'. The default value is 'BOTH'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->approval_notify_to();
+ #Modify attribute value
+ $approval->approval_notify_to('APPROVER');
+
+=back
+
+=back
+
+=head2 approved_notify_enabled( )
+
+=over
+
+Use this method to enable or disable sending approved task notifications.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to disable this mode or "true" to enable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->approved_notify_enabled();
+ #Modify attribute value
+ $approval->approved_notify_enabled('false');
+
+=back
+
+=back
+
+=head2 approved_notify_to( )
+
+=over
+
+Use this method to set or retrieve to whom approved task notifications are sent.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'APPROVER', 'BOTH' and 'SUBMITTER'. The default value is 'BOTH'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->approved_notify_to();
+ #Modify attribute value
+ $approval->approved_notify_to('APPROVER');
+
+=back
+
+=back
+
+=head2 approver_comment_used( )
+
+=over
+
+Use this method to set or retrieve the option for approver to provide the comment field.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'OPTIONAL', 'REQUIRED' and 'UNUSED'. The default value is 'UNUSED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->approver_comment_used();
+ #Modify attribute value
+ $approval->approver_comment_used('REQUIRED');
+
+=back
+
+=back
+
+=head2 enable_notify_group( )
+
+=over
+
+Use this method to enable or disable sending email notifications to admin group email addresses.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to disable this mode or "true" to enable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->enable_notify_group();
+ #Modify attribute value
+ $approval->enable_notify_group('false');
+
+=back
+
+=back
+
+=head2 enable_notify_user( )
+
+=over
+
+Use this method to enable or disable sending email notifications to admin member email addresses.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to disable this mode or "true" to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->enable_notify_user();
+ #Modify attribute value
+ $approval->enable_notify_user('true');
+
+=back
+
+=back
+
+=head2 failed_notify_enabled( )
+
+=over
+
+Use this method to enable or disable sending failed task notifications.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to disable this mode or "true" to enable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->failed_notify_enabled();
+ #Modify attribute value
+ $approval->failed_notify_enabled('false');
+
+=back
+
+=back
+
+=head2 failed_notify_to( )
+
+=over
+
+Use this method to set or retrieve to whom failed task notifications are sent.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'APPROVER', 'BOTH' and 'SUBMITTER'. The default value is 'BOTH'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->failed_notify_to();
+ #Modify attribute value
+ $approval->failed_notify_to('APPROVER');
+
+=back
+
+=back
+
+=head2 rejected_notify_enabled( )
+
+=over
+
+Use this method to enable or disable sending rejected task notifications.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to disable this mode or "true" to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->rejected_notify_enabled();
+ #Modify attribute value
+ $approval->rejected_notify_enabled('false');
+
+=back
+
+=back
+
+=head2 rejected_notify_to( )
+
+=over
+
+Use this method to set or retrieve to whom rejected task notifications are sent.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'APPROVER', 'BOTH' and 'SUBMITTER'. The default value is 'BOTH'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->rejected_notify_to();
+ #Modify attribute value
+ $approval->rejected_notify_to('APPROVER');
+
+=back
+
+=back
+
+=head2 rescheduled_notify_enabled( )
+
+=over
+
+Use this method to enable or disable sending rescheduled task notifications.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to disable this mode or "true" to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->rescheduled_notify_enabled();
+ #Modify attribute value
+ $approval->rescheduled_notify_enabled('true');
+
+=back
+
+=back
+
+=head2 rescheduled_notify_to( )
+
+=over
+
+Use this method to set or retrieve to whom rescheduled task notifications are sent.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'APPROVER', 'BOTH' and 'SUBMITTER'. The default value is 'BOTH'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->();
+ #Modify attribute value
+ $approval->('APPROVER');
+
+=back
+
+=back
+
+=head2 submitter_comment_used( )
+
+=over
+
+Use this method to set or retrieve the option for submitter to provide the comment field.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'OPTIONAL', 'REQUIRED' and 'UNUSED'. The default value is 'UNUSED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->submitter_comment_used();
+ #Modify attribute value
+ $approval->submitter_comment_used('OPTIONAL');
+
+=back
+
+=back
+
+=head2 succeeded_notify_enabled( )
+
+=over
+
+Use this method to enable or disable sending succeeded task notifications.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to disable this mode or "true" to enable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->succeeded_notify_enabled();
+ #Modify attribute value
+ $approval->succeeded_notify_enabled('false');
+
+=back
+
+=back
+
+=head2 succeeded_notify_to( )
+
+=over
+
+Use this method to set or retrieve to whom succeeded task notifications are sent.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'APPROVER', 'BOTH' and 'SUBMITTER'. The default value is 'BOTH'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->succeeded_notify_to();
+ #Modify attribute value
+ $approval->succeeded_notify_to('APPROVER');
+
+=back
+
+=back
+
+=head2 ticket_number_used( )
+
+=over
+
+Use this method to set or retrieve the option for submitter to provide the ticket number field.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'OPTIONAL', 'REQUIRED' and 'UNUSED'. The default value is 'UNUSED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $approval->ticket_number_used();
+ #Modify attribute value
+ $approval->ticket_number_used('OPTIONAL');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify, search and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to getting and modifying a approval object>
+
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a approval object>
+
+ my $approval = Infoblox::Grid::ApprovalWorkflow->new(
+    submitter_group => 'user-group',
+    approval_group  => 'admin-group',
+ );
+
+ unless ($approval) {
+        die("Construct approval object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Approval object created successfully\n";
+
+ my $response = $session->add($approval);
+
+ unless ($response) {
+     die("Add approval failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Approval added successfully \n";
+
+B<#Search for a approval object>
+
+ my @retrieved_objs = $session->search(
+    object          => 'Infoblox::Grid::ApprovalWorkflow',
+    submitter_group => 'user-group',
+ );
+
+ $approval = $retrieved_objs[0];
+
+ unless ($approval) {
+     die("Get approval object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get approval successful \n";
+
+ $approval->comment("This is modified object");
+
+ $session->modify($approval)
+    or die("Modify approval failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Approval modified successfully \n";
+
+B<#Get and modify the approval object>
+
+ @retrieved_objs = $session->get(
+    object          => 'Infoblox::Grid::ApprovalWorkflow',
+    submitter_group => 'user-group',
+ );
+
+ $approval = $retrieved_objs[0];
+
+ unless ($approval) {
+     die("Get approval object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get approval successful \n";
+
+ $approval->comment("This is modified object");
+
+ $session->modify($approval)
+    or die("Modify approval failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Approval modified successfully \n";
+
+B<#Remove the approval object>
+
+ @retrieved_objs = $session->get(
+    object          => 'Infoblox::Grid::ApprovalWorkflow',
+    submitter_group => 'user-group',
+ );
+
+ $approval = $retrieved_objs[0];
+
+ unless ($approval) {
+     die("Get approval object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get approval successful \n";
+
+ $session->remove( $approval )
+     or die("Remove approval failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print"Approval removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

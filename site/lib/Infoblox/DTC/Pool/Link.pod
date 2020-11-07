@@ -1,0 +1,100 @@
+=head1 NAME
+
+Infoblox::DTC::Pool::Link - An DTC Pool Link object.
+
+=head1 DESCRIPTION
+
+An DTC Pool Link object.
+
+=head1 CONSTRUCTOR
+
+ my $pool_link = Infoblox::DTC::Pool::Link->new(
+     dtc_pool => $pool, #Optional / Default is undefined
+     ratio    => $uint, #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 dtc_pool( )
+
+=over
+
+Use this method to set or retrieve the associated DTC Pool.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Pool|Infoblox::DTC::Pool> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get dtc_pool value
+ my $pool = $pool_link->dtc_pool();
+
+ #modify dtc_pool value
+ $pool_link->dtc_pool($pool);
+
+=back
+
+=back
+
+=head2 ratio( )
+
+=over
+
+Use this method to set or retrieve the weight of a DTC Pool.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ratio value
+ my $ratio = $pool_link->ratio();
+
+ #modify ratio value
+ $pool_link->ratio(70);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC::Pool|Infoblox::DTC::Pool>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,145 @@
+=head1 NAME
+
+Infoblox::Grid::NTPAccess - Grid Network Time Protocol (NTP) access object.
+
+=head1 DESCRIPTION
+
+The Grid NTP access object is used to specify the access list for the NTP service.
+
+=head1 CONSTRUCTOR
+
+ #Constructor for an Grid NTP access object
+  my $ntp_access = Infoblox::Grid::NTPAccess->new(
+     address        =>  $ipv4addr | "Any"  #Required
+     service        => "Time" | "Time and NTP control"         #Optional / Default "Time"
+    );
+
+This constructed object can be used only when NTP is set to "true" at the grid level.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that can be applied to an NTP access object.
+
+=head2 Infoblox::Grid->ntp_access_list( )
+
+=head2 Infoblox::Grid::Member->ntp_access_list( )
+
+=over
+
+Use this function to specify the NTP access for the grid/member.
+
+=over
+
+=item B<Example>
+
+ # Create NTP access objects
+ my $ntpac1 = Infoblox::Grid::NTPAccess->new(
+                                             address => "2.2.2.2",
+                                             service => "Time",
+                                            );
+
+ my $ntpac2 = Infoblox::Grid::NTPAccess->new(
+                                             address => "4.4.4.4",
+                                             service => "Time and NTP control",
+                                            );
+
+ $grid->ntp_access_list([$ntpac1,$ntpac2]);
+
+ my $grid = $session->get(
+    object  => "Infoblox::Grid",
+    name    => "Infoblox"
+  );
+
+  unless ($grid) {
+      die("get Grid failed:" ,
+          $session->status_code(), $session->status_detail());
+  }
+
+ $grid->ntp_access_list([$ntpac1,$ntpac2]);
+
+ #Applying the changes to appliance through session.
+ $session->modify($grid)
+      or die("modify Grid failed:" ,
+       $session->status_code(), $session->status_detail());
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute value of an NTP access object.
+
+=head2  address( )
+
+=over
+
+Use this method to set or retrieve the IPv4 address of the external NTP client. Use "Any" to apply this permission to all clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are an IPv4 address of the external NTP client, or "Any".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address
+ my $address = $ntp_access->address();
+ #Modify address
+ $ntp_access->address("4.4.4.4");
+
+=back
+
+=back
+
+=head2 service( )
+
+=over
+
+Use this method to specify to which service this NTP Access object applies.
+
+=over
+
+=item B<Parameter>
+
+Valid values are "Time" or "Time and NTP control".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get service
+ my $service = $ntp_access->service();
+ #Modify service
+ $ntp_access->service("Time and NTP control");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::Member|Infoblox::Grid::Member>, L<Infoblox::Grid|Infoblox::Grid>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

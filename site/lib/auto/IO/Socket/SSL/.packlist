@@ -1,0 +1,9 @@
+/opt/perl/site/lib/IO/Socket/SSL.pm
+/opt/perl/site/lib/IO/Socket/SSL.pod
+/opt/perl/site/lib/IO/Socket/SSL/Intercept.pm
+/opt/perl/site/lib/IO/Socket/SSL/PublicSuffix.pm
+/opt/perl/site/lib/IO/Socket/SSL/Utils.pm
+/opt/perl/site/man/man3/IO::Socket::SSL.3
+/opt/perl/site/man/man3/IO::Socket::SSL::Intercept.3
+/opt/perl/site/man/man3/IO::Socket::SSL::PublicSuffix.3
+/opt/perl/site/man/man3/IO::Socket::SSL::Utils.3

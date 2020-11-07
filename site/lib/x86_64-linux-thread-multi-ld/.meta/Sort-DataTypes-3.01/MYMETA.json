@@ -1,0 +1,45 @@
+{
+   "abstract" : "Sort a list of data using methods relevant to the type of data",
+   "author" : [
+      "Sullivan Beck <sbeck@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Sort-DataTypes",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::Inter" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Date::Manip" : "0",
+            "Exporter" : "0",
+            "Storable" : "0",
+            "perl" : "5.000"
+         }
+      }
+   },
+   "provides" : {
+      "Sort::DataTypes" : {
+         "file" : "lib/Sort/DataTypes.pm",
+         "version" : "3.01"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "3.01",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

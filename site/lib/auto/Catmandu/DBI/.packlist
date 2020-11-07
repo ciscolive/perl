@@ -1,0 +1,13 @@
+/opt/perl/site/lib/Catmandu/DBI.pm
+/opt/perl/site/lib/Catmandu/Importer/DBI.pm
+/opt/perl/site/lib/Catmandu/Store/DBI.pm
+/opt/perl/site/lib/Catmandu/Store/DBI/Bag.pm
+/opt/perl/site/lib/Catmandu/Store/DBI/Handler.pm
+/opt/perl/site/lib/Catmandu/Store/DBI/Handler/MySQL.pm
+/opt/perl/site/lib/Catmandu/Store/DBI/Handler/Pg.pm
+/opt/perl/site/lib/Catmandu/Store/DBI/Handler/SQLite.pm
+/opt/perl/site/lib/Catmandu/Store/DBI/Iterator.pm
+/opt/perl/site/man/man3/Catmandu::DBI.3
+/opt/perl/site/man/man3/Catmandu::Importer::DBI.3
+/opt/perl/site/man/man3/Catmandu::Store::DBI.3
+/opt/perl/site/man/man3/Catmandu::Store::DBI::Bag.3

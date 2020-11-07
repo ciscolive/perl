@@ -1,0 +1,259 @@
+=head1 NAME
+
+Infoblox::DTC::Topology::Rule - A DTC Topology Rule object.
+
+=head1 DESCRIPTION
+
+Topology Rule describes the behavior of a load balancer used for a matching condition contained in the rules for a 'TOPOLOGY' load balancing method.
+
+=head1 CONSTRUCTOR
+
+ my $rule = Infoblox::DTC::Topology::Rule->new(
+    sources          => [$source1, $source2, ...], #Optional / default is undefined
+    destination_type => 'POOL' | 'SERVER',         #Optional / default is undefined
+    destination_link => $link_object               #Optional / default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a Topology Rule object. Note that to add a rule to the Infoblox appliance, you must add it to the existing Topology object. To remove a rule from the Infoblox appliance, you must remove it from the existing Topology.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  topology         - Optional. A DTC Topology the rule belongs to.
+  destination_type - Optional. The type of the destination link.
+  destination_link - Optional. The destination link value.
+  valid            - Optional. The flag that indicates whether a rule is valid or not.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Topology::Rule',
+     destination_type => 'POOL',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment
+ $rule->comment('modified_rule1');
+ #Submit modification
+ my $response = $session->modify($rule);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference> 
+
+ Apply the following attribute to get a specific object:
+
+  topology         - Optional. A DTC Topology the rule belongs to.
+  destination_type - Optional. The type of the destination link.
+  destination_link - Optional. The destination link value.
+  valid            - Optional. The flag that indicates whether a rule is valid or not.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Topology::Rule',
+     valid  => 'true',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 destination_link( )
+
+=over
+
+Use this method to set or retrieve a DTC Topology Rule destination link.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Pool|Infoblox::DTC::Pool> or L<Infoblox::DTC::Server|Infoblox::DTC::Server> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get destination_link value
+ my $destination_link = $rule->destination_link();
+
+ #modify destination_link value
+ $rule->destination_link($pool_link);
+
+
+=back
+
+=back
+
+=head2 destination_type( )
+
+=over
+
+Use this method to set or retrieve the destination type for a DTC Topology rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'POOL' and 'SERVER'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get destination_type value
+ my $destination_type = $rule->destination_type();
+
+ #modify destination_type value
+ $rule->destination_type('SERVER');
+
+=back
+
+=back
+
+=head2 sources( )
+
+=over
+
+Use this method to set or retrieve conditions for matching sources.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::DTC::Topology::Rule::Source|Infoblox::DTC::Topology::Rule::Source> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get sources value
+ my @sources = $rule->sources();
+
+ #modify sources value
+ $rule->sources([$source1, $source2]);
+
+=back
+
+=back
+
+=head2 topology( )
+
+=over
+
+Use this method to retrieve the DTC Topoloyg to which a rule belongs. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an partial L<Infoblox::DTC::Topology|Infoblox::DTC::Topology> object.
+
+=item B<Example>
+
+ #get sources value
+ my $topology = $rule->topology();
+
+=back
+
+=back
+
+=head2 valid( )
+
+=over
+
+Use this method to retrieve the status of GeoIP labels. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns 'true' if GeoIP labels exist or 'false' if they do not.
+
+=item B<Example>
+
+ #get sources value
+ my $valid = $rule->valid();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::DTC::Pool|Infoblox::DTC::Pool>, L<Infoblox::DTC::Server|Infoblox::DTC::Server>, L<Infoblox::DTC::Topology::Rule::Source|Infoblox::DTC::Topology::Rule::Source>, L<Infoblox::DTC::Topology|Infoblox::DTC::Topology>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

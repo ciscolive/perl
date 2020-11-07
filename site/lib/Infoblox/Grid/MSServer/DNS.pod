@@ -1,0 +1,715 @@
+=head1 NAME
+
+Infoblox::Grid::MSServer::DNS - Grid Microsoft (r) Server DNS object.
+
+=head1 DESCRIPTION
+
+A Grid Microsoft Server DNS object is a single Microsoft DNS server managed by a Grid member.
+
+You can use Infoblox::Grid::MSServer::DNS to configure some of the DNS properties of a Microsoft DNS server, including enabling/disabling the DNS service. The service configurations of a Grid are not inherited by this object.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a Microsoft Server DNS object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Grid member object:
+
+  address     - Optional. A member address or name in FQDN (Fully Qualified Domain Name) format.
+  server_ip   - Optional. A member address.
+  server_name - Optional. A member name in FQDN (Fully Qualified Domain Name) format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object    => "Infoblox::Grid::MSServer::DNS",
+     server_ip => "10.0.0.1");
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment of a Grid Microsoft DNS server.
+ $grid_msserver_dns->enable_dns('true');
+ # Submit modification
+ my $response = $session->modify( $grid_msserver_dns );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific Grid member object:
+
+  server_ip   - Required. A member address.
+  server_name - Optional. A member name in FQDN (Fully Qualified Domain Name) format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object      => "Infoblox::Grid::MSServer::DNS",
+     server_name => "domain.*");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Grid Microsoft DNS server.
+
+=head2 manage_dns()
+
+=over
+
+Retrieve or set the managed state of the Microsoft DNS server. When setting the managed state, use true to enable or false to disable synchronization of the DNS server. Setting the status does not stop or start the actual DNS server but controls whether it is synchronized.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get manage_dns
+  my $manage_dns = $msserver_dns->manage_dns();
+  #Modify manage_dns
+  $msserver_dns->manage_dns("true");
+
+=back
+
+=back
+
+=head2 enable_dns()
+
+=over
+
+Set the DNS service status of the Microsoft DNS server. When setting the service status, use true to enable or false to disable the DNS service on the Microsoft DNS server. Setting the service status stops or starts the actual DNS service. This only applies if manage_dns() is true.
+
+When setting the service status, the Microsoft DNS server will be started or stopped at the next synchronization.
+
+Include the specified parameter to set the attribute value. This setting is read-only. To get the actual status of the service, use the status() method.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get enable_dns
+  my $enable_dns = $msserver_dns->enable_dns();
+  #Modify enable_dns
+  $msserver_dns->enable_dns("true");
+
+=back
+
+=back
+
+=head2 enable_dns_reports_sync( )
+
+=over
+
+Use this method to enable or disable DNS reports data synchronization for this Microsoft server.
+
+Setting this method to a defined value implicitly sets the override_enable_dns_reports_data_sync method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_enable_dns_reports_sync method to "false".
+
+Note that when enable_dns_reports_sync is set to a defined value and override_enable_dns_reports_sync is set to "false", the last operation takes precedence. Thus the sequence $object->enable_dns_reports_sync("false"); $object->override_enable_dns_reports_sync("false"); will set override_enable_dns_reports_sync to "false", and the sequence $object->override_enable_dns_reports_sync("false"); $object->enable_dns_reports_sync("false"); will result in override_enable_dns_reports_sync="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable DNS reports data synchronization for this Microsoft server and "false" to forbid it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dns_reports_sync
+ my $enable_dns_reports_sync = $msserver_dns->enable_dns_reports_sync();
+ #Modify enable_dns_reports_sync
+ $msserver_dns->enable_dns_reports_sync("true");
+
+=back
+
+=back
+
+=head2 enable_monitoring( )
+
+=over
+
+Use this method to enable or disable the monitoring and control of DNS service on Microsoft Server.
+
+Setting this method to a defined value implicitly sets the override_enable_monitoring method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_enable_monitoring method to "false".
+
+Note that when enable_monitoring is set to a defined value and override_enable_monitoring is set to "false", the last operation takes precedence. Thus the sequence $object->enable_monitoring("true"); $object->override_enable_monitoring("false"); will set override_enable_monitoring to "false", and the sequence $object->override_enable_monitoring("false"); $object->enable_monitoring("true"); will result in override_enable_monitoring="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable monitoring and control of DNS service on all Microsoft servers in the Grid and "false" to forbid it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_monitoring value
+ my $enable_monitoring = $msserver_dns->enable_monitoring();
+ #Modify enable_monitoring value
+ $msserver_dns->enable_monitoring("true");
+
+=back
+
+=back
+
+=head2 login_name( )
+
+=over
+
+Use this method to set or retrieve the Microsoft Server DNS login name.
+
+Setting this method to a defined value implicitly sets the override_login method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_login attribute to "false".
+
+Note that when login_name is set to a defined value and override_dlogin_name is set to "false", the last operation takes precedence. Thus the sequence $object->login_name('newuser'); $object->override_login("false"); will set override_login to "false", and the sequence $object->override_login("false"); $object->login_name('newuser'); will result in override_login="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+When setting a value that requires a domain name, prepend the domain information followed by a backslash to the username: "domain\username".
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the login name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get login value
+ my $login = $msserver_dns->login_name();
+ #Modify login value
+ $msserver_dns->login_name("newuser");
+
+=back
+
+=back
+
+=head2 login_password( )
+
+=over
+
+Use this method to set a password for the Microsoft Server DNS. This field is used only if the login field for this member is defined. This is a write-only attribute.
+
+This field cannot be retrieved.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the password.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set the password
+ $msserver_dns->login_password("iG&ojG97Y");
+
+=back
+
+=back
+
+=head2 override_enable_dns_reports_sync( )
+
+=over
+
+The override_enable_dns_reports_sync attribute controls whether the enable_dns_reports_sync method values of the Microsoft Server DNS object are used, instead of the Grid default.
+
+The override_enable_dns_reports_sync attribute can be specified explicitly. It is also set implicitly when enable_dns_reports_sync is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for enable_dns_reports_sync. Set the parameter to "false" to inherit the grid-level setting for enable_dns_reports_sync. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_enable_dns_reports_sync
+ my $override_enable_dns_reports_sync = $msserver_dns->override_enable_dns_reports_sync();
+ #Modify override_enable_dns_reports_sync
+ $msserver_dns->override_enable_dns_reports_sync("true");
+
+=back
+
+=back
+
+=head2 override_enable_monitoring( )
+
+=over
+
+The override_enable_monitoring attribute controls whether the enable_monitoring method values of the Microsoft Server DNS object are used, instead of the Grid default.
+
+The override_enable_monitoring attribute can be specified explicitly. It is also set implicitly when enable_monitoring is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for enable_monitoring. Set the parameter to "false" to inherit the grid-level setting for enable_monitoring. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_enable_monitoring
+ my $override_enable_monitoring = $msserver_dns->override_enable_monitoring();
+ #Modify override_enable_monitoring
+ $msserver_dns->override_enable_monitoring("true");
+
+=back
+
+=back
+
+=head2 override_login( )
+
+=over
+
+The override_login attribute controls whether the login_name method values of the Microsoft Server DNS are used, instead of the Grid default.
+
+The override_login attribute can be specified explicitly. It is also set implicitly when login_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for login_name. Set the parameter to "false" to inherit the Grid-level setting for login_name. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_login
+ my $override_login = $msserver_dns->override_login();
+ #Modify override_login
+ $msserver_dns->override_login("true");
+
+=back
+
+=back
+
+=head2 override_synchronization_interval( )
+
+=over
+
+The override_synchronization_interval attribute controls whether the synchronization_interval method values of the Microsoft Server DNS are used, instead of the Grid default.
+
+The override_synchronization_interval attribute can be specified explicitly. It is also set implicitly when synchronization_interval is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for synchronization_interval. Set the parameter to "false" to inherit the Grid-level setting for synchronization_interval. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_synchronization_interval
+ my $override_synchronization_interval = $msserver_dns->override_synchronization_interval();
+ #Modify override_synchronization_interval
+ $msserver_dns->override_synchronization_interval("true");
+
+=back
+
+=back
+
+=head2 status()
+
+=over
+
+Retrieve the running status of the DNS service of the Microsoft DNS server. Returns a status that is "running", "stopped", or "error". The returned status is the latest known status as of the date returned by the status_last_updated() attribute.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get status
+  my $status = $msserver_dns->status();
+
+=back
+
+=back
+
+=head2 status_detail()
+
+=over
+
+Retrieve the detailed running status of the DNS service of the Microsoft DNS server. The returned status is the latest known status.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get status
+  my $status = $msserver_dns->status();
+
+=back
+
+=back
+
+=head2 status_last_updated()
+
+=over
+
+Retrieve the time when the DNS service status of the Microsoft DNS server was last updated.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get status_last_updated
+  my $status_last_updated = $msserver_dns->status_last_updated();
+
+=back
+
+=back
+
+=head2 synchronization_interval( )
+
+=over
+
+Use this method to set or retrieve the synchronization interval of the Microsoft Server DNS.
+
+Setting this method to a defined value implicitly sets the override_synchronization_interval method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_synchronization_interval attribute to "false".
+
+Note that when synchronization_interval is set to a defined value and override_dsynchronization_interval is set to "false", the last operation takes precedence. Thus the sequence $object->synchronization_interval(10); $object->override_synchronization_interval("false"); will set override_synchronization_interval to "false", and the sequence $object->override_synchronization_interval("false"); $object->synchronization_interval(10); will result in override_synchronization_interval="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get synchronization_interval value
+ my $synchronization_interval = $msserver_dns->synchronization_interval();
+ #Modify synchronization_interval value
+ $msserver_dns->synchronization_interval(10);
+
+=back
+
+=back
+
+=head2 last_sync_ts()
+
+=over
+
+Retrieve the timestamp of the end of the last synchronization attempt related to zone list and DNS properties.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get last_sync_ts
+  my $last_sync_ts = $msserver_dns->last_sync_ts();
+
+=back
+
+=back
+
+=head2 last_sync_status()
+
+=over
+
+Retrieve the result of the last synchronization attempt, if last_sync_ts is defined. Valid values are "Ok", "Warning", or "Error".
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get last_sync_status
+  my $last_sync_status = $msserver_dns->last_sync_status();
+
+=back
+
+=back
+
+=head2 last_sync_detail()
+
+=over
+
+Retrieve the detailed result of the last synchronization attempt, if last_sync_ts is defined.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get last_sync_detail
+  my $last_sync_detail = $msserver_dns->last_sync_detail();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with a Grid Microsoft DNS Server object. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $msserver_dns->extattrs();
+
+=back
+
+=back
+
+=head2 extensible_attributes()
+
+=over
+
+Use this method to retrieve the extensible attributes of the associated Grid Microsoft DNS Server object.
+
+This method is read-only. Use the Infoblox::Grid::MSServer object to set or modify the extensible attributes of the Grid Microsoft DNS Server object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get extensible_attributes
+  my $extensible_attributes = $msserver_dns->extensible_attributes();
+
+=back
+
+=back
+
+=head2 address()
+
+=over
+
+Use this method to retrieve the IP address or FQDN of the associated Grid Microsoft DNS Server object.
+
+This method is read-only. Use the Infoblox::Grid::MSServer object to set or modify the IP address of the Grid Microsoft DNS Server object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get address
+  my $address = $msserver_dns->address();
+
+=back
+
+=back
+
+=head2 name()
+
+=over
+
+Use this method to retrieve the FQDN of the associated Grid Microsoft DNS Server object.
+
+This method is read-only. Use the Infoblox::Grid::MSServer object to set or modify the IP address of the Grid Microsoft DNS Server object.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get address
+  my $name = $msserver_dns->name();
+
+=back
+
+=back
+
+=head2 forwarders()
+
+=over
+
+Use this method to specify forwarders for the Microsoft DNS server. A forwarder is essentially a name server to which other name servers first send all of their off-site queries. The forwarder builds up a cache of information, avoiding the need for the other name servers to send queries off-site.
+
+This setting is a per Microsoft DNS server setting. It doesn't override the grid-level setting and the grid-level setting does not apply if no value is defined for this Microsoft DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify an array of IPV4/IPV6 addresses to set the list of forwarders.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get forwarders
+  my $forwarders = $msserver_dns->forwarders();
+  #Modify forwarders
+  $msserver_dns->forwarders(['10.0.0.1','10.0.0.2']);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::MSServer|Infoblox::Grid::MSServer>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

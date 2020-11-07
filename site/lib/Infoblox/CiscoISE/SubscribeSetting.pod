@@ -1,0 +1,127 @@
+=head1 NAME
+
+Infoblox::CiscoISE::PublishSetting - A Cisco ISE subscribe settings.
+
+=head1 DESCRIPTION
+
+The Cisco ISE subscribe setting contains list of extensible attributes that are enabled for subscription from Cisco ISE server.
+
+=head1 CONSTRUCTOR
+
+ my $subscribe_setting = Infoblox::CiscoISE::PublishSetting->new(
+     enabled_attributes   => ['DOMAINNAME' | 'ENDPOINT_PROFILE' | 'SECURITY_GROUP' | 'SESSION_STATE' | 'SSID' | 'USERNAME' | 'VLAN', ...], #Required
+     mapped_ea_attributes => [$ea_assoc1, $ea_assoc2, ...],                                                                                #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not have any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to Cisco ISE subscribe settings object.
+
+=head2 Infoblox::CiscoISE::Endpoint->subscribe_settings( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint subscribe settings.
+See L<Infoblox::CiscoISE::Endpoint-E<gt>subscribe_settings()|Infoblox::CiscoISE::Endpoint/subscribe_settings()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get subscribe_settings value
+ my $subscribe_settings = $object->subscribe_settings();
+
+ #Modify subscribe_settings value
+ $object->subscribe_settings($subscribe_settings);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Cisco ISE subscribe settings.
+
+=head2 enabled_attributes( )
+
+=over
+
+Use this method to set or retrieve the list of attributes that are enabled for subscription from the Cisco ISE server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array that contains following values: 'DOMAINNAME', 'ENDPOINT_PROFILE', 'SECURITY_GROUP', 'SESSION_STATE', 'SSID', 'USERNAME', 'VLAN'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enabled_attributes value
+ my $enabled_attributes = $object->enabled_attributes();
+
+ #Modify enabled_attributes value
+ $object->enabled_attributes(['DOMAINNAME', 'SECURITY_GROUP']);
+
+=back
+
+=back
+
+=head2 mapped_ea_attributes( )
+
+=over
+
+Use this method to set or retrieve the list of extensible attribute associations that are mapped to Cisco ISE attributes.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::CiscoISE::EAAssociation|Infoblox::CiscoISE::EAAssociation> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mapped_ea_attributes value
+ my $mapped_ea_attributes = $object->mapped_ea_attributes();
+
+ #Modify mapped_ea_attributes value
+ $object->mapped_ea_attributes([$ea_assoc1, $ea_assoc2]);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::CiscoISE::Endpoint|Infoblox::CiscoISE::Endpoint>,
+L<Infoblox::CiscoISE::Endpoint-E<gt>subscribe_settings()|Infoblox::CiscoISE::Endpoint/subscribe_settings()/>,
+L<Infoblox::CiscoISE::EAAssociation|Infoblox::CiscoISE::EAAssociation>, 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

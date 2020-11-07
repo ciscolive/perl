@@ -1,0 +1,539 @@
+=head1 NAME
+
+Infoblox::Grid::Member::ThreatProtection - Member Threat Protection object.
+
+=head1 DESCRIPTION
+
+This object provides information about the member Threat protection settings.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Grid::Member::ThreatProtection object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Member Threat Protection object.
+
+  grid_member    - Optional. The Grid member name.
+  hardware_model - Optional. The Grid member hardware model name.
+  hardware_type  - Optional. The Grid member hardware type.
+  profile        - Optional. The Threat Protection profile object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object'      => 'Infoblox::Grid::Member::ThreatProtection',
+     'grid_member' => 'host.com',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify attributes of an member object.
+ $member->enable_service('true');
+ $member->override_events_per_second_per_rule('true');
+ $member->events_per_second_per_rule('2');
+ $member->override_disable_multiple_dns_tcp_request('true');
+ $member->disable_multiple_dns_tcp_request('true');
+
+ # Submit modification
+ my $response = $session->modify( $member );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search a specific Member Threat Protection object.
+
+  grid_member    - Optional. The Grid member name.
+  hardware_model - Optional. The Grid member hardware model name (regular expression).
+  hardware_type  - Optional. The Grid member hardware type (regular expression).
+  profile        - Optional. The Threat Protection profile object.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     'object'      => 'Infoblox::Grid::Member::ThreatProtection',
+     'grid_member' => 'host.com',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This object provides information about the member threat protection settings.
+
+=head2 current_ruleset( )
+
+=over
+
+Use this method to set or retrieve the current member ruleset.
+
+Setting this method to a defined value implicitly sets the override_current_ruleset method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_current_ruleset attribute to "false".
+
+Note that when current_ruleset is set to a defined value and override_dcurrent_ruleset is set to "false", the last operation takes precedence. Thus the sequence $object->current_ruleset($rs); $object->override_current_ruleset("false"); will set override_current_ruleset to "false", and the sequence $object->override_current_ruleset("false"); $object->current_ruleset($rs); will result in override_current_ruleset="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::ThreatProtection::Ruleset|Infoblox::Grid::ThreatProtection::Ruleset> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $obj->current_ruleset();
+ #Modify attribute value
+ $obj->current_ruleset($rs);
+
+=back
+
+=back
+
+=head2 enable_nat_rules( )
+
+=over
+
+Use this method to enable or disable NAT (Network Address Translation) mapping for threat protection at the member level.
+
+Setting this method to a defined value implicitly sets the override_enable_nat_rules method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_enable_nat_rules attribute to "false".
+
+Note that when enable_nat_rules is set to a defined value and override_denable_nat_rules is set to "false", the last operation takes precedence. Thus the sequence $object->enable_nat_rules($nat_rules); $object->override_enable_nat_rules("false"); will set override_enable_nat_rules to "false", and the sequence $object->override_enable_nat_rules("false"); $object->enable_nat_rules($nat_rules); will result in override_enable_nat_rules="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+Specify 'true' to enable NAT mapping for threat protection or 'false' to disable it. The default value is 'false.'
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $object->enable_nat_rules();
+
+ #Modify attribute value
+ $object->enable_nat_rules('true');
+
+=back
+
+=back
+
+=head2 enable_service( )
+
+=over
+
+Use this method to enable or disable the Threat protection service on the member.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable Threat protection service on the member. Set the parameter to "false" to disable the service.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->enable_service();
+ # Modify attribute value
+ $object->enable_service('true');
+
+=back
+
+=back
+
+=head2 events_per_second_per_rule( )
+
+=over
+
+Use this method to set or retrieve the number of events logged per second per rule.
+
+=over
+
+=item B<Parameter>
+
+The number of events logged per second per rule in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->events_per_second_per_rule();
+ # Modify attribute value
+ $object->events_per_second_per_rule('2');
+
+=back
+
+=back
+
+=head2 grid_member( )
+
+=over
+
+Use this method to retrieve a Grid member name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->grid_member();
+
+=back
+
+=back
+
+=head2 hardware_model( )
+
+=over
+
+Use this method to retrieve the hardware model name of the Grid member. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get hardware_model value
+ my $value = $object->hardware_model();
+
+=back
+
+=back
+
+=head2 hardware_type( )
+
+=over
+
+Use this method to retrieve the type of the Grid member hardware. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get hardware_type value
+ my $value = $object->hardware_type();
+
+=back
+
+=back
+
+=head2 override_events_per_second_per_rule( )
+
+=over
+
+Use this method to set or retrieve the override flag for the number of events logged per second per rule.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_events_per_second_per_rule flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->override_events_per_second_per_rule();
+ # Modify attribute value
+ $object->override_events_per_second_per_rule('true');
+
+=back
+
+=back
+
+=head2 disable_multiple_dns_tcp_request( )
+
+=over
+
+Use this method to disable multiple BIND responses via TCP connection.
+
+Setting this method to a defined value implicitly sets the override_disable_multiple_dns_tcp_request method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_disable_multiple_dns_tcp_request attribute to "false".
+
+Note that when config is set to a defined value and override_disable_multiple_dns_tcp_request is set to "false", the last operation takes precedence. Thus the sequence $object->disable_multiple_dns_tcp_request($value); $object->override_disable_multiple_dns_tcp_request("false"); will set override_disable_multiple_dns_tcp_request to "false", and the sequence $object->override_disable_multiple_dns_tcp_request("false"); $object->disable_multiple_dns_tcp_request($value); will result in override_disable_multiple_dns_tcp_request="true".
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to disable multiple TCP requests. Set the parameter to "false" to enable multiple TCP requests.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->disable_multiple_dns_tcp_request();
+ # Modify attribute value
+ $object->disable_multiple_dns_tcp_request('true');
+
+=back
+
+=back
+
+=head2 nat_rules( )
+
+=over
+
+Use this method to set or retrieve the list of NAT mapping rules cofigured for the member. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::ThreatProtection::NATRule|Infoblox::Grid::ThreatProtection::NATRule> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $obj->nat_rules();
+ #Modify attribute value
+ $obj->nat_rules($nat_rules);
+
+=back
+
+=back
+
+=head2 override_current_ruleset( )
+
+=over
+
+The override_current_ruleset attribute controls whether the member's current ruleset value is used, instead of the Grid default.
+
+The override_current_ruleset attribute can be specified explicitly. It is also set implicitly when current_ruleset is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_current_ruleset flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_current_ruleset from the member
+ my $override = $object->override_current_ruleset();
+ #Modify override_current_ruleset
+ $object->override_current_ruleset("true");
+
+=back
+
+=back
+
+=head2 override_disable_multiple_dns_tcp_request( )
+
+=over
+
+Use this method to set or retrieve the override flag for disabling multiple BIND responses via TCP connection.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_disable_multiple_dns_tcp_request flag or "false" to unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->override_disable_multiple_dns_tcp_request();
+ # Modify attribute value
+ $object->override_disable_multiple_dns_tcp_request('true');
+
+=back
+
+=back
+
+=head2 override_enable_nat_rules( )
+
+=over
+
+The override_enable_nat_rules attribute controls whether the member's current enable_nat_rules value is used, instead of the Grid default.
+
+The override_enable_nat_rules attribute can be specified explicitly. It is also set implicitly when enable_nat_rules is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_enable_nat_rules flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_enable_nat_rules from the member
+ my $override = $object->override_enable_nat_rules();
+ #Modify override_enable_nat_rules
+ $object->override_enable_nat_rules("true");
+
+=back
+
+=back
+
+=head2 profile( )
+
+=over
+
+Use this method to set or retrieve the Threat Protection profile that is used to group this member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ThreatProtection::Profile|Infoblox::Grid::ThreatProtection::Profile> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get profile value
+ my $value = $object->profile();
+
+ #Modify profile value
+ $object->profile($profile);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Grid::ThreatProtection::NATRule|Infoblox::Grid::ThreatProtection::NATRule>,
+L<Infoblox::Grid::ThreatProtection::Profile|Infoblox::Grid::ThreatProtection::Profile>,
+L<Infoblox::Grid::ThreatProtection|Infoblox::Grid::ThreatProtection>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

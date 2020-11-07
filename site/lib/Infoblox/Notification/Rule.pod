@@ -1,0 +1,759 @@
+=head1 NAME
+
+Infoblox::Notification::Rule - A notification rule object.
+
+=head1 DESCRIPTION
+
+The notification rule object provides configuration for notification of endpoints when the appropriate event occurs.
+
+=head1 CONSTRUCTOR
+
+ my $notification_rule = Infoblox::Notification::Rule->new(
+     event_type                          => 'DNS_RPZ' | 'DHCP_LEASES' | 'SECURITY_ADP' |
+                                            'IPAM',                                           # Required
+     expression_list                     => [$rule_op1, $rule_op2, ...],                      # Required
+     name                                => $string,                                          # Required
+     notification_action                 => 'CISCOISE_QUARANTINE' | 'CISCOISE_PUBLISH' |
+                                            'RESTAPI_TEMPLATE_INSTANCE',                      # Required
+     notification_target                 => $ise_endpoint | $rest_endpoint | $dxl_endpoint    # Required
+     all_members                         => 'true' | 'false',                                 # Optional / if no selected_members given default is 'true'
+     comment                             => $string,                                          # Optional / Default is undefined
+     disable                             => 'true' | 'false',                                 # Optional / Default is 'false'
+     override_publish_settings           => 'true' | 'false',                                 # Optional default is 'false'
+     publish_settings                    => $publish_settings,                                # Optional / Default is undefined
+     selected_members                    => [$member1, $member2, ...],                        # Optional / Default is empty list
+     template_instance                   => $instance,                                        # Optional / Default is undefined
+     enable_event_deduplication          => 'true' | 'false',                                 # Optional / Default is 'false'
+     event_deduplication_lookback_period => $uint,                                            # Optional / Default is 600
+     enable_event_deduplication_log      => 'true' | 'false',                                 # Optional / Default is 'false'
+     event_deduplication_fields          => [ 'SOURCE_IP' | 'QUERY_NAME' | 'RPZ_POLICY' |
+                                              'RPZ_TYPE' | 'QUERY_TYPE' | 'NETWORK' |
+                                              'NETWORK_VIEW', ... ],                          # Optional / Default is empty list
+                                                                                              # Required if enable_event_deduplication is set to 'true'
+     
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a notification rule object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add the object to the Infoblox appliance.
+See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $object = Infoblox::Notification::Rule->new(
+     event_type          => 'DNS_RPZ',
+     expression_list     => [$rule_start_list, $rule_op1, $rule_op2, $rule_end_list],
+     name                => 'ise_rule1',
+     notification_action => 'CISCOISE_QUARANTINE',
+     notification_target => $endpoint,
+ );
+
+ #Submit for addition
+ my $response = $session->add($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific notification rule object:
+
+  comment             - Optional. The notification rule comment in string format.
+  name                - Optional. The notification rule name in string format.
+  event_type          - Optional. The notification rule event type in string format.
+  notification_action - Optional. The notification rule notification action in string format.
+  notification_target - Optional. The Infoblox::CiscoISE::Endpoint, Infoblox::Notification::REST::Endpoint or Infoblox::DXL::Endpoint object.
+
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Notification::Rule',
+     name   => 'ise_rule1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify the object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify comment value
+ $object->comment('this is a modified comment');
+
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove the object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP range object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Notification::Rule',
+     name   => 'ise_rule1',
+ );
+
+ #Find the desired object from the retrieved list
+ my $desired_object = $retrieved_objs[0];
+
+ #Submit for removal
+ my $response = $session->remove($desired_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for the notification rule object:
+
+  comment             - Optional. The notification rule comment in string format (regexp).
+  name                - Optional. The notification rule name in string format (regexp).
+  event_type          - Optional. The notification rule event type in string format (exact)
+  notification_action - Optional. The notification rule notification action in string format (exact).
+  notification_target - Optional. The Infoblox::CiscoISE::Endpoint, Infoblox::Notification::REST::Endpoint or Infoblox::DXL::Endpoint object.
+
+=item B<Examples>
+
+ # search for objects
+ my @retrieved_objs = $session->search(
+     object  => 'Infoblox::Notification::Rule',
+     name    => '^ise.*',
+     comment => '.*comment',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a notification rule.
+
+=head2 all_members( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the notification rule engine is run on all member or on selected members.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to run notification rule engine on all members, or 'false' to run it on selected members. The default value unless selected_members are given is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get all_members value
+ my $all_members = $object->all_members();
+
+ #Modify all_members value
+ $object->all_members('false');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the notification rule comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+ #Modify comment value
+ $object->comment('ise comment');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the notification rule is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable the notification rule or 'false' to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable value
+ my $disable = $object->disable();
+
+ #Modify disable value
+ $object->disable('false');
+
+=back
+
+=back
+
+=head2 enable_event_deduplication( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the notification rule for event deduplication is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameters>
+
+Specify 'true' to enable event deduplication or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_event_deduplication value
+ my $enable_event_deduplication = $object->enable_event_deduplication();
+
+ #Modify enable_event_deduplication value
+ $object->enable_event_deduplication('true');
+
+=back
+
+=back
+
+=head2 enable_event_deduplication_log( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the notification rule event deduplication syslog is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameters>
+
+Specify 'true' to enable event deduplication syslog or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_event_deduplication_log value
+ my $enable_event_deduplication_log = $object->enable_event_deduplication_log();
+
+ #Modify enable_event_deduplication_log value
+ $object->enable_event_deduplication_log('true');
+
+=back
+
+=back
+
+=head2 event_deduplication_fields( )
+
+=over
+
+Use this method to set or retrieve the fields in the notification rule for event deduplication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameters>
+
+The valid value is an array reference that contains following values: 'SOURCE_IP', 'QUERY_NAME', 'RPZ_POLICY', 'RPZ_TYPE',
+'QUERY_TYPE', 'NETWORK', 'NETWORK_VIEW'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get event_deduplication_fields value
+ my $event_deduplication_fields = $object->event_deduplication_fields();
+
+ #Modify event_deduplication_fields value
+ $object->event_deduplication_fields(['SOURCE_IP', 'QUERY_TYPE']);
+
+=back
+
+=back
+
+=head2 event_deduplication_lookback_period( )
+
+=over
+
+Use this method to set or retrieve the lookback period for the notification rule for event deduplication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameters>
+
+The valid value is an unsigned integer between 5 and 900 that represents the lookback period (in seconds).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get event_deduplication_lookback_period value
+ my $event_deduplication_lookback_period = $object->event_deduplication_lookback_period();
+
+ #Modify event_deduplication_lookback_period value
+ $object->event_deduplication_lookback_period(300);
+
+=back
+
+=back
+
+=head2 event_type( )
+
+=over
+
+Use this method to set or retrieve the notification rule event type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'DNS_RPZ', 'IPAM', 'DHCP_LEASES', 'ANALYTICS_DNS_TUNNEL', 'SECURITY_ADP', 'DB_CHANGE_DHCP_FIXED_ADDRESS_IPV4',
+'DB_CHANGE_DHCP_FIXED_ADDRESS_IPV6', 'DB_CHANGE_DHCP_NETWORK_IPV4', 'DB_CHANGE_DHCP_NETWORK_IPV6', 'DB_CHANGE_DHCP_RANGE_IPV4',
+'DB_CHANGE_DHCP_RANGE_IPV6', 'DB_CHANGE_DNS_HOST_ADDRESS_IPV4' and 'DB_CHANGE_DNS_HOST_ADDRESS_IPV6'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get event_type value
+ my $event_type = $object->event_type();
+
+ #Modify event_type value
+ $object->event_type('SECURITY_ADP');
+
+=back
+
+=back
+
+=head2 expression_list( )
+
+=over
+
+Use this method to set or retrieve the notification rule condition expression.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Notification::RuleExpressionOp|Infoblox::Notification::RuleExpressionOp> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get expression_list value
+ my $expression_list = $object->expression_list();
+
+ #Set event_type value
+ $object->event_type('SECURITY_ADP');
+
+ #Construct ('SECURITY_AD_RULE_SEVERY' LESS_SEVERE 'MAJOR'
+ # AND SOURCE_IP EQUALS '10.0.0.10') expression
+
+ my $start_list = Infoblox::Grid::ExpressionOp->new(
+     op1_type => 'LIST',
+     op       => 'AND',
+ );
+
+ my $op1 = Infoblox::Grid::ExpressionOp->new(
+     op1_type => 'FIELD',
+     op1      => 'SECURITY_AD_RULE_SEVERY',
+     op       => 'LE',
+     op2      => 'MAJOR',
+     op2_type => 'STRING',
+ );
+
+ my $op2 = Infoblox::Grid::ExpressionOp->new(
+     op1_type => 'FIELD',
+     op1      => 'SOURCE_IP',
+     op       => 'EQ',
+     op2      => '10.0.0.10',
+     op2_type => 'STRING',
+ );
+
+ my $end_list = Infoblox::Grid::ExpressionOp->new(
+     op1_type => 'LIST',
+     op       => 'ENDLIST',
+ );
+
+ #Modify expression_list value
+ $object->expression_list([$start_list, $op1, $op2, $end_list]);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the notification rule name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+ #Modify name value
+ $object->name('rule1');
+
+=back
+
+=back
+
+=head2 notification_action( )
+
+=over
+
+Use this method to set or retrieve the notification rule action.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'CISCOISE_QUARANTINE', 'CISCOISE_PUBLISH' and 'RESTAPI_TEMPLATE_INSTANCE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get notification_action value
+ my $notification_action = $object->notification_action();
+
+ #Modify notification_action value
+ $object->notification_action('CISCOISE_QUARANTINE');
+
+=back
+
+=back
+
+=head2 notification_target( )
+
+=over
+
+Use this method to set or retrieve the notification rule target.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::CiscoISE::Endpoint|Infoblox::CiscoISE::Endpoint>, L<Infoblox::Notification::REST::Endpoint|Infoblox::Notification::REST::Endpoint> or L<Infoblox::DXL::Endpoint|Infoblox::DXL::Endpoint> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get notification_target value
+ my $notification_target = $object->notification_target();
+
+ #Modify notification_target value
+ $object->notification_target($endpoint);
+
+=back
+
+=back
+
+=head2 override_publish_settings( )
+
+=over
+
+The override_publish_settings attribute controls whether the publish_settings method values of the member are used, instead of the target endpoint default.
+
+The override_publish_settings attribute can be specified explicitly. It is also set implicitly when publish_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the endpoint level setting for publish_settings. Set the parameter to "false" to inherit the endpoint level setting for publish_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_publish_settings value
+ my $override_publish_settings = $object->override_publish_settings( );
+ #Modify override_publish_settings value
+ $object->override_publish_settings("true");
+
+=back
+
+=back
+
+=head2 publish_settings( )
+
+=over
+
+Use this method to set or retrieve the notification rule publish settings.
+
+Setting this method to a defined value implicitly sets the override_publish_settings method to "true". Setting the parameter to undefined causes the appliance to use the endpoint default and automatically resets the override_publish_settings method to "false".
+
+Note that when publish_settings is set to a defined value and override_publish_settings is set to "false", the last operation takes precedence. Thus the sequence $object->publish_settings($value); $object->override_publish_settings("false"); will set override_publish_settings to "false", and the sequence $object->override_publish_settings("false"); $object->publish_settings($value); will result in override_publish_settings="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::CiscoISE::PublishSetting|Infoblox::CiscoISE::PublishSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get publish_settings value
+ my $publish_settings = $object->publish_settings();
+
+ #Modify publish_settings value
+ $object->publish_settings($publish_settings);
+
+=back
+
+=back
+
+=head2 selected_members( )
+
+=over
+
+Use this method to set or retrieve the member host names on which you run the publish engine.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of desired selected member host names in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get selected_members value
+ my $selected_members = $object->selected_members();
+
+ #Modify selected_members value
+ $object->selected_members(['member1.com', 'member2.com']);
+
+=back
+
+=back
+
+=head2 template_instance( )
+
+=over
+
+Use this method to set or retrieve the REST API template instance.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Notification::REST::TemplateInstance|Infoblox::Notification::REST::TemplateInstance> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get template_instance value
+ my $template_instance = $object->template_instance();
+
+ #Modify template_instance value
+ $object->template_instance($instance);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::CiscoISE::PublishSetting|Infoblox::CiscoISE::PublishSetting>,
+L<Infoblox::CiscoISE::Endpoint|Infoblox::CiscoISE::Endpoint>, 
+L<Infoblox::DXL::Endpoint|Infoblox::DXL::Endpoint>, 
+L<Infoblox::Notification::RuleExpressionOp|Infoblox::Notification::RuleExpressionOp>, 
+L<Infoblox::Notification::REST::Endpoint|Infoblox::Notification::REST::Endpoint>, 
+L<Infoblox::Notification::REST::TemplateInstance|Infoblox::Notification::REST::TemplateInstance>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,7 @@
+/opt/perl/site/bin/podspell
+/opt/perl/site/lib/Pod/Spell.pm
+/opt/perl/site/lib/Pod/Wordlist.pm
+/opt/perl/site/lib/auto/share/dist/Pod-Spell/wordlist
+/opt/perl/site/man/man1/podspell.1
+/opt/perl/site/man/man3/Pod::Spell.3
+/opt/perl/site/man/man3/Pod::Wordlist.3

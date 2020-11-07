@@ -1,0 +1,760 @@
+=head1 NAME
+
+Infoblox::DNS::Record::RRSIG  - RRSIG Record object
+
+=head1 DESCRIPTION
+
+RRSIG records are one of the resource records in DNSSEC. These records store digital signatures of
+resource record sets (RRsets). The digital signatures are used to authenticate the data that is in the
+signed RRsets.
+
+RRSIG resource records are defined in RFC 4034.
+
+RRSIG records are automatically generated upon the signing of an authoritative zone. The RRSIG record-object is read-only.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::DNS::Record::RRSIG object is a read-only object and does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session that can be applied to an RRSIG record object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+  Apply the following attributes to get the RRSIG Record object(s):
+
+     algorithm       - Optional. The public key encryption algorithm. The allowed values are '1','3','5','6','7','RSAMD5','RSASHA1','DSA','NSEC3RSASHA1','NSEC3DSA','RSASHA256','RSASHA512','NSEC3RSASHA256' and 'NSEC3RSASHA512'.
+     expiration      - Optional. Signature expiration time, in seconds, since 1 January 1970 00:00:00 UTC.
+     name            - Optional. The name of the corresponding RRset.
+     inception       - Optional. Signature inception time, in seconds, since 1 January 1970 00:00:00 UTC.
+     key_tag         - Optional. Key tag identifying the corresponding public key in the DNSKEY record.
+     labels          - Optional. Specifies the number of labels in the original RRSIG RR owner name.
+     original_ttl    - Optional. TTL of the covered RRset as it appears in the authoritative zone.
+     signature       - Optional. Cryptographic signature that covers the RRSIG RDATA.
+     signer_name     - Optional. Domain name of the zone that contains the signed RRset.
+     ttl             - Optional. TTL value of the record itself.
+     type_covered    - Optional. Identifies the type of the RRset that is covered by this RRSIG record.
+     view            - Optional. The DNS view in which the record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+     zone            - Optional. A zone name in FQDN format.
+
+=item B<Example>
+
+ # get all the RRSIG records for the zone 'domain.com' in the default DNS view.
+ my @retrieved_objs = $session->get(
+                       object => "Infoblox::DNS::Record::RRSIG",
+                       signer_name   => "domain.com",
+                       view   => "default" );
+
+ # get the RRSIG record that corresponds to the 'test.domain.com' A record of the default DNS view
+ my $retrieved_obj = $session->get(
+                       object    => "Infoblox::DNS::Record::RRSIG",
+                       name      => "test.domain.com",
+                       type_covered => "A",
+                       view      => "default" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search the RRSIG Record object(s):
+
+     algorithm       - Optional. The public key encryption algorithm. The allowed values are '1','3','5','6','7','RSAMD5','RSASHA1','DSA','NSEC3RSASHA1','NSEC3DSA','RSASHA256','RSASHA512','NSEC3RSASHA256' and 'NSEC3RSASHA512'.
+     expiration      - Optional. Signature expiration time, specified as seconds since 1 January 1970 00:00:00 UTC. This method supports searching with limit parameters (see below).
+     name            - Optional. The name of the corresponding RRset (regular expression).
+     inception       - Optional. Signature inception time, specified as seconds since 1 January 1970 00:00:00 UTC. This method supports searching with limit parameters (see below).
+     key_tag         - Optional. Key tag that identifies the corresponding public key in the DNSKEY record.
+     labels          - Optional. Specifies the number of labels in the original RRSIG RR owner name.
+     original_ttl    - Optional. TTL of the covered RRset as it appears in the authoritative zone.
+     signature       - Optional. Cryptographic signature that covers the RRSIG RDATA (regular expression).
+     signer_name     - Optional. Domain name of the zone that contains the signed RRset (regular expression).
+     ttl             - Optional. TTL value of the record itself.
+     type_covered    - Optional. Identifies the type of the RRset that is covered by this RRSIG record (regular expression).
+     view            - Optional. The DNS view in which the record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+     zone            - Optional. A zone name in FQDN format.
+
+See L<Infoblox::SessionE<sol>search with limit parameters|Infoblox::Session/search with limit parameters> for more information on this functionality.
+
+=item B<Example>
+
+ # get all the RRSIG records for the zone matching the regular expression.
+ my @retrieved_objs = $session->search(
+                       object => "Infoblox::DNS::Record::RRSIG",
+                       signer_name   => ".*[.]com",);
+
+ # get all the RRSIG records with inception time between 12:00 September 1, 2009 and 12:00 September 10, 2009, expiring no later then January 1, 2010.
+ my @retrieved_objs = $session->search(
+                       object            => "Infoblox::DNS::Record::RRSIG",
+                       inception         => ">=< 1254398400,1255176000",
+                       expiration        => "<= 1264982400");
+
+ # search for all RRSIG records in the "domain.com" zone of the default DNS view
+ # Note that the 'default' DNS view is assumed implicitly here
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::RRSIG",
+     zone   => "domain.com",
+    );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of an RRSIG Record object.
+
+=head2 algorithm( )
+
+=over
+
+Use this method to retrieve the value of the public key encryption algorithm used to create the RRSIG signature.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the public key encryption algorithm. Returned values are one of the following:
+
+=over
+
+=item RSAMD5
+
+=item DSA
+
+=item RSASHA1
+
+=item NSEC3DSA
+
+=item NSEC3RSASHA1
+
+=item RSASHA256
+
+=item RSASHA512
+
+=back
+
+=over
+
+=back
+
+=item B<Example>
+
+ #Get the public key encryption algorithm.
+ my $algorithm = $rrsig->algorithm();
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::Record::RRSIG object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 creator( )
+
+=over
+
+Use this method to retrieve the RRSIG record creator. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->creator();
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the FQDN, in punycode format, of the RRset covered by the RRSIG record. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $rrsig->dns_name();
+
+=back
+
+=back
+
+=head2 dns_signer_name( )
+
+=over
+
+Use this method to retrieve the domain name, in punycode format, of the zone that contains the signed RRset. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $bind_a->dns_signer_name();
+
+=back
+
+=back
+
+=head2 expiration( )
+
+=over
+
+Use this method to retrieve the expiration time of an RRSIG record.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the RRSIG record expiration time. The returned value is in UNIX timestamp format; that is, it is measured in seconds since 00:00:00 January 1, 1970 UTC.
+
+=item B<Example>
+
+ #Get the RRSIG expiration time
+ my $expiration = $rrsig->expiration();
+
+=back
+
+=back
+
+=head2 inception( )
+
+=over
+
+Use this method to retrieve the RRSIG inception time. This is the time when the record was created.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the RRSIG record inception time. The returned value is in UNIX timestamp format; that is, it is measured in seconds since 00:00:00 January 1, 1970 UTC.
+
+=item B<Example>
+
+ #Get the inception time of the RRSIG record
+ my $inception = $rrsig->inception();
+
+=back
+
+=back
+
+=head2 key_tag( )
+
+=over
+
+Use this method to retrieve the key tag of the public key that correspods to the RRSIG Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the key tag of the public key that corresponds to the private key used to encrypt RRSIG data. The key tag is a 16-bit integer key fingerprint that is used to distinguish one key from another when multiple keys are associated with the same zone.
+
+=item B<Example>
+
+ #Get the key tag of the public key
+ my $key_tag = $rrsig->key_tag();
+
+=back
+
+=back
+
+=head2 labels( )
+
+=over
+
+Use this method to retrieve the number of labels in the name of the RRset signed with the RRSIG object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the number of labels in the original RRSIG RR owner name. Usually this number is the same as the number of labels in
+the 'name' field.
+
+=item B<Example>
+
+ #Get the number of labels in the original RRSIG RR owner name.
+ my $labels = $rrsig->labels();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the FQDN of the RRset covered by the RRSIG record.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the name attribute of the RRSIG object. This is a name of the RRset covered by the RRSIG record.
+
+=item B<Example>
+
+ #Get the name attribute
+ my $fqdn = $rrsig->name();
+
+=back
+
+=back
+
+=head2 original_ttl( )
+
+=over
+
+Use this method to retrieve the TTL of the covered RRset as it appears in the authoritative zone of an RRSIG record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the  TTL of the covered RRset as it appears in the authoritative zone attribute value.
+
+=item B<Example>
+
+ #Get the TTL of the covered RRset
+ my $original_ttl = $rrsig->original_ttl();
+
+=back
+
+=back
+
+=head2 signature( )
+
+=over
+
+Use this method to retrieve the cryptographic signature that covers the RRSIG RDATA of an RRSIG Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the  cryptographic signature that covers the RRSIG RDATA attribute value.
+
+=item B<Example>
+
+ #Get the signature that covers the RRSIG RDATA
+ my $signature = $rrsig->signature();
+
+=back
+
+=back
+
+=head2 signer_name( )
+
+=over
+
+Use this method to retrieve the domain name of the zone that contains the signed RRset.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the domain name of the zone that contain the signed RRset in FQDN format.
+
+=item B<Example>
+
+ #Get the signer name
+ my $signer_name = $rrsig->signer_name();
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to retrieve the Time to Live (TTL) value of an RRSIG Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the TTLattribute value. The returned parameter is a 32-bit integer (range from 0 to 4294967295) that represents the duration in seconds that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Example>
+
+ #Get the TTL of the RRSIG record 
+ my $ttl = $rrsig->ttl();
+
+=back
+
+=back
+
+=head2 type_covered( )
+
+=over
+
+Use this method to retrieve the type of the RRset that is covered by this RRSIG record.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the type of the RRset that is covered by this RRSIG record attribute value.
+
+=item B<Example>
+
+ #Get the type of the RRset that is covered by this RRSIG record
+ my $type_covered = $rrsig->type_covered();
+
+=back
+
+=back
+
+=head2 view( )
+
+=over
+
+Use this method to retrieve the DNS view object that contains the RRSIG Record object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the  L<Infoblox::DNS::View|Infoblox::DNS::View> object that contains the RRSIG record.
+
+=item B<Example>
+
+ #Get the DNS view
+ my $view = $rrsig->view();
+
+=back
+
+=back
+
+=head2 zone( )
+
+=over
+
+Use this method to retrieve the zone name of an RRSIG record.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+Returns the zone name of the zone that contains RRSIG record. The name is in FQDN format.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $rrsig->zone();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the session methods on an RRSIG record object.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+        my $session = Infoblox::Session->new(
+            master   => "192.168.1.2",
+            username => "admin",
+            password => "infoblox"
+        );
+        unless ($session) {
+           die("Construct session failed: ",
+               $session->status_code() . ":" . $session->status_detail());
+        }
+        print "Session created successfully\n";
+
+        #Enable DNSSEC in the default view
+
+        my $default_view=$session->get(
+                                       object=> "Infoblox::DNS::View",
+                                       name => "default"
+                                      );
+        unless($default_view) {
+            die("Getting the default view failed:",
+               Infoblox::status_code() . ":" . Infoblox::status_detail());
+        }
+        print "Got the default view successfully\n";
+
+        $default_view->dnssec_enabled("true")
+            or die("Changing the dnssec_enabled in the default view failed:",
+                    Infoblox::status_code() . ":" . Infoblox::status_detail());
+        $session->modify($default_view)
+            or die("Changing the dnssec_enabled in the default view failed:",
+                    Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+B<#Creating a signed zone and populationg it with an A record>
+
+        print "Creating Member primary server for the zone\n";
+        my $primary=Infoblox::DNS::Member->new(
+                                                ipv4addr => "192.168.1.2",
+                                                name => "infoblox.localdomain"
+                                              );
+        unless($primary) {
+           die("Unable to create primary server object: ",
+               Infoblox::status_code() . ":" . Infoblox::status_detail());
+        }
+
+        my $zone = Infoblox::DNS::Zone->new(
+                                             name => "domain.com",
+                                             primary => $primary
+                                           );
+        unless ($zone) {
+           die("Construct zone failed: ",
+               Infoblox::status_code() . ":" . Infoblox::status_detail());
+        }
+        print "Zone object created successfully\n";
+
+        #Verify if the zone exists
+        my $object = $session->get(object => "Infoblox::DNS::Zone", name => "domain.com");
+        unless ($object) {
+           print "Zone does not exist on server, safe to add the zone\n";
+           $session->add($zone)
+              or die("Add zone failed: ",
+                     $session->status_code() . ":" . $session->status_detail());
+        }
+        print "Zone added successfully\n";
+
+        #Adding A record to the zone to demonstrate the corresponding RRSIG record
+        my $a_record=Infoblox::DNS::Record::A->new(
+                                                    ipv4addr => "10.9.8.7",
+                                                    name => "recorda.domain.com"
+                                                  );
+        unless($a_record) {
+           die("Creating A record failed : ",
+              Infoblox::status_code() . ":" . Infoblox::status_detail());
+        }
+
+        $object = $session->get( object => "Infoblox::DNS::Record::A", name => "recorda.domain.com" );
+        unless ($object) {
+           print "A record does not exist on the server, safe to add the A record\n";
+           $session->add($a_record)
+             or die("Adding A record failed: ",
+                    Infoblox::status_code() . ":" . Infoblox::status_detail());
+        }
+        print "A record added to the zone successfully\n";
+
+        #Retrieving zone back from the server in order to sign it
+        $zone = $session->get(object => "Infoblox::DNS::Zone", name => "domain.com");
+        unless($zone) {
+           die("Retrieving zone back failed: ",
+                Infoblox::status_code( ). ":". Infoblox::status_detail( ));
+        }
+        print "Zone retrieved for signing successfully.\n";
+
+        $zone->dnssec_ksk_algorithm("NSEC3RSASHA1") &&
+        $zone->dnssec_zsk_algorithm("NSEC3RSASHA1") &&
+        $zone->dnssec_ksk_size(640) &&
+        $zone->dnssec_zsk_size(640)
+          or die("Changing the zone DNSSEC setting failed: ",
+                 Infoblox::status_code() . ":" . Infoblox::status_detail());
+        $session->modify($zone)
+          or die("Modifying dnssec values in zone failed: ",
+                 Infoblox::status_code() . ":" . Infoblox::status_detail());
+        print "Zone modified successfully\n";
+
+        #Signing the zone
+        $zone->dnssec_signed("true")
+           or die("Signing of the zone failed: ",
+                   Infoblox::status_code() . ":" . Infoblox::status_detail());
+       print "Zone signed successfully\n";
+
+B<#Getting the RRSIG record corresponding to A record>
+
+       my $rrsig_record_a=$session->get(
+                                    object => "Infoblox::DNS::Record::RRSIG",
+                                    name   => "recorda.domain.com",
+                                    signer_name => "domain.com",
+                                    type_covered   => "A",
+                                    view   => "default"
+                                   );
+      unless($rrsig_record_a) {
+         die("Getting RRSIG corresponding to the A record failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+      }
+      print "Got RRSIG record successfully\n";
+
+B<#Searching for RRSIG objects using regular expressions>
+
+      my @retrieved_objs=$session->search(
+                                           object => "Infoblox::DNS::Record::RRSIG",
+                                           name   => ".*com",
+                                           type_covered => "A|MX",
+                                           view   => "default"
+                                         );
+     unless(@retrieved_objs>0) {
+         die("Searching for RRSIG objects failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+     }
+     print "Search for the RRSIG objects successful, ".scalar(@retrieved_objs)." objects found\n";
+
+      #Searching for RRSIG objects created today using inception time interval search
+      @retrieved_objs=$session->search(
+                                           object => "Infoblox::DNS::Record::RRSIG",
+                                           name   => ".*com",
+                                           inception => ">=< " . (time() -86400) . "," . time(),
+                                           view   => "default"
+                                         );
+     unless(@retrieved_objs>0) {
+         die("Searching for RRSIG objects failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+     }
+     print "Search for the RRSIG objects successful, ".scalar(@retrieved_objs)." objects found\n";
+
+B<#Removing the created zone and cleaning up the view>
+
+      $session->remove($zone)
+        or die("Unable to remove the zone: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+      print "Zone removed successfully\n";
+
+      $default_view->dnssec_enabled("false")
+      && $default_view->override_dnssec("false")
+      && $session->modify($default_view)
+       or die("Restoring dnssec_enabled value in the default view failed: ",
+              Infoblox::status_code() . ":" . Infoblox::status_detail());
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search(/)/>, L<Infoblox::DNS::Record::DNSKEY|Infoblox::DNS::Record::DNSKEY>, L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

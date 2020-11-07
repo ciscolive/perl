@@ -1,0 +1,1 @@
+{"name":"Sys::SigAction","pathname":"L/LB/LBAXTER/Sys-SigAction-0.23.tar.gz","dist":"Sys-SigAction-0.23","target":"Sys::SigAction","provides":{"Sys::SigAction::Alarm":{"file":"lib/Sys/SigAction/Alarm.pm"},"Sys::SigAction":{"file":"lib/Sys/SigAction.pm","version":"0.23"}},"version":"0.23"}

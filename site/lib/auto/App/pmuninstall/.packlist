@@ -1,0 +1,4 @@
+/opt/perl/site/bin/pm-uninstall
+/opt/perl/site/lib/App/pmuninstall.pm
+/opt/perl/site/man/man1/pm-uninstall.1
+/opt/perl/site/man/man3/App::pmuninstall.3

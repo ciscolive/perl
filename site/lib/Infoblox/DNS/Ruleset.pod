@@ -1,0 +1,454 @@
+=head1 NAME
+
+Infoblox::DNS::Ruleset - Ruleset object
+
+=head1 DESCRIPTION
+
+Represents a Ruleset object, which is a collection of rules that is used to match domain names.
+
+=head1 CONSTRUCTOR
+
+See L<Infoblox::DNS::Ruleset::Rule|Infoblox::DNS::Ruleset::Rule> for details.
+
+ my $rule1 = Infoblox::DNS::Ruleset::NxdomainRule->new(
+     pattern => $string,                                                        #Optional
+     action => $string,                                                         #Optional
+ );
+ my $rule2 = Infoblox::DNS::Ruleset::NxdomainRule->new(
+     pattern => $string,                                                        #Optional
+     action => $string,                                                         #Optional
+ );
+ my $ruleset = Infoblox::DNS::Ruleset->new (
+     name => $string,                                                           #Required
+     type => <"NXDOMAIN" | "BLACKLIST">                                         #Required
+     comment => $string,                                                        #Optional
+     disabled => "true" | "false",                                              #Optional
+     nxdomain_rules => [$rule1, $rule2]                                         #Optional, valid only when type is "NXDOMAIN"
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a Ruleset object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Create Rule 1 object
+ my $rule1 = Infoblox::DNS::Ruleset::NxdomainRule->new(
+     pattern => "www.a.zone.com",
+     action => 'PASS' );
+
+ #Create Rule 2 object
+ my $rule2 = Infoblox::DNS::Ruleset::NxdomainRule->new(
+     pattern=> "www.b.zone.com",
+     action => 'REDIRECT' );
+
+ my $ruleset = Infoblox::DNS::Ruleset->new (
+    name => $ruleset_name,
+    type => "NXDOMAIN",
+    comment=> "This is a demo ruleset",
+    disabled=> "false",
+    nxdomain_rules=> [$rule1, $rule2]);
+
+  #Submit for addition
+  my $response = $session->add( $nsg1 );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Ruleset object:
+
+ name - Required. The name of the ruleset in string format.
+ disabled - Optional. Indicates if the ruleset is disabled. The valid value is either "true" or "false".
+ comment - Optional. The comment that was entered for the ruleset.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Ruleset",
+     name   => "Ruleset 1",
+     );
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Ruleset",
+     disabled   => "false",
+     );
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Ruleset",
+     comment   => "Ruleset comment",
+     );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify the comment
+ $ruleset->comment("this is a modified comment");
+ #Submit the modification
+ my $response = $session->modify( $ruleset );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+#Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Ruleset",
+     name   => "Ruleset 1",
+      );
+#Find the desired object on the retrieved list
+ my $ruleset= $retrieved_objs[0];
+#Submit the object for removal
+ my $response = $session->remove( $ruleset );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Ruleset objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+Apply the following attributes to search for a Ruleset object:
+
+ name - Required. The ruleset name in string format (regular expression).
+ disabled - Optional. Indicates if the ruleset is disabled. The valid value is either "true" or "false".
+ comment - Optional. The comment that was entered for the ruleset (regular expression).
+
+=item B<Examples>
+
+ # Search for all Ruleset objects
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Ruleset",
+     name   => ".*",
+     );
+
+# Search for all Ruleset objects with "false" as the value for the "disabled" attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Ruleset",
+     disabled => "false");
+
+# Search for all Ruleset objects with "Ruleset Comm" as the value for the "comment" attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Ruleset",
+     comment => "Ruleset Comm");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Ruleset object.
+
+=head2  name( )
+
+=over
+
+Use this method to set or retrieve the name of this Ruleset object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The ruleset name in string format, with a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $ruleset->name();
+ #Modify name
+ $ruleset->name("rulset");
+
+=back
+
+=back
+
+=head2  type( )
+
+=over
+
+Use this method to set or retrieve the type of this Ruleset object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The ruleset type. Supported values are "NXDOMAIN" or "BLACKLIST".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get type
+ my $type = $ruleset->type();
+ #Modify type
+ $ruleset->type("NXDOMAIN");
+
+=back
+
+=back
+
+=head2  comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment about the Ruleset object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Comment in string format, with a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $ruleset->comment();
+ #Modify comment
+ $ruleset->comment("This is Default Ruleset");
+
+=back
+
+=back
+
+=head2  disabled( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates if the Ruleset object is disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disabled flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disabled
+ my $disabled = $ruleset->disabled();
+ #Modify disabled
+ $ruleset->disabled("true");
+
+=back
+
+=back
+
+=head2  nxdomain_rules( )
+
+=over
+
+Use this method to set or retrieve a list of Infoblox::DNS::Ruleset::NxdomainRule objects assigned to this Ruleset object. Rules can be set only when the ruleset type is set to "NXDOMAIN".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains a list of L<Infoblox::DNS::Ruleset::NxdomainRule|Infoblox::DNS::Ruleset::NxdomainRule> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting rules
+ my $rules = $ruleset->nxdomain_rules( );
+ #Modifying rules
+ $ruleset->nxdomain_rules([$rule1]);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as modify and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a Ruleset object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a Ruleset object>
+
+ my $rule1 = Infoblox::DNS::Ruleset::NxdomainRule->new(
+     pattern => "www.a.zone.com",
+     action => 'PASS' );
+ unless ($rule1) {
+    die("Construct Rule 1 failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ my $rule2 = Infoblox::DNS::Ruleset::NxdomainRule->new(
+     pattern=> "www.b.zone.com",
+     action => 'REDIRECT' );
+ unless ($rule2) {
+    die("Construct Rule 2 failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ my $ruleset = Infoblox::DNS::Ruleset->new (
+     name => "Ruleset 1",
+     type => "NXDOMAIN",
+     comment=> "This is demo ruleset",
+     disabled=> "false",
+     nxdomain_rules=> [$rule1, $rule2]);
+
+ unless ($ruleset) {
+    die("Construct Ruleset failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Ruleset object created successfully\n";
+
+B<#Add the Ruleset object>
+
+ my $resp = $session->add($ruleset);
+ unless ($resp == 1) {
+    die("Add Ruleset failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+B<#Modify the Ruleset object>
+
+ my @result_array = $session->get(
+        object => "Infoblox::DNS::Ruleset",
+        name => "Ruleset 1");
+ if( defined @result_array  and scalar( @result_array ) > 0 ){
+        my $ruleset = $result_array[0];
+        $ruleset->name("Ruleset 2");
+
+        my $response = $session->modify( $ruleset );
+        print "Modify the Ruleset object success.\n" if ( $response );
+ }
+
+B<#Remove a Ruleset object>
+
+ my @result_array = $session->get( "object" => "Infoblox::DNS::Ruleset" ,  "name" => "Ruleset 2" );
+
+ if( defined @result_array  and scalar( @result_array ) > 0 ){
+        my $ruleset = $result_array[0];
+        if( ref( $ruleset ) eq "Infoblox::DNS::Ruleset" )
+        {
+
+                my $response = $session->remove($ruleset);
+                print "Remove Ruleset success.\n" if ( $response );
+
+        }
+
+        unless ($ruleset) {
+                die("Remove Ruleset failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+        }
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::DNS|Infoblox::DNS>,L<Infoblox::DNS::Ruleset::NxdomainRule|Infoblox::DNS::Ruleset::NxdomainRule>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

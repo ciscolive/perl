@@ -1,0 +1,341 @@
+=head1 NAME
+
+Infoblox::Grid::NTPServer - Grid Network Time Protocol (NTP) server object.
+
+=head1 DESCRIPTION
+
+The Grid NTP server object is used to synchronize the date and time for an Infoblox appliance.
+
+=head1 CONSTRUCTOR
+
+ #Constructor for an Grid NTP server object
+  my $ntp_server = Infoblox::Grid::NTPServer->new(
+     address        =>  $ipv4addr | $ipv6addr | $fqdn   #Required
+     authentication => "true" | "false",                #Optional / Default "false"
+     burst          => "true" | "false",                #Optional / Default "true"
+     iburst         => "true" | "false",                #Optional / Default "true"
+     ntp_key        => [$NTPKey1, $NTPKey2,...]         #Optional / Default is undefined
+    );
+
+This constructed object can be used only when NTP is set to "true" at the grid level.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that can be applied to a NTP server object.
+
+=head2 Infoblox::Grid->ntp_server( )
+
+=over
+
+Use this function to specify the NTP server for the grid.
+
+=over
+
+=item B<Example>
+
+ #Create a NTPKey object.
+ my $ntp_key1 = Infoblox::Grid::NTPKey->new(
+    key_number => 1111,
+    key_type   => "M",
+    key_string => "aaaa"
+ );
+
+ #Create a NTPServer object.
+  my $ntp_server = Infoblox::Grid::NTPServer->new(
+     address        => "3.3.3.3",
+     authentication => "true",
+     ntp_key        => $ntp_key1
+ );
+
+ my $grid = $session->get(
+    object  => "Infoblox::Grid",
+    name    => "Infoblox"
+  );
+
+  unless ($grid) {
+      die("get Grid failed:" ,
+          $session->status_code(), $session->status_detail());
+  }
+
+ $grid->enable_ntp("true");
+ $grid->ntp_authentication_key([$ntp_key1]);
+ $grid->ntp_server([$ntp_server]);
+
+ #Applying the changes to appliance through session.
+ $session->modify($grid)
+      or die("modify Grid failed:" ,
+       $session->status_code(), $session->status_detail());
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute value of a NTP server object.
+
+=head2  address( )
+
+=over
+
+Use this method to set or retrieve the IPv4 or IPv6 address or FQDN of the external NTP server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are IPv4 or IPv6 address or FQDN of the external NTP server.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address
+ my $address = $ntp_server->address();
+ #Modify address
+ $ntp_server->address("4.4.4.4");
+
+=back
+
+=back
+
+=head2 authentication( )
+
+=over
+
+Use this method to enable or disable the authentication for an NTP server.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable authentication or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authentication
+ my $authentication = $ntp_server->authentication();
+ #Modify authentication
+ $ntp_server->authentication("false");
+
+=back
+
+=back
+
+=head2 burst( )
+
+=over
+
+Use this method to enable or disable BURST operating mode. In BURST operating mode, when the external server is reachable and a valid source of synchronization is available, NTP sends a burst of 8 packets with a 2 second interval between packets.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to eanble the BURST operating mode or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get burst
+ my $burst = $ntp_server->burst();
+ #Modify burst
+ $ntp_server->burst("false");
+
+=back
+
+=back
+
+=head2 iburst( )
+
+=over
+
+Use this method to enable or disable IBURST operating mode. In IBURST operating mode, when the external server is unreachable, NTP server sends a burst of 8 packets with a 2 second interval between packets.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to eanble the IBURST operating mode or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get iburst
+ my $iburst = $ntp_server->iburst();
+ #Modify iburst
+ $ntp_server->iburst("false");
+
+=back
+
+=back
+
+=head2 ntp_key( )
+
+=over
+
+Use this method to set or retrieve the ntp_key used for authentication.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains Infoblox::Grid::NTPKey objects.
+
+See L<Infoblox::Grid::NTPKey|Infoblox::Grid::NTPKey> for parameters and return values.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Create a NTPKey object.
+ my $ntp_key2 = Infoblox::Grid::NTPKey->new(
+   key_number => 2222,
+   key_type   => "n",
+   key_string =>"d3e54352e5548080" );
+
+ #Modify NTPServer object
+ my $ntp_server = Infoblox::Grid::NTPServer->new(
+    address        => "3.3.3.3",
+    authentication => "true",
+    ntp_key        => $ntp_key2
+ );
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to an object such as create, modify, and remove an object. Also this sample code also includes error handling for the operations.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+  use strict;
+  use Infoblox;
+
+  #Create a session to the Infoblox appliance
+  my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+  );
+  unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+  print "Session created successfully\n";
+
+B<#Adding an NTP server object>
+  #Get the grid object.
+  my $result = $session->get(
+      object => "Infoblox::Grid",
+      name   => "Infoblox"
+  );
+  unless ($result) {
+      die("get Grid failed:" ,
+          $session->status_code(), $session->status_detail());
+  }
+
+  #Create a NTPKey object.
+  my $ntp_key1 = Infoblox::Grid::NTPKey->new(
+      key_number => 3333,
+      key_type   => "S",
+      key_string => "a7cb86a4cba80101"
+  );
+
+  #Create a NTPServer object.
+  my $ntp_server = Infoblox::Grid::NTPServer->new(
+      address        => "3.3.3.3",
+      authentication => "true",
+      ntp_key        => $ntp_key1
+  );
+   #Modifying the value of the ntp_authentication_key and ntp_server methods, from the grid object.
+  $result->enable_ntp("true");
+  $result->ntp_authentication_key([$ntp_key1]);
+  $result->ntp_server([$ntp_server]);
+
+  #Applying the changes to appliance through session.
+  $session->modify($result)
+       or die("modify Grid failed:" ,
+        $session->status_code(), $session->status_detail());
+ print "\n  Modify Grid successful \n";
+
+B<#Modifying an NTP server object>
+ #Create a NTPServer object.
+  my $ntp_server = Infoblox::Grid::NTPServer->new(
+      address        => "3.3.3.3",
+      authentication => "false",
+  );
+
+ $result->ntp_server([$ntp_server]);
+
+ #Applying the changes to appliance through session.
+ $session->modify($result)
+      or die("modify Grid failed:" ,
+       $session->status_code(), $session->status_detail());
+ print "\n  Modify grid successful for NTP server object\n";
+
+B<#Removing an NTP server object>
+  #Get the grid object.
+  my $result = $session->get(
+      object => "Infoblox::Grid",
+      name   => "Infoblox"
+  );
+ unless ($result) {
+      die("get Grid failed:" ,
+          $session->status_code(), $session->status_detail());
+  }
+
+ $result->enable_ntp("false");
+ $result->ntp_server([]);
+ #Applying the changes to appliance through session.
+ $session->modify($result)
+      or die("modify Grid failed:" ,
+       $session->status_code(), $session->status_detail());
+ print "\n  Modify grid successful for NTP server object\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::NTPKey|Infoblox::Grid::NTPKey>, L<Infoblox::Grid|Infoblox::Grid>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

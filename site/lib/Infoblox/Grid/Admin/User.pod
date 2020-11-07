@@ -1,0 +1,726 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::User - User Admin object.
+
+=head1 DESCRIPTION
+
+An admin account provides access to the Infoblox appliance. An admin account inherits the privileges and properties of the group to which it belongs.
+
+=head1 CONSTRUCTOR
+
+ my $user = Infoblox::Grid::Admin::User->new(
+     admin_group                       => $string,                                                               # Required
+     auth_type                         => 'LOCAL' | 'REMOTE',                                                    # Optional / Default is 'LOCAL'
+     name                              => $string,                                                               # Required
+     password                          => $string,                                                               # Required
+     ca_certificate_issuer             => $string,                                                               # Optional / Default is undefined
+     client_certificate_serial_number  => $string,                                                               # Optional / Default is undefined
+     comment                           => $string,                                                               # Optional / Default is undefined
+     disabled                          => "true" | "false",                                                      # Optional / Default is "false"
+     enable_certificate_authentication => "true" | "false",                                                      # Optional / Default is undefined
+     extattrs                          => { $string => $extattr, ... },                                          # Optional / Default is undefined
+     extensible_attributes             => { $string => $string | $num, $string => [ $string | $num, ... ], ... } # Optional / Default is undefined
+     email                             => $email,                                                                # Optional / Default is undefined
+     time_zone                         => $TimeZone | undef                                                      # Optional / Default value is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to an Admin User object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct the user object
+ my $user = Infoblox::Grid::Admin::User->new(
+     admin_group => "admin-group",
+     name        => "testuser",
+     password    => "infoblox",
+     comment     => "test user account"
+     disabled    => "true",
+     email       => "testuser\@test.com",
+ );
+ # Submit for addition
+ my $response = $session->add( $user );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific User object:
+
+  name                             - Optional. Optional. The name of the user in string format.
+  extattrs                         - Optional. A hash reference containing extensible attributes.
+  extensible_attributes            - Optional. A hash reference containing extensible attributes.
+  role                             - Optional. A role in string format or undef.
+  ca_certificate_issuer            - Optional. The name of the CA certificate issuer in string format.
+  client_certificate_serial_number - Optional. The serial number of the client certificate in string format.
+
+When searching by role, admins assigned to the specified role, regardless of group, will be retrieved. If undef is passed as a get parameter for the role attribute, users that have no assigned roles, regardless of admin group, will be retrieved.
+
+Note that name and role cannot be specified at the same time.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object      => "Infoblox::Grid::Admin::User",
+     name        => "testuser" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $user->comment("This is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $user );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, use get() or search() to retrieve the specific object first, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the user objects with the same starting name
+ my @retrieved_objs = $session->get(
+     object      => "Infoblox::Grid::Admin::User",
+     name        => "testuser" );
+ # find the desired object from the retrieved list.
+ my $desired_user = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_user );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Admin User objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific User object:
+
+  name                             - Optional. The name of the user in string format (regular expression).
+  admin_group                      - Optional. The name of the admin group in string format.
+  extattrs                         - Optional. A hash reference containing extensible attributes.
+  extensible_attributes            - Optional. A hash reference containing extensible attributes.
+  role                             - Optional. A role in string format or undef.
+  ca_certificate_issuer            - Optional. The name of the CA certificate issuer in string format.
+  client_certificate_serial_number - Optional. The serial number of the client certificate in string format (regular expression).
+
+When searching by role, the matching users will be users member of a group that has the specified role. If undef is passed as a search parameter for role, matching users will be ones belonging to groups with no roles assigned.
+
+Note that name and role cannot be specified at the same time.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all User objects that start with "test"
+ my @retrieved_objs = $session->search(
+     object      => "Infoblox::Grid::Admin::User",
+     name        => "test.*",
+     admin_group => "admin-group" );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a User object.
+
+=head2 admin_group( )
+
+=over
+
+Use this method to set or retrieve the admin_group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Admin group to which the user belongs. A user can belong to only one admin group at a time.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get admin group
+ my $admin_group = $user->admin_group();
+ #Modify name
+ $user->name("admin-group");
+
+=back
+
+=back
+
+=head2 auth_type( )
+
+=over
+
+Use this method to set or retrieve the user authentication type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'LOCAL' and 'REMOTE'. The default value is 'LOCAL'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get auth_type value
+ my $auth_type = $user->auth_type();
+ #Modify auth_type value
+ $user->auth_type('REMOTE');
+
+=back
+
+=back
+
+=head2 ca_certificate_issuer( )
+
+=over
+
+Use this method to set or retrieve the name of the CA certificate issuer that is used for user lookup during authentication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the CA certificate issuer that is used for user lookup during authentication in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ca_certificate_issuer
+ my $ca_certificate_issuer = $user->ca_certificate_issuer();
+
+ #Modify ca_certificate_issuer
+ $user->ca_certificate_issuer("issuer");
+
+=back
+
+=back
+
+=head2 client_certificate_serial_number( )
+
+=over
+
+Use this method to set or retrieve a parameter that is used in pair with the name of the CA certificate issuer.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The parameter in string format that is used in pair with the name of the CA certificate issuer. Serial number can be either integer or hex. Serial number is unique for a particular issuer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_certificate_serial_number
+ my $client_certificate_serial_number = $user->client_certificate_serial_number();
+
+ #Modify client_certificate_serial_number
+ $user->client_certificate_serial_number("11223344");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Pertinent information about the administrator, such as location or department. Comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $user->comment();
+ #Modify comment
+ $user->comment("This is the modified comment for admin user");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the "disabled" flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The admin is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disabled
+ my $disabled = $user->disabled();
+ #Modify disabled
+ $user->disabled("true");
+
+=back
+
+=back
+
+=head2 email( )
+
+=over
+
+Use this method to set or retrieve the e-mail address of an administrator.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The e-mail address of an administrator. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get email
+ my $email = $user->email();
+ #Modify email
+ $user->email("usertest\@infoblox.com");
+
+=back
+
+=back
+
+=head2 enable_certificate_authentication( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the user is allowed to log in only with the certificate.
+Regular username/password authentication will be disabled for this user.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable certificate-only user authentification and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_certificate_authentication
+ my $value = $object->enable_certificate_authentication();
+
+ #Modify enable_certificate_authentication
+ $object->enable_certificate_authentication('true');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with an User object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $user->extattrs();
+ #Modify extattrs
+ $user->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a User object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $user->extensible_attributes();
+ #Modify extensible attributes
+ $user->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of an administrator.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the admin.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $user->name();
+ #Modify name
+ $user->name("test_user");
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the password of an administrator. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+Password for the administrator to use when logging in.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify password
+ $user->password("infobloxone");
+
+=back
+
+=back
+
+=head2 roles( )
+
+=over
+
+Use this method to retrieve the list of roles assigned to the admin's group.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns a reference to an array of strings of the role names.
+
+=item B<Example>
+
+ #Get the roles
+ my $roles = $user->roles();
+
+=back
+
+=back
+
+=head2 time_zone( )
+
+=over
+
+Use this method to set or retrieve the time zone of the administrator.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The UTC string that represents the time zone. For example "(UTC - 6:00) Central Time (US and Canada)". Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get time zone
+ my $time_zone = $user->time_zone();
+ #Modify time zone
+ $user->time_zone("(UTC - 6:00) Central Time (US and Canada)");
+ #Undef time zone
+ $user->time_zone(undef);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an Admin User object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create an Admin User object>
+
+ my $user = Infoblox::Grid::Admin::User->new(
+     name        => "testuser",
+     password    => "infoblox",
+     admin_group => "admin-group",
+     email       => "testuser\@test.com",
+     disabled    => "false",
+     comment     => "test user account"
+ );
+
+ unless ($user) {
+        die("Construct user object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "User object created successfully\n";
+
+ #Add the user object to the Infoblox appliance through a session
+ $session->add($user)
+        or die("Add User object failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Admin User object added to server successfully\n";
+
+B<#Search for all users>
+
+ my @retrieved_objs = $session->search(
+                object      => "Infoblox::Grid::Admin::User",
+                name        => "test.*",
+                admin_group => "admin-group"
+               );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search User object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Admin User object found at least 1 matching entry\n";
+
+B<#Get and modify a User object>
+
+ #Get the user object from Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+             object      => "Infoblox::Grid::Admin::User",
+             name        => "testuser",
+ );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get User object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Admin User object found at least 1 matching entry\n";
+
+ #Modify the password of the User object
+ $object->password("infoblox123");
+
+ #Apply the changes.
+ $session->modify($object)
+        or die("Modify User object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "User object modified successfully \n";
+
+B<#Remove the User object>
+
+ #Get the User object through the session
+ my @retrieved_objs = $session->get(
+             object      => "Infoblox::Grid::Admin::User",
+             name        => "testuser",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get User object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get User object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+        or die("Remove User object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Admin User object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::Group|Infoblox::Grid::Admin::Group>,L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

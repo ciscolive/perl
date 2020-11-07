@@ -1,0 +1,59 @@
+HTTP/1.0 200 OK
+Content-Type: text/css
+
+body {
+    background: #ddeeff;
+    color: #003366;
+    border-top: 4px solid #003366;
+}
+
+h1 {
+    font-size: 4rem;
+    border-bottom: 1px solid grey;
+    color: black;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.25em;
+}
+
+hr {
+    border-top: 1px solid grey;
+}
+
+li {
+    margin-bottom: 0;
+}
+
+ul ul {
+    margin-top: 0;
+}
+
+.spaceAfter {
+    margin-bottom: 2.5rem;
+}
+
+.handler {
+    padding: .2rem .5rem;
+    margin: 0 .2rem;
+    white-space: nowrap;
+    background: #e1e1F1;
+    border: 1px solid #d1d1E1;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.callbackstable tr td {
+    padding: 0.25rem 1rem;
+    border: 0;
+}
+
+.versionBlock {
+    right: 0px;
+    position: absolute;
+    top: 0;
+    display: inline-block;
+    text-align: right;
+}

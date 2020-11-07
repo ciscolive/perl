@@ -1,0 +1,10 @@
+/opt/perl/site/bin/dumpSS.pl
+/opt/perl/site/bin/xlsgrep.pl
+/opt/perl/site/lib/Spreadsheet/BasicRead.pm
+/opt/perl/site/lib/Spreadsheet/dumpSS.pl
+/opt/perl/site/lib/Spreadsheet/xlsgrep.pl
+/opt/perl/site/man/man1/dumpSS.pl.1
+/opt/perl/site/man/man1/xlsgrep.pl.1
+/opt/perl/site/man/man3/Spreadsheet::BasicRead.3
+/opt/perl/site/man/man3/Spreadsheet::dumpSS.3
+/opt/perl/site/man/man3/Spreadsheet::xlsgrep.3

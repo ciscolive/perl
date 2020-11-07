@@ -1,0 +1,14 @@
+/opt/perl/site/bin/mech-dump
+/opt/perl/site/lib/WWW/Mechanize.pm
+/opt/perl/site/lib/WWW/Mechanize/Cookbook.pod
+/opt/perl/site/lib/WWW/Mechanize/Examples.pod
+/opt/perl/site/lib/WWW/Mechanize/FAQ.pod
+/opt/perl/site/lib/WWW/Mechanize/Image.pm
+/opt/perl/site/lib/WWW/Mechanize/Link.pm
+/opt/perl/site/man/man1/mech-dump.1
+/opt/perl/site/man/man3/WWW::Mechanize.3
+/opt/perl/site/man/man3/WWW::Mechanize::Cookbook.3
+/opt/perl/site/man/man3/WWW::Mechanize::Examples.3
+/opt/perl/site/man/man3/WWW::Mechanize::FAQ.3
+/opt/perl/site/man/man3/WWW::Mechanize::Image.3
+/opt/perl/site/man/man3/WWW::Mechanize::Link.3

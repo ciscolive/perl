@@ -1,0 +1,62 @@
+=head1 NAME
+
+Infoblox::Grid::ExtensibleAttributeDef::ListValue - Extensible Attribute Definition List Value object.
+
+=head1 DESCRIPTION
+
+The Extensible Attribute Definition List Value object is used to store values for an extensible attribute object defined as the "list" type.
+
+=head1 CONSTRUCTOR
+
+ my $ext_attr_def = Infoblox::Grid::ExtensibleAttributeDef::ListValue->new(
+     value                => $string,                                                             #Required
+ );
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the values of an Extensible Attribute Definition List Value object.
+
+=head2 value( )
+
+=over
+
+Use this method to set or retrieve the value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Parameter is a string.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get value
+ my $value = $ext_attr_def_value->value();
+ #Modify value
+ $ext_attr_def_value->value($value);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::ExtensibleAttributeDef|Infoblox::Grid::ExtensibleAttributeDef/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

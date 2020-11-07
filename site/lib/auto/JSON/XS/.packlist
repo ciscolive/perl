@@ -1,0 +1,7 @@
+/opt/perl/site/bin/json_xs
+/opt/perl/site/lib/JSON/XS.pm
+/opt/perl/site/lib/JSON/XS/Boolean.pm
+/opt/perl/site/lib/auto/JSON/XS/XS.so
+/opt/perl/site/man/man1/json_xs.1
+/opt/perl/site/man/man3/JSON::XS.3
+/opt/perl/site/man/man3/JSON::XS::Boolean.3

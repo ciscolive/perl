@@ -1,0 +1,53 @@
+{
+   "abstract" : "MooX::Role::Parameterized - roles with composition parameters",
+   "author" : [
+      "Tiago Peczenyj <tiago.peczenyj@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 5.008, CPAN::Meta::Converter version 2.132661, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "mit"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "MooX-Role-Parameterized",
+   "prereqs" : {
+      "build" : {
+         "requires" : {}
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : "0",
+            "List::MoreUtils" : "0",
+            "Module::Runtime" : "0",
+            "Moo" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::Exception" : "0",
+            "Test::More" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/peczenyj/MooX-Role-Parameterized/issues"
+      },
+      "homepage" : "https://github.com/peczenyj/MooX-Role-Parameterized",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/peczenyj/MooX-Role-Parameterized.git"
+      }
+   },
+   "version" : "0.082",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

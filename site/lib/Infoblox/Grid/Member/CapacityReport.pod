@@ -1,0 +1,235 @@
+=head1 NAME
+
+Infoblox::Grid::Member::CapacityReport - Capacity report for a specified member.
+
+=head1 DESCRIPTION
+
+This is a read-only object that provides the capacity report for the specified member.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::Member::CapacityReport object is a read-only object and does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to the Infoblox::Grid::HSM::AllGroup object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+Apply the following attribute to get a specific capacity report object:
+
+  name - Required. A member name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Member::CapacityReport",
+     name   => "infoblox.localdomain"
+     );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of the Infoblox::Grid::Member::CapacityReport object.
+
+=head2 hardware_type( )
+
+=over
+
+Use this method to retrieve the member's hardware type.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get hardware_type
+  my $hardware_type = $report->hardware_type();
+
+=back
+
+=back
+
+=head2 max_capacity( )
+
+=over
+
+Use this method to retrieve the member's maximum object capacity.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get max_capacity
+  my $max_capacity = $report->max_capacity();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the member name.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get name
+  my $name = $report->name();
+
+=back
+
+=back
+
+=head2 object_counts( )
+
+=over
+
+Use this method to retrieve the object counts for the member.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, which is a reference to a hash that contains keys to the object types and the corresponding values to the counts of each particular object type.
+
+=item B<Example>
+
+  #Get object_counts
+  my $object_counts = $report->object_counts();
+  #Get the zone count
+  my $zone_count = $object_counts->{'Zone'};
+
+=back
+
+=back
+
+=head2 percent_used( )
+
+=over
+
+Use this method to retrieve the percentage of the member capacity currently being used.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get percent_used
+  my $percent_used = $report->percent_used();
+
+=back
+
+=back
+
+=head2 role( )
+
+=over
+
+Use this method to retrieve the member role.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get role
+  my $role = $report->role();
+
+=back
+
+=back
+
+=head2 total_objects( )
+
+=over
+
+Use this method to retrieve the total number of objects on the member.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get total_objects
+  my $total_objects = $report->total_objects();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

@@ -1,0 +1,1 @@
+{"name":"Net::OpenSSH::Parallel","version":"0.14","target":"Net::OpenSSH::Parallel","provides":{"Net::OpenSSH::Parallel":{"file":"lib/Net/OpenSSH/Parallel.pm","version":"0.14"},"Net::OpenSSH::Parallel::Constants":{"file":"lib/Net/OpenSSH/Parallel/Constants.pm","version":"0.12"}},"pathname":"S/SA/SALVA/Net-OpenSSH-Parallel-0.14.tar.gz","dist":"Net-OpenSSH-Parallel-0.14"}

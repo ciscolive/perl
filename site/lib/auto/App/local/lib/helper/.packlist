@@ -1,0 +1,6 @@
+/opt/perl/site/bin/local-lib-helper
+/opt/perl/site/lib/App/local/lib/helper.pm
+/opt/perl/site/lib/App/local/lib/helper/rationale.pod
+/opt/perl/site/man/man1/local-lib-helper.1
+/opt/perl/site/man/man3/App::local::lib::helper.3
+/opt/perl/site/man/man3/App::local::lib::helper::rationale.3

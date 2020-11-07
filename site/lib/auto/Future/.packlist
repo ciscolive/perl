@@ -1,0 +1,16 @@
+/opt/perl/site/lib/Future.pm
+/opt/perl/site/lib/Future/Exception.pm
+/opt/perl/site/lib/Future/Mutex.pm
+/opt/perl/site/lib/Future/Phrasebook.pod
+/opt/perl/site/lib/Future/Queue.pm
+/opt/perl/site/lib/Future/Utils.pm
+/opt/perl/site/lib/Test/Future.pm
+/opt/perl/site/lib/Test/Future/Deferred.pm
+/opt/perl/site/man/man3/Future.3
+/opt/perl/site/man/man3/Future::Exception.3
+/opt/perl/site/man/man3/Future::Mutex.3
+/opt/perl/site/man/man3/Future::Phrasebook.3
+/opt/perl/site/man/man3/Future::Queue.3
+/opt/perl/site/man/man3/Future::Utils.3
+/opt/perl/site/man/man3/Test::Future.3
+/opt/perl/site/man/man3/Test::Future::Deferred.3

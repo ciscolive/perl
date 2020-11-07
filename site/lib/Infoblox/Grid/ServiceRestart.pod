@@ -1,0 +1,169 @@
+=head1 NAME
+
+Infoblox::Grid::ServiceRestart - a Grid Service Restart setting object.
+
+=head1 DESCRIPTION
+
+The Grid Service Restart setting object provides information about service restart configurations.
+
+=head1 CONSTRUCTOR
+
+ my $service_restart = Infoblox::Grid::ServiceRestart->new(
+    delay           => $uint,            # Optional / Default is 10
+    restart_offline => 'true' | 'false', # Optional / Default is 'true'
+    timeout         => $int,             # Optional / Default is 60
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a Grid Service Restart object.
+
+=head2 Infoblox::Grid::DNS->restart_setting( )
+
+=over
+
+Use this method to set or retrive Grid DNS service restart settings. See L<Infoblox::Grid::DNS-E<gt>restart_setting()|Infoblox::Grid::DNS/restart_setting()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get restart_setting
+ my $restart_setting = $grid_dns->restart_setting();
+ #Modify the retry time
+ $grid_dns->restart_setting($restart_setting);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DHCP->restart_setting( )
+
+=over
+
+Use this method to set or retrive Grid DHCP service restart settings. See L<Infoblox::Grid::DHCP-E<gt>restart_setting()|Infoblox::Grid::DHCP/restart_setting()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get restart_setting
+ my $restart_setting = $grid_dns->restart_setting();
+ #Modify the retry time
+ $grid_dns->restart_setting($restart_setting);
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 delay( )
+
+=over
+
+Use this method to set or retrieve restart delay in seconds between Grid Service Groups.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer. The default value is 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get delay
+ my $delay = $svcrst->delay();
+ #Modify delay
+ $svcrsts->delay(50);
+
+=back
+
+=back
+
+=head2 restart_offline( )
+
+=over
+
+Use this method to enable or disable the restart of offline Grid Members.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the restart of offline Grid Services or 'false' to disable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get restart_offline
+ my $restart_offline = $svcrst->restart_offline();
+ #Modify restart_offline
+ $svcrsts->restart_offline('false');
+
+=back
+
+=back
+
+=head2 timeout( )
+
+=over
+
+Use this method to set or retrieve timeout interval in seconds for Grid Service Groups restart.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an integer greater or equal to -1 (where -1 means infinite). The default value is 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get timeout
+ my $timeout = $svcrst->timeout();
+ #Modify timeout
+ $svcrst->timeout(50);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, L<Infoblox::Grid::DNS-E<gt>restart_setting()|Infoblox::Grid::DNS/restart_setting()>, L<Infoblox::Grid::DHCP|Infoblox::Grid::DHCP>, L<Infoblox::Grid::DHCP-E<gt>restart_setting()|Infoblox::Grid::DHCP/restart_setting()>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

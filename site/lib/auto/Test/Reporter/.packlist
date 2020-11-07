@@ -1,0 +1,8 @@
+/opt/perl/site/lib/Test/Reporter.pm
+/opt/perl/site/lib/Test/Reporter/Transport.pm
+/opt/perl/site/lib/Test/Reporter/Transport/File.pm
+/opt/perl/site/lib/Test/Reporter/Transport/Null.pm
+/opt/perl/site/man/man3/Test::Reporter.3
+/opt/perl/site/man/man3/Test::Reporter::Transport.3
+/opt/perl/site/man/man3/Test::Reporter::Transport::File.3
+/opt/perl/site/man/man3/Test::Reporter::Transport::Null.3

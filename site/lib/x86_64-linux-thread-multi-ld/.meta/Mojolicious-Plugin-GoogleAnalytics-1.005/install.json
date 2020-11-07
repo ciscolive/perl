@@ -1,0 +1,1 @@
+{"name":"Mojolicious::Plugin::GoogleAnalytics","target":"Mojolicious::Plugin::GoogleAnalytics","dist":"Mojolicious-Plugin-GoogleAnalytics-1.005","pathname":"A/AD/ADAMJS/Mojolicious-Plugin-GoogleAnalytics-1.005.tar.gz","version":"1.005","provides":{"Mojolicious::Plugin::GoogleAnalytics":{"version":"1.005","file":"lib/Mojolicious/Plugin/GoogleAnalytics.pm"}}}

@@ -1,0 +1,299 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatAnalytics::Member - Member Analytics object.
+
+=head1 DESCRIPTION
+
+This object provides information about the member Threat Analytics settings.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Infoblox::Grid::ThreatAnalytics::Member object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Member Threat Analytics object.
+
+    comment  - The Threat Analytics member comment.
+    ipv4addr - The Threat Analytics member IPv4 address.
+    ipv6addr - The Threat Analytics member IPv6 address.
+    name     - The Threat Analytics member name.
+    status   - The Threat Analytics member status.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object'      => 'Infoblox::Grid::ThreatAnalytics::Member',
+     'name'        => 'host.com',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify attributes of an member object.
+ $member->enable_service('true');
+
+ # Submit modification
+ my $response = $session->modify($member);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a Member Threat Analytics objects.
+
+    comment  - The Threat Analytics member comment.
+    ipv4addr - The Threat Analytics member IPv4 address.
+    ipv6addr - The Threat Analytics member IPv6 address.
+    name     - The Threat Analytics member name.
+    status   - The Threat Analytics member status.
+
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     'object'      => 'Infoblox::Grid::ThreatAnalytics::Member',
+     'name'        => 'host.*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This object provides information about the member Threat Analytics settings.
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve the descriptive comment for the Threat Analytics member object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $analytics_member->comment();
+
+=back
+
+=back
+
+=head2 enable_service( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether the Threat Analytics engine is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable Threat Analytics engine and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_service value
+ my $enable_service = $analytics_member->enable_service();
+ #Modify enable_service value
+ $analytics_member->enable_service('true');
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to retrieve the IPv4 address of the Threat Analytics member object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv4addr value
+ my $ipv4addr = $analytics_member->ipv4addr();
+
+=back
+
+=back
+
+=head2 ipv6addr( )
+
+=over
+
+Use this method to retrieve the IPv6 address of the Threat Analytics member object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6addr value
+ my $ipv6addr = $analytics_member->ipv6addr();
+
+=back
+
+=back
+
+=head2 move_black_list_rpz_cnames_to_threat_analytics_whitelist( )
+
+=over
+
+Use this method to replace DNS RPZ CNAME records with appropriate Threat Analytics Whitelist objects.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::RPZRecord::CNAME|Infoblox::DNS::RPZRecord::CNAME> objects.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #move cnames to analytics whitelist
+ $analytics_member->move_black_list_rpz_cnames_to_threat_analytics_whitelist(@cnames);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of the Threat Analytics member object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $analytics_member->name();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status of the Threat Analytics member object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are 'FAILED', 'INACTIVE', 'UNKNOWN', 'WARNING' and 'WORKING'.
+
+=item B<Example>
+
+ #Get status value
+ my $status = $analytics_member->status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::DNS::RPZRecord::CNAME|Infoblox::DNS::RPZRecord::CNAME>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

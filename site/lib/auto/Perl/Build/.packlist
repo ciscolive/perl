@@ -1,0 +1,6 @@
+/opt/perl/site/bin/perl-build
+/opt/perl/site/lib/Perl/Build.pm
+/opt/perl/site/lib/Perl/Build/Built.pm
+/opt/perl/site/man/man1/perl-build.1
+/opt/perl/site/man/man3/Perl::Build.3
+/opt/perl/site/man/man3/Perl::Build::Built.3

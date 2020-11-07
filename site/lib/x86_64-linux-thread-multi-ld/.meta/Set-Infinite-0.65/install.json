@@ -1,0 +1,1 @@
+{"version":"0.65","pathname":"F/FG/FGLOCK/Set-Infinite-0.65.tar.gz","target":"Set::Infinite","provides":{"Set::Infinite":{"file":"lib/Set/Infinite.pm","version":"0.65"},"Set::Infinite::Basic":{"file":"lib/Set/Infinite/Basic.pm"},"Set::Infinite::Arithmetic":{"file":"lib/Set/Infinite/Arithmetic.pm"}},"name":"Set::Infinite","dist":"Set-Infinite-0.65"}

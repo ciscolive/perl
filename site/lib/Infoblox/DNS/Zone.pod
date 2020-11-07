@@ -1,0 +1,4997 @@
+=head1 NAME
+
+Infoblox::DNS::Zone - DNS Zone object
+
+=head1 DESCRIPTION
+
+A zone is a portion of the domain name space for which an Infoblox appliance or another name server is authoritative (for example, has the start of authority [SOA] record). A zone can also be delegated or forwarded. Zones are the primary objects used to manage DNS data and DNS services.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+ my $zone = Infoblox::DNS::Zone->new(
+     name                                          => $fqdn | $ipv4_subnet/prefix | $ipv6_subnet/prefix,                        # Required
+     ad_servers                                    => [ $ipv4addr | $ipv6addr ],                                                # Optional / Default is empty list
+     allow_gss_tsig_for_underscore_zone            => "true" | "false",                                                         # Optional / Default is "false"
+     allow_gss_tsig_zone_updates                   => "true" | "false",                                                         # Optional / Default is "false"
+     allow_query                                   => [ $ipv4addr | $ipv4_subnet/prefix | $ipv6addr |
+                                                        $ipv6_subnet/prefix | $TSIGKey ,... ] | $nacl | undef,                  # Optional / Default is undefined
+     allow_transfer                                => [ $ipv4addr | $ipv4_subnet/prefix | $ipv6addr |
+                                                        $ipv6_subnet/prefix | $TSIGKey ,... ] | $nacl | undef,                  # Optional / Default is undefined
+     allow_update                                  => [ $ipv4addr | $ipv4_subnet/prefix | $ipv6addr |
+                                                        $ipv6_subnet/prefix | $TSIGKey ,... ] | $nacl | undef,                  # Optional / Default is undefined
+     allow_update_forwarding                       => [ $ipv4addr | $ipv4_subnet/prefix | $ipv6addr |
+                                                        $ipv6_subnet/prefix | $TSIGKey ,... ] | $nacl | undef,                  # Optional / Default is undefined
+     bind_check_names_policy                       => [ "fail" | "warn" | undef],                                               # Optional / Default is undefined
+     comment                                       => $string,                                                                  # Optional / Default is undefined
+     create_underscore_zones                       => "true" | "false",                                                         # Optional / Default is "false"
+     delegate_to                                   => [ $Nameserver1, $Nameserver2 ... ],                                       # Optional / Default is undefined
+     delegated_ttl                                 => $num,                                                                     # Optional / Default is undefined
+     delegation_ns_group                           => $string | $delegation_ns_group                                            # Optional / Default is undefined
+     disable                                       => "true" | "false",                                                         # Optional / Default is "false"
+     disable_forwarding                            => "true" | "false",                                                         # Optional / Default is "false"
+     dnssec_enable_ksk_auto_rollover               => "true" | "false",                                                         # Optional / Default is "false"
+     dnssec_keys                                   => $keys,                                                                    # Optional / Default is empty list
+     dnssec_zsk_algorithms                         => [$algorithm1, $algorithm2, ...],                                          # Optional / Default is undefined
+     dnssec_ksk_email_notifiaction_enabled         => "true" | "false",                                                         # Optional / Default is false
+     dnssec_ksk_rollover_date                      => $date,                                                                    # Optional / Default is undefined
+     dnssec_ksk_rollover_interval                  => $num,                                                                     # Optional / Default is undefined
+     dnssec_ksk_rollover_notification_config       => "NONE" | "ALL" | "REQUIRE_MANUAL_INTERVENTION",                           # Optional / Default is undefined
+     dnssec_ksk_email_notification_enabled         => "true" | "false",                                                         # Optional / Default is "false"
+     dnssec_ksk_snmp_notification_enabled          => "true" | "false",                                                         # Optional / Default is "false"
+     dnssec_nsec3_iterations                       => $num,                                                                     # Optional / Default is undefined
+     dnssec_nsec3_salt_min_length                  => $num,                                                                     # Optional / Default is undefined
+     dnssec_nsec3_salt_max_length                  => $num,                                                                     # Optional / Default is undefined
+     dnssec_signature_expiration                   => $num,                                                                     # Optional / Default is undefined
+     dnssec_signed                                 => "true" | "false",                                                         # Optional / Default is undefined
+     dnssec_zsk_algorithms                         => [$algorithm1, $algorithm2, ...],                                          # Optional / Default is undefined
+     dnssec_zsk_rollover_date                      => $date,                                                                    # Optional / Default is undefined
+     dnssec_zsk_rollover_mechanism                 => "DOUBLE_SIGN" | "PRE_PUBLISH",                                            # Optional / Default is undefined
+     dnssec_zsk_rollover_interval                  => $num,                                                                     # Optional / Default is undefined
+     next_secure_type                              => "NSEC" | "NSEC3",                                                         # Optional / Default is undefined
+     enable_ad_servers                             => "true" | "false",                                                         # Optional / Default is "false"
+     allow_ptr_creation_in_parent                  => "true" | "false",                                                         # Optional / Default is "false"
+     email                                         => $email,                                                                   # Optional / Default is undefined
+     extattrs                                      => { $string => $extattr, ... },                                             # Optional / Default is undefined
+     extensible_attributes                         => { $string => $string | $num, $string => [ $string | $num, ... ], ... }    # Optional / Default is undefined
+     fireeye_rule_mapping                          => $rulemap,                                                                 # Optional / Default is undefined
+     forward_only                                  => "true" | "false",                                                         # Optional / Default is "false"
+     forward_to                                    => [ $Member1, $Member2, $Nameserver1, $Nameserver2,...],                    # Optional / Default is undefined
+     forward_ns_group                              => $string | $forward_ns_group                                               # Optional / Default is undefined
+     forward_external_ns_group                     => $string                                                                   # Optional / Default is undefined
+     host_name_restriction_policy                  => $string,                                                                  # Optional / Default is undefined
+     import_from                                   => $ipv4addr,                                                                # Optional / Default is undefined
+     is_default                                    => "true" | "false",                                                         # Optional / Default is "false"
+     is_multimaster                                => "true" | "false",                                                         # Optional / Default is "false"
+     locked                                        => "true" | "false",                                                         # Optional / Default is "false"
+     members                                       => [ $Member1, $Member2,...],                                                # Optional / Default is undefined
+     member_soa_mnames                             => [$soa_mname1, $soa_mname2, ...],                                          # Optional / Default is undefined
+     member_soa_serials                            => [$soa_serial1, $soa_serial2, ...],                                        # Optional / Default is undefined
+     ms_ad_integrated                              => "true" | "false"                                                          # Optional / Default is "false"
+     ms_allow_transfer                             => "Any" | "NSOnly" | "None" | [ $ipv4addr1, ... ]                           # Optional / Default is "NSOnly"
+     ms_ddns_mode                                  => "Secure" | "None" | "Any"                                                 # Optional / Default is undefined
+     ms_sync_disable                               => "true" | "false"                                                          # Optional / Default is "false"
+     notify_delay                                  => $num,                                                                     # Optional / Default is undefined
+     multiple_primaries                            => [$Member1, ...] | [$Nameserver1, ...] | [$MSServer1, ...],                # Optional / Default is undefined
+     ns_group                                      => $string | $ns_group                                                       # Optional / Default is undefined
+     override_delegated_ttl                        => "true" | "false",                                                         # Optional / Default is "false"
+     override_grid_zone_timer                      => "true" | "false",                                                         # Optional / Default is "false"
+     override_grid_email                           => "true" | "false",                                                         # Optional / Default is "false"
+     override_serial_number                        => "true" | undef,                                                           # Optional / Default is undef
+     prefix                                        => $string,                                                                  # Optional / Default is undefined
+     scavenging_settings                           => $scavenging_settings,                                                     # Optional / Default is undefined
+     remove_sub_zones                              => "true" | "false",                                                         # Optional / Default is undefined
+     rpz_type                                      => "LOCAL" | "FIREEYE" | "FEED",                                             # Optional / Default is undefined
+     rpz_severity                                  => "CRITICAL" | "MAJOR" | "WARNING" | "INFORMATIONAL",                       # Optional / Default is undefined
+     secondaries                                   => [ $Member1, $Member2, $Nameserver1, $MSServer2, ...],                     # Optional / Default is empty
+     soa_default_ttl                               => $num,                                                                     # Optional / Default is undefined
+     soa_expire                                    => $num,                                                                     # Optional / Default is undefined
+     soa_mname                                     => $fqdn,                                                                    # Optional / Default is undefined
+     soa_negative_ttl                              => $num,                                                                     # Optional / Default is undefined
+     soa_retry                                     => $num,                                                                     # Optional / Default is undefined
+     soa_refresh                                   => $num,                                                                     # Optional / Default is undefined
+     soa_serial_number                             => $num,                                                                     # Optional / Default is 1
+     shared_record_groups                          => [ $shared_record_group1_name, ... ],                                      # Optional / Default is undefined
+     stub_from                                     => [ $Nameserver1, $Nameserver2, ... ],                                      # Optional / Default is undefined
+     stub_members                                  => [ $Member1, $Member2, $MSServer1, $MSServer2, ...],                       # Optional / Default is undefined
+     stub_ns_group                                 => $string | $stub_ns_group                                                  # Optional / Default is undefined
+     stub_external_ns_group                        => $string                                                                   # Optional / Default is undefined
+     views                                         => [$View1],                                                                 # Optional / Default is "default" view
+     rpz_policy                                    => "GIVEN" | "PASSTHRU" | "NXDOMIAN" | "NODATA" | "SUBSTITUTE" | "DISABLED", # Optional / Default is undefined
+     substitute_name                               => $string,                                                                  # Optional / Default is empty
+     copy_xfer_to_notify                           => "true" | "false",                                                         # Optional / Default is "false"
+     override_copy_xfer_to_notify                  => "true" | "false",                                                         # Optional / Default is "false"
+     dns_integrity_check_enable                    => "true" | "false",                                                         # Optional / Default is "false"
+     dns_integrity_frequency                       => $uint,                                                                    # Optional / Default is undefined
+     dns_integrity_member                          => $hostname,                                                                # Optional / Default is undefined
+     dns_integrity_verbose_logging                 => "true" | "false",                                                         # Optional / Default is undefined
+     ddns_restrict_patterns_list                   => [$string, $string, ...],                                                  # Optional / Default is undefined
+     ddns_restrict_patterns                        => "true" | "false",                                                         # Optional / Default is 'false'
+     ddns_restrict_static                          => "true" | "false",                                                         # Optional / Default is 'false'
+     ddns_restrict_protected                       => "true" | "false",                                                         # Optional / Default is 'false'
+     ddns_restrict_secure                          => "true" | "false",                                                         # Optional / Default is 'false'
+     ddns_principal_tracking                       => "true" | "false",                                                         # Optional / Default is 'false'
+     ddns_principal_group                          => $principal_group,                                                         # Optional / Default is undefined,
+     ddns_force_creation_timestamp_update          => "true" | "false",                                                         # Optional / Default is 'false'
+     override_ddns_patterns_restriction            => "true" | "false",                                                         # Optional / Default is 'false'
+     override_ddns_restrict_static                 => "true" | "false",                                                         # Optional / Default is 'false'
+     override_ddns_restrict_protected              => "true" | "false",                                                         # Optional / Default is 'false'
+     override_ddns_principal_security              => "true" | "false",                                                         # Optional / Default is 'false'
+     override_ddns_force_creation_timestamp_update => "true" | "false",                                                         # Optional / Default is 'false'
+     override_scavenging_settings                  => "true" | "false",                                                         # Optional / Default is 'false'
+     override_rpz_drop_ip_rule                     => "true" | "false" | undef,                                                 # Optional / Default is "false"
+     rpz_drop_ip_rule_enabled                      => "true" | "false" | undef,                                                 # Optional / Default is "false"
+     rpz_drop_ip_rule_min_prefix_length_ipv4       => $uint | undef,                                                            # Optional / Default is 29
+     rpz_drop_ip_rule_min_prefix_length_ipv6       => $uint | undef,                                                            # Optional / Default is 112
+     ms_dc_ns_record_creation                      => $msdcnsrecordcreation,                                                    # Optional / Default is empty list
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a DNS Zone object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+If you have applied an access control list to an object, you must restart services after you update the access control list for the changes to take effect. See L<Infoblox::Session-E<gt>restart()|Infoblox::Session/restart()/> method.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $zone = Infoblox::DNS::Zone->new (
+     name     => "domain.com",
+     comment  => "this is a demo zone",
+     disable  => "false",
+     views    => [$view1]
+     );
+ #Submit for addition
+ my $response = $session->add( $zone );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS Zone object:
+
+  name - Required. A zone name in string format.
+  view - Optional. The DNS view in which the zone is located. The default is all DNS views.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+  zone - Optional. The parent zone name in string format.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Zone",
+     name   => "domain.com",
+     view   => "default" );
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Zone",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+If you have applied an access control list to an object, you must restart services after you update the access control list for the changes to take effect. See L<Infoblox::Session-E<gt>restart()|Infoblox::Session/restart()/> method.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $zone->comment("this is a modified comment");
+ #Submit modification
+ my $response = $session->modify( $zone );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Zone",
+     name   => "domain.com",
+     view   => "default" );
+ #Find the desired object from the retrieved list.
+ my $desired_zone = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_zone );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS Zone objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DNS Zone object:
+
+  name - Required. A host name in string format (regular expression).
+  view - Optional. The DNS view in which the zone is located. The default is all DNS views.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  comment - Optional. A comment in string format (regular expression).
+  primary_association_type - Optional. "Microsoft" is the only allowed value. If it is specified, the search returns only zones with primary servers that are Microsoft (r) DNS servers.
+  dnssec_ksk_rollover_date - Optional. Value is the number of seconds that have elapsed since January 1st, 1970 UTC for the next KSK rollover.
+  dnssec_zsk_rollover_date - Optional. Value is the number of seconds that have elapsed since January 1st, 1970 UTC for the next ZSK rollover.
+  zone - Optional. The parent zone name in string format (regular expression).
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # search for all DNS zone objects under com in default view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Zone",
+     name   => ".*\\.com",
+     view   => "default" );
+
+ # search for all DNS zone objects defining "Santa Clara" for "Site" extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Zone",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a zone.
+
+=head2 ad_servers( )
+
+=over
+
+Use this method to set or retrieve the list of AD domain controllers that are allowed to send GSS-TSIG unsigned updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains IPv4 or IPv6 addresses.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ad_servers
+ my $ad_servers = $zone->ad_servers();
+ # Modify ad_servers
+ $zone->ad_servers(["1.2.3.4", "dead::beef"]);
+
+=back
+
+=back
+
+=head2 allow_gss_tsig_for_underscore_zone( )
+
+=over
+
+Use this method to set or retrieve the flag that allows DHCP clients to perform GSS-TSIG signed updates for underscore zones.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get allow_gss_tsig_for_underscore_zone.
+ my $allow_gss_tsig_for_underscore_zone = $zone->allow_gss_tsig_for_underscore_zone();
+ # Modify allow_gss_tsig_for_underscore_zone.
+ $zone->allow_gss_tsig_for_underscore_zone("true");
+
+=back
+
+=back
+
+=head2 allow_gss_tsig_zone_updates( )
+
+=over
+
+Use this method to enable/disable the zone to accept GSS-TSIG updates. This setting overrides the grid and member GSS-TSIG zone update settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get allow_gss_tsig_zone_updates.
+ my $allow_gss_tsig_zone_updates = $zone->allow_gss_tsig_zone_updates();
+ # Modify allow_gss_tsig_zone_updates.
+ $zone->allow_gss_tsig_zone_updates("true");
+
+=back
+
+=back
+
+=head2 allow_ptr_creation_in_parent( )
+
+=over
+
+This flag controls whether automatic generation of RFC 2317 CNAMEs for delegated reverse zones overwrite existing PTR records. The default behavior is to overwrite all the existing records in the range, this corresponds to "allow_ptr_creation_in_parent" set to "false". However, when this flag is set to "true" the existing PTR records are not overwritten.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get allow_ptr_creation_in_parent.
+ my $allow_ptr_creation_in_parent = $zone->allow_ptr_creation_in_parent();
+ # Modify allow_ptr_creation_in_parent.
+ $zone->allow_ptr_creation_in_parent("true");
+
+=back
+
+=back
+
+=head2 allow_query( )
+
+=over
+
+Use this method to set or retrieve the allow_query flag of a DNS zone.
+
+You can allow or reject queries from specified IP addresses and networks. You can also specify TSIG keys for the allowed hosts. This setting overrides the member-level query settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses, networks, and/or L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey> objects. To deny queries from certain IP addresses and networks, add "!" as a prefix to the IP addresses and networks. Specify "any" to allow any query, or undefine to use the Grid::Member::DNS level allow_query list. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Getting allow_query
+  my $allow_query = $zone->allow_query();
+  #Modifying allow_query
+  $zone->allow_query(["any"]);
+
+  #Specifying TSIG keys
+  my $tsig_key1 = $session->gen_tsig_key();
+  my $query_key = Infoblox::DNS::TSIGKey->new(
+     name => "query_key1",
+     key  => $tsig_key1
+  );
+  #Modifying allow_query
+  $zone->allow_query( [ "10.0.0.10" , "20.0.0.0/24","2001::123", $key1, "2004::444/64","!"."30.0.0.30" , "!"."40.10.0.0/24","!"."2005::222/64"] );
+  ##Un-override allow_query
+  $zone->allow_query(undef)
+  #Use Infoblox::Grid::NamedACL
+  $zone->allow_query($nacl);
+
+=back
+
+=back
+
+=head2 allow_transfer( )
+
+=over
+
+Use this method to set or retrieve the allow_transfer list of a DNS zone.
+
+You can allow or reject zone transfers from specified IP addresses and networks. This setting overrides the member-level zone transfer settings.
+You can also provide Transaction Signature (TSIG) keys for clients that are allowed to do zone transfers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses and networks. It is also possible to specify the TSIG keys of clients that are allowed to perform zone transfers. TSIG keys  are used to authenticate zone transfer requests and replies. The same key name and key value must be on the primary and secondary name servers for TSIG-authenticated zone transfers to occur. To deny zone transfers from certain IP addresses and networks, add "!" as a prefix to the IP addresses and networks. Specify "any" to allow any transfer, or undefine to use the Grid::Member::DNS level allow_transfer list.  The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Getting allow_transfer
+  my $allow_transfer = $zone->allow_transfer( );
+  #Modifying allow_transfer
+  $zone->allow_transfer(["any"]);
+
+  #Specifying TSIG keys
+  my $tsig_key1 = $session->gen_tsig_key();
+  my $key1 = Infoblox::DNS::TSIGKey->new(
+     name => "key1",
+     key  => $tsig_key1
+  );
+  my $key2 = Infoblox::DNS::TSIGKey->new(
+     name => "tsig_xfer",
+     key  => ":2xCOMPAT"
+     );
+  #Modifying allow_transfer
+  $zone->allow_transfer(["10.0.0.10", "20.0.0.0/24","2001::1234", $key1, "2001::333/64", $key2, "!"."30.0.0.30", "!"."40.10.0.0/24","!"."2008::543","!"."2007::456/64"]);
+  #Use Grid::Member::DNS level allow_transfer list
+  $zone->allow_transfer(undef)
+  #Use Infoblox::Grid::NamedACL
+  $zone->allow_transfer($nacl);
+
+=back
+
+=back
+
+=head2 allow_update( )
+
+=over
+
+Use this method to set or retrieve the allow_update flag of a DNS zone.
+
+You can allow or deny dynamic updates from specified IP addresses and networks. This setting overrides member-level update settings.
+You can also provide TSIG keys for clients that are allowed to do zone updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses, networks and/or L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey> objects. To deny updates from certain IP addresses and networks, add "!" as a prefix to the IP addresses and networks. Specify "any" to allow any update, or undefine to use the Grid::Member::DNS allow_update list.  Note: You should also undefine the update_keys list to use Grid::Member::DNS settings. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Getting allow_update
+  my $allow_update = $zone->allow_update();
+  #Modifying allow_update
+  $zone->allow_update(["any"]);
+
+  #Creating a TSIGKey object.
+  my $update_key1 = $session->gen_tsig_key();
+  my $up_key1 = Infoblox::DNS::TSIGKey->new(
+     name => "update_key",
+     key  => $update_key1
+     );
+
+  #Modifying allow_update
+  $zone->allow_update(["10.0.0.10", $up_key1, "20.0.0.0/24","2006::987","2007::777/64", "!"."30.0.0.30", "!"."40.10.0.0/24"]);
+
+  #Use Grid::Member::DNS level allow_update list
+  $zone->allow_update(undef)
+  #Use Infoblox:Grid::NamedACL
+  $zone->allow_update($nacl);
+
+=back
+
+=back
+
+=head2 allow_update_forwarding( )
+
+=over
+
+Use this method to set or retrieve the allow_update_forwarding flag of a DNS zone.
+
+You can allow or deny dynamic updates forwarded from specified IP addresses and networks. This setting overrides member-level update settings.
+You can also provide TSIG keys for clients that are allowed to do zone updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::NamedACL|Infoblox::Grid::NamedACL> object or an array reference that contains IPv4/IPv6 addresses, networks and/or L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey> objects. To deny updates from certain IP addresses and networks, add "!" as a prefix to the IP addresses and networks. Specify "any" to allow any update, or undefine to use the Grid::Member::DNS allow_update list.  Note: You should also undefine the update_keys list to use Grid::Member::DNS settings. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Getting allow_update_forwarding
+  my $allow_update_forwarding = $zone->allow_update_forwarding();
+  #Modifying allow_update_forwarding
+  $zone->allow_update_forwarding(["any"]);
+
+  #Creating a TSIGKey object.
+  my $update_key1 = $session->gen_tsig_key();
+  my $up_key1 = Infoblox::DNS::TSIGKey->new(
+     name => "update_key",
+     key  => $update_key1
+     );
+
+  #Modifying allow_update_forwarding
+  $zone->allow_update_forwarding(["10.0.0.10", $up_key1, "20.0.0.0/24","2009::654/64","!"."30.0.0.30", "!"."40.10.0.0/24","!"."2007::432/64"]);
+
+  ##Un-override allow_update_forwarding
+  $zone->allow_update_forwarding(undef);
+  #Use Infoblox::Grid::NamedACL
+  $zone->allow_update_forwarding($nacl);
+
+=back
+
+=back
+
+=head2 bind_check_names_policy( )
+
+=over
+
+Use this method to set or retrieve the BIND check names policy, which indicates the action the appliance takes when it
+encounters host names that do not comply with the Strict Hostname Checking policy. This method applies only if
+the host name restriction policy  is set to "Strict Hostname Checking".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The allowed values of the parameter are "fail", "warn" or undefined. This indicates the desired BIND behavior in the case of
+illegal hostnames. The default value is undefined, which means the appliance ignores illegal hostnames.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bind_check_names_policy value
+ my $names_policy = $zone->bind_check_names_policy();
+ #Modify bind_check_names_policy
+ $zone->bind_check_names_policy("warn");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment about the zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get comment
+  my $comment = $zone->comment();
+  #Modify comment
+  $zone->comment("Modifying the DNS Zone comment");
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to retrieve cloud API related information for the Infoblox::DNS::Zone object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $object->cloud_info();
+
+=back
+
+=back
+
+=head2 convert_a_host_ptr_to_bulk_host( )
+
+=over
+
+Use this method to convert all A, HOST and PTR records that have sequential IP addresses to bulk host records.
+
+The zone object must be retrieved from the server before calling this method.
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=over
+
+=item B<Parameter>
+
+The parameter 'create_reverse_mapping' toggles if the method creates records in the matching reverse-mapping zone.
+
+The parameter is set to 'True' if records are created in the reverse-mapping zone. Otherwise, it is set to 'False'.
+
+=item B<Returns>
+
+=item B<Example>
+
+  my %args;
+  $args{'create_reverse_mapping'} = 'true';
+  $zone->convert_a_host_ptr_to_bulk_host(\%args);
+
+=back
+
+=back
+
+=head2 copy_xfer_to_notify( )
+
+=over
+
+Use this method to enable/disable copying of the allowed IPs from zone transfer list into also-notify statement in named.conf.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to enable copying of the allowed IPs from zone transfer list into also-notify statement in named.conf. Set the parameter to "false" to disable it.
+
+The default value of the parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  # Get attribute value
+  my $value = $zone->copy_xfer_to_notify();
+  # Modify attribute value
+  $zone->copy_xfer_to_notify('true');
+
+=back
+
+=back
+
+=head2 create_ptr_for_bulk_hosts( )
+
+=over
+
+Use this method to set the create_ptr_for_bulk_hosts property used in zone import operations. This is a write-only attribute.
+
+Set this flag to indicate that Infoblox PTR records will be automatically created for Bulk Host records if necessary when the zone data is imported.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to trigger host creation or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+  #Modify create_ptr_for_bulk_hosts
+  $zone->create_ptr_for_bulk_hosts("true");
+
+=back
+
+=back
+
+=head2 create_ptr_for_hosts( )
+
+=over
+
+Use this method to set the create_ptr_for_hosts property used in zone import operations. This is a write-only attribute.
+
+Set this flag to indicate that Infoblox PTR records will be automatically created for Host records if necessary when the zone data is imported.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to trigger host creation or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+  #Modify create_ptr_for_bulk_hosts
+  $zone->create_ptr_for_bulk_hosts("true");
+
+=back
+
+=back
+
+=head2 create_underscore_zones( )
+
+=over
+
+Use this method to set or retrieve the create_underscore_zones flag of a DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the create_underscore_zones flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get create_underscore_zones
+  my $create_underscore_zones = $zone->create_underscore_zones();
+  #Modify create_underscore_zones
+  $zone->create_underscore_zones("true");
+
+=back
+
+=back
+
+=head2 ddns_force_creation_timestamp_update( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the creation timestamp of resource records (RR) should be updated when DDNS update happens even if there is no change to the RR.
+
+Setting this parameter to defined value, implicitly sets the override_ddns_force_creation_timestamp_update attribute to "true".
+Setting this parameter to undefined causes the appliance to use the Grid-level ddns_force_creation_timestamp_update flag and
+automatically sets the override_ddns_force_creation_timestamp_update attribute to "false".
+
+Note that when ddns_force_creation_timestamp_update contains a value and override_ddns_force_creation_timestamp_update is set to "false",
+the last operation takes precedence. Thus the sequence
+$object->ddns_force_creation_timestamp_update("true");
+$object->override_ddns_force_creation_timestamp_update("false");
+sets override_ddns_force_creation_timestamp_update to "false", and the sequence
+$object->override_ddns_force_creation_timestamp_update("false");
+$object->ddns_force_creation_timestamp_update("true");
+sets override_ddns_force_creation_timestamp_update to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to update the creation timestamp of RR on every DDNS update, and 'false' to update the creation timestamp only when RR changes during a DDNS update.
+The default is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_force_creation_timestamp_update value
+ $value = $object->ddns_force_creation_timestamp_update();
+
+ #modify ddns_force_creation_timestamp_update value
+ $object->ddns_force_creation_timestamp_update('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_patterns_list( )
+
+=over
+
+Use this method to set or retrieve an unordered list of restriction patterns for an option of to restrict DDNS updates based on FQDN patterns.
+
+Setting this parameter to any list, implicitly sets the override_ddns_patterns_restriction attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS update restrictions and automatically sets the override_ddns_patterns_restriction attribute to "false" if "ddns_restrict_patterns" is also undefined. But if "ddns_restrict_patterns" contains a value, then the override_ddns_patterns_restriction attribute is set to "true".
+
+Note that when ddns_restrict_patterns_list contains a valid array reference and override_ddns_patterns_restriction is set to "false", the last operation takes precedence. Thus the sequence $zone->ddns_restrict_patterns_list([$pattern1, $pattern2]); $zone->override_ddns_patterns_restriction("false"); sets override_ddns_patterns_restriction to "false", and the sequence $zone->override_ddns_patterns_restriction("false"); $zone->ddns_restrict_patterns_list([$pattern1, $pattern2]); sets override_ddns_patterns_restriction to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of FQDNs in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_patterns_list value
+ $ddns_restrict_patterns_list = $zone->ddns_restrict_patterns_list();
+
+ #modify ddns_restrict_patterns_list value
+ $zone->ddns_restrict_patterns_list(['foo.com', 'bar.com']);
+
+=back
+
+=back
+
+=head2 ddns_restrict_patterns( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request based on FQDN patterns is enabled or disabled.
+
+Setting this parameter to defined value, implicitly sets the override_ddns_patterns_restriction attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS update restrictions and automatically sets the override_ddns_patterns_restriction attribute to "false" if "ddns_restrict_patterns_list" is also undefined. But if "ddns_restrict_patterns_list" contains a value, then the override_ddns_patterns_restriction attribute is set to "true".
+
+Note that when ddns_restrict_patterns contains a value and override_ddns_patterns_restriction is set to "false", the last operation takes precedence. Thus the sequence $zone->ddns_restrict_patterns("true"); $zone->override_ddns_patterns_restriction("false"); sets override_ddns_patterns_restriction to "false", and the sequence $zone->override_ddns_patterns_restriction("false"); $zone->ddns_restrict_patterns("true"); sets override_ddns_patterns_restriction to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update request restriction base on FQDN patterns and 'false to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_patterns value
+ $ddns_restrict_patterns = $zone->ddns_restrict_patterns();
+
+ #modify ddns_restrict_patterns value
+ $zone->ddns_restrict_patterns('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_static( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request to resource records which are marked as 'STATIC' is enabled or disabled.
+
+Setting this parameter to defined value, implicitly sets the override_ddns_restrict_static attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level ddns_restrict_static flag and automatically sets the override_ddns_restrict_static attribute to "false".
+
+Note that when ddns_restrict_static contains a value and override_ddns_restrict_static is set to "false", the last operation takes precedence. Thus the sequence $zone->ddns_restrict_static("true"); $zone->override_ddns_restrict_static("false"); sets override_ddns_restrict_static to "false", and the sequence $zone->override_ddns_restrict_static("false"); $zone->ddns_restrict_static("true"); sets override_ddns_restrict_static to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests to resource records which are marked as 'STATIC' and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_static value
+ $ddns_restrict_static = $zone->ddns_restrict_static();
+
+ #modify ddns_restrict_static value
+ $zone->ddns_restrict_static('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_protected( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether an option to restrict DDNS update request to protected resource records is enabled or disabled.
+
+Setting this parameter to defined value, implicitly sets the override_ddns_restrict_protected attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level ddns_restrict_protected flag and automatically sets the override_ddns_restrict_protected attribute to "false".
+
+Note that when ddns_restrict_protected contains a value and override_ddns_restrict_protected is set to "false", the last operation takes precedence. Thus the sequence $zone->ddns_restrict_protected("true"); $zone->override_ddns_restrict_protected("false"); sets override_ddns_restrict_protected to "false", and the sequence $zone->override_ddns_restrict_protected("false"); $zone->ddns_restrict_protected("true"); sets override_ddns_restrict_protected to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests to protected resource records and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_protected value
+ $ddns_restrict_protected = $zone->ddns_restrict_protected();
+
+ #modify ddns_restrict_protected value
+ $zone->ddns_restrict_protected('true');
+
+=back
+
+=back
+
+=head2 ddns_restrict_secure( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether DDNS update request for principal other than target resource record's principal is restricted.
+
+Setting this parameter to a defined value, implicitly sets the override_ddns_principal_security attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS principal security setting and automatically sets the override_ddns_principal_security attribute to "false" if "ddns_principal_tracking" and "ddns_principal_group" are also undefined. But if "ddns_principal_tracking" or "ddns_principal_group" contains a value, then the override_ddns_principal_security attribute is set to "true".
+
+Note that when ddns_restrict_secure contains a value and override_ddns_principal_security is set to "false", the last operation takes precedence. Thus the sequence $zone->ddns_restrict_secure("true"); $zone->override_ddns_principal_security("false"); sets override_ddns_principal_security to "false", and the sequence $zone->override_ddns_principal_security("false"); $zone->ddns_restrict_secure("true"); sets override_ddns_principal_security to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS update requests restriction for principal other than target resource record's principal and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_restrict_secure value
+ $ddns_restrict_secure = $zone->ddns_restrict_secure();
+
+ #modify ddns_restrict_secure value
+ $zone->ddns_restrict_secure('true');
+
+=back
+
+=back
+
+=head2 ddns_principal_tracking( )
+
+=over
+
+Use this method to set or retrieve the flag which indicates whether the DDNS principal track is enabled or disabled.
+
+DDNS principal tracking includes putting principal name into resource record affected by update.
+
+Setting this parameter to a defined value, implicitly sets the override_ddns_principal_security attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS principal security setting and automatically sets the override_ddns_principal_security attribute to "false" if "ddns_restrict_secure" and "ddns_principal_group" are also undefined. But if "ddns_restrict_secure" or "ddns_principal_group" contains a value, then the override_ddns_principal_security attribute is set to "true".
+
+Note that when ddns_principal_tracking contains a value and override_ddns_principal_security is set to "false", the last operation takes precedence. Thus the sequence $zone->ddns_principal_tracking("true"); $zone->override_ddns_principal_security("false"); sets override_ddns_principal_security to "false", and the sequence $zone->override_ddns_principal_security("false"); $zone->ddns_principal_tracking("true"); sets override_ddns_principal_security to "true".
+
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DDNS principal tracking and 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_principal_tracking value
+ $ddns_principal_tracking = $zone->ddns_principal_tracking();
+
+ #modify ddns_principal_tracking value
+ $zone->ddns_principal_tracking('true');
+
+=back
+
+=back
+
+=head2 ddns_principal_group( )
+
+=over
+
+Use this method to set or retrieve the DDNS principal group.
+
+Setting this parameter to a defined value, implicitly sets the override_ddns_principal_security attribute to "true". Setting this parameter to undefined causes the appliance to use the Grid-level DDNS principal security setting and automatically sets the override_ddns_principal_security attribute to "false" if "ddns_restrict_secure" and "ddns_principal_tracking" are also undefined. But if "ddns_restrict_secure" or "ddns_principal_tracking" contains a value, then the override_ddns_principal_security attribute is set to "true".
+
+Note that when ddns_principal_group contains a value and override_ddns_principal_security is set to "false", the last operation takes precedence. Thus the sequence $zone->ddns_principal_group($principal_group); $zone->override_ddns_principal_security("false"); sets override_ddns_principal_security to "false", and the sequence $zone->override_ddns_principal_security("false"); $zone->ddns_principal_group($principal_group); sets override_ddns_principal_security to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DNS::DDNS::PrincipalCluster::Group|Infoblox::DNS::DDNS::PrincipalCluster::Group> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ddns_principal_group value
+ $ddns_principal_group = $zone->ddns_principal_group();
+
+ #modify ddns_principal_group value
+ $zone->ddns_principal_group($principal_group);
+
+=back
+
+=back
+
+=head2 delegate_to( )
+
+=over
+
+Use this method to set or retrieve the delegate_to flag of a DNS zone.
+
+This provides information for the remote name server that maintains data for the delegated zone. The Infoblox appliance redirects queries for data for the delegated zone to this remote name server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get delegate_to
+ my $delegate_to = $zone->delegate_to();
+ #Modify delegate_to
+ my $nameserver1 = Infoblox::DNS::Nameserver->new(
+        name     => "ns1.del.com",
+        ipv4addr => "11.11.11.11",
+    );
+ my $nameserver2 = Infoblox::DNS::Nameserver->new(
+        name     => "test",
+        ipv6addr => "2006::b671",
+    );
+ $zone->delegate_to([$nameserver1, $nameserver2]);
+
+=back
+
+=back
+
+=head2 delegated_ttl( )
+
+=over
+
+Use this method to set or retrieve the delegated_ttl value of a delegated DNS zone.
+
+You can specify the Time to Live (TTL) values of auto-generated NS and glue records for a delegated zone. This value is the number of seconds that data is cached.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the delegated_ttl in seconds. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails. When delegated_ttl is modified, override_delegated_ttl will be set to 'true' implicitly.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get delegated_ttl
+ my $delegated_ttl = $zone->delegated_ttl();
+ #Modify delegated_ttl
+ $zone->delegated_ttl("3600");
+
+=back
+
+=back
+
+=head2 delegation_ns_group( )
+
+=over
+
+Use this method to set or retrieve the delegation name servers group for the Delegation DNS Zone object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are string that contains name of the group or L<Infoblox::Grid::DNS::Nsgroup::DelegationMember|Infoblox::Grid::DNS::Nsgroup::DelegationMember>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Construct external nameserver
+ my $ns1 = Infoblox::DNS::Nameserver->new(
+     name     => 'ns1.domain0.extra',
+     ipv4addr => '5.5.5.5',
+ );
+
+ #Create delegation nameservers group
+ my $delegation_group = Infoblox::Grid::DNS::DelegationMember->new(
+     name               => 'delegation_ns_group_A',
+     delegation_servers => [$member],
+ );
+
+ #Submit created delegation nameserver group to session
+ $session->add($delegation_group);
+
+ #Get delegation_ns_group
+ my $delegation_ns_group = $zone->delegation_ns_group();
+
+ #Modify delegation_ns_group
+ $zone->delegation_ns_group("delegation_ns_group_A");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get disable
+  my $disable = $zone->disable();
+  #Modify disable
+  $zone->disable("true");
+
+=back
+
+=back
+
+=head2 disable_forwarding( )
+
+=over
+
+Use this method to set or retrieve the disable_forwarding flag of a DNS zone.
+
+Set this flag to indicate that the name servers hosting the zone should not forward queries that end with the domain name of the zone to any configured forwarders.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable forwarding or "false" to enable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get disable_forwarding
+  my $disable_forwarding = $zone->disable_forwarding();
+  #Modify disable_forwarding
+  $zone->disable_forwarding("true");
+
+=back
+
+=back
+
+=head2 dnssec_enable_ksk_auto_rollover( )
+
+=over
+
+Use this method to enable automatic rollover for Key-Signing key.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable automatic rollover for Key-signing key or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get dnssec_enable_ksk_auto_rollover value
+  my $enable_ksk_auto_rollover = $zone->dnssec_enable_ksk_auto_rollover();
+  #Modify dnssec_enable_ksk_auto_rollover value
+  $zone->dnssec_enable_ksk_auto_rollover("true");
+
+=back
+
+=back
+
+=head2 dnssec_keys( )
+
+=over
+
+Use this method to set or retrieve the list of public keys. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a list of L<Infoblox::DNS::DNSSecKey|Infoblox::DNS::DNSSecKey> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_keys value
+ my $keys = $zone->dnssec_keys();
+ #Modify dnssec_keys value
+ $zone->dnssec_keys($keys);
+
+=back
+
+=back
+
+=head2 dnssec_ksk_email_notification_enabled( )
+
+=over
+
+Use this method to enable or disable email notifications for KSK related events.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable email notification or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_ksk_email_notification_enabled value
+ my $value = $zone->dnssec_ksk_email_notification_enabled();
+ #Modify dnssec_ksk_email_notification_enabled value
+ $zone->dnssec_ksk_email_notification_enabled("true");
+
+=back
+
+=back
+
+=head2 dnssec_ksk_rollover_date( )
+
+=over
+
+Use this method to set or retrieve the time for the next KSK rollover.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_ksk_rollover_date value
+ my $value = $zone->dnssec_ksk_rollover_date_value();
+ #Modify dnssec_ksk_rollover_date value
+ $zone->dnssec_ksk_rollover_date_value($date);
+
+=back
+
+=back
+
+=head2 dnssec_ksk_rollover_notification_config( )
+
+=over
+
+Use this method to specify the type of events users will be notified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are "NONE", "ALL" and "REQUIRE_MANUAL_INTERVENTION". Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_ksk_rollover_notification_config value
+ my $value = $zone->dnssec_ksk_rollover_notification_config();
+ #Modify dnssec_ksk_rollover_notification_config value
+ $zone->dnssec_ksk_rollover_notification_config("ALL");
+
+=back
+
+=back
+
+=head2 dnssec_ksk_snmp_notification_enabled( )
+
+=over
+
+Use this method to enable or disable SNMP notifications for KSK related events.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable SNMP notification or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_ksk_snmp_notification_enabled value
+ my $value = $zone->dnssec_ksk_snmp_notification_enabled();
+ #Modify dnssec_ksk_snmp_notification_enabled value
+ $zone->dnssec_ksk_snmp_notification_enabled("true");
+
+=back
+
+=back
+
+=head2 dns_email( )
+
+=over
+
+Use this method to retrieve the email address (in punycode format) for the administrator who manages DNS zones. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $zone->dns_email();
+
+=back
+
+=back
+
+=head2 dns_integrity_check_enable( )
+
+=over
+
+Use this method to set or retrieve the flag used to indicate whether this authoritative zone is monitored for discrepancies or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable authoritative zone monitoring for discrepancies, or "false" do disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_integrity_check_enable value
+ my $value = $zone->dns_integrity_check_enable();
+ #Modify dns_integrity_check_enable value
+ $zone->dns_integrity_check_enable("true");
+
+=back
+
+=back
+
+=head2 dns_integrity_frequency( )
+
+=over
+
+Use this method to set or retrieve the frequency (in seconds) for monitoring authoritative zones.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are unsigned integers between 900 and 65535. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_integrity_frequency value
+ my $value = $zone->dns_integrity_frequency();
+ #Modify dns_integrity_frequency value
+ $zone->dns_integrity_frequency(1000);
+
+=back
+
+=back
+
+=head2 dns_integrity_member( )
+
+=over
+
+Use this method to set or retrieve the authoritative zone member on which DNS integrity check is performed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is authoritative zone member name in string format. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_integrity_member value
+ my $value = $zone->dns_integrity_member();
+ #Modify dns_integrity_member value
+ $zone->dns_integrity_member("test.localdomain");
+
+=back
+
+=back
+
+=head2 dns_integrity_verbose_logging( )
+
+=over
+
+Use this method to specify whether we should put more details in the authoritative zone syslog for troubleshooting or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to put more details in syslog, or "false" to put less details in syslog. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_integrity_verbose_logging value
+ my $value = $zone->dns_integrity_verbose_logging();
+ #Modify dns_integrity_verbose_logging value
+ $zone->dns_integrity_verbose_logging("true");
+
+=back
+
+=back
+
+=head2 dns_name( )
+
+=over
+
+Use this method to retrieve the name, in punycode format, of a DNS zone. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $zone->dns_name();
+
+=back
+
+=back
+
+=head2 dns_soa_mname( )
+
+=over
+
+Use this method to retrieve the primary server name, in punycode format, of a DNS zone. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $zone->dns_soa_mname();
+
+=back
+
+=back
+
+=head2 dnssec_ksk_algorithms( )
+
+=over
+
+Use this method to set or retrieve the DNSSEC key-signing key algorithms of the zone.
+
+This property determines which algorithms to use when generating the keys for signing the DNSKEY records.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Currently there are two major versions of the DNSSEC zone encryption mechanism. The difference between the two is in their implementation of the Next Secure (NSEC) records. The older version, which is referred to as NSEC, is based on RFCs 4033-4035. The newer version, which is referred to as NSEC3, is described in RFC 5155.
+
+The valid value is a list containing L<Infoblox::DNS::DNSSecKeyAlgorithm|Infoblox::DNS::DNSSecKeyAlgorithm> objects.
+
+The dnssec_ksk_algorithms parameter inherits the grid setting only when it and all the following DNSSEC parameters are undefined: dnssec_ksk_rollover_interval, dnssec_signature_expiration, dnssec_zsk_algorithms, dnssec_zsk_rollover_interval.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting algorithm
+ my $algorithms = $zone->dnssec_ksk_algorithms();
+
+ # Modifying algorithm
+ $gzone->dnssec_ksk_algorithms([$alg1, $alg2]);
+
+ #Inheriting the grid DNSSEC settings
+ $zone->dnssec_ksk_algorithms(undef);
+ $zone->dnssec_ksk_rollover_interval(undef);
+ $zone->dnssec_signature_expiration(undef
+ $zone->dnssec_zsk_algorithms(undef);
+ $zone->dnssec_zsk_rollover_interval(undef);
+
+=back
+
+=back
+
+=head2 dnssec_ksk_rollover_interval()
+
+=over
+
+Use this method to set or retrieve the rollover interval of the KSK keys.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A positive integer that specifies the number of seconds between KSK rollovers. Normally, this parameter should be larger than the
+ZSK rollover interval. The DNSSEC key-signing key rollover interval (in seconds) must be between 1 day and seconds to Jan 2, 2038.
+
+The dnssec_ksk_rollover_interval parameter inherits the grid setting only when it and all the following DNSSEC parameters are undefined: dnssec_ksk_algorithms, dnssec_signature_expiration, dnssec_zsk_algorithms, dnssec_zsk_rollover_interval. When at least one of the parameters is specified, then the  dnssec_ksk_rollover_interval parameter uses the value 31536000 seconds (1 year), unless a different value is explicitly specified.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting dnssec_ksk_rollover_interval
+ my $ksk_rollover = $zone->dnssec_ksk_rollover_interval();
+
+ # Modifying dnssec_ksk_rollover_interval
+ $zone->dnssec_ksk_rollover_interval(86400);
+
+ #Use the grid setting
+ $zone->dnssec_ksk_algorithms(undef);
+ $zone->dnssec_ksk_rollover_interval(undef);
+ $zone->dnssec_signature_expiration(undef);
+ $zone->dnssec_zsk_algorithms(undef);
+ $zone->dnssec_zsk_rollover_interval(undef);
+
+=back
+
+=back
+
+=head2 dnssec_nsec3_iterations( )
+
+=over
+
+Use this method to define the number of iterations for NSEC3 hashing.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value are integers between 0 and 65535. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_nsec3_iterations value
+ my $iteration = $zone->dnssec_nsec3_iterations();
+ #Modify dnssec_nsec3_iterations value
+ $zone->dnssec_nsec3_iterations();
+
+=back
+
+=back
+
+=head2 dnssec_nsec3_salt_min_length( )
+
+=over
+
+Use this method to define the minimum length for the NSEC3 salt.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value are integers between 0 and 65535. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_nsec3_salt_min_length value
+ my $salt_min_length = $zone->dnssec_nsec3_salt_min_length();
+ #Modify dnssec_nsec3_salt_min_length value
+ $zone->dnssec_nsec3_salt_min_length();
+
+=back
+
+=back
+
+=head2 dnssec_nsec3_salt_max_length( )
+
+=over
+
+Use this method to define the maximum legnth for the NSEC3 salt.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value are integers between 0 and 65535. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_nsec3_salt_max_length value
+ my $salt_max_length = $zone->dnssec_nsec3_salt_max_length();
+ #Modify dnssec_nsec3_salt_max_length value
+ $zone->dnssec_nsec3_salt_max_length();
+
+=back
+
+=back
+
+=head2 dnssec_resign( )
+
+=over
+
+Use this method to initiate the rollover of the key-signing key and the rollover of the zone-signing key for the DNSSEC signed zone.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+  #Do KSK/ZSK rollover
+  unless($zone->dnssec_resign()){ warn "KSK/ZSK rollover failed!";}
+
+=back
+
+=back
+
+=head2 dnssec_signature_expiration( )
+
+=over
+
+Use this method to set or retrieve the expiration time for DNSSEC signatures.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The signature expiration time in seconds. The minimum value is 86400 (1 day), the maximum value is the number of seconds from the time you set it to January 2038.
+
+The dnssec_signature_expiration parameter inherits the grid setting only when it and all the following DNSSEC parameters are undefined: dnssec_ksk_algorithms, dnssec_ksk_rollover_interval, dnssec_zsk_algorithms, dnssec_zsk_rollover_interval. When at least one of the parameters is specified, then the  dnssec_signature_expiration parameter uses the value 2592000 seconds (30 days), unless a different value is explicitly specified.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting dnssec_signature_expiration
+ my $signature_expiration = $zone->dnssec_signature_expiration();
+
+ # Modifying dnssec_signature_expiration
+ $zone->dnssec_signature_expiration(31536000);
+
+ #Use the grid setting
+ $zone->dnssec_ksk_algorithms(undef);
+ $zone->dnssec_ksk_rollover_interval(undef);
+ $zone->dnssec_signature_expiration(undef);
+ $zone->dnssec_zsk_algorithms(undef);
+ $zone->dnssec_zsk_rollover_interval(undef);
+
+=back
+
+=back
+
+=head2 dnssec_signed( )
+
+=over
+
+Use this method to check if the zone is DNSSEC signed and to sign/unsign the zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value. Note that for this method it is not
+necessary to use the call $session->modify() on the zone object for the setting to take effect.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true"  to sign the zone, set the parameter to "false" to unsign the zone. The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns "true" if the zone is signed and "false" if it is unsigned.
+
+=item B<Example>
+
+ # Checking whether the zone is signed
+ my $is_signed = $zone->dnssec_signed();
+
+ # Signing the zone
+ $zone->dnssec_signed("true");
+
+ # Unsigning the zone
+ $zone->dnssec_signed("false");
+
+=back
+
+=back
+
+=head2 dnssec_zsk_algorithms( )
+
+=over
+
+Use this method to set or retrieve the DNSSEC zone-signing key algorithms of the zone.
+
+This property determines which algorithms to use when generating the keys for signing the DNSKEY records.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Currently there are two major versions of the DNSSEC zone encryption mechanism. The difference between the two is in their implementation of the Next Secure (NSEC) records. The older version, which is referred to as NSEC, is based on RFCs 4033-4035. The newer version, which is referred to as NSEC3, is described in RFC 5155.
+
+The valid value is a list containing L<Infoblox::DNS::DNSSecKeyAlgorithm|Infoblox::DNS::DNSSecKeyAlgorithm> objects.
+
+The dnssec_zsk_algorithms parameter inherits the grid setting only when it and all the following DNSSEC parameters are undefined: dnssec_ksk_rollover_interval, dnssec_signature_expiration, dnssec_ksk_algorithms, dnssec_zsk_rollover_interval.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting algorithm
+ my $algorithms = $zone->dnssec_zsk_algorithms();
+
+ # Modifying algorithm
+ $gzone->dnssec_zsk_algorithms([$alg1, $alg2]);
+
+ #Inheriting the grid DNSSEC settings
+ $zone->dnssec_ksk_algorithms(undef);
+ $zone->dnssec_ksk_rollover_interval(undef);
+ $zone->dnssec_signature_expiration(undef
+ $zone->dnssec_zsk_algorithms(undef);
+ $zone->dnssec_zsk_rollover_interval(undef);
+
+=back
+
+=back
+
+=head2 dnssec_zsk_rollover_date( )
+
+=over
+
+Use this method to set or retrieve the time for the next ZSK rollover.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_zsk_rollover_date value
+ my $value = $zone->dnssec_zsk_rollover_date_value();
+ #Modify dnssec_zsk_rollover_date value
+ $zone->dnssec_zsk_rollover_date_value($date);
+
+=back
+
+=back
+
+=head2 dnssec_zsk_rollover_interval()
+
+=over
+
+Use this method to set or retrieve the zone-signing key rollover interval.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A positive integer that specifies the number of seconds between ZSK rollovers. Normally, this parameter should be smaller than
+the KSK rollover interval. The DNSSEC zone-signing key over interval (in seconds) must be between 1 day and the number of seconds from
+present to Jan 2038.
+
+The dnssec_zsk_rollover_interval parameter inherits the grid setting only when it and all the following DNSSEC parameters are undefined: dnssec_ksk_algorithms, dnssec_ksk_rollover_interval,  dnssec_signature_expiration, dnssec_zsk_algorithms. When at least one of the parameters is specified, then the  dnssec_zsk_rollover_interval parameter uses the value 2592000 seconds (30 days), unless a different value is explicitly specified.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting dnssec_zsk_rollover_interval
+ my $zsk_rollover = $zone->dnssec_zsk_rollover_interval();
+
+ # Modifying dnssec_ksk_rollover_interval
+ $zone->dnssec_zsk_rollover_interval(86400);
+
+ #Use the grid setting
+ $zone->dnssec_ksk_algorithms(undef);
+ $zone->dnssec_ksk_rollover_interval(undef);
+ $zone->dnssec_signature_expiration(undef);
+ $zone->dnssec_zsk_algorithms(undef);
+ $zone->dnssec_zsk_rollover_interval(undef);
+
+=back
+
+=back
+
+=head2 dnssec_zsk_rollover_mechanism( )
+
+=over
+
+Use this method to set or retrive the ZSK rollover mechanism type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are "DOUBLE_SING" and "PRE_PUBLISH". Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dnssec_zsk_rollover_mechanism value
+ my $value = $zone->dnssec_zsk_rollover_mechanism();
+ #Modify dnssec_zsk_rollover_mechanism value
+ $zone->dnssec_zsk_rollover_mechanism("DOUBLE_SIGN");
+
+=back
+
+=back
+
+=head2 do_host_abstraction( )
+
+=over
+
+Use this method to set the do_host_abstraction property used in zone import operations. This is a write-only attribute.
+
+Set this flag to indicate that Infoblox host records will be automatically created from A records when the zone data is imported.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to trigger host creation or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+  #Modify do_host_abstraction
+  $zone->do_host_abstraction("true");
+
+=back
+
+=back
+
+=head2 enable_ad_servers( )
+
+=over
+
+Use this method to set or retrieve the flag that allows GSS-TSIG unsigned updates from AD domain controllers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable_ad_servers.
+ my $enable_ad_servers = $zone->enable_ad_servers();
+ # Modify enable_ad_servers.
+ $zone->enable_ad_servers("true");
+
+=back
+
+=back
+
+=head2 email( )
+
+=over
+
+Use this method to set or retrieve the e-mail address of an administrator of a DNS zone.
+
+This setting overrides grid-level e-mail settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+The e-mail address of an administrator.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get email
+ my $email = $zone->email();
+ #Modify email
+ $zone->email("admin\@infoblox.com");
+
+=back
+
+=back
+
+=head2 execute_dns_parent_check( )
+
+=over
+
+Use this method to perform an one-time DNS integrity check for the selected zone.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns "true" value upon the successful completion, and returns fail string otherwise.
+
+=item B<Example>
+
+ #perform one-time check for zone
+ $zone->execute_dns_parent_check();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS zone object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $zone->extattrs();
+ #Modify extattrs
+ $zone->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $zone->extensible_attributes();
+ #Modify extensible attributes
+ $zone->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 fireeye_rule_mapping( )
+
+=over
+
+Use this method to set or retrieve the FireEye rule mapping.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Returns>
+
+An L<Infoblox::DNS::FireEye::RuleMapping> object.
+
+=item B<Example>
+
+  #Get fireeye_rule_mapping
+  my $fireeye_rule_mapping = $zone->fireeye_rule_mapping();
+  #Modify fireeye_rule_mapping
+  $zone->fireeye_rule_mapping($rm);
+
+=back
+
+=back
+
+=head2 forward_external_ns_group( )
+
+=over
+
+Use this method to set or retrieve the external nameservers group name for forward DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired external name servers group name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Construct external nameserver
+ my $ns1 = Infoblox::DNS::Nameserver->new(
+     name     => 'ns1.domain0.extra',
+     ipv4addr => '5.5.5.5',
+ );
+
+ #Construct external nameservers group
+ my $ext = Infoblox::DNS::Nsgroup::ForwardStubServer->new(
+     name             => 'extsrvg1',
+     external_servers => [$ns1],
+ );
+
+ #Submit created forward_external nameservers group to session
+ $session->add($ext);
+
+ #Get forward_external_ns_group value
+ my $forward_external_ns_group = $zone->forward_external_ns_group();
+
+ #Modify forward_external_ns_group value
+ $zone->forward_external_ns_group('extsrvg1');
+
+=back
+
+=back
+
+=head2 forward_ns_group( )
+
+=over
+
+Use this method to set or retrieve the name servers group for the Forward DNS Zone object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are string that contains name of the group or L<Infoblox::Grid::DNS::Nsgroup::ForwardingMember|Infoblox::Grid::DNS::Nsgroup::ForwardingMember>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Construct external nameserver
+ my $ns1 = Infoblox::DNS::Nameserver->new(
+     name     => 'ns1.domain0.extra',
+     ipv4addr => '5.5.5.5',
+ );
+
+ #Construct dns member
+ my $member = Infoblox::DNS::Member->new(
+     ipv4addr   => '192.168.1.2',
+     forward_to => [$ns1],
+ );
+
+ #Create forward nameservers group
+ my $forward_group = Infoblox::Grid::DNS::ForwardingMember->new(
+     name               => 'forward_ns_group_A',
+     forwarding_servers => [$member],
+ );
+
+ #Submit created forward nameserver group to session
+ $session->add($forward_group);
+
+ #Get forward_ns_group
+ my $forward_ns_group = $zone->forward_ns_group();
+
+ #Modify forward_ns_group
+ $zone->forward_ns_group("forward_ns_group_A");
+
+=back
+
+=back
+
+=head2 forward_only( )
+
+=over
+
+Use this method to set or retrieve the forward_only flag of a DNS forward zone. When you set this flag, the appliance sends queries to forwarders only, and not to other internal or Internet root servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to send queries to forwarders only. Specify "false" to disable it.  Default is "false."
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting forward_only
+   my $forward_only = $fwd_zone->forward_only( );
+   #Modifying forward_only
+   $fwd_zone->forward_only("true");
+
+=back
+
+=back
+
+=head2 forward_to( )
+
+=over
+
+Use this method to set or retrieve the forward_to flag of a DNS zone.
+
+This method provides information for the remote name server to which you want the Infoblox appliance to forward queries for a specified domain name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Member|Infoblox::DNS::Member> objects for grid secondary servers and L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver> objects for external secondary servers. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get forward_to
+ my $forward_to = $zone->forward_to();
+ #Modify forward_to
+ my $member = Infoblox::DNS::Member->new(
+        name     => "hostname.com",
+        ipv4addr => "3.0.0.2",
+    );
+
+ my $nameserver = Infoblox::DNS::Nameserver->new(
+        name     => "ns1.forwd.com",
+        ipv4addr => "11.11.11.11",
+    );
+
+ $zone->forward_to([$member, $nameserver]);
+
+=back
+
+=back
+
+=head2 host_name_restriction_policy( )
+
+=over
+
+Use this method to set or retrieve the host_name_restriction_policy flag of a DNS zone.
+
+This setting overrides the member-level host name restriction policy settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String with the name of predefined record policies or user-defined record policies. The default value is undefined, which is to follow the Record Name policy specified in Infoblox::Grid::Member::DNS level.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get host name restriction policy
+ my $host_name_restriction_policy = $zone->host_name_restriction_policy();
+ #Modify host name restriction policy
+ $zone->host_name_restriction_policy("Allow Any");
+
+=back
+
+=back
+
+=head2 import_from( )
+
+=over
+
+Use this method to set or retrieve the import_from flag of a DNS zone.
+
+This method specifies the IP address of the Infoblox appliance from which zone data is imported. This is only valid for authoritative zones. Setting this address to '255.255.255.255' and do_host_abstraction to 'true' will create Host records from A records in this zone without importing zone data.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv4 address is a 32-bit number with the basic format representation of C<X.X.X.X> where x refers to decimal digits (8 bits), for example: C<128.6.4.7>. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Modify import_from
+ $zone->import_from("192.168.1.2");
+
+=back
+
+=back
+
+=head2 initiate_ksk_rollover( )
+
+=over
+
+Use this method to initiate the rollover of the key-signing key for the DNSSEC signed zone.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+  #Do KSK rollover
+  unless($zone->initiate_ksk_rollover()){ warn "KSK rollover failed!";}
+
+=back
+
+=back
+
+=head2 initiate_zsk_rollover( )
+
+=over
+
+Use this method to initiate the rollover of the Zone-signing key for the DNSSEC signed zone.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns true value upon the successful completion, and returns false value otherwise.
+
+=item B<Example>
+
+  #Do ZSK rollover
+  unless($zone->initiate_zsk_rollover()){ warn "ZSK rollover failed!";}
+
+=back
+
+=back
+
+=head2 is_default( )
+
+=over
+
+Use this method to set or retrieve the is_default flag of a DNS zone.
+
+This flag is used to determine the default zone for the zone associations of a DHCP network. This is set or returned only for zone objects set in the zone-associations method of the DHCP network.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the is_default flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get is_default
+  my $is_default = $zone->is_default();
+  #Modify is_default
+  $zone->is_default("true");
+
+=back
+
+=back
+
+=head2 is_multimaster( )
+
+=over
+
+Use this method to set or retrieve the is_multimaster flag.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the is_multimaster flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $attr = $zone->is_multimaster();
+ # Modify the attribute value
+ $zone->is_multimaster('true');
+
+=back
+
+=back
+
+=head2 last_queried( )
+
+=over
+
+Use this method to retrieve the time the zone was last queried on.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_queried
+ my $last_queried = $zone->last_queried();
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_enabled( )
+
+=over
+
+Use this method to set or retreive the flag that indicates whether the DNS server ignores RPZ-IP triggers with large prefix lengths or not.
+
+Setting this method to a defined value implicitly sets the override_rpz_drop_ip_rule method to "true". Setting the parameter to undefined if rpz_drop_ip_rule_min_prefix_length_ipv4 and rpz_drop_ip_rule_min_prefix_length_ipv6 are undefined causes the appliance to use the Grid default and automatically resets the override_rpz_drop_ip_rule attribute to "false".
+
+Note that when rpz_drop_ip_rule_enabled is set to a defined value and override_rpz_drop_ip_rule is set to "false", the last operation takes precedence. Thus the sequence $object->rpz_drop_ip_rule_enabled("true"); $object->override_rpz_drop_ip_rule("false"); will set override_rpz_drop_ip_rule to "false", and the sequence $object->override_rpz_drop_ip_rule("false"); $object->rpz_drop_ip_rule_enabled("true"); will result in override_rpz_drop_ip_rule="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable ignoring of RPZ-IP triggers with large prefix lengths or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $zone->rpz_drop_ip_rule_enabled();
+ # Modify attribute value
+ $zone->rpz_drop_ip_rule_enabled("true");
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_min_prefix_length_ipv4( )
+
+=over
+
+Use this method to set or retreive minimum prefix length for IPv4 RPZ-IP triggers.
+
+Setting this method to a defined value implicitly sets the override_rpz_drop_ip_rule method to "true". Setting the parameter to undefined if rpz_drop_ip_rule_enabled and rpz_drop_ip_rule_min_prefix_length_ipv6 are undefined causes the appliance to use the Grid default and automatically resets the override_rpz_drop_ip_rule attribute to "false".
+
+Note that when rpz_drop_ip_rule_min_prefix_length_ipv4 is set to a defined value and override_rpz_drop_ip_rule is set to "false", the last operation takes precedence. Thus the sequence $object->rpz_drop_ip_rule_min_prefix_length_ipv4("20"); $object->override_rpz_drop_ip_rule("false"); will set override_rpz_drop_ip_rule to "false", and the sequence $object->override_rpz_drop_ip_rule("false"); $object->rpz_drop_ip_rule_min_prefix_length_ipv4("20"); will result in override_rpz_drop_ip_rule="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 31 that represents prefix length (in bits) for IPv4 RPZ-IP triggers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $zone->rpz_drop_ip_rule_min_prefix_length_ipv4();
+ # Modify attribute value
+ $zone->rpz_drop_ip_rule_min_prefix_length_ipv4("16");
+
+=back
+
+=back
+
+=head2 rpz_drop_ip_rule_min_prefix_length_ipv6( )
+
+=over
+
+Use this method to set or retreive minimum prefix length for IPv6 RPZ-IP triggers.
+
+Setting this method to a defined value implicitly sets the override_rpz_drop_ip_rule method to "true". Setting the parameter to undefined if rpz_drop_ip_rule_enabled and rpz_drop_ip_rule_min_prefix_length_ipv4 are undefined causes the appliance to use the Grid default and automatically resets the override_rpz_drop_ip_rule attribute to "false".
+
+Note that when rpz_drop_ip_rule_min_prefix_length_ipv6 is set to a defined value and override_rpz_drop_ip_rule is set to "false", the last operation takes precedence. Thus the sequence $object->rpz_drop_ip_rule_min_prefix_length_ipv6("20"); $object->override_rpz_drop_ip_rule("false"); will set override_rpz_drop_ip_rule to "false", and the sequence $object->override_rpz_drop_ip_rule("false"); $object->rpz_drop_ip_rule_min_prefix_length_ipv6("20"); will result in override_rpz_drop_ip_rule="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 127 that represents prefix length (in bits) for IPv6 RPZ-IP triggers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $zone->rpz_drop_ip_rule_min_prefix_length_ipv6();
+ # Modify attribute value
+ $zone->rpz_drop_ip_rule_min_prefix_length_ipv6("120");
+
+=back
+
+=back
+
+=head2 rpz_policy( )
+
+=over
+
+Use this method to set or retrieve the override policy for the Response Policy Zone.
+
+This property determines the generic override rule for all records in this Response Policy Zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of "GIVEN", "PASSTHRU", "NXDOMAIN", "NODATA", "SUBSTITUTE", "DISABLED". The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting rpz_policy
+ my $rpz_policy = $zone->rpz_policy();
+
+ # Modifying rpz_policy
+ $zone->rpz_policy("PASSTHRU");
+
+=back
+
+=back
+
+=head2 restart_if_needed( )
+
+=over
+
+Use this method to set the flag that indicates whether DHCP service should be restarted on a member that is serving DHCP for the changed object referenced in a cloud API request.
+
+=over
+
+=item B<Parameter>
+
+Specify true to restart the DHCP service.
+
+=item B<Returns>
+
+None
+
+=item B<Example>
+
+ # Modify
+ $zone->restart_if_needed('true');
+
+=back
+
+=back
+
+=head2 rpz_type( )
+
+=over
+
+Use this method to set or retrieve the type of the Response Policy Zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of "LOCAL", "FIREEYE", "FEED". The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting rpz_type
+ my $rpz_type = $zone->rpz_type();
+
+ # Modifying rpz_type
+ $zone->rpz_type("LOCAL");
+
+=back
+
+=back
+
+=head2 rpz_severity( )
+
+=over
+
+Use this method to set or retrieve the type of severity for Response Policy Zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is CRITICAL, MAJOR, WARNING, or INFORMATIONAL. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting rpz_severity
+ my $rpz_severity = $zone->rpz_severity();
+
+ # Modifying rpz_type
+ $zone->rpz_severity("MAJOR");
+
+=back
+
+=back
+
+=head2 substitute_name( )
+
+=over
+
+Use this method to retrieve the substitution name when the RPZ policy is set to "SUBSTITUTE".
+
+You must specify a parameter if rpz_policy is set to "SUBSTITUTE".
+
+=over
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting algorithm
+ my $substitution_name = $zone->substitute_name();
+
+ # Modifying algorithm
+ $zone->substitute_name("something");
+
+=back
+
+=back
+
+=head2 rpz_priority( )
+
+=over
+
+Use this method to retrieve the priority of zones among all Response Policy Zones.
+
+This attribute is readonly and you can use an L<Infoblox::DNS::OrderedResponsePolicyZones|Infoblox::DNS::OrderedResponsePolicyZones> object to reorder Response Policy Zones in a DNS view.
+
+=over
+
+=item B<Returns>
+
+This method returns the attribute value in integer format. "1" indicates the highest priority.
+
+=item B<Example>
+
+ #Get rpz_priority
+ my $rpz_priority = $zone->rpz_priority();
+
+=back
+
+=back
+
+=head2 rpz_last_updated_time( )
+
+=over
+
+Use this method to retrieve the date and time the Response Policy Zone was last updated.
+
+=over
+
+=item B<Returns>
+
+This method returns the attribute value in number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get rpz_last_updated_time
+ my $last_updated_time = $zone->rpz_last_updated_time();
+
+=back
+
+=back
+
+=head2 rpz_severity( )
+
+=over
+
+Use this method to set or retrieve the severity of this response policy zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is one of the following: CRITICAL, MAJOR, WARNING or INFORMATIONAL.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rpz_severity
+ my $severity = $zone->rpz_severity();
+
+ # Modify rpz_severity
+ $zone->rpz_severity("MAJOR");
+
+=back
+
+=back
+
+=head2 is_feed_zone( )
+
+=over
+
+Use this method to retrieve the boolena value that indicates whether the Response Policy Zone is a "feed" zone or not.
+
+=over
+
+=item B<Returns>
+
+This method returns the attribute value. "True" means the response policy zone is a feed zone that has an assigned external primary.
+
+=item B<Example>
+
+ #Get is_feed_zone
+ my $is_feed_zone = $zone->is_feed_zone();
+
+=back
+
+=back
+
+=head2 locked( )
+
+=over
+
+Use this method to set or retrieve the locked flag of a DNS zone.
+
+If you enable this flag other administrators cannot make changes that would "collide". This is for administration purposes only. The zone will continue to serve DNS data even when it is locked.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the locked flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get locked
+  my $locked = $zone->locked();
+  #Modify locked
+  $zone->locked("true");
+
+=back
+
+=back
+
+=head2 members( )
+
+=over
+
+Use this method to set or retrieve the members flag of a DNS forward zone.
+
+This method specifies the grid member that serves the forward zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Member|Infoblox::DNS::Member> object(s). The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+  #Get members
+  my $members = $zone->members();
+  #Modify members
+  my $memberns1 = Infoblox::DNS::Member->new(
+        name => "member1.forwd.com",
+    );
+
+  my $memberns2 = Infoblox::DNS::Member->new(
+        name => "member2.forwd.com",
+    );
+
+  $zone->members([$memberns1,$memberns2]);
+
+=back
+
+=back
+
+=head2 member_soa_serials( )
+
+=over
+
+Use this method to retrieve per-member SOA serial information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that contains L<Infoblox::DNS::Member::SoaSerial|Infoblox::DNS::Member::SoaSerial> object(s).
+
+=item B<Example>
+
+ # Get the attribute value
+ my $member_soa_serials = $zone->member_soa_serials();
+
+=back
+
+=back
+
+=head2 member_soa_mnames( )
+
+=over
+
+Use this method to set or retrieve per-member SOA MNAME information.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Member::SoaMname|Infoblox::DNS::Member::SoaMname> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $member_soa_mnames = $zone->member_soa_mnames();
+ # Modify the attribute value
+ $zone->member_soa_mnames([$soa_mname]);
+
+=back
+
+=back
+
+=head2 ms_dc_ns_record_creation( )
+
+=over
+
+Use this method to set or retrieve the list of Active Directory Domain Controllers which are allowed to create NS Record for the DNS Zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameters>
+
+The valid value is an array of L<Infoblox::Grid::MSServer::DCNSRecordCreation|Infoblox::Grid::MSServer::DCNSRecordCreation> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_dc_ns_record_creation
+ my $ms_dc_ns_record_creation = $zone->ms_dc_ns_record_creation();
+
+ #Modify ms_dc_ns_record_creation
+ $zone->ms_dc_ns_record_creation([$msdcns1, $msdcns1]);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Zone name. For a reverse zone, this is in "address/cidr" format. For other zones, this is in FQDN (Fully Qualified Domain Name) format. A zone name can have a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $zone->name();
+
+=back
+
+=back
+
+=head2 network_associations( )
+
+=over
+
+Use this method to retrieve the associated network/network container information. This is a read-only method.
+
+=over
+
+=item B<Parameter>
+
+No parameter need to be specified
+
+=item B<Returns>
+
+This method returns an array reference that contains Infoblox::DHCP::Network, Infoblox::DHCP::NetworkContainer, Infoblox::DHCP::IPv6Network, and Infoblox::DHCP::IPv6NetworkContainer objects.
+
+=item B<Examples>
+
+ #Getting network associations
+ my $network_associations = $zone->network_associations();
+
+=back
+
+=back
+
+=head2 next_secure_type( )
+
+=over
+
+Use this method to set or retrieve resource record type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'NSEC' or 'NSEC3'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the next_secure_type value
+ my $next_secure_type = $zone->next_secure_type();
+ #Modify the next_secure_type value
+ $zone->next_secure_type('NSEC3');
+
+=back
+
+=back
+
+=head2 notify_delay( )
+
+=over
+
+Use this method to specify with how many seconds of delay the notify messages are sent to secondaries.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are unsigned integer between 5 and 86400, inclusive. Default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting notify_delay
+   my $notify_delay = $zone->notify_delay( );
+   #Modifying notify_delay
+   $zone->notify_delay(5);
+
+=back
+
+=back
+
+=head2 ms_ad_integrated()
+
+=over
+
+Use this method to set or retrieve the Active Directory-integrated flag of a zone. This attribute is valid only when ms_managed() is "Stub", "Auth_primary", or "Auth_both".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the Active Directory-integrated flag or "false" to unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_ad_integrated
+ my $ms_ad_integrated = $zone->ms_ad_integrated();
+ #Modify ms_ad_integrated
+ $zone->ms_ad_integrated("true");
+
+=back
+
+=back
+
+=head2 ms_managed()
+
+=over
+
+Use this method to retrieve the flag that indicates whether the zone is assigned to a Microsoft DNS server. This flag returns the authoritative name server type of the Microsoft DNS server. The value can be:
+
+=over
+
+=item "None" if the zone is not assigned to any Microsoft DNS server
+
+=item "Stub" if the zone is assigned to a Microsoft DNS server as a stub zone
+
+=item "Auth_primary" if only the primary server of the zone is a Microsoft DNS server
+
+=item "Auth_secondary" if only the secondary server of the zone is a Microsoft DNS server
+
+=item "Auth_both" if both the primary and secondary servers of the zone are Microsoft DNS servers
+
+=back
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_managed
+ my $ms_managed = $zone->ms_managed();
+
+=back
+
+=back
+
+=head2 ms_read_only()
+
+=over
+
+Use this method to retrieve the flag that indicates if a grid member manages the zone served by a Microsoft DNS server in read-only mode. This flag returns "true" when a grid member manages the zone in read-only mode. Otherwise, it returns "false".
+
+When the zone has the ms_read_only() flag set to "true", no change can be made to this zone.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_read_only
+ my $ms_read_only = $zone->ms_read_only();
+
+=back
+
+=back
+
+=head2 ms_ddns_mode()
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether an Active Directory-integrated zone with a Microsoft DNS server as primary allows dynamic updates. This flag returns "Secure" if the zone allows secure updates only, "None" if the zone forbids dynamic updates, or "Any" if the zone accepts both secure and nonsecure updates. This flag is valid only if ms_managed() is either "Auth_primary" or "Auth_both". If the flag ms_ad_integrated() is false, the value "Secure" is not allowed.
+
+=over
+
+=item B<Parameter>
+
+Specify "Secure", "None", or "Any" to control the dynamic updates that an Active Directory-integrated zone is allowed to accept. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_ddns_mode
+ my $ms_ddns_mode = $zone->ms_ddns_mode();
+ #Modify ms_ddns_mode
+ $zone->ms_ddns_mode("None");
+
+=back
+
+=back
+
+=head2 ms_allow_transfer()
+
+=over
+
+Use this method to set or retrieve the list of DNS clients that are allowed to perform zone transfers from a Microsoft DNS server.
+
+This setting applies only to zones with Microsoft DNS servers that are either primary or secondary servers. This setting does not inherit any value from the grid or from any member that defines an allow_transfer() value. This setting does not apply to any grid member. Use the allow_transfer() attribute to control allowed clients on grid members.
+
+Valid values are:
+
+=over
+
+=item An array that contains a list of IPv4 addresses
+
+=item The keyword "Any" to allow any client
+
+=item The keyword "NSOnly" to allow only the nameservers listed in the zone
+
+=item The keyword "None" to deny all zone transfer requests
+
+=back
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify one of the allowed values to identify the DNS clients that are allowed to perform zone transfers from a Microsoft DNS server. The default is "NSOnly".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_allow_transfer
+ my $ms_allow_transfer = $zone->ms_allow_transfer();
+ #Modify ms_allow_transfer
+ $zone->ms_allow_transfer("Any");
+
+=back
+
+=back
+
+=head2 ms_sync_disable( )
+
+=over
+
+Use this method to disable Microsoft Server synchronization for this zone.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to disable Microsoft Server synchronization for this zone. Set the parameter to "false" to enable Microsoft Server synchronization for this zone.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Return>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_sync_disable value
+ my $ms_sync_disable = $zone->ms_sync_disable();
+
+ #Set ms_sync_disable value
+ $zone->ms_sync_disable("true");
+
+=back
+
+=back
+
+=head2 ns_group( )
+
+=over
+
+Use this method to set or retrieve the name servers group for the DNS Authoritative and Response Policy Zone objects.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are string that contains name of the group or L<Infoblox::Grid::DNS::Nsgroup|Infoblox::Grid::DNS::Nsgroup>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ns_group
+ my $ns_group = $zone->ns_group();
+
+ #Modify ns_group
+ $zone->ns_group("ns_group_A");
+
+=back
+
+=back
+
+=head2 override_copy_xfer_to_notify( )
+
+=over
+
+The override_copy_xfer_to_notify attribute controls whether the copy_xfer_to_notify method values of the DNS zone are used, instead of the member default.
+
+The override_copy_xfer_to_notify attribute can be specified explicitly. It is also set implicitly when copy_xfer_to_notify is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the member-level setting for copy_xfer_to_notify. Set the parameter to "false" to inherit the member-level setting for copy_xfer_to_notify.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_copy_xfer_to_notify
+    my $override_copy_xfer_to_notify = $zone->override_copy_xfer_to_notify( );
+    #Modifying override_copy_xfer_to_notify
+    $zone->override_copy_xfer_to_notify("true");
+
+=back
+
+=back
+
+=head2 override_ddns_force_creation_timestamp_update( )
+
+=over
+
+The override_ddns_force_creation_timestamp_update attribute controls whether the ddns_force_creation_timestamp_update method value of the DNS View is used, instead of the Grid default.
+
+The override_ddns_force_creation_timestamp_update attribute can be specified explicitly. It is also set implicitly when ddns_force_creation_timestamp_update is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_force_creation_timestamp_update. Set the parameter to "false" to inherit the Grid-level setting for ddns_force_creation_timestamp_update.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_force_creation_timestamp_update value
+ my $value = $object->override_ddns_force_creation_timestamp_update();
+
+ #Modify override_ddns_force_creation_timestamp_update value
+ $object->override_ddns_force_creation_timestamp_update("true");
+
+=back
+
+=back
+
+=head2 override_ddns_patterns_restriction( )
+
+=over
+
+The override_ddns_patterns_restriction attribute controls whether the ddns_restrict_patterns_list and ddns_restrict_patterns methods values of the DNS Zone are used, instead of the Grid default.
+
+The override_ddns_patterns_restriction attribute can be specified explicitly. It is also set implicitly when ddns_restrict_patterns_list or ddns_restrict_patterns is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_restrict_patterns_list and ddns_restrict_patterns. Set the parameter to "false" to inherit the Grid-level setting for ddns_restrict_patterns_list and ddns_restrict_patterns.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_patterns_restriction
+ my $override_ddns_patterns_restriction = $zone->override_ddns_patterns_restriction();
+ #Modify override_ddns_patterns_restriction
+ $zone->override_ddns_patterns_restriction("true");
+
+=back
+
+=back
+
+=head2 override_ddns_restrict_static( )
+
+=over
+
+The override_ddns_restrict_static attribute controls whether the ddns_restrict_static method value of the DNS Zone is used, instead of the Grid default.
+
+The override_ddns_restrict_static attribute can be specified explicitly. It is also set implicitly when ddns_restrict_static is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_restrict_static. Set the parameter to "false" to inherit the Grid-level setting for ddns_restrict_static.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_restrict_static
+ my $override_ddns_restrict_static = $zone->override_ddns_restrict_static();
+ #Modify override_ddns_restrict_static
+ $zone->override_ddns_restrict_static("true");
+
+=back
+
+=back
+
+=head2 override_ddns_restrict_protected( )
+
+=over
+
+The override_ddns_restrict_protected attribute controls whether the ddns_restrict_protected method value of the DNS Zone is used, instead of the Grid default.
+
+The override_ddns_restrict_protected attribute can be specified explicitly. It is also set implicitly when ddns_restrict_protected is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_restrict_protected. Set the parameter to "false" to inherit the Grid-level setting for ddns_restrict_protected.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_restrict_protected
+ my $override_ddns_restrict_protected = $zone->override_ddns_restrict_protected();
+ #Modify override_ddns_restrict_protected
+ $zone->override_ddns_restrict_protected("true");
+
+=back
+
+=back
+
+=head2 override_ddns_principal_security( )
+
+=over
+
+The override_ddns_principal_security attribute controls whether the ddns_restrict_secure, ddns_principal_tracking and ddns_principal_group methods values of the DNS Zone are used, instead of the Grid default.
+
+The override_ddns_principal_security attribute can be specified explicitly. It is also set implicitly when ddns_restrict_secure, ddns_principal_tracking or ddns_principal_group is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_restrict_secure, ddns_principal_tracking and ddns_principal_group. Set the parameter to "false" to inherit the Grid-level setting for ddns_restrict_secure, ddns_principal_tracking and ddns_principal_group.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ddns_principal_security
+ my $override_ddns_principal_security = $zone->override_ddns_principal_security();
+ #Modify override_ddns_principal_security
+ $zone->override_ddns_principal_security("true");
+
+=back
+
+=back
+
+=head2 override_delegated_ttl( )
+
+=over
+
+Use this method to set or retrieve the override_delegated_ttl flag of a DNS zone.
+
+This flag indicates whether to override the TTL values of auto-generated NS and GLUE records for a delegated zone. If you set it to "true", then you must specify the 'delegated_ttl' value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to override the TTL values or "false" to have these records inherit the TTL values from their parent zone. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_delegated_ttl
+ my $override_delegated_ttl = $zone->override_delegated_ttl();
+ #Modify override_delegated_ttl
+ $zone->override_delegated_ttl("true");
+
+=back
+
+=back
+
+=head2 override_grid_zone_timer( )
+
+=over
+
+Use this method to set or retrieve the override_grid_zone_timer flag of a DNS zone.
+
+This flag indicates whether to override the grid's zone timer settings. If you set it to "true", then you must specify the following properties: soa_refresh, soa_retry, soa_expire, soa_default_ttl, soa_negative_ttl.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to override grid zone timer settings or "false" to use the grid zone timer settings. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_grid_zone_timer
+ my $override_grid_zone_timer = $zone->override_grid_zone_timer();
+ #Modify override_grid_zone_timer
+ $zone->override_grid_zone_timer("true");
+
+=back
+
+=back
+
+=head2 override_grid_email( )
+
+=over
+
+Use this method to set or retrieve the override_grid_email flag of a DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to override grid e-mail settings or "false" to use the grid e-mail settings. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_grid_email
+ my $override_grid_email = $zone->override_grid_email();
+ #Modify override_grid_email
+ $zone->override_grid_email("false");
+
+=back
+
+=back
+
+=head2 override_scavenging_settings( )
+
+=over
+
+The override_scavenging_settings attribute controls whether the scavenging_settings method values of the DNS Zone are used, instead of the Grid default.
+
+The override_scavenging_settings attribute can be specified explicitly. It is also set implicitly when scavenging_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for scavenging_settings. Set the parameter to "false" to inherit the Grid-level setting for scavenging_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_scavenging_settings value
+ my $override_scavenging_settings = $object->override_scavenging_settings( );
+
+ #Modify override_scavenging_settings value
+ $object->override_scavenging_settings("true");
+
+=back
+
+=back
+
+=head2 override_rpz_drop_ip_rule( )
+
+=over
+
+The override_rpz_drop_ip_rule attribute controls whether the rpz_drop_ip_rule_enabled, rpz_drop_ip_rule_min_prefix_length_ipv4 and rpz_drop_ip_rule_min_prefix_length_ipv6 method values of the member are used, instead of the Grid default.
+
+The override_rpz_drop_ip_rule attribute can be specified explicitly. It is also set implicitly when one of rpz_drop_ip_rule_enabled, rpz_drop_ip_rule_min_prefix_length_ipv4 or rpz_drop_ip_rule_min_prefix_length_ipv6 methods is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for rpz_drop_ip_rule_enabled, rpz_drop_ip_rule_min_prefix_length_ipv4 and rpz_drop_ip_rule_min_prefix_length_ipv6 methods. Set the parameter to "false" to inherit the Grid-level setting for rpz_drop_ip_rule_enabled, rpz_drop_ip_rule_min_prefix_length_ipv4 and rpz_drop_ip_rule_min_prefix_length_ipv6 methods.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_rpz_drop_ip_rule
+    my $override_rpz_drop_ip_rule = $zone->override_rpz_drop_ip_rule( );
+    #Modifying override_rpz_drop_ip_rule
+    $zone->override_rpz_drop_ip_rule("true");
+
+=back
+
+=back
+
+=head2 override_serial_number( )
+
+=over
+
+Use this method to set the override_serial_number flag of a DNS zone.
+
+If set this flag to 'true', soa_serial_number can be set. This value behaves somewhat unusually in that the server always resets it to undef in the response, even if it is true in the request.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to override serial number. The default value is undef
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_serial_number
+ my $override_serial_number = $zone->override_serial_number();
+ #Modify override_serial_number
+ $zone->override_serial_number("true");
+
+=back
+
+=back
+
+=head2 prefix( )
+
+=over
+
+Use this method to set or retrieve the prefix flag of a DNS zone.
+
+Use this method only when the netmask is greater than 24 bits; that is, for a mask between 25 and 31 bits. Enter a prefix, such as the name of the allocated address block. The prefix can be alphanumeric characters; for example: 128/26 , 128-189 , or sub-B . This is only valid for authoritative reverse zones.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+This prefix can be anything such as the address range (examples: 0-127, 0/127) or descriptions (examples: first-network, customer1).A prefix can have a maximum of 63 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get prefix
+ my $prefix = $zone->prefix();
+ #Modify prefix
+ $zone->prefix("first-network");
+
+=back
+
+=back
+
+=head2 multiple_primaries( )
+
+=over
+
+Use this method to set or retrieve the primary flag of a DNS zone.
+
+This method specifies Grid primary servers, external primary servers, or Microsoft DNS servers that are primary servers for the zone. Although a zone typically has just one primary name server, you can specify up to ten independent servers for a single zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Member|Infoblox::DNS::Member> objects for Grid primary servers, or L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver> objects for external primary servers, or L<Infoblox::DNS::MSServer|Infoblox::DNS::MSServer> objects for Microsoft DNS servers. The default value is undefined.
+
+To set two and more L<Infoblox::DNS::Member|Infoblox::DNS::Member> objects you should set the is_multimaster flag to "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get multiple_primaries
+ my $multiple_primaries = $zone->multiple_primaries();
+ #Modify multiple_primaries
+ my $memberns1 = Infoblox::DNS::Member->new(
+        name     => "member1.server.com",
+        ipv4addr => "1.1.1.1",
+    );
+
+ $zone->multiple_primaries([$memberns1]);
+
+=back
+
+=back
+
+=head2 primary_shared_with_ms_parent_delegation( )
+
+=over
+
+Use this method to retrieve the primary_shared_with_ms_parent_delegation flag. If the zone is a subzone and the primary server of the parent zone is a Microsoft server, it will be set to "true" if the FQDN and IP address in the delegation zone's NS record matches the FQDN and IP address of the authoritative name server of the zone.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get primary_shared_with_ms_parent_delegation
+ my $primary_shared_with_ms_parent_delegation = $member->primary_shared_with_ms_parent_delegation();
+
+=back
+
+=back
+
+=head2 scavenging_settings( )
+
+=over
+
+Use this method to set or retrieve the zone-level scavenging settings.
+
+Setting this parameter implicitle sets the override_scavenging_settings attribute to "true". Setting the parameter to undefined causes the appliance to use the Grid-level settings and automatically sets the override_scavenging_settings attribute to "false".
+
+Note that when scavenging_settings is set and override_scavenging_settings is set to "false", the last operation takes precedence. Thus the sequence $object->scavenging_settings($recl_settings); $object->override_scavenging_settings("false"); sets override_scavenging_settings to "false", and the sequence $object->override_scavenging_settings("false"); $object->scavenging_settings($recl_settings); sets override_scavenging_settings to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::DNS::ScavengingSetting|Infoblox::Grid::DNS::ScavengingSetting> object.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get scavenging_settings value
+ my $scavenging_settings = $object->scavenging_settings();
+
+ #Modify scavenging_settings value
+ $object->scavenging_settings($scavenging_settings);
+
+=back
+
+=back
+
+=head2 remove_sub_zones( )
+
+=over
+
+Use this method to set or retrieve the remove_sub_zones flag of a DNS zone.
+
+You can remove the sub-zones and resource records of the selected zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to remove sub zones or "false" to not to remove sub zones. The default value is undefined, which is to remove all subzones.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get remove_sub_zones
+ my $remove_sub_zones = $zone->remove_sub_zones();
+ #Modify remove_sub_zones
+ $zone->remove_sub_zones("true");
+
+=back
+
+=back
+
+=head2 secondaries( )
+
+=over
+
+Use this method to set or retrieve the secondaries flag of a DNS zone.
+
+You can specify grid secondary servers, external secondary servers, or Microsoft DNS servers that are secondary servers for the zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Member|Infoblox::DNS::Member> objects for grid secondary servers, L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver> objects for external secondary servers, and L<Infoblox::DNS::MSServer|Infoblox::DNS::MSServer> objects for Microsoft DNS servers. The default value is empty.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get secondaries
+ my $secondaries = $zone->secondaries();
+ #Modify secondaries
+ my $memberns1 = Infoblox::DNS::Member->new(
+        name     => "member1.server.com",
+        ipv4addr => "1.1.1.1",
+    );
+
+ my $nameserver1 = Infoblox::DNS::Nameserver->new(
+        name     => "ns1.exter.com",
+        ipv4addr => "11.11.11.11",
+    );
+
+ $zone->secondaries([$memberns1, $nameserver1]);
+
+=back
+
+=back
+
+=head2 resource_record_monitored_since( )
+
+=over
+
+Use this method to retrieve the time data collection for "DNS Resource Records Last Queried" was turned on for the zone.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get resource_record_monitored_since
+ my $resource_record_monitored_since = $zone->resource_record_monitored_since();
+
+=back
+
+=back
+
+=head2 soa_default_ttl( )
+
+=over
+
+Use this method to set or retrieve the soa_default_ttl flag of a DNS zone.
+
+You can set the Time to Live (TTL) value of the SOA record of a zone. This value is the number of seconds that data is cached.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the soa_default_ttl in seconds. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get soa_default_ttl
+ my $soa_default_ttl = $zone->soa_default_ttl();
+ #Modify soa_default_ttl
+ $zone->soa_default_ttl("3600");
+
+=back
+
+=back
+
+=head2 soa_expire( )
+
+=over
+
+Use this method to set or retrieve the soa_expire flag of a DNS zone.
+
+This setting defines the amount of time, in seconds, after which the secondary server stops giving out answers about the zone because the zone data is too old to be useful. The default is one week.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the soa_expire in seconds. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get soa_expire
+ my $soa_expire = $zone->soa_expire();
+ #Modify soa_expire
+ $zone->soa_expire("3600");
+
+=back
+
+=back
+
+=head2 soa_mname( )
+
+=over
+
+Use this method to set or retrieve the soa_mname flag of a DNS zone.
+
+The Infoblox appliance allows you to change the name of the primary server on the SOA record that is automatically created when you initially configure a zone. Use this method to change the name of the primary server on the SOA record. For example, you may want to hide the primary server for a zone. If your device is named dns1.zone.tld, and for security reasons, you want to show a secondary server called dns2.zone.tld as the primary server. To do so, you would go to dns1.zone.tld zone (being the true primary) and change the primary server on the SOA to dns2.zone.tld to hide the true identity of the real primary server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The attribute value can be in unicode format.
+
+=over
+
+=item B<Parameter>
+
+Primary server name in FQDN (Fully Qualified Domain Name) format. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get soa_mname
+ my $soa_mname = $zone->soa_mname();
+ #Modify soa_mname
+ $zone->soa_mname("soamname.com");
+
+=back
+
+=back
+
+=head2 soa_negative_ttl( )
+
+=over
+
+Use this method to set or retrieve the soa_negative_ttl flag of a DNS zone.
+
+The negative Time to Live (TTL) value of the SOA of the zone indicates how long  a secondary server can cache data for "Does Not Respond" responses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the soa_negative_ttl in seconds. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get soa_negative_ttl
+ my $soa_negative_ttl = $zone->soa_negative_ttl();
+ #Modify soa_negative_ttl
+ $zone->soa_negative_ttl("3600");
+
+=back
+
+=back
+
+=head2 soa_refresh( )
+
+=over
+
+Use this method to set or retrieve the soa_refresh flag of a DNS zone.
+
+This indicates the interval at which a secondary server sends a message to the primary server for a zone to check that its data is current, and retrieve fresh data if it is not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the soa_refresh in seconds. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get soa_refresh
+ my $soa_refresh = $zone->soa_refresh();
+ #Modify soa_refresh
+ $zone->soa_refresh("1000");
+
+=back
+
+=back
+
+=head2 soa_retry( )
+
+=over
+
+Use this method to set or retrieve the soa_retry flag of a DNS zone.
+
+This indicates how long a secondary server must wait before attempting to recontact the primary server after a connection failure between the two servers occurs.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the soa_retry in seconds. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get soa_retry
+ my $soa_retry = $zone->soa_retry();
+ #Modify soa_retry
+ $zone->soa_retry("1000");
+
+=back
+
+=back
+
+=head2 soa_serial_number( )
+
+=over
+
+Use this method to set or retrieve the soa_serial_number flag of a DNS zone.
+
+The serial number in the SOA record incrementally changes every time the record is modified. The Infoblox appliance allows you to change the serial number (in the SOA record) for the primary server so it is higher than the secondary server, thereby ensuring zone transfers come from the primary server (as they should).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the soa serial number. The default value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get soa_serial_number
+ my $soa_serial_number = $zone->soa_serial_number();
+ #Modify soa_serial_number
+ $zone->soa_serial_number("222222");
+
+=back
+
+=back
+
+=head2 shared_record_groups( )
+
+=over
+
+Use this method to set or retrieve the associated shared record groups of a DNS zone.
+
+If a shared record group is associated with a zone, then all shared records in a shared record group will be shared in the zone. For more information about shared record groups and shared records, please refer to Infoblox Administrator Guide.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Array reference containing the name of shared record groups associated with this zone. The name of shared record group is in string format. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get shared record groups
+ my $srgs = $zone->shared_record_groups();
+ #Modify shared record groups. Assume "test_srg" and "another_srg" are the name
+ #of already defined shared record groups.
+ $zone->shared_record_groups(["test_srg", "another_srg"]);
+
+=back
+
+=back
+
+=head2 stub_external_ns_group( )
+
+=over
+
+Use this method to set or retrieve the external nameservers group name for stub DNS zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired external name servers group name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Construct external nameserver
+ my $ns1 = Infoblox::DNS::Nameserver->new(
+     name     => 'ns1.domain0.extra',
+     ipv4addr => '5.5.5.5',
+ );
+
+ #Construct external nameservers group
+ my $ext = Infoblox::DNS::Nsgroup::ForwardStubServer->new(
+     name             => 'extsrvg1',
+     external_servers => [$ns1],
+ );
+
+ #Submit created stub_external nameservers group to session
+ $session->add($ext);
+
+ #Get stub_external_ns_group value
+ my $stub_external_ns_group = $zone->stub_external_ns_group();
+
+ #Modify stub_external_ns_group value
+ $zone->stub_external_ns_group('extsrvg1');
+
+=back
+
+=back
+
+=head2 stub_from( )
+
+=over
+
+Use this method to set or retrieve the stub_from servers of a DNS zone.
+
+This method specifies the primary servers (masters) of the stub zone.
+
+User can also specify grid member server IP/name pair in this list of primary servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver> object(s). The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get stub_from
+ my $stub_from = $zone->stub_from();
+ #Modify stub_from
+ my $nameserver1 = Infoblox::DNS::Nameserver->new(
+        name     => "ns1.stub.com",
+        ipv4addr => "11.11.11.11",
+    );
+ my $nameserver2 = Infoblox::DNS::Nameserver->new(
+        name     => "test",
+        ipv4addr => "2006::b671",
+    );
+ #Specify a grid member server IP and name
+ my $nameserver3 = Infoblox::DNS::Nameserver->new(
+        name     => "ns.member.com",
+        ipv4addr => "192.168.1.2",
+    );
+ $zone->stub_from([$nameserver1, $nameserver2, $nameserver3]);
+
+=back
+
+=back
+
+=head2 stub_members( )
+
+=over
+
+Use this method to set or retrieve the stub_members flag of a DNS zone.
+
+This method specifies the grid member or Microsoft DNS servers of the stub zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Member|Infoblox::DNS::Member> object(s) for grid DNS servers and L<Infoblox::DNS::MSServer|Infoblox::DNS::MSServer> object(s) for Microsoft DNS Servers. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get stub_members
+ my $stub_members = $zone->stub_members();
+ #Modify stub_members
+ my $memberns1 = Infoblox::DNS::Member->new(
+        name     => "member1.stub.com",
+        ipv4addr => "3.3.3.3",
+    );
+
+ my $memberns2 = Infoblox::DNS::Member->new(
+        name     => "member2.stub.com",
+        ipv4addr => "4.4.4.4",
+    );
+
+ $zone->stub_members([$memberns1,$memberns2 ]);
+
+=back
+
+=back
+
+=head2 stub_ns_group( )
+
+=over
+
+Use this method to set or retrieve the name servers group for the Stub DNS Zone object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are string that contains name of the group or L<Infoblox::Grid::DNS::Nsgroup::StubMember|Infoblox::Grid::DNS::Nsgroup::StubMember>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Create stub nameservers group
+ my $stub_group = Infoblox::Grid::DNS::StubMember->new(
+     name         => 'stub_ns_group_A',
+     stub_members => ['infoblox.localdomain'],
+ );
+
+ #Submit created stub nameserver group to session
+ $session->add($stub_group);
+
+ #Get stub_ns_group
+ my $stub_ns_group = $zone->stub_ns_group();
+
+ #Modify stub_ns_group
+ $zone->stub_ns_group('stub_ns_group_A');
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the views flag of a DNS zone.
+
+You can list the views in which the zone is located.
+
+When the ms_managed() flag is not None, the method is limited to retrieving the list of DNS views only. Setting the DNS view of a zone served by a Microsoft DNS server is done from the Microsoft server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains the L<Infoblox::DNS::View|Infoblox::DNS::View> object. The default value is the "default" view.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $views = $zone->views();
+ #Modify views
+ my $internal_view = Infoblox::DNS::View->new(
+                "name"    => "internal",
+                "comment" => "insert internal",
+                "disable" => "false",
+                );
+
+ $zone->views([$internal_view]);
+
+=back
+
+=back
+
+=head2 zone( )
+
+=over
+
+Use this method to retrieve the parent zone value of a DNS zone. A parent zone can be of any type, except that a delegated child zone can not have a parent zone of delegated type. The zone name can be empty.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get zone
+ my $zone1 = $zone->zone();
+
+=back
+
+=back
+
+=head2 zone_monitored_since( )
+
+=over
+
+Use this method to retrieve the time data collection for "DNS Zones Last Queried" was turned on for the zone.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value, the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get zone_monitored_since
+ my $zone_monitored_since = $zone->zone_monitored_since();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a zone object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $host_ip =  "192.168.1.2";
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+     );
+ unless($session){
+         die("Constructor for session failed: ",
+                Infoblox::status_code(). ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully.\n";
+
+B<#Create a DNS zone.>
+
+ my $memberns1 = Infoblox::DNS::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => $host_ip,
+     lead     => "false",
+     stealth  => "false"
+ );
+
+ my $nameserver1 = Infoblox::DNS::Nameserver->new(
+     name     => "ns1.test.com",
+     ipv4addr => "1.1.1.1",
+     stealth  => "false",
+     TSIGname => "tsig_name",
+     TSIGkey  => "ZX1jVJl7C58GT/sc7Q3ucA==",
+ );
+
+ my $nameserver2 = Infoblox::DNS::Nameserver->new(
+     name     => "ns2.test.com",
+     ipv4addr => "2.2.2.2",
+     stealth  => "false",
+     TSIGname => "tsig_name2",
+     TSIGkey  => "qwqwqwqwqwqwqwqwqwqwqA==",
+ );
+
+ my $default_view = Infoblox::DNS::View->new(name => "default");
+
+ #To add zone test.com in the default view
+ my $firstzone = Infoblox::DNS::Zone->new(
+     name        => "test.com",
+     views       => [$default_view],
+     email       => "admin\@infoblox.com",
+     comment     => "add a zone test.com",
+     multiple_primaries => [$memberns1],
+     secondaries => [$nameserver1, $nameserver2],
+     );
+
+ unless($firstzone){
+        die("Construct test.com zone object failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+ print "test.com zone object created successfully.\n";
+
+ $session->add($firstzone)
+     or die("Add zone for test.com failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print"Zone test.com added successfully.\n";
+
+ #Create a reverse zone.
+ my $revzone1 = Infoblox::DNS::Zone->new(
+     name    => "10.1.4.0/24",
+     email   => "admin\@infoblox.com",
+     comment => "add a zone 4.168.192.in-addr.arpa",
+     multiple_primaries => [$memberns1],
+     );
+
+ unless($revzone1){
+      die("Constructor for zone 4.1.10.in-addr.arpa failed: ",
+                 Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+ print "4.1.10.in-addr.arpa zone object created successfully.\n";
+
+ $session->add($revzone1)
+     or die("Add zone for 4.1.10.in-addr.arpa failed: ",
+                 $session->status_code(). ":" .$session->status_detail());
+
+ print"Zone 4.1.10.in-addr.arpa added successfully.\n";
+
+ #Create a reverse zone with a prefix.
+ my $revzone2 = Infoblox::DNS::Zone->new(
+     name    => "10.168.192.in-addr.arpa",
+     email   => "admin\@infoblox.com",
+     comment => "add a zone 0-63.10.168.192.in-addr.arpa",
+     prefix  => "0-63",
+     );
+
+ unless($revzone2){
+         die("Constructor for zone 0-63.10.168.192.in-addr.arpa failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+ print "0-63.10.168.192.in-addr.arpa zone object created successfully.\n";
+
+ $session->add($revzone2)
+     or die("Add zone for 0-63.10.168.192.in-addr.arpa failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+ print"Zone 0-63.10.168.192.in-addr.arpa added successfully.\n";
+
+B<#Search for a specific DNS zone>
+
+ #Searches zones that ends with com
+ my @search_result = $session->search(
+     object => "Infoblox::DNS::Zone",
+     name   => ".*\\.com"
+ );
+
+ my $search_obj = $search_result[0];
+ unless($search_obj){
+        die("Search zone failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        }
+
+ print "Search zone object found at least 1 matching entry\n";
+
+B<#Get and modify a DNS zone>
+
+ #Get zone test.com through session
+ my @result_array = $session->get(
+     object => "Infoblox::DNS::Zone",
+     name   => "test.com",
+     view   => "default"
+ );
+ my $for_obj = $result_array[0];
+ unless($for_obj){
+        die("Get zone test.com failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+        }
+ print "Get test.com zone object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified zone
+ $for_obj->comment("this is a modified comment.");
+
+ #Apply the change
+     $session->modify($result_array[0])
+         or die("Modify zone for test.com failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+
+  print "test.com zone object modified successfully.\n";
+
+ #Get and modify zone 4.1.10.in-addr.arpa.
+ my @result = $session->get(
+     object => "Infoblox::DNS::Zone",
+     name   => "4.1.10.in-addr.arpa"
+ );
+
+ my $rev_object = $result[0];
+ unless ($rev_object) {
+        die("Get zone 4.1.10.in-addr.arpa failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        }
+ print "Get 4.1.10.in-addr.arpa zone object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified zoe
+ $rev_object->secondaries([$nameserver2]);
+
+ #Apply the changes
+ $session->modify($rev_object)
+             or die("Modify reverse zone 4.1.10.in-addr.arpa failed: ",
+                        $session->status_code(). ":" .$session->status_detail());
+
+ print "4.1.10.in-addr.arpa zone object modified successfully.\n";
+
+B<#Remove a DNS zone >
+
+ #Remove zone test.com from a view.
+ $session->remove(
+     object => "Infoblox::DNS::Zone",
+     name   => "test.com",
+     views  => [$default_view]
+     )
+     or die("Remove zone test.com failed: ",
+              $session->status_code(). ":" .$session->status_detail());
+
+ print "Remove zone test.com successfull\n";
+
+ #Remove zone 4.1.10.in-addr.arpa from a view.
+ $session->remove(
+     object => "Infoblox::DNS::Zone",
+     name   => "4.1.10.in-addr.arpa",
+     views  => [$default_view]
+     )
+     or die("Remove zone 4.1.10.in-addr.arpa failed: ",
+              $session->status_code(). ":" .$session->status_detail());
+
+ print "Remove zone 4.1.10.in-addr.arpa successfull\n";
+
+ #Remove zone with prefix from a view.
+ $session->remove(
+     object => "Infoblox::DNS::Zone",
+     name    => "10.168.192.in-addr.arpa",
+     prefix  => "0-63",
+    )
+    or die("Remove zone 0-63.10.168.192.in-addr.arpa failed: ",
+              $session->status_code(). ":" .$session->status_detail());
+
+ print "Remove zone 0-63.10.168.192.in-addr.arpa successfull\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::Member|Infoblox::DNS::Member>, 
+L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver>, 
+L<Infoblox::DNS::SRG|Infoblox::DNS::SRG>,
+L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey>, 
+L<Infoblox::DNS::View|Infoblox::DNS::View>, 
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, 
+L<Infoblox::DNS::Member::SoaSerial|Infoblox::DNS::Member::SoaSerial>, 
+L<Infoblox::DNS::Member::Mname|Infoblox::DNS::Member::SoaMname>, 
+L<Infoblox::DNS::DNSSecKeyAlgorithm|Infoblox::DNS::DNSSecKeyAlgorithm>, 
+L<Infoblox::Grid::MSServer::DCNSRecordCreation|Infoblox::Grid::MSServer::DCNSRecordCreation>,
+L<Infoblox::Grid::DNS::Nsgroup|Infoblox::Grid::DNS::Nsgroup>,
+L<Infoblox::Grid::DNS::Nsgroup|Infoblox::Grid::DNS::Nsgroup::ForwardingMember>,
+L<Infoblox::Grid::DNS::Nsgroup|Infoblox::Grid::DNS::Nsgroup::StubMember>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

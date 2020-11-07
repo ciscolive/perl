@@ -1,0 +1,1 @@
+{"target":"Net::IPAM::Block","version":"1.17","provides":{"Net::IPAM::Block":{"file":"lib/Net/IPAM/Block.pm","version":"1.17"},"Net::IPAM::Block::Private":{"file":"lib/Net/IPAM/Block/Private.pm"}},"pathname":"G/GA/GAISSMAI/Net-IPAM-Block-1.17.tar.gz","name":"Net::IPAM::Block","dist":"Net-IPAM-Block-1.17"}

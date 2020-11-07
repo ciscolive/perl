@@ -1,0 +1,5 @@
+/opt/perl/site/lib/Devel/Declare.pm
+/opt/perl/site/lib/Devel/Declare/Context/Simple.pm
+/opt/perl/site/lib/Devel/Declare/MethodInstaller/Simple.pm
+/opt/perl/site/lib/auto/Devel/Declare/Declare.so
+/opt/perl/site/man/man3/Devel::Declare.3

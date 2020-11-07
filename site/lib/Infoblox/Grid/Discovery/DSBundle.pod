@@ -1,0 +1,179 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DSBundle - the device support bundle.
+
+=head1 DESCRIPTION
+
+The object provides information about the device support bundle.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to the object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+  name  - Optional. The name of the device support bundle.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::Discovery::DSBundle',
+     'name'   => 'dsb',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for an object:
+
+  name  - Optional. The name of the device support bundle (regular expression).
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     'object' => 'Infoblox::Grid::Discovery::DSBundle',
+     'name'   => 'dsb',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 author( )
+
+=over
+
+Use this method to retrieve the author of the device support bundle. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->author();
+
+=back
+
+=back
+
+=head2 integrated_ind( )
+
+=over
+
+Use this method to retrieve information about the integrated DSB type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns "true" if DSB is integrated, "false" if DSB is imported.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->integrated_ind();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of the device support bundle. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+
+=back
+
+=back
+
+=head2 version( )
+
+=over
+
+Use this method to retrieve the version of the device support bundle. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->version();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

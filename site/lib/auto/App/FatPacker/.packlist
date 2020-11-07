@@ -1,0 +1,6 @@
+/opt/perl/site/bin/fatpack
+/opt/perl/site/lib/App/FatPacker.pm
+/opt/perl/site/lib/App/FatPacker/Trace.pm
+/opt/perl/site/man/man1/fatpack.1
+/opt/perl/site/man/man3/App::FatPacker.3
+/opt/perl/site/man/man3/App::FatPacker::Trace.3

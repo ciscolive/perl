@@ -1,0 +1,5 @@
+/opt/perl/site/lib/Test/SharedFork.pm
+/opt/perl/site/lib/Test/SharedFork/Array.pm
+/opt/perl/site/lib/Test/SharedFork/Scalar.pm
+/opt/perl/site/lib/Test/SharedFork/Store.pm
+/opt/perl/site/man/man3/Test::SharedFork.3

@@ -1,0 +1,8 @@
+/opt/perl/site/lib/DBIx/Class/InflateColumn/Serializer.pm
+/opt/perl/site/lib/DBIx/Class/InflateColumn/Serializer/JSON.pm
+/opt/perl/site/lib/DBIx/Class/InflateColumn/Serializer/Storable.pm
+/opt/perl/site/lib/DBIx/Class/InflateColumn/Serializer/YAML.pm
+/opt/perl/site/man/man3/DBIx::Class::InflateColumn::Serializer.3
+/opt/perl/site/man/man3/DBIx::Class::InflateColumn::Serializer::JSON.3
+/opt/perl/site/man/man3/DBIx::Class::InflateColumn::Serializer::Storable.3
+/opt/perl/site/man/man3/DBIx::Class::InflateColumn::Serializer::YAML.3

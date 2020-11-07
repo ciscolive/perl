@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Sys/CpuAffinity.pm
+/opt/perl/site/lib/auto/Sys/CpuAffinity/CpuAffinity.bs
+/opt/perl/site/lib/auto/Sys/CpuAffinity/CpuAffinity.so
+/opt/perl/site/lib/auto/xs/fortytwo/fortytwo.bs
+/opt/perl/site/lib/auto/xs/fortytwo/fortytwo.so
+/opt/perl/site/lib/auto/xs/linux-sched_getaffinity/linux-sched_getaffinity.bs
+/opt/perl/site/lib/auto/xs/linux-sched_getaffinity/linux-sched_getaffinity.so
+/opt/perl/site/lib/auto/xs/linux-sched_setaffinity/linux-sched_setaffinity.bs
+/opt/perl/site/lib/auto/xs/linux-sched_setaffinity/linux-sched_setaffinity.so
+/opt/perl/site/man/man3/Sys::CpuAffinity.3

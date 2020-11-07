@@ -1,0 +1,1 @@
+{"name":"Mojo::IRC","pathname":"J/JH/JHTHORSEN/Mojo-IRC-0.45.tar.gz","dist":"Mojo-IRC-0.45","target":"Mojo::IRC","version":"0.45","provides":{"Mojo::IRC::UA":{"file":"lib/Mojo/IRC/UA.pm"},"Mojo::IRC":{"file":"lib/Mojo/IRC.pm","version":"0.45"},"Test::Mojo::IRC":{"file":"lib/Test/Mojo/IRC.pm"}}}

@@ -1,0 +1,1 @@
+{"version":"1.02","name":"AWS::Signature4","target":"AWS::Signature4","provides":{"AWS::Signature4":{"file":"lib/AWS/Signature4.pm","version":"1.02"}},"pathname":"L/LD/LDS/AWS-Signature4-1.02.tar.gz","dist":"AWS-Signature4-1.02"}

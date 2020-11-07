@@ -1,0 +1,212 @@
+=head1 NAME
+
+Infoblox::Grid::CloudAPI::Info  - Infoblox::Grid::CloudAPI::Info object.
+
+=head1 DESCRIPTION
+
+This structure aggregates all information related to Cloud objects.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as part of the objects supporting it.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 delegated_member( )
+
+=over
+
+Use this method to set or retrieve the reference to the Cloud Platform Appliance to which authority of an object is delegated. If the delegated_scope value is SUBTREE or RECLAIMING, this is a read-only attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None if the attribute is a read-only. Otherwise the valid value is an L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+If this is a read-only attribute, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get delegated_member
+ $delegated_member = $cloud_api_info->delegated_member();
+ # Set delegated_member
+ $cloud_api_info->delegated_member($member);
+
+=back
+
+=back
+
+=head2 delegated_root( )
+
+=over
+
+Use this method to retrieve the root of the delegation if delegated_scope is SUBTREE or RECLAIMING. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get delegated_root
+ $delegated_root = $cloud_api_info->delegated_root();
+
+=back
+
+=back
+
+=head2 delegated_scope( )
+
+=over
+
+Use this method to retrieve the delegation scope of the object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get delegated_scope
+ $delegated_scope = $cloud_api_info->delegated_scope();
+
+=back
+
+=back
+
+=head2 owned_by_adaptor( )
+
+=over
+
+Use this method to retrieve the information about whether the object was created by the cloud adapter or not.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get owned_by_adaptor
+ $owned_by_adaptor = $cloud_api_info->owned_by_adaptor();
+
+=back
+
+=back
+
+=head2 tenant( )
+
+=over
+
+Use this method to retrieve the reference to the tenant object associated with the object, if any. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get tenant
+ $tenant = $cloud_api_info->tenant();
+
+=back
+
+=back
+
+=head2 usage( )
+
+=over
+
+Use this method to retrieve the  the cloud origin of the object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get usage
+ $usage = $cloud_api_info->usage();
+
+=back
+
+=back
+
+=head2 authority_type( )
+
+=over
+
+Use this method to retrieve the authority type of the object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+This method returns the attribute value.
+
+=item B<Example>
+
+ # Get authority_type
+ $authority_type = $cloud_api_info->authority_type();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>, L<Infoblox::Grid::CloudAPI::Tenant|Infoblox::Grid::CloudAPI::Tenant>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

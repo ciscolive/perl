@@ -1,0 +1,62 @@
+{
+   "abstract" : "Excel::Template",
+   "author" : [
+      "Rob Kinyon <rob.kinyon@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Install version 1.01, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Excel-Template",
+   "no_index" : {
+      "directory" : [
+         "inc",
+         "t"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.42",
+            "File::Path" : "0",
+            "File::Temp" : "0",
+            "Test::Deep" : "0.095",
+            "Test::Exception" : "0.21",
+            "Test::More" : "0.47"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "File::Basename" : "0",
+            "File::Path" : "0",
+            "File::Temp" : "0",
+            "IO::Scalar" : "0",
+            "Spreadsheet::WriteExcel" : "0.42",
+            "Spreadsheet::WriteExcel::Utility" : "0",
+            "Test::Deep" : "0.095",
+            "Test::Exception" : "0.21",
+            "Test::More" : "0",
+            "XML::Parser" : "0",
+            "perl" : "5.006"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "0.34",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

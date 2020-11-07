@@ -1,0 +1,9 @@
+/opt/perl/site/bin/cpanel_json_xs
+/opt/perl/site/lib/Cpanel/JSON/XS.pm
+/opt/perl/site/lib/Cpanel/JSON/XS/Boolean.pm
+/opt/perl/site/lib/Cpanel/JSON/XS/Type.pm
+/opt/perl/site/lib/auto/Cpanel/JSON/XS/XS.so
+/opt/perl/site/man/man1/cpanel_json_xs.1
+/opt/perl/site/man/man3/Cpanel::JSON::XS.3
+/opt/perl/site/man/man3/Cpanel::JSON::XS::Boolean.3
+/opt/perl/site/man/man3/Cpanel::JSON::XS::Type.3

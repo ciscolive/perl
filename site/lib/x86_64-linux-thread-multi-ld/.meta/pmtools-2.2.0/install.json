@@ -1,0 +1,1 @@
+{"version":"2.002000","name":"pmtools","target":"pmtools","dist":"pmtools-2.2.0","pathname":"M/ML/MLFISHER/pmtools-2.2.0.tar.gz","provides":{"pmtools":{"version":"2.002000","file":"lib/pmtools.pm"},"Devel::Loaded":{"file":"lib/Devel/Loaded.pm","version":"2.002000"}}}

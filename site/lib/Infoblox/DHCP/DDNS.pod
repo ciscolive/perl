@@ -1,0 +1,214 @@
+=head1 NAME
+
+Infoblox::DHCP::DDNS - DHCP DDNS object.
+
+=head1 DESCRIPTION
+
+The object is used to configure Multi-Grid Master preferences for updates from DHCP to Multi-Grid Master zones.
+
+=head1 CONSTRUCTOR
+
+ my $ddns = Infoblox::DHCP::DDNS->new(
+    dns_ext_zone     => $string,           # required if zone_match is 'EXTERNAL'
+    dns_grid_zone    => $string,           # required if zone_match is 'GRID'
+    view             => $string,           # optional / The default value is the name of the default view
+    external_primary => $ipaddr,           # required if zone_match is 'EXTERNAL' or 'ANY_EXTERNAL'
+    grid_primary     => $string,           # required if zone_match is 'GRID' or 'ANY_GRID'
+    zone_match       => 'ANY_EXTERNAL' | 'ANY_GRID' | 'EXTERNAL' | 'GRID',  # required
+ );
+
+=head1 SESSION METHODS
+
+The object doesn't support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve a DHCP DDNS object.
+
+=head2 dns_ext_zone( )
+
+=over
+
+Use this method to set or retrieve a zone name, in FQDN (Fully Qualified Domain Name) format, that is contained in an external member.
+
+=over
+
+=item B<Parameter>
+
+A zone name in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $value = $ddns->dns_ext_zone();
+ # Modify the attribute value
+ $ddns->dns_ext_zone('exmmdns.com');
+
+=back
+
+=back
+
+=head2 dns_grid_zone( )
+
+=over
+
+Use this method to set or retrieve a zone name, in FQDN (Fully Qualified Domain Name) format, that is contained in a Grid member.
+
+=over
+
+=item B<Parameter>
+
+A zone name in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $value = $ddns->dns_grid_zone();
+ # Modify the attribute value
+ $ddns->dns_grid_zone('mmdns.com');
+
+=back
+
+=back
+
+=head2 view( )
+
+=over
+
+Use this method to set or retrieve the name of the DNS view in which the zone is located.
+
+=over
+
+=item B<Parameter>
+
+The name of the DNS view in string format. The default value is the name of the default view.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $value = $ddns->view();
+ # Modify the attribute value
+ $ddns->view('dnsview');
+
+=back
+
+=back
+
+=head2 external_primary( )
+
+=over
+
+Use this method to set or retrieve the IP address of an external member.
+
+=over
+
+=item B<Parameter>
+
+The IP address of an external member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $value = $ddns->external_primary();
+ # Modify the attribute value
+ $ddns->external_primary('10.0.0.1');
+
+=back
+
+=back
+
+=head2 grid_primary( )
+
+=over
+
+Use this method to set or retrieve the name of the primary Grid member.
+
+=over
+
+=item B<Parameter>
+
+The name of the primary Grid member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $value = $ddns->grid_primary();
+ # Modify the attribute value
+ $ddns->grid_primary('grid.com');
+
+=back
+
+=back
+
+=head2 zone_match( )
+
+=over
+
+Use this method to set or retrieve the matching type.
+
+=over
+
+=item B<Parameter>
+
+The valid value is 'ANY_EXTERNAL', 'ANY_GRID', 'EXTERNAL' or 'GRID'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $value = $ddns->zone_match();
+ # Modify the attribute value
+ $ddns->zone_match('GRID');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::View|Infoblox::DHCP::View>, L<Infoblox::Grid::Member::DHCP|Infoblox::Grid::Member::DHCP>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,7 @@
+/opt/perl/site/bin/dsc_dump_schema.pl
+/opt/perl/site/lib/DBIx/Simple/Class.pm
+/opt/perl/site/lib/DBIx/Simple/Class.pod
+/opt/perl/site/lib/DBIx/Simple/Class/Schema.pm
+/opt/perl/site/man/man1/dsc_dump_schema.pl.1
+/opt/perl/site/man/man3/DBIx::Simple::Class.3
+/opt/perl/site/man/man3/DBIx::Simple::Class::Schema.3

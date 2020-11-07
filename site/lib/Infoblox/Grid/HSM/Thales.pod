@@ -1,0 +1,234 @@
+=head1 NAME
+
+Infoblox::Grid::HSM::Thales - Thales HSM (Hardware Security Module) Server object
+
+=head1 DESCRIPTION
+
+An Infoblox::Grid::HSM::Thales object represents a server configured in the HSM group.
+
+=head1 CONSTRUCTOR
+
+ my $hsm_server = Infoblox::Grid::HSM::Thales->new(
+     remote_ip       => $ipv4addr,                       # Required
+     keyhash         => $string,                         # Required
+     disabled        => "true" | "false",                # Optional / Default value is "false"
+     remote_port     => $num,                            # Optional / Default value is 9004
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to an HSM Server object.
+
+=head2 Infoblox::Grid::HSM::Thales::Group->thales_hsm( )
+
+=over
+
+Use this function to add or retrieve HSM servers in the HSM group. See L<Infoblox::Grid::HSM::Thales::Group-E<gt>thales_hsm()|Infoblox::Grid::HSM::ThalesGroup/thales_hsm()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an HSM Group
+ my $hsm_group = Infoblox::Grid::HSM::Thales::Group->new(
+     name                    => "HSM Group",
+     key_server_ip           => "10.0.0.1",
+     key_server_port         => 9004,
+     comment                 => "A new HSM Group ",
+     thales_hsm              => []
+ );
+
+ # Configure the HSM server in the HSM Group object.
+ my $response = $hsm_group->thales_hsm([$thales_server]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::Grid::HSM::Thales object.
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the disabled setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable the HSM Server object or "false" to enable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disabled flag
+ my $disabled = $thales_server->disabled();
+ #Modify disabled flag
+ $thales_server->disabled("true");
+
+=back
+
+=back
+
+=head2 keyhash( )
+
+=over
+
+Use this method to set or retrieve the key hash used to authenticate the HSM.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired key hash in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get key hash
+ my $key = $thales_server->keyhash();
+ #Modify key hash
+ $thales_server->keyhash("123hashxyz");
+
+=back
+
+=back
+
+=head2 remote_ip( )
+
+=over
+
+Use this method to set or retrieve the IP address of the Thales HSM server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IPv4 address of the Thales HSM server.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the Thales HSM server IP address
+ my $remote_ip = $thales_server->remote_ip();
+ #Modify the Thales HSM server IP address
+ $thales_server->remote_ip("20.0.0.9");
+
+=back
+
+=back
+
+=head2 remote_port( )
+
+=over
+
+Use this method to set or retrieve the remote port setting of the Thales HSM server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are between 1 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get remote port
+ my $remote_port = $thales_server->remote_port();
+ #Modify remote port
+ $thales_server->remote_port(9012);
+
+=back
+
+=back
+
+=head2 remote_esn( )
+
+=over
+
+Use this method to retrieve the Electronic Serial Number (ESN) of the Thales HSM server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get remote ESN
+ my $remote_esn= $thales_server->remote_esn();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the status of the Thales HSM server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value as "UP" or "DOWN".
+
+=item B<Example>
+
+ #Get status
+ my $status= $thales_server->status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::HSM::Thales::Group|Infoblox::Grid::HSM::ThalesGroup>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

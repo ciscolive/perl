@@ -1,0 +1,5 @@
+/opt/perl/site/lib/MIME/Base64.pm
+/opt/perl/site/lib/MIME/QuotedPrint.pm
+/opt/perl/site/lib/auto/MIME/Base64/Base64.so
+/opt/perl/site/man/man3/MIME::Base64.3
+/opt/perl/site/man/man3/MIME::QuotedPrint.3

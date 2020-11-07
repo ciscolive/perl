@@ -1,0 +1,347 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::RadiusAuthServer - RADIUS Authentication Server object
+
+=head1 DESCRIPTION
+
+Represents a RADIUS server that is used to authenticate administrators and DHCP clients.
+
+=head1 CONSTRUCTOR
+
+ my $radius_auth_server = Infoblox::Grid::Admin::RadiusAuthServer->new(
+     acct_enabled     => "true" | "false"      #Optional / Default is false
+     acct_port        => $num,                 #Optional / Default is 1813
+     auth_port        => $num,                 #Optional / Default is 1812
+     auth_type        => "PAP" | "CHAP",       #Optional / Default is "PAP"
+     comment          => $string,              #Optional / Default is empty
+     disabled         => "true" | "false"      #Optional / Default is false
+     fqdn_or_ip       => $fqdn | $ipv4addr     #Required
+     shared_secret    => $string,              #Required
+     use_mgmt_port    => "true" | "false"      #Optional / Default is false
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an object.
+
+=head2 Infoblox::Grid::Admin::RadiusAuthService->radius_servers()
+
+=over
+
+Use this method to add a list of RADIUS Server objects to the RADIUS Service object on an Infoblox appliance. See L<Infoblox::Grid::Admin::RadiusAuthService|Infoblox::Grid::Admin::RadiusAuthService> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Construct an object
+ my $radius_auth_server1 = Infoblox::Grid::Admin::RadiusAuthServer->new(
+                                                            fqdn_or_ip    => '10.0.1.1',
+                                                            shared_secret => 'secret',
+ );
+
+ # Construct another object
+ my $radius_auth_server2 = Infoblox::Grid::Admin::RadiusAuthServer->new(
+                                                            fqdn_or_ip    => '10.0.2.1',
+                                                            shared_secret => 'secret',
+ );
+
+ # Configure RadiusAuthServer
+ my $response = $radius_auth_service->radius_servers([$radius_auth_server1, $radius_auth_server2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+Use the following methods to access the attributes of an Infoblox::Grid::Admin::RadiusAuthServer object. Specify a parameter to set the attribute's value, or omit the parameter to get the attribute's value.
+
+=head2 acct_enabled( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates if the RADIUS server is enabled for accounting packets.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get acct_enabled
+   my $acct_enabled = $radius_server->acct_enabled();
+   #Modify acct_enabled
+   $radius_server->acct_enabled("true");
+
+=back
+
+=back
+
+=head2 acct_port( )
+
+=over
+
+Use this method to set or retrieve the port number used by RADIUS server for accounting packets.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1 and 65535, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting acct_port
+   my $acct_port = $radius_server->acct_port( );
+   #Modifying acct_port
+   $radius_server->acct_port("1813");
+
+=back
+
+=back
+
+=head2 auth_port( )
+
+=over
+
+Use this method to set or retrieve the port number used by the RADIUS server for accounting packets.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer between 1 and 65535, inclusive.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting auth_port
+   my $auth_port = $radius_server->auth_port( );
+   #Modifying auth_port
+   $radius_server->auth_port("1812");
+
+=back
+
+=back
+
+=head2 auth_type( )
+
+=over
+
+Use this method to set or retrieve the authentication type used by the RADIUS client and server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is either "PAP" or "CHAP", the default is "PAP".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting auth_type
+   my $auth_type = $radius_server->auth_type( );
+   #Modifying auth_type
+   $radius_server->auth_type("PAP");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment about the RADIUS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The comment in string format, with a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get comment
+   my $comment = $radius_server->comment();
+   #Modify comment
+   $radius_server->comment("NAC Authentication RADIUS server");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the disable flag of the RADIUS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get disabled
+   my $disable = $radius_server->disabled();
+   #Modify disabled
+   $radius_server->disabled("true");
+
+=back
+
+=back
+
+=head2 fqdn_or_ip( )
+
+=over
+
+Use this method to set or retrieve the FQDN or IP address of the RADIUS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A string in FQDN (Fully Qualified Domain Name) format, or an IP address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get fqdn_or_ip
+   my $fqdn_or_ip = $radius_server->fqdn_or_ip();
+   #Modify fqdn_or_ip
+   $radius_server->fqdn_or_ip("10.0.0.1");
+
+=back
+
+=back
+
+=head2 shared_secret( )
+
+=over
+
+Use this method to set the shared secret used by the RADIUS client and RADIUS server. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The shared secret in string format, with a maximum of 128 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+   #Modify shared_secret
+   $radius_server->shared_secret("secret");
+
+=back
+
+=back
+
+=head2 use_mgmt_port( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates if the appliance connects to the RADIUS server through the MGMT network interface.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Get use_mgmt_port
+   my $use_mgmt_port = $radius_server->use_mgmt_port();
+   #Modify use_mgmt_port
+   $radius_server->use_mgmt_port("true");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::RadiusAuthService|Infoblox::Grid::Admin::RadiusAuthService>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

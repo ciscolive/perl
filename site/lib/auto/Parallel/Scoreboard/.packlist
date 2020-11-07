@@ -1,0 +1,6 @@
+/opt/perl/site/lib/Parallel/Scoreboard.pm
+/opt/perl/site/lib/Parallel/Scoreboard/PSGI/App.pm
+/opt/perl/site/lib/Parallel/Scoreboard/PSGI/App/JSON.pm
+/opt/perl/site/man/man3/Parallel::Scoreboard.3
+/opt/perl/site/man/man3/Parallel::Scoreboard::PSGI::App.3
+/opt/perl/site/man/man3/Parallel::Scoreboard::PSGI::App::JSON.3

@@ -1,0 +1,10 @@
+/opt/perl/site/lib/DBIx/Compare.pm
+/opt/perl/site/lib/DBIx/Compare/Oracle.pm
+/opt/perl/site/lib/DBIx/Compare/Pg.pm
+/opt/perl/site/lib/DBIx/Compare/SQLite.pm
+/opt/perl/site/lib/DBIx/Compare/mysql.pm
+/opt/perl/site/man/man3/DBIx::Compare.3
+/opt/perl/site/man/man3/DBIx::Compare::Oracle.3
+/opt/perl/site/man/man3/DBIx::Compare::Pg.3
+/opt/perl/site/man/man3/DBIx::Compare::SQLite.3
+/opt/perl/site/man/man3/DBIx::Compare::mysql.3

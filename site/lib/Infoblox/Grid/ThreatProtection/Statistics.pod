@@ -1,0 +1,125 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection::Statistics - Threat protection statistics.
+
+=head1 DESCRIPTION
+
+This object provides information about Threat protection statistics.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Grid::ThreatProtection::Statistics object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Threat Protection Statistics object.
+  grid_member   - Optional. The Grid member name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object'      => 'Infoblox::Grid::ThreatProtection::Statistics',
+     'grid_member' => 'member.com',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Threat Protection Statistics object.
+  grid_member   - Optional. The Grid member name.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     'object'      => 'Infoblox::Grid::ThreatProtection::Statistics',
+     'grid_member' => 'member.com',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+=head2 stat_infos( )
+
+=over
+
+Use this method to retrieve event statistics. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be an array reference of L<Infoblox::Grid::ThreatProtection::StatInfo|Infoblox::Grid::ThreatProtection::StatInfo> objects.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->stat_infos();
+
+=back
+
+=back
+
+=head2 grid_member( )
+
+=over
+
+Use this method to retrieve a Grid member name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->grid_member();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::ThreatProtection|Infoblox::Grid::ThreatProtection>, L<Infoblox::Grid::ThreatProtection::Rule|Infoblox::Grid::ThreatProtection::Rule>, L<Infoblox::Grid::ThreatProtection::StatInfo|Infoblox::Grid::ThreatProtection::StatInfo>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

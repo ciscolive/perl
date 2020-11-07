@@ -1,0 +1,121 @@
+=head1 NAME
+
+Infoblox::Discovery::NetworkDeprovisionInfo - Network deprovision information.
+
+=head1 DESCRIPTION
+
+The object provides information about network deprovision.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Discovery::NetworkDeprovisionInfo->new(
+    'interface'         => $interface,      # Required
+    'network'           => $network,        # Required
+    'network_view'      => $address/cidr,   # Optional, default value is the default network view
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+=head2 interface( )
+
+=over
+
+Use this method to set or retrieve the interface object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::DeviceInterface|Infoblox::Grid::Discovery::DeviceInterface> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get interface value
+ $value = $deprovision_info->interface();
+
+ #Set interface value
+ $deprovision_info->interface($interface);
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to set or retrieve the network address.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a string representing the address and netmask of the network in CIDR format (example: 10.0.0.0/8).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $deprovision_info->network();
+
+ #Set attribute value
+ $deprovision_info->network("10.0.0.0/8");
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view name.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a string representing network view name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $value = $deprovision_info->network_view();
+
+ #Set attribute value
+ $deprovision_info->network_view($view);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

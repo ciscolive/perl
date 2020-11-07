@@ -1,0 +1,118 @@
+=head1 NAME
+
+Infoblox::CiscoISE::PublishSetting - A Cisco ISE publish settings.
+
+=head1 DESCRIPTION
+
+The Cisco ISE publish setting contains a list of extensible attributes that are enabled for publishing to a Cisco ISE server.
+
+=head1 CONSTRUCTOR
+
+ my $publish_setting = Infoblox::CiscoISE::PublishSetting->new(
+     enabled_attributes => ['CLIENT_ID' | 'FINGERPRINT' | 'HOSTNAME' | 'IPADDRESS' |
+                           'INFOBLOX_MEMBER' | 'LEASE_STATE' | 'LEASE_START_TIME' |
+                           'LEASE_END_TIME' | 'MAC_OR_DUID' | 'NETBIOS_NAME', ...],
+ );
+
+=head1 SESSION METHODS
+
+The object does not have any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to Cisco ISE publish settings object.
+
+=head2 Infoblox::CiscoISE::Endpoint->publish_settings( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE endpoint publish settings.
+See L<Infoblox::CiscoISE::Endpoint-E<gt>publish_settings()|Infoblox::CiscoISE::Endpoint/publish_settings()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get publish_settings value
+ my $publish_settings = $object->publish_settings();
+
+ #Modify publish_settings value
+ $object->publish_settings($publish_settings);
+
+=back
+
+=back
+
+=head2 Infoblox::Notification::Rule->publish_settings( )
+
+=over
+
+Use this method to set or retrieve the notification rule publish settings.
+See L<Infoblox::Notification::Rule-E<gt>publish_settings()|Infoblox::Notification::Rule/publish_settings()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get publish_settings value
+ my $publish_settings = $object->publish_settings();
+
+ #Modify publish_settings value
+ $object->publish_settings($publish_settings);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Cisco ISE publish settings.
+
+=head2 enabled_attributes( )
+
+=over
+
+Use this method to set or retrieve the list of extensible attributes that are enabled for publishing to a Cisco ISE server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array that contains following values: 'CLIENT_ID', 'FINGERPRINT', 'HOSTNAME', 'IPADDRESS', 'INFOBLOX_MEMBER', 'LEASE_STATE', 'LEASE_START_TIME', 'LEASE_END_TIME', 'MAC_OR_DUID', 'NETBIOS_NAME'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enabled_attributes value
+ my $enabled_attributes = $object->enabled_attributes();
+
+ #Modify enabled_attributes value
+ $object->enabled_attributes(['CLIENT_ID', 'IPADDRESS']);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::CiscoISE::Endpoint|Infoblox::CiscoISE::Endpoint>,
+L<Infoblox::CiscoISE::Endpoint-E<gt>publish_settings()|Infoblox::CiscoISE::Endpoint/publish_settings()/>,
+L<Infoblox::Notification::Rule|Infoblox::Notification::Rule>,
+L<Infoblox::Notification::Rule-E<gt>publish_settings()|Infoblox::Notification::Rule/publish_settings()/>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

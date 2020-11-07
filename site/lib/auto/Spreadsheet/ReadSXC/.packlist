@@ -1,0 +1,16 @@
+/opt/perl/site/lib/Spreadsheet/ParseODS.pm
+/opt/perl/site/lib/Spreadsheet/ParseODS/Cell.pm
+/opt/perl/site/lib/Spreadsheet/ParseODS/Settings.pm
+/opt/perl/site/lib/Spreadsheet/ParseODS/Styles.pm
+/opt/perl/site/lib/Spreadsheet/ParseODS/Workbook.pm
+/opt/perl/site/lib/Spreadsheet/ParseODS/Worksheet.pm
+/opt/perl/site/lib/Spreadsheet/ReadSXC.pm
+/opt/perl/site/lib/Spreadsheet/Todo.pod
+/opt/perl/site/man/man3/Spreadsheet::ParseODS.3
+/opt/perl/site/man/man3/Spreadsheet::ParseODS::Cell.3
+/opt/perl/site/man/man3/Spreadsheet::ParseODS::Settings.3
+/opt/perl/site/man/man3/Spreadsheet::ParseODS::Styles.3
+/opt/perl/site/man/man3/Spreadsheet::ParseODS::Workbook.3
+/opt/perl/site/man/man3/Spreadsheet::ParseODS::Worksheet.3
+/opt/perl/site/man/man3/Spreadsheet::ReadSXC.3
+/opt/perl/site/man/man3/Spreadsheet::Todo.3

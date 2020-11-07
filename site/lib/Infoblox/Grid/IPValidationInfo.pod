@@ -1,0 +1,235 @@
+
+
+
+=head1 NAME
+
+Infoblox::Grid::IPValidationInfo - IP Validation information
+
+=head1 DESCRIPTION
+
+When submitting add or modify requests that contain IPs returned by the next_available_ip functionality, this object can be passed to ensure that these IPs are unique and that concurrent additions and modifications containing the same IPs will fail.
+
+=head1 CONSTRUCTOR
+
+ my $member = Infoblox::Grid::IPValidationInfo->new(
+     address       => $ipaddr,        #Required
+     parent        => $obj,           #Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available for an IP validation info object.
+
+=head2 Infoblox::Session->add( ) and Infoblox::Session->modify( )
+
+=over
+
+The object can be passed in the ip_validation option. For usage information, see the sample code section.
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of an IP validation info object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the address.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an IPv4 or IPv6 address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address 
+ my $address = $vip->address();
+ #Modify address 
+ $vip->address('10.0.0.1');
+
+=back
+
+=back
+
+=head2 parent( )
+
+=over
+
+Use this method to set the parent object for the validation. This is the object from which the next available IP was retrieved, and it must be an object retrieved from the server.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::DHCP::IPv6Range|Infoblox::DHCP::IPv6Range>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get parent
+ my $net = $member->vip();
+ #Modify vip
+ $member->vip($net2);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to the insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $host_ip   = "192.168.1.2";
+ my $host_name = "infoblox.localdomain";
+
+ my $session = Infoblox::Session->new(
+                master   => $host_ip,      #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DNS Zone object>
+
+ my $default_view = Infoblox::DNS::View->new(name => "default");
+
+ my $memberns1 = Infoblox::DNS::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => $host_ip,
+     lead     => "false",
+     stealth  => "false"
+ );
+
+ #To add zone test.com in the default view
+ my $firstzone = Infoblox::DNS::Zone->new(
+     name        => "test.com",
+     views       => [$default_view],
+     email       => "admin\@infoblox.com",
+     comment     => "add a zone test.com",
+     primary     => $memberns1,
+     );
+
+ unless($firstzone){
+        die("Construct test.com zone object failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+ print "test.com zone object created successfully.\n";
+
+ $session->add($firstzone)
+     or die("Add zone for test.com failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+ 
+ print"Zone test.com added successfully.\n";
+
+B<#Create a DHCP Network>
+
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+             name     => "infoblox.localdomain",
+             ipv4addr => $host_ip,
+            );  
+
+ my  $network = Infoblox::DHCP::Network->new(
+             network => "10.0.0.0/8",
+             comment => "add network",
+             members => [$memberdhcp],
+              );  
+ unless($network){
+        die("Construct test.com zone object failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+ print "Network created successfully\n";
+
+ my $response = $session->add($network)
+        or die("Add Network failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ 
+ print "Network added successfully\n";
+
+B<#Fetch a next available IP from the network>
+
+ my $nip = $network->next_available_ip();
+
+B<#Create a validation object for this IP>
+
+ my $vip = Infoblox::Grid::IPValidationInfo->new(
+    parent  => $network,
+    address => $nip,
+ );
+
+B<#Add a DNS A record with this IP and validation>
+
+ #Construct a DNS A object
+ my $bind_a = Infoblox::DNS::Record::A->new(
+     name     => "bind_a.test.com",
+     comment  => " this is a demo bind_a record ",
+     ipv4addr => $nip,
+ );
+ unless ($bind_a) {
+    die("Construct DNS record A failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DNS A object created successfully\n";
+
+ #Add the DNS A record object to Infoblox Appliance through a session
+ $session->add($bind_a, ip_validation => [$vip])
+     or die("Add record A failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS A object added to server successfully\n";
+
+B<#Cleanup>
+
+ $session->remove($bind_a)
+     or die("Remove record A failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ $session->remove($network)
+     or die("Remove network failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ $session->remove($firstzone)
+     or die("Remove zone failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

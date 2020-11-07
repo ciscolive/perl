@@ -1,0 +1,1 @@
+{"version":"0.010","provides":{"Mojolicious::Plugin::AutoReload":{"file":"lib/Mojolicious/Plugin/AutoReload.pm","version":"0.010"}},"target":"P/PR/PREACTION/Mojolicious-Plugin-AutoReload-0.010.tar.gz","name":"Mojolicious::Plugin::AutoReload","pathname":"P/PR/PREACTION/Mojolicious-Plugin-AutoReload-0.010.tar.gz","dist":"Mojolicious-Plugin-AutoReload-0.010"}

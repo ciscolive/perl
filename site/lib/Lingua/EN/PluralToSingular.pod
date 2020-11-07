@@ -1,0 +1,176 @@
+
+
+
+=encoding UTF-8
+
+=head1 NAME
+
+Lingua::EN::PluralToSingular - change an English plural to a singular
+
+=head1 SYNOPSIS
+
+    
+    use Lingua::EN::PluralToSingular qw/to_singular is_plural/;
+    my @words = qw/knives sheep dog dogs cannabis/;
+    for my $word (@words) {
+        if (is_plural ($word)) {
+            my $sing = to_singular ($word);
+            print "The singular of '$word' is '$sing'.\n";
+        }
+        else {
+            print "'", ucfirst ($word), "' is not plural.\n";
+        }
+    }
+
+
+produces output
+
+    The singular of 'knives' is 'knife'.
+    The singular of 'sheep' is 'sheep'.
+    'Dog' is not plural.
+    The singular of 'dogs' is 'dog'.
+    'Cannabis' is not plural.
+
+
+(This example is included as L<F<synopsis.pl>|https://fastapi.metacpan.org/source/BKB/JSON-Parse-0.21/examples/synopsis.pl> in the distribution.)
+
+    
+=head1 VERSION
+
+This documents Lingua::EN::PluralToSingular version 0.21
+corresponding to git commit L<2d53254eeaec8d2006655f63f61b4f6868e81153|https://github.com/benkasminbullock/Lingua-EN-PluralToSingular/commit/2d53254eeaec8d2006655f63f61b4f6868e81153> released on Thu Jun 21 17:48:56 2018 +0900.
+
+=head1 DESCRIPTION
+
+This converts words denoting a plural in the English language into
+words denoting a singular noun.
+
+=head1 FUNCTIONS
+
+=head2 to_singular
+
+    my $singular = to_singular ($word);
+
+Convert C<$word> into its singular form. For example,
+
+    to_singular ('cats')
+
+returns 'cat'. If the word is unknown or does not seem to be
+plural, C<to_singular> returns the word itself, so
+
+    to_singular ('battlehorn');
+
+returns 'battlehorn'.
+
+=head2 is_plural
+
+    if (is_plural ($word)) {
+        print "There are too many $word here.\n";
+    }
+    else {
+        print "There is a $word here.\n";
+    }
+
+Returns 1 if the word is a valid plural, 0 if not. It also returns 1
+for ambiguous words like "sheep".
+
+=head1 LIMITATIONS AND CAVEATS
+
+=head2 Assumes the input is a noun
+
+L</to_singular> assumes its input is a noun. For example, "lives" may
+be the plural of "life", or the verb "live", as in "he lives". The
+routine assumes a noun and converts to "life".
+
+=head2 Distinguishes lower and upper case
+
+It does not deal with capitalized words. If the input word may be
+capitalized, or if its initial letter may be capitalized, the user
+must preprocess it to put it into the normal case. So, for example,
+
+    to_singular ('FLIES');
+
+returns 'FLIES' and
+
+    to_singular ('Wolves');
+
+returns 'Wolve'. Similarly,
+
+    to_singular ('Charles');
+
+returns 'Charles', but 
+
+    to_singular ('charles');
+
+returns 'charle', since the exception only applies if the word is
+capitalized.
+
+=head2 Does not handle pronouns
+
+The module does not attempt to handle pronoun forms like "ourselves"
+or "themselves". These words are left unaltered.
+
+=head2 False plurals also accepted
+
+For the sake of user convenience, false plurals like "octopi" are also
+accepted by the module. (The plural of "octopus" is "octopuses".)
+
+=head2 Not all exceptional plurals are included
+
+There are many exceptions which have not been included, notably words
+with Latin or Greek plurals.
+
+=head1 STANDALONE SCRIPT
+
+The script F<scripts/singular> provides a quick way to get singular
+versions of nouns:
+
+    singular cats dogs geese
+    # Prints "cat dog goose".
+
+=head1 SEE ALSO
+
+=over
+
+=item Lingua::EN::Inflect
+
+L<Lingua::EN::Inflect> by Damian Conway converts English singular
+nouns to plurals, but not vice-versa.
+
+=item Lingua::EN::Inflect::Number
+
+L<Lingua::EN::Inflect::Number> is supposed to do the same thing as
+this module. However, as of the time of writing (version 1.12) it's
+actually based on the third-person verb handling of
+Lingua::EN::Inflect, in other words it takes a verb in the "he says"
+form and converts it into "say". Thus you get bugs like
+L<https://rt.cpan.org/Public/Bug/Display.html?id=64564> where the
+reporter demonstrates that 'to_S incorrectly renders the singular of
+"statuses" as "statuse."'
+
+=back
+
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to Xan Charbonnet and H2CHANG for various additions and fixes.
+Lisa Hare contributed support for plurals ending in i as part of the
+2016 Pull Request Challenge.
+
+
+
+=head1 AUTHOR
+
+Ben Bullock, <bkb@cpan.org>
+
+=head1 COPYRIGHT & LICENCE
+
+This package and associated files are copyright (C) 
+2011-2018
+Ben Bullock.
+
+You can use, copy, modify and redistribute this package and associated
+files under the Perl Artistic Licence or the GNU General Public
+Licence.
+
+
+

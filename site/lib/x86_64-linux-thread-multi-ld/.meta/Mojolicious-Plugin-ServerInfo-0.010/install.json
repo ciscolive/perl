@@ -1,0 +1,1 @@
+{"version":"0.010","name":"Mojolicious::Plugin::ServerInfo","pathname":"W/WO/WOLLMERS/Mojolicious-Plugin-ServerInfo-0.010.tar.gz","target":"Mojolicious::Plugin::ServerInfo","dist":"Mojolicious-Plugin-ServerInfo-0.010","provides":{"Mojolicious::Plugin::ServerInfo":{"version":"0.010","file":"lib/Mojolicious/Plugin/ServerInfo.pm"}}}

@@ -1,0 +1,1 @@
+{"target":"Z/ZO/ZOFFIX/Mojo-PDF-1.005003.tar.gz","version":"1.005003","dist":"Mojo-PDF-1.005003","pathname":"Z/ZO/ZOFFIX/Mojo-PDF-1.005003.tar.gz","provides":{"Mojo::PDF::Primitive::Table":{"version":"1.005003","file":"lib/Mojo/PDF/Primitive/Table.pm"},"Mojo::PDF":{"file":"lib/Mojo/PDF.pm","version":"1.005003"}},"name":"Mojo::PDF"}

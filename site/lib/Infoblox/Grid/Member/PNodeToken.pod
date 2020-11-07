@@ -1,0 +1,162 @@
+=head1 NAME
+
+Infoblox::Grid::Member::PNodeToken - Physical Node Token object.
+
+=head1 DESCRIPTION
+
+This object is used as a permission token for a pre-provisioned member to automatically join the Grid.
+
+=head1 CONSTRUCTOR
+
+This object actually have no constructor, it is only returned by create_token and read_token function calls of L<Infoblox::Grid::Member|Infoblox::Grid::Member> class.
+
+=head1 METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a License object.
+
+=head2 Infoblox::Grid::Member->physical_oid( )
+
+=over
+
+Use this method to retrieve the OID of the physical node for which the token is created.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, which is an integer number.
+
+=item B<Example>
+
+ # get the physical_oid value for the token
+ $pnode_token_obj->physical_oid()
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->token_exp_date( )
+
+=over
+
+Use this method to retrieve the date and time when the token will expire. The value is presented as a Unix timestamp.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, which is an integer number.
+
+=item B<Example>
+
+ # get the token_exp_date value for the token
+ $pnode_token_obj->token_exp_date()
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->token( )
+
+=over
+
+Use this method to retrieve the value (in text string) of the physical node token.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value, which is a string.
+
+=item B<Example>
+
+ # get the token value itself
+ $pnode_token_obj->token()
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates how to create a token for the newly created pre-provisioned member.
+
+  #!/usr/bin/perl
+
+  use strict;
+  use Infoblox;
+
+  # get session for all subsequent operations
+  my $session = Infoblox::Session->new(master => 'localhost', username => 'admin', password => 'infoblox');
+
+  # create an object for the Grid member
+  my $grid_member = Infoblox::Grid::Member->new(
+       name                    => "hostname.com",
+       ipv4addr                => "3.0.0.2",
+       mask                    => "255.0.0.0",
+       gateway                 => "3.0.0.1",
+       platform                => "VNIOS",
+  );
+  # add member
+  $session->add($grid_member);
+
+  # create pre-provisioning info objects
+  my $hw = Infoblox::Grid::Member::PreProvisioning::Hardware->new(
+      hwtype          => 'IB-VNIOS',
+      hwmodel         => 'CP-V1400',
+  );
+  my $pp = Infoblox::Grid::Member::PreProvisioning->new(
+      hardware_info   => [$hw],
+      licenses        => ['dns', 'dhcp'],
+  );
+  $grid_member->pre_provisioning($pp);
+  # ...and add pre-provisioning info to the Grid member
+  $session->modify($grid_member);
+
+  # Create tokens for the Grid member
+  # (actually the only token, as the member is not a HA-pair)
+  my $tokens_ref = $grid_member->create_token();
+
+  # Read all tokens for the grid member.
+  # Actually, we can skip the read_token call,
+  # as we already have tokens from previous
+  # create_token call in this example
+  # $tokens_ref = $grid_member->read_token();
+
+  if (defined $tokens_ref) {
+     my @tokens = @$tokens_ref;
+     # Iterate through all tokens in the array and
+     # print their values.
+     for (my $i = 0; $i < scalar @tokens; $i++) {
+        print "Token $i:\n";
+        print "physical_oid: " . $tokens[$i]->physical_oid(). "\n";
+        print "token_exp_date: " . $tokens[$i]->token_exp_date() . "\n";
+        print "token: " . $tokens[$i]->token() . "\n";
+     }
+  }
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

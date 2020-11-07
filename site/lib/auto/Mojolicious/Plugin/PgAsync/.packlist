@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Mojolicious/Plugin/PgAsync.pm
+/opt/perl/site/lib/Mojolicious/Plugin/PgAsync/Db.pm
+/opt/perl/site/lib/Mojolicious/Plugin/PgAsync/Pool.pm
+/opt/perl/site/man/man3/Mojolicious::Plugin::PgAsync.3

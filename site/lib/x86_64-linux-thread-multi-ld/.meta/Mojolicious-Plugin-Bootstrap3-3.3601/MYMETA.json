@@ -1,0 +1,52 @@
+{
+   "abstract" : "DEPRECATED",
+   "author" : [
+      "Jan Henning Thorsen <jhthorsen@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.0401, CPAN::Meta::Converter version 2.150001, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Mojolicious-Plugin-Bootstrap3",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : "0.88"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Mojolicious" : "6.00",
+            "Mojolicious::Plugin::AssetPack" : "0.67"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/jhthorsen/mojolicious-plugin-bootstrap3/issues"
+      },
+      "homepage" : "https://github.com/jhthorsen/mojolicious-plugin-bootstrap3",
+      "repository" : {
+         "url" : "https://github.com/jhthorsen/mojolicious-plugin-bootstrap3.git"
+      }
+   },
+   "version" : "3.3601",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

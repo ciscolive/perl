@@ -1,0 +1,15 @@
+/opt/perl/site/lib/MooseX/Role/WithOverloading.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application/Composite.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application/Composite/ToClass.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application/Composite/ToInstance.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application/Composite/ToRole.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application/FixOverloadedRefs.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application/ToClass.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application/ToInstance.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Application/ToRole.pm
+/opt/perl/site/lib/MooseX/Role/WithOverloading/Meta/Role/Composite.pm
+/opt/perl/site/lib/auto/MooseX/Role/WithOverloading/WithOverloading.so
+/opt/perl/site/man/man3/MooseX::Role::WithOverloading.3
+/opt/perl/site/man/man3/MooseX::Role::WithOverloading::Meta::Role::Application.3

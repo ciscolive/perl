@@ -1,0 +1,560 @@
+=head1 NAME
+
+Infoblox::Grid::SNMP::Admin - Manages a SNMP Admin object.
+
+=head1 DESCRIPTION
+
+SNMP (Simple Network Management Protocol) is a protocol that administrators use to manage network devices and
+monitor their processes. An SNMP-managed appliance, such as an Infoblox appliance, has an SNMP agent that collects data and stores them as objects in MIBs (Management Information Bases).
+You can configure an Infoblox appliance as an SNMP-managed appliance. Infoblox appliances support SNMP versions 1, 2, and 3. You can enter values for sysContact, sysLocation, sysName, sysDescr managed objects in MIB-II, the standard MIB defined in RFC 1213.
+Once these values are set on the appliance, the administrators can send queries for these values from management systems that are allowed to send queries to the appliance.
+
+=head1 CONSTRUCTOR
+
+For SNMP Admin objects used as part of an HA pair
+
+ my $snmp = Infoblox::Grid::SNMP::Admin->new(
+     sysContact_node1  => $string, 	#Optional / Default is empty
+     sysDescr_node1    => $string, 	#Optional / Default is empty
+     sysLocation_node1 => $string,  #Optional / Default is empty
+     sysName_node1     => $string,  #Optional / Default is hostname of appliance
+     sysContact_node2  => $string, 	#Optional / Default is empty
+     sysDescr_node2    => $string, 	#Optional / Default is empty
+     sysLocation_node2 => $string,  #Optional / Default is empty
+     sysName_node2     => $string,  #Optional / Default is hostname of appliance
+  );
+
+otherwise
+
+ my $snmp = Infoblox::Grid::SNMP::Admin->new(
+     sysContact  => $string,  #Optional / Default is empty
+     sysDescr    => $string,  #Optional / Default is empty
+     sysLocation => $string,  #Optional / Default is empty
+     sysName     => $string,  #Optional / Default is hostname of appliance
+  );
+
+When the SNMP Admin object is not used as part of an HA pair, sysContact/sysContact_node1, sysDescr/sysDescr_node1, ... are equivalent. The _node2 fields will be empty.
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to an SNMP admin object.
+
+=head2 Infoblox::Grid->snmp_admin( )
+
+=over
+
+Use this function to specify an SNMP admin at the grid level. See
+L<Infoblox::Grid-E<gt>snmp_admin()|Infoblox::Grid/snmp_admin()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+  #Construct an object
+   my $snmp = Infoblox::Grid::SNMP::Admin->new(
+     sysContact  => "Somebody",
+     sysDescr    => "SunOS noc1 5.6 Generic_105181-03 sun4u",
+     sysLocation => "Infoblox Headquarter",
+     sysName     => "noc1"
+  );
+
+  #Configure snmp at grid level
+  my $response = $grid->snmp_admin($snmp);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->snmp_admin( )
+
+=over
+
+Use this function to specify an SNMP admin at the member level. See L<Infoblox::Grid::Member-E<gt>snmp_admin()|Infoblox::Grid::Member/snmp_admin()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+   my $snmp = Infoblox::Grid::SNMP::Admin->new(
+     sysContact_node1  => "Somebody",
+     sysDescr_node1    => "SunOS noc1 5.6 Generic_105181-03 sun4u",
+     sysLocation_node1 => "Infoblox Headquarter",
+     sysName_node1     => "noc1"
+ );
+
+ # Configure snmp at member level
+ $member->snmp_admin($snmp);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of an SNMP admin object.
+
+=head2 sysContact( )
+
+=over
+
+Use this method to set or retrieve the name of the contact person for the Simple Network Management Protocol (SNMP) agent host.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the contact person in string format. The maximum length of the name is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysContact
+ my $sysContact = $snmp->sysContact();
+ #Modify sysContact
+ $snmp->sysContact("Infoblox");
+
+=back
+
+=back
+
+=head2 sysContact_node1( )
+
+=over
+
+Use this method to set or retrieve the name of the contact person for the Simple Network Management Protocol (SNMP) agent host on node 1 of an HA pair.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the contact person in string format. The maximum length of the name is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysContact_node1
+ my $sysContact_node1 = $snmp->sysContact_node1();
+ #Modify sysContact_node1
+ $snmp->sysContact_node1("Infoblox");
+
+=back
+
+=back
+
+=head2 sysContact_node2( )
+
+=over
+
+Use this method to set or retrieve the name of the contact person for the Simple Network Management Protocol (SNMP) agent host on node 2 of an HA pair.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the contact person in string format. The maximum length of the name is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysContact_node2
+ my $sysContact_node2 = $snmp->sysContact_node2();
+ #Modify sysContact_node2
+ $snmp->sysContact_node2("Infoblox");
+
+=back
+
+=back
+
+=head2  sysDescr( )
+
+=over
+
+Use this method to set or retrieve the name and version ID of the system's hardware type, the software Operational System (OS), and networking software that the appliance is running.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Useful information about the hardware and software described in string format. The maximum length of the sysDescr is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysDescr
+ my $sysDescr = $snmp->sysDescr();
+ #Modify sysDescr
+ $snmp->sysDescr("SunOS noc2 5.6 Generic_105181-03 sun5u");
+
+=back
+
+=back
+
+=head2  sysDescr_node1( )
+
+=over
+
+Use this method to set or retrieve the name and version ID of the system's hardware type, the software Operational System (OS), and networking software that the appliance is running on node 1 of an HA pair.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Useful information about the hardware and software described in string format. The maximum length of the sysDescr_node1 is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysDescr_node1
+ my $sysDescr_node1 = $snmp->sysDescr_node1();
+ #Modify sysDescr_node1
+ $snmp->sysDescr_node1("SunOS noc2 5.6 Generic_105181-03 sun5u");
+
+=back
+
+=back
+
+=head2  sysDescr_node2( )
+
+=over
+
+Use this method to set or retrieve the name and version ID of the system's hardware type, the software Operational System (OS), and networking software that the appliance is running on node 2 of an HA pair.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Useful information about the hardware and software described in string format. The maximum length of the sysDescr_node2 is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysDescr_node2
+ my $sysDescr_node2 = $snmp->sysDescr_node2();
+ #Modify sysDescr_node2
+ $snmp->sysDescr_node2("SunOS noc2 5.6 Generic_105181-03 sun5u");
+
+=back
+
+=back
+
+=head2 sysLocation( )
+
+=over
+
+Use this method to set or retrieve the physical location of the appliance.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The physical location of the appliance in string format. The maximum length of the sysLocation is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysLocation
+ my $sysLocation = $snmp->sysLocation();
+ #Modify sysLocation
+ $snmp->sysLocation("Infoblox Headquarter5");
+
+=back
+
+=back
+
+=head2 sysLocation_node1( )
+
+=over
+
+Use this method to set or retrieve the physical location of the appliance on node 1 of an HA pair.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The physical location of the appliance in string format. The maximum length of the sysLocation_node1 is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysLocation_node1
+ my $sysLocation_node1 = $snmp->sysLocation_node1();
+ #Modify sysLocation_node1
+ $snmp->sysLocation_node1("Infoblox Headquarter5");
+
+=back
+
+=back
+
+=head2 sysLocation_node2( )
+
+=over
+
+Use this method to set or retrieve the physical location of the appliance on node 2 of an HA pair.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The physical location of the appliance in string format. The maximum length of the sysLocation_node2 is 50 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysLocation_node2
+ my $sysLocation_node2 = $snmp->sysLocation_node2();
+ #Modify sysLocation_node2
+ $snmp->sysLocation_node2("Infoblox Headquarter5");
+
+=back
+
+=back
+
+=head2 sysName( )
+
+=over
+
+Use this method to set or retrieve the fully qualified domain name (FQDN) of the appliance.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The fully qualified domain name (FQDN) of the appliance in string format. The maximum length of the sysName is 50 characters. The default value of sysName is the hostname of the Infoblox appliance.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysName
+ my $sysName = $snmp->sysName();
+ #Modify sysName
+ $snmp->sysName("Infobloxnoc2");
+
+=back
+
+=back
+
+=head2 sysName_node1( )
+
+=over
+
+Use this method to set or retrieve the fully qualified domain name (FQDN) of the appliance on node 1 of an HA pair.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The fully qualified domain name (FQDN) of the appliance in string format. The maximum length of the sysName_node1 is 50 characters. The default value of sysName_node1 is the hostname of the Infoblox appliance.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysName_node1
+ my $sysName_node1 = $snmp->sysName_node1();
+ #Modify sysName_node1
+ $snmp->sysName_node1("Infobloxnoc2");
+
+=back
+
+=back
+
+=head2 sysName_node2( )
+
+=over
+
+Use this method to set or retrieve the fully qualified domain name (FQDN) of the appliance on node 2 of an HA pair.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The fully qualified domain name (FQDN) of the appliance in string format. The maximum length of the sysName_node2 is 50 characters. The default value of sysName_node2 is the hostname of the Infoblox appliance.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get sysName_node2
+ my $sysName_node2 = $snmp->sysName_node2();
+ #Modify sysName_node2
+ $snmp->sysName_node2("Infobloxnoc2");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, modify and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an SNMP admin object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Creating an SNMP admin object>
+
+ my $snmp = Infoblox::Grid::SNMP::Admin->new(
+     sysContact  => "Somebody",
+     sysDescr    => "SunOS noc1 5.6 Generic_105181-03 sun4u",
+     sysLocation => "Infoblox Headquarter",
+     sysName     => "noc1"
+     );
+ unless($snmp) {
+      die("Construct a SNMP Admin failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "SNMP Admin object created successfully\n";
+
+B<#Getting the grid object from the appliance through session>
+
+  my @result = $session->get(
+     object => "Infoblox::Grid",
+     name   => "Infoblox"
+     );
+
+ my $grid = $result[0];
+ unless ($grid) {
+        die("Get Grid object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Grid object found at least 1 matching entry\n";
+
+       #Modifying the value of the specified object.
+         $grid->snmp_admin($snmp);  #Applying the changes.
+         $session->modify($grid);
+         print "SNMP Admin modified successfully\n";
+
+B<#Modify SNMP admin attribute sysName>
+
+  #Modify existing attribute sysName
+  $snmp->sysName("noc2.infoblox.com");
+
+  #Apply changes to the Grid object.
+  $grid->snmp_admin($snmp);
+
+  #Update Grid object through the Infoblox session.
+  $session->modify($grid)
+             or die("modify Grid object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        print "Modified SNMP Admin sysName of Grid object successful\n";
+
+B<#Remove SNMP admin attribute from Grid object>
+
+  #Apply changes to the Grid object to Un-def SNMP Admin object.
+  $grid->snmp_admin(undef);
+
+  #Update Grid object through the Infoblox session.
+  $session->modify($grid)
+             or die("Remove SNMP Admin from Grid object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        print "Removed SNMP Admin from Grid object successful\n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Grid|Infoblox::Grid>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

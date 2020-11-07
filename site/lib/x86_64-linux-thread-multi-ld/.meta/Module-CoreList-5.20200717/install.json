@@ -1,0 +1,1 @@
+{"target":"Module::CoreList","dist":"Module-CoreList-5.20200717","version":"5.20200717","pathname":"B/BI/BINGOS/Module-CoreList-5.20200717.tar.gz","provides":{"Module::CoreList":{"file":"lib/Module/CoreList.pm","version":"5.20200717"},"Module::CoreList::Utils":{"version":"5.20200717","file":"lib/Module/CoreList/Utils.pm"}},"name":"Module::CoreList"}

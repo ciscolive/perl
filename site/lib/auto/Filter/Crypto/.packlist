@@ -1,0 +1,12 @@
+/opt/perl/site/bin/crypt_file
+/opt/perl/site/lib/Filter/Crypto.pm
+/opt/perl/site/lib/Filter/Crypto/CryptFile.pm
+/opt/perl/site/lib/Filter/Crypto/Decrypt.pm
+/opt/perl/site/lib/PAR/Filter/Crypto.pm
+/opt/perl/site/lib/auto/Filter/Crypto/CryptFile/CryptFile.so
+/opt/perl/site/lib/auto/Filter/Crypto/Decrypt/Decrypt.so
+/opt/perl/site/man/man1/crypt_file.1
+/opt/perl/site/man/man3/Filter::Crypto.3
+/opt/perl/site/man/man3/Filter::Crypto::CryptFile.3
+/opt/perl/site/man/man3/Filter::Crypto::Decrypt.3
+/opt/perl/site/man/man3/PAR::Filter::Crypto.3

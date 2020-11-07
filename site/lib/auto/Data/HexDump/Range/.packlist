@@ -1,0 +1,12 @@
+/opt/perl/site/bin/hdr
+/opt/perl/site/lib/Data/HexDump/Range.pm
+/opt/perl/site/lib/Data/HexDump/Range/Format.pm
+/opt/perl/site/lib/Data/HexDump/Range/Gather.pm
+/opt/perl/site/lib/Data/HexDump/Range/Object.pm
+/opt/perl/site/lib/Data/HexDump/Range/Split.pm
+/opt/perl/site/man/man1/hdr.1
+/opt/perl/site/man/man3/Data::HexDump::Range.3
+/opt/perl/site/man/man3/Data::HexDump::Range::Format.3
+/opt/perl/site/man/man3/Data::HexDump::Range::Gather.3
+/opt/perl/site/man/man3/Data::HexDump::Range::Object.3
+/opt/perl/site/man/man3/Data::HexDump::Range::Split.3

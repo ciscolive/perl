@@ -1,0 +1,49 @@
+{
+   "abstract" : "Generate bash completion scripts",
+   "author" : [
+      "Nadim ibn hamouda el Khemir. <nkh@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Term-Bash-Completion-Generator",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::Block" : 0,
+            "Test::Exception" : 0,
+            "Test::NoWarnings" : 0,
+            "Test::Warn" : 0,
+            "Text::Diff" : 0
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "IO::Select" : 0,
+            "Readonly" : 0,
+            "Sub::Exporter" : 0,
+            "Tree::Trie" : 0
+         }
+      }
+   },
+   "provides" : {
+      "Term::Bash::Completion::Generator" : {
+         "file" : "lib/Term/Bash/Completion/Generator.pm",
+         "version" : "0.02"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "0.02.8",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

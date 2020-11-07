@@ -1,0 +1,8 @@
+/opt/perl/site/bin/text-vimcolor
+/opt/perl/site/lib/Text/VimColor.pm
+/opt/perl/site/lib/auto/share/dist/Text-VimColor/define_all.vim
+/opt/perl/site/lib/auto/share/dist/Text-VimColor/light.css
+/opt/perl/site/lib/auto/share/dist/Text-VimColor/light.xsl
+/opt/perl/site/lib/auto/share/dist/Text-VimColor/mark.vim
+/opt/perl/site/man/man1/text-vimcolor.1
+/opt/perl/site/man/man3/Text::VimColor.3

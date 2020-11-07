@@ -1,0 +1,241 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::DiagnosticTask - The discovery diagnostic task.
+
+=head1 DESCRIPTION
+
+The object provides information about the discovery diagnostic task.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a discovery diagnostic task object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific discovery diagnostic task object:
+
+  address                    - Optional. The IP address of the discovery diagnostic task.
+  network_view               - Optional. The network view of the discovery diagnostic task.
+  task_id                    - Optional. The id of the discovery diagnostic task.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object     => 'Infoblox::Grid::Discovery::DiagnosticTask',
+     ip_address => '10.0.0.1',
+ );
+
+ my @retrieved_objs = $session->get(
+     object  => 'Infoblox::Grid::Discovery::DiagnosticTask',
+     task_id => 'task_1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for the existing objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific discovery diagnostic task object:
+
+  address                    - Optional. The IP address of the discovery diagnostic task (regular expression).
+  network_view               - Optional. The network view name of the discovery diagnostic task.
+  task_id                    - Optional. The id of the discovery diagnostic task.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object     => 'Infoblox::Grid::Discovery::DiagnosticTask',
+     ip_address => '10.*',
+ );
+
+ my @retrieved_objs = $session->search(
+     object  => 'Infoblox::Grid::Discovery::DiagnosticTask',
+     task_id => 'task_1',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a discovery diagnostic task.
+
+=head2 community_string( )
+
+=over
+
+Use this method to retrieve the SNMP community string. This is a read-only attribute.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $community_string = $object->community_string();
+
+=back
+
+=back
+
+=head2 debug_snmp( )
+
+=over
+
+Use this method to retrieve the flag for the SNMP debug. This is a read-only attribute.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $debug_snmp = $object->debug_snmp();
+
+=back
+
+=back
+
+=head2 force_test( )
+
+=over
+
+Use this method to retrieve the flag for the force test. This is a read-only attribute.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $force_test = $object->force_test();
+
+=back
+
+=back
+
+=head2 ip_address( )
+
+=over
+
+Use this method to retrieve the discovery diagnostic IP address. This is a read-only attribute.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $ip_address = $object->ip_address();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to retrieve the network view for public IPs. This is a read-only attribute.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $network_view = $object->network_view();
+
+=back
+
+=back
+
+=head2 start_time( )
+
+=over
+
+Use this method to retrieve the timestamp when the task was started. This is a read-only attribute.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $start_time = $object->start_time();
+
+=back
+
+=back
+
+=head2 task_id( )
+
+=over
+
+Use this method to retrieve the unique identifier for the discovery diagnostic task. This is a read-only attribute.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $task_id = $object->task_id();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

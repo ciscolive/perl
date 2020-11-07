@@ -1,0 +1,24 @@
+# Index created by AutoSplit for lib/Algorithm/SkipList.pm
+#    (file acts as timestamp)
+package Algorithm::SkipList;
+sub find_duplicates  ;
+sub level  ;
+sub _greatest_node  ;
+sub least  ;
+sub greatest  ;
+sub next  ;
+sub prev_key  ;
+sub prev  ;
+sub _search_nodes  ;
+sub keys  ;
+sub values  ;
+sub truncate  ;
+sub copy  ;
+sub merge  ;
+sub append  ;
+sub _node_by_index  ;
+sub key_by_index  ;
+sub value_by_index  ;
+sub index_by_key  ;
+sub _debug  ;
+1;

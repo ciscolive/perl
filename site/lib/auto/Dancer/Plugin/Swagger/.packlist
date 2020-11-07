@@ -1,0 +1,7 @@
+/opt/perl/site/lib/Dancer/Plugin/Swagger.pm
+/opt/perl/site/lib/Dancer/Plugin/Swagger/Path.pm
+/opt/perl/site/lib/Dancer/Plugin/Swagger/Response.pm
+/opt/perl/site/lib/auto/share/dist/Dancer-Plugin-Swagger/shared-files.tar.gz
+/opt/perl/site/man/man3/Dancer::Plugin::Swagger.3
+/opt/perl/site/man/man3/Dancer::Plugin::Swagger::Path.3
+/opt/perl/site/man/man3/Dancer::Plugin::Swagger::Response.3

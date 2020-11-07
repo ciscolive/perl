@@ -1,0 +1,3 @@
+/opt/perl/site/bin/cpangrep
+/opt/perl/site/lib/App/cpangrep.pm
+/opt/perl/site/man/man3/App::cpangrep.3

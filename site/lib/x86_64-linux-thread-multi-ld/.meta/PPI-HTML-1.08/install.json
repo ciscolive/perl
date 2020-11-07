@@ -1,0 +1,1 @@
+{"dist":"PPI-HTML-1.08","target":"PPI::HTML","name":"PPI::HTML","version":"1.08","pathname":"A/AD/ADAMK/PPI-HTML-1.08.tar.gz","provides":{"PPI::HTML::Fragment":{"file":"lib/PPI/HTML/Fragment.pm","version":"1.08"},"PPI::HTML":{"file":"lib/PPI/HTML.pm","version":"1.08"}}}

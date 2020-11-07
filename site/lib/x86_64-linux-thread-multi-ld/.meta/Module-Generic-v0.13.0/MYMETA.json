@@ -1,0 +1,72 @@
+{
+   "abstract" : "Generic Module to inherit from",
+   "author" : [
+      "Jacques Deguest <jack@deguest.jp>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Module-Generic",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "B" : "0",
+            "Class::Load" : "0.25",
+            "Clone" : "0.43",
+            "Data::Dump" : "1.23",
+            "Data::Dumper" : "0",
+            "Devel::StackTrace" : "0",
+            "Exporter" : "5.73",
+            "JSON" : "4.02",
+            "Nice::Try" : "v0.1.3",
+            "Number::Format" : "1.75",
+            "POSIX" : "1.53_01",
+            "Regexp::Common" : "2017060201",
+            "Scalar::Util" : "1.50",
+            "Sub::Util" : "1.54",
+            "Tie::Hash" : "1.05",
+            "Want" : "0.29",
+            "common::sense" : "0",
+            "overload" : "1.22",
+            "overloading" : "0.02",
+            "parent" : "0",
+            "perl" : "5.026001",
+            "strict" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "File::Which" : "1.23",
+            "Test::More" : "1.302162",
+            "Test::Pod" : "1.52",
+            "utf8" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "v0.13.0",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

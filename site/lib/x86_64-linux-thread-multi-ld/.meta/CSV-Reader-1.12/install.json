@@ -1,0 +1,1 @@
+{"name":"CSV::Reader","dist":"CSV-Reader-1.12","pathname":"C/CM/CMANLEY/CSV-Reader-1.12.tar.gz","version":"1.12","target":"C/CM/CMANLEY/CSV-Reader-1.12.tar.gz","provides":{"CSV::Reader":{"file":"lib/CSV/Reader.pm","version":"1.12"}}}

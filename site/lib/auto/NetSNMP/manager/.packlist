@@ -1,0 +1,8 @@
+/opt/perl/site/bin/setupauth
+/opt/perl/site/bin/setupdb
+/opt/perl/site/bin/setupuser
+/opt/perl/site/bin/snmptosql
+/opt/perl/site/lib/NetSNMP/manager.pm
+/opt/perl/site/lib/displaytable.pm
+/opt/perl/site/lib/getValues.pm
+/opt/perl/site/man/man3/NetSNMP::displaytable.3

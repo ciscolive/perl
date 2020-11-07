@@ -1,0 +1,1 @@
+{"version":"20160806","target":"URI::Find","pathname":"M/MS/MSCHWERN/URI-Find-20160806.tar.gz","provides":{"URI::Find":{"version":"20160806","file":"lib/URI/Find.pm"},"URI::Find::Schemeless":{"version":"20160806","file":"lib/URI/Find/Schemeless.pm"}},"name":"URI::Find","dist":"URI-Find-20160806"}

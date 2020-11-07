@@ -1,0 +1,179 @@
+=head1 NAME
+
+Infoblox::DNS::DNSSecKey - DNSSEC key object.
+
+=head1 DESCRIPTION
+
+The DNSSEC object contains information about keys available in authoritative zones.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 algorithm( )
+
+=over
+
+Use this method to retrieve the public-key encryption algorithm. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The return value is the public-key encryption algorithm in string format.
+
+=item B<Example>
+
+ #Get algorithm value
+ my $value = $dnssec_key->algorithm();
+
+=back
+
+=back
+
+=head2 next_event_date( )
+
+=over
+
+Use this method to retrieve the next event date. The event date can be a date for the rollover of an ACTIVE key or a PUBLISHED key, or the removal of a ROLLED key. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The date of next event in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> (e.g., 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z).
+
+=item B<Example>
+
+ #Get next_event_date value
+ my $value = $dnssec_key->next_event_date();
+
+=back
+
+=back
+
+=head2 public_key( )
+
+=over
+
+Use this method to retrieve the Base-64 encoding of the public key. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The return value is a Base-64 encoded public key in string format.
+
+=item B<Example>
+
+ #Get public_key value
+ my $value = $dnssec_key->public_key();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve key status for the authoritative zone. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are "ACTIVE", "PUBLISHED" and "ROLLED".
+
+=item B<Example>
+
+ #Get status value
+ my $value = $dnssec_key->status();
+
+=back
+
+=back
+
+=head2 tag( )
+
+=over
+
+Use this method to retrieve the key tag for the authoritative zone. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The return value is an integer between 0 and 65535.
+
+=item B<Example>
+
+ #Get tag value
+ my $value = $dnssec_key->tag();
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to retrieve the type of key. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return values are "KSK" and "ZSK".
+
+=item B<Example>
+
+ #Get type value
+ my $value = $dnssec_key->type();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,245 @@
+=head1 NAME
+
+Infoblox::Grid::DNS::FileTransferSetting - A DNS traffic capture file transfer setting object.
+
+=head1 DESCRIPTION
+
+The DNS traffic capture file transfer setting object provides information and configuration for captured DNS traffic transfer to a remote server.
+
+=head1 CONSTRUCTOR
+
+ my $transfer_setting = Infoblox::Grid::DNS::FileTransferSetting->new(
+     type      => 'NONE' | 'FTP' | 'SCP', # Required
+     directory => $string,                # Optional / default is undefined
+     host      => $string,                # Optional / default is undefined
+     username  => $string,                # Optional / default is undefined
+     password  => $string,                # Optional / default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a DNS traffic capture file transfer setting object.
+
+=head2 Infoblox::Grid::DNS->file_transfer_setting( )
+
+=over
+
+Use this method to set or retrieve the DNS capture file transfer settings.
+See L<Infoblox::Grid::DNS-E<gt>file_transfer_setting()|Infoblox::Grid::DNS/file_transfer_setting()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get override_enable_excluded_domain_names value
+ my $override_enable_excluded_domain_names = $object->override_enable_excluded_domain_names();
+
+ #Modify override_enable_excluded_domain_names value
+ $object->override_enable_excluded_domain_names("true");
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DNS->file_transfer_setting( )
+
+=over
+
+Use this method to set or retrieve the DNS capture file transfer settings.
+See L<Infoblox::Grid::Member::DNS-E<gt>file_transfer_setting()|Infoblox::Grid::Member::DNS/file_transfer_setting()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get override_enable_excluded_domain_names value
+ my $override_enable_excluded_domain_names = $object->override_enable_excluded_domain_names();
+
+ #Modify override_enable_excluded_domain_names value
+ $object->override_enable_excluded_domain_names("true");
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DNS traffic capture file transfer setting object.
+
+=head2 directory( )
+
+=over
+
+Use this method to set or retrieve the directory to save the captured DNS queries and responses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired path in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get directory value
+ my $directory = $object->directory();
+
+ #Modify directory value
+ $object->directory('/path/to/dir');
+
+=back
+
+=back
+
+=head2 host( )
+
+=over
+
+Use this method to set or retrieve the hostname for the DNS capture transfer destination server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is Fully-Qualified Domain Name (FQDN) of the DNS capture transfer destination server.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get host value
+ my $host = $object->host();
+
+ #Modify host value
+ $object->host('transfer.com');
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the password to access the destination server directory. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired password in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Modify password value
+ $object->password('pass');
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the transfer protocol used to capture DNS queries and responses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value are 'FTP', 'SCP' and 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get type value
+ my $type = $object->type();
+
+ #Modify type value
+ $object->type('SCP');
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to set or retrieve the username to access the destination server directory.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired username in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get username value
+ my $username = $object->username();
+
+ #Modify username value
+ $object->username('admin');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DNS|Infoblox::Grid::DNS>, 
+L<Infoblox::Grid::DNS-E<gt>file_transfer_setting()|Infoblox::Grid::DNS/file_transfer_setting()/>, 
+L<Infoblox::Grid::Member::DNS|Infoblox::Grid::Member::DNS>, 
+L<Infoblox::Grid::Member::DNS-E<gt>file_transfer_setting()|Infoblox::Grid::Member::DNS/file_transfer_setting()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

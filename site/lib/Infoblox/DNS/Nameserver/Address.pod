@@ -1,0 +1,120 @@
+=head1 NAME
+
+Infoblox::DNS::Nameserver::Address - NS Name Server object.
+
+=head1 DESCRIPTION
+
+The NS Name Server object provides IP address information for the name server associated with an NS record.
+
+=head1 CONSTRUCTOR
+
+ my $rootns = Infoblox::DNS::Nameserver::Address->new(
+              address => $address,                  #Required
+              auto_create_ptr => "true" | "false"   #Optional / Default "true"
+ );
+
+=head1 MODULE METHODS
+
+You can apply the following functions to an NS Name Server object:
+
+=head2 Infoblox::DNS::Record::NS->nameservers( )
+
+=over
+
+Use this function to specify the IP addresses associated with the NS record. See L<Infoblox::DNS::Record::NS-E<gt>nameservers()|Infoblox::DNS::Record::NS/nameservers()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an NS Name Server object
+ my $ns1 = Infoblox::DNS::Nameserver::Address->new(
+              address  => "10.0.0.1"
+ );
+
+ # Configure a name server address on the NS record object
+ $ns_record->nameservers([$ns1]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods you can use to configure and retrieve the attribute values of an NS Name Server object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IPv4 address of the name server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IPv4 address (32 bits) of the name server.
+
+=item B<Returns>
+
+If you specify a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the address
+ my $addr = $ns->address();
+ #Modify the address
+ $ns->address("10.0.0.1");
+
+=back
+
+=back
+
+=head2 auto_create_ptr( )
+
+=over
+
+Use this method to set or retrieve the auto_create_ptr flag of the name server. When this flag is set to true, PTR records are automatically created for NS records created in a reverse zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are C<"true"> or C<"false">.
+
+=item B<Returns>
+
+If you specify a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you do not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get auto_create_ptr
+ my $aptr = $ns->auto_create_ptr();
+ #Modify auto_create_ptr
+ $rootns->auto_create_ptr("false");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DNS::Record::NS|Infoblox::DNS::Record::NS>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

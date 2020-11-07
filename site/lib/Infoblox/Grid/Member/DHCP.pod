@@ -1,0 +1,4416 @@
+=head1 NAME
+
+Infoblox::Grid::Member::DHCP - DHCP member object.
+
+=head1 DESCRIPTION
+
+When you configure an Infoblox appliance to function as a DHCP server, you can set certain properties that control how the server operates. You can also specify the configuration information the server includes in its DHCP messages. When a DHCP server assigns an IP address to a client, it can include configuration information the client needs to connect to the network and communicate with other hosts and appliances in the network.
+
+Though you can set general DHCP properties at the grid level, you enable DHCP services at the member level only. Infoblox recommends that you configure the DHCP parameters before you enable DHCP on the Infoblox appliance.
+
+=head1 CONSTRUCTOR
+
+The Infoblox::Grid::Member::DHCP object is automatically generated upon the successful installation of the Infoblox appliance. It does not require manual construction.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a member DHCP object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+Apply the following attribute to get a specific member DHCP object:
+
+  name - Optional. A domain name in string format.
+  ipv4addr - Optional.   IPv4 address of the member
+  ipv6addr - Optional.   IPv6 address of the member
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Member::DHCP",
+     name   => "infoblox.localdomain"
+     );
+
+ # get all Grid::Member::DHCP objects with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Member::DHCP",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify dhcp service.
+ $member_dhcp->enable_dhcp("true");
+ #Submit modification
+ my $response = $session->modify( $member_dhcp );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the DHCP properties of a grid member.
+
+=head2 auth_server_group( )
+
+=over
+
+Use this method to set or retrieve the Authentication Server Group object associated with this member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::Grid::Admin::RadiusAuthService|Infoblox::Grid::Admin::RadiusAuthService> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+   #Getting auth_server_group
+
+   my $auth_server_group = $memberdhcp->auth_server_group( );
+   #Modifying auth_server_group
+   $auth_server_group->$memberdhcp($radius_service);
+
+=back
+
+=back
+
+=head2 authority( )
+
+=over
+
+Use this method to set or retrieve the authority flag of a grid member. This flag specifies if a DHCP server is authoritative for a domain.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the authority flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authority
+ my $authority = $memberdhcp->authority();
+ #Modify authority
+ $memberdhcp->authority("true");
+
+=back
+
+=back
+
+=head2 authn_captive_portal
+
+=over
+
+The captive portal responsible for authentications for this DHCP member.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a name in FQDN format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authn_captive_portal
+ my $authn_captive_portal = $memberdhcp->authn_captive_portal();
+ #Modify authn_captive_portal
+ $memberdhcp->authn_captive_portal("cpmember.com");
+
+=back
+
+=back
+
+=head2 authn_captive_portal_authenticated_filter
+
+=over
+
+The MAC filter representing the authenticated range.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authn_captive_portal_authenticated_filter
+ my $authn_captive_portal_authenticated_filter = $memberdhcp->authn_captive_portal_authenticated_filter();
+ #Modify authn_captive_portal_authenticated_filter
+ $memberdhcp->authn_captive_portal_authenticated_filter($macfilter);
+
+=back
+
+=back
+
+=head2 authn_captive_portal_enabled
+
+=over
+
+Use this method to set or retrieve the flag that controls if this DHCP member is enabled for captive portal authentication.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authn_captive_portal_enabled
+ my $authn_captive_portal_enabled = $memberdhcp->authn_captive_portal_enabled();
+ #Modify authn_captive_portal_enabled
+ $memberdhcp->authn_captive_portal_enabled("true");
+
+=back
+
+=back
+
+=head2 authn_captive_portal_guest_filter
+
+=over
+
+The MAC filter representing the guest range.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get authn_captive_portal_guest_filter
+ my $authn_captive_portal_guest_filter = $memberdhcp->authn_captive_portal_guest_filter();
+ #Modify authn_captive_portal_guest_filter
+ $memberdhcp->authn_captive_portal_guest_filter($macfilter);
+
+=back
+
+=back
+
+=head2 auth_server_group_enabled
+
+=over
+
+Use this method to set or retrieve the flag that controls if this DHCP member  can send authentication requests to an authentication server group.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get auth_server_group_enabled
+ my $auth_server_group_enabled = $memberdhcp->auth_server_group_enabled();
+ #Modify auth_server_group_enabled
+ $memberdhcp->auth_server_group_enabled("true");
+
+=back
+
+=back
+
+=head2 bootfile( )
+
+=over
+
+Use this method to set or retrieve the name of a file that DHCP clients need to boot. This setting overrides the grid level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::Grid::Member::DHCP-E<gt>bootserver()|Infoblox::Grid::Member::DHCP/bootserver()/> and L<Infoblox::Grid::Member::DHCP-E<gt>nextserver()|Infoblox::Grid::Member::DHCP/nextserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The name of the file that the client must download. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bootfile
+ my $bootfile = $memberdhcp->bootfile();
+ #Modify bootfile
+ $memberdhcp->bootfile("bootfile.txt");
+ #Un-override bootfile
+ $memberdhcp->bootfile(undef);
+
+=back
+
+=back
+
+=head2 bootserver( )
+
+=over
+
+Use this method to set or retrieve the name of the server on which a boot file is stored. This setting overrides the grid level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::Grid::Member::DHCP-E<gt>bootfile()|Infoblox::Grid::Member::DHCP/bootfile()/> and L<Infoblox::Grid::Member::DHCP-E<gt>nextserver()|Infoblox::Grid::Member::DHCP/nextserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The boot server IP address or name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: abc.com). A boot server name can have a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bootserver
+ my $bootserver = $memberdhcp->bootserver();
+ #Modify bootserver
+ $memberdhcp->bootserver("hostname.com");
+ #Un-override bootserver
+ $memberdhcp->bootserver(undef);
+
+=back
+
+=back
+
+=head2 ddns_generate_hostname( )
+
+=over
+
+Use this method to set or retrieve the ddns_generate_hostname value. Set this value to enable/disable the ability of a member DHCP server to generate a host name and update DNS with this host name when it receives a DHCP REQUEST message that does not include a host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_generate_hostname
+ my $ddns_generate_hostname = $memberdhcp->ddns_generate_hostname();
+ #Modify disable
+ $memberdhcp->ddns_generate_hostname("true");
+
+=back
+
+=back
+
+=head2 ddns_retry_interval( )
+
+=over
+
+Use this method to set or retrieve the ddns_retry_interval value. Set the retry interval when the member DHCP server makes repeated attempts to send DDNS updates to a DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the retry interval in minutes. The default retry interval is five minutes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_retry_interval
+ my $ddns_retry_interval = $memberdhcp->ddns_retry_interval();
+ #Modify ddns_retry_interval
+ $memberdhcp->ddns_retry_interval(10);
+
+=back
+
+=back
+
+=head2 ddns_server_always_updates( )
+
+=over
+
+Use this method to set or retrieve the ddns_server_always_updates value of a member DHCP server. Select this check box to allow only the DHCP server to update DNS,regardless of the requests from the DHCP clients. This setting overrides the grid level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set ddns_server_always_updates flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_server_always_updates
+ my $ddns_server_always_updates = $memberdhcp->ddns_server_always_updates();
+ #Modify ddns_server_always_updates
+ $memberdhcp->ddns_server_always_updates("true");
+
+=back
+
+=back
+
+=head2 ddns_ttl( )
+
+=over
+
+Use this method to set or retrieve the ddns_ttl value of a member DHCP server. The DDNS TTL  (Dynamic DNS Time To Live) value specifies the number of seconds an IP address for the name is cached.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_ttl method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ddns_ttl attribute to "false".
+
+Note that when ddns_ttl is set to a defined value and override_dddns_ttl is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_ttl(12); $object->override_ddns_ttl("false"); will set override_ddns_ttl to "false", and the sequence $object->override_ddns_ttl("false"); $object->ddns_ttl(12); will result in override_ddns_ttl="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that specifies the number of seconds the IP address for the name is cached. Default value is half of lease time.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_ttl
+ my $ddns_ttl = $memberdhcp->ddns_ttl();
+ #Modify ddns_ttl
+ $memberdhcp->ddns_ttl(1000);
+
+=back
+
+=back
+
+=head2 ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the member DDNS domain name value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_domainname method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ddns_domainname attribute to "false".
+
+Note that when ddns_domainname is set to a defined value and override_ddns_domainname is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_domainname("domain.com"); $object->override_ddns_domainname("false"); will set override_ddns_domainname to "false", and the sequence $object->override_ddns_domainname("false"); $object->ddns_domainname("domain.com"); will result in override_ddns_domainname="true".
+
+=over
+
+=item B<Parameter>
+
+The DDNS domain name in FQDN (Fully Qualified Domain Name) format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_domainname
+ my $ddns_domainname = $memberdhcp->ddns_domainname();
+ #Modify ddns_domainname
+ $memberdhcp->ddns_domainname("domain.com");
+
+=back
+
+=back
+
+=head2 ddns_update_fixed_addresses( )
+
+=over
+
+Use this method to set or retrieve the ddns_update_fixed_addresses value. Set this value to enable/disable the member DHCP server to update the A and PTR record of clients with a fixed address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the member DHCP server to update the A and PTR record of clients with a fixed address or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_update_fixed_addresses
+ my $ddns_update_fixed_addresses = $memberdhcp->ddns_update_fixed_addresses();
+ #Modify ddns_update_fixed_addresses
+ $memberdhcp->ddns_update_fixed_addresses("true");
+
+=back
+
+=back
+
+=head2 ddns_use_option81( )
+
+=over
+
+Use this method to set or retrieve the ddns_use_option81 value of a member DHCP server. Set this value to enable/disable support for option 81.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable support for option 81 or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_use_option81
+ my $ddns_use_option81 = $memberdhcp->ddns_use_option81();
+ #Modify ddns_use_option81
+ $memberdhcp->ddns_use_option81("true");
+
+=back
+
+=back
+
+=head2 ddns_zone_primaries( )
+
+=over
+
+Use this method to set or retrieve an ordered list of zone primaries that will receive DDNS updates.
+
+=over
+
+=item B<Parameter>
+
+A valid value is a reference to an array of L<Infoblox::DHCP::DDNS|Infoblox::DHCP::DDNS> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ $value = $memberdhcp->ddns_zone_primaries();
+ # Modify the attribute value
+ $memberdhcp->ddns_zone_primaries([$ddns]);
+
+=back
+
+=back
+
+=head2 deny_bootp( )
+
+=over
+
+Use this method to set or retrieve the deny_bootp value of a member DHCP server. Set this value to enable/disable deny_bootp and Grid level.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable deny_bootp  or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get deny_bootp
+ my $deny_bootp = $memberdhcp->deny_bootp();
+ #Modify deny_bootp
+ $memberdhcp->deny_bootp("true");
+
+=back
+
+=back
+
+=head2 dns_update_style( )
+
+=over
+
+Use this method to set or retrieve the update style for dynamic DNS updates (DHCPv4).
+
+Setting this method to a defined value implicitly sets the override_dns_update_style method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_dns_update_style attribute to 'false'.
+
+Note that when dns_update_style is set to a defined value and override_dns_update_style is set to 'false', the last operation takes precedence.
+Thus the sequence $object->dns_update_style('INTERIM');
+$object->override_dns_update_style('false');
+will set override_dns_update_style to 'false',
+and the sequence $object->override_dns_update_style('false');
+$object->dns_update_style('INTERIM');
+will result in override_dns_update_style='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'INTERIM' and 'STANDARD'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dns_update_style value
+ my $value = $object->dns_update_style();
+
+ #Modify dns_update_style value
+ $object->dns_update_style('STANDARD');
+
+=back
+
+=back
+
+=head2 email_list( )
+
+=over
+
+Use this method to set or retrieve the email_list value of a member DHCP server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Array reference with the e-mail values.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get email_list
+ my $email_list = $memberdhcp->email_list();
+ #Modify email_list
+ $memberdhcp->email_list(["admin\@infoblox.com"]);
+
+=back
+
+=back
+
+=head2 enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the enable_ddns value of a member DHCP server. Set this value to enable/disable the member DHCP server to send DDNS updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable support for DDNS updates or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_ddns
+ my $enable_ddns= $memberdhcp->enable_ddns();
+ #Modify enable_ddns
+ $memberdhcp->enable_ddns("true");
+
+=back
+
+=back
+
+=head2 enable_dhcp( )
+
+=over
+
+Use this method to set or retrieve the enable_dhcp value of a member. Set this value to enable/disable DHCP service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to  enable DHCP or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dhcp
+ my $enable_dhcp= $memberdhcp->enable_dhcp();
+ #Modify enable_dhcp
+ $memberdhcp->enable_dhcp("true");
+
+=back
+
+=back
+
+=head2 enable_dhcpv6_service( )
+
+=over
+
+Use this method to set or retrieve the enable_dhcpv6_service flag. Set this flag to enable DHCPv6 service for the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_enable_dhcpv6_service method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_enable_dhcpv6_service attribute to "false".
+
+Note that when enable_dhcpv6_service is set to a defined value and override_denable_dhcpv6_service is set to "false", the last operation takes precedence. Thus the sequence $object->enable_dhcpv6_service("true"); $object->override_enable_dhcpv6_service("false"); will set override_enable_dhcpv6_service to "false", and the sequence $object->override_enable_dhcpv6_service("false"); $object->enable_dhcpv6_service("true"); will result in override_enable_dhcpv6_service="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dhcpv6_service
+ my $enable_dhcpv6_service = $memberdhcp->enable_dhcpv6_service();
+ #Modify enable_dhcpv6_service
+ $memberdhcp->enable_dhcpv6_service("true");
+
+=back
+
+=back
+
+=head2 enable_dhcp_on_lan2( )
+
+=over
+
+Use this method to set or retrieve the enable_dhcp_on_lan2 value of a member. Set this value to enable/disable DHCP service on the LAN2 interface.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable DHCP on the LAN2 interface or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dhcp_on_lan2
+ my $enable_dhcp_on_lan2 = $memberdhcp->enable_dhcp_on_lan2();
+ #Modify enable_dhcp_on_lan2
+ $memberdhcp->enable_dhcp_on_lan2("true");
+
+=back
+
+=back
+
+=head2 enable_dhcp_on_ipv6_lan2( )
+
+=over
+
+Use this method to set or retrieve the enable_dhcp_on_ipv6_lan2 value of a member. Set this value to enable/disable DHCP service on the IPv6 LAN2 interface.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable DHCP on the IPv6 LAN2 interface or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dhcp_on_ipv6_lan2
+ my $enable_dhcp_on_ipv6_lan2 = $memberdhcp->enable_dhcp_on_ipv6_lan2();
+ #Modify enable_dhcp_on_ipv6_lan2
+ $memberdhcp->enable_dhcp_on_ipv6_lan2("true");
+
+=back
+
+=back
+
+=head2 enable_dhcp_thresholds( )
+
+=over
+
+Use this method to set or retrieve the enable_dhcp_thresholds value of a member DHCP server. Thresholds represents the watermarks above or below which address usage in a network is unexpected and might warrant your attention. This setting overrides the grid level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable DHCP thresholds or "false" to disable them.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_dhcp_thresholds
+ my $enable_dhcp_thresholds = $memberdhcp->enable_dhcp_thresholds();
+ #Modify enable_dhcp_thresholds
+ $memberdhcp->enable_dhcp_thresholds("true");
+
+=back
+
+=back
+
+=head2 enable_email_warnings( )
+
+=over
+
+Use this method to set or retrieve the enable_email_warnings value of a member DHCP server. If we enable it and DHCP threshold is enabled, the Infoblox appliance sends an e-mail notification to an administrator if DHCP address usage crosses a high or low watermark threshold.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set enable_email_warnings flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_email_warnings
+ my $enable_email_warnings = $memberdhcp->enable_email_warnings();
+ #Modify enable_email_warnings
+ $memberdhcp->enable_email_warnings("true");
+
+=back
+
+=back
+
+=head2 enable_fingerprint( )
+
+=over
+
+Use this method to set or retrieve the member-level enable_fingerprint flag. If you enable this feature, the server will match a fingerprint for incoming lease requests.
+
+Setting this method to a defined value implicitly sets the override_enable_fingerprint method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_enable_fingerprint attribute to "false".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_fingerprint flag or "false" to deactivate/unset it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_fingerprint
+ my $enable_fingerprint = $memberdhcp->enable_fingerprint();
+ #Modify enable_fingerprint
+ $memberdhcp->enable_fingerprint("false");
+
+=back
+
+=back
+
+=head2 enable_gss_tsig( )
+
+=over
+
+Use this method to set or retrieve the member-level enable_gss_tsig flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This is for DHCPv4 GSS-TSIG authentication.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable GSS-TSIG authentication for DHCP IPv4 or "false" to disable it. The default value is undefined. Setting this flag overrides the enable_gss_tsig attribute of the grid.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_gss_tsig
+ my $enable_gss_tsig = $memberdhcp->enable_gss_tsig();
+ #Modify enable_gss_tsig
+ $memberdhcp->enable_gss_tsig("true");
+
+=back
+
+=back
+
+=head2 enable_hostname_rewrite( )
+
+=over
+
+Use this method to set or retrieve the grid member's enable_hostname_rewrite flag.
+
+=over
+
+=item B<Parameter>
+
+Boolean to enable or disable hostname rewrite for the member. The default value is "false".
+
+Cannot enable the hostname rewrite policy along with the Microsoft code page. See L</microsoft_code_page()>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_hostname_rewrite
+ $status = $memberdhcp->enable_hostname_rewrite();
+ #Modify enable_hostname_rewrite
+ $memberdhcp->enable_hostname_rewrite("true");
+
+=back
+
+=back
+
+=head2 enable_ifmap( )
+
+=over
+
+Use this method to enable or disable the IF-MAP DHCP client feature on this member. Enabling this feature requires a restart of DHCP services.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Boolean to enable or disable the IF-MAP client. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP enable value
+ my $ifmap_enabled = $memberdhcp->enable_ifmap();
+ #Enable IF-MAP Client feature
+ $memberdhcp->enable_ifmap("true");
+
+=back
+
+=back
+
+=head2 enable_ifmap_publishing( )
+
+=over
+
+Use this method to set or retrieve the ifmap publishing option of a DHCP Member object. This setting overrides the member level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set ifmap publishing option or "false" to deactivate/unset it. The default value is 'false', which indicates that this attribute inherits the member level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable ifmap publishing
+ my $enable_ifmap_publishing = $memberdhcp->enable_ifmap_publishing()
+ # Modify enable_ifmap_publishing
+ $memberdhcp->enable_ifmap_publishing("true");
+ # Un-override enable_ifmap_publishing
+ $memberdhcp->enable_ifmap_publishing(undef);
+
+=back
+
+=back
+
+=head2 enable_snmp_warnings( )
+
+=over
+
+Use this method to set or retrieve the enable_snmp_warnings value of member DHCP server. When DHCP threshold is enabled and DHCP address usage crosses a watermark threshold, the appliance sends an SNMP trap to the trap receiver that you defined for the grid member level.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set enable_snmp_warnings flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_snmp_warnings
+ my $enable_snmp_warnings = $memberdhcp->enable_snmp_warnings();
+ #Modify enable_snmp_warnings
+ $memberdhcp->enable_snmp_warnings("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with a Grid Member DHCP object. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $memberdhcp->extattrs();
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to retrieve the extensible attributes associated with a Grid Member DHCP object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $memberdhcp->extensible_attributes();
+
+=back
+
+=back
+
+
+=head2 gss_tsig_keys( )
+
+=over
+
+Use this method to set or retrieve the list of GSS-TSIG keys for a member DHCPv4 object.
+
+Setting this method to a defined value implicitly sets the override_gss_tsig_keys method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_gss_tsig_keys method to "false".
+
+Note that when gss_tsig_keys is set to a defined value and override_gss_tsig_keys is set to "false", the last operation takes precedence. Thus the sequence $object->gss_tsig_keys($keys); $object->override_gss_tsig_keys("false"); will set override_gss_tsig_keys to "false", and the sequence $object->override_gss_tsig_keys("false"); $object->gss_tsig_keys($keys); will result in override_gss_tsig_keys="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::KerberosKey|Infoblox::Grid::KerberosKey> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the Kerberos keys list
+ my $kerberos_keys_list = $member_dhcp->gss_tsig_keys();
+
+ #Modify the Kerberos keys list
+ my $kerberos_key1 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test1@LADYBUG.LOCAL',
+        );
+ my $kerberos_key2 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test2@LADYBUG.LOCAL',
+        );
+ $member_dhcp->gss_tsig_keys([$kerberos_key1, $kerberos_key2]);
+
+=back
+
+=back
+
+=head2 high_water_mark( )
+
+=over
+
+Use this method to set or retrieve the high_water_mark value of a member DHCP server. If the percent of allocated addresses exceeds this watermark, the appliance makes a syslog entry and if enabled, sends an e-mail notification.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the percentage value. Range is from 1 to 100. The high watermark value must be greater than the low watermark value. Default value is 95.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get high_water_mark
+ my $high_water_mark = $memberdhcp->high_water_mark();
+ #Modify high_water_mark
+ $memberdhcp->high_water_mark(80);
+
+=back
+
+=back
+
+=head2 high_water_mark_reset( )
+
+=over
+
+Use this method to set or retrieve the high_water_mark_reset value of a member DHCP server. If the percentage of allocated addresses drops below this value, a corresponding SNMP trap is reset.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the percentage value. Range is from 1 to 100. The high watermark value must be greater than the low watermark value. Default value is 85.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get high_water_mark_reset
+ my $high_water_mark_reset = $memberdhcp->high_water_mark_reset();
+ #Modify high_water_mark_reset
+ $memberdhcp->high_water_mark_reset(80);
+
+=back
+
+=back
+
+=head2 hostname_rewrite_policy( )
+
+=over
+
+Use this method to set or retrieve the name of the hostname rewrite policy that is in the protocol_hostname_rewrite_policies array of the Grid DHCP object. This attribute is mandatory if enable_hostname_rewrite is "true".
+
+=over
+
+=item B<Parameter>
+
+The name, in string format, of the hostname rewrite policy.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get hostname_rewrite_policy
+ my $name = $memberdhcp->hostname_rewrite_policy();
+ #Modify hostname_rewrite_policy
+ $memberdhcp->hostname_rewrite_policy('new_policy');
+
+=back
+
+=back
+
+=head2 ifmap_client_credentials( )
+
+=over
+
+Use this method to set the IF-MAP client credentials used by the DHCP IF-MAP client on this member.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+IF-MAP client credentials. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Create new IF-MAP client credentials
+ my $credential = Infoblox::IFMap::Client::Credentials->new(
+                                                               authentication => 'basic',
+                                                               username       => 'something',
+                                                               password       => 'else',
+                                                              );
+
+ #Modify IF-MAP client credentials
+ $memberdhcp->ifmap_client_credentials($credentials);
+
+=back
+
+=back
+
+=head2 ifmap_last_status_update( )
+
+=over
+
+Use this method to get the last status update of the IF-MAP member.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP member last status update
+ $ifmap_last_status_update = $memberdhcp->ifmap_last_status_update();
+
+=back
+
+=back
+
+=head2 ifmap_password( )
+
+=over
+
+Use this method to set the IF-MAP client password used by the DHCP IF-MAP client on this member. The value can only be set or modified, but not retrieved. Note that use of this member has now been deprecated.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String for the IF-MAP client password. The default value is undef.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify IF-MAP client password
+ $memberdhcp->ifmap_password("secret");
+
+=back
+
+=back
+
+=head2 ifmap_status( )
+
+=over
+
+Use this method to get the IF-MAP member status.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP member status
+ $ifmap_status = $memberdhcp->ifmap_status();
+
+=back
+
+=back
+
+=head2 ifmap_status_details( )
+
+=over
+
+Use this method to get the status details of the IF-MAP member.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP member status details
+ $ifmap_status_details = $memberdhcp->ifmap_status_details();
+
+=back
+
+=back
+
+=head2 ifmap_username( )
+
+=over
+
+Use this method to set or retrieve the IF-MAP client username used by the DHCP IF-MAP client on this member.  Note that use of this member has now been deprecated.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+String for the IF-MAP client username. The default value is undef.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get IF-MAP client username
+ my $username = $memberdhcp->ifmap_username();
+ #Modify IF-MAP client username
+ $memberdhcp->ifmap_username("ifmapclient");
+
+=back
+
+=back
+
+=head2 ignore_id( )
+
+=over
+
+Use this method to set or retrieve the ignore_id type of a grid member DHCP object. Indicates whether the appliance will ignore DHCP client IDs or MAC addresses. This setting overrides the upper-level settings.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE', 'CLIENT', or 'MACADDR'. The default is 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ $value = $memberdhcp->ignore_id();
+ # Modify attribute value
+ $memberdhcp->ignore_id('CLIENT');
+ #Un-override ignore_id
+ $memberdhcp->ignore_id(undef);
+
+=back
+
+=back
+
+=head2 ignore_mac_addresses( )
+
+=over
+
+Use this method to set or retrieve the ignore_mac_addresses list of a grid member DHCP object. A list of MAC addresses the appliance will ignore. This setting overrides the upper-level settings.
+
+If you enter MAC addresses in the ignore_mac_addresses, then the appliance will ignore them. If you enter empty array, then the appliance will ignore any MAC address.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains string objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ $value = $memberdhcp->ignore_mac_addresses();
+ # Modify attribute value
+ $memberdhcp->ignore_mac_addresses(["11::11::11::11::11::11"]);
+
+=back
+
+=back
+
+=head2 ignore_dhcp_option_list_request( )
+
+=over
+
+Use this method to set or retrieve the ignore_dhcp_option_list_request flag of a grid member DHCP.  If this flag is set to true all available DHCP options will be returned to the client.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ignore_dhcp_option_list_request flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ignore_dhcp_option_list_request
+ my $ignore_dhcp_option_list_request = $memberdhcp->ignore_dhcp_option_list_request();
+ #Modify ignore_dhcp_option_list_request
+ $memberdhcp->ignore_dhcp_option_list_request("false");
+ #Do not override ignore_dhcp_option_list_request
+ $memberdhcp->ignore_dhcp_option_list_request(undef);
+
+=back
+
+=back
+
+=head2 ipv6_ddns_enable_option_fqdn( )
+
+=over
+
+Use this method to set or retrieve the ipv6_ddns_enable_option_fqdn value of a member DHCP server. This method controls whether the FQDN option sent by the client is to be used, or if the server can automatically generate the FQDN.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_ddns_enable_option_fqdn method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_ipv6_ddns_enable_option_fqdn attribute to "false".
+
+Note that when ipv6_ddns_enable_option_fqdn is set to a defined value and override_ipv6_ddns_enable_option_fqdn is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_ddns_enable_option_fqdn("true"); $object->override_ipv6_ddns_enable_option_fqdn("false"); will set override_ipv6_ddns_enable_option_fqdn to "false", and the sequence $object->override_ipv6_ddns_enable_option_fqdn("false"); $object->ipv6_ddns_enable_option_fqdn("true"); will result in override_ipv6_ddns_enable_option_fqdn="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that specifies the number of seconds the IP address for the name is cached. Default value is half of lease time.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_enable_option_fqdn
+ my $ipv6_ddns_enable_option_fqdn = $memberdhcp->ipv6_ddns_enable_option_fqdn();
+ #Modify ipv6_ddns_enable_option_fqdn
+ $memberdhcp->ipv6_ddns_enable_option_fqdn("true");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_server_always_updates( )
+
+=over
+
+Use this method to set or retrieve the ipv6_ddns_server_always_updates flag. Set this flag to "false" to update DNS only if requested by the client.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_server_always_updates
+ my $ipv6_ddns_server_always_updates = $memberdhcp->ipv6_ddns_server_always_updates();
+ #Modify ipv6_ddns_server_always_updates
+ $memberdhcp->ipv6_ddns_server_always_updates("true");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the member IPv6 DDNS domain name value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_ddns_domainname method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_ddns_domainname attribute to "false".
+
+Note that when ipv6_ddns_domainname is set to a defined value and override_dipv6_ddns_domainname is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_ddns_domainname("domain.com"); $object->override_ipv6_ddns_domainname("false"); will set override_ipv6_ddns_domainname to "false", and the sequence $object->override_ipv6_ddns_domainname("false"); $object->ipv6_ddns_domainname("domain.com"); will result in override_ipv6_ddns_domainname="true".
+
+=over
+
+=item B<Parameter>
+
+The DDNS domain name in FQDN (Fully Qualified Domain Name) format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_domainname
+ my $ipv6_ddns_domainname = $memberdhcp->ipv6_ddns_domainname();
+ #Modify ipv6_ddns_domainname
+ $memberdhcp->ipv6_ddns_domainname("domain.com");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_hostname( )
+
+=over
+
+Use this method to set or retrieve the member IPv6 DDNS hostname value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_ddns_hostname method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_ddns_hostname attribute to "false".
+
+Note that when ipv6_ddns_hostname is set to a defined value and override_dipv6_ddns_hostname is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_ddns_hostname("host.com"); $object->override_ipv6_ddns_hostname("false"); will set override_ipv6_ddns_hostname to "false", and the sequence $object->override_ipv6_ddns_hostname("false"); $object->ipv6_ddns_hostname("host.com"); will result in override_ipv6_ddns_hostname="true".
+
+=over
+
+=item B<Parameter>
+
+The DDNS hostname in FQDN (Fully Qualified Domain Name) format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_hostname
+ my $ipv6_ddns_hostname = $memberdhcp->ipv6_ddns_hostname();
+ #Modify ipv6_ddns_hostname
+ $memberdhcp->ipv6_ddns_hostname("host.com");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_ttl( )
+
+=over
+
+Use this method to set or retrieve the member IPv6 DDNS TTL value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_ddns_ttl method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_ddns_ttl attribute to "false".
+
+Note that when ipv6_ddns_ttl is set to a defined value and override_dipv6_ddns_ttl is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_ddns_ttl(12345); $object->override_ipv6_ddns_ttl("false"); will set override_ipv6_ddns_ttl to "false", and the sequence $object->override_ipv6_ddns_ttl("false"); $object->ipv6_ddns_ttl(12345); will result in override_ipv6_ddns_ttl="true".
+
+=over
+
+=item B<Parameter>
+
+The preferred DDNS TTL value in seconds. The default is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_ttl
+ my $ipv6_ddns_ttl = $memberdhcp->ipv6_ddns_ttl();
+ #Modify ipv6_ddns_ttl
+ $memberdhcp->ipv6_ddns_ttl(12345);
+
+=back
+
+=back
+
+=head2 ipv6_dns_update_style( )
+
+=over
+
+Use this method to set or retrieve the update style for dynamic DNS updates (DHCPv6).
+
+Setting this method to a defined value implicitly sets the override_ipv6_dns_update_style method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_dns_update_style attribute to 'false'.
+
+Note that when ipv6_dns_update_style is set to a defined value and override_ipv6_dns_update_style is set to 'false', the last operation takes precedence.
+Thus the sequence $object->ipv6_dns_update_style('INTERIM');
+$object->override_ipv6_dns_update_style('false');
+will set override_ipv6_dns_update_style to 'false',
+and the sequence $object->override_ipv6_dns_update_style('false');
+$object->ipv6_dns_update_style('INTERIM');
+will result in override_ipv6_dns_update_style='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'INTERIM' and 'STANDARD'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_dns_update_style value
+ my $value = $object->ipv6_dns_update_style();
+
+ #Modify ipv6_dns_update_style value
+ $object->ipv6_dns_update_style('STANDARD');
+
+=back
+
+=back
+
+=head2 ipv6_domain_name( )
+
+=over
+
+Use this method to set or retrieve the ipv6_domain_name value of a Grid Member DHCP object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_domain_name method to "true". Setting the parameter to undefined causes the appliance to use the upper level default and automatically resets the override_ipv6_domain_name attribute to "false".
+
+Note that when ipv6_domain_name is set to a defined value and override_ipv6_domain_name is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_domain_name("testdomain"); $object->override_ipv6_domain_name("false"); will set override_ipv6_domain_name to "false", and the sequence $object->override_ipv6_domain_name("false"); $object->ipv6_domain_name("testdomain"); will result in override_ipv6_domain_name="true".
+
+=over
+
+=item B<Parameter>
+
+The name of the client's domain for resolving names in DNS in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_domain_name
+ my $ipv6_domain_name = $memberdhcp->ipv6_domain_name();
+ #Modify ipv6_domain_name
+ $memberdhcp->ipv6_domain_name("test_domain.com");
+
+=back
+
+=back
+
+=head2 ipv6_domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the ipv6_domain_name_servers value of a Grid Member DHCP object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_domain_name_servers method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_ipv6_domain_name_servers attribute to "false".
+
+Note that when ipv6_domain_name_servers is set to a defined value and override_ipv6_domain_name_servers is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_domain_name_servers("2001::1,2001::2"); $object->override_ipv6_domain_name_servers("false"); will set override_ipv6_domain_name_servers to "false", and the sequence $object->override_ipv6_domain_name_servers("false"); $object->ipv6_domain_name_servers("2001::1,2001::2"); will result in override_ipv6_domain_name_servers="true".
+
+=over
+
+=item B<Parameter>
+
+The domain name server addresses in IPv6 address format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_domain_name_servers
+ my $ipv6_domain_name_servers = $memberdhcp->ipv6_domain_name_servers();
+ #Modify ipv6_domain_name_servers
+ $memberdhcp->ipv6_domain_name_servers("2001::1,2001::2");
+
+=back
+
+=back
+
+=head2 ipv6_enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the ipv6_enable_ddns flag. Set this flag to enable DHCPv6 dynamic updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_enable_ddns method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_enable_ddns attribute to "false".
+
+Note that when ipv6_enable_ddns is set to a defined value and override_dipv6_enable_ddns is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_enable_ddns("true"); $object->override_ipv6_enable_ddns("false"); will set override_ipv6_enable_ddns to "false", and the sequence $object->override_ipv6_enable_ddns("false"); $object->ipv6_enable_ddns("true"); will result in override_ipv6_enable_ddns="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_ddns
+ my $ipv6_enable_ddns = $memberdhcp->ipv6_enable_ddns();
+ #Modify ipv6_enable_ddns
+ $memberdhcp->ipv6_enable_ddns("true");
+
+=back
+
+=back
+
+=head2 ipv6_enable_gss_tsig( )
+
+=over
+
+Use this method to set or retrieve the member-level ipv6_enable_gss_tsig flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This is for DHCPv6 GSS-TSIG authentication.
+
+Setting this method to a defined value implicitly sets the override_ipv6_enable_gss_tsig method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_ipv6_enable_gss_tsig attribute to "false".
+
+Note that when ipv6_enable_gss_tsig is set to a defined value and override_ipv6_enable_gss_tsig is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_enable_gss_tsig("true"); $object->override_ipv6_enable_gss_tsig("false"); will set override_ipv6_enable_gss_tsig to "false", and the sequence $object->override_ipv6_enable_gss_tsig("false"); $object->ipv6_enable_gss_tsig("true"); will result in override_ipv6_enable_gss_tsig="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable GSS-TSIG authentication for DHCP IPv6 or "false" to disable it. The default value is undefined. Setting this flag overrides the ipv6_enable_gss_tsig attribute of the grid.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_gss_tsig
+ my $ipv6_enable_gss_tsig = $memberdhcp->ipv6_enable_gss_tsig();
+ #Modify ipv6_enable_gss_tsig
+ $memberdhcp->ipv6_enable_gss_tsig("true");
+
+=back
+
+=back
+
+=head2 ipv6_enable_lease_scavenge( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the DHCPv6 lease scavenging is enabled or disabled.
+
+Setting this method to a defined value implicitly sets the override_ipv6_lease_scavenge method to "true". When you set the parameter to undefined and if ipv6_lease_scavenge_time or ipv6_remember_expired_client_association are defined, the appliance uses the default Grid value and automatically resets override_ipv6_lease_scavenge attribute to "false".
+
+Note that when ipv6_enable_lease_scavenge is set to a defined value and override_ipv6_enable_lease_scavenge is set to "false", the last operation takes precedence. Thus, the sequence $object->ipv6_enable_lease_scavenge("true"); $object->override_ipv6_lease_scavenge("false"); sets override_ipv6_lease_scavenge to "false", and the sequence $object->override_ipv6_lease_scavenge("false"); $object->ipv6_enable_lease_scavenge("true"); results in override_ipv6_lease_scavenge="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable DHCPv6 lease scavenging and 'false' to disable it. The default value is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_lease_scavenge
+ my $ipv6_enable_lease_scavenge = $memberdhcp->ipv6_enable_lease_scavenge();
+ #Modify ipv6_enable_lease_scavenge
+ $memberdhcp->ipv6_enable_lease_scavenge("true");
+
+=back
+
+=back
+
+=head2 ipv6_remember_expired_client_association( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the DHCPv6 expired lease binding is enabled or disabled.
+
+Setting this method to a defined value implicitly sets the override_ipv6_lease_scavenge method to "true". When you set the parameter to undefined and if ipv6_enable_lease_scavenge or ipv6_lease_scavenge_time are defined, the appliance uses the default Grid value and automatically resets override_ipv6_lease_scavenge to "false".
+
+Note that when ipv6_remember_expired_client_association is set to a defined value and override_ipv6_lease_scavenge is set to "false",
+the last operation takes precedence.
+Thus, the sequence $object->ipv6_remember_expired_client_association("true"); $object->override_ipv6_lease_scavenge("false");
+sets override_ipv6_lease_scavenge to "false",
+and the sequence $object->override_ipv6_lease_scavenge("false"); $object->ipv6_remember_expired_client_association("true");
+results in override_ipv6_lease_scavenge="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the DHCPv6 server to 'remember' the client and 'false' to disable it. The default value is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeds, and return false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_remember_expired_client_association
+ my $ipv6_remember_expired_client_association = $memberdhcp->ipv6_remember_expired_client_association();
+ #Modify ipv6_remember_expired_client_association
+ $memberdhcp->ipv6_remember_expired_client_association("true");
+
+=back
+
+=back
+
+=head2 ipv6_enable_retry_updates( )
+
+=over
+
+Use this method to set or retrieve the ipv6_enable_retry_updates flag. If this flag is set to "true", the DHCPv6 server retries failed dynamic DNS updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_enable_retry_updates method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_enable_retry_updates attribute to "false".
+
+Note that when ipv6_enable_retry_updates is set to a defined value and override_dipv6_enable_retry_updates is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_enable_retry_updates("true"); $object->override_ipv6_enable_retry_updates("false"); will set override_ipv6_enable_retry_updates to "false", and the sequence $object->override_ipv6_enable_retry_updates("false"); $object->ipv6_enable_retry_updates("true"); will result in override_ipv6_enable_retry_updates="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_retry_updates
+ my $ipv6_enable_retry_updates = $memberdhcp->ipv6_enable_retry_updates();
+ #Modify ipv6_enable_retry_updates
+ $memberdhcp->ipv6_enable_retry_updates("true");
+
+=back
+
+=back
+
+=head2 ipv6_generate_hostname( )
+
+=over
+
+Use this method to set or retrieve the ipv6_generate_hostname flag. Set this flag to generate the hostname if it is not sent by the client.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_generate_hostname method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_generate_hostname attribute to "false".
+
+Note that when ipv6_generate_hostname is set to a defined value and override_dipv6_generate_hostname is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_generate_hostname("true"); $object->override_ipv6_generate_hostname("false"); will set override_ipv6_generate_hostname to "false", and the sequence $object->override_ipv6_generate_hostname("false"); $object->ipv6_generate_hostname("true"); will result in override_ipv6_generate_hostname="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_generate_hostname
+ my $ipv6_generate_hostname = $memberdhcp->ipv6_generate_hostname();
+ #Modify ipv6_generate_hostname
+ $memberdhcp->ipv6_generate_hostname("true");
+
+=back
+
+=back
+
+=head2 ipv6_gss_tsig_keys( )
+
+=over
+
+Use this method to set or retrieve the list of GSS-TSIG keys for a member DHCPv6 object.
+
+Setting this method to a defined value implicitly sets the override_ipv6_gss_tsig_keys method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_gss_tsig_keys method to "false".
+
+Note that when ipv6_gss_tsig_keys is set to a defined value and override_ipv6_gss_tsig_keys is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_gss_tsig_keys($keys); $object->override_ipv6_gss_tsig_keys("false"); will set override_ipv6_gss_tsig_keys to "false", and the sequence $object->override_ipv6_gss_tsig_keys("false"); $object->ipv6_gss_tsig_keys($keys); will result in override_ipv6_gss_tsig_keys="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::KerberosKey|Infoblox::Grid::KerberosKey> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the Kerberos keys list
+ my $kerberos_keys_list = $member_dhcp->ipv6_gss_tsig_keys();
+
+ #Modify the Kerberos keys list
+ my $kerberos_key1 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test1@LADYBUG.LOCAL',
+        );
+ my $kerberos_key2 = Infoblox::Cluster::KerberosKey->new(
+        principal => 'host/appliance.ivan.test2@LADYBUG.LOCAL',
+        );
+ $member_dhcp->ipv6_gss_tsig_keys([$kerberos_key1, $kerberos_key2]);
+
+=back
+
+=back
+
+=head2 ipv6_kdc_server( )
+
+=over
+
+Use this method to specify or retrieve the IPv4 address or FQDN of the Kerberos server for DHCPv6 GSS-TSIG authentication. This setting overrides the grid-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The Kerberos server IPv4 address or hostname, with a maximum of 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_kdc_server
+ my $ipv6_kdc_server = $memberdhcp->ipv6_kdc_server();
+ #Modify ipv6_kdc_server
+ $memberdhcp->ipv6_kdc_server("10.32.0.8");
+
+=back
+
+=back
+
+=head2 ipv6_lease_scavenge_time( )
+
+=over
+
+Use this method to set or retrieve the Grid-level grace period in seconds to keep an expired lease before it gets deleted by the scavenging process.
+
+Setting this method to a defined value implicitly sets the override_ipv6_lease_scavenge method to "true". When you set the parameter to undefined and if ipv6_enable_lease_scavenge or ipv6_remember_expired_client_association are defined, the appliance uses the default Grid value and automatically resets  override_ipv6_lease_scavenge attribute to "false".
+
+Note that when ipv6_lease_scavenge_time is set to a defined value and override_ipv6_enable_lease_scavenge is set to "false", the last operation takes precedence. Thus, the sequence $object->ipv6_lease_scavenge_time(32000); $object->override_ipv6_lease_scavenge("false"); sets override_ipv6_lease_scavenge to "false", and the sequence $object->override_ipv6_lease_scavenge("false"); $object->ipv6_lease_scavenge_time(32000); results in override_ipv6_lease_scavenge="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer greater than or equal to 21600.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_lease_scavenge_time
+ my $ipv6_lease_scavenge_time = $griddhcp->ipv6_lease_scavenge_time();
+ #Modify ipv6_lease_scavenge_time
+
+=back
+
+=back
+
+
+=head2 ipv6_microsoft_code_page( )
+
+=over
+
+Use this method to set or retrieve the Microsoft client DHCP IPv6 code page value of a grid member. This value is the hostname translation code page for Microsoft DHCP IPv6 clients and overrides the L<grid-level Microsoft DHCP IPv6 client code page|Infoblox::Grid::DHCP/ipv6_microsoft_code_page()/>.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_microsoft_code_page method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_microsoft_code_page attribute to "false".
+
+Note that when ipv6_microsoft_code_page is set to a defined value and override_dipv6_microsoft_code_page is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_microsoft_code_page("Cyrillic (ISO-5589-5)"); $object->override_ipv6_microsoft_code_page("false"); will set override_ipv6_microsoft_code_page to "false", and the sequence $object->override_ipv6_microsoft_code_page("false"); $object->ipv6_microsoft_code_page("Cyrillic (ISO-5589-5)"); will result in override_ipv6_microsoft_code_page="true".
+
+=over
+
+=item B<Parameter>
+
+Microsoft DHCP client code page in string format. Valid values are:
+
+None
+
+Arabic (1256)
+
+Arabic (ISO-8859-6)
+
+Baltic (1257)
+
+Baltic (775)
+
+Baltic (ISO-8859-4)
+
+Central Europe (1250)
+
+Cyrillic (1251)
+
+Cyrillic (855)
+
+Cyrillic (ISO-8859-5)
+
+Greek (1253)
+
+Greek (737)
+
+Greek (ISO-8859-7)
+
+Hebrew (1255)
+
+Hebrew (862)
+
+Hebrew (ISO-8859-8)
+
+Japanese Shift-JIS (932)
+
+Korean (949)
+
+Latin 1 (ISO-8859-1)
+
+Latin 2 (ISO-8859-2)
+
+Latin 3 (ISO-8859-3)
+
+Latin 9 (ISO-8859-15)
+
+Latin I (1252)
+
+Latin II (852)
+
+Multilingual Latin I (850)
+
+Russian (866)
+
+Simplified Chinese GBK (936)
+
+Thai (874)
+
+Traditional Chinese Big5 (950)
+
+Turkish (1254)
+
+Turkish (857)
+
+Turkish (ISO-8859-9)
+
+US (437)
+
+Vietnam (1258)
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_microsoft_code_page
+ my $ipv6_microsoft_code_page = $memberdhcp->ipv6_microsoft_code_page();
+ #Modify ipv6_microsoft_code_page
+ $memberdhcp->ipv6_microsoft_code_page("Cyrillic (ISO-8859-5)");
+ #Do not override ipv6_microsoft_code_page
+ $memberdhcp->ipv6_microsoft_code_page("None");
+
+=back
+
+=back
+
+=head2 ipv6_options( )
+
+=over
+
+Use this method to set or retrieve the ipv6 options.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_options method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_options attribute to "false".
+
+Note that when ipv6_options is set to a defined value and override_dipv6_options is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_options([ $opt ]); $object->override_ipv6_options("false"); will set override_ipv6_options to "false", and the sequence $object->override_ipv6_options("false"); $object->ipv6_options([ $opt ]); will result in override_ipv6_options="true".
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_options
+ my $ipv6_options = $memberdhcp->ipv6_options();
+ #Modify ipv6_options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name   => "dhcp6.rapid-commit",
+     value  => "true"
+ );
+ $memberdhcp->ipv6_options([$option1);
+
+=back
+
+=back
+
+=head2 ipv6_recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the ipv6_recycle_leases flag of the DHCP member.
+
+If the flag is enabled, the leases are kept in recycle bin until one week after expiration. When the flag is disabled, the leases are irrecoverably deleted.
+
+Setting this method to a defined value implicitly sets the override_ipv6_recycle_leases method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_recycle_leases attribute to "false".
+
+Note that when ipv6_recycle_leases is set to a defined value and override_ipv6_recycle_leases is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_recycle_leases("true"); $object->override_ipv6_recycle_leases("false"); will set override_ipv6_recycle_leases to "false", and the sequence $objct->override_ipv6_recycle_leases("false"); $object->ipv6_recycle_leases("true"); will result in override_ipv6_recycle_leases="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ipv6_recycle_leases flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_recycle_leases
+ my $ipv6_recycle_leases = $memberdhcp->ipv6_recycle_leases();
+ #Modify ipv6_recycle_leases
+ $memberdhcp->ipv6_recycle_leases("false");
+
+=back
+
+=back
+
+=head2 ipv6_retry_updates_interval( )
+
+=over
+
+Use this method to set or retrieve the ipv6_retry_updates_interval value. Set the retry interval when the member DHCPv6 server makes repeated attempts to send DDNS updates to a DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the retry interval in minutes. The default retry interval is five minutes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_retry_updates_interval
+ my $ipv6_retry_updates_interval = $memberdhcp->ipv6_retry_updates_interval();
+ #Modify ipv6_retry_updates_interval
+ $memberdhcp->ipv6_retry_updates_interval(10);
+
+=back
+
+=back
+
+=head2 ipv6_server_duid( )
+
+=over
+
+Use this method to set or retrieve the server DHCPv6 unique identifier (DUID) for the grid member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+DUID of the grid member in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_server_duid
+ my $ipv6_server_duid = $memberdhcp->ipv6_server_duid();
+ #Modify ipv6_server_duid
+ $memberdhcp->ipv6_server_duid("false");
+
+=back
+
+=back
+
+=head2 ipv6_update_dns_on_lease_renewal( )
+
+=over
+
+Use this method to set or retrieve the ipv6_update_dns_on_lease_renewal flag. This attribute controls whether the DHCP server updates DNS when an IPv6 DHCP lease is renewed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_update_dns_on_lease_renewal method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ipv6_update_dns_on_lease_renewal attribute to "false".
+
+Note that when ipv6_update_dns_on_lease_renewal is set to a defined value and override_dipv6_update_dns_on_lease_renewal is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_update_dns_on_lease_renewal("true"); $object->override_ipv6_update_dns_on_lease_renewal("false"); will set override_ipv6_update_dns_on_lease_renewal to "false", and the sequence $object->override_ipv6_update_dns_on_lease_renewal("false"); $object->ipv6_update_dns_on_lease_renewal("true"); will result in override_ipv6_update_dns_on_lease_renewal="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_update_dns_on_lease_renewal
+ my $ipv6_update_dns_on_lease_renewal = $memberdhcp->ipv6_update_dns_on_lease_renewal();
+ #Modify ipv6_update_dns_on_lease_renewal
+ $memberdhcp->ipv6_update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 kdc_server( )
+
+=over
+
+Use this method to specify or retrieve the IPv4 address or FQDN of the Kerberos server for DHCPv4 GSS-TSIG authentication. This setting overrides the grid-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The Kerberos server IPv4 address or FQDN, with a maximum of 1023 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get kdc_server
+ my $kdc_server = $memberdhcp->kdc_server();
+ #Modify  kdc_server
+ $memberdhcp->kdc_server("10.32.0.7");
+
+=back
+
+=back
+
+=head2 ipv6_lease_scavenge_time( )
+
+=over
+
+Use this method to set or retrieve the member-level grace period in seconds to keep an expired lease before it gets deleted by the scavenging process.
+
+Setting this method to a defined value implicitly sets the override_ipv6_lease_scavenge method to "true". Setting the parameter to undefined unless ipv6_enable_lease_scavenge is defined causes the appliance to use the Grid default and automatically resets the override_ipv6_lease_scavenge attribute to "false".
+
+Note that when ipv6_lease_scavenge_time is set to a defined value and override_dipv6_lease_scavenge_time is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_lease_scavenge_time("true"); $object->override_ipv6_lease_scavenge("false"); will set override_ipv6_lease_scavenge to "false", and the sequence $object->override_ipv6_lease_scavenge("false"); $object->ipv6_lease_scavenge_time("true"); will result in override_ipv6_lease_scavenge="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer greater than or equal to 21600.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_lease_scavenge_time
+ my $ipv6_lease_scavenge_time = $memberdhcp->ipv6_lease_scavenge_time();
+ #Modify ipv6_lease_scavenge_time
+ $memberdhcp->ipv6_lease_scavenge_time("22000");
+
+=back
+
+=back
+
+=head2 lease_per_client_settings( )
+
+=over
+
+Use this method to set or retrieve the Grid member setting that defines how DHCP server will free or release client leases.
+
+Setting this method to a defined value implicitly sets the override_lease_per_client_settings method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_lease_per_client_settings attribute to "false".
+
+Note that when lease_per_client_settings is set to a defined value and override_lease_per_client_settings is set to "false", the last operation takes precedence. Thus the sequence $object->lease_per_client_settings("NEVER_RELEASE"); $object->override_lease_per_client_settings("false"); will set override_lease_per_client_settings to "false", and the sequence $object->override_lease_per_client_settings("false"); $object->lease_per_client_settings("NEVER_RELEASE"); will set override_lease_per_client_settings to "true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ONE_LEASE_PER_CLIENT', 'RELEASE_MATCHING_ID' and 'NEVER_RELEASE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lease_per_client_settings value
+ my $lease_per_client_settings = $object->lease_per_client_settings();
+
+ #Modify lease_per_client_settings value
+ $object->lease_per_client_settings("NEVER_RELEASE");
+
+=back
+
+=back
+
+=head2 lease_scavenge_time( )
+
+=over
+
+Use this method to set or retrieve the member-level lease_scavenge_time value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_lease_scavenge_time method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_lease_scavenge_time attribute to "false".
+
+Note that when lease_scavenge_time is set to a defined value and override_lease_scavenge_time is set to "false", the last operation takes precedence. Thus the sequence $object->lease_scavenge_time(604800); $object->override_lease_scavenge_time("false"); will set override_lease_scavenge_time to "false", and the sequence $object->override_lease_scavenge_time("false"); $object->lease_scavenge_time(604800); will result in override_lease_scavenge_time="true".
+
+=over
+
+=item B<Parameter>
+
+An integer that specifies the period of time, in seconds, that free and backup leases remain in the database before they are automatically deleted. To disable lease scavenging, set the parameter to -1. The minimum positive value must be greater than 86400 seconds (1 day). The default value of this parameter is -1, which means that lease scavenging is disabled.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lease_scavenge_time
+ my $lease_scavenge = $memberdhcp->lease_scavenge_time();
+ #Modify lease_scavenge_time
+ $memberdhcp->lease_scavenge_time(30 * 24 * 60 * 60);
+
+=back
+
+=back
+
+=head2 log_lease_events( )
+
+=over
+
+Use this method to set or retrieve the log_lease_events value of a member DHCP server. This value specifies whether the grid member logs lease events.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_log_lease_events method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_log_lease_events attribute to "false".
+
+Note that when log_lease_events is set to a defined value and override_dlog_lease_events is set to "false", the last operation takes precedence. Thus the sequence $object->log_lease_events("true"); $object->override_log_lease_events("false"); will set override_log_lease_events to "false", and the sequence $object->override_log_lease_events("false"); $object->log_lease_events("true"); will result in override_log_lease_events="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set log_lease_events flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get log_lease_events
+ my $log_lease_events = $memberdhcp->log_lease_events();
+ #Modify log_lease_events
+ $memberdhcp->log_lease_events("true");
+
+=back
+
+=back
+
+=head2 logic_filters( )
+
+=over
+
+Use this method to set or retrieve all the logic (ordered) filters associated with the Member DHCP.
+
+Filters are used to screen address assignments on a Member DHCP if the addresses are to be assigned to specific hosts.
+
+Setting this method to a defined value implicitly sets the override_logic_filters method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_logic_filters attribute to "false".
+
+Note that when logic_filters is set to a defined value and override_dlogic_filters is set to "false", the last operation takes precedence. Thus the sequence $object->logic_filters($filters); $object->override_logic_filters("false"); will set override_logic_filters to "false", and the sequence $object->override_logic_filters("false"); $object->logic_filters($filters); will result in override_logic_filters="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains either the L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC>, L<Infoblox::DHCP::Filter::NAC|Infoblox::DHCP::Filter::NAC>, L<Infoblox::DHCP::Filter::Option|Infoblox::DHCP::Filter::Option> objects or the names of the corresponding filters. The filters in the list must satisfy the following conditions:
+
+=over
+
+=item Filter name must be globally unique.
+
+=item Filters without expressions must be at the end of the list.
+
+=item The filters should not be disabled.
+
+=back
+
+The default value of the parameter is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get logic_filters
+ my $ref_logic_filters = $memberdhcp->logic_filters();
+ #Modify logic_filters
+ $memberdhcp->logic_filters(["filter_1","filter_2",$exl1]); #$exl1 is an Infoblox::DHCP::Filter::MAC, Infoblox::DHCP::Filter::NAC or Infoblox::DHCP::Filter::Option object.
+
+=back
+
+=back
+
+=head2 low_water_mark( )
+
+=over
+
+Use this method to set or retrieve the low_water_mark value of a member DHCP server. If the percent of allocated addresses drops below this watermark, the appliance makes a syslog entry and if enabled, sends an e-mail notification.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the percentage value. Range is from 0 to 100. The low watermark value must be lower than the high watermark value. The default low watermark number is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get low_water_mark
+ my $low_water_mark = $memberdhcp->low_water_mark();
+ #Modify low_water_mark
+ $memberdhcp->low_water_mark(10);
+
+=back
+
+=back
+
+=head2 low_water_mark_reset( )
+
+=over
+
+Use this method to set or retrieve the low_water_mark_reset value of a member DHCP server. If the percentage of allocated addresses exceeds this value, a corresponding SNMP trap is reset.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number with the percentage value. Range is from 0 to 100. The low watermark reset value must be higher than the low watermark value. The default low watermark reset value is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get low_water_mark_reset
+ my $low_water_mark_reset = $memberdhcp->low_water_mark_reset();
+ #Modify low_water_mark_reset
+ $memberdhcp->low_water_mark_reset(10);
+
+=back
+
+=back
+
+=head2 override_dns_update_style( )
+
+=over
+
+The override_dns_update_style controls whether the dns_update_style in the DHCP Member is used, instead of the Grid default.
+
+The override_dns_update_style can be specified explicitly. It is also set implicitly when dns_update_style is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to 'true' to override the Grid-level setting for dns_update_style. Set the parameter to 'false' to inherit the Grid-level setting for dns_update_style.
+
+The default value of this parameter is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_dns_update_style value
+ my $value = $object->override_dns_update_style();
+
+ #Modify override_dns_update_style value
+ $object->override_dns_update_style('true');
+
+=back
+
+=back
+
+=head2 override_enable_ifmap_publishing( )
+
+=over
+
+The override_enable_ifmap_publishing controls whether the enable_ifmap_publishing in the DHCP Member is used, instead of the Grid default.
+
+The override_enable_ifmap_publishing can be specified explicitly. It is also set implicitly when enable_ifmap_publishing is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for enable_ifmap_publishing. Set the parameter to "false" to inherit the grid-level setting for enable_ifmap_publishing.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_enable_ifmap_publishing
+ my $override_enable_ifmap_publishing=$memberdhcp->override_enable_ifmap_publishing( );
+ #Modifying override_enable_ifmap_publishing
+ $memberdhcp->override_enable_ifmap_publishing("true");
+
+=back
+
+=back
+
+=head2 override_gss_tsig_keys( )
+
+=over
+
+The override_gss_tsig_keys attribute controls whether the gss_tsig_keys method values of the member are used, instead of the Grid default.
+
+The override_gss_tsig_keys attribute can be specified explicitly. It is also set implicitly when gss_tsig_keys is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override GSS-TSIG keys. Set the parameter to "false" to inherit the grid-level GSS-TSIG keys.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_gss_tsig_keys
+ my $override_gss_tsig_keys = $member_dhcp->override_gss_tsig_keys();
+ #Modyfying override_gss_tsig_keys
+ $member_dhcp->override_gss_tsig_keys("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_dns_update_style( )
+
+=over
+
+The override_ipv6_dns_update_style controls whether the ipv6_dns_update_style is used instead of the Grid default in the DHCP member.
+
+The override_ipv6_dns_update_style can be specified explicitly. It is also set implicitly when ipv6_dns_update_style is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to 'true' to override the Grid-level setting for ipv6_dns_update_style. Set the parameter to 'false' to inherit the Grid-level setting for ipv6_dns_update_style.
+
+The default value of this parameter is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ipv6_dns_update_style value
+ my $value = $object->override_ipv6_dns_update_style();
+
+ #Modify override_ipv6_dns_update_style value
+ $object->override_ipv6_dns_update_style('true');
+
+=back
+
+=back
+
+=head2 override_ipv6_gss_tsig_keys( )
+
+=over
+
+The override_ipv6_gss_tsig_keys attribute controls whether the ipv6_gss_tsig_keys method values of the member are used, instead of the Grid default.
+
+The override_ipv6_gss_tsig_keys attribute can be specified explicitly. It is also set implicitly when ipv6_gss_tsig_keys is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override GSS-TSIG keys. Set the parameter to "false" to inherit the grid-level GSS-TSIG keys.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_ipv6_gss_tsig_keys
+ my $override_ipv6_gss_tsig_keys = $member_dhcp->override_ipv6_gss_tsig_keys();
+ #Modyfying override_ipv6_gss_tsig_keys
+ $member_dhcp->override_ipv6_gss_tsig_keys("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_lease_scavenge( )
+
+=over
+
+The override_ipv6_lease_scavenge attribute controls whether the ipv6_enable_lease_scavenge, ipv6_lease_scavenge_time and ipv6_remember_expired_client_association methods values of the member are used, instead of the Grid default.
+
+The override_ipv6_lease_scavenge attribute can be specified explicitly. It is also set implicitly when one of ipv6_enable_lease_scavenge, ipv6_lease_scavenge_time and ipv6_remember_expired_client_association is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override settings for scavenging of DHCPv6 leases. Set the parameter to "false" to inherit settings for scavenging of DHCPv6 leases.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_ipv6_lease_scavenge
+ my $override_ipv6_lease_scavenge = $memberdhcp->override_ipv6_lease_scavenge();
+ #Modyfying override_ipv6_lease_scavenge
+ $memberdhcp->override_ipv6_lease_scavenge("true");
+
+=back
+
+=back
+
+=head2 override_logic_filters( )
+
+=over
+
+The override_logic_filters attribute controls whether the logic_filters value of the Member DHCP is used, instead of the Grid default.
+
+The override_logic_filters attribute can be specified explicitly. It is also set implicitly when logic_filters is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for logic_filters. Set the parameter to "false" to inherit the Grid-level setting for logic_filters.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Getting override_logic_filters
+ my $override_logic_filters=$memberdhcp->override_logic_filters( );
+ #Modifying override_logic_filters
+ $memberdhcp->override_logic_filters("true");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the grid name.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $memberdhcp->name();
+
+=back
+
+=back
+
+=head2 nextserver( )
+
+=over
+
+Use this method to set or retrieve the next server value of a member DHCP server. This value is the IP address or name of the boot file server on which the boot file is stored.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+This option is overridden independently from L<Infoblox::Grid::Member::DHCP-E<gt>bootfile()|Infoblox::Grid::Member::DHCP/bootfile()/> and L<Infoblox::Grid::Member::DHCP-E<gt>bootserver()|Infoblox::Grid::Member::DHCP/bootserver()/>.
+
+=over
+
+=item B<Parameter>
+
+The boot file server IP address or name in FQDN format. The FQDN consists of the host name followed by the domain name (example: abc.com). A boot file server name can have a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get nextserver
+ my $nextserver = $memberdhcp->nextserver();
+ #Modify nextserver
+ $memberdhcp->nextserver("1.1.1.1");
+ #Un-override nextserver
+ $memberdhcp->nextserver(undef);
+
+=back
+
+=back
+
+=head2 microsoft_code_page( )
+
+=over
+
+Use this method to set or retrieve the Microsoft client DHCP IPv4 code page value of a grid member. This value is the hostname translation code page for Microsoft DHCP IPv4 clients and overrides the L<grid-level Microsoft DHCP IPv4 client code page|Infoblox::Grid::DHCP/microsoft_code_page()/>.
+
+Setting L<microsoft_code_page()|Infoblox::Grid::Member::DHCP/microsoft_code_page()/> to undef removes the override, enabling the appliance to use the grid-level microsoft_code_page setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Microsoft DHCP client code page in string format. Valid values are the same as those for ipv6_microsoft_code_page. See L</ipv6_microsoft_code_page()>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get microsoft_code_page
+ my $microsoft_code_page = $memberdhcp->microsoft_code_page();
+ #Modify microsoft_code_page
+ $memberdhcp->microsoft_code_page("Cyrillic (ISO-8859-5)");
+ #Do not override microsoft_code_page
+ $memberdhcp->microsoft_code_page("None");
+
+=back
+
+=back
+
+=head2 options( )
+
+=over
+
+Use this method to set or retrieve the options value of a member DHCP server. DHCP options provide network configuration settings and various services available on the network for DHCP member. This setting overrides the grid level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains Infoblox::DHCP::Option object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get options
+ my $options = $memberdhcp->options();
+ #Modify options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name  => "lease-time",
+     value => 50
+ );
+
+ my $option2 = Infoblox::DHCP::Option->new(
+     name  => "routers",
+     value => "1.4.1.1, 2.2.2.2"
+ );
+
+ my $option3 = Infoblox::DHCP::Option->new(
+     name  => "nameservers",
+     value => "1.1.1.1, 2.2.2.2"
+ );
+
+ my $option4 = Infoblox::DHCP::Option->new(
+     name  => "domain-name",
+     value => "domainname.com",
+ );
+
+ my $option5 = Infoblox::DHCP::Option->new(
+     name  => "broadcast",
+     value => "255.0.0.0",
+ );
+
+ $memberdhcp->options([$option1, $option2, $option3, $option4, $option5]);
+
+=back
+
+=back
+
+=head2 option60_match_rules( )
+
+=over
+
+Use this method to set or retrieve the option60_match_rules value of a member DHCP server. An Option60MatchRule object allows specifying match rules
+for Option 60 globally. This setting overrides the grid level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option60MatchRule|Infoblox::DHCP::Option60MatchRule> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get option60_match_rules
+ my $options = $memberdhcp->option60_match_rules();
+ #Modify option60_match_rules
+ my $option60_match_rule = Infoblox::DHCP::Option60MatchRule->new(
+                                    "option_space" => "infospace",
+                                    "match_value" => "Nortel-i2004-A",
+                                    "is_substring" => "true",
+                                    "substring_offset" => "8",
+                                    "substring_length" => "14"
+                                  );
+
+ $memberdhcp->option60_match_rules([$option60_match_rule]);
+ #Do not override option60_match_rules
+ $memberdhcp->option60_match_rules(undef);
+
+=back
+
+=back
+
+=head2 override_ddns_ttl( )
+
+=over
+
+The override_ddns_ttl attribute controls whether the ddns_ttl value in the member DHCP server is used, instead of the Grid default.
+
+The override_ddns_ttl attribute can be specified explicitly. It is also set implicitly when ddns_ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_ttl. Set the parameter to "false" to inherit the grid-level setting for ddns_ttl.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_ttl
+    my $override_ddns_ttl=$memberdhcp->override_ddns_ttl( );
+    #Modifying override_ddns_ttl
+    $memberdhcp->override_ddns_ttl("true");
+
+=back
+
+=back
+
+=head2 override_enable_dhcpv6_service( )
+
+=over
+
+The override_enable_dhcpv6_service attribute controls whether the enable_dhcpv6_service value in the DHCP member is used, instead of the Grid default.
+
+The override_enable_dhcpv6_service attribute can be specified explicitly. It is also set implicitly when enable_dhcpv6_service is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for enable_dhcpv6_service. Set the parameter to "false" to inherit the grid-level setting for enable_dhcpv6_service.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_enable_dhcpv6_service
+    my $override_enable_dhcpv6_service=$memberdhcp->override_enable_dhcpv6_service( );
+    #Modifying override_enable_dhcpv6_service
+    $memberdhcp->override_enable_dhcpv6_service("true");
+
+=back
+
+=back
+
+=head2 override_enable_fingerprint( )
+
+=over
+
+Use this method to set or retrieve the override_enable_fingerprint flag.
+
+=over
+
+=item B<Parameter>
+
+Boolean to enable or disable the override fibgerprint flag for the member. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_enable_fingerprint
+ my $status = $memberdhcp->override_enable_fingerprint();
+ #Modify override_enable_fingerprint
+ $memberdhcp->override_enable_fingerprint("true");
+
+=back
+
+=back
+
+=head2 override_hostname_rewrite( )
+
+=over
+
+Use this method to set or retrieve the override_hostname_rewrite flag.
+
+=over
+
+=item B<Parameter>
+
+Boolean to enable or disable the override hostname rewrite policy flag for the member. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_hostname_rewrite
+ my $status = $memberdhcp->override_hostname_rewrite();
+ #Modify override_hostname_rewrite
+ $memberdhcp->override_hostname_rewrite("true");
+
+=back
+
+=back
+
+=head2 override_ignore_id( )
+
+=over
+
+The override_ignore_id controls whether the ignore_id in the DHCP member is used, instead of the grid-level default.
+
+The override_ignore_id can be specified explicitly. It is also set implicitly when ignore_id is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ignore_id and ignore_mac_addresses. Set the parameter to "false" to inherit the grid-level setting for ignore_id and ignore_mac_addresses.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get attrubute value
+    my $value=$memberdhcp->override_ignore_id();
+    #Modifying attribute value
+    $memberdhcp->override_ignore_id('true');
+
+=back
+
+=back
+
+=head2 override_ipv6_ddns_domainname( )
+
+=over
+
+The override_ipv6_ddns_domainname attribute controls whether the ipv6_ddns_domainname value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_ddns_domainname attribute can be specified explicitly. It is also set implicitly when ipv6_ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_ddns_domainname. Set the parameter to "false" to inherit the grid-level setting for ipv6_ddns_domainname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_ddns_domainname
+    my $override_ipv6_ddns_domainname=$memberdhcp->override_ipv6_ddns_domainname( );
+    #Modifying override_ipv6_ddns_domainname
+    $memberdhcp->override_ipv6_ddns_domainname("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_ddns_hostname( )
+
+=over
+
+The override_ipv6_ddns_hostname attribute controls whether the ipv6_ddns_hostname value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_ddns_hostname attribute can be specified explicitly. It is also set implicitly when ipv6_ddns_hostname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_ddns_hostname. Set the parameter to "false" to inherit the grid-level setting for ipv6_ddns_hostname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_ddns_hostname
+    my $override_ipv6_ddns_hostname=$memberdhcp->override_ipv6_ddns_hostname( );
+    #Modifying override_ipv6_ddns_hostname
+    $memberdhcp->override_ipv6_ddns_hostname("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_ddns_enable_option_fqdn( )
+
+=over
+
+Use this method to set or retrieve the override_ipv6_ddns_enable_option_fqdn value of a Grid Member DHCP object.
+
+The override_ipv6_ddns_enable_option_fqdn attribute can be specified explicitly. It is also set implicitly when ipv6_ddns_enable_option_fqdn is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipv6_ddns_enable_option_fqdn. Set the parameter to "false" to inherit the upper-level setting for ipv6_ddns_enable_option_fqdn.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ipv6_ddns_enable_option_fqdn
+ my $override_ipv6_ddns_enable_option_fqdn = $memberdhcp->override_ipv6_ddns_enable_option_fqdn();
+ #Modify override_ipv6_ddns_enable_option_fqdn
+ $memberdhcp->override_ipv6_ddns_enable_option_fqdn("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_ddns_ttl( )
+
+=over
+
+The override_ipv6_ddns_ttl attribute controls whether the ipv6_ddns_ttl value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_ddns_ttl attribute can be specified explicitly. It is also set implicitly when ipv6_ddns_ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_ddns_ttl. Set the parameter to "false" to inherit the grid-level setting for ipv6_ddns_ttl.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_ddns_ttl
+    my $override_ipv6_ddns_ttl=$memberdhcp->override_ipv6_ddns_ttl( );
+    #Modifying override_ipv6_ddns_ttl
+    $memberdhcp->override_ipv6_ddns_ttl("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_domain_name( )
+
+=over
+
+Use this method to set or retrieve the override_ipv6_domain_name value of a Grid Member DHCP object.
+
+The override_ipv6_domain_name attribute can be specified explicitly. It is also set implicitly when ipv6_domain_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipv6_domain_name. Set the parameter to "false" to inherit the upper-level setting for ipv6_domain_name.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ipv6_domain_name
+ my $override_ipv6_domain_name = $memberdhcp->override_ipv6_domain_name();
+ #Modify override_ipv6_domain_name
+ $memberdhcp->override_ipv6_domain_name("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the override_ipv6_domain_name_servers value of a Grid Member DHCP object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipv6_domain_name_servers. Set the parameter to "false" to inherit the upper-level setting for ipv6_domain_name_servers.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ipv6_domain_name_servers
+ my $override_ipv6_domain_name_servers = $memberdhcp->override_ipv6_domain_name_servers();
+ #Modify override_ipv6_domain_name_servers
+ $memberdhcp->override_ipv6_domain_name_servers("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_enable_ddns( )
+
+=over
+
+The override_ipv6_enable_ddns attribute controls whether the ipv6_enable_ddns value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_enable_ddns attribute can be specified explicitly. It is also set implicitly when ipv6_enable_ddns is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_enable_ddns. Set the parameter to "false" to inherit the grid-level setting for ipv6_enable_ddns.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_enable_ddns
+    my $override_ipv6_enable_ddns=$memberdhcp->override_ipv6_enable_ddns( );
+    #Modifying override_ipv6_enable_ddns
+    $memberdhcp->override_ipv6_enable_ddns("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_enable_gss_tsig( )
+
+=over
+
+The override_ipv6_enable_gss_tsig attribute controls whether the ipv6_enable_gss_tsig value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_enable_gss_tsig attribute can be specified explicitly. It is also set implicitly when ipv6_enable_gss_tsig is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_enable_gss_tsig. Set the parameter to "false" to inherit the grid-level setting for ipv6_enable_gss_tsig.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_enable_gss_tsig
+    my $override_ipv6_enable_gss_tsig=$memberdhcp->override_ipv6_enable_gss_tsig( );
+    #Modifying override_ipv6_enable_gss_tsig
+    $memberdhcp->override_ipv6_enable_gss_tsig("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_enable_retry_updates( )
+
+=over
+
+The override_ipv6_enable_retry_updates attribute controls whether the ipv6_enable_retry_updates value of the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_enable_retry_updates attribute can be specified explicitly. It is also set implicitly when ipv6_enable_retry_updates is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_enable_retry_updates. Set the parameter to "false" to inherit the grid-level setting for ipv6_enable_retry_updates.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_enable_retry_updates
+    my $override_ipv6_enable_retry_updates=$memberdhcp->override_ipv6_enable_retry_updates( );
+    #Modifying override_ipv6_enable_retry_updates
+    $memberdhcp->override_ipv6_enable_retry_updates("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_generate_hostname( )
+
+=over
+
+The override_ipv6_generate_hostname attribute controls whether the ipv6_generate_hostname value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_generate_hostname attribute can be specified explicitly. It is also set implicitly when ipv6_generate_hostname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_generate_hostname. Set the parameter to "false" to inherit the grid-level setting for ipv6_generate_hostname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_generate_hostname
+    my $override_ipv6_generate_hostname=$memberdhcp->override_ipv6_generate_hostname( );
+    #Modifying override_ipv6_generate_hostname
+    $memberdhcp->override_ipv6_generate_hostname("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_microsoft_code_page( )
+
+=over
+
+The override_ipv6_microsoft_code_page attribute controls whether the ipv6_microsoft_code_page value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_microsoft_code_page attribute can be specified explicitly. It is also set implicitly when ipv6_microsoft_code_page is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_microsoft_code_page. Set the parameter to "false" to inherit the grid-level setting for ipv6_microsoft_code_page.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_microsoft_code_page
+    my $override_ipv6_microsoft_code_page=$memberdhcp->override_ipv6_microsoft_code_page( );
+    #Modifying override_ipv6_microsoft_code_page
+    $memberdhcp->override_ipv6_microsoft_code_page("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_options( )
+
+=over
+
+The override_ipv6_options attribute controls whether the ipv6_options value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_options attribute can be specified explicitly. It is also set implicitly when ipv6_options is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_options. Set the parameter to "false" to inherit the grid-level setting for ipv6_options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_options
+    my $override_ipv6_options=$memberdhcp->override_ipv6_options( );
+    #Modifying override_ipv6_options
+    $memberdhcp->override_ipv6_options("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_recycle_leases( )
+
+=over
+
+The override_ipv6_recycle_leases attribute controls whether the ipv6_recycle_leases value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_recycle_leases attribute can be specified explicitly. It is also set implicitly when ipv6_recycle_leases is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_recycle_leases. Set the parameter to "false" to inherit the grid-level setting for ipv6_recycle_leases.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_recycle_leases
+    my $override_ipv6_recycle_leases=$memberdhcp->override_ipv6_recycle_leases( );
+    #Modifying override_ipv6_recycle_leases
+    $memberdhcp->override_ipv6_recycle_leases("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_update_dns_on_lease_renewal( )
+
+=over
+
+The override_ipv6_update_dns_on_lease_renewal attribute controls whether the ipv6_update_dns_on_lease_renewal value in the DHCP member is used, instead of the Grid default.
+
+The override_ipv6_update_dns_on_lease_renewal attribute can be specified explicitly. It is also set implicitly when ipv6_update_dns_on_lease_renewal is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ipv6_update_dns_on_lease_renewal. Set the parameter to "false" to inherit the grid-level setting for ipv6_update_dns_on_lease_renewal.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_update_dns_on_lease_renewal
+    my $override_ipv6_update_dns_on_lease_renewal=$memberdhcp->override_ipv6_update_dns_on_lease_renewal( );
+    #Modifying override_ipv6_update_dns_on_lease_renewal
+    $memberdhcp->override_ipv6_update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 override_lease_per_client_settings( )
+
+=over
+
+Use this method to set or retrieve the override_lease_per_client_settings flag.
+
+The override_lease_per_client_settings attribute can be specified explicitly. It is also set implicitly when lease_per_client_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for lease_per_client_settings. Set the parameter to "false" to inherit the grid-level setting for lease_per_client_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_lease_per_client_settings value
+ my $value = $object->override_lease_per_client_settings();
+
+ #Modify override_lease_per_client_settings value
+ $object->override_lease_per_client_settings("true");
+
+=back
+
+=back
+
+=head2 override_lease_scavenge_time( )
+
+=over
+
+The override_lease_scavenge_time attribute controls whether the lease_scavenge_time value in the member DHCP server is used, instead of the Grid default.
+
+The override_lease_scavenge_time attribute can be specified explicitly. It is also set implicitly when lease_scavenge_time is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for lease_scavenge_time. Set the parameter to "false" to inherit the grid-level setting for lease_scavenge_time.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_lease_scavenge_time
+    my $override_lease_scavenge_time=$memberdhcp->override_lease_scavenge_time( );
+    #Modifying override_lease_scavenge_time
+    $memberdhcp->override_lease_scavenge_time("true");
+
+=back
+
+=back
+
+=head2 override_log_lease_events( )
+
+=over
+
+The override_log_lease_events attribute controls whether the log_lease_events value in the member DHCP server is used, instead of the Grid default.
+
+The override_log_lease_events attribute can be specified explicitly. It is also set implicitly when log_lease_events is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for log_lease_events. Set the parameter to "false" to inherit the grid-level setting for log_lease_events.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_log_lease_events
+    my $override_log_lease_events=$memberdhcp->override_log_lease_events( );
+    #Modifying override_log_lease_events
+    $memberdhcp->override_log_lease_events("true");
+
+=back
+
+=back
+
+=head2 override_preferred_lifetime( )
+
+=over
+
+The override_preferred_lifetime attribute controls whether the preferred_lifetime value in the DHCP member is used, instead of the Grid default.
+
+The override_preferred_lifetime attribute can be specified explicitly. It is also set implicitly when preferred_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for preferred_lifetime. Set the parameter to "false" to inherit the grid-level setting for preferred_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_preferred_lifetime
+    my $override_preferred_lifetime=$memberdhcp->override_preferred_lifetime( );
+    #Modifying override_preferred_lifetime
+    $memberdhcp->override_preferred_lifetime("true");
+
+=back
+
+=back
+
+=head2 override_update_dns_on_lease_renewal( )
+
+=over
+
+The override_update_dns_on_lease_renewal attribute controls whether the update_dns_on_lease_renewal value in the member DHCP server is used, instead of the Grid default.
+
+The override_update_dns_on_lease_renewal attribute can be specified explicitly. It is also set implicitly when update_dns_on_lease_renewal is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for update_dns_on_lease_renewal. Set the parameter to "false" to inherit the grid-level setting for update_dns_on_lease_renewal.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_update_dns_on_lease_renewal
+    my $override_update_dns_on_lease_renewal=$memberdhcp->override_update_dns_on_lease_renewal( );
+    #Modifying override_update_dns_on_lease_renewal
+    $memberdhcp->override_update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 override_valid_lifetime( )
+
+=over
+
+The override_valid_lifetime attribute controls whether the valid_lifetime value in the Grid Member DHCP is used, instead of the upper-level default.
+
+The override_valid_lifetime attribute can be specified explicitly. It is also set implicitly when valid_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for valid_lifetime. Set the parameter to "false" to inherit the upper-level setting for valid_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_valid_lifetime
+    my $override_valid_lifetime=$memberdhcp->override_valid_lifetime( );
+    #Modifying override_valid_lifetime
+    $memberdhcp->override_valid_lifetime("true");
+
+=back
+
+=back
+
+=head2 ping_count( )
+
+=over
+
+Use this method to set or retrieve the ping_count value of a member DHCP server. This value specifies the number of pings that the Infoblox appliance sends to an IP address to verify that it is not in use.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Number of pings. Range is from 0 to 10, where 0 disables pings. The default value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ping_count
+ my $ping_count = $memberdhcp->ping_count();
+ #Modify ping_count
+ $memberdhcp->ping_count(4);
+
+=back
+
+=back
+
+=head2 ping_timeout( )
+
+=over
+
+Use this method to set or retrieve the ping_timeout value of a member DHCP server. This value indicates the number of seconds the appliance waits for a response to its ping.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Ping timeout value in seconds. Valid values are 0.1, 0.5, 1, 2, 3, 4 and 5 seconds. The default value is 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ping_timeout
+ my $ping_timeout = $memberdhcp->ping_timeout();
+ #Modify ping_timeout
+ $memberdhcp->ping_timeout(3);
+
+=back
+
+=back
+
+=head2 preferred_lifetime( )
+
+=over
+
+Use this method to set or retrieve preferred lifetime value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_preferred_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_preferred_lifetime attribute to "false".
+
+Note that when preferred_lifetime is set to a defined value and override_dpreferred_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->preferred_lifetime(12345); $object->override_preferred_lifetime("false"); will set override_preferred_lifetime to "false", and the sequence $object->override_preferred_lifetime("false"); $object->preferred_lifetime(12345); will result in override_preferred_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+Preferred lifetime value in seconds. The default value is 27000.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get preferred_lifetime
+ my $preferred_lifetime = $memberdhcp->preferred_lifetime();
+ #Modify preferred_lifetime
+ $memberdhcp->preferred_lifetime(12345);
+
+=back
+
+=back
+
+=head2 pxe_lease_time( )
+
+=over
+
+Use this method to set or retrieve the pxe_lease_time value of a member DHCP server. You can specify the duration of time it takes a host to connect to a boot server, such as a TFTP server, and download the file it needs to boot.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that specifies the lease time in seconds. Default value is 43200 seconds.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get pxe_lease_time
+ my $pxe_lease_time = $memberdhcp->pxe_lease_time();
+ #Modify pxe_lease_time
+ $memberdhcp->pxe_lease_time(200);
+
+=back
+
+=back
+
+=head2 recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the recycle_leases value of a member DHCP server. If you enable this check box, and then delete a DHCP range, the appliance stores active leases from this range up to one week after the leases expires.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set recycle_leases flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recycle_leases
+ my $recycle_leases = $memberdhcp->recycle_leases();
+ #Modify recycle_leases
+ $memberdhcp->recycle_leases("true");
+
+=back
+
+=back
+
+=head2 retry_ddns_updates( )
+
+=over
+
+Use this method to set or retrieve the retry_ddns_updates value of a member DHCP server. This value indicates whether the DHCP server makes repeated attempts to send DDNS updates to a DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the DHCP server to retry DDNS updates or "false" to disable this feature.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get retry_ddns_updates
+ my $retry_ddns_updates = $memberdhcp->retry_ddns_updates();
+ #Modify retry_ddns_updates
+ $memberdhcp->retry_ddns_updates("true");
+
+=back
+
+=back
+
+=head2 syslog_facility( )
+
+=over
+
+Use this method to set or retrieve the syslog_facility value of a member DHCP server. The syslog facility is the location on the syslog server to which you want to sort the syslog messages.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are: C<"daemon", "local0", "local1", "local2", "local3", "local4", "local5", "local6", "local7">.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get syslog_facility
+ my $syslog_facility = $memberdhcp->syslog_facility();
+ #Modify syslog_facility
+ $memberdhcp->syslog_facility("daemon");
+
+=back
+
+=back
+
+=head2 update_dns_on_lease_renewal( )
+
+=over
+
+The update_dns_on_lease_renewal attribute controls whether the DHCP server updates DNS when a DHCP lease is renewed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_update_dns_on_lease_renewal method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_update_dns_on_lease_renewal attribute to "false".
+
+Note that when update_dns_on_lease_renewal is set to a defined value and override_update_dns_on_lease_renewal is set to "false", the last operation takes precedence. Thus the sequence $object->update_dns_on_lease_renewal("true"); $object->override_update_dns_on_lease_renewal("false"); will set override_update_dns_on_lease_renewal to "false", and the sequence $object->override_update_dns_on_lease_renewal("false"); $object->update_dns_on_lease_renewal("true"); will result in override_update_dns_on_lease_renewal="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the update_dns_on_lease_renewal flag or "false" to deactivate/unset it.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get update_dns_on_lease_renewal
+    my $update_dns_on_lease_renewal=$memberdhcp->update_dns_on_lease_renewal( );
+    #Modify update_dns_on_lease_renewal
+    $memberdhcp->update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 valid_lifetime( )
+
+=over
+
+Use this method to set or retrieve the value of valid_lifetime for Grid Member DHCP.
+
+Setting this method to a defined value implicitly sets the override_valid_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_valid_lifetime attribute to "false".
+
+Note that when valid_lifetime is set to a defined value and override_valid_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->valid_lifetime(20000); $object->override_valid_lifetime("false"); will set override_valid_lifetime to "false", and the sequence $object->override_valid_lifetime("false"); $object->valid_lifetime(20000); will result in override_valid_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+Valid lifetime value in seconds. The default value is 43200.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get valid_lifetime
+ my $valid_lifetime = $memberdhcp->valid_lifetime();
+ #Modify valid_lifetime
+ $memberdhcp->valid_lifetime(12345);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates different operations that can be applied to a member DHCP object, such as get and modify an object. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to operations on a member DHCP object>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Get and modify the member DHCP property object.>
+
+ #Get the member DHCP object. Considering the id grid member named infoblox.localdomain was previously created.
+ my @object = $session->get(
+     object => "Infoblox::Grid::Member::DHCP",
+     name   => "infoblox.localdomain"
+     )
+     or die("get member DHCP failed: ",
+          $session->status_code(), $session->status_detail());
+
+ #Modify member DHCP object.
+ my $option1 = Infoblox::DHCP::Option->new(
+     name  => "lease-time",
+     value => 50
+ );
+
+ my $option2 = Infoblox::DHCP::Option->new(
+     name  => "domain-name",
+     value => "domainname.com",
+ );
+
+ unless (scalar(@object) == 0) {
+     my $object = $object[0];
+
+     if ($object) {
+         $object->enable_dhcp("true");
+         $object->authority("true");
+         $object->enable_ddns("true");
+         $object->ddns_update_fixed_addresses("true");
+         $object->ddns_use_option81("true");
+         $object->ddns_server_always_updates("true");
+         $object->ddns_generate_hostname("true");
+         $object->pxe_lease_time(1000);
+         $object->options([$option1, $option2]);
+         $object->microsoft_code_page("Cyrillic (ISO-5589-5)");
+
+         #Un-override bootfile
+         $object->bootfile(undef);
+
+         #Un-override bootserver
+         $object->bootserver(undef);
+
+         #Un-override nextserver
+         $object->nextserver(undef);
+
+         #Applying the changes
+         $session->modify($object)
+             or die("Modify member DHCP failed: ",
+                  $session->status_code(), $session->status_detail());
+
+     }
+ } else {
+     print "No grid member DHCP found.";
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member::DHCP|Infoblox::Grid::Member::DHCP>,L<Infoblox::DHCP::Option|Infoblox::DHCP::Option>,L<Infoblox::Grid::KerberosKey|Infoblox::Grid::KerberosKey>,L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::DHCP::Filter::MAC|Infoblox::DHCP::Filter::MAC>, L<Infoblox::DHCP::DDNS|Infoblox::DHCP::DDNS>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

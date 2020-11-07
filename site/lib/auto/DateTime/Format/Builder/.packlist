@@ -1,0 +1,16 @@
+/opt/perl/site/lib/DateTime/Format/Builder.pm
+/opt/perl/site/lib/DateTime/Format/Builder/Parser.pm
+/opt/perl/site/lib/DateTime/Format/Builder/Parser/Dispatch.pm
+/opt/perl/site/lib/DateTime/Format/Builder/Parser/Quick.pm
+/opt/perl/site/lib/DateTime/Format/Builder/Parser/Regex.pm
+/opt/perl/site/lib/DateTime/Format/Builder/Parser/Strptime.pm
+/opt/perl/site/lib/DateTime/Format/Builder/Parser/generic.pm
+/opt/perl/site/lib/DateTime/Format/Builder/Tutorial.pod
+/opt/perl/site/man/man3/DateTime::Format::Builder.3
+/opt/perl/site/man/man3/DateTime::Format::Builder::Parser.3
+/opt/perl/site/man/man3/DateTime::Format::Builder::Parser::Dispatch.3
+/opt/perl/site/man/man3/DateTime::Format::Builder::Parser::Quick.3
+/opt/perl/site/man/man3/DateTime::Format::Builder::Parser::Regex.3
+/opt/perl/site/man/man3/DateTime::Format::Builder::Parser::Strptime.3
+/opt/perl/site/man/man3/DateTime::Format::Builder::Parser::generic.3
+/opt/perl/site/man/man3/DateTime::Format::Builder::Tutorial.3

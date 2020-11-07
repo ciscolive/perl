@@ -1,0 +1,86 @@
+{
+   "abstract" : "Displays the elapsed time as a human readable string.",
+   "author" : [
+      "Burak Gursoy <burak@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.007, CPAN::Meta::Converter version 2.150010",
+   "keywords" : [
+      "time",
+      "elapsed",
+      "duration"
+   ],
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Time-Elapsed",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Pod::Coverage::TrustPod" : "0",
+            "Test::CPAN::Meta" : "0",
+            "Test::Pod" : "1.41",
+            "Test::Pod::Coverage" : "1.08"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : "0",
+            "Exporter" : "0",
+            "File::Spec" : "0",
+            "Symbol" : "0",
+            "base" : "0",
+            "constant" : "0",
+            "perl" : "5.010",
+            "strict" : "0",
+            "subs" : "0",
+            "utf8" : "0",
+            "vars" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "recommends" : {
+            "CPAN::Meta" : "2.120900"
+         },
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0",
+            "File::Spec" : "0",
+            "IO::Handle" : "0",
+            "IPC::Open3" : "0",
+            "Test::More" : "0",
+            "blib" : "1.01"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/burak/CPAN-Time-Elapsed/issues"
+      },
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/burak/CPAN-Time-Elapsed.git",
+         "web" : "https://github.com/burak/CPAN-Time-Elapsed"
+      }
+   },
+   "version" : "0.33",
+   "x_contributors" : [
+      "Burak Gursoy <burak@cpan.org>"
+   ],
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

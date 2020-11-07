@@ -1,0 +1,1196 @@
+=head1 NAME
+
+Infoblox::Grid::VDiscoveryTask - the vDiscovery task.
+
+=head1 DESCRIPTION
+
+The object provides information about the vDiscovery task.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::VDiscoveryTask->new(
+    'name'                               => $string,
+    'member'                             => $string,
+    'public_network_view_mapping_policy' => 'DIRECT' | 'AUTO_CREATE',
+    'private_network_view_mapping_policy'=> 'DIRECT' | 'AUTO_CREATE',
+    'driver_type'                        => 'AWS' | 'AZURE' | 'OPENSTACK' | 'VMWARE',
+    'fqdn_or_ip'                         => $string,
+    'protocol'                           => 'HTTP' | 'HTTPS',
+    'port'                               => $uint,
+    'username'                           => $string,
+    'password'                           => $string,
+    'update_metadata'                    => 'true' | 'false',
+    'merge_data'                         => 'true' | 'false',
+    'auto_consolidate_managed_tenant'    => 'true' | 'false',
+    'auto_consolidate_managed_vm'        => 'true' | 'false',
+    'auto_consolidate_cloud_ea '         => 'true' | 'false',
+    'auto_create_dns_record'             => 'true' | 'false',
+    'auto_create_dns_record_type'        => 'HOST_RECORD' | 'A_PTR_RECORD',
+    'auto_create_dns_hostname_template'  => $string,
+    'credentials_type'                   => 'DIRECT' | 'INDIRECT',
+    'allow_unsecured_connection'         => 'true' | 'false',
+    'update_dns_view_public_ip'          => 'true' | 'false',
+    'dns_view_public_ip'                 => $string,
+    'update_dns_view_private_ip'         => 'true' | 'false',
+    'dns_view_private_ip'                => $string,
+    'identity_version'                   => 'KEYSTONE_V2' | 'KEYSTONE_V3',
+    'domain_name'                        => $string,
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session that you can apply to a vDiscovery task object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $task = Infoblox::Grid::VDiscoveryTask->new(
+    name             => "taskname",
+    comment          => "descriptive comment",
+ );
+ # Submit for addition
+ my $response = $session->add( $task );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific grid object:
+
+  name                  - Optional. A name of the cloud discovery task in string format.
+  member                - Optional. A host name of the member the cloud discovery task is assigned toin string format.
+  fqdn_or_ip            - Optional. A FQDN or IP of the cloud management platform in string format.
+  protocol              - Optional. A connection protocol used for connecting to the cloud management platform in string format.
+  port                  - Optional. A connection port used for connecting to the cloud management platform in string format.
+  public_network_view   - Optional. A network view name for public IPs in string format.
+  private_network_view  - Optional. A network view name for private IPs in string format.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  comment               - Optional. A comment in string format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::VDiscoveryTask",
+     name   => "taskname",
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to submit an object for removal from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::VDiscoveryTask",
+     name   => "taskname",
+ );
+
+ # Find the desired object on the retrieved list.
+ my $desired_task = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_task );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a task object:
+
+  name                  - Optional. A name of the cloud discovery task in string format.
+  member                - Optional. A host name of the member the cloud discovery task is assigned toin string format.
+  fqdn_or_ip            - Optional. A FQDN or IP of the cloud management platform in string format.
+  protocol              - Optional. A connection protocol used for connecting to the cloud management platform in string format.
+  port                  - Optional. A connection port used for connecting to the cloud management platform in string format.
+  public_network_view   - Optional. A network view name for public IPs in string format.
+  private_network_view  - Optional. A network view name for private IPs in string format.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  comment               - Optional. A comment in string format.
+
+For more information about searching extensible attributes, see L<Infoblox::MasterGrid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::MasterGrid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all map objects objects that have "sub" in their name
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::VDiscoveryTask",
+     name   => "sub.*",
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the name
+ $task->comment("some other comment");
+ # Submit modification
+ my $response = $session->modify( $task );
+
+=back
+
+=back
+
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the discovered data object.
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the vDiscovery task.
+
+=over
+
+=item B<Parameter>
+
+The the name of the vDiscovery task in string format. The name uniquely identify a vDiscovery task.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->name();
+ # Modify attribute value
+ $object->name('name');
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve the host name of the member to which the vDiscovery task is assigned.
+
+=over
+
+=item B<Parameter>
+
+The host name of the member (in string format) to which the vDiscovery task is assigned.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->member();
+ # Modify attribute value
+ $object->member('member');
+
+=back
+
+=back
+
+=head2 scheduled_run( )
+
+=over
+
+Use this method to set or retrieve the schedule setting for the vDiscovery task.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->scheduled_run();
+ # Modify attribute value
+ $object->scheduled_run($schedule);
+
+=back
+
+=back
+
+=head2 state( )
+
+=over
+
+Use this method to retrieve the current state of the vDiscovery task. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Valid values are 'IDLE' (waiting), 'READY' (ready run), 'RUNNING' (the task is running), 'COMPLETE' (successfully completes discovery), 'COLLECTION_COMPLETE' (successfully completed collection), 'WARNING' (discovery completed with errors), 'ERROR' (fails to discover), 'CANCEL_PENDING' (cancelling equals pending). The default value is 'IDLE'.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->state();
+
+=back
+
+=back
+
+=head2 enabled( )
+
+=over
+
+Use this method to set or retrieve the flag used to control whether the vDiscovery task is running or not.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable port scanning or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->enabled();
+ # Modify attribute value
+ $object->enabled('true');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment of the task.
+
+=over
+
+=item B<Parameter>
+
+The comment of the task in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->comment();
+ # Modify attribute value
+ $object->comment('comment');
+
+=back
+
+=back
+
+=head2 public_network_view_mapping_policy( )
+
+=over
+
+Use this method to set or retrieve the mapping policy for the network view for public IPs in discovered data.
+
+=over
+
+=item B<Parameter>
+
+Map the policy using a specified network view ('DIRECT') or map the policy using the network view resolved from the tenant ID ('AUTO_CREATE').
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->public_network_view_mapping_policy();
+ # Modify attribute value
+ $object->public_network_view_mapping_policy('DIRECT');
+
+=back
+
+=back
+
+=head2 public_network_view( )
+
+=over
+
+Use this method to set or retrieve the name of the network view for public IPs.
+
+=over
+
+=item B<Parameter>
+
+The name of the network view for public IPs in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->public_network_view();
+ # Modify attribute value
+ $object->public_network_view('public_network_view');
+
+=back
+
+=back
+
+=head2 private_network_view_mapping_policy( )
+
+=over
+
+Use this method to set or retrieve the mapping policy for the network view for private IPs in discovered data.
+
+=over
+
+=item B<Parameter>
+
+Map the policy using a specified network view ('DIRECT') or map the policy using the network view resolved from the tenant ID ('AUTO_CREATE').
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->private_network_view_mapping_policy();
+ # Modify attribute value
+ $object->private_network_view_mapping_policy('DIRECT');
+
+=back
+
+=back
+
+=head2 private_network_view( )
+
+=over
+
+Use this method to set or retrieve the name of the network view for private IPs.
+
+=over
+
+=item B<Parameter>
+
+The name of the network view for private IPs in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->private_network_view();
+ # Modify attribute value
+ $object->private_network_view('private_network_view');
+
+=back
+
+=back
+
+=head2 driver_type( )
+
+=over
+
+Use this method to set or retrieve the type of discovery driver that applies to the vDiscovery task.
+
+=over
+
+=item B<Parameter>
+
+The type of discovery driver that applies to the vDiscovery task in string format. Valid value is 'AWS' (Amazon Web Service), 'AZURE'(Microsoft Azure), OPENSTACK' (OpenStack) or 'VMWARE' (VMWare).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->driver_type();
+ # Modify attribute value
+ $object->driver_type('VMWARE');
+
+=back
+
+=back
+
+=head2 fqdn_or_ip( )
+
+=over
+
+Use this method to set or retrieve the FQDN or IP of the Cloud Management Platform.
+
+=over
+
+=item B<Parameter>
+
+The FQDN or IP of the Cloud Management Platform in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->fqdn_or_ip();
+ # Modify attribute value
+ $object->fqdn_or_ip('fqdn_or_ip');
+
+=back
+
+=back
+
+=head2 protocol( )
+
+=over
+
+Use this method to set or retrieve the connection protocol used for connecting to the Cloud Management Platform.
+
+=over
+
+=item B<Parameter>
+
+The connection protocol used for connecting to the Cloud Management Platform in string format. Valid value is 'HTTP' or 'HTTPS'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->protocol();
+ # Modify attribute value
+ $object->protocol('HTTP');
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the connection port used for connecting to the Cloud Management Platform.
+
+=over
+
+=item B<Parameter>
+
+The connection port used for connecting to the Cloud Management Platform in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port();
+ # Modify attribute value
+ $object->port('port');
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to set or retrieve the username used for connecting to the Cloud Management Platform. This attribute is mandatory if credentials_type is "DIRECT".
+
+=over
+
+=item B<Parameter>
+
+The username used for connecting to the Cloud Management Platform in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->username();
+ # Modify attribute value
+ $object->username('username');
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the password used for connecting to the Cloud Management Platform. This is a write-only attribute. This attribute is mandatory if credentials_type is "DIRECT".
+
+=over
+
+=item B<Parameter>
+
+The password used for connecting to the Cloud Management Platform in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ # Modify attribute value
+ $object->password('password');
+
+=back
+
+=back
+
+=head2 state_msg( )
+
+=over
+
+Use this method to retrieve the state message of the complete discovery process. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->state_msg();
+
+=back
+
+=back
+
+=head2 last_run_time( )
+
+=over
+
+Use this method to set or retrieve the timestamp of the last vDiscovery task.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->last_run_time();
+
+=back
+
+=back
+
+=head2 update_metadata( )
+
+=over
+
+Use this method to control whether to update the metadata as a result of the vDiscovery or not.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to update the metadata as a result of the vDiscovery or "false" to not update it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->update_metadata();
+ # Modify attribute value
+ $object->update_metadata('true');
+
+=back
+
+=back
+
+=head2 merge_data( )
+
+=over
+
+Use this method to control whether to replace the old data with the new one or not.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to replace the old data with the new one or "false" to not replace it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->merge_data();
+ # Modify attribute value
+ $object->merge_data('true');
+
+=back
+
+=back
+
+=head2 auto_consolidate_managed_tenant( )
+
+=over
+
+Use this method to control whether to replace managed tenant with discovered tenant data.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to replace managed tenant with discovered tenant data or "false" to not replace it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->auto_consolidate_managed_tenant();
+ # Modify attribute value
+ $object->auto_consolidate_managed_tenant('true');
+
+=back
+
+=back
+
+=head2 auto_consolidate_managed_vm( )
+
+=over
+
+Use this method to control whether to replace managed virtual machine with discovered virtual machine data.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to replace managed virtual machine with discovered virtual machine data or "false" to not replace it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->auto_consolidate_managed_vm();
+ # Modify attribute value
+ $object->auto_consolidate_managed_vm('true');
+
+=back
+
+=back
+
+=head2 auto_consolidate_cloud_ea( )
+
+=over
+
+Use this method to control whether to insert or update cloud EAs with discovered data.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to insert or update cloud EAs with discovered data or "false" to not do it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->auto_consolidate_cloud_ea();
+ # Modify attribute value
+ $object->auto_consolidate_cloud_ea('true');
+
+=back
+
+=back
+
+=head2 auto_create_dns_record( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the automatic creation and update of DNS records using discovered data is enabled or disabled.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable automatic creation and update of DNS records with discovered data or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->auto_create_dns_record();
+ # Modify attribute value
+ $object->auto_create_dns_record('false');
+
+=back
+
+=back
+
+=head2 auto_create_dns_record_type( )
+
+=over
+
+Use this method to set or retrieve the type of record to create if the auto-creation of DNS records is enabled.
+
+=over
+
+=item B<Parameter>
+
+The type of record to create if the auto-creation of DNS records is enabled. Valid values are 'HOST_RECORD' (host record) or 'A_PTR_RECORD' (A (AAAA) record and ptr record combination). Default is 'HOST_RECORD'.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->auto_create_dns_record_type();
+ # Modify attribute value
+ $object->auto_create_dns_record_type('HOST_RECORD');
+
+=back
+
+=back
+
+=head2 auto_create_dns_hostname_template( )
+
+=over
+
+Use this method to set or retrieve the template string used to generate host names.
+
+=over
+
+=item B<Parameter>
+
+Template string used to generate host names.
+
+Note that using double quotes may lead to interpolation of variables. Instead, use single quotes or encapsulated '$' characters.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->auto_create_dns_hostname_template();
+ # Modify attribute value
+ $object->auto_create_dns_hostname_template('${vm_name}.test.com');
+
+=back
+
+=back
+
+=head2 vdiscovery_control( )
+
+=over
+
+Use this method to start a task or to cancel a task.
+
+=over
+
+=item B<Parameter>
+
+action      - Action being requested in string format. Support starting ('START') an IDLE vDiscovery task or cancelling ('CANCEL') a RUNNING vDiscovery task. Valid value is 'START' or 'CANCEL'.
+
+=item B<Returns>
+
+The method returns "true" if the action has been performed successfully , and returns "false" when the actions fails.
+
+=item B<Example>
+
+ my $res = $cdiscovery->vdiscovery_control('action' => 'START');
+
+=back
+
+=back
+
+=head2 credentials_type( )
+
+=over
+
+Use this method to set or retrieve the type of credentials used for connecting to the Cloud Management Platform.
+
+=over
+
+=item B<Parameter>
+
+The credentials type used for connecting to the Cloud Management Platform in string format. Valid values are 'DIRECT' or 'INDIRECT'. Default is 'DIRECT'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->credentials_type();
+ # Modify attribute value
+ $object->credentials_type('INDIRECT');
+
+=back
+
+=back
+
+=head2 allow_unsecured_connection( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the remote SSL certificate is validated or not. If set to 'true', the certificate will not be validated.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable the validation of the remote SSL certificate or 'false' to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->allow_unsecured_connection();
+ # Modify attribute value
+ $object->allow_unsecured_connection('false');
+
+=back
+
+=back
+
+=head2 update_dns_view_public_ip( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the appliance should use a specific DNS view for public IPs.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to use a specific DNS view for public IPs or 'false' to not use.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->update_dns_view_public_ip();
+ # Modify attribute value
+ $object->update_dns_view_public_ip('false');
+
+=back
+
+=back
+
+=head2 dns_view_public_ip( )
+
+=over
+
+The DNS view name for public IPs. If you configure this option, you must also set update_dns_view_public_ip to true. Otherwise, set update_dns_view_public_ip to false.
+
+=over
+
+=item B<Parameter>
+
+The valid value is DNS view name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->dns_view_public_ip();
+ # Modify attribute value
+ $object->dns_view_public_ip('public_dns_view');
+
+=back
+
+=back
+
+=head2 update_dns_view_private_ip( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the appliance should use a specific DNS view for private IPs.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to use a specific DNS view for private IPs or 'false' to not use.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->update_dns_view_private_ip();
+ # Modify attribute value
+ $object->update_dns_view_private_ip('false');
+
+=back
+
+=back
+
+=head2 dns_view_private_ip( )
+
+=over
+
+The DNS view name for private IPs. If you configure this option, you must also set update_dns_view_private_ip to true. Otherwise, set update_dns_view_private_ip to false.
+
+=over
+
+=item B<Parameter>
+
+The valid value is DNS view name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->dns_view_private_ip();
+ # Modify attribute value
+ $object->dns_view_private_ip('private_dns_view');
+
+=back
+
+=back
+
+=head2 identity_version( )
+
+=over
+
+Use this method to set or retrieve the OpenStack identity service version.
+
+=over
+
+=item B<Parameter>
+
+The OpenStack identity service version in string format. Valid value is 'KEYSTONE_V2', 'KEYSTONE_V3'. Default value is 'KEYSTONE_V2'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->identity_version();
+ # Modify attribute value
+ $object->identity_version('KEYSTONE_V3');
+
+=back
+
+=back
+
+=head2 domain_name( )
+
+=over
+
+Use this method to set or retrieve the name of the domain to use with Keystone v3.
+
+=over
+
+=item B<Parameter>
+
+The name of the domain to use with Keystone v3. Must be set if 'identity_version' set to 'KEYSTONE_V3'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->domain_name();
+ # Modify attribute value
+ $object->domain_name('Default');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::IPAM::DiscoveryTask::VServer|Infoblox::IPAM::DiscoveryTask::VServer>,L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>,L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>,L<Infoblox::IPAM::TCPPort|Infoblox::IPAM::TCPPort>,L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

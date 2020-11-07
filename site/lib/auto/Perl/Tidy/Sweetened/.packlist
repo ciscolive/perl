@@ -1,0 +1,14 @@
+/opt/perl/site/bin/perltidier
+/opt/perl/site/bin/perltidy-sweet
+/opt/perl/site/lib/Perl/Tidy/Sweet.pm
+/opt/perl/site/lib/Perl/Tidy/Sweetened.pm
+/opt/perl/site/lib/Perl/Tidy/Sweetened/Keyword/Block.pm
+/opt/perl/site/lib/Perl/Tidy/Sweetened/Pluggable.pm
+/opt/perl/site/lib/Perl/Tidy/Sweetened/Variable/Twigils.pm
+/opt/perl/site/man/man1/perltidier.1
+/opt/perl/site/man/man1/perltidy-sweet.1
+/opt/perl/site/man/man3/Perl::Tidy::Sweet.3
+/opt/perl/site/man/man3/Perl::Tidy::Sweetened.3
+/opt/perl/site/man/man3/Perl::Tidy::Sweetened::Keyword::Block.3
+/opt/perl/site/man/man3/Perl::Tidy::Sweetened::Pluggable.3
+/opt/perl/site/man/man3/Perl::Tidy::Sweetened::Variable::Twigils.3

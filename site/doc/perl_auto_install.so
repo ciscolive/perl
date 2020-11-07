@@ -1,0 +1,262 @@
+│   │   └── ./Algorithm/Combinatorics/Combinatorics.so
+│   │   ├── ./Alien/libtermkey/libtermkey.so
+│       ├── ./Alien/unibilium/libunibilium.so
+│   │   └── ./Array/RefElem/RefElem.so
+│       └── ./Authen/TacacsPlus/TacacsPlus.so
+│   ├── ./autobox/autobox.so
+│   └── ./autovivification/autovivification.so
+│   │   └── ./B/COW/COW.so
+│   │   │   │   └── ./B/Hooks/OP/Check/Check.so
+│   │   │       └── ./B/Hooks/OP/PPAddr/PPAddr.so
+│   │       └── ./B/Hooks/Parser/Parser.so
+│       └── ./B/Utils/Utils.so
+│       └── ./bareword/filehandles/filehandles.so
+│       └── ./Bit/Vector/Vector.so
+│       ├── ./BSD/Resource/Resource.so
+│       └── ./BSON/XS/XS.so
+│       └── ./Cache/FastMmap/FastMmap.so
+│   │       └── ./Class/Load/XS/XS.so
+│   │   ├── ./Class/MethodMaker/MethodMaker.so
+│       └── ./Class/XSAccessor/XSAccessor.so
+│   ├── ./Clone/Clone.so
+│   │   └── ./Compress/Bzip2/Bzip2.so
+│       │   └── ./Compress/Raw/Bzip2/Bzip2.so
+│           └── ./Compress/Raw/Zlib/Zlib.so
+│   │   └── ./Coro/EV/EV.so
+│       └── ./Coro/State/State.so
+│           └── ./Cpanel/JSON/XS/XS.so
+│   │   └── ./Crypt/Eksblowfish/Eksblowfish.so
+│   │       └── ./Crypt/NaCl/Sodium/Sodium.so
+│   │   │   └── ./Crypt/OpenSSL/PKCS12/PKCS12.so
+│   │   │   └── ./Crypt/OpenSSL/Random/Random.so
+│   │   │   └── ./Crypt/OpenSSL/RSA/RSA.so
+│   │   │   └── ./Crypt/OpenSSL/Verify/Verify.so
+│   │       └── ./Crypt/OpenSSL/X509/X509.so
+│   │       └── ./Crypt/RC4/XS/XS.so
+│   │   └── ./Crypt/Rijndael/Rijndael.so
+│   │   └── ./Crypt/Spritz/Spritz.so
+│   │   └── ./Crypt/SSLeay/SSLeay.so
+│   └── ./CryptX/CryptX.so
+│   │       └── ./Data/Dump/Streamer/Streamer.so
+│   │   └── ./Data/MessagePack/MessagePack.so
+│   │   └── ./Data/Peek/Peek.so
+│   │   └── ./Data/Util/Util.so
+│   │   └── ./Data/UUID/UUID.so
+│   ├── ./DateTime/DateTime.so
+│   │   └── ./DBD/MariaDB/MariaDB.so
+│   │   └── ./DBD/mysql/mysql.so
+│   │   └── ./DBD/ODBC/ODBC.so
+│   │   └── ./DBD/Pg/Pg.so
+│       └── ./DBD/SQLite/SQLite.so
+│   └── ./DB_File/DB_File.so
+│   ├── ./DBI/DBI.so
+│   │   └── ./Devel/CallChecker/CallChecker.so
+│   │   └── ./Devel/Caller/Caller.so
+│   │   └── ./Devel/CallParser/CallParser.so
+│   │   └── ./Devel/Cover/Cover.so
+│   │   └── ./Devel/Declare/Declare.so
+│   │   └── ./Devel/LexAlias/LexAlias.so
+│   │   └── ./Devel/NYTProf/NYTProf.so
+│   │   └── ./Devel/PPPort/PPPort.so
+│   │   └── ./Devel/Size/Size.so
+│       └── ./Device/SerialPort/SerialPort.so
+│   │   └── ./Digest/JHash/JHash.so
+│   │   └── ./Digest/MD5/MD5.so
+│       └── ./Digest/SHA1/SHA1.so
+│       └── ./DNS/Unbound/Unbound.so
+│   │       └── ./Email/Address/XS/XS.so
+│   │   └── ./Encode/Byte/Byte.so
+│   │   └── ./Encode/CN/CN.so
+│   │   └── ./Encode/EBCDIC/EBCDIC.so
+│   ├── ./Encode/Encode.so
+│   │   └── ./Encode/JP/JP.so
+│   │   └── ./Encode/KR/KR.so
+│   │   └── ./Encode/Symbol/Symbol.so
+│   │   └── ./Encode/TW/TW.so
+│       └── ./Encode/Unicode/Unicode.so
+│   └── ./EV/EV.so
+│   │   └── ./File/Map/Map.so
+│   │   │   └── ./Filter/Crypto/CryptFile/CryptFile.so
+│   │       └── ./Filter/Crypto/Decrypt/Decrypt.so
+│   │   └── ./Filter/decrypt/decrypt.so
+│   │   └── ./Filter/tee/tee.so
+│       │   └── ./Filter/Util/Call/Call.so
+│           └── ./Filter/Util/Exec/Exec.so
+│       └── ./Function/Parameters/Parameters.so
+│   │   └── ./Future/AsyncAwait/AsyncAwait.so
+│   └── ./GD/GD.so
+│   └── ./Guard/Guard.so
+│   │   └── ./Hash/SharedMem/SharedMem.so
+│   │   └── ./HTML/Parser/Parser.so
+│   │       └── ./HTTP/Parser/XS/XS.so
+│   │   └── ./Imager/CountColor/CountColor.so
+│   │   │   └── ./Imager/File/ICO/ICO.so
+│   │   │   └── ./Imager/File/JPEG/JPEG.so
+│   │   │   └── ./Imager/File/PNG/PNG.so
+│   │       └── ./Imager/File/SGI/SGI.so
+│   │   │   └── ./Imager/Filter/DynTest/DynTest.so
+│   │   │   └── ./Imager/Filter/Flines/Flines.so
+│   │       └── ./Imager/Filter/Mandelbrot/Mandelbrot.so
+│   │       └── ./Imager/Font/FT2/FT2.so
+│   └── ./Imager/Imager.so
+│   └── ./indirect/indirect.so
+│       └── ./IO/Tty/Tty.so
+│       └── ./IP/World/World.so
+│   │   └── ./IPC/ShareLite/ShareLite.so
+│       └── ./IPC/SysV/SysV.so
+│           └── ./JavaScript/Minifier/XS/XS.so
+│       └── ./JSON/XS/XS.so
+│       └── ./Keyword/Simple/Simple.so
+│   │       └── ./List/BinarySearch/XS/XS.so
+│   │       └── ./List/MoreUtils/XS/XS.so
+│   │       └── ./List/SomeUtils/XS/XS.so
+│   │       └── ./Log/Syslog/Fast/Fast.so
+│       └── ./Marpa/R2/R2.so
+│   │   └── ./Math/Int128/Int128.so
+│   │   └── ./Math/Int64/Int64.so
+│   │   │       └── ./Math/Random/ISAAC/XS/XS.so
+│   │   └── ./MIME/Base64/Base64.so
+│   └── ./Moose/Moose.so
+│   │       └── ./MooseX/Role/WithOverloading/WithOverloading.so
+│   └── ./Mouse/Mouse.so
+│   └── ./multidimensional/multidimensional.so
+│   │   ├── ./Net/Curl/Curl.so
+│   │   └── ./Net/DBus/DBus.so
+│   │   │   └── ./Net/DNS/Native/Native.so
+│   │   │   └── ./Net/DNS/SEC/SEC.so
+│   │       ├── ./Net/DNS/ToolKit/ToolKit.so
+│   │       └── ./Net/IDN/Punycode/Punycode.so
+│   │   │   └── ./Net/IP/LPM/LPM.so
+│   │   │       └── ./Net/IP/Match/Trie/Trie.so
+│   │   │   └── ./Net/IP/Util/Util.so
+│   │       └── ./Net/IP/XS/XS.so
+│   │       └── ./Net/Prometheus/PerlCollector/PerlCollector.so
+│   │   └── ./Net/SSH2/SSH2.so
+│   │   ├── ./Net/SSLeay/SSLeay.so
+│   │   │   └── ./NetAddr/IP/Util/Util.so
+│   │   ├── ./NetSNMP/agent/agent.so
+│   │       └── ./NetSNMP/agent/default_store/default_store.so
+│   │   ├── ./NetSNMP/ASN/ASN.so
+│   │   └── ./NetSNMP/default_store/default_store.so
+│   │   └── ./NetSNMP/OID/OID.so
+│       └── ./NetSNMP/TrapReceiver/TrapReceiver.so
+│   │       └── ./Package/Stash/XS/XS.so
+│   └── ./PadWalker/PadWalker.so
+│   │   └── ./Params/Classify/Classify.so
+│   │   └── ./Params/Util/Util.so
+│   │       └── ./Params/Validate/XS/XS.so
+│   │   └── ./Parse/Keyword/Keyword.so
+│   │   └── ./PDL/Bad/Bad.so
+│   │   └── ./PDL/CallExt/CallExt.so
+│   │   └── ./PDL/Complex/Complex.so
+│   │   └── ./PDL/Compression/Compression.so
+│   │   └── ./PDL/Core/Core.so
+│   │   └── ./PDL/FFT/FFT.so
+│   │       └── ./PDL/Fit/Gaussian/Gaussian.so
+│   │       └── ./PDL/Graphics/IIS/IIS.so
+│   │   └── ./PDL/Image2D/Image2D.so
+│   │   └── ./PDL/ImageND/ImageND.so
+│   │   └── ./PDL/ImageRGB/ImageRGB.so
+│   │   │   └── ./PDL/IO/GD/GD.so
+│   │   │   └── ./PDL/IO/Misc/Misc.so
+│   │   │   └── ./PDL/IO/Pnm/Pnm.so
+│   │       └── ./PDL/IO/Storable/Storable.so
+│   │   └── ./PDL/Math/Math.so
+│   │   └── ./PDL/MatrixOps/MatrixOps.so
+│   │   └── ./PDL/Ops/Ops.so
+│   │   └── ./PDL/Primitive/Primitive.so
+│   │   └── ./PDL/Slices/Slices.so
+│   │   └── ./PDL/Transform/Transform.so
+│       └── ./PDL/Ufunc/Ufunc.so
+├── ./perl_auto_install.so
+│   │   └── ./PerlIO/gzip/gzip.so
+│   │   └── ./PerlIO/Layers/Layers.so
+│   │   └── ./PerlIO/utf8_strict/utf8_strict.so
+│   │   └── ./Proc/FastSpawn/FastSpawn.so
+│   │   └── ./Proc/ProcessTable/ProcessTable.so
+│       └── ./Promise/XS/XS.so
+│           └── ./Ref/Util/XS/XS.so
+│       └── ./Regexp/Util/Util.so
+│   └── ./RRDs/RRDs.so
+│       └── ./Scalar/String/String.so
+│   │   └── ./Sereal/Decoder/Decoder.so
+│       └── ./Sereal/Encoder/Encoder.so
+│       └── ./Session/Token/Token.so
+│   │   └── ./Set/Object/Object.so
+│   │   │   │   ├── ./share/dist/Alien-Sodium/dynamic/libsodium.so
+│   └── ./signatures/signatures.so
+│   └── ./SNMP/SNMP.so
+│   └── ./Socket/Socket.so
+│   └── ./Socket6/Socket6.so
+│   │       └── ./String/Compare/ConstantTime/ConstantTime.so
+│   │   └── ./String/CRC32/CRC32.so
+│   │   └── ./Sub/Attribute/Attribute.so
+│   │   └── ./Sub/Identify/Identify.so
+│   │   └── ./Sub/Name/Name.so
+│       │   └── ./Syntax/Keyword/Dynamically/Dynamically.so
+│           └── ./Syntax/Keyword/Try/Try.so
+│   │   └── ./Sys/CpuAffinity/CpuAffinity.so
+│   │   └── ./Sys/CpuLoad/CpuLoad.so
+│   │   └── ./Sys/CpuLoadX/CpuLoadX.so
+│   └── ./Tcl/Tcl.so
+│   │       └── ./Template/Stash/XS/XS.so
+│   │   └── ./Term/ReadKey/ReadKey.so
+│   │       ├── ./Term/ReadLine/Gnu/Gnu.so
+│   │   └── ./Term/Size/Size.so
+│   │   └── ./Test/LeakTrace/LeakTrace.so
+│   │   └── ./Test/Taint/Taint.so
+│   │   └── ./Text/CSV_XS/CSV_XS.so
+│   │   └── ./Text/Soundex/Soundex.so
+│       └── ./Text/Xslate/Xslate.so
+│   │   └── ./Time/Moment/Moment.so
+│   │   └── ./Time/timegm/timegm.so
+│       └── ./Time/Warp/Warp.so
+│   │   └── ./Tk/Canvas/Canvas.so
+│   │   └── ./Tk/Compound/Compound.so
+│   │   └── ./Tk/Entry/Entry.so
+│   │   └── ./Tk/Event/Event.so
+│   │   └── ./Tk/HList/HList.so
+│   │   └── ./Tk/InputO/InputO.so
+│   │   └── ./Tk/IO/IO.so
+│   │   └── ./Tk/JPEG/JPEG.so
+│   │   ├── ./Tk/Listbox/Listbox.so
+│   │   └── ./Tk/Menubutton/Menubutton.so
+│   │   └── ./Tk/Mwm/Mwm.so
+│   │   └── ./Tk/NBFrame/NBFrame.so
+│   │   └── ./Tk/Pixmap/Pixmap.so
+│   │   └── ./Tk/PNG/PNG.so
+│   │   └── ./Tk/Scale/Scale.so
+│   │   ├── ./Tk/Scrollbar/Scrollbar.so
+│   │   └── ./Tk/Text/Text.so
+│   │   └── ./Tk/TixGrid/TixGrid.so
+│   ├── ./Tk/Tk.so
+│   │   └── ./Tk/TList/TList.so
+│   │   └── ./Tk/WinPhoto/WinPhoto.so
+│   │   └── ./Tk/X/X.so
+│       └── ./Tk/Xlib/Xlib.so
+│   │   └── ./Tree/Node/Node.so
+│           └── ./Type/Tiny/XS/XS.so
+│   │   └── ./Unicode/Collate/Collate.so
+│   │   └── ./Unicode/LineBreak/LineBreak.so
+│   │   └── ./Unicode/String/String.so
+│       └── ./Unicode/UTF8/UTF8.so
+│       └── ./Unix/Processors/Processors.so
+│   │       └── ./URI/Escape/XS/XS.so
+│           └── ./URL/Encode/XS/XS.so
+│   └── ./UUID/UUID.so
+│       └── ./Variable/Magic/Magic.so
+│       └── ./version/vxs/vxs.so
+│   └── ./Want/Want.so
+│   │   └── ./XML/Bare/Bare.so
+│   │   ├── ./XML/LibXML/LibXML.so
+│   │   │   └── ./XML/Parser/Expat/Expat.so
+│   │   └── ./xs/CpuLoad/CpuLoad.so
+│   │   └── ./xs/foo/foo.so
+│   │   └── ./xs/fortytwo/fortytwo.so
+│   │   └── ./xs/linux-sched_getaffinity/linux-sched_getaffinity.so
+│       └── ./xs/linux-sched_setaffinity/linux-sched_setaffinity.so
+│           └── ./XS/Parse/Sublike/Sublike.so
+│   └── ./XString/XString.so
+    │           └── ./YAML/LibYAML/API/XS/XS.so
+    │   └── ./YAML/Syck/Syck.so
+            └── ./YAML/XS/LibYAML/LibYAML.so

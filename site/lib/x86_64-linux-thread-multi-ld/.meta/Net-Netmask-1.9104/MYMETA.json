@@ -1,0 +1,89 @@
+{
+   "abstract" : "Understand and manipulate IP netmasks",
+   "author" : [
+      "Joelle Maslak <jmaslak@antelope.net>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.010, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Net-Netmask",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::UseAllModules" : "0.17"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::More" : "0",
+            "Test::Perl::Critic" : "0",
+            "Test::Pod" : "1.41",
+            "Test::TrailingSpace" : "0.0203",
+            "Test::Version" : "1"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "AnyEvent" : "7.14"
+         },
+         "requires" : {
+            "Carp" : "0",
+            "Exporter" : "0",
+            "Math::BigInt" : "1.999811",
+            "POSIX" : "0",
+            "overload" : "0",
+            "perl" : "5.006001",
+            "strict" : "0",
+            "vars" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Benchmark" : "0",
+            "Test2::V0" : "0.000111",
+            "Test::UseAllModules" : "0.17",
+            "utf8" : "0"
+         }
+      }
+   },
+   "provides" : {
+      "Net::Netmask" : {
+         "file" : "lib/Net/Netmask.pm",
+         "version" : "1.9104"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/jmaslak/Net-Netmask/issues"
+      },
+      "homepage" : "http://search.cpan.org/~jmaslak/Net-Netmask/",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/jmaslak/Net-Netmask.git",
+         "web" : "https://github.com/jmaslak/Net-Netmask"
+      }
+   },
+   "version" : "1.9104",
+   "x_contributors" : [
+      "Joelle Maslak <jmaslak@antelope.net>",
+      "David Muir Sharnoff <cpan@dave.sharnoff.org>",
+      "Adam Herzog <adam@adamherzog.com>",
+      "Ben Kolera <ben.kolera@gmail.com>",
+      "David Steinbrunner <dsteinbrunner@pobox.com>",
+      "bay-max1 <34803732+bay-max1@users.noreply.github.com>"
+   ],
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

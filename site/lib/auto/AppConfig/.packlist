@@ -1,0 +1,14 @@
+/opt/perl/site/lib/AppConfig.pm
+/opt/perl/site/lib/AppConfig/Args.pm
+/opt/perl/site/lib/AppConfig/CGI.pm
+/opt/perl/site/lib/AppConfig/File.pm
+/opt/perl/site/lib/AppConfig/Getopt.pm
+/opt/perl/site/lib/AppConfig/State.pm
+/opt/perl/site/lib/AppConfig/Sys.pm
+/opt/perl/site/man/man3/AppConfig.3
+/opt/perl/site/man/man3/AppConfig::Args.3
+/opt/perl/site/man/man3/AppConfig::CGI.3
+/opt/perl/site/man/man3/AppConfig::File.3
+/opt/perl/site/man/man3/AppConfig::Getopt.3
+/opt/perl/site/man/man3/AppConfig::State.3
+/opt/perl/site/man/man3/AppConfig::Sys.3

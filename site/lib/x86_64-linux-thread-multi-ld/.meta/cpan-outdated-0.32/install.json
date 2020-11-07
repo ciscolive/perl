@@ -1,0 +1,1 @@
+{"version":"0.32","provides":{"App::cpanoutdated":{"version":"0.32","file":"lib/App/cpanoutdated.pm"}},"target":"App::cpanoutdated","name":"cpan::outdated","dist":"cpan-outdated-0.32","pathname":"D/DO/DOLMEN/cpan-outdated-0.32.tar.gz"}

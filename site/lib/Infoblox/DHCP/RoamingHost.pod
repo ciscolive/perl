@@ -1,0 +1,2400 @@
+=head1 NAME
+
+Infoblox::DHCP::RoamingHost - DHCP Roaming Host object.
+
+=head1 DESCRIPTION
+
+A Roaming Host is a specific host that a DHCP server always assigns when a lease request comes from a particular MAC address of the client.
+
+=head1 CONSTRUCTOR
+
+ my $roaming_host = Infoblox::DHCP::RoamingHost -> new(
+       name                            => $string,                     #Required
+       address_type                    => "ipv4" | "ipv6" | "both",    #Optional / Default is "ipv4"
+       bootfile                        => $filename,                   #Optional / Default is empty
+       bootserver                      => $ipv4addr,                   #Optional / Default is empty
+       client_identifier_prepend_zero  => "true" | "false",            #Optional / Default is "false"
+       comment                         => $string,                     #Optional / Default is empty
+       ddns_domainname                 => $string,                     #Optional / Default is empty
+       ddns_hostname                   => $string,                     #Optional / Default is empty
+       deny_bootp                      => "true" | "false",            #Optional / Default is "false"
+       dhcp_client_identifier          => $string,                     #Optional / Default is empty
+       disable                         => "true" | "false",            #Optional / Default is "false"
+       enable_ddns                     => "true" | "false",            #Optional / Default is "false"
+       extattrs                        => { $string => $extattr, ... },      #Optional / Default is undefined
+       extensible_attributes           => { $string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+       force_roaming_hostname          => "true" | "false",            #Optional / Default is "false"
+       ignore_dhcp_option_list_request => "true" | "false" | undef,    #Optional / Default is "false"
+       ipv6_ddns_domainname            => $string,                     #Optional / Default is undefined
+       ipv6_ddns_hostname              => $string,                     #Optional / Default is empty
+       ipv6_domain_name_servers        => $string,                     #Optional / Default is undefined
+       ipv6_domain_name                => $string,                     #Optional / Default is undefined
+       ipv6_duid                       => $duid,                       #Optional / Default is undefined
+       ipv6_enable_ddns                => "true" | "false" | undef,    #Optional / Default is undefined
+       ipv6_force_roaming_hostname     => "true" | "false",            #Optional / Default is "false"
+       ipv6_match_option               => "duid" | undef,              #Optional / Default is undefined
+       ipv6_options                    => [$option1, $option2,...],    #Optional / Default is undefined
+       ipv6_template                   => $string,                     #Optional / Default is undefined
+       last_discovered                 => $string,                     #Optional / Default is empty
+       mac                             => $mac_addr,                   #Optional / Default is empty
+       match_client                    => "MAC" | "CLIENT_IDENTIFIER", #Optional / Default is "MAC"
+       network_view                    => $NetworkView,                #Optional / Default is "default" network view
+       nextserver                      => $ipv4addr,                   #Optional / Default is empty
+       options                         => [$option1, $option2, ...],   #Optional / Default is undefined
+       override_ddns_domainname        => "true" | "false",            #Optional / Default value is "false"
+       override_ipv6_ddns_domainname   => "true" | "false",            #Optional / Default is "false"
+       override_ipv6_domain_name_servers => "true" | "false",          #Optional / Default is "false"
+       override_ipv6_domain_name       => "true" | "false",            #Optional / Default is "false"
+       override_ipv6_enable_ddns       => "true" | "false",            #Optional / Default is "false"
+       override_ipv6_options           => "true" | "false",            #Optional / Default is "false"
+       override_preferred_lifetime     => "true" | "false",            #Optional / Default is "false"
+       override_valid_lifetime         => "true" | "false",            #Optional / Default is "false"
+       preferred_lifetime              => $num,                        #Optional / Default is 27000
+       pxe_lease_time                  => $time,                       #Optional / Default is empty
+       template                        => $string,                     #Optional / Default is undefined
+       valid_lifetime                  => $num,                        #Optional / Default is 43200
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DHCP Roaming Host object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP Roaming Host object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Roaming Host object
+ my $roaming_host = Infoblox::DHCP::RoamingHost->new(
+        "name"                             => "JohnSmith",
+        "bootfile"                         => "bootfile",
+        "bootserver"                       => "bootserver.com",
+        "client_identifier_prepend_zero"   => "true",
+        "comment"                          => "add roaming host using uid",
+        "ddns_domainname"                  => "ddns.domain.com",
+        "ddns_hostname"                    => "ddns.host.domain.com",
+        "deny_bootp"                       => "false",
+        "dhcp_client_identifier"           => "foo",
+        "disable"                          => "false",
+        "enable_ddns"                      => "false",
+        "match_client"                     => "MAC",
+        "network_view"                     => $nview,
+        "nextserver"                       => "3.3.3.3",
+        "options"                          => [ $option1,  $option2, $option3,  $option4, $option5, $option6 ],
+        "pxe_lease_time"                   => "3600",
+ );
+
+ #Submit for addition
+ my $response = $session->add($roaming_host)
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+Apply the following attributes to get a specific DHCP Roaming Host object:
+
+  name                    - Optional. The roaming host name.
+  mac                     - Optional. MAC address of the roaming host.
+  dhcp_client_identifier  - Optional, DHCP option 61 client identifier.
+  network_view            - Optional. Network view in which the roaming host is located. By default, all network views are searched.
+  extattrs                - Optional. A hash reference containing extensible attributes.
+  extensible_attributes   - Optional. A hash reference containing extensible attributes.
+
+=item B<Examples>
+
+ #Get DHCP Roaming Host object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::RoamingHost",
+     mac    => "11:11:11:11:11.11",
+ );
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::RoamingHost",
+     dhcp_client_identifier => "foo",
+ );
+ my @retrieved_objs = $session->get(
+     object       => "Infoblox::DHCP::RoamingHost",
+     name     => "JohnSmith",
+     network_view => "default",
+ );
+
+ my @retrieved_objs = $session->get(
+    object                => "Infoblox::DHCP::RoamingHost",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP Roaming Host object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the pxe_lease_time
+ $roaming_host->pxe_lease_time("1234");
+ #Submit modification
+ my $response = $session->modify( $roaming_host );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP Roaming Host object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP Roaming Host, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get DHCP Roaming Host object through the session
+ my @retrieved_objs = $session->get(
+     object       => "Infoblox::DHCP::RoamingHost",
+     mac          => "11:11:11:11:11:11",
+     network_view => "default"
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_roaming_host = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove( $desired_roaming_host );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP Roaming Host object and matching Host object with MAC address in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+Apply the following attributes to search for a specific DHCP Roaming Host object:
+
+  name          - Optional. The roaming host name (regular expression).
+  mac           - Optional. MAC address of the roaming host (regular expression).
+  network_view  - Optional. Network view in which the roaming host is located. By default, all network views are searched.
+  extattrs      - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # Search for all DHCP Roaming Host objects that are specified in the network "10.0.0.0/8" in the "default" network view.
+ my @retrieved_objs = $session->search(
+     object       => "Infoblox::DHCP::RoamingHost",
+     mac          => "11:11:11:11:11.*",
+     network_view => "default"
+ );
+
+ # Search for all DHCP Roaming Host objects with "Santa Clara" for the "Site" extensible attribute
+ my @retrieved_objs = $session->search(
+     object                => "Infoblox::DHCP::RoamingHost",
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a DHCP Roaming Host object.
+
+=head2 address_type( )
+
+=over
+
+Use this method to set or retrieve the address_type field.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The possible values for address_type are the following:
+ ipv4  - Roaming hosts are set up for IPv4 addresses only.
+ ipv6  - Roaming hosts are set up for IPv6 addresses only.
+ both  - Both types of addresses are set up.
+
+The default value of the parameter is "ipv4".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address_type
+ my $address_type = $roaminghost->address_type();
+ #Modify address_type
+ $roaminghost->address_type("both");
+
+=back
+
+=back
+
+=head2 bootfile( )
+
+=over
+
+Use this method to set or retrieve the bootfile value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the file the client must download.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bootfile
+ my $bootfile = $roaming_host->bootfile();
+ #Modify bootfile
+ $roaming_host->bootfile("boot_file");
+
+=back
+
+=back
+
+=head2 bootserver( )
+
+=over
+
+Use this method to set or retrieve the bootserver of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the server on which the boot file is stored.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get bootserver
+ my $bootserver = $roaming_host->bootserver();
+ #Modify bootserver
+ $roaming_host->bootserver("bootserver2.com");
+
+=back
+
+=back
+
+=head2 client_identifier_prepend_zero( )
+
+=over
+
+Use this method to prepend "\000" to the dhcp-client-identifier of a roaming host.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+When you set the client_identifier_prepend_zero parameter to "true", it prefixes a 0 (zero) to the DHCP client identifier whenever option 61 is used to assign roaming hosts. The following is an excerpt from "man dhcp-options":
+
+Please be aware that some DHCP clients, when configured with client identifiers that are ASCII text, will prepend a zero to the ASCII text. So you may need to write: option dhcp-client-identifier "\000foo"; rather than: option dhcp-client-identifier "foo";
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_identifier_prepend_zero
+ my $client_identifier_prepend_zero = $roaming_host->client_identifier_prepend_zero();
+ #Modify dhcp_client_identifier
+ $roaming_host->client_identifier_prepend_zero("true");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $roaming_host->comment();
+ #Modify comment
+ $roaming_host->comment("Modified DHCP Roaming Host object comment");
+
+=back
+
+=back
+
+=head2 ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the DDNS domain name value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_domainname method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_ddns_domainname attribute to "false".
+
+Note that when ddns_domainname is set to a defined value and override_dddns_domainname is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_domainname("testdomain"); $object->override_ddns_domainname("false"); will set override_ddns_domainname to "false", and the sequence $object->override_ddns_domainname("false"); $object->ddns_domainname("testdomain"); will result in override_ddns_domainname="true".
+
+=over
+
+=item B<Parameter>
+
+Specify the DDNS domain name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the DDNS domain name
+ my $ddns_domainname = $roaming_host->ddns_domainname();
+ #Modify the DDNS domain name
+ $roaming_host->ddns_domainname("ddns.domain.com");
+
+=back
+
+=back
+
+=head2 ddns_hostname( )
+
+=over
+
+Use this method to set or retrieve the DDNS host name value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the DDNS host name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the DDNS host name
+ my $ddns_hostname = $roaming_host->ddns_hostname();
+ #Modify the DDNS host name
+ $roaming_host->ddns_hostname("host.ddns.domain.com");
+
+=back
+
+=back
+
+=head2 deny_bootp( )
+
+=over
+
+Use this method to set or retrieve the deny_bootp flag of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the deny_bootp flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get deny_bootp
+ my $deny_bootp = $roaming_host->deny_bootp();
+ #Modify deny_bootp
+ $roaming_host->deny_bootp("true");
+
+=back
+
+=back
+
+=head2 dhcp_client_identifier( )
+
+=over
+
+Use this method to set or retrieve the dhcp-client-identifier value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Use the dhcp_client_identifier or uid to assign roaming hosts if the DHCP clients send option 61. A DHCP client identifier can be a string or a MAC address. Set the "match_client" field to "CLIENT_IDENTIFIER" for roaming hosts to use the dhcp_client_identifier instead of the mac_address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get dhcp_client_identifier
+ my $uid = $roaming_host->dhcp_client_identifier();
+ #Modify dhcp_client_identifier
+ $roaming_host->dhcp_client_identifier("foo");
+ or
+ $roaming_host->dhcp_client_identifier("1:11::11::11::11::11::12");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $roaming_host->disable();
+ #Modify disable
+ $roaming_host->disable("true");
+
+=back
+
+=back
+
+=head2 discovered_name( )
+
+=over
+
+Use this method to retrieve the discovered name of a DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_name
+ my $discovered_name = $roaming_host->discovered_name();
+
+=back
+
+=back
+
+=head2 discoverer( )
+
+=over
+
+Use this method to retrieve the discoverer of a DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discoverer value.
+
+=item B<Example>
+
+ #Get discoverer
+ my $discoverer = $roaming_host->discoverer();
+
+=back
+
+=back
+
+=head2 enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the enable_ddns flag of a DHCP Roaming Host object.
+
+If enable_ddns value is specified as "true", then the A and PTR records corresponding to the Roaming Host object will be placed on the DNS server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_ddns flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_ddns
+ my $enable_ddns = $roaming_host->enable_ddns();
+ #Modify enable_ddns
+ $roaming_host->enable_ddns("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $roaming_host->extattrs();
+ #Modify extattrs
+ $roaming_host->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP Roaming Host object
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $roaming_host->extensible_attributes();
+ #Modify extensible attributes
+ $roaming_host->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 first_discovered( )
+
+=over
+
+Use this method to retrieve the date and time that the DHCP Roaming Host object was first discovered.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the date and time that the DHCP Roaming Host object was first discovered.
+
+=item B<Example>
+
+ #Get first_discovered
+ my $first_discovered = $roaming_host->first_discovered();
+
+=back
+
+=back
+
+=head2 force_roaming_hostname( )
+
+=over
+
+Use this method to set or retrieve the force_roaming_hostname flag of a DHCP Roaming Host object.
+
+If the force_roaming_hostname value is "true", then the roaming host name is used as the ddns_hostname.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the force_roaming_hostname flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get force_roaming_hostname
+ my $force_roaming_hostname = $roaming_host->force_roaming_hostname();
+ #Modify force_roaming_hostname
+ $roaming_host->force_roaming_hostname("true");
+
+=back
+
+=back
+
+=head2 ignore_dhcp_option_list_request( )
+
+=over
+
+Use this method to set or retrieve the ignore_dhcp_option_list_request flag of a DHCP roaming host object. If this flag is set to false all the defined DHCP options will be returned to the client.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ignore_dhcp_option_list_request flag or "false" to deactivate/unset it. The default value is false which indicates that this attribute inherit the member level setting..
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ignore_dhcp_option_list_request
+ my $ignore_dhcp_option_list_request = $roaming_host->ignore_dhcp_option_list_request();
+ # Un-override ignore_dhcp_option_list_request
+ $roaming_host->ignore_dhcp_option_list_request(undef);
+ # Modify ignore_dhcp_option_list_request
+ $roaming_host->ignore_dhcp_option_list_request("true");
+
+=back
+
+=back
+
+=head2 ipv6_client_hostname( )
+
+=over
+
+Use this method to retrieve the ipv6_client_hostname of a DHCP Roaming Host object. This method specifies the host name that the DHCP client sends to the Infoblox appliance using DHCP option 12. The method is read-only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_client_hostname
+ my $ipv6_client_hostname = $roaming_host->ipv6_client_hostname();
+
+=back
+
+=back
+
+=head2 ipv6_ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the IPv6 DDNS domain name value for the roaming host.
+
+Setting this method to a defined value implicitly sets the override_ipv6_ddns_domainname method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_ipv6_ddns_domainname attribute to "false".
+
+Note that when ipv6_ddns_domainname is set to a defined value and override_ipv6_ddns_domainname is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_ddns_domainname("testdomain"); $object->override_ipv6_ddns_domainname("false"); will set override_ipv6_ddns_domainname to "false", and the sequence $object->override_ipv6_ddns_domainname("false"); $object->ipv6_ddns_domainname("testdomain"); will result in override_ipv6_ddns_domainname="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The DDNS domain name in FQDN (Fully Qualified Domain Name) format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_ddns_domainname
+ my $ipv6_ddns_domainname = $roaming_host->ipv6_ddns_domainname();
+ #Modify ipv6_ddns_domainname
+ $roaming_host->ipv6_ddns_domainname("domain.com");
+
+=back
+
+=back
+
+=head2 ipv6_ddns_hostname( )
+
+=over
+
+Use this method to set or retrieve the IPv6 DDNS host name value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the IPv6 DDNS host name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the IPv6 DDNS host name
+ my $ipv6_ddns_hostname = $roaming_host->ipv6_ddns_hostname();
+ #Modify the IPv6 DDNS host name
+ $roaming_host->ipv6_ddns_hostname("host.ddns.domain.com");
+
+=back
+
+=back
+
+=head2 ipv6_domain_name( )
+
+=over
+
+Use this method to set or retrieve the ipv6_domain_name value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_domain_name method to "true". Setting the parameter to undefined causes the appliance to use the upper level default and automatically resets the override_ipv6_domain_name attribute to "false".
+
+Note that when ipv6_domain_name is set to a defined value and override_ipv6_domain_name is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_domain_name("testdomain"); $object->override_ipv6_domain_name("false"); will set override_ipv6_domain_name to "false", and the sequence $object->override_ipv6_domain_name("false"); $object->ipv6_domain_name("testdomain"); will result in override_ipv6_domain_name="true".
+
+=over
+
+=item B<Parameter>
+
+The name, in string format, of the client's domain for resolving names in DNS.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_domain_name
+ my $ipv6_domain_name = $roaming_host->ipv6_domain_name();
+ #Modify ipv6_domain_name
+ $roaming_host->ipv6_domain_name("test_domain.com");
+
+=back
+
+=back
+
+=head2 ipv6_domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the ipv6_domain_name_servers value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ipv6_domain_name_servers method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_ipv6_domain_name_servers attribute to "false".
+
+Note that when ipv6_domain_name_servers is set to a defined value and override_ipv6_domain_name_servers is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_domain_name_servers("2001::1,2001::2"); $object->override_ipv6_domain_name_servers("false"); will set override_ipv6_domain_name_servers to "false", and the sequence $object->override_ipv6_domain_name_servers("false"); $object->ipv6_domain_name_servers("2001::1,2001::2"); will result in override_ipv6_domain_name_servers="true".
+
+=over
+
+=item B<Parameter>
+
+The IPv6 addresses of the DNS servers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_domain_name_servers
+ my $ipv6_domain_name_servers = $roaming_host->ipv6_domain_name_servers();
+ #Modify ipv6_domain_name_servers
+ $roaming_host->ipv6_domain_name_servers("2001::1,2001::2");
+
+=back
+
+=back
+
+=head2 ipv6_duid( )
+
+=over
+
+Use this method to set or retrieve the DHCPv6 Unique Identifier (DUID) of the Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The DUID of the matching client in hexadecimal format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_duid
+ my $ipv6_duid = $roaming_host->ipv6_duid();
+ #Modify ipv6_duid
+ $roaming_host->ipv6_duid("1c2edfaa");
+
+=back
+
+=back
+
+=head2 ipv6_enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the ipv6_enable_ddns flag for the roaming host. Set this flag to enable DHCPv6 dynamic DNS updates.
+
+Setting this method to a defined value implicitly sets the override_ipv6_enable_ddns method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_ipv6_enable_ddns attribute to "false".
+
+Note that when ipv6_enable_ddns is set to a defined value and override_ipv6_enable_ddns is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_enable_ddns("false"); $object->override_ipv6_enable_ddns("false"); will set override_ipv6_enable_ddns to "false", and the sequence $object->override_ipv6_enable_ddns("false"); $object->ipv6_enable_ddns("false"); will result in override_ipv6_enable_ddns="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable this feature or "false" to disable it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_enable_ddns
+ my $ipv6_enable_ddns = $roaming_host->ipv6_enable_ddns();
+ #Modify ipv6_enable_ddns
+ $roaming_host->ipv6_enable_ddns("true");
+
+=back
+
+=back
+
+=head2 ipv6_force_roaming_hostname( )
+
+=over
+
+Use this method to set or retrieve the ipv6_force_roaming_hostname flag of a DHCP Roaming Host object.
+
+If the ipv6_force_roaming_hostname value is "true", then the roaming host name is used as the ddns_hostname. This flag applies to IPv6 roaming hosts.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the ipv6_force_roaming_hostname flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_force_roaming_hostname
+ my $ipv6_force_roaming_hostname = $roaming_host->ipv6_force_roaming_hostname();
+ #Modify ipv6_force_roaming_hostname
+ $roaming_host->ipv6_force_roaming_hostname("true");
+
+=back
+
+=back
+
+=head2 ipv6_match_option( )
+
+=over
+
+Use this method to set or retrieve the ipv6_match_option value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+This field specifies the identification method for an IPv6 or mixed IPv4/IPv6 roaming host. Currently, the only supported value for this field is "duid", which corresponds to identification by DHCPv6 unique ID. The default value of this parameter is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_match_option
+ my $ipv6_match_option = $roaming_host->ipv6_match_option();
+ #Modify ipv6_match_option
+ $roaming_host->ipv6_match_option("duid");
+
+=back
+
+=back
+
+=head2 ipv6_options( )
+
+=over
+
+Use this method to set or retrieve the IPv6 options of a DHCP Roaming Host object.
+
+Setting this method to a defined value implicitly sets the override_ipv6_options method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_ipv6_options attribute to "false".
+
+Note that when ipv6_options is set to a defined value and override_ipv6_options is set to "false", the last operation takes precedence. Thus the sequence $object->ipv6_options([$option1]); $object->override_ipv6_options("false"); will set override_ipv6_options to "false", and the sequence $object->override_ipv6_options("false"); $object->ipv6_options([$option1]); will result in override_ipv6_options="true".
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_options
+ my $ipv6_options = $roaming_host->ipv6_options();
+ #Modify ipv6_options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name   => "dhcp6.info-refresh-time",
+     value  => "1000"
+ );
+ $roaming_host->ipv6_options([$option1]);
+
+=back
+
+=back
+
+=head2 ipv6_template( )
+
+=over
+
+Use this method to set or retrieve the fixed address ipv6_template name for a DHCP Roaming Host object.
+
+Specify the IPv6 fixed address template that is used to create the DHCP roaming host.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The IPv6 fixed address template name in sting format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+The ipv6_template parameter can be used only to add a new DHCP roaming host. It cannot be used to modify an object or return an object during a get operation.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_template
+ my $ipv6_template = $roaming_host->ipv6_template();
+ #Modify ipv6_template
+ $roaming_host->ipv6_template("Template_Name");
+
+=back
+
+=back
+
+=head2 last_discovered( )
+
+=over
+
+Use this method to retrieve the time this object was last seen by a discovery job.
+
+The default value for this field is empty.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_discovered
+ my $last_discovered = $roaming_host->last_discovered();
+
+=back
+
+=back
+
+=head2 mac( )
+
+=over
+
+Use this method to set or retrieve the MAC address value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+MAC Address of the DHCP roaming host object. Format for the hexadecimal strings for MAC addresses and vendor prefixes with colons or dashes. Both of the following formats are acceptable: 11:11:11:11:11:11 and 11-11-11-11-11-11.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get mac
+ my $mac = $roaming_host->mac();
+ #Modify mac
+ $roaming_host->mac("11::11::11::11::11::12");
+
+=back
+
+=back
+
+=head2 match_client( )
+
+=over
+
+Use this method to set or retrieve the match_client value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+=over
+
+=item match_client "MAC": The fixed IP address is leased to the matching MAC address.
+
+=item match_client "CLIENT_IDENTIFIER": The fixed IP address is leased to the matching DHCP client identifier
+
+=back
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get match_client
+ my $match_client = $roaming_host->match_client();
+ #Modify match_client
+ $roaming_host->match_client("CLIENT_IDENTIFIER");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the roaming host name associated with the DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+NOTE: To enable using roaming hosts, you must allow roaming hosts at the grid level by setting $griddhcp->enable_roaming_hosts("true");
+
+=over
+
+=item B<Parameter>
+
+Desired roaming host name in string format with a maximum of 64 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get roaming host name
+ my $roaming_host_name = $roaming_host->name();
+ #Modify roaming host name
+ $roaming_host->name("JimmyJaz");
+
+=back
+
+=back
+
+=head2 netbios( )
+
+=over
+
+Use this method to retrieve the name in the NetBIOS reply that responded to a NetBIOS query.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get netbios
+ my $netbios = $roaming_host->netbios();
+
+=back
+
+=back
+
+=head2 network_component_description( )
+
+=over
+
+Use this method to retrieve the description of the network device that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device description.
+
+=item B<Example>
+
+ #Get network_component_description
+ my $network_component_description = $roaming_host->network_component_description();
+
+=back
+
+=back
+
+=head2 network_component_ip( )
+
+=over
+
+Use this method to retrieve the IP address of the network device that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the IP address of the network device.
+
+=item B<Example>
+
+ #Get network_component_ip
+ my $network_component_ip = $roaming_host->network_component_ip();
+
+=back
+
+=back
+
+=head2 network_component_name( )
+
+=over
+
+Use this method to retrieve the name of the network device that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device name.
+
+=item B<Example>
+
+ #Get network_component_name
+ my $network_component_name = $roaming_host->network_component_name();
+
+=back
+
+=back
+
+=head2 network_component_port_description( )
+
+=over
+
+Use this method to retrieve the description of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the description of the port on the network device.
+
+=item B<Example>
+
+ #Get network_component_port_description
+ my $network_component_port_description = $roaming_host->network_component_port_description();
+
+=back
+
+=back
+
+=head2 network_component_port_name( )
+
+=over
+
+Use this method to retrieve the name of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the name of the port on the network device.
+
+=item B<Example>
+
+ #Get network_component_port_name
+ my $network_component_port_name = $roaming_host->network_component_port_name();
+
+=back
+
+=back
+
+=head2 network_component_port_number( )
+
+=over
+
+Use this method to retrieve the number of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port number.
+
+=item B<Example>
+
+ #Get network_component_port_number
+ my $network_component_port_number = $roaming_host->network_component_port_number();
+
+=back
+
+=back
+
+=head2 network_component_type( )
+
+=over
+
+Use this method to retrieve the type of the network device that is connected to DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device type.
+
+=item B<Example>
+
+ #Get network_component_type
+ my $network_component_type = $roaming_host->network_component_type();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of the DHCP roaming host
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" network view, which means the roaming host is in the default network view.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a defined Infoblox::DHCP::View object. The default network view value is the system-defined default network view object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $roaming_host->network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $roaming_host->network_view($nview);
+
+=back
+
+=back
+
+=head2 nextserver( )
+
+=over
+
+Use this method to set or retrieve the nextserver value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+IP address of the boot file server on which the boot file is stored.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get nextserver
+ my $nextserver = $roaming_host->nextserver();
+ #Modify nextserver
+ $roaming_host->nextserver("3.3.3.4");
+
+=back
+
+=back
+
+=head2 options( )
+
+=over
+
+Use this method to set or retrieve the options of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+See Infoblox::DHCP::Option for parameters and methods available for this object.
+
+=over
+
+=item B<Parameter>
+
+Options describe network configuration settings and various services available on the network. These options occur as variable-length fields at the end of DHCP messages.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get options
+ my $options = $roaming_host->options();
+ #Modify options
+ $roaming_host->options([$option1, $option2]);
+
+=back
+
+=back
+
+=head2 os( )
+
+=over
+
+Use this method to retrieve the operating system associated with this roaming host.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get os
+ my $os = $roaming_host->os();
+
+=back
+
+=back
+
+=head2 override_ddns_domainname( )
+
+=over
+
+The override_ddns_domainname attribute controls whether the ddns_domainname value in the DHCP Roaming Host is used, instead of the grid default.
+
+The override_ddns_domainname attribute can be specified explicitly. It is also set implicitly when ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_domainname. Set the parameter to "false" to inherit the grid-level setting for ddns_domainname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_domainname
+    my $override_ddns_domainname=$roaming_host->override_ddns_domainname( );
+    #Modifying override_ddns_domainname
+    $roaming_host->override_ddns_domainname("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_ddns_domainname( )
+
+=over
+
+The override_ipv6_ddns_domainname attribute controls whether the ddns_domainname value in the DHCP Roaming Host object is used, instead of the upper-level default.
+
+The override_ipv6_ddns_domainname attribute can be specified explicitly. It is also set implicitly when ipv6_ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ddns_domainname. Set the parameter to "false" to inherit the upper-level setting for ipv6_ddns_domainname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_ddns_domainname
+    my $override_ipv6_ddns_domainname=$roaming_host->override_ipv6_ddns_domainname( );
+    #Modifying override_ipv6_ddns_domainname
+    $roaming_host->override_ipv6_ddns_domainname("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_domain_name( )
+
+=over
+
+Use this method to set or retrieve the override_ipv6_domain_name value of a DHCP Roaming Host object.
+
+The override_ipv6_domain_name attribute can be specified explicitly. It is also set implicitly when ipv6_domain_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipv6_domain_name. Set the parameter to "false" to inherit the upper-level setting for ipv6_domain_name.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ipv6_domain_name
+ my $override_ipv6_domain_name = $roaming_host->override_ipv6_domain_name();
+ #Modify override_ipv6_domain_name
+ $roaming_host->override_ipv6_domain_name("test_domain.com");
+
+=back
+
+=back
+
+=head2 override_ipv6_domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the override_ipv6_domain_name_servers value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipv6_domain_name_servers. Set the parameter to "false" to inherit the upper-level setting for ipv6_domain_name_servers.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_ipv6_domain_name_servers
+ my $override_ipv6_domain_name_servers = $roaming_host->override_ipv6_domain_name_servers();
+ #Modify override_ipv6_domain_name_servers
+ $roaming_host->override_ipv6_domain_name_servers("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_enable_ddns( )
+
+=over
+
+The override_ipv6_enable_ddns attribute controls whether the ipv6_enable_ddns value in the DHCP Roaming Host object is used, instead of the upper-level default.
+
+The override_ipv6_enable_ddns attribute can be specified explicitly. It is also set implicitly when ipv6_enable_ddns is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipv6_enable_ddns. Set the parameter to "false" to inherit the upper-level setting for ipv6_enable_ddns.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_enable_ddns
+    my $override_ipv6_enable_ddns=$roaming_host->override_ipv6_enable_ddns( );
+    #Modifying override_ipv6_enable_ddns
+    $roaming_host->override_ipv6_enable_ddns("true");
+
+=back
+
+=back
+
+=head2 override_ipv6_options( )
+
+=over
+
+The override_ipv6_options attribute controls whether the ipv6_options value in the DHCP Roaming Host object is used, instead of the upper-level default.
+
+The override_ipv6_options attribute can be specified explicitly. It is also set implicitly when ipv6_options is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the upper-level setting for ipv6_options. Set the parameter to "false" to inherit the upper-level setting for ipv6_options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ipv6_options
+    my $override_ipv6_options=$roaming_host->override_ipv6_options( );
+    #Modifying override_ipv6_options
+    $roaming_host->override_ipv6_options("true");
+
+=back
+
+=back
+
+=head2 override_preferred_lifetime( )
+
+=over
+
+The override_preferred_lifetime attribute controls whether the preferred_lifetime value in the DHCP Roaming Host object is used, instead of the upper-level default.
+
+The override_preferred_lifetime attribute can be specified explicitly. It is also set implicitly when preferred_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for preferred_lifetime. Set the parameter to "false" to inherit the upper-level setting for preferred_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_preferred_lifetime
+    my $override_preferred_lifetime=$roaming_host->override_preferred_lifetime( );
+    #Modifying override_preferred_lifetime
+    $roaming_host->override_preferred_lifetime("true");
+
+=back
+
+=back
+
+=head2 override_valid_lifetime( )
+
+=over
+
+The override_valid_lifetime attribute controls whether the valid_lifetime value in the DHCP Roaming Host object is used, instead of the upper-level default.
+
+The override_valid_lifetime attribute can be specified explicitly. It is also set implicitly when valid_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for valid_lifetime. Set the parameter to "false" to inherit the upper-level setting for valid_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_valid_lifetime
+    my $override_valid_lifetime=$roaming_host->override_valid_lifetime( );
+    #Modifying override_valid_lifetime
+    $roaming_host->override_valid_lifetime("true");
+
+=back
+
+=back
+
+=head2 port_duplex( )
+
+=over
+
+Use this method to retrieve the duplex setting of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port duplex setting. Returned values, if any, are one of the following:
+
+=over
+
+=item Full
+
+=item Half
+
+=back
+
+=over
+
+=back
+
+=item B<Example>
+
+ #Get port_duplex
+ my $port_duplex = $roaming_host->port_duplex();
+
+=back
+
+=back
+
+=head2 port_link_status( )
+
+=over
+
+Use this method to retrieve the link status of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port link status. Returned values, if any, are one of the following:
+        Connected
+        Not Connected
+        Unknown
+
+=item B<Example>
+
+ #Get port_link_status
+ my $port_link_status = $roaming_host->port_link_status();
+
+=back
+
+=back
+
+=head2 port_speed( )
+
+=over
+
+Use this method to retrieve the speed of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port speed. Returned values, if any, are one of the following:
+
+=over
+
+=item B<> 10 M
+
+=item B<> 100 M
+
+=item B<> 1G
+
+=item B<> 10G
+
+=item B<> 100G
+
+=item B<> Unknown
+
+=back
+
+=over
+
+=back
+
+=item B<Example>
+
+ #Get port_speed
+ my $port_speed = $roaming_host->port_speed();
+
+=back
+
+=back
+
+=head2 port_status( )
+
+=over
+
+Use this method to retrieve the status of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port status. Returned values, if any, are one of the following:
+
+=over
+
+=item  Up
+
+=item  Down
+
+=item  Unknown
+
+=back
+
+=over
+
+=back
+
+=item B<Example>
+
+ #Get port_status
+ my $port_status = $roaming_host->port_status();
+
+=back
+
+=back
+
+=head2 port_vlan_description( )
+
+=over
+
+Use this method to retrieve the VLAN description of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN description of the network device port.
+
+=item B<Example>
+
+ #Get port_vlan_description
+ my $port_vlan_description = $roaming_host->port_vlan_description();
+
+=back
+
+=back
+
+=head2 port_vlan_name( )
+
+=over
+
+Use this method to retrieve the VLAN name of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port VLAN name.
+
+=item B<Example>
+
+ #Get port_vlan_name
+ my $port_vlan_name = $roaming_host->port_vlan_name();
+
+=back
+
+=back
+
+=head2 port_vlan_number( )
+
+=over
+
+Use this method to retrieve the VLAN number of the network device port that is connected to the DHCP Roaming Host object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port VLAN number.
+
+=item B<Example>
+
+ #Get port_vlan_number
+ my $port_vlan_number = $roaming_host->port_vlan_number();
+
+=back
+
+=back
+
+=head2 preferred_lifetime( )
+
+=over
+
+Use this method to set or retrieve the preferred lifetime of the roaming host.
+
+Setting this method to a defined value implicitly sets the override_preferred_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_preferred_lifetime attribute to "false".
+
+Note that when preferred_lifetime is set to a defined value and override_preferred_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->preferred_lifetime(20000); $object->override_preferred_lifetime("false"); will set override_preferred_lifetime to "false", and the sequence $object->override_preferred_lifetime("false"); $object->preferred_lifetime(20000); will result in override_preferred_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+Preferred lifetime value in seconds. The default value is 27000. Note that the preferred lifetime cannot be greater than the valid lifetime.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get preferred_lifetime
+ my $preferred_lifetime = $roaming_host->preferred_lifetime();
+ #Modify preferred_lifetime
+ $roaming_host->preferred_lifetime(12345);
+
+=back
+
+=back
+
+=head2 pxe_lease_time( )
+
+=over
+
+Use this method to set or retrieve the pxe_lease_time value of a DHCP Roaming Host object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter appropriate values in the Days, Hours, Mins and Secs fields. Users can specify the duration of time it takes a host to connect to a boot server, such as a TFTP server, and download the file it needs to boot.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get pxe_lease_time
+ my $pxe_lease_time = $roaming_host->pxe_lease_time();
+ #Modify pxe_lease_time
+ $roaming_host->pxe_lease_time("369");
+
+=back
+
+=back
+
+=head2 template( )
+
+=over
+
+Use this method to set the fixed address template name for a DHCP Roaming Host object.
+
+Template is the name of a DHCP Fixed Address template which will be used to create the DHCP Roaming Host.
+
+=over
+
+=item B<Parameter>
+
+The valid name in string format.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+The template parameter can be used to only add a new DHCP Roaming Host and cannot be used during object modify or returned during object get.
+
+=item B<Example>
+
+ #Add RoamingHost with template
+ my $roaming_host = Infoblox::DHCP::RoamingHost->new(
+        "name"  => "JohnSmith",
+        "template"  => "Template_Name",
+ );
+ #Submit for addition
+ my $response = $session->add($roaming_host)
+
+=back
+
+=back
+
+=head2 valid_lifetime( )
+
+=over
+
+Use this method to set or retrieve the preferred lifetime of the roaming host.
+
+Setting this method to a defined value implicitly sets the override_valid_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_valid_lifetime attribute to "false".
+
+Note that when valid_lifetime is set to a defined value and override_valid_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->valid_lifetime(20000); $object->override_valid_lifetime("false"); will set override_valid_lifetime to "false", and the sequence $object->override_valid_lifetime("false"); $object->valid_lifetime(20000); will result in override_valid_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+Valid lifetime value in seconds. The default value is 43200.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get valid_lifetime
+ my $valid_lifetime = $roaming_host->valid_lifetime();
+ #Modify valid_lifetime
+ $roaming_host->valid_lifetime(12345);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+ #Preparation prior to a DHCP Fixed Address object insertion
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Modify Grid DHCP object to enable support of the Roaming Hosts>
+
+ my $grid_dhcp=$session->get(
+                             object => "Infoblox::Grid::DHCP",
+                             name=>"Infoblox"
+                             );
+ unless ($grid_dhcp) {
+     die("Get Grid DHCP object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Grid DHCP object found at least 1 matching entry\n";
+
+ my $save_grid_rh_status=$grid_dhcp->enable_roaming_hosts();
+ $grid_dhcp->enable_roaming_hosts("true");
+ unless($session->modify($grid_dhcp)) {
+     die("Modifying Grid DHCP object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Roaming Hosts enabled at Grid level successfuly\n";
+
+ #Adding DHCP options
+ my $option1 = Infoblox::DHCP::Option->new(
+                                           "name"  => "lease-time",
+                                           "value" => "50"
+                                          );
+
+ unless($option1) {
+      die("Construct option1 object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "option1 object created successfully\n";
+
+ my $option2 = Infoblox::DHCP::Option->new(
+                                           "type"      => "routers",
+                                           "ipv4addrs" => ["10.0.0.1","10.0.0.255"],
+                                          );
+
+ unless($option2) {
+      die("Construct option2 object failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "option2 object created successfully\n";
+
+B<#Create a DHCP Roaming Host object>
+
+ #Create a DHCP Roaming Host object
+ my $roaming_host = Infoblox::DHCP::RoamingHost->new(
+        "name"       => "JohnSmith",
+        "mac"            => "00:00:00:11:11:11",
+        "comment"        => "add roaming host",
+        "enable_ddns"    => "true",
+        "pxe_lease_time" => "3600",
+        "bootserver"     => "someserver.com",
+        "nextserver"     => "3.3.3.3",
+        "bootfile"       => "bootfile.com",
+        "options"        => [ $option1 , $option2 ],
+        );
+ unless($roaming_host) {
+      die("Construct roaming host failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Roaming Host object created successfully\n";
+
+ #Verify if the DHCP Roaming Host exists in the Infoblox appliance
+ my $object = $session->get(object => "Infoblox::DHCP::RoamingHost", mac => "00:00:00:11:11:11");
+ unless ($object) {
+    print "roaming host does not exist on server, safe to add the roaming host\n";
+    $session->add($roaming_host)
+       or die("Add roaming host failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+ }
+ print "DHCP Roaming Host added successfully\n";
+
+B<#Search for a specific DHCP Roaming Host object>
+
+ #Search for all DHCP Roaming Host objects with a given mac address
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::RoamingHost",
+     mac     => "00:00:00:11:11.*",
+      );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search for Roaming Host object failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Roaming Host object found at least 1 matching entry\n";
+
+B<#Get and modify a DHCP Roaming Host object>
+
+ #Get DHCP Roaming Host object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::RoamingHost",
+     mac    => "00:00:00:11:11:11",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Roaming Host object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Roaming Host object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the obtained Roaming Host object
+ $object->pxe_lease_time("1234");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify Roaming Host object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "Roaming Host object modified successfully \n";
+
+B<#Remove a Roaming Host object>
+
+ #Get Roaming Host object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::RoamingHost",
+     mac    => "00:00:00:11:11:11",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Roaming Host object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Roaming Host object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove Roaming Host object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Roaming Host object removed successfully \n";
+
+ #Restore Grid DHCP
+ $grid_dhcp->enable_roaming_hosts($save_grid_rh_status);
+ print "Grid DHCP setting restored successfully\n" if($session->modify($grid_dhcp));
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

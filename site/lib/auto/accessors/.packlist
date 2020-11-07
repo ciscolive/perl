@@ -1,0 +1,10 @@
+/opt/perl/site/lib/accessors.pm
+/opt/perl/site/lib/accessors/chained.pm
+/opt/perl/site/lib/accessors/classic.pm
+/opt/perl/site/lib/accessors/ro.pm
+/opt/perl/site/lib/accessors/rw.pm
+/opt/perl/site/man/man3/accessors.3
+/opt/perl/site/man/man3/accessors::chained.3
+/opt/perl/site/man/man3/accessors::classic.3
+/opt/perl/site/man/man3/accessors::ro.3
+/opt/perl/site/man/man3/accessors::rw.3

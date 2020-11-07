@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Minion/Backend/Sereal.pm
+/opt/perl/site/lib/Minion/Backend/Storable.pm
+/opt/perl/site/man/man3/Minion::Backend::Sereal.3
+/opt/perl/site/man/man3/Minion::Backend::Storable.3

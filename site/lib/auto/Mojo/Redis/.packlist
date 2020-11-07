@@ -1,0 +1,12 @@
+/opt/perl/site/lib/Mojo/Redis.pm
+/opt/perl/site/lib/Mojo/Redis/Cache.pm
+/opt/perl/site/lib/Mojo/Redis/Connection.pm
+/opt/perl/site/lib/Mojo/Redis/Cursor.pm
+/opt/perl/site/lib/Mojo/Redis/Database.pm
+/opt/perl/site/lib/Mojo/Redis/PubSub.pm
+/opt/perl/site/man/man3/Mojo::Redis.3
+/opt/perl/site/man/man3/Mojo::Redis::Cache.3
+/opt/perl/site/man/man3/Mojo::Redis::Connection.3
+/opt/perl/site/man/man3/Mojo::Redis::Cursor.3
+/opt/perl/site/man/man3/Mojo::Redis::Database.3
+/opt/perl/site/man/man3/Mojo::Redis::PubSub.3

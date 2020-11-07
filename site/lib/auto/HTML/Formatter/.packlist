@@ -1,0 +1,10 @@
+/opt/perl/site/lib/HTML/FormatMarkdown.pm
+/opt/perl/site/lib/HTML/FormatPS.pm
+/opt/perl/site/lib/HTML/FormatRTF.pm
+/opt/perl/site/lib/HTML/FormatText.pm
+/opt/perl/site/lib/HTML/Formatter.pm
+/opt/perl/site/man/man3/HTML::FormatMarkdown.3
+/opt/perl/site/man/man3/HTML::FormatPS.3
+/opt/perl/site/man/man3/HTML::FormatRTF.3
+/opt/perl/site/man/man3/HTML::FormatText.3
+/opt/perl/site/man/man3/HTML::Formatter.3

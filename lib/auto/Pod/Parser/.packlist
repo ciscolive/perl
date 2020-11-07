@@ -1,0 +1,14 @@
+/opt/perl/bin/podselect
+/opt/perl/lib/Pod/Find.pm
+/opt/perl/lib/Pod/InputObjects.pm
+/opt/perl/lib/Pod/ParseUtils.pm
+/opt/perl/lib/Pod/Parser.pm
+/opt/perl/lib/Pod/PlainText.pm
+/opt/perl/lib/Pod/Select.pm
+/opt/perl/man/man1/podselect.1
+/opt/perl/man/man3/Pod::Find.3
+/opt/perl/man/man3/Pod::InputObjects.3
+/opt/perl/man/man3/Pod::ParseUtils.3
+/opt/perl/man/man3/Pod::Parser.3
+/opt/perl/man/man3/Pod::PlainText.3
+/opt/perl/man/man3/Pod::Select.3

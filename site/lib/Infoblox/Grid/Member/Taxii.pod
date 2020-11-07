@@ -1,0 +1,254 @@
+=head1 NAME
+
+Infoblox::Grid::Member::Taxii - A Taxii Member object.
+
+=head1 DESCRIPTION
+
+The Taxii Member object provides information on Taxii service configuration such as the start/stop flag and RPZ (Response Policy Zone) configuration.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a Taxii Member object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   ipv4addr - Optional. IPv4 Member address.
+   ipv6addr - Optional. IPv6 Member address.
+   name     - Optional. The host name of the parent member.
+
+=item B<Example>
+
+ #Get Taxii Member object with name 'taxii_member.com'
+ my @taxii_member = $session->get(
+     object => 'Infoblox::Grid::Member::Taxii',
+     name   => 'taxii_member.com',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify enable_service value
+ $taxii_member->enable_service('true');
+
+ #Submit modification
+ $session->modify($taxii_member);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to search a specific object:
+
+   ipv4addr - Optional. IPv4 Member address (regular expression).
+   ipv6addr - Optional. IPv6 Member address (regular expression).
+   name     - Optional. The host name of the parent member.
+
+=item B<Example>
+
+ #Search for Taxii Member object with name starting with 'taxii'
+ my @taxii_member = $session->get(
+     object => 'Infoblox::Grid::Member::Taxii',
+     name   => 'taxii.*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 enable_service( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the Taxii service is running on the given member or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to start/enable Taxii service or 'false' to stop/deactivate it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_service value
+ my $enable_service = $object->enable_service();
+
+ #Modify enable_service value
+ $object->enable_service('true');
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to retrieve the IPv4 address of the Taxii member. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv4addr value
+ my $ipv4addr = $object->ipv4addr();
+
+=back
+
+=back
+
+=head2 ipv6addr( )
+
+=over
+
+Use this method to retrieve the IPv6 address of the Taxii member. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6addr value
+ my $ipv6addr = $object->ipv6addr();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the name of the Taxii member. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+=back
+
+=back
+
+=head2 taxii_rpz_config( )
+
+=over
+
+Use this method to set or retrieve the Taxii service RPZ configuration list.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of L<Infoblox::Grid::Member::Taxii::RPZConfig|Infoblox::Grid::Member::Taxii::RPZConfig>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get taxii_rpz_config value
+ my $taxii_rpz_config = $object->taxii_rpz_config();
+
+ #Modify taxii_rpz_config value
+ $object->taxii_rpz_config([$conf1, $conf2]);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, 
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, 
+L<Infoblox::Grid::Member::Taxii::RPZConfig|Infoblox::Grid::Member::Taxii::RPZConfig>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

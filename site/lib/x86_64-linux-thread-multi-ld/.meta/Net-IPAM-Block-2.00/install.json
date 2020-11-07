@@ -1,0 +1,1 @@
+{"provides":{"Net::IPAM::Block":{"version":"2.00","file":"lib/Net/IPAM/Block.pm"},"Net::IPAM::Block::Private":{"file":"lib/Net/IPAM/Block/Private.pm"}},"version":"2.00","target":"Net::IPAM::Block","dist":"Net-IPAM-Block-2.00","pathname":"G/GA/GAISSMAI/Net-IPAM-Block-2.00.tar.gz","name":"Net::IPAM::Block"}

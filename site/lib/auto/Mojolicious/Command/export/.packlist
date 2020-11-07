@@ -1,0 +1,4 @@
+/opt/perl/site/lib/Mojolicious/Command/export.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Export.pm
+/opt/perl/site/man/man3/Mojolicious::Command::export.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::Export.3

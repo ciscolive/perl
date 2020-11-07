@@ -1,0 +1,72 @@
+{
+   "abstract" : "Reverse-proxy load balancer and webserver",
+   "author" : [
+      "Brad Fitzpatrick <brad@danga.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.55_02, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "unknown"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Perlbal",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "BSD::Resource" : "0",
+            "Carp" : "0",
+            "Danga::Socket" : "1.44",
+            "Errno" : "0",
+            "Exporter" : "0",
+            "Fcntl" : "0",
+            "File::Path" : "0",
+            "File::Temp" : "0",
+            "FindBin" : "0",
+            "Getopt::Long" : "0",
+            "HTTP::Date" : "0",
+            "HTTP::Request" : "0",
+            "HTTP::Response" : "0",
+            "Hash::Util" : "0",
+            "IO::File" : "0",
+            "IO::Handle" : "0",
+            "IO::Select" : "0",
+            "IO::Socket::INET" : "0",
+            "LWP::UserAgent" : "0",
+            "Scalar::Util" : "0",
+            "Socket" : "0",
+            "Sys::Syscall" : "0",
+            "Test::More" : "0.94",
+            "Time::HiRes" : "0",
+            "base" : "0",
+            "constant" : "0",
+            "fields" : "0",
+            "lib" : "0",
+            "strict" : "0",
+            "vars" : "0",
+            "warnings" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "1.80",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

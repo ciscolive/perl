@@ -1,0 +1,89 @@
+{
+   "abstract" : "Subroutines for making simple command line scripts",
+   "author" : [
+      "Brad Lhotsky <brad@divisionbyzero.net>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.014, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "bsd"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "CLI-Helpers",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Pod::Coverage::TrustPod" : "0",
+            "Pod::Wordlist" : "0",
+            "Test::EOL" : "0",
+            "Test::More" : "0.88",
+            "Test::Perl::Critic" : "0",
+            "Test::Pod" : "1.41",
+            "Test::Pod::Coverage" : "1.08",
+            "Test::Spelling" : "0.12"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "App::Nopaste" : "0"
+         },
+         "requires" : {
+            "Capture::Tiny" : "0",
+            "Exporter" : "0",
+            "File::Basename" : "0",
+            "Getopt::Long" : "0",
+            "Module::Load" : "0",
+            "Ref::Util" : "0",
+            "Sys::Syslog" : "0",
+            "Term::ANSIColor" : "2.01",
+            "Term::ReadKey" : "0",
+            "Term::ReadLine" : "0",
+            "YAML" : "0",
+            "perl" : "5.010001",
+            "strict" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "File::Spec" : "0",
+            "IO::Handle" : "0",
+            "IPC::Open3" : "0",
+            "Pod::Coverage::TrustPod" : "0",
+            "Test::More" : "0",
+            "Test::Perl::Critic" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "https://github.com/reyjrar/CLI-Helpers",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/reyjrar/CLI-Helpers.git",
+         "web" : "https://github.com/reyjrar/CLI-Helpers"
+      }
+   },
+   "version" : "1.8",
+   "x_contributors" : [
+      "Kang-min Liu <gugod@gugod.org>",
+      "Kevin M. Goess <kgoess@craigslist.org>",
+      "Mohammad S Anwar <mohammad.anwar@yahoo.com>"
+   ],
+   "x_generated_by_perl" : "v5.30.0",
+   "x_serialization_backend" : "JSON::PP version 4.05",
+   "x_spdx_expression" : "BSD"
+}

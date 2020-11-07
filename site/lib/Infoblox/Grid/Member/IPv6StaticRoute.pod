@@ -1,0 +1,154 @@
+=head1 NAME
+
+Infoblox::Grid::Member::IPv6StaticRoute - Static route member object
+
+=head1 DESCRIPTION
+
+An IPv6StaticRoute object provides IPv6 static route information for a grid member.
+
+=head1 CONSTRUCTOR
+
+ my $route = Infoblox::Grid::Member::IPv6StaticRoute->new(
+	"address" => $ip_address,	#Required
+	"gateway" => $ip_address,	#Required
+	"cidr"    => $cidr,			#Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to an IPv6staticroute object.
+
+=head2 Infoblox::Grid::Member->ipv6_static_routes( )
+
+=over
+
+Use this function to specify an IPv6staticroute object for the grid member. See L<Infoblox::Grid::Member-E<gt>ipv6_static_routes()|Infoblox::Grid::Member/ipv6_static_routes()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get static routes list
+ my $ipv6_static_routes = $grid_member->ipv6_static_routes();
+ #Modify static routes list
+ my $route = Infoblox::Grid::Member::IPv6StaticRoute->new(
+	"address" => "2002::5",
+	"cidr"    => 64
+	"gateway" => "2002::1",
+ );
+ $grid_member->ipv6_static_routes([$route]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an IPv6 static route object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IPv6 address of an IPv6 static route object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number represented as eight groups of four hexadecimal digits (i.e. two octets), each group separated by a colon(:) (example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Leading zeroes and groups of consecutive zeros within the value can be omitted to produce a more compact representation (example: 2001::1, ::1).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the address
+ my $address= $route->address();
+ #Modify the address
+ $route->address("2002::5");
+
+=back
+
+=back
+
+=head2 cidr( )
+
+=over
+
+Use this method to set or retrieve the cidr of the IPv6 static route object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the netmask in CIDR format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the cidr
+ my $cidr= $route->cidr();
+ #Modify the cidr
+ $route->cidr(64);
+
+=back
+
+=back
+
+=head2 gateway( )
+
+=over
+
+Use this method to set or retrieve the gateway of the IPv6 static route object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number represented as eight groups of four hexadecimal digits (i.e. two octets), each group separated by a colon(:) (example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334). Leading zeroes and groups of consecutive zeros within the value can be omitted to produce a more compact representation (example: 2001::1, ::1).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the gateway address
+ my $gateway= $route->gateway();
+ #Modify the gateway address
+ $route->gateway("2002::1");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Member|Infoblox::Grid::Member>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

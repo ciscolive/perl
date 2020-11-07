@@ -1,0 +1,13 @@
+/opt/perl/site/bin/mmdb-dump-metadata
+/opt/perl/site/bin/mmdb-dump-search-tree
+/opt/perl/site/lib/MaxMind/DB/Reader.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/Data/Container.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/Data/EndMarker.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/Decoder.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/PP.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/Role/HasDecoder.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/Role/HasMetadata.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/Role/NodeReader.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/Role/Reader.pm
+/opt/perl/site/lib/MaxMind/DB/Reader/Role/Sysreader.pm
+/opt/perl/site/man/man3/MaxMind::DB::Reader.3

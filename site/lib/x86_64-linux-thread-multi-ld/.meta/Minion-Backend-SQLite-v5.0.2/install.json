@@ -1,0 +1,1 @@
+{"target":"Minion::Backend::SQLite","dist":"Minion-Backend-SQLite-v5.0.2","version":"v5.0.2","name":"Minion::Backend::SQLite","pathname":"D/DB/DBOOK/Minion-Backend-SQLite-v5.0.2.tar.gz","provides":{"Minion::Backend::SQLite":{"file":"lib/Minion/Backend/SQLite.pm","version":"v5.0.2"}}}

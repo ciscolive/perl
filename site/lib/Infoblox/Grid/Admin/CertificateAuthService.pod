@@ -1,0 +1,904 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::CertificateAuthService - a Certificate Authentication Service.
+
+=head1 DESCRIPTION
+
+An Infoblox::Grid::Admin::CertificateAuthService object represents a Certificate Authentication Service.
+
+=head1 CONSTRUCTOR
+
+ my $auth_service = Infoblox::Grid::Admin::CertificateAuthService->new(
+     name                  => $string,                          # Required
+     ca_certificates       => [$certificate1, ...],             # Required
+     ocsp_responders       => [$responder1, ...],               # Required unless ocsp_check is "DISABLED" or "AIA_ONLY"
+     disabled              => "true" | "false",                 # Optional / Default value is "false"
+     comment               => $string,                          # Optional / Default value is empty
+     trust_model           => "DIRECT" | "DELEGATED",           # Optional / Default value is "DIRECT"
+     recovery_interval     => $uint,                            # Optional / Default value is 30
+     max_retries           => $uint,                            # Optional / Default value is 0
+     response_timeout      => $uint,                            # Optional / Default value is 1000
+     auto_populate_login   => "SERIAL_NUMBER" | "S_DN_CN" | "S_DN_EMAIL" | "SAN_UPN" | "SAN_EMAIL" | "AD_SUBJECT_ISSUER" # Optional / Default value is "S_DN_CN"
+     enable_password_request => "true" | "false",               # Optional / Default value is "true"
+     user_match_type       => "DIRECT_MATCH" | "AUTO_MATCH",    # Optional / Default value is "AUTO_MATCH"
+     ocsp_check            => "MANUAL" | "AIA_ONLY" | "AIA_AND_MANUAL" | "DISABLED", # Optional / Default value is "MANUAL"
+     client_cert_subject   => $string,                          # Optional / Default value is 'DC=com'
+     enable_remote_lookup  => "true" | "false",                 # Optional / Default value is "false"
+     remote_lookup_service => $auth_server,                     # Optional / Default value is undefined
+     remote_lookup_username => $string,                         # Optional / Default value is undefined
+     remote_lookup_password => $string,                         # Optional / Default value is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a Certificate Authentication Service object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $auth_service = Infoblox::Grid::Admin::CertificateAuthService->new(
+     name            => 'cas',
+     ca_certificates => [$ca1, $ca2],
+     ocsp_responders => [$responder],
+
+ #Submit for addition
+ my $response = $session->add($auth_service);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Certificate Authentication Service object:
+ 
+ name                   - Optional. The name of the Certificate Authentication Service in string format.
+ disabled               - Optional. The boolean flag that shows whether the Certificate Authentication Service is enabled or disabled.
+ user_match_type        - Optional. The Certificate Authentication Service user match type in enum format.
+ ocsp_check             - Optional. The Certificate Authentication Service ocsp check in enum format.
+ client_cert_subject    - Optional. The Certificate Authentication Service client certification subject in string format.
+ remote_lookup_username - Optional. The Certificate Authentication Service remote lookup username in string format.  
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+      object => 'Infoblox::Grid::Admin::CertificateAuthService',
+      name   => 'ocsp',
+ );
+
+ my @retrieved_objs = $session->get(
+      object   => 'Infoblox::Grid::Admin::CertificateAuthService',
+      disabled => 'false',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object on the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment of a Certificate Authentication Service object
+ $auth_service->comment('This is modified Certificate Authentication Service object');
+
+ # Submit modification
+ my $response = $session->modify($auth_service);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the specified name.
+ my @retrieved_objs = $session->get(
+      object => 'Infoblox::Grid::Admin::CertificateAuthService',
+      name   => 'ocsp',
+ );
+
+ #Find the desired object on the retrieved list.
+ my $desired_auth_service = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove($desired_auth_service);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Certificate Authentication Service object:
+ 
+ name                   - Optional. The name of the Certificate Authentication Service in string format.
+ disabled               - Optional. The boolean flag that shows whether the Certificate Authentication Service is enabled or disabled.
+ user_match_type        - Optional. The Certificate Authentication Service user match type in enum format.
+ ocsp_check             - Optional. The Certificate Authentication Service ocsp check in enum format.
+ client_cert_subject    - Optional. The Certificate Authentication Service client certification subject in string format.
+ remote_lookup_username - Optional. The Certificate Authentication Service remote lookup username in string format.  
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+      object => 'Infoblox::Grid::Admin::CertificateAuthService',
+      name   => 'ocsp',
+ );
+
+ my @retrieved_objs = $session->search(
+      object   => 'Infoblox::Grid::Admin::CertificateAuthService',
+      disabled => 'false',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Certificate Authentication Service object.
+
+=head2 auto_populate_login( )
+
+=over
+
+Use this method to set or retrieve a parameter that specifies the client certificate value to auto-populate the NIOS login name field.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The method returns either of these attribute values: "SERIAL_NUMBER", "S_DN_CN", "S_DN_EMAIL", "SAN_UPN", "SAN_EMAIL" or "AD_SUBJECT_ISSUER". The default value is "S_DN_CN".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get auto_populate_login
+ my $auto_populate_login = $auth_service->auto_populate_login();
+
+ #Set auto_populate_login
+ $auth_service->auto_populate_login('SERIAL_NUMBER');
+
+=back
+
+=back
+
+=head2 ca_certificates( )
+
+=over
+
+Use this method to set or retrieve the list of CA certificates in the Certificate Authentication Service object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains L<Infoblox::Grid::CACertificate|Infoblox::Grid::CACertificate> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ca_certificates value
+ my $ca_certificates = $auth_service->ca_certificates();
+
+ #Modify ca_certificates
+
+ #Retrieve the existing certificate
+ my $certificate = $session->get(
+     object => 'Infoblox::Grid::CACertificate',
+     serial => 'e76227f314c0f3db',
+ );
+
+ #Modify ca_certificates value
+ $auth_service->ca_certificates([$certificate]);
+
+=back
+
+=back
+
+=head2 client_cert_subject( )
+
+=over
+
+Use this method to set or retrieve a parameter that associates a client certificate subject with a specific certificate group.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The client certificate subject name in string format. The default value is "DC=com".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_cert_subject
+ my $client_cert_subject = $auth_service->client_cert_subject();
+
+ #Set client_cert_subject
+ $auth_service->client_cert_subject('C=US');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $auth_service->comment();
+
+ #Modify comment
+ $auth_service->comment("Modified comment");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to set or retrieve the disabled flag for the Certificate Authentication Service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable the Certificate Authentication Service or "false" to enable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value as "true" or "false".
+
+=item B<Example>
+
+ #Get disabled flag
+ my $disabled = $auth_service->disabled();
+
+ #Modify disabled flag
+ $auth_service->disabled("true");
+
+=back
+
+=back
+
+=head2 enable_password_request( )
+
+=over
+
+Use this method to set or retrieve the flag that shows whether the username/password authentication together with certificate based is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the username/password authentication together with certificate based or "false" to disable it. Default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value as "true" or "false".
+
+=item B<Example>
+
+ #Get enable_password_request flag
+ my $enable_password_request = $auth_service->enable_password_request();
+
+ #Modify enable_password_request flag
+ $auth_service->enable_password_request("false");
+
+=back
+
+=back
+
+=head2 enable_remote_lookup( )
+
+=over
+
+Use this method to set or retrieve the flag that shows whether the lookup for users group membership info on remote services is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the lookup for users group membership info on remote services or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value as "true" or "false".
+
+=item B<Example>
+
+ #Get enable_remote_lookup flag
+ my $enable_remote_lookup = $auth_service->enable_remote_lookup();
+
+ #Modify enable_remote_lookup flag
+ $auth_service->enable_remote_lookup("true");
+
+=back
+
+=back
+
+=head2 max_retries( )
+
+=over
+
+Use this method to set or retrieve the number of validation retries before the appliance moves on to the next OCSP responder.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer. Default value is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get max_retries
+ my $max_retries = $auth_service->max_retries();
+
+ #Modify max_retries
+ $auth_service->max_retries(1);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the Certificate Authentication Service name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The Certificate Authentication Service name in string format. The default value is "Cert auth service".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $auth_service->name();
+
+ #Modify comment
+ $auth_service->name("New cert group");
+
+=back
+
+=back
+
+=head2 ocsp_check( )
+
+=over
+
+Use this method to set or retrieve the source of OCSP settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of the parameter can be "MANUAL", "AIA_ONLY", "AIA_AND_MANUAL" or "DISABLED".  The default value is "MANUAL".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ocsp_check
+ my $ocsp_check = $auth_service->ocsp_check();
+
+ #Set ocsp_check
+ $auth_service->ocsp_check('DISABLED');
+
+=back
+
+=back
+
+=head2 ocsp_responders( )
+
+=over
+
+Use this method to set or retrieve the list of OCSP responders in the Certificate Authentication Service object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains  L<Infoblox::OCSP::Responder|Infoblox::OCSP::Responder> object(s).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ocsp_responders
+ my $responder_list = $auth_service->ocsp_responders();
+
+ #Modify ocsp_responders
+ my $responder1 = Infoblox::OCSP::Responder->new(
+      fqdn_or_ip  => 'domain.com',
+      certificate => '/tmp/cert1.pem',
+ );
+
+ my $responder2 = Infoblox::OCSP::Responder->new(
+      fqdn_or_ip  => '192.168.1.10',
+      certificate => '/tmp/cert2.pem',
+ );
+
+ $auth_service->ocsp_responders([$responder1, $responder2]);
+
+=back
+
+=back
+
+=head2 recovery_interval( )
+
+=over
+
+Use this method to set or retrieve the specified period of time the appliance waits before retrying a responder that has been offline. The value must be between 1 and 600 seconds.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer. Default value is 30.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recovery_interval
+ my $recovery_interval = $auth_service->recovery_interval();
+
+ #Modify recovery_interval
+ $auth_service->recovery_interval(5);
+
+=back
+
+=back
+
+=head2 remote_lookup_password( )
+
+=over
+
+Use this method to set or retrieve the password for a service account.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The password for service account in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get remote_lookup_password
+ my $remote_lookup_password = $auth_service->remote_lookup_password();
+
+ #Set remote_lookup_password
+ $auth_service->remote_lookup_password('infoblox');
+
+=back
+
+=back
+
+=head2 remote_lookup_service( )
+
+=over
+
+Use this method to set or retrieve the service that will be used for remote lookup.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a reference that contains L<Infoblox::Grid::Admin::AdAuthServer|Infoblox::Grid::Admin::AdAuthServer> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get remote_lookup_service
+ my $remote_lookup_service = $auth_service->remote_lookup_service();
+
+ #Modify remote_lookup_service
+ my $remote_lookup_service1 = Infoblox::Grid::Admin::AdAuthServer->new(
+    name => "1.2.3.4",
+    port => 15623,
+    encryption => "SSL"
+ );
+
+ $auth_service->remote_lookup_service($remote_lookup_service1);
+
+=back
+
+=back
+
+=head2 remote_lookup_username( )
+
+=over
+
+Use this method to set or retrieve the username for a service account.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The username for a service account in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get remote_lookup_username
+ my $remote_lookup_username = $auth_service->remote_lookup_username();
+
+ #Set remote_lookup_username
+ $auth_service->remote_lookup_username('admin');
+
+=back
+
+=back
+
+=head2 response_timeout( )
+
+=over
+
+Use this method to set or retrieve validation timeout period in milliseconds, must be between 1000 and 60000.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer. Default value is 1000.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get response_timeout
+ my $response_timeout = $auth_service->response_timeout();
+
+ #Modify response_timeout
+ $auth_service->response_timeout(7000);
+
+=back
+
+=back
+
+=head2 trust_model( )
+
+=over
+
+Use this method to set or retrieve a parameter that specifies how the appliance performs OCSP requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The name of parameter is either "DIRECT" or "DELEGATED".  Default value is "DIRECT".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get trust_model
+ my $trust_model = $auth_service->trust_model();
+
+ #Set trust_model
+ $auth_service->trust_model('DELEGATED');
+
+=back
+
+=back
+
+=head2 user_match_type( )
+
+=over
+
+Use this method to set or retrieve a parameter that specifies how to search for a particular user: if the parameter is equal to "DIRECT_MATCH" the method searches for only local users with manually assigned certificates, else if the parameter is equal to "AUTO_MATCH" the method populates username from certificate and searches against effective Auth Policies.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is "DIRECT_MATCH" or "AUTO_MATCH".  The default value is "DIRECT_MATCH".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get user_match_type
+ my $user_match_type = $auth_service->user_match_type();
+
+ #Set user_match_type
+ $auth_service->user_match_type('AUTO_MATCH');
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, get, modify and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to creating and modifying a Certificate Authentication Service object>
+
+ use strict;
+ use Infoblox;
+
+ #refers to Infoblox Appliance IP address
+ my $host_ip = "192.168.1.2";
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create an OCSP responder>
+
+ my $responder = Infoblox::OCSP::Responder->new(
+     address     => 'domain.com',
+     certificate => '/tmp/cert.pem',
+     disabled => 'true',
+ );
+
+ unless ($responder) {
+        die("Construct OCSP responder object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "OCSP responder object created successfully\n";
+
+B<#Create a Certificate Authentication Service object>
+
+ my $auth_service = Infoblox::Grid::Admin::CertificateAuthService->new(
+     name            => 'cas',
+     ca_certificates => [$ca1, $ca2],
+     ocsp_responders => [$responder],
+     disabled        => 'true',
+ );
+
+ unless ($auth_service) {
+        die("Construct Certificate Authentication Service object failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Certificate Authentication Service object created successfully\n";
+
+ #Add the Certificate Authentication Service object to an appliance through session
+ my $response = $session->add($auth_service);
+
+ unless ($response) {
+     die("Add Certificate Authentication Service object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Certificate Authentication Service object added successfully \n";
+
+B<#Get and modify the Certificate Authentication Service object>
+
+ #Get a Certificate Authentication Service object through session
+ my @retrieved_objs = $session->get(
+     object   => "Infoblox::Grid::Admin::CertificateAuthService",
+     name     => "cas",
+     );
+ my $auth_service = $retrieved_objs[0];
+
+ unless ($auth_service) {
+     die("Get a Certificate Authentication Service object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print"Get a Certificate Authentication Service object successful \n";
+
+ # Modify one of the attributes of the selected Certificate Authentication Service object.
+
+ $auth_service->comment("new comment");
+
+ #Applying the changes
+ $session->modify($auth_service)
+    or die("Modify Certificate Authentication Service object failed",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Certificate Authentication Service object modified successfully \n";
+
+B<#Remove the Certificate Authentication Service object>
+
+ #Get a Certificate Authentication Service object through session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::Admin::CertificateAuthService",
+     name   => "cas",
+     );
+ my $desired_auth_service = $retrieved_objs[0];
+
+ unless ($desired_auth_service) {
+     die("Get a Certificate Authentication Service object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get a Certificate Authentication Service object successful \n";
+
+ #Submit the object for removal
+ $session->remove($desired_auth_service)
+     or die("Remove Certificate Authentication Service object failed",
+            $session->status_code() . ":" . $session->status_detail());
+ print "Certificate Authentication Service object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::OCSP::Responder|Infoblox::OCSP::Responder>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

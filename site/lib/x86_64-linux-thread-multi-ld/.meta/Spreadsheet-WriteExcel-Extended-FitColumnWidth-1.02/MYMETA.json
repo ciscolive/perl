@@ -1,0 +1,44 @@
+{
+   "abstract" : "Extends Spreadsheet::WriteExcel with autofit of columns and a few other nice things",
+   "author" : [
+      "Greg George <gng@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.54, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Spreadsheet-WriteExcel-Extended-FitColumnWidth",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Font::TTFMetrics" : "0.01",
+            "Spreadsheet::WriteExcel" : "2.37",
+            "Test::More" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "1.02",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

@@ -1,0 +1,2635 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::Data - the discovered data.
+
+=head1 DESCRIPTION
+
+The object provides information about the discovered data.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::Data->new(
+    'ap_name'                            => $string,
+    'ap_ip_address'                      => $ipaddr,
+    'ap_ssid'                            => $string,
+    'bridge_domain                       => $string,
+    'duid'                               => $string,
+    'mac_address'                        => $string,
+    'netbios'                            => $string,
+    'os'                                 => $string,
+    'device_model'                       => $string,
+    'device_port_name'                   => $string,
+    'device_port_type'                   => $string,
+    'device_type'                        => $string,
+    'device_vendor'                      => $string,
+    'discovered_name'                    => $string,
+    'discoverer'                         => $string,
+    'endpoint_groups'                    => $string,
+    'first_discovered'                   => $datetime,
+    'last_discovered'                    => $datetime,
+    'mgmt_ip_address'                    => $ipaddr,
+    'network_component_description'      => $string,
+    'network_component_ip'               => $ipaddr,
+    'network_component_model'            => $string,
+    'network_component_name'             => $string,
+    'network_component_port_description' => $string,
+    'network_component_port_name'        => $string,
+    'network_component_port_number'      => $uint,
+    'network_component_type'             => $string,
+    'network_component_vendor'           => $string,
+    'open_ports'                         => $string,
+    'port_duplex'                        => 'Full' | 'Half',
+    'port_link_status'                   => 'Connected' | 'Not Connected' | 'Unknown',
+    'port_speed'                         => '100G' | '100M' | '10G' | '10M' | '1G' | 'Unknown',
+    'port_status'                        => 'Down' | 'Unknown' | 'Up',
+    'port_type'                          => $string,
+    'port_vlan_description'              => $string,
+    'port_vlan_name'                     => $string,
+    'port_vlan_number'                   => $uint,
+    'task_name'                          => $string,
+    'tenant'                             => $string,
+    'network_component_location'         => $string,
+    'network_component_contact'          => $string,
+    'device_location'                    => $string,
+    'device_contact'                     => $string,
+    'v_netadapter'                       => $string,
+    'v_cluster'                          => $string,
+    'v_datacenter'                       => $string,
+    'v_name'                             => $string,
+    'v_type'                             => 'VirtualCenter' | 'HostSystem' | 'VirtualMachine',
+    'v_host'                             => $string,
+    'v_os'                               => $string,
+    'v_switch'                           => $string,
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the discovered data object.
+
+=head2 device_model( )
+
+=over
+
+Use this method to set or retrieve the model name of the device in the vendor terminology.
+
+=over
+
+=item B<Parameter>
+
+The model name of the device in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device_model();
+ # Modify attribute value
+ $object->device_model('model');
+
+=back
+
+=back
+
+=head2 device_port_name( )
+
+=over
+
+Use this method to set or retrieve the system name of the interface the IP associates with.
+
+=over
+
+=item B<Parameter>
+
+The system name of the interface in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device_port_name();
+ # Modify attribute value
+ $object->device_port_name('port');
+
+=back
+
+=back
+
+=head2 device_port_type( )
+
+=over
+
+Use this method to set or retrieve the hardware type of the interface the IP associates with.
+
+=over
+
+=item B<Parameter>
+
+The hardware type of the interface in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device_port_type();
+ # Modify attribute value
+ $object->device_port_type('type');
+
+=back
+
+=back
+
+=head2 device_type( )
+
+=over
+
+Use this method to set or retrieve the type of the device in the vendor terminology.
+
+=over
+
+=item B<Parameter>
+
+The type of the device in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device_type();
+ # Modify attribute value
+ $object->device_type('type');
+
+=back
+
+=back
+
+=head2 device_vendor( )
+
+=over
+
+Use this method to set or retrieve the vendor name of the device.
+
+=over
+
+=item B<Parameter>
+
+The vendor name of the device in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device_vendor();
+ # Modify attribute value
+ $object->device_vendor('vendor');
+
+=back
+
+=back
+
+=head2 discovered_name( )
+
+=over
+
+Use this method to set or retrieve the name of the IP as seen by the discovery station.
+
+=over
+
+=item B<Parameter>
+
+The discovered name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->discovered_name();
+ # Modify attribute value
+ $object->discovered_name('name');
+
+=back
+
+=back
+
+=head2 discoverer( )
+
+=over
+
+Use this method to set or retrieve the name of the discoverer.
+
+=over
+
+=item B<Parameter>
+
+The name of the discoverer in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->discoverer();
+ # Modify attribute value
+ $object->discoverer('discoverer');
+
+=back
+
+=back
+
+=head2 duid( )
+
+=over
+
+Use this method to set or retrieve the discovered DHCPv6 UID (DUID).
+
+=over
+
+=item B<Parameter>
+
+The discovered DHCPv6 UID (DUID) in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->duid();
+ # Modify attribute value
+ $object->duid('aa:aa');
+
+=back
+
+=back
+
+=head2 endpoint_groups( )
+
+=over
+
+Use this method to retrieve comma-separated list of discovered endpoint groups. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->endpoint_groups();
+
+=back
+
+=back
+
+=head2 first_discovered( )
+
+=over
+
+Use this method to set or retrieve the date and time when the object was first discovered.
+
+=over
+
+=item B<Parameter>
+
+The date and time in the ISO 8601 extended format (e.g. 2008-10-21T10:56:33Z or 2008-10-21T10:56:33.001Z).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->first_discovered();
+ # Modify attribute value
+ $object->first_discovered('2008-10-21T10:56:33Z');
+
+=back
+
+=back
+
+=head2 iprg_no( )
+
+=over
+
+Use this method to set or retrieve the port redundant group number.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an unsigned integer which describes port redundant group number.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->iprg_no();
+ # Modify attribute value
+ $object->iprg_no(10);
+
+=back
+
+=back
+
+=head2 iprg_state( )
+
+=over
+
+Use this method to set or retrieve the status for the IP address within port redundant group.
+
+=over
+
+=item B<Parameter>
+
+Valid value is "VIP", "ACTIVE", "NEGOTIATION" or "STANDBY".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->iprg_state();
+ # Modify attribute value
+ $object->iprg_state('ACTIVE');
+
+=back
+
+=back
+
+=head2 iprg_type( )
+
+=over
+
+Use this method to set or retrieve the port redundant group type.
+
+=over
+
+=item B<Parameter>
+
+Valid value is "HSRP" or "VRRP".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->iprg_type();
+ # Modify attribute value
+ $object->iprg_type('HSRP');
+
+=back
+
+=back
+
+=head2 last_discovered( )
+
+=over
+
+Use this method to set or retrieve the date and time when the object was last discovered.
+
+=over
+
+=item B<Parameter>
+
+The date and time in the ISO 8601 extended format (e.g. 2008-10-21T10:56:33Z or 2008-10-21T10:56:33.001Z).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->last_discovered();
+ # Modify attribute value
+ $object->last_discovered('2008-10-21T10:56:33Z');
+
+=back
+
+=back
+
+=head2 mac_address( )
+
+=over
+
+Use this method to set or retrieve the MAC address.
+
+=over
+
+=item B<Parameter>
+
+The MAC address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->mac_address();
+ # Modify attribute value
+ $object->mac_address('11:11:11:11:11:11');
+
+=back
+
+=back
+
+=head2 mgmt_ip_address( )
+
+=over
+
+Use this method to set or retrieve the management IP address of the device if the device has more than one IP.
+
+=over
+
+=item B<Parameter>
+
+The management IP address of the device.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->mgmt_ip_address();
+ # Modify attribute value
+ $object->mgmt_ip_address('10.0.0.1');
+
+=back
+
+=back
+
+=head2 netbios( )
+
+=over
+
+Use this method to set or retrieve the discovered NetBIOS name.
+
+=over
+
+=item B<Parameter>
+
+The discovered NetBIOS name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->netbios();
+ # Modify attribute value
+ $object->netbios('netbios');
+
+=back
+
+=back
+
+=head2 network_component_description( )
+
+=over
+
+Use this method to set or retrieve the descriptive string for the network component.
+
+=over
+
+=item B<Parameter>
+
+The descriptive string for the network component.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_description();
+ # Modify attribute value
+ $object->network_component_description('description');
+
+=back
+
+=back
+
+=head2 network_component_ip( )
+
+=over
+
+Use this method to set or retrieve the IP Address the network component.
+
+=over
+
+=item B<Parameter>
+
+The IP Address the network component.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_ip();
+ # Modify attribute value
+ $object->network_component_ip('10.0.0.2');
+
+=back
+
+=back
+
+=head2 network_component_model( )
+
+=over
+
+Use this method to set or retrieve the model name of the network component.
+
+=over
+
+=item B<Parameter>
+
+The model name of the network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_model();
+ # Modify attribute value
+ $object->network_component_model('model');
+
+=back
+
+=back
+
+=head2 network_component_name( )
+
+=over
+
+Use this method to set or retrieve the name of the network component.
+
+=over
+
+=item B<Parameter>
+
+The name of the network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_name();
+ # Modify attribute value
+ $object->network_component_name('name');
+
+=back
+
+=back
+
+=head2 network_component_port_description( )
+
+=over
+
+Use this method to set or retrieve the description of the port on the network component.
+
+=over
+
+=item B<Parameter>
+
+The description of the port on the network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_port_description();
+ # Modify attribute value
+ $object->network_component_port_description('description');
+
+=back
+
+=back
+
+=head2 network_component_port_name( )
+
+=over
+
+Use this method to set or retrieve the port name on the network component on which the IP was discovered.
+
+=over
+
+=item B<Parameter>
+
+The port name on the network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_port_name();
+ # Modify attribute value
+ $object->network_component_port_name('port');
+
+=back
+
+=back
+
+=head2 network_component_port_number( )
+
+=over
+
+Use this method to set or retrieve the port number on the network component on which the IP was discovered.
+
+=over
+
+=item B<Parameter>
+
+The port number on the network component.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_port_number();
+ # Modify attribute value
+ $object->network_component_port_number(10);
+
+=back
+
+=back
+
+=head2 network_component_type( )
+
+=over
+
+Use this method to set or retrieve the type of network component.
+
+=over
+
+=item B<Parameter>
+
+The type of network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_type();
+ # Modify attribute value
+ $object->network_component_type('type');
+
+=back
+
+=back
+
+=head2 network_component_vendor( )
+
+=over
+
+Use this method to set or retrieve the vendor name of the network component to which the device is connected.
+
+=over
+
+=item B<Parameter>
+
+The vendor name of the network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_vendor();
+ # Modify attribute value
+ $object->network_component_vendor('vendor');
+
+=back
+
+=back
+
+=head2 open_ports( )
+
+=over
+
+Use this method to set or retrieve the list of opened ports on the IP address, represented as: "TCP: 21,22,23 UDP: 137,139".
+
+=over
+
+=item B<Parameter>
+
+The list of opened ports in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->open_ports();
+ # Modify attribute value
+ $object->open_ports('TCP: 21,22,23 UDP: 137,139');
+
+=back
+
+=back
+
+=head2 os( )
+
+=over
+
+Use this method to set or retrieve the name of the operation system by network discovery.
+
+=over
+
+=item B<Parameter>
+
+The name of the operation system in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->os();
+ # Modify attribute value
+ $object->os('linux');
+
+=back
+
+=back
+
+=head2 port_duplex( )
+
+=over
+
+Use this method to set or retrieve duplex settings on the port on the network component.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'Full' or 'Half'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_duplex();
+ # Modify attribute value
+ $object->port_duplex('Full');
+
+=back
+
+=back
+
+=head2 port_link_status( )
+
+=over
+
+Use this method to set or retrieve the link status of the port on the network component.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'Connected', 'Not Connected' or 'Unknown'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_link_status();
+ # Modify attribute value
+ $object->port_link_status('Connected');
+
+=back
+
+=back
+
+=head2 port_speed( )
+
+=over
+
+Use this method to set or retrieve speed settings on the port on the network component.
+
+=over
+
+=item B<Parameter>
+
+Valid value is '10M', '100M', '1G', '10G', '100G' or 'Unknown'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_speed();
+ # Modify attribute value
+ $object->port_speed('Unknown');
+
+=back
+
+=back
+
+=head2 port_status( )
+
+=over
+
+Use this method to set or retrieve the status of the port on the network component.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'Up', 'Down' or 'Unknown'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_status();
+ # Modify attribute value
+ $object->port_status('Unknown');
+
+=back
+
+=back
+
+=head2 port_type( )
+
+=over
+
+Use this method to set or retrieve the type of the interface on the network component to which the device is connected.
+
+=over
+
+=item B<Parameter>
+
+The type of the interface on the network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_type();
+ # Modify attribute value
+ $object->port_type('type');
+
+=back
+
+=back
+
+=head2 port_vlan_description( )
+
+=over
+
+Use this method to set or retrieve the description of the VLAN on the port on the network component.
+
+=over
+
+=item B<Parameter>
+
+The description of the VLAN on the port on the network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_vlan_description();
+ # Modify attribute value
+ $object->port_vlan_description('description');
+
+=back
+
+=back
+
+=head2 port_vlan_name( )
+
+=over
+
+Use this method to set or retrieve the name of the VLAN on the port on the network component.
+
+=over
+
+=item B<Parameter>
+
+The name of the VLAN on the port on the network component in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_vlan_name();
+ # Modify attribute value
+ $object->port_vlan_name('name');
+
+=back
+
+=back
+
+=head2 port_vlan_number( )
+
+=over
+
+Use this method to set or retrieve the number VLANs on the port on the network component.
+
+=over
+
+=item B<Parameter>
+
+The number of VLANs on the port on the network component.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->port_vlan_number();
+ # Modify attribute value
+ $object->port_vlan_number(10);
+
+=back
+
+=back
+
+=head2 task_name( )
+
+=over
+
+Use this method to retrieve the name of discovery task. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->task_name();
+
+=back
+
+=back
+
+=head2 tenant( )
+
+=over
+
+Use this method to retrieve the discovered tenant. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->tenant();
+
+=back
+
+=back
+
+=head2 network_component_location( )
+
+=over
+
+Use this method to retrieve location of the network component on which the IP address was discovered. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_location();
+
+=back
+
+=back
+
+=head2 ap_name( )
+
+=over
+
+Use this method to retrieve discovered name of Wireless Access Point. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ap_name();
+
+=back
+
+=back
+
+=head2 ap_ip_address( )
+
+=over
+
+Use this method to retrieve discovered IP address of Wireless Access Point. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ap_ip_address();
+
+=back
+
+=back
+
+=head2 ap_ssid( )
+
+=over
+
+Use this method to retrieve service set identifier (SSID) associated with Wireless Access Point. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->ap_ssid();
+
+=back
+
+=back
+
+=head2 bridge_domain( )
+
+=over
+
+Use this method to retrieve the discovered bridge domain. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->bridge_domain();
+
+=back
+
+=back
+
+=head2 network_component_contact( )
+
+=over
+
+Use this method to retrieve contact information from the network component on which the IP address was discovered. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_component_contact();
+
+=back
+
+=back
+
+=head2 device_location( )
+
+=over
+
+Location of device on which the IP address was discovered. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device_location();
+
+=back
+
+=back
+
+=head2 device_contact( )
+
+=over
+
+Contact information from device on which the IP address was discovered. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->device_contact();
+
+=back
+
+=back
+
+=head2 v_cluster( )
+
+=over
+
+Use this method to set or retrieve the VMware cluster in the entity found.
+
+=over
+
+=item B<Parameter>
+
+The VMware cluster in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->v_cluster();
+ # Modify attribute value
+ $object->v_cluster('cluster');
+
+=back
+
+=back
+
+=head2 v_datacenter( )
+
+=over
+
+Use this method to set or retrieve the VMware datacenter in the entity found.
+
+=over
+
+=item B<Parameter>
+
+The VMware datacenter in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->v_datacenter();
+ # Modify attribute value
+ $object->v_datacenter('datacenter');
+
+=back
+
+=back
+
+=head2 v_host( )
+
+=over
+
+Use this method to set or retrieve the VMware host system in the entity found.
+
+=over
+
+=item B<Parameter>
+
+The VMware host system in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->v_host();
+ # Modify attribute value
+ $object->v_host('host');
+
+=back
+
+=back
+
+=head2 v_name( )
+
+=over
+
+Use this method to set or retrieve the VMware entity name in the entity found.
+
+=over
+
+=item B<Parameter>
+
+The VMware entity name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->v_name();
+ # Modify attribute value
+ $object->v_name('name');
+
+=back
+
+=back
+
+=head2 v_netadapter( )
+
+=over
+
+Use this method to set or retrieve the VMware physical adapter in the entity found.
+
+=over
+
+=item B<Parameter>
+
+The VMware physical adapter in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->v_netadapter();
+ # Modify attribute value
+ $object->v_netadapter('netadapter');
+
+=back
+
+=back
+
+=head2 v_os( )
+
+=over
+
+Use this method to set or retrieve the VMware Operating System in the entity found.
+
+=over
+
+=item B<Parameter>
+
+The VMware Operating System in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->v_os();
+ # Modify attribute value
+ $object->v_os('linux');
+
+=back
+
+=back
+
+=head2 v_switch( )
+
+=over
+
+Use this method to set or retrieve the VMware virtual switch in the entity found.
+
+=over
+
+=item B<Parameter>
+
+The VMware virtual switch in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->v_switch();
+ # Modify attribute value
+ $object->v_switch('switch');
+
+=back
+
+=back
+
+=head2 v_type( )
+
+=over
+
+Use this method to set or retrieve the type of encryption to use.
+
+=over
+
+=item B<Parameter>
+
+Valid value is 'VirtualCenter', 'HostSystem' or 'VirtualMachine'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->v_type();
+ # Modify attribute value
+ $object->v_type('VirtualMachine');
+
+=back
+
+=back
+
+=head2 vmi_name( )
+
+=over
+
+Use this method to retrieve the name of the virtual machine. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmi_name();
+
+=back
+
+=back
+
+=head2 vmi_id( )
+
+=over
+
+Use this method to retrieve the ID of the virtual machine. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmi_id();
+
+=back
+
+=back
+
+=head2 vmi_tenant_id( )
+
+=over
+
+Use this method to retrieve the Tenant ID to which the virtual machine belongs. This is a read-only attribute
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmi_tenant_id();
+
+=back
+
+=back
+
+=head2 vlan_port_group( )
+
+=over
+
+Use this method to retrieve the port group to which the virtual machine belongs. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vlan_port_group();
+
+=back
+
+=back
+
+=head2 vswitch_name( )
+
+=over
+
+Use this method to retrieve the name of the virtual switch. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_name();
+
+=back
+
+=back
+
+=head2 vswitch_id( )
+
+=over
+
+Use this method to retrieve the ID of the virtual switch. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_id();
+
+=back
+
+=back
+
+=head2 vswitch_type( )
+
+=over
+
+Use this method to retrieve the type of the virtual switch: Standard or Distributed. 'Unknown' indicates the value is not avialable. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_type();
+
+=back
+
+=back
+
+=head2 vswitch_ipv6_enabled( )
+
+=over
+
+Use this method to retrieve the flag used to indicate if the virtual swich has IPv6 enabled or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_ipv6_enabled();
+
+=back
+
+=back
+
+=head2 vport_name( )
+
+=over
+
+Use this method to retrieve the name of the network adapter on the virtual switch to which the virtual machine is connected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vport_name();
+
+=back
+
+=back
+
+=head2 vport_mac_address( )
+
+=over
+
+Use this method to retrieve the MAC address of the network adapter on the virtual switch to which the the virtual machine is connected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vport_mac_address();
+
+=back
+
+=back
+
+=head2 vport_link_status( )
+
+=over
+
+Use this method to retrieve the status of the link of the network adapter on the virtual switch to which the virtual machine is connected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vport_link_status();
+
+=back
+
+=back
+
+=head2 vport_conf_speed( )
+
+=over
+
+Use this method to retrieve the configured speed (in Kb) of the network adapter on the virtual switch to which the virtual machine is connected. Example: 1500Kb. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vport_conf_speed();
+
+=back
+
+=back
+
+=head2 vport_conf_mode( )
+
+=over
+
+Use this method to retrieve the configured mode of the network adapter on the virtual switch to which the virtual machine is connected. Valid value is Full-duplex or Half-duplex. 'Unknown' indicates the value is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vport_conf_mode();
+
+=back
+
+=back
+
+=head2 vport_speed( )
+
+=over
+
+Use this method to retrieve the actual speed (in Kb) of the network adapter on the virtual switch to which the virtual machine is connected. Example: 1500Kb. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vport_speed();
+
+=back
+
+=back
+
+=head2 vport_mode( )
+
+=over
+
+Use this method to retrieve the actual mode of the network adapter on the virtual switch to which the virtual machine is connected. Valid value is Full-duplex or Half-duplex. 'Unknown' indicates the value is not available. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vport_mode();
+
+=back
+
+=back
+
+=head2 vswitch_segment_type( )
+
+=over
+
+Use this method to retrieve the type of the network segment to which the current virtual machine/vport is connected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_segment_type();
+
+=back
+
+=back
+
+=head2 vswitch_segment_name( )
+
+=over
+
+Use this method to retrieve the name of the network segment to which the current virtual machine/vport is connected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_segment_name();
+
+=back
+
+=back
+
+=head2 vswitch_segment_id( )
+
+=over
+
+Use this method to retrieve the ID of the network segment to which the current virtual machine/vport is connected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_segment_id();
+
+=back
+
+=back
+
+=head2 vswitch_segment_port_group( )
+
+=over
+
+Use this method to retrieve the port group of the network segment to which the current virtual machine/vport is connected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_segment_port_group();
+
+=back
+
+=back
+
+=head2 vswitch_available_ports_count( )
+
+=over
+
+Use this method to retrieve the number of available ports reported by the virtual switch to which the virtual machine/vport is connected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_available_ports_count();
+
+=back
+
+=back
+
+=head2 vswitch_tep_type( )
+
+=over
+
+Use this method to retrieve the type of virtual tunnel endpoint (VTEP) in the virtual switch. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_tep_type();
+
+=back
+
+=back
+
+=head2 vswitch_tep_ip ( )
+
+=over
+
+Use this method to retrieve the IP address of the virtual tunnel endpoint (VTEP) in the virtual switch. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_tep_ip ();
+
+=back
+
+=back
+
+=head2 vswitch_tep_port_group( )
+
+=over
+
+Use this method to retrieve the port group of the virtual tunnel endpoint (VTEP) in the virtual switch. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_tep_port_group();
+
+=back
+
+=back
+
+=head2 vswitch_tep_vlan( )
+
+=over
+
+Use this method to retrieve the VLAN of the virtual tunnel endpoint (VTEP) in the virtual switch. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_tep_vlan();
+
+=back
+
+=back
+
+=head2 vswitch_tep_dhcp_server( )
+
+=over
+
+Use this method to retrieve the DHCP server of the virtual tunnel endpoint (VTEP) in the virtual switch. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_tep_dhcp_server();
+
+=back
+
+=back
+
+=head2 vswitch_tep_multicast( )
+
+=over
+
+Use this method to retrieve the multicast address of the virtual tunnel endpoint (VTEP) in the virtual swtich. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vswitch_tep_multicast();
+
+=back
+
+=back
+
+=head2 vmhost_ip_address( )
+
+=over
+
+Use this method to retrieve the IP address of the physical node on which the virtual machine is hosted. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmhost_ip_address ();
+
+=back
+
+=back
+
+=head2 vmhost_name( )
+
+=over
+
+Use this method to retrieve the name of the physical node on which the virtual machine is hosted. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmhost_name();
+
+=back
+
+=back
+
+=head2 vmhost_mac_address ( )
+
+=over
+
+Use this method to retrieve the MAC address of the physical node on which the virtual machine is hosted. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmhost_mac_address ();
+
+=back
+
+=back
+
+=head2 vmhost_subnet_cidr ( )
+
+=over
+
+Use this method to retrieve the CIDR subnet of the physical node on which the virtual machine is hosted. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmhost_subnet_cidr ();
+
+=back
+
+=back
+
+=head2 vmhost_nic_names( )
+
+=over
+
+Use this method to retrieve the list of all physical port names used by the virtual switch on the physical node on which the virtual machine is hosted. Represented as: "eth1,eth2,eth3". This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmhost_nic_names();
+
+=back
+
+=back
+
+=head2 cisco_ise_endpoint_profile( )
+
+=over
+
+Use this method to retrieve a name of the endpoint profile created in Cisco ISE. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cisco_ise_endpoint_profile();
+
+=back
+
+=back
+
+=head2 cisco_ise_security_group( )
+
+=over
+
+Use this method to retrieve the Cisco ISE security group. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cisco_ise_security_group();
+
+=back
+
+=back
+
+=head2 cisco_ise_session_state( )
+
+=over
+
+Use this method to retrieve the Cisco ISE session state. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cisco_ise_session_state();
+
+=back
+
+=back
+
+=head2 cisco_ise_ssid( )
+
+=over
+
+Use this method to retrieve the Cisco ISE SSID. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cisco_ise_ssid();
+
+=back
+
+=back
+
+=head2 cmp_type( )
+
+=over
+
+Use this method to retrieve the Cloud Management Platform type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->cmp_type();
+
+=back
+
+=back
+
+=head2 vmi_ip_type( )
+
+=over
+
+Use this method to retrieve the discovered IP address type. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmi_ip_type();
+
+=back
+
+=back
+
+=head2 vmi_private_address( )
+
+=over
+
+Use this method to retrieve the private IP address of the virtual machine. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmi_private_address();
+
+=back
+
+=back
+
+=head2 vmi_is_public_address( )
+
+=over
+
+Use this method to retrieve the flag used to indicate whether the IP address is a public address or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vmi_is_public_address();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a discovered data object.
+
+B<#Preparation>
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $host_ip   = "192.168.1.2";
+ my $host_name = "infoblox.localdomain";
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,       #appliance host ip
+     username => "admin",        #appliance user login
+     password => "infoblox"      #appliance password
+ );
+ unless ($session) {
+    die("Construct session failed: ".
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully.\n";
+
+B<#Get an Infoblox::Grid::Discovery::Data object>
+
+ my @retrieved_objs = $session->get('object' => 'Infoblox::DHCP::FixedAddr', 'ipv4addr' => '10.0.0.5');
+ my $fa = $retrieved_objs[0];
+ unless ($fa) {
+    die("Get FixedAddr object failed: ".
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+ my $data = $fa->discovered_data();
+ unless ($data) {
+    die("FixedAddr object doesn't contain the discovered data");
+ }
+
+B<#Search by discovered data>
+
+ $data = Infoblox::Grid::Discovery::Data->new(
+    'netbios' => 'Fixed*',
+    'v_type'  => 'VirtualCenter',
+ );
+ unless ($data) {
+    die("Construct Infoblox::Grid::Discovery::Data object failed: ".
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ @retrieved_objs = $session->get('object' => 'Infoblox::DHCP::FixedAddr', 'discovered_data' => $data);
+ $fa = $retrieved_objs[0];
+ unless ($fa) {
+    die("Get FixedAddr object failed: ".
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

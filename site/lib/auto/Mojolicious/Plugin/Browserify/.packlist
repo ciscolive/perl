@@ -1,0 +1,6 @@
+/opt/perl/site/lib/Mojolicious/Command/browserify.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Browserify.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Browserify/Processor.pm
+/opt/perl/site/man/man3/Mojolicious::Command::browserify.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::Browserify.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::Browserify::Processor.3

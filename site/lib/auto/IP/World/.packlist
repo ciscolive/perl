@@ -1,0 +1,13 @@
+/opt/perl/site/bin/ip2country
+/opt/perl/site/bin/ip_cc_benchmark
+/opt/perl/site/bin/ip_world_dump
+/opt/perl/site/bin/maint_ip_world_db
+/opt/perl/site/lib/IP/World.pm
+/opt/perl/site/lib/IP/World.pod
+/opt/perl/site/lib/IP/World/ConfigData.pm
+/opt/perl/site/lib/auto/IP/World/World.bs
+/opt/perl/site/lib/auto/IP/World/World.so
+/opt/perl/site/lib/auto/IP/World/ipworld.bak
+/opt/perl/site/lib/auto/IP/World/ipworld.dat
+/opt/perl/site/man/man3/IP::World.3
+/opt/perl/site/man/man3/IP::World::ConfigData.3

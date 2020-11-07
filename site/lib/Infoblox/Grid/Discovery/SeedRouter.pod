@@ -1,0 +1,120 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::SeedRouter - The seed router structure.
+
+=head1 DESCRIPTION
+
+The object provides information about the seed router.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::SeedRouter->new(
+    'address'      => $ipaddr,       # Required
+    'network_view' => $string,       # Optional
+    'comment'      => $string,       # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IP address of the seed router.
+
+=over
+
+=item B<Parameter>
+
+The IP address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address();
+ # Modify attribute value
+ $object->address('10.0.0.1');
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view associated with the seed router.
+
+=over
+
+=item B<Parameter>
+
+The name of the network view
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_view();
+ # Modify attribute value
+ $object->network_view('papi_network_view');
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the description of the seed router.
+
+=over
+
+=item B<Parameter>
+
+The description of the seed router in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->comment();
+ # Modify attribute value
+ $object->comment('comment');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

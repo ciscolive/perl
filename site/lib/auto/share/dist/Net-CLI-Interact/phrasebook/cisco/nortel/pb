@@ -1,0 +1,6 @@
+prompt generic
+    match /[\/a-zA-Z0-9._:-]+ ?(?:\(config[^)]*\))? ?[#>] ?$/
+
+prompt user
+    match /Login: ?$/
+

@@ -1,0 +1,10 @@
+/opt/perl/site/lib/SVG.pm
+/opt/perl/site/lib/SVG/DOM.pm
+/opt/perl/site/lib/SVG/Element.pm
+/opt/perl/site/lib/SVG/Extension.pm
+/opt/perl/site/lib/SVG/XML.pm
+/opt/perl/site/man/man3/SVG.3
+/opt/perl/site/man/man3/SVG::DOM.3
+/opt/perl/site/man/man3/SVG::Element.3
+/opt/perl/site/man/man3/SVG::Extension.3
+/opt/perl/site/man/man3/SVG::XML.3

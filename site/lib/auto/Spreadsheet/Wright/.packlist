@@ -1,0 +1,10 @@
+/opt/perl/site/lib/Spreadsheet/Wright.pm
+/opt/perl/site/lib/Spreadsheet/Wright/CSV.pm
+/opt/perl/site/lib/Spreadsheet/Wright/Excel.pm
+/opt/perl/site/lib/Spreadsheet/Wright/HTML.pm
+/opt/perl/site/lib/Spreadsheet/Wright/JSON.pm
+/opt/perl/site/lib/Spreadsheet/Wright/OOXML.pm
+/opt/perl/site/lib/Spreadsheet/Wright/OpenDocument.pm
+/opt/perl/site/lib/Spreadsheet/Wright/OpenDocumentXML.pm
+/opt/perl/site/lib/Spreadsheet/Wright/XHTML.pm
+/opt/perl/site/man/man3/Spreadsheet::Wright.3

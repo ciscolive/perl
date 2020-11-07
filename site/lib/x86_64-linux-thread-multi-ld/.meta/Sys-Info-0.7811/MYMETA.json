@@ -1,0 +1,74 @@
+{
+   "abstract" : "Fetch information from the host system",
+   "author" : [
+      "Burak Gursoy <burak@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.007, CPAN::Meta::Converter version 2.150010",
+   "keywords" : [
+      "sys",
+      "system",
+      "info"
+   ],
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Sys-Info",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Pod::Coverage::TrustPod" : "0",
+            "Test::CPAN::Meta" : "0",
+            "Test::Pod" : "1.41",
+            "Test::Pod::Coverage" : "1.08"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Sys::Info::Base" : "0.78",
+            "Sys::Info::Driver::Linux" : "0.78",
+            "perl" : "5.010"
+         }
+      },
+      "test" : {
+         "recommends" : {
+            "CPAN::Meta" : "2.120900"
+         },
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0",
+            "File::Spec" : "0",
+            "IO::Handle" : "0",
+            "IPC::Open3" : "0",
+            "Test::More" : "0",
+            "Test::Sys::Info" : "0.20"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/burak/CPAN-Sys-Info/issues"
+      },
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/burak/CPAN-Sys-Info.git",
+         "web" : "https://github.com/burak/CPAN-Sys-Info"
+      }
+   },
+   "version" : "0.7811",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

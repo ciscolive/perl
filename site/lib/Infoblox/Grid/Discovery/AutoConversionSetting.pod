@@ -1,0 +1,182 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::AutoConversionSetting - Auto conversion setting.
+
+=head1 DESCRIPTION
+
+The object contains settings for automatic conversion of discovered data to managed objects.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::AutoConversionSetting->new(
+    'comment'          => $string,    # Optional
+    'condition'        => $string,    # Optional
+    'format'           => $string,    # Required
+    'network_view'     => $string,    # Required
+    'type'             => 'A_AND_PTR_RECORD' | 'HOST_RECORD' | 'FIXED_ADDRESS', # Required
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment for the automatic conversion setting.
+
+=over
+
+=item B<Parameter>
+
+The comment in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->comment();
+ # Modify attribute value
+ $object->comment('comment');
+
+=back
+
+=back
+
+=head2 condition( )
+
+=over
+
+Use this method to set or retrieve the condition for automatic conversion settings.
+
+=over
+
+=item B<Parameter>
+
+The string contains the condition for automatic conversion settings.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->condition();
+ # Modify attribute value
+ $object->condition('${discovered_name} == "unknown"');
+
+=back
+
+=back
+
+=head2 format( )
+
+=over
+
+Use this method to set or retrieve the format of the template for conversion.
+
+=over
+
+=item B<Parameter>
+
+Template string used to generate host names.
+
+Note that using double quotes may lead to interpolation of variables. Instead, use single quotes or encapsulated '$' characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->format();
+ # Modify attribute value
+ $object->format('${discovered_name}.test.com');
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the name of the network view which contains discovered data for convert.
+
+=over
+
+=item B<Parameter>
+
+The name of the network view.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_view();
+ # Modify attribute value
+ $object->network_view('default');
+
+=back
+
+=back
+
+=head2 type( )
+
+=over
+
+Use this method to set or retrieve the type of the converted object.
+
+=over
+
+=item B<Parameter>
+
+The object type used to define the converted object. Valid value is one of the following object types: 'A_AND_PTR_RECORD', 'HOST_RECORD', 'FIXED_ADDRESS'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->type();
+ # Modify attribute value
+ $object->type('FIXED_ADDRESS');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

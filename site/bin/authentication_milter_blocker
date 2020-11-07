@@ -1,0 +1,38 @@
+#!/usr/bin/env perl
+use 5.20.0;
+use strict;
+use warnings;
+use Mail::Milter::Authentication::Pragmas;
+# ABSTRACT: Manage the Authentication Milter Block List
+# PODNAME: authentication_milter_blocker
+our $VERSION = '2.20200930.2'; # VERSION
+use Mail::Milter::Authentication::App::Blocker::App;
+
+Mail::Milter::Authentication::App::Blocker::App->run;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+authentication_milter_blocker - Manage the Authentication Milter Block List
+
+=head1 VERSION
+
+version 2.20200930.2
+
+=head1 AUTHOR
+
+Marc Bradshaw <marc@marcbradshaw.net>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2020 by Marc Bradshaw.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

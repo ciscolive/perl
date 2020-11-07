@@ -1,0 +1,685 @@
+=head1 NAME
+
+Infoblox::DNS::Member - DNS Member object
+
+=head1 DESCRIPTION
+
+A grid member is part of a grid which is a group of two or more Infoblox appliances that share sections of a common, distributed, built-in database. A grid member inherits its settings from the grid. A member is a single Infoblox appliance or an HA pair that provides DNS services seamlessly across an entire network.
+
+=head1 CONSTRUCTOR
+
+ my $member = Infoblox::DNS::Member->new(
+     ipv4addr       => $ipv4addr,        #Required if $ipv6addr is not present
+     ipv6addr       => $ipv6addr,        #Required if $ipv4addr is not present
+     grid_replicate => "true" | "false", #Optional / Default is "true"
+     lead           => "true" | "false", #Optional / Default is "false"
+     name           => $fqdn,            #Optional / Default is  hostname of the matching ipv4addr
+     stealth        => "true" | "false"  #Optional / Default is "false"
+     preferred_primaries          => [$pp1, $pp2, ...], #Optional / Default is undefined
+     override_preferred_primaries => "true" | "false"   #Optional / Default is "false"
+     forward_to          => [$ns1, $ns2, ...],  #Optional
+     forwarders_only     => "true" | "false"    #Optional / Default is "false"
+     override_forwarders => "true" | "false"    #Optional / Default is "false"
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to an DNS Member object.
+
+=head2 Infoblox::DNS::Zone->multiple_primaries( )
+
+=over
+
+Use this function to specify primary members to a zone. See L<Infoblox::DNS::Zone-E<gt>multiple_primaries()|Infoblox::DNS::Zone/multiple_primaries()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $member1 = Infoblox::DNS::Member->new(
+     name           => "localhost.localdomain",
+     ipv4addr       => "192.168.1.2",
+     stealth        => "false",
+     lead           => "false",
+     grid_replicate => "false"
+ );
+
+ unless($member1) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ #Create the Zone object with this member
+ my $firstzone = Infoblox::DNS::Zone->new(
+     name        => "infoblox.com",
+     multiple_primaries => [$member1],
+ );
+
+ my $response = $session->add($firstzone)
+ unless($response) {
+      die("Add zone failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+ print "DNS member object added to the zone successfully\n";
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->secondary( )
+
+=over
+
+Use this function to specify secondary member to a zone. See L<Infoblox::DNS::Zone-E<gt>secondary()|Infoblox::DNS::Zone/secondary()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $member1 = Infoblox::DNS::Member->new(
+     name           => "localhost.localdomain",
+     ipv4addr       => "192.168.1.2",
+     stealth        => "false",
+     lead           => "false",
+     grid_replicate => "false"
+ );
+
+ unless($member1) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ my $member2 = Infoblox::DNS::Member->new(
+     name           => "localhost1.localdomain",
+     ipv4addr       => "192.168.1.3",
+     stealth        => "false",
+     lead           => "false",
+     grid_replicate => "false"
+ );
+
+ unless($member2) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ #Create the Zone object with this member
+ my $firstzone = Infoblox::DNS::Zone->new(
+     name        => "infoblox.com",
+     multiple_primaries => [$member1],
+     secondaries => [ $member2 ] ,
+ );
+
+ my $response = $session->add($firstzone)
+ unless($response) {
+      die("Add zone failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+
+ print "DNS member object added to the zone successfully\n";
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DNS::Nsgroup->multiple_primaries( )
+
+=over
+
+Use this function to specify primary members to a NS group. See L<Infoblox::Grid::DNS::Nsgroup-E<gt>multiple_primaries()|Infoblox::Grid::DNS::Nsgroup/multiple_primaries()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $member1 = Infoblox::DNS::Member->new(
+     name           => "localhost.localdomain",
+     ipv4addr       => "192.168.1.2",
+     stealth        => "false",
+     lead           => "false",
+     grid_replicate => "false"
+ );
+
+ unless($member1) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ my $nsgroup1 = Infoblox::Grid::DNS::Nsgroup->new (
+    name      => "ns_group1",
+    multiple_primaries => [$member1]
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::DNS::Nsgroup->secondary( )
+
+=over
+
+Use this function to specify secondary member to a NS group. See L<Infoblox::Grid::DNS::Nsgroup-E<gt>secondary()|Infoblox::Grid::DNS::Nsgroup/secondary()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $member1 = Infoblox::DNS::Member->new(
+     name           => "localhost.localdomain",
+     ipv4addr       => "192.168.1.2",
+     stealth        => "false",
+     lead           => "false",
+     grid_replicate => "false"
+ );
+
+ unless($member1) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ my $member2 = Infoblox::DNS::Member->new(
+     name           => "localhost1.localdomain",
+     ipv4addr       => "192.168.1.3",
+     stealth        => "false",
+     lead           => "false",
+     grid_replicate => "false"
+ );
+
+ unless($member2) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ my $nsgroup1 = Infoblox::Grid::DNS::Nsgroup->new (
+    name        => "ns_group1",
+    multiple_primaries => [$member1],
+    secondaries => [ $member2 ],
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a DNS Member object.
+
+=head2 forward_to( )
+
+=over
+
+Use this method to set or retrieve a list of DNS forwarders. You can use this attribute only for DNS members in forward-mapping zones.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get forward_to
+ my $forward_to = $member->forward_to();
+ #Modify forward_to
+ my $nameserver = Infoblox::DNS::Nameserver->new(
+        name     => "ns1.forwd.com",
+        ipv4addr => "11.11.11.11",
+    );
+
+ $zone->forward_to([$nameserver]);
+
+=back
+
+=back
+
+=head2 forwarders_only( )
+
+=over
+
+Use this method to set the forwarders_only flag. You can use this attribute only for DNS members in forward-mapping zones.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to use only DNS forwarders or "false" to disable it. The default value is 'false'.
+
+The server writes 'forward only' into the DNS configuration file for the DNS member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get forwarders_only
+ my $forwarders_only = $member->forwarders_only();
+ #Modify forwarders_only
+ $member->forwarders_only("true");
+
+=back
+
+=back
+
+=head2 override_forwarders( )
+
+=over
+
+Use this method to set the override_forwarders flag. You can use this attribute only for DNS members in forward-mapping zones.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to override DNS forwarders or "false" to use zone default DNS forwarders. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_forwarders
+ my $override_forwarders = $member->override_forwarders();
+ #Modify override_forwarders
+ $member->override_forwarders("true");
+
+=back
+
+=back
+
+=head2 grid_replicate( )
+
+=over
+
+Use this method to set or retrieve the grid_replicate flag, which indicates whether grid members that are primary and secondary servers use database replication or zone transfers for zone updates.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to use ID grid replication or "false" to use DNS zone transfers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get grid replicate
+ my $grid_replicate = $member->grid_replicate();
+ #Modify grid replicate
+ $member->grid_replicate("true");
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to set or retrieve the IPv4 address of the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+IPv4 address (32 bits) of the member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv4Addr
+ my $ipv4Addr = $member->ipv4Addr();
+ #Modify ipv4Addr
+ $member->ipv4Addr("192.168.1.3");
+
+=back
+
+=back
+
+=head2  ipv6addr( )
+
+=over
+
+Use this method to set or retrieve the IPv6 address if available. Required only when ipv4 is not specified.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+An IPv6 address is a 128-bit number in colon hexadecimal notation. It consists of eight groups of four hexadecimal digits separated by colons
+(example: 12ab:0000:0000:0123:4567:89ab:0000:cdef).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Getting ipv6addr
+ my $ipv6addr = $member->ipv6addr();
+ # Modifying ipv6addr
+ $member->ipv6addr("12ab::345");
+
+=back
+
+=back
+
+=head2 lead( )
+
+=over
+
+Use this method to set or retrieve the "lead" flag.
+
+When a primary server is external to a grid whose members are secondary servers, you can designate one member as a lead secondary. The primary server sends zone transfers to the lead secondary, which distributes the zone data to the other secondary servers in the grid using zone transfers (not the ID grid data replication mechanism).
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set lead flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get lead
+ my $lead = $member->lead();
+ #Modify lead
+ $member->lead("true");
+
+=back
+
+=back
+
+=head2 ms_parent_delegated( )
+
+=over
+
+Use this method to retrieve the ms_parent_delegated flag. If the zone is a delegation and the primary server of the parent zone is a Microsoft (r) server, this flag is set to "true" if the FQDN and IP address in the delegation zone's NS record matches the FQDN and IP address of its authoritative name server.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_parent_delegated
+ my $ms_parent_delegated = $member->ms_parent_delegated();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the host name followed by the domain name (example: host.domain.com ). A host name can have a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $member->name();
+ #Modify name
+ $member->name("dns.infoblox.com");
+
+=back
+
+=back
+
+=head2 override_preferred_primaries( )
+
+=over
+
+Use this method to set or retrieve the override_preferred_primaries attribute that controls whether the preferred_primaries method values of the member are used.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to use preferred_primaries method values. Set the parameter to "false", and a primary preference list is determined automatically. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $value = $member->override_preferred_primaries();
+ # Modify the attribute value
+ $member->override_preferred_primaries("false");
+
+=back
+
+=back
+
+=head2 preferred_primaries( )
+
+=over
+
+Use this method to set or retrieve a primary preference list for the member.
+
+=over
+
+=item B<Parameter>
+
+A reference to an array of Grid member names only or L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ $value = $member->preferred_primaries();
+ # Modify the attribute value
+ $member->preferred_primaries(['test.com', 'example.com']);
+ $member->preferred_primaries([$nameserver1, $nameserver2]);
+
+=back
+
+=back
+
+=head2 stealth( )
+
+=over
+
+Use this method to set or retrieve the "stealth" flag, which indicates whether this member is in stealth mode. When a member is in stealth mode, its NS record is hidden from DNS queries; it does not respond to queries from resolvers and other name servers.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the stealth flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get stealth
+ my $stealth = $member->stealth();
+ #Modify stealth
+ $member->stealth("true");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DNS Member object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $host_ip   = "192.168.1.2";
+ my $host_name = "infoblox.localdomain";
+
+ my $session = Infoblox::Session->new(
+                master   => $host_ip, #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DNS Member object>
+
+ my $member1 = Infoblox::DNS::Member->new(
+     name           => $host_name,
+     ipv4addr       => $host_ip,
+     stealth        => "false",
+     lead           => "false",
+     grid_replicate => "false"
+ );
+
+ unless($member1) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ my $default_view = Infoblox::DNS::View->new(name => "default");
+
+ #Create the Zone object with this member
+ my $firstzone = Infoblox::DNS::Zone->new(
+     name        => "infoblox.com",
+     views       => [$default_view],
+     email       => "admin\@infoblox.com",
+     comment     => "add a zone infoblox.com",
+     multiple_primaries => [$member1],
+ );
+
+ unless($firstzone) {
+             die("Construct Zone object failed: ",
+                   Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Add the Zone object into the Infoblox appliance through a session
+ $session->add($firstzone)
+      or die("Add Zone object failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+ print "DNS member object added to the zone successfully\n";
+
+ #Modify a DNS member
+
+ my @result = $session->search(object => "Infoblox::DNS::Zone",
+                               name   => "infoblox.com");
+
+  unless (scalar(@result) == 0) {
+      $firstzone = $result[0];
+
+      if ($firstzone) {
+
+          #modify grid replicate value of member
+          $member1->grid_replicate("true");
+
+          #update zone
+          $firstzone->multiple_primaries([$member1]);
+
+          #update session
+          $session->modify($firstzone)
+                 or die("Modify zone object failed: ",
+                       $session->status_code() . ":" . $session->status_detail());
+          print "DNS member object updated and added to the zone successfully\n";
+      }
+  } else {
+      print "No zone found with the specified name";
+  }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DNS::Nameserver|Infoblox::DNS::Nameserver>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,4 @@
+/opt/perl/site/bin/podwrap
+/opt/perl/site/lib/Pod/Wrap.pm
+/opt/perl/site/man/man1/podwrap.1
+/opt/perl/site/man/man3/Pod::Wrap.3

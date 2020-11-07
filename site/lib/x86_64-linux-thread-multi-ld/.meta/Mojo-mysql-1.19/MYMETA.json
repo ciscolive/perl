@@ -1,0 +1,66 @@
+{
+   "abstract" : "Mojolicious and Async MySQL/MariaDB",
+   "author" : [
+      "Jan Henning Thorsen <jhthorsen@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Mojo-mysql",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {}
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "DBD::mysql" : "4.050",
+            "DBI" : "1.643",
+            "Mojolicious" : "8.03",
+            "SQL::Abstract" : "1.86"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::More" : "0.90"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/jhthorsen/mojo-mysql/issues"
+      },
+      "homepage" : "https://github.com/jhthorsen/mojo-mysql",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/jhthorsen/mojo-mysql.git",
+         "web" : "https://github.com/jhthorsen/mojo-mysql"
+      }
+   },
+   "version" : "1.19",
+   "x_contributors" : [
+      "Curt Hochwender <hochwender@centurytel.net>",
+      "Dan Book <dbook@cpan.org>",
+      "Jan Henning Thorsen <jhthorsen@cpan.org>",
+      "Mike Magowan",
+      "Rolf Stöckli <tekki@cpan.org>"
+   ],
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

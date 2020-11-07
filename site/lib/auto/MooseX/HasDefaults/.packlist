@@ -1,0 +1,6 @@
+/opt/perl/site/lib/MooseX/HasDefaults.pm
+/opt/perl/site/lib/MooseX/HasDefaults/Meta/IsRO.pm
+/opt/perl/site/lib/MooseX/HasDefaults/Meta/IsRW.pm
+/opt/perl/site/lib/MooseX/HasDefaults/RO.pm
+/opt/perl/site/lib/MooseX/HasDefaults/RW.pm
+/opt/perl/site/man/man3/MooseX::HasDefaults.3

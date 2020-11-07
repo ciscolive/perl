@@ -1,0 +1,6 @@
+/opt/perl/site/lib/Excel/ValueReader/XLSX.pm
+/opt/perl/site/lib/Excel/ValueReader/XLSX/LibXML.pm
+/opt/perl/site/lib/Excel/ValueReader/XLSX/Regex.pm
+/opt/perl/site/man/man3/Excel::ValueReader::XLSX.3
+/opt/perl/site/man/man3/Excel::ValueReader::XLSX::LibXML.3
+/opt/perl/site/man/man3/Excel::ValueReader::XLSX::Regex.3

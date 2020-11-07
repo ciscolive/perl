@@ -1,0 +1,485 @@
+=head1 NAME
+
+Infoblox::Grid::Admin::AdAuthService - Active Directory Authentication Service object
+
+=head1 DESCRIPTION
+
+This object allows you to specify an Active Directory (AD) authentication method and the AD authentication servers that Infoblox uses to authenticate administrators.
+
+=head1 CONSTRUCTOR
+
+ my $obj = Infoblox::Grid::Admin::AdAuthService->new(
+    ad_auth_server_list  => [$ad_server1, $ad_server2, ...],     #Required
+    ad_domain            => $string,                             #Required
+    name                 => $string,                             #Required
+    nested_group_querying => "true" | "false",                   #Optional / Default is "false"
+    comment              => $string,                             #Optional / Default is empty
+    disabled             => "true" | "false",                    #Optional / Default is "false"
+    timeout              => $num,                                #Optional / Default is 5
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to an object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Construct an object
+ my $ad_auth_server1 = Infoblox::Grid::Admin::AdAuthServer->new(
+     name       => "1.2.3.4",
+     port       => 636,
+     comment    => "domain controller in room 1"
+     disabled   => "false",
+     encryption => "SSL",
+     mgmt_port  => "false",
+ );
+
+ # Construct another object
+ my $ad_auth_server2 = Infoblox::Grid::Admin::AdAuthServer->new(
+     name       => "foo.com",
+     port       => 389,
+     comment    => "domain controller in room 2"
+     disabled   => "false",
+     encryption => "None",
+     mgmt_port  => "false",
+ );
+
+ # Construct an object
+ my $obj = Infoblox::Grid::Admin::AdAuthService->new(
+    ad_auth_server_list  => [$ad_auth_server1, $ad_auth_server2],
+    ad_domain            => "authdhcptest.infoblox.com",
+    comment              => "test comment",
+    disabled             => "false",
+    name                 => "Test AD Auth",
+    timeout              => 333,
+    nested_group_querying => "true",
+ );
+ # Submit for addition
+ my $response = $session->add( $obj );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific object:
+
+ name - Required. AD authentication service name
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+   object => "Infoblox::Grid::Admin::AdAuthService",
+     name => "Test AD Auth",
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Modify the comment
+ $obj->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $obj);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+   object => "Infoblox::Grid::Admin::AdAuthService",
+     name => "Test AD Auth",
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_obj = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_obj );
+
+=back
+
+=back
+
+=head1 METHODS
+
+Use the following methods to access the attributes of an Infoblox::Grid::Admin::AdAuthService object. Specify a parameter to set the attribute's value, or omit the parameter to get the attribute's value.
+
+=head2 ad_auth_server_list( )
+
+=over
+
+Use this method to set or retrieve the AD authentication server list.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an array reference that contains a list of L<Infoblox::Grid::Admin::AdAuthServer|Infoblox::Grid::Admin::AdAuthServer> objects that describe the AD servers to which the appliance connects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ad_auth_server_list
+ my $val = $obj->ad_auth_server_list();
+ #Modify ad_auth_server_list
+ $obj->ad_auth_server_list([ $adauthserver1 ]);
+
+=back
+
+=back
+
+=head2 ad_domain( )
+
+=over
+
+Use this method to set or retrieve the Active Directory Domain in which the user credentials are located.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid Active Directory Domain name
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ad_domain
+ my $val = $obj->ad_domain();
+ #Modify ad_domain
+ $obj->ad_domain("authdhcptest.infoblox.com");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve comments about the service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Comments in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $val = $obj->comment();
+ #Modify comment
+ $obj->comment("head office");
+
+=back
+
+=back
+
+=head2 disabled( )
+
+=over
+
+Use this method to disable the Active Directory authentication service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to disable the service. Set the parameter to "false" to enable the service. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disabled
+ my $val = $obj->disabled();
+ #Modify disabled
+ $obj->disabled("true");
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the AD authentication service.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The AD authentication service name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $val = $obj->name();
+ #Modify name
+ $obj->name("AD service");
+
+=back
+
+=back
+
+=head2 nested_group_querying( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether nested group querying is enabled or not.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Paramter>
+
+Specify 'true' to enable nested group querying or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get nested_group_querying value 
+ my $val = $obj->nested_group_querying();
+ #Modify nested_group_querying value
+ $obj->nested_group_querying("true");
+
+=back
+
+=back
+
+=head2 timeout( )
+
+=over
+
+Use this method to set or retrieve the timeout value, which is the number of seconds that the appliance waits for a response from the AD server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The number of seconds that the Infoblox appliance waits to connect to the server. The default value is 5.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get timeout
+ my $val = $obj->timeout();
+ #Modify timeout
+ $obj->timeout(22);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an Active Directory Authentication Service object, such as add, get, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an AD Auth Service object insertion>
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create an AD Auth Service object>
+
+ # Construct an object
+ my $ad_auth_server1 = Infoblox::Grid::Admin::AdAuthServer->new(
+     name       => "1.2.3.4",
+     port       => 636,
+     comment    => "domain controller in room 1",
+     disabled   => "false",
+     encryption => "None",
+     mgmt_port  => "false",
+ );
+
+ # Construct another object
+ my $ad_auth_server2 = Infoblox::Grid::Admin::AdAuthServer->new(
+     name       => "foo.com",
+     port       => 389,
+     comment    => "domain controller in room 2",
+     disabled   => "false",
+     encryption => "SSL",
+     mgmt_port  => "false",
+ );
+
+ #Create an AD Auth Service object
+ my $ad_service = Infoblox::Grid::Admin::AdAuthService->new(
+     ad_auth_server_list => [ $ad_auth_server1, $ad_auth_server2 ],
+     ad_domain           => "authdhcptest.infoblox.com",
+     comment             => "test comment",
+     disabled            => "false",
+     name                => "Test AD Auth",
+     timeout             => 333,
+ );
+ unless($ad_service) {
+        die("Construct AD Auth Service object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "AD Auth Service object created successfully\n";
+
+ #Add the AD Auth Service object into the Infoblox appliance through a session
+ $session->add($ad_service)
+     or die("Add AD Auth Service object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "AD Auth Service object added successfully\n";
+
+B<#Get and modify an AD Auth Service>
+
+ #Get an AD Auth Service through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::AdAuthService",
+     name => "Test AD Auth",
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get AD Auth Service failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get AD Auth Service object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified AD Auth Service
+ $object->comment ("modified comment");
+
+ #Apply the changes
+ $session->modify($object)
+     or die("Modify AD Auth Service failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "AD Auth Service object modified successfully \n";
+
+B<#Remove an AD Auth Service>
+
+ #Get an AD Auth Service through the session
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::Admin::AdAuthService",
+     name       => "Test AD Auth"
+ );
+
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get AD Auth Service failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get AD Auth Service object found at least 1 matching entry\n";
+
+ #submit the object for removal
+ $session->remove($object)
+     or die("Remove AD Auth Service failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "AD Auth Service object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Admin::AdAuthServer|Infoblox::Grid::Admin::AdAuthServer>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

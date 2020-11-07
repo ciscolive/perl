@@ -1,0 +1,229 @@
+=head1 NAME
+
+Infoblox::Grid::Member::QueryFQDNParameter - A FQDN query parameters.
+
+=head1 DESCRIPTION
+
+A FQDN query call parameter objects. This object is intended to use only as
+L<Infoblox::Session-E<gt>query_fqdn_on_member()|Infoblox::Session/query_fqdn_on_member()/> parameter.
+
+=head1 CONSTRUCTOR
+
+ my $params = Infoblox::Grid::Member::QueryFQDNParameter->new(
+     fqdn            => $string,                                          # Required
+     member          => $string,                                          # Optional / Default is GM
+     name_server     => $ipv4addr,                                        # Optional / Default is local nameserver
+     record_type     => 'ANY' | 'A' | 'AAAA' | 'CNAME' | 'DNAME' | 'MX' |
+                        'NAPTR' | 'NS' | 'PTR' | 'SRV' | 'TXT' | 'AXFR'   # Optional / Default is 'ANY'
+     recursive_query => 'true' | 'false',                                 # Optional / Default is 'true'
+ );
+
+
+=head1 MODULE METHODS
+
+=head2 Infoblox::Session->query_fqdn_on_member( )
+
+=over
+
+Use this method to query FQDN on the specified member.
+
+This method forces Grid Master to execute RPC call to invoke dog on the member for a specific FQDN.
+
+See L<Infoblox::Session-E<gt>query_fqdn_on_member()|Infoblox::Session/query_fqdn_on_member()/> for parameters and return  values.
+
+=over
+
+=item B<Example>
+
+ #Construct parameters object
+ my $query_fqdn = Infoblox::Grid::Member::QueryFQDNParameter->new(
+     fqdn        => 'bar.com',
+     member      => 'member1',
+     name_server => '5.5.5.5',
+     record_type => 'A',
+ );
+
+ #Query
+ my $response = $session->query_fqdn_on_member($query_fqdn);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 fqdn( )
+
+=over
+
+Use this method to set or retrieve a fully-qualified DNS query name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a FQDN to query in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get fqdn value
+ my $fqdn = $object->fqdn();
+
+ #Modify fqdn value
+ $object->fqdn($fqdn);
+
+=back
+
+=back
+
+=head2 member( )
+
+=over
+
+Use this method to set or retrieve a member name to invoke dig on.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains the Grid Member host name. Default is undefined, which causes dig invokation on Grid Master.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get member value
+ my $member = $object->member();
+
+ #Modify member value
+ $object->member('localhost.localdomain');
+
+=back
+
+=back
+
+=head2 name_server( )
+
+=over
+
+Use this method to set or retrieve a nameserver to query.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string that contains an IPv4 address.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name_server value
+ my $value = $object->name_server();
+
+ #Modify name_server value
+ $object->name_server('5.5.5.5');
+
+=back
+
+=back
+
+=head2 record_type( )
+
+=over
+
+Use this method to set or retrieve the resource record type to query.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ANY', 'A', 'AAAA', 'CNAME', 'DNAME', 'MX', 'NAPTR', 'NS', 'PTR', 'SRV', 'TXT' and 'AXFR'. The default value is 'ANY'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get record_type value
+ my $value = $object->record_type();
+
+ #Modify record_type value
+ $object->record_type('AAAA');
+
+=back
+
+=back
+
+=head2 recursive_query( )
+
+=over
+
+Use this method to set or retrieve the recursive query flag.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set recursive query flag and 'false' to unset/deactivate it. The default value is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recursive_query value
+ my $value = $object->recursive_query();
+
+ #Modify recursive_query value
+ $object->recursive_query('false');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>query_fqdn_on_member()|Infoblox::Session/query_fqdn_on_member()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

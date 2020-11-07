@@ -1,0 +1,382 @@
+=head1 NAME
+
+Infoblox::DTC::Record::A - A DTC A record object.
+
+=head1 DESCRIPTION
+
+A DTC A object represents a DNS Traffic Control Address (DTC A) resource record. DTC A record maps a load balancing domain name to an IPv4 address.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::DTC::Record::A->new(
+     'dtc_server'  => $dtc_server,      #Required
+     'ipv4addr'    => $ipv4addr,        #Required
+     'comment'     => $string,          #Optional
+     'disable'     => 'true' | 'false', #Optional / Default is 'false'
+     'ttl'         => $uint | undef,    #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that can be applied to a DTC A record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $object = Infoblox::DTC::Record::A->new(
+     'comment'     => 'Sample DTC A record',
+     'disable'     => 'false',
+     'dtc_server'  => $dtc_server,
+     'ipv4addr'    => '10.0.0.1',
+     'ttl'         => 1024,
+ );
+
+ # Submit for addition
+ my $response = $session->add($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to get specific DTC A record objects:
+
+     dtc_server - Required. DTC Server object the DTC A record is associated with (exact).
+     comment    - Optional. Descriptive comment in string format (regexp).
+     ipv4addr   - Optional. DTC A record IPv4 address in string format (regexp).
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object     => 'Infoblox::DTC::Record::A',
+     dtc_server => $dtc_server,
+ );
+
+ my @retrieved_objs = $session->get(
+    object     => 'Infoblox::DTC::Record::A',
+    dtc_server => $dtc_server,
+    ipv4addr   => '10.0.0.1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment.
+ $object->comment('this is a modified comment');
+
+ # Submit the modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to submit the removal of an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the object, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the objects associated with DTC Server $dtc_server
+ my @retrieved_objs = $session->get(
+     object     => 'Infoblox::DTC::Record::A',
+     dtc_server => $dtc_server,
+ );
+
+ # Find the desired object in the retrieved list.
+ my $desired_rec = $retrieved_objs[0];
+
+ # Submit for removal
+ my $response = $session->remove($desired_rec);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve the existing objects from an Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attributes to search the DTC A record objects:
+
+     dtc_server - Required. DTC Server object the DTC A record is associated with.
+     comment    - Optional. Descriptive comment in string format
+     ipv4addr   - Optional. DTC A record address.
+
+=item B<Example>
+
+ # Get the objects associated with DTC Server $dtc_server
+ my @retrieved_objs = $session->search(
+     object     => 'Infoblox::DTC::Record::A',
+     dtc_server => $dtc_server,
+ );
+
+ # Get the objects associated with DTC Server $dtc_server with comment that starts from 'A'
+ my @retrieved_objs = $session->get(
+     object     => 'Infoblox::DTC::Record::A',
+     dtc_server => $dtc_server,
+     comment    => '^A.*',
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of a DTC A record object.
+
+=head2 auto_created( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether this record was automatically created by NIOS or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get auto_created value
+ my $auto_created = $object->auto_created();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment of a DTC A record object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+ #Modify comment value
+ $object->comment('This is a new comment');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DTC A record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set the disable flag or 'false' to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable value
+ my $disable = $object->disable();
+
+ #Modify disable value
+ $object->disable('true');
+
+=back
+
+=back
+
+=head2 dtc_server( )
+
+=over
+
+Use this method to set or retrieve the DTC Server the DTC A record associated with.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Note that once the DTC record has been created the DTC Server value cannot be changed.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Server|Infoblox::DTC::Server> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the dtc_server field
+ my $dtc_server = $object->dtc_server();
+
+ #Modify dtc_server value
+ $object->dtc_server($server1);
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to set or retrieve the IPv4 address that is mapped to a domain name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is desired IPv4 address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv4addr value
+ my $ipv4addr = $object->ipv4addr();
+
+ #Modify ipv4addr value
+ $object->ipv4addr('10.0.0.10');
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the DTC server pool.
+
+Specify a TTL value to override the TTL value at the DTC server pool level.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 0 and 4294967295 that represents the duration (in seconds) that the record is cached.
+Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl value
+ my $ttl = $object->ttl();
+
+ #Modify ttl value
+ $object->ttl(1800);
+
+ #inherit ttl value
+ $object->ttl(undef);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, 
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, 
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, 
+L<Infoblox::DTC::Server|Infoblox::DTC::Server>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

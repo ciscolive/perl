@@ -1,0 +1,16 @@
+/opt/perl/site/lib/Future/HTTP.pm
+/opt/perl/site/lib/Future/HTTP/API/HTTPTiny.pm
+/opt/perl/site/lib/Future/HTTP/AnyEvent.pm
+/opt/perl/site/lib/Future/HTTP/Handler.pm
+/opt/perl/site/lib/Future/HTTP/Mojo.pm
+/opt/perl/site/lib/Future/HTTP/NetAsync.pm
+/opt/perl/site/lib/Future/HTTP/Tiny.pm
+/opt/perl/site/lib/Future/HTTP/Tiny/Paranoid.pm
+/opt/perl/site/man/man3/Future::HTTP.3
+/opt/perl/site/man/man3/Future::HTTP::API::HTTPTiny.3
+/opt/perl/site/man/man3/Future::HTTP::AnyEvent.3
+/opt/perl/site/man/man3/Future::HTTP::Handler.3
+/opt/perl/site/man/man3/Future::HTTP::Mojo.3
+/opt/perl/site/man/man3/Future::HTTP::NetAsync.3
+/opt/perl/site/man/man3/Future::HTTP::Tiny.3
+/opt/perl/site/man/man3/Future::HTTP::Tiny::Paranoid.3

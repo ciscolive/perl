@@ -1,0 +1,102 @@
+{
+   "abstract" : "Perl Data Language",
+   "author" : [
+      "PerlDL Developers (pdl-general@lists.sourceforge.net)"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.36, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "PDL",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ],
+      "file" : [
+         "Doc/scantree.pl"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0",
+            "File::Path" : "0"
+         }
+      },
+      "configure" : {
+         "recommends" : {
+            "ExtUtils::F77" : "1.10",
+            "PGPLOT" : "0"
+         },
+         "requires" : {
+            "Carp" : "1.2",
+            "Devel::CheckLib" : "1.01",
+            "ExtUtils::MakeMaker" : "6.56",
+            "ExtUtils::ParseXS" : "3.01",
+            "File::Path" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Astro::FITS::Header" : "0",
+            "Carp" : "0",
+            "Config" : "0",
+            "Convert::UU" : "0",
+            "Data::Dumper" : "2.121",
+            "English" : "0",
+            "ExtUtils::MakeMaker" : "6.56",
+            "ExtUtils::Manifest" : "0",
+            "Fcntl" : "0",
+            "File::Basename" : "0",
+            "File::Find" : "0",
+            "File::Map" : "0.57",
+            "File::Path" : "0",
+            "File::Spec" : "0.6",
+            "File::Temp" : "0",
+            "Filter::Simple" : "0.88",
+            "Filter::Util::Call" : "0",
+            "Inline" : "0.83",
+            "Inline::C" : "0.62",
+            "List::MoreUtils" : "0",
+            "Module::Compile" : "0.23",
+            "Pod::Parser" : "0",
+            "Pod::Select" : "0",
+            "Scalar::Util" : "0",
+            "Storable" : "1.03",
+            "Term::ReadKey" : "2.34",
+            "Text::Balanced" : "1.89",
+            "perl" : "5.010"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "CPAN::Meta" : "2.120900",
+            "IPC::Cmd" : "0.72",
+            "Test::Deep" : "0",
+            "Test::Exception" : "0",
+            "Test::Warn" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/PDLPorters/pdl/issues"
+      },
+      "homepage" : "http://pdl.perl.org/",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/PDLPorters/pdl.git",
+         "web" : "https://github.com/PDLPorters/pdl"
+      },
+      "x_IRC" : "irc://irc.perl.org/#pdl"
+   },
+   "version" : "2.024",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

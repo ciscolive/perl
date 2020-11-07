@@ -1,0 +1,86 @@
+=head1 NAME
+
+Infoblox::Grid::SNMP::IPAMThreshold - IPAM Utilization SNMP Threshold object.
+
+=head1 DESCRIPTION
+
+The object provides information about the IPAM utilization SNMP threshold.
+
+=head1 CONSTRUCTOR
+
+ my $obj = Infoblox::Grid::SNMP::IPAMThreshold->new(
+    'reset_value'   => $uint,    # optional
+    'trigger_value' => $uint,    # optional
+ );
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of an object.
+
+=head2 reset_value( )
+
+=over
+
+Use this method to set or retrieve a reset threshold value for the trap.
+
+=over
+
+=item B<Returns>
+
+Valid value is unsigned integer between 0 and 100 inclusive.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attrubute value
+ my $value = $obj->reset_value();
+ #Set attribute value
+ $obj->reset_value(55);
+
+=back
+
+=back
+
+=head2 trigger_value( )
+
+=over
+
+Use this method to set or retrieve a trigger threshold value for the trap.
+
+=over
+
+=item B<Returns>
+
+Valid value is unsigned integer between 0 and 100 inclusive.
+
+=item B<Parameter>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attrubute value
+ my $value = $obj->trigger_value();
+ #Set attribute value
+ $obj->trigger_value(55);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

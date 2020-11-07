@@ -1,0 +1,7 @@
+/opt/perl/site/lib/Catmandu/Store/ElasticSearch.pm
+/opt/perl/site/lib/Catmandu/Store/ElasticSearch/Bag.pm
+/opt/perl/site/lib/Catmandu/Store/ElasticSearch/CQL.pm
+/opt/perl/site/lib/Catmandu/Store/ElasticSearch/Searcher.pm
+/opt/perl/site/man/man3/Catmandu::Store::ElasticSearch.3
+/opt/perl/site/man/man3/Catmandu::Store::ElasticSearch::Bag.3
+/opt/perl/site/man/man3/Catmandu::Store::ElasticSearch::Searcher.3

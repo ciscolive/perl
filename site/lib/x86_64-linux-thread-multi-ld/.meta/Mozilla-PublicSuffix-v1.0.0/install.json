@@ -1,0 +1,1 @@
+{"name":"Mozilla::PublicSuffix","target":"Mozilla::PublicSuffix","dist":"Mozilla-PublicSuffix-v1.0.0","version":"1.000000","pathname":"R/RS/RSIMOES/Mozilla-PublicSuffix-v1.0.0.tar.gz","provides":{"Mozilla::PublicSuffix":{"version":"1.000000","file":"lib/Mozilla/PublicSuffix.pm"}}}

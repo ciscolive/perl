@@ -1,0 +1,14 @@
+/opt/perl/site/lib/Font/AFM.pm
+/opt/perl/site/lib/Font/Metrics/Courier.pm
+/opt/perl/site/lib/Font/Metrics/CourierBold.pm
+/opt/perl/site/lib/Font/Metrics/CourierBoldOblique.pm
+/opt/perl/site/lib/Font/Metrics/CourierOblique.pm
+/opt/perl/site/lib/Font/Metrics/Helvetica.pm
+/opt/perl/site/lib/Font/Metrics/HelveticaBold.pm
+/opt/perl/site/lib/Font/Metrics/HelveticaBoldOblique.pm
+/opt/perl/site/lib/Font/Metrics/HelveticaOblique.pm
+/opt/perl/site/lib/Font/Metrics/TimesBold.pm
+/opt/perl/site/lib/Font/Metrics/TimesBoldItalic.pm
+/opt/perl/site/lib/Font/Metrics/TimesItalic.pm
+/opt/perl/site/lib/Font/Metrics/TimesRoman.pm
+/opt/perl/site/man/man3/Font::AFM.3

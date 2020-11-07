@@ -1,0 +1,119 @@
+=head1 NAME
+
+Infoblox::Grid::RestartBannerSetting - The restart banner setting.
+
+=head1 DESCRIPTION
+
+The Restart Banner Setting object controls the banner displayed for Grid restart.
+
+=head1 CONSTRUCTOR
+
+ my $restart = Infoblox::Grid::RestartBannerSetting->new(
+     enable                     => "true" | "false", #Mandatory
+     enable_double_confirmation => "true" | "false", #Optional / Default is "false"
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a restart banner setting object.
+
+=head2 Infoblox::Grid->restart_banner_setting( )
+
+=over
+
+Use this function to specify the restart banner settings for the Grid. See L<Infoblox::Grid-E<gt>restart_banner_setting()|Infoblox::Grid/restart_banner_setting()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $grid = $session->get(object => 'Infoblox::Grid');
+
+ my $banner = Infoblox::Grid::RestartBannerSetting->new(enable => 'true');
+ $grid->restart_banner_setting($banner);
+ my $response = $session->modify($grid);
+ unless($response) {
+      die("Modify grid failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+ print "Grid banner setting modified successfully\n";
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a Restart Banner Setting object.
+
+=head2 enable( )
+
+=over
+
+Use this method to set the enable flag.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the banner or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable
+ my $enable = $banner->enable();
+ #Modify enable
+ $banner->enable("true");
+
+=back
+
+=back
+
+=head2 enable_double_confirmation( )
+
+=over
+
+Use this method to set the enable_double_confirmation flag. If this flag is set to "true" the user is required to input name before restarting services. 
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable double confirmation or "false" to disable it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_double_confirmation
+ my $enable_double_confirmation = $banner->enable_double_confirmation();
+ #Modify enable_double_confirmation
+ $banner->enable_double_confirmation("true");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid|Infoblox::Grid>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

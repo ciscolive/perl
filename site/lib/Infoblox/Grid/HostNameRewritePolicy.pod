@@ -1,0 +1,205 @@
+=head1 NAME
+
+Infoblox::Grid::HostNameRewritePolicy - a structure for storing hostname rewrite policies.
+
+=head1 DESCRIPTION
+
+An Infoblox::Grid::HostNameRewritePolicy object represents a hostname rewrite policy.
+
+=head1 CONSTRUCTOR
+
+  my $policy = Infoblox::Grid::HostNameRewritePolicy->new(
+       name                  => $string,           # Required
+       valid_characters      => $string,           # Required
+       replacement_character => $string,           # Required
+       is_grid_default       => "true" | "false",  # Optional / Default value is "false"
+  );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to an Infoblox::Grid::HostNameRewritePolicy object.
+
+=head2 Infoblox::Grid::DHCP->protocol_hostname_rewrite_policies( )
+
+=over
+
+Use this function to add or retrieve hostname rewrite policies. See L<Infoblox::Grid::DHCP-E<gt>protocol_hostname_rewrite_policies()|Infoblox::Grid::DHCP/protocol_hostname_rewrite_policies()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get Grid DHCP object
+ my @retrieved_objs = $session->get(
+        object => "Infoblox::Grid::DHCP",
+        grid   => "Infoblox"
+ );
+ my $griddhcp = $retrieved_objs[0];
+
+ #Modify protocol_hostname_rewrite_policies
+ my $policies = $griddhcp->protocol_hostname_rewrite_policies();
+ push(@$policies, $policy);
+ $griddhcp->protocol_hostname_rewrite_policies($policies);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of an Infoblox::Grid::HostNameRewritePolicy object.
+
+=head2 is_grid_default( )
+
+=over
+
+Use this method to set or retrieve the grid's default hostname rewrite policy.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set a policy as the grid default hostname rewrite policy or "false" to disable it. Default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get is_grid_default
+ my $is_grid_default = $policy->is_grid_default();
+ #Modify is_grid_default
+ $policy->is_grid_default('true');
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the policy name.
+
+=over
+
+=item B<Parameter>
+
+String with policy name.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $policy->name();
+ #Modify name
+ $policy->name('new_policy');
+
+=back
+
+=back
+
+=head2 replacement_character( )
+
+=over
+
+Use this method to set or retrieve the replacement character.
+
+=over
+
+=item B<Parameter>
+
+The replacement character.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get replacement_character
+ my $replacement_character = $policy->replacement_character();
+ #Modify name
+ $policy->replacement_character('-');
+
+=back
+
+=back
+
+=head2 pre_defined( )
+
+=over
+
+Use this method to retrieve a predefined hostname rewrite policy. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get pre_defined
+ my $pre_defined = $policy->pre_defined();
+
+=back
+
+=back
+
+=head2 valid_characters( )
+
+=over
+
+Use this method to set or retrieve permitted characters for a hostname.
+
+=over
+
+=item B<Parameter>
+
+String with permitted characters for a hostname.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get valid_characters
+ my $valid_characters = $policy->valid_characters();
+ #Modify valid_characters
+ $policy->valid_characters('A-Z0-9_');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::DHCP|Infoblox::Grid::DHCP>, L<Infoblox::Grid::Member::DHCP|Infoblox::Grid::Member::DHCP>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

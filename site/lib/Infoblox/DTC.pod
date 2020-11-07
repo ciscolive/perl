@@ -1,0 +1,112 @@
+=head1 NAME
+
+Infoblox::DTC - A DTC functions.
+
+=head1 DESCRIPTION
+
+The object provides access to DTC functions.
+
+=head1 CONSTRUCTOR
+
+ my $dtc = Infoblox::DTC->new(
+    'session' => $session,      # Required
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+=head2 query( )
+
+=over
+
+Use this method to perform a DTC query on a given member.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::DTC::Query::Parameters|Infoblox::DTC::Query::Parameters> object.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::DTC::Query::Response|Infoblox::DTC::Query::Response> object when operation succeeds, and returns 'false' when the operation fails.
+
+=item B<Example>
+
+ #perform DTC query
+ my $response = $dtc->query($params);
+
+=back
+
+=back
+
+=head2 import_maxminddb( )
+
+=over
+
+Use this method to upload the MaxMind database.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to upload a MaxMind Database:
+
+     path - Required. The path to a tar archive that contains the MaxMind database.
+
+=item B<Returns>
+
+The method returns "true" when an upload of a MaxMind Database has been performed successfully, and returns "false" when the operation fails.
+
+=item B<Example>
+
+ #upload MaxMind DB
+ my $res = $dtc->import_maxminddb(path => $path_to_maxminddb);
+
+=back
+
+=back
+
+=head2 add_certificate( )
+
+=over
+
+Use this method to upload a DTC certificate.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to upload a DTC certificate:
+     
+    path - Required. The path to the DTC certificate file.
+
+=item B<Returns>
+
+The method returns 'true' when the upload of a DTC certificate has been performed successfully, and returns 'false' when the operation fails.
+
+=item B<Example>
+
+ #add certificate with a path given
+ my $res = $dtc->add_certificate(path => $path_to_cert);
+
+=back
+
+=back
+
+=head1 SEE ALSO
+
+L<Infoblox::DTC::Query::Parameters|Infoblox::DTC::Query::Parameters>.
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

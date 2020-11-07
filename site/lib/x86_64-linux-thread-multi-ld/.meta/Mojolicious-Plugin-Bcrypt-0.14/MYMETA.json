@@ -1,0 +1,54 @@
+{
+   "abstract" : "bcrypt your passwords!",
+   "author" : [
+      "Stefan Geneshky <minimal@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 4.300032, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Mojolicious-Plugin-Bcrypt",
+   "prereqs" : {
+      "build" : {
+         "requires" : {}
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Crypt::Eksblowfish::Bcrypt" : "0",
+            "Mojo::Base" : "0",
+            "Mojolicious" : "4.0",
+            "strict" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Encode" : "0",
+            "Mojolicious::Lite" : "0",
+            "Test::Mojo" : "0",
+            "Test::More" : "0",
+            "Test::Spelling" : "0",
+            "utf8" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "https://github.com/naturalist/Mojolicious--Plugin--Bcrypt",
+      "repository" : {
+         "url" : "https://github.com/naturalist/Mojolicious--Plugin--Bcrypt.git"
+      }
+   },
+   "version" : "0.14",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

@@ -1,0 +1,1 @@
+{"version":"0.11","target":"HTTP::CookieMonster","provides":{"HTTP::CookieMonster::Cookie":{"file":"lib/HTTP/CookieMonster/Cookie.pm","version":"0.11"},"HTTP::CookieMonster":{"file":"lib/HTTP/CookieMonster.pm","version":"0.11"}},"pathname":"O/OA/OALDERS/HTTP-CookieMonster-0.11.tar.gz","dist":"HTTP-CookieMonster-0.11","name":"HTTP::CookieMonster"}

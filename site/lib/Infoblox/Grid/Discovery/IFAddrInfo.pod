@@ -1,0 +1,154 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::IFAddrInfo - IFAddr information associated with the discovery interface.
+
+=head1 DESCRIPTION
+
+The object provides IFAddr information associated with the discovery interface.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Discovery::IFAddrInfo->new(
+    'address'        => $ipaddr,          # Required
+    'address_object' => $addr_obj,        # Optional
+    'network'        => $network,         # Optional
+    'network_str'    => $address/cidr,    # Optional
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IP address of the discovery interface.
+
+=over
+
+=item B<Parameter>
+
+The IP address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address();
+ # Modify attribute value
+ $object->address('10.0.0.1');
+
+=back
+
+=back
+
+=head2 address_object( )
+
+=over
+
+Use this method to set or retrieve the IP address object of the discovery interface.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::IPAM::Address|Infoblox::IPAM::Address> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->address_object();
+ # Modify attribute value
+ $object->address_object($addr_obj);
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to set or retrieve the network object of the discovery interface.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::DHCP::Network|Infoblox::DHCP::Network> or L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network();
+ # Modify attribute value
+ $object->network($network);
+
+=back
+
+=back
+
+=head2 network_str( )
+
+=over
+
+Use this method to set or retrieve the network address.
+
+=over
+
+=item B<Parameter>
+
+The network address in address/CIDR format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_str();
+ # Modify attribute value
+ $object->network_str('10.0.0.0/8');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>, L<Infoblox::IPAM::Address|Infoblox::IPAM::Address>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

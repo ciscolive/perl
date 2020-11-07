@@ -1,0 +1,1 @@
+{"name":"App::FatPacker","pathname":"M/MS/MSTROUT/App-FatPacker-0.010008.tar.gz","version":"0.010008","target":"App::FatPacker","provides":{"App::FatPacker":{"file":"lib/App/FatPacker.pm","version":"0.010008"},"App::FatPacker::Trace":{"file":"lib/App/FatPacker/Trace.pm"}},"dist":"App-FatPacker-0.010008"}

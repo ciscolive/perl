@@ -1,0 +1,284 @@
+=head1 NAME
+
+Infoblox::DHCP::ExclusionRange - DHCP ExclusionRange object.
+
+=head1 DESCRIPTION
+
+The DHCP exclusion range describes the range of IP addresses that can be excluded in an address range. If static addresses are assigned to certain hosts in the middle of an address range, those addresses can be excluded from the address range so the DHCP server does not assign those IP addresses to clients.
+
+=head1 CONSTRUCTOR
+
+ my $exclusion_range = Infoblox::DHCP::ExclusionRange->new(
+       end_address   => $ipv4addr,      #Required
+       start_address => $ipv4addr,      #Required
+       comment       => $string,        #Optional / Default is empty
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a DHCP exclusion range object.
+
+=head2 Infoblox::DHCP::Range->exclude( )
+
+=over
+
+Use this function to specify exclusion range for the DHCP range. See L<Infoblox::DHCP::Range-E<gt>exclude()|Infoblox::DHCP::Range/exclude()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP ExclusionRange object
+ my $exclusion_range = Infoblox::DHCP::ExclusionRange->new(
+          end_address   => "10.0.0.8",
+          start_address => "10.0.0.5",
+          comment       => "Exclude four IP addresses"
+ );
+
+ # Configure DHCP ExclusionRange on the DHCP Range object
+ my $response = $dhcp_range->exclude([$exclusion_range]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP exclusion range object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment of a DHCP exclusion range object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $exclusion_range->comment();
+ #Modify comment
+ $exclusion_range->comment("Modifying the DHCP exclusion range comment");
+
+=back
+
+=back
+
+=head2 end_address( )
+
+=over
+
+Use this method to set or retrieve the end address of a DHCP exclusion range object.
+
+An end address is the last IP address in the DHCP exclusion range which is not available for the clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the end address of the DHCP exclusion range in IPv4 address format. An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get end_address
+ my $end_address = $exclusion_range->end_address();
+ #Modify end_address
+ $exclusion_range->end_address("10.0.0.9");
+
+=back
+
+=back
+
+=head2 start_address( )
+
+=over
+
+Use this method to set or retrieve the start address of a DHCP exclusion range object.
+
+A start address is the first IP address in the DHCP exclusion range which is not available for the clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the start address of the DHCP exclusion range in IPv4 address format. An IPv4 address is a 32-bit number in dotted decimal notation. It consists of four 8-bit groups of decimal digits separated by decimal points (example: 192.168.1.2).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get start_address
+ my $start_address = $exclusion_range->start_address();
+ #Modify start_address
+ $exclusion_range->start_address("10.0.0.6");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a DHCP exclusion range object such as add, modify, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP exclusion range object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+ );
+ unless ($session) {
+        die("Construct session failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the Network object
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/8",
+     comment => "add network",
+ );
+ unless($network) {
+        die("Construct Network object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network object created successfully\n";
+
+ #Add the Network object into the Infoblox appliance through a session
+ $session->add($network)
+     or die("Add Network object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "Network object added to Infoblox appliance successfully\n";
+
+ #Create the DHCP Range object
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+         end_addr   => "10.0.0.10",
+         network    => "10.0.0.0/8",
+         start_addr => "10.0.0.1",
+ );
+ unless($dhcp_range) {
+        die("Construct DHCP Range object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP Range object created successfully\n";
+
+ #Add the DHCP Range object into the Infoblox appliance through a session
+ $session->add($dhcp_range)
+     or die("Add DHCP Range object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Range object added to Infoblox appliance successfully\n";
+
+B<#Create a DHCP exclusion range object>
+
+ my $exclusion_range = Infoblox::DHCP::ExclusionRange->new(
+          end_address   => "10.0.0.8",
+          start_address => "10.0.0.5",
+          comment       => "Exclude four IP addresses"
+ );
+ unless($exclusion_range) {
+        die("Construct DHCP exclusion range object failed: ",
+             Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DHCP exclusion range object created successfully\n";
+
+B<#Add DHCP exclusion range to DHCP Range>
+
+ #Get the DHCP Range object
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::DHCP::Range",
+     start_addr => "10.0.0.1"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+        die("Get DHCP Range object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DHCP Range object found at least 1 matching entry\n";
+
+ #Apply the changes to the DHCP Range object
+ $object->exclude([$exclusion_range]);
+
+ #Submit the changes to the Session
+ $session->modify($object)
+     or die("Adding DHCP exclusion range to DHCP Range object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Range with exclusion range updated to Infoblox appliance successfully\n";
+
+B<#Modify DHCP exclusion range>
+
+ #Modifying the end address of the DHCP exclusion range object.
+ $exclusion_range->end_address("10.0.0.9");
+
+ #Modifying the start address of the DHCP exclusion range object.
+ $exclusion_range->start_address("10.0.0.6");
+
+ #Modifying the comment of the DHCP exclusion range object.
+ $exclusion_range->comment("Modified DHCP Exclusion Range");
+
+ #Apply changes to the DHCP Range object.
+ $object->exclude([$exclusion_range]);
+
+ #Update DHCP Range object through the Infoblox session.
+ $session->modify($object)
+   or die("Modify DHCP Range object failed: ",
+   $session->status_code() . ":" . $session->status_detail());
+ print "DHCP Range object with modified DHCP exclusion range updated to Infoblox appliance successfully\n";
+
+B<#Remove DHCP exclusion range>
+
+ #Remove the exclusion range from the DHCP Range object.
+ $object->exclude([]);
+
+ #Update DHCP Range object through the Infoblox session.
+ $session->modify($object)
+   or die("Modify DHCP Range object failed: ",
+   $session->status_code() . ":" . $session->status_detail());
+ print "Removed DHCP exclusion range from DHCP Range successfully\n";
+
+####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>,L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

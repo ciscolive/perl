@@ -1,0 +1,227 @@
+=head1 NAME
+
+Infoblox::Grid::Member::Discovery::VRF - Object represents the relation between network view and the virtual network membership.
+
+=head1 DESCRIPTION
+
+This object is used to represents relation between network view and the virtual network membership. Object is read-only.
+
+=head1 SESSION METHODS
+
+=head2 Infoblox::Session->get()
+
+=over
+
+Use this method to retrieve all the matching virtual network objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+Apply the following attributes to get a specific virtual network objects:
+
+  name                  - Optional. A name in string format.
+  description           - Optional. A description in string format.
+  route_distinguisher   - Optional. Route distinguisher associated with the VRF in sting format.
+  network_view          - Optional. Name of the network view associated with the VRF in sting format.
+
+=item B<Returns>
+
+Returns Virtual network membership object.
+
+=item B<Example>
+
+  #Get VRF object with the name 'VRF1'
+  my $vrf_obj = $session->get(
+      object  => "Infoblox::Grid::Member::Discovery::VRF" ,
+      name    => 'VRF1'
+  );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search()
+
+=over
+
+Use this method to search for a virtual network objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a virtual network object:
+
+  name                  - Optional. A name in string format (regular expression).
+  description           - Optional. A description in string format (regular expression).
+  route_distinguisher   - Optional. Route distinguisher associated with the VRF in sting format.
+  network_view          - Optional. Name of the network view associated with the VRF in sting format.
+
+=item B<Returns>
+
+Returns Virtual network membership object(s).
+
+=item B<Example>
+
+  # Get all VRFs
+  my @all_vrfs = $session->search(
+  	object => 'Infoblox::Grid::Member::Discovery::VRF',
+  	name => '^.*$'
+  );
+  
+  # Get vrf by Route distinguisher
+  my $vrf = $session->search(
+  	object => 'Infoblox::Grid::Member::Discovery::VRF',
+  	route_distinguisher => '123:500'
+  );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve values from VRF object.
+
+=head2 name()
+
+=over
+
+Use this method to retrieve name associated with the VRF. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get VRF name
+  my $vrf_name = $vrf->name();
+
+=back
+
+=back
+
+=head2 network_view()
+
+=over
+
+Use this method to retrieve name of network view associated with the VRF. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The returned string contains name network view. This is a read-only attribute.
+
+=item B<Example>
+
+  #Get VRF network view name
+  my $vrf_nv = $vrf->network_view();
+
+=back
+
+=back
+
+=head2 route_distinguisher()
+
+=over
+
+Use this method to retrieve route distinguisher associated with the VRF. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get VRF route distinguisher
+  my $vrf_rd = $vrf->route_distinguisher();
+
+=back
+
+=back
+
+=head2 description()
+
+=over
+
+Use this method to retrieve description associated with the VRF. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+  #Get VRF description
+  my $vrf_desc = $vrf->description();
+
+=back
+
+=back
+
+=head2 device()
+
+=over
+
+Use this method to retrieve Infoblox::Grid::Discovery::Device object from which this VRF membership configuration was collected. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device> partial object.
+
+=item B<Example>
+
+  #Get VRF device
+  my $vrf_device = $vrf->device();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery::Device|Infoblox::Grid::Discovery::Device>
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

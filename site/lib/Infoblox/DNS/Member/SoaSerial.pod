@@ -1,0 +1,108 @@
+=head1 NAME
+
+Infoblox::DNS::Member::SoaSerial - a per-master SOA serial information.
+
+=head1 DESCRIPTION
+
+The object contains a per-master SOA serial information.
+
+=head1 CONSTRUCTOR
+
+The object cannot be created because all object attributes are read-only.
+
+=head1 SESSION METHODS
+
+The object doesn't support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of the object.
+
+=head2 grid_member( )
+
+=over
+
+Use this method to retrieve the primary server name for the zone. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $attr = $soa_serial->grid_member();
+
+=back
+
+=back
+
+=head2 serial( )
+
+=over
+
+Use this method to retrieve the SOA serial number. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $attr = $soa_serial->serial();
+
+=back
+
+=back
+
+=head2 ms_server
+
+=over
+
+Use this method to retrieve the IPv4 address or FQDN of the Microsoft (r) Server for the zone. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get the attribute value
+ my $attr = $soa_serial->ms_server();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

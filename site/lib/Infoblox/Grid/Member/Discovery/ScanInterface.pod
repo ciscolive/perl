@@ -1,0 +1,143 @@
+=head1 NAME
+
+Infoblox::Grid::Member::Discovery::ScanInterface - The scan interfaces structure.
+
+=head1 DESCRIPTION
+
+The object provides information about the scan interfaces.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::Member::Discovery::ScanInterface->new(
+    'scan_interface_type' => (LAN1|LAN2|MGMT), # Required
+    'network_view' => $string,        # Required
+    'vlan_id' => $uint,               # Optional
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a Discovery Properties object.
+
+=head2 Infoblox::Grid::Member::DiscoveryProperties->scan_interfaces( )
+
+=over
+
+Use this method to set or retrieve the scan interfaces configured for the Grid member discovery properties. See L<Infoblox::Grid::Member::DiscoveryProperties-E<gt>scan_interfaces()|Infoblox::Grid::Member::DiscoveryProperties/scan_interfaces()/> for parameters and return values. 
+
+=over
+
+=item B<Example>
+
+ #Get scan_interfaces value
+ my $scan_interfaces = $discovery_properties->scan_interfaces();
+ #Modify scan_interfaces
+ $discovery_properties->scan_interfaces($scan_interfaces);
+
+=back
+
+=back
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 scan_interface_type( )
+
+=over
+
+Use this method to set or retrieve the probing interface type associated with the discovery probe member.
+
+=over
+
+=item B<Parameter>
+
+The name of the probing interface (LAN1, LAN2, MGMT).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+The method returns the value of scan_interface_type attribute.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->scan_interface_type();
+ # Modify attribute value
+ my $result = $object->scan_interface_type('LAN1');
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the name of the network view associated with the interface.
+
+=over
+
+=item B<Parameter>
+
+The name of the network view associated with the interface.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+The method returns the name of the network view associated with the interface.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->network_view();
+ # Modify attribute value
+ my $result = $object->('papi_network_view');
+
+=back
+
+=back
+
+=head2 vlan_id( )
+
+=over
+
+Use this method to set or retrieve information for the VLAN tag of the probing network. This method is allowed only for the LAN1 and LAN2 interfaces.
+
+=over
+
+=item B<Parameter>
+
+VLAN tag of the probing network.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->vlan_id();
+ # Modify attribute value
+ $object->vlan_id(22);
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

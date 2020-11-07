@@ -1,0 +1,144 @@
+=head1 NAME
+
+Infoblox::DHCP::FilterRule::Fingerprint - DHCP Fingerprint Filter Rule object.
+
+=head1 DESCRIPTION
+
+DHCP Fingerprint Filter Rule object.
+
+=head1 CONSTRUCTOR
+
+ my $filter_rule = Infoblox::DHCP::FilterRule::Fingerprint->new(
+       filter_name   => $string,          #Required
+       permission    => "grant" | "deny", #Required
+ );
+
+=head1 MODULE METHODS
+
+The following functions are available to apply to a DHCP Fingerprint Filter Rule object.
+
+=head2 Infoblox::DHCP::Range->filters( )
+
+=over
+
+Use this method to add a DHCP fingerprint Filter Rule object to the DHCP Range on the Infoblox appliance. See L<Infoblox::DHCP::Range-E<gt>filters()|Infoblox::DHCP::Range/filters()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Fingerprint Filter Rule object
+ my $filter_rule = Infoblox::DHCP::FilterRule::Fingerprint->new(
+       filter_name   => "filter",
+       permission    => "grant",
+ );
+
+ #Add Fingerprint Filter Rule to the DHCP Range object.
+ my $response = $dhcp_range->filters([$filter_rule]);
+
+=back
+
+=back
+
+=head2 Infoblox::DHCP::RangeTemplate->filters( )
+
+=over
+
+Use this method to add a DHCP fingerprint Filter Rule object to the DHCP Range Template on the Infoblox appliance. See L<Infoblox::DHCP::RangeTemplate-E<gt>filters()|Infoblox::DHCP::RangeTemplate/filters()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Fingerprint Filter Rule object
+ my $filter_rule = Infoblox::DHCP::FilterRule::Fingerprint->new(
+       filter_name   => "filter",
+       permission    => "grant",
+ );
+
+ #Add Fingerprint Filter Rule to the DHCP Range Template object.
+ my $response = $dhcp_range_template->filters([$filter_rule]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to set and retrieve the attribute values of a DHCP Fingerprint Filter Rule object.
+
+=head2 filter_name( )
+
+=over
+
+Use this method to set or retrieve the filter_name of a DHCP Fingerprint Filter Rule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Name of the DHCP Fingerprint filter. Maximum length up to 1024 bytes is supported.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get filter_name
+ my $filter_name = $filter_rule->filter_name();
+ #Modify filter_name
+ $filter_rule->filter_name("fingerprint filter");
+
+=back
+
+=back
+
+=head2 permission( )
+
+=over
+
+Use this method to set or retrieve the permission of a DHCP Fingerprint Filter Rule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the permission in string format. The permission can be either "grant" or "deny".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get permission
+ my $permission = $filter_rule->permission();
+ #Modify permission
+ $filter_rule->permission("deny");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DHCP::Fingerprint|Infoblox::DHCP::Fingerprint>, L<Infoblox::DHCP::Filter::Fingerprint|Infoblox::DHCP::Filter::Fingerprint>, L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>, L<Infoblox::DHCP::RangeTemplate|Infoblox::DHCP::RangeTemplate>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

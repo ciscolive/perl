@@ -1,0 +1,1 @@
+{"name":"Mojolicious::Plugin::CSRFDefender","target":"Mojolicious::Plugin::CSRFDefender","provides":{"Mojolicious::Plugin::CSRFDefender":{"file":"lib/Mojolicious/Plugin/CSRFDefender.pm","version":"0.000008"}},"dist":"Mojolicious-Plugin-CSRFDefender-0.0.8","version":"0.000008","pathname":"S/SH/SHIBAZAKI/Mojolicious-Plugin-CSRFDefender-0.0.8.tar.gz"}

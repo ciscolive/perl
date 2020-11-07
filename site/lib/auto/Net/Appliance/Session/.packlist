@@ -1,0 +1,8 @@
+/opt/perl/site/bin/nas
+/opt/perl/site/lib/Net/Appliance/Session.pm
+/opt/perl/site/lib/Net/Appliance/Session/Async.pm
+/opt/perl/site/lib/Net/Appliance/Session/Engine.pm
+/opt/perl/site/lib/Net/Appliance/Session/Scripting.pm
+/opt/perl/site/lib/Net/Appliance/Session/Transport.pm
+/opt/perl/site/man/man1/nas.1
+/opt/perl/site/man/man3/Net::Appliance::Session.3

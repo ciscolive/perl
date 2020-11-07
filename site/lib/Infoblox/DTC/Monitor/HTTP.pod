@@ -1,0 +1,962 @@
+=head1 NAME
+
+Infoblox::DTC::Monitor::HTTP - An DTC HTTP Health Monitor object.
+
+=head1 DESCRIPTION
+
+The DTC HTTP Health Monitor validates the health of a HTTP service by first sending a specific HTTP message to a server and then examining the response received from the server. The validation is successful if the received response matches the expected message.
+
+=head1 CONSTRUCTOR
+
+ my $http_monitor = Infoblox::DTC::Monitor::HTTP->new(
+    name                  => $string,                                                               #Required
+    ciphers               => [$cipher1, $cipher2, ...],                                             #Optional / Default is undefined
+    client_cert           => $certificate                                                           #Optional / Default is undefined
+    comment               => $string,                                                               #Optional / Default is undefined
+    content_check         => 'NONE' | 'MATCH' | 'EXTRACT',                                          #Optional / Default is 'NONE'
+    content_check_input   => 'HEADERS' | 'ALL' | 'BODY',                                            #Optional / Default is 'ALL'
+    content_check_op      => 'EQ' | 'NEQ' | 'LEQ' | 'GEQ',                                          #Optional / Default is undefined
+    content_check_regex   => $string,                                                               #Optional / Default is undefined
+    content_extract_group => $uint,                                                                 #Optional / Default is 0
+    content_extract_type  => 'STRING' | 'INTEGER',                                                  #Optional / Default is 'STRING'
+    content_extract_value => $string,                                                               #Optional / Default is undefined
+    enable_sni            => 'true' | 'false',                                                      #Optional / Default is 'false'
+    extattrs              => { $string => $extattr, ... },                                          #Optional / Default is undefined
+    extensible_attributes => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Optional / Default is undefined
+    interval              => $uint,                                                                 #Optional / Default is undefined
+    port                  => $uint,                                                                 #Optional / Default is undefined
+    request               => $string,                                                               #Optional / Default is undefined
+    result                => 'ANY' | 'CODE_IS' | 'CODE_IS_NOT',                                     #Optional / Default is undefined
+    result_code           => $uint,                                                                 #Optional / Default is undefined
+    retry_down            => $uint,                                                                 #Optional / Default is undefined 
+    retry_up              => $uint,                                                                 #Optional / Default is undefined
+    secure                => 'true' | 'false',                                                      #Optional / Default is 'false' 
+    timeout               => $uint,                                                                 #Optional / Default is undefined
+    validate_cert         => 'true' | 'false',                                                      #Optional / Default is 'true'
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in a Session module that you can apply to a DTC HTTP Monitor object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #construct an object
+ my $http_monitor = Infoblox::DTC::Monitor::HTTP->new(
+    name  => 'http_monitor1',
+ );
+
+ #submit for addition
+ my $response = $session->add($http_monitor);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC HTTP Monitor name in a string format.
+  comment               - Optional. A DTC HTTP Monitor comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::HTTP',
+     name   => 'http_monitor1',
+ );
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::HTTP',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify the comment.
+ $http_monitor->comment('this is a modified comment');
+ #Submit modification
+ my $response = $session->modify($http_monitor);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::DTC::Monitor::HTTP',
+     name   => 'http_monitor1',
+ );
+ #Find the desired object from the retrieved list.
+ my $desired_http_monitor = $retrieved_objs[0];
+ #Submit for removal
+ my $response = $session->remove($desired_http_monitor);
+
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+  name                  - Optional. A DTC HTTP Monitor name in a string format.
+  comment               - Optional. A DTC HTTP Monitor Descriptive comment.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference that contains extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Monitor::HTTP',
+     name   => 'http_monitor1',
+ );
+
+ my @retrieved_objs = $session->search(
+     object => 'Infoblox::DTC::Monitor::HTTP',
+     extensible_attributes => { 'Site' => 'Santa Clara' }
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 ciphers( )
+
+=over
+
+Use this method to set or retrieve a list of ciphers for a secure HTTP connection.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array of ciphers in a string format. Ciphers use an OpenSSL syntax. Empty array is equivalent to 'ALL' in the OpenSSL notation.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get ciphers value
+ my @ciphers = $http_monitor->ciphers();
+
+ #modify ciphers value
+ $http_monitor->ciphers(['RC4-MD5', 'KRB5-RC4-MD5']);
+
+=back
+
+=back
+
+=head2 client_cert( )
+
+=over
+
+Use this method to set or retrieve a client certificate, supplied in a secure HTTP mode if present.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::DTC::Certificate|Infoblox::DTC::Certificate> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get client_cert value
+ my $cert = $http_monitor->client_cert();
+
+ #modify client_cert value
+ $http_monitor->client_cert($cert);
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a DTC HTTP Health Monitor object comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a comment in string format (UTF-8) with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get comment value
+ my $comment = $http_monitor->comment();
+
+ #modify comment value
+ $http_monitor->comment('desired comment');
+
+=back
+
+=back
+
+=head2 content_check( )
+
+=over
+
+Use this method to set or retrieve content check type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'NONE', 'MATCH' and 'EXTRACT'. The default is 'NONE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get content_check value
+ my $content_check = $http_monitor->content_check();
+
+ #modify content_check value
+ $http_monitor->content_check('EXTRACT');
+
+=back
+
+=back
+
+=head2 content_check_input( )
+
+=over
+
+Use this method to set or retrieve a portion of reponse to use as an input for content check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'HEADERS', 'ALL' and 'BODY'. The default is 'ALL'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get content_check_input value
+ my $content_check_input = $http_monitor->content_check_input();
+
+ #modify content_check_input value
+ $http_monitor->content_check_input('BODY');
+
+=back
+
+=back
+
+=head2 content_check_regex( )
+
+=over
+
+Use this method to set or retrieve a content check regular expression.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired regular expression in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get content_check_regex value
+ my $content_check_regex = $http_monitor->content_check_regex();
+
+ #modify content_check_regex value
+ $http_monitor->content_check_regex('SQL Error');
+
+=back
+
+=back
+
+=head2 content_check_op( )
+
+=over
+
+Use this method to set or retrieve a content check success criteria operator.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'EQ' and 'NEQ' for 'MATCH' content check, and 'EQ', 'NEQ', 'LEQ' and 'GEQ' for 'EXTRACT' content check type.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get content_check_op value
+ my $content_check_op = $http_monitor->content_check_op();
+
+ #modify content_check_op value
+ $http_monitor->content_check_op('EQ');
+
+=back
+
+=back
+
+=head2 content_extract_group( )
+
+=over
+
+Use this method to set or retrieve a content extraction sub-expression to extract.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 0 and 8. The default is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get content_extract_group value
+ my $content_extract_group = $http_monitor->content_extract_group();
+
+ #modify content_extract_group value
+ $http_monitor->content_extract_group(3);
+
+=back
+
+=back
+
+=head2 content_extract_type( )
+
+=over
+
+Use this method to set or retrieve a content extraction expected type for the extracted data.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'INTEGER' and 'STRING'. The default is 'STRING'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get content_extract_type value
+ my $content_extract_type = $http_monitor->content_extract_type();
+
+ #modify content_extract_type value
+ $http_monitor->content_extract_type('INTEGER');
+
+=back
+
+=back
+
+=head2 content_extract_value( )
+
+=over
+
+Use this method to set or retrieve a content extraction value to compare with extracted result.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired extraction value in string format. The default is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get content_extract_value value
+ my $content_extract_value = $http_monitor->content_extract_value();
+
+ #modify content_extract_value value
+ $http_monitor->content_extract_value('1');
+
+=back
+
+=back
+
+=head2 enable_sni( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the Server Name Indication (SNI) for HTTPS monitor is enabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable SNI for HTTPS monitor and 'false' to disable it. The default is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get enable_sni value
+ my $enable_sni = $http_monitor->enable_sni();
+
+ #modify enable_sni value
+ $http_monitor->enable_sni('true');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC HTTP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get extattrs value
+ my $ref_extattrs = $http_monitor->extattrs();
+
+ #Modify extattrs
+ $http_monitor->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DTC HTTP Health Monitor object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $http_monitor->extensible_attributes();
+
+ #Modify extensible attributes
+ $http_monitor->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 interval( )
+
+=over
+
+Use this method to set or retrieve the interval for the HTTP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get interval value
+ my $interval = $http_monitor->interval();
+
+ #modify interval value
+ $http_monitor->interval(10);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve a DTC HTTP Health Monitor name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get name value
+ my $name = $http_monitor->name();
+
+ #modify name value
+ $http_monitor->name('http_monitor1');
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the port value for HTTP or HTTPS requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 65535.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get port value
+ my $port = $http_monitor->port();
+
+ #modify port value
+ $http_monitor->port(8080);
+
+=back
+
+=back
+
+=head2 request( )
+
+=over
+
+Use this method to set or retrieve an HTTP request to send.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string up to 1024 characters.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get request value
+ my $request = $http_monitor->request();
+
+ #modify request value
+ $http_monitor->request('GET /');
+
+=back
+
+=back
+
+=head2 result( )
+
+=over
+
+Use this method to set or retrieve the type of expected result.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'ANY', 'CODE_IS' and 'CODE_IS_NOT'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get result value
+ my $result = $http_monitor->result();
+
+ #modify result value
+ $http_monitor->result('CODE_IS');
+
+=back
+
+=back
+
+=head2 result_code( )
+
+=over
+
+Use this method to set or retrieve the expected return code.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 0 and 999.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get result_code value
+ my $result_code = $http_monitor->result_code();
+
+ #modify result_code value
+ $http_monitor->result_code(300);
+
+=back
+
+=back
+
+=head2 retry_down( )
+
+=over
+
+Use this method to set or retrieve the number of times the server appears offline after it was online so it is treated as as dead. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get retry_down value
+ my $retry_down = $http_monitor->retry_down();
+
+ #modify retry_down value
+ $http_monitor->retry_down(3);
+
+=back
+
+=back
+
+=head2 retry_up( )
+
+=over
+
+Use this method to set or retrieve the number of times the server appears online after it was offline so it is treated as alive.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 10.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get retry_up value
+ my $retry_up = $http_monitor->retry_up();
+
+ #modify retry_up value
+ $http_monitor->retry_up(3);
+
+=back
+
+=back
+
+=head2 secure( )
+
+=over
+
+Use this method to disable or enable a secure connection. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable a secure connection or 'false' to enable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get secure value
+ my $secure = $http_monitor->secure();
+
+ #modify secure value
+ $http_monitor->secure('true');
+
+=back
+
+=back
+
+=head2 timeout( )
+
+=over
+
+Use this method to set or retrieve the value of a timeout for HTTP health check.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 15.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get timeout value
+ my $timeout = $http_monitor->timeout();
+
+ #modify timeout value
+ $http_monitor->timeout(7);
+
+=back
+
+=back
+
+=head2 validate_cert( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the validation of the remote server's certificate is enabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable remote server's certificate validation and 'false' to disable it. The default is 'true'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #get validate_cert value
+ my $validate_cert = $http_monitor->validate_cert();
+
+ #modify validate_cert value
+ $http_monitor->validate_cert('false');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>, L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>, L<Infoblox::DTC::Certificate|Infoblox::DTC::Certificate>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

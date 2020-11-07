@@ -1,0 +1,647 @@
+#!/usr/bin/env perl
+BEGIN {
+  if (@ARGV and @ARGV[0] =~ /^\w/) {
+    @ARGV = grep { (/^-{1,2}h\w{0,3}$/ ? ($ENV{APP_TT_HELP} = $ARGV[0], 0) : (1, 1))[1] } @ARGV;
+  }
+}
+use Applify;
+use Cwd 'abs_path';
+use File::Basename;
+use File::Find;
+use File::HomeDir;
+use File::Path 'make_path';
+use File::Spec;
+use IO::Handle;
+use JSON::XS ();
+use List::Util 'uniq';
+use Scalar::Util 'blessed';
+use Time::Piece;
+use Time::Seconds;
+
+use constant DEBUG => $ENV{APP_TT_DEBUG} || 0;
+
+option str => project => 'Project name. Normally autodetected', alias => 'p';
+option str => tag     => 'Tags for an event',                   alias => 't', n_of => '@';
+
+documentation 'App::tt';
+version 'App::tt';
+
+our $NOW = localtime;
+
+$ENV{EDITOR}         ||= 'nano';
+$ENV{TT_ROUND_UP_AT} ||= 30;
+$SIG{__DIE__} = sub { Carp::confess($_[0]) }
+  if DEBUG;
+
+$ENV{TIMETRACKER_MIN_TIME} ||= 300;
+
+subcommand edit => 'Edit a .trc file' => sub {
+  option str => month => 'Mass edit a month';
+  option str => year  => 'Mass edit a year';
+};
+
+subcommand export => 'Export log data as csv' => sub {
+  option str => group_by => 'Group log output: --group-by day', alias => 'g';
+};
+
+subcommand help => 'Show help for a command' => sub { };
+
+subcommand log => 'Show log data' => sub {
+  option str => group_by => 'Group log output: --group-by day', alias => 'g';
+};
+
+subcommand register => 'Register an event' => sub {
+  option str => description => 'Description for an event', alias => 'd';
+};
+
+subcommand start => 'Start tracking a new event' => sub {
+  option str => description => 'Description for an event', alias => 'd';
+};
+
+subcommand stop => 'Stop tracking' => sub {
+  option str => tag         => 'Tags for an event',        alias => 't', n_of => '@';
+  option str => description => 'Description for an event', alias => 'd';
+};
+
+subcommand status => 'Show current status' => sub { };
+
+sub command_edit {
+  my $self = shift;
+  return $self->_edit_with_editor($_[0]) if @_ and -f $_[0];    # Edit a given file
+  return $self->_mass_edit(@_) if $self->year or $self->month or !-t STDIN;
+  return $self->_edit_with_editor;
+}
+
+sub command_export {
+  my $self = shift;
+  my $res  = $self->_log(@_);
+
+  my @cols   = split /,/, $ENV{TT_COLUMNS} || 'date,project,hours,rounded,tags,description';
+  my $format = join ',', map {'"%s"'} @cols;
+
+  $res->{rounded} = 0;
+  $self->_say($format, @cols);
+
+  for my $event (sort { $a->{start} <=> $b->{start} } @{$res->{log}}) {
+    $event->{date}  = $event->{start};
+    $event->{hours} = int($event->{seconds} / 3600);
+    $event->{seconds} -= $event->{hours} * 3600;
+    $event->{minutes} = int($event->{seconds} / 60);
+    $event->{rounded} = $event->{hours} + ($event->{minutes} >= $ENV{TT_ROUND_UP_AT} ? 1 : 0);
+    $event->{hours} += sprintf '%.1f', $event->{minutes} / 60;
+    $res->{rounded} += $event->{rounded};
+
+    $self->_say(
+      $format,
+      map {
+        my $val = $event->{$_} // '';
+        $val = $val->ymd if blessed $val and $val->can('ymd');
+        $val = join ',', @$val if ref $val eq 'ARRAY';
+        $val =~ s!"!""!g;
+        $val;
+      } @cols
+    );
+  }
+
+  $self->_diag(
+    "\nExact hours: %s. Rounded hours: %s Events: %s",
+    $self->_hms_duration($res->{seconds}, 'hm'),
+    $res->{rounded}, $res->{events},
+  );
+
+  return 0;
+}
+
+sub command_help {
+  my $self  = shift;
+  my $for   = shift || 'app';
+  my $today = $NOW->ymd;
+  my @help;
+
+  if ($for eq 'app') {
+    $self->_script->print_help;
+    return 0;
+  }
+
+  require App::tt;
+  open my $POD, '<', $INC{'App/tt.pm'} or die "Cannot open App/tt.pm: $!";
+  while (<$POD>) {
+    s/\b2020-01-01(T\d+:)/$today$1/g;    # make "register" command easier to copy/paste
+    push @help, $_ if /^=head2 $for/ ... /^=(head|cut)/;
+  }
+
+  # remove =head and =cut lines
+  shift @help;
+  pop @help;
+
+  die "Could not find help for $for.\n" unless @help;
+  $self->_say("@help");
+  return 0;
+}
+
+sub command_log {
+  my $self = shift;
+  my $res  = $self->_log(@_);
+
+  for my $event (sort { $a->{start} <=> $b->{start} } @{$res->{log}}) {
+    my $start = $event->{start};
+    $self->_say(
+      "%3s %2s %02s:%02s  %5s  %-$res->{max_project_chr}s  %s",
+      $start->month,
+      $start->mday,
+      $start->hour,
+      $start->minute,
+      $self->_hms_duration($event->{seconds}, 'hm'),
+      $event->{project} || '---',
+      join(',', @{$event->{tags}}),
+    );
+  }
+
+  $self->_diag(
+    "\nTotal for %s events since %s: %s",
+    $res->{events},
+    join(' ', $res->{when}->month, $res->{when}->year),
+    $self->_hms_duration($res->{seconds}, 'hms'),
+  );
+
+  $self->_log_print_time_left($res);
+
+  return 0;
+}
+
+sub command_register {
+  my ($self, $start, $stop) = @_;
+  return $self->command_help('register') unless $start and $stop and $self->project;
+
+  $start = $self->_time(str => $start);
+  $stop  = $self->_time(str => $stop, ref => $start);
+
+  my %event = (
+    __CLASS__   => 'App::TimeTracker::Data::Task',
+    project     => $self->project,
+    start       => $start,
+    stop        => $stop,
+    user        => scalar(getpwuid $<),
+    tags        => [$self->_tags],
+    description => $self->description,
+  );
+
+  my $trc_file = $self->_trc_path($self->project, $start);
+  if (-e $trc_file) {
+    $self->_diag("$trc_file already exists.");
+    return 1;
+  }
+
+  $self->_say('Registered "%s" at %s with duration %s', @event{qw(project start duration)})
+    if $self->_save(\%event);
+  return $!;
+}
+
+sub command_start {
+  my ($self, @args) = @_;
+
+  my $event = {};
+  $event->{start} = $self->_time(+(grep {/\d+\:/} @args)[0]);
+
+  $event->{project} ||= $self->project;
+  $event->{project} ||= (grep {/^[A-Za-z0-9-]+$/} @args)[0];
+  $event->{project} ||= basename(Cwd::getcwd) if -d '.git';
+  return $self->command_help('start') unless $event->{project};
+
+  $self->_stop_previous(@args);
+  return $! unless $self->_save($event);
+  _spurt($event->{path} => File::Spec->catfile($self->_root, 'previous'));
+  $self->_say('Started working on project "%s" at %s.',
+    $event->{project}, $event->{start}->hms(':'));
+  return 0;
+}
+
+sub command_stop {
+  my $self      = shift;
+  my $exit_code = $self->_stop_previous(@_);
+  $self->_diag("No previous event to stop.") if $exit_code == 3;
+  return $exit_code;
+}
+
+sub command_status {
+  my $self  = shift;
+  my $event = $self->_get_previous_event;
+  warn "[APP_TT] status $event->{path}\n" if DEBUG;
+
+  if (!$event->{start}) {
+    $self->_say('No event is being tracked.');
+    return 3;    # No such process
+  }
+  elsif ($event->{stop}) {
+    $self->_say('Stopped working on "%s" at %s after %s',
+      $event->{project}, $event->{stop}, $self->_hms_duration($event->{seconds}));
+    return 0;
+  }
+  else {
+    my $duration = $NOW - $event->{start} + $NOW->tzoffset;
+    $self->_say('Been working on "%s", for %s',
+      $event->{project}, $self->_hms_duration($duration, 'hms'));
+    return 0;
+  }
+}
+
+sub _edit_with_editor {
+  require File::Temp;
+  my ($self, $trc_file) = @_;
+  my ($event, $prev) = $trc_file ? ($self->_load($trc_file), 0) : ($self->_get_previous_event, 1);
+
+  $trc_file = $event->{path} //= 'Not found';
+  die "Could not find file to edit. ($event->{path})\n" unless $event->{start};
+
+  my $fh = File::Temp->new;
+  printf $fh "# %s\n", $event->{path};
+  for my $k (qw(project tags description start stop user)) {
+    $event->{$k} = join ', ', @{$event->{$k} || []} if $k eq 'tags';
+    $event->{$k} = $event->{$k}->datetime if $k eq 'start' or $k eq 'stop' and $event->{$k};
+    printf $fh "%-12s %s\n", "$k:", $event->{$k} // '';
+  }
+
+  close $fh;
+  $self->_diag("Edit $event->{path}");
+  system $ENV{EDITOR} => "$fh";
+
+  for (split /\n/, _slurp("$fh")) {
+    my ($k, $v) = /^(\w+)\s*:\s*(.+)/ or next;
+    $v = [grep {length} split /[\s,]+/, $v] if $k eq 'tags';
+    $v = $self->_time(str => $v)                         if $k eq 'start';
+    $v = $self->_time(str => $v, ref => $event->{start}) if $k eq 'stop';
+    $event->{$k} = $v;
+  }
+
+  return $! unless $self->_save($event);
+  _spurt($event->{path} => File::Spec->catfile($self->_root, 'previous')) if $prev;
+  unlink $trc_file or die "rm $trc_file: $!" unless $trc_file eq $event->{path};
+  return 0;
+}
+
+sub _diag {
+  my ($self, $format) = (shift, shift);
+  return warn "$format\n" unless @_;
+  return warn sprintf "$format\n", @_;
+}
+
+sub _say {
+  my ($self, $format) = (shift, shift);
+  print "$format\n" unless @_;
+  print sprintf "$format\n", @_ if @_;
+}
+
+sub _fill_log_days {
+  my ($self, $last, $now) = @_;
+  my $interval = int(($now - $last)->days);
+
+  map {
+    my $t = $last + $_ * 86400;
+    +{seconds => 0, start => $t, tags => [$t->day]}
+  } 1 .. $interval;
+}
+
+sub _get_previous_event {
+  my $self     = shift;
+  my $previous = File::Spec->catfile($self->_root, 'previous');
+  return {path => ''} unless -r $previous;
+  my $trc_file = _slurp($previous);    # $ROOT/previous contains path to last .trc file
+  return -r $trc_file ? $self->_load($trc_file) : {path => $trc_file};
+}
+
+sub _group_by_day {
+  my ($self, $res) = @_;
+  my $pl = 0;
+  my %log;
+
+  for my $e (@{$res->{log}}) {
+    my $k = $e->{start}->ymd;
+    $log{$k} ||= {%$e, seconds => 0};
+    $log{$k}{seconds} += $e->{seconds};
+    $log{$k}{_project}{$e->{project}} = 1;
+    $log{$k}{_tags}{$_} = 1 for @{$e->{tags}};
+  }
+
+  $res->{log} = [
+    map {
+      my $p = join ', ', keys %{$_->{_project}};
+      $pl = length $p if $pl < length $p;
+      +{%$_, project => $p, tags => [keys %{$_->{_tags}}]};
+    } map { $log{$_} } sort keys %log
+  ];
+
+  $res->{max_project_chr} = $pl;
+}
+
+sub _hms_duration {
+  my ($self, $duration, $sep) = @_;
+  my $seconds = int(ref $duration ? $duration->seconds : $duration);
+  my ($hours, $minutes);
+
+  $hours = int($seconds / 3600);
+  $seconds -= $hours * 3600;
+  $minutes = int($seconds / 60);
+  $seconds -= $minutes * 60;
+
+  return sprintf '%s:%02s:%02s', $hours, $minutes, $seconds if !$sep;
+  return sprintf '%2s:%02s', $hours, $minutes if $sep eq 'hm';
+  return sprintf '%sh %sm %ss', $hours, $minutes, $seconds;
+}
+
+sub _load {
+  my ($self, $trc_file) = @_;
+  my $trc = JSON::XS::decode_json(_slurp($trc_file));
+  $trc->{path} = $trc_file;
+  $trc->{tags} = [map { split /\s*,\s*/, $_ } @{$trc->{tags} || []}];
+  $trc->{$_}   = $self->_time($trc->{$_}) for grep { $trc->{$_} } qw(start stop);
+  return $trc;
+}
+
+sub _log {
+  my $self       = shift;
+  my $tags       = join ',', $self->_tags;
+  my @project_re = map {qr{^$_\b}} split /,/, $self->project || '.+';
+
+  my $res = {events => 0, log => [], max_project_chr => 0, seconds => 0};
+
+  for (@_) {
+    /^(-\d+)(m|y|month|year)$/ and ($res->{start_at} = $1 and $res->{interval} = $2);
+    /^(-\d+)$/      and $res->{start_at} ||= $1;
+    /^(month|year)/ and $res->{interval} ||= $1;
+    /^--fill/       and $res->{fill}     ||= 1;
+  }
+
+  $res->{fill}     ||= 0;
+  $res->{interval} ||= 'month';
+  $res->{start_at} ||= 0;
+
+  if ($res->{interval} =~ m!^y!) {
+    $res->{when} = $self->_time(Y => $NOW->year + $res->{start_at}, m => 1, d => 1);
+    $res->{path} = File::Spec->catdir($self->_root, $res->{when}->year);
+  }
+  else {
+    $res->{when} = $self->_time(m => $NOW->mon + $res->{start_at}, d => 1);
+    $res->{path}
+      = File::Spec->catdir($self->_root, $res->{when}->year, sprintf '%02s', $res->{when}->mon);
+  }
+
+  -d $res->{path} and find {
+    no_chdir => 0,
+    wanted   => sub {
+      my ($date, $hms, $project) = /^(\d+)-(\d+)_(.*)\.trc$/ or return;
+      my $event = $self->_load($_);
+      return if @project_re and !grep { $event->{project} =~ $_ } @project_re;
+      return if $tags       and !grep { $tags             =~ /\b$_\b/ } @{$event->{tags}};
+      $event->{stop}    ||= $NOW + $NOW->tzoffset;
+      $event->{seconds} ||= $event->{stop} - $event->{start};
+      push @{$res->{log}},
+        $self->_fill_log_days(@{$res->{log}} ? $res->{log}[-1]{start} : $res->{when},
+        $event->{start})
+        if $res->{fill};
+      pop @{$res->{log}}
+        if @{$res->{log}}
+        and !$res->{log}[-1]{project}
+        and $res->{log}[-1]{start}->mday == $event->{start}->mday;
+      push @{$res->{log}}, $event;
+      $res->{max_project_chr} = length $event->{project}
+        if $res->{max_project_chr} < length $event->{project};
+      $res->{events}++;
+      $res->{seconds} += $event->{seconds};
+    }
+    },
+    $res->{path};
+
+  if (my $method = $self->can(sprintf '_group_by_%s', $self->group_by || 'nothing')) {
+    $self->$method($res);
+  }
+
+  return $res;
+}
+
+sub _log_print_time_left {
+  my ($self, $res) = @_;
+  return unless $ENV{TT_HOURS_PER_MONTH} and $res->{interval} eq 'month';
+
+  my $start       = $self->_time(d => 1, H => 0, M => 0, S => 0);
+  my $end         = $self->_time(d => 1, m => $start->mon + 1, H => 0, M => 0, S => 0);
+  my $total_days  = 0;
+  my $worked_days = 0;
+  while ($start < $end) {
+    if ($start->day_of_week != 0 and $start->day_of_week != 6) {
+      $worked_days++ if $start < $NOW;
+      $total_days++;
+    }
+    $start += ONE_DAY;
+  }
+
+  my $remaining_days    = $total_days - $worked_days + ($NOW->hour > 12 ? 0 : 1);
+  my $total_seconds     = $ENV{TT_HOURS_PER_MONTH} * 3600;
+  my $remaining_seconds = $total_seconds - $res->{seconds};
+
+  $self->_diag(
+    'Remaining this month: %sd, %sh/d.',
+    $remaining_days > 0 ? $remaining_days : 0,
+    $self->_hms_duration($remaining_seconds / ($remaining_days <= 0 ? 1 : $remaining_days), 'hm'),
+  );
+}
+
+sub _root {
+  my $self = shift;
+  return $self->{root} if $self->{root};
+
+  my $root = $ENV{TIMETRACKER_HOME};
+  $root ||= do {
+    my $home = File::HomeDir->my_home || File::Spec->curdir;
+    File::Spec->catdir($home, '.TimeTracker');
+  };
+
+  return $self->{root} = readlink($root) || $root;
+}
+
+sub _mass_edit {
+  my $self = shift;
+
+  $self->year($NOW->year) if $self->month and !$self->year;
+  my $path = $self->_root;
+  $path = File::Spec->catdir($path, $self->year) if $self->year;
+  $path = File::Spec->catdir($path, sprintf '%02s', $self->month) if $self->month;
+
+  my $re = '';
+  $re .= sprintf '(%s)',   $self->year  || '\d{4}';    # (year)     = ($1)
+  $re .= sprintf '(%02s)', $self->month || '\d{2}';    # (month)    = ($2)
+  $re .= '(\d{2})-(\d+)_';                             # (day, hms) = ($3, $4)
+  $re .= sprintf '(%s)', $self->project || '[^.]+';    # (project)  = ($5)
+  $re .= '\.trc';
+
+  # Edit all files with code from STDIN
+  my $code = '';
+  if (!-t STDIN or !($self->year or $self->month)) {
+    $code .= $_ while <STDIN>;
+    $code = "sub {$code}" unless $code =~ /^\s*sub\b/s;
+    $code = eval "use 5.10.1;use strict;use warnings;$code"
+      or die "Could not compile code from STDIN: $@\n";
+  }
+
+  my @found;
+  find(
+    {
+      no_chdir => 0,
+      wanted   => sub {
+        return unless $_ =~ m!^$re$!;
+        my %info = (file => abs_path $_);
+        @info{qw(year month day date hms project)} = ($1, $2, $3, "$1$2$3", $4, $5);
+        push @found, \%info;
+      },
+    },
+    $path,
+  );
+
+  for my $found (sort { $a->{file} cmp $b->{file} } @found) {
+    $self->command_edit($found->{file}), next unless $code;
+    my $event = $self->_load($found->{file});
+    local %_ = %$found;
+    $self->_save($event) if $code and $self->$code($event);
+    unlink $found->{file} or die "rm $found->{file}: $!" unless $found->{file} eq $event->{path};
+  }
+
+  return 0;
+}
+
+sub _save {
+  my ($self, $event) = @_;
+
+  $event->{__CLASS__}   ||= 'App::TimeTracker::Data::Task';
+  $event->{description} ||= $self->description // '';
+  $event->{project}     ||= $self->project;
+  $event->{seconds}     ||= 0;
+  $event->{tags}        ||= [uniq @{$event->{tags} || []}, $self->_tags];
+  $event->{user}        ||= scalar(getpwuid $<);
+
+  if (my $duration = $event->{stop} && $event->{start} && $event->{stop} - $event->{start}) {
+    $event->{seconds} = $duration->seconds;
+  }
+  if ($event->{stop} and $event->{seconds} < $ENV{TIMETRACKER_MIN_TIME}) {
+    $self->_diag('Too short duration (%s)', $self->_hms_duration($event->{duration}));
+    $! = 52;
+    return 0;
+  }
+
+  my %event = %$event;
+  delete $event{path};
+  $event{start} = $event->{start}->datetime if $event->{start};
+  $event{stop}  = $event->{stop}->datetime  if $event->{stop};
+  $event{duration} = $self->_hms_duration($event{seconds});   # Used by App::TimeTracker::Data::Task
+
+  $event->{path} = $self->_trc_path($event->{project}, $event->{start});
+  make_path(dirname($event->{path})) unless -d dirname($event->{path});
+  _spurt(JSON::XS::encode_json(\%event) => $event->{path});
+  return 1;
+}
+
+sub _tags {
+  my $self = shift;
+  return $self->tag(shift) if @_;
+  return uniq map { split /,/, $_ } @{$self->tag || []};
+}
+
+# From Mojo::Util
+sub _slurp {
+  my $path = shift;
+  die qq{Can't open file "$path": $!} unless open my $file, '<', $path;
+  my $content = '';
+  while ($file->sysread(my $buffer, 131072, 0)) { $content .= $buffer }
+  $content =~ s!\s*$!!;
+  return $content;
+}
+
+# From Mojo::Util
+sub _spurt {
+  my ($content, $path) = @_;
+  die qq{Can't open file "$path": $!} unless open my $file, '>', $path;
+  die qq{Can't write to file "$path": $!} unless defined $file->syswrite($content);
+  return $content;
+}
+
+sub _stop_previous {
+  my ($self, @args) = @_;
+
+  my $event = $self->_get_previous_event;
+  return 3 if !$event->{start} or $event->{stop};    # 3 == No such process
+
+  $event->{stop} = $self->_time(+(grep {/\d+\:/} @args)[0]);
+
+  my $duration = $event->{stop} - $event->{start};
+  if ($duration->seconds < $ENV{TIMETRACKER_MIN_TIME}) {
+    $self->_say(qq(Dropping log event for "%s" since worked less than $ENV{TIMETRACKER_MIN_TIME}s.),
+      $event->{project});
+    unlink $event->{path} or die "rm $event->{path}: $!";
+    return 52;
+  }
+
+  if ($self->_save($event)) {
+    $self->_say('Stopped working on "%s" after %s',
+      $event->{project}, $self->_hms_duration($duration, 'hms'));
+    return 0;
+  }
+
+  return $! || 1;
+}
+
+sub _time {
+  my $self = shift;
+  my %t    = @_ == 1 ? (str => shift) : (@_);
+
+  if ($t{str}) {
+    my ($ymd, $hms) = split /[T\s]/, $t{str};
+    ($hms, $ymd) = ($ymd, '') if !$hms and $ymd =~ m!:!;
+    $t{Y} = $1 if $ymd =~ s!(\d{4})!!;
+    $t{m} = $1 if $ymd =~ s!0?(\d{1,2})-(\d+)!$2!;
+    $t{d} = $1 if $ymd =~ s!0?(\d{1,2})!!;
+    $t{H} = $1 if $hms =~ s!0?(\d{1,2})!!;
+    $t{M} = $1 if $hms =~ s!0?(\d{1,2})!!;
+    $t{S} = $1 if $hms =~ s!0?(\d{1,2})!!;
+  }
+
+  my $ref = $t{ref} || $NOW;
+  $ref = $self->_time($ref) unless ref $ref;
+  $t{Y} ||= $ref->year;
+  $t{m} //= $ref->mon;
+  $t{d} //= $ref->mday;
+  $t{S} //= defined $t{H} || defined $t{M} ? 0 : $ref->second;
+  $t{M} //= defined $t{H} ? 0 : $ref->min;
+  $t{H} //= $ref->hour;
+
+  if ($t{m} <= 0) {
+    $t{m} = 12 - $t{m};
+    $t{Y}--;
+  }
+
+  eval {
+    $t{iso} = sprintf '%s-%02s-%02sT%02s:%02s:%02s', @t{qw(Y m d H M S)};
+    $t{tp}  = Time::Piece->strptime("$t{iso}+0000", '%Y-%m-%dT%H:%M:%S%z');
+  } or do {
+    $@ =~ s!\r?\n$!!;
+    $@ =~ s!\sat\s\W+.*!! unless DEBUG;
+    die "Invalid time: $t{str} ($t{iso}): $@\n" if $t{str};
+    die "Invalid time: $t{iso}: $@\n";
+  };
+
+  return $t{tp};
+}
+
+sub _trc_path {
+  my ($self, $project, $t) = @_;
+  my $month = sprintf '%02s', $t->mon;
+  my $file;
+
+  $project =~ s!\W!_!g;
+  $file = sprintf '%s-%s_%s.trc', $t->ymd(''), $t->hms(''), $project;
+
+  return File::Spec->catfile($self->_root, $t->year, $month, $file);
+}
+
+app {
+  my $self = shift;
+  return $self->command_help($ENV{APP_TT_HELP}) if $ENV{APP_TT_HELP};
+  return $self->command_status;
+};

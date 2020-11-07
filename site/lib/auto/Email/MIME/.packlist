@@ -1,0 +1,12 @@
+/opt/perl/site/lib/Email/MIME.pm
+/opt/perl/site/lib/Email/MIME/Creator.pm
+/opt/perl/site/lib/Email/MIME/Encode.pm
+/opt/perl/site/lib/Email/MIME/Header.pm
+/opt/perl/site/lib/Email/MIME/Header/AddressList.pm
+/opt/perl/site/lib/Email/MIME/Modifier.pm
+/opt/perl/site/man/man3/Email::MIME.3
+/opt/perl/site/man/man3/Email::MIME::Creator.3
+/opt/perl/site/man/man3/Email::MIME::Encode.3
+/opt/perl/site/man/man3/Email::MIME::Header.3
+/opt/perl/site/man/man3/Email::MIME::Header::AddressList.3
+/opt/perl/site/man/man3/Email::MIME::Modifier.3

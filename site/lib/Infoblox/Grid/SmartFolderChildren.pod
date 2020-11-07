@@ -1,0 +1,435 @@
+=head1 NAME
+
+Infoblox::Grid::SmartFolderChildren - Smart Folder retrieval item.
+
+=head1 DESCRIPTION
+
+This module helps read the objects that are associated with either a smart folder (global or personal) or a set of queries that users can make without saving a smart folder object on the appliance.
+
+This interface can be used for both "filtering" and "grouping" the results of smart folder associated objects.
+
+=head1 CONSTRUCTOR
+
+The object cannot be constructed. It can only be returned as part of a search.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a personal smart folder object.
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for SmartFolderChildren objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific SmartFolderChildren object:
+
+  query_items                  - Required. A list of Infoblox::Grid::SmartFolder::QueryItem objects.
+  smart_folder_name            - Required. PersonalSmartFolder/GlobalSmartFolder name in string format.
+  smart_folder_type            - Optional. "Global" / "Personal", "Global" if not specified.
+  smart_folder_group_bys       - Optional. A list of Infoblox::Grid::SmartFolder::GroupBy objects.
+  smart_folder_group_by_values - Optional. A list of Infoblox::Grid::SmartFolder::GroupByValue objects.
+
+ Both "smart_folder_name" and "query_items" are marked "Required" but they cannot be specified together. Note the following guidelines:
+
+ - "query_items" cannot be specified when "smart_folder_name" is specified because if "smart_folder_name" is specified, all the properties of a query can be derived from that smart folder.
+
+ - "query_items" can be specified with "smart_folder_group_bys". In this case, the results are grouped by specified group_bys attribute and a list of intermediate objects are returned.
+
+ - When only "smart_folder_name" is specified, it runs like a query using all properties from this folder and returning the results accordingly.
+
+ - When "smart_folder_group_bys" is specified with "smart_folder_name", the query is used from the specified smart folder; however, the results are shown from the level listed in "smart_folder_group_bys".
+
+ - "smart_folder_group_bys" by itself cannot be an argument since it does not provide sufficient input.
+
+ - "smart_folder_group_by_values" by itself cannot be an argument since it does not provide sufficient input.
+
+ - For the non-saved smart folder query, the "smart_folder_group_by_values" can be used to specify the level of results to return. "smart_folder_group_bys" must also be specified in this case.
+
+=item B<Example>
+
+  Please see the 'SAMPLE CODE' section below.
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of a SmartFolderChildren object.
+
+=head2 is_matching_object( )
+
+=over
+
+Use this method to retrieve the is_matching_object flag.
+
+=over
+
+=item B<Parameter>
+
+The flag will be "true" if a matching object is returned inside the value(); if not, the attribute value() will contain the name of the intermediate object.
+
+=back
+
+=back
+
+=head2 value( )
+
+=over
+
+Use this method to retrieve the value of the object.
+
+=over
+
+=item B<Parameter>
+
+This attribute will contain either an actual object matching the query (if is_matching_object is "true") or a string describing the name of the intermediate object.
+
+Intermediate objects are the extensible attribute value objects for which the grouping was requested. Matching objects are the DB objects that matched the query specified.
+
+=back
+
+=back
+
+=head2 value_type( )
+
+=over
+
+Use this method to retrieve the type of the returned value.
+
+=over
+
+=item B<Parameter>
+
+If is_matching_object is "false", this will contain one of: "STRING" / "INTEGER" / "DATE" / "BOOLEAN".
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to retrieve the comment.
+
+=over
+
+=item B<Parameter>
+
+This attribute will return the value of the comment() attribute of the associated object, if is_matching_object() is "true". It will return undef if is_matching_object is "false".
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to retrieve the extensible attributes. This attribute is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+This attribute will return the value of the extattrs() attribute of the associated object (if is_matching_object() is "true"). It will return undef if is_matching_object is "true"). It will return undef if is_matching_object is "false".
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to retrieve the extensible attributes.
+
+=over
+
+=item B<Parameter>
+
+This attribute will return the value of the extensible_attributes() attribute of the associated object (if is_matching_object() is "true"). It will return undef if is_matching_object is "false".
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+ USE-CASES & EXAMPLES:
+
+ ##########################################################################
+ # Case 1 : Fetching objects based on the query defined for an existing folder
+ ##########################################################################
+
+ my @retrieved_objs = $session->search(
+             object =>"Infoblox::Grid::SmartFolderChildren" ,
+             smart_folder_name => "global_smart_folder_1"
+          );
+
+ my $object = $retrieved_objs[0];
+
+ if ($object->is_matching_object())
+ {
+    print $object->comment();
+    # $object->extensible_attributes() will contain the object's
+    # extensible attributes
+    #
+    # This will be the actual matching object
+    # $object->value();
+ }
+ else
+ {
+    # Name of the intermediate group, use this to fetch another level if needed
+    # This will be "USA", "Canada" etc
+    # if the grouping was on "Country" for example
+    print $object->value();
+    print $object->value_type();
+ }
+
+ ##########################################################################
+ # Case 2 : Fetching objects based on the smart folder and a given group_by_values
+ ##########################################################################
+
+ my $groupbyvalue1 = Infoblox::Grid::SmartFolder::GroupByValue->new(
+          name => "Country",
+          value => "USA",
+ );
+ my $groupbyvalue2 = Infoblox::Grid::SmartFolder::GroupByValue->new(
+          name => "State",
+          value => "CA",
+ );
+
+ my  @retrieved_objs = $session->search(
+       object =>"Infoblox::Grid::SmartFolderChildren" ,
+       smart_folder_name => "global_smart_folder_1",
+       smart_folder_group_by_values => [$groupbyvalue1, $groupbyvalue2],
+          );
+
+ my $object = $retrieved_objs[0];
+ if ($object->is_matching_object())
+ {
+    print $object->comment();
+    # $object->extensible_attributes() will contain the object's
+    # extensible attributes
+    #
+    # This will be the actual matching object
+    # $object->value();
+ }
+ else
+ {
+    # Name of the intermediate group, use this to fetch another level if needed
+    print $object->value();
+    print $object->value_type();
+ }
+
+ ##########################################################################
+ # Case 3 : Fetching objects based on the not-saved smart folder query, no grouping
+ ##########################################################################
+
+ my  @retrieved_objs = $session->search(
+       object =>"Infoblox::Grid::SmartFolderChildren" ,
+       #This query will only return intermediate objects
+       query_items => [queryitem1, queryitem2],
+          );
+
+ my $object = $retrieved_objs[0];
+ if ($object->is_matching_object())
+ {
+    print $object->comment();
+    # $object->extensible_attributes() will contain the object's
+    # extensible attributes
+    #
+    # This will be the actual matching object
+    # $object->value();
+
+ }
+ else
+ {
+    # This shall never happen
+ }
+
+ ##########################################################################
+ # Case 4 : Fetching objects based on the not-saved smart folder query & with top level grouping
+ ##########################################################################
+
+ my  @retrieved_objs = $session->search(
+       object =>"Infoblox::Grid::SmartFolderChildren" ,
+       query_items => [queryitem1, queryitem2],
+       smart_folder_group_bys => [$groupby1, $groupby2],
+          );
+
+ my $object = $retrieved_objs[0];
+ if ($object->is_matching_object())
+ {
+    # This shall never happen
+ }
+ else
+ {
+    # Name of the intermediate group, use this to fetch another level if needed
+    print $object->value();
+    print $object->value_type();
+ }
+
+ ##########################################################################
+ # Case 5 : Fetching objects based on the not-saved smart folder query & with second level grouping
+ ##########################################################################
+
+ my  @retrieved_objs = $session->search(
+       object =>"Infoblox::Grid::SmartFolderChildren" ,
+       query_items => [$queryitem1, $queryitem2],
+       smart_folder_group_bys => [$groupby1, $groupby2],
+       smart_folder_group_by_values => [$groupbyvalue1],
+          );
+
+ my $object = $retrieved_objs[0];
+ if ($object->is_matching_object())
+ {
+    # This shall never happen
+ }
+ else
+ {
+    # Name of the intermediate group, use this to fetch another level if needed
+    # The intermediate objects grouped by $groupby2 are returned in this case
+    print $object->value();
+    print $object->value_type();
+ }
+
+ ##########################################################################
+ # Case 6 : Fetching objects based on the defined SF query & grouping by a given rule "value"
+ ##########################################################################
+
+ my $groupbyvalue1 = Infoblox::Grid::SmartFolder::GroupByValue->new(
+          name => "Country",
+          value => "USA",
+ );
+
+ my  @retrieved_objs = $session->search(
+       object =>"Infoblox::Grid::SmartFolderChildren" ,
+       smart_folder_name => "global_smart_folder_1"
+       smart_folder_group_by_values => [$groupbyvalue1],
+    );
+
+ my $object = $retrieved_objs[0];
+
+ if ($object->is_matching_object())
+ {
+    print $object->comment();
+    # $object->extensible_attributes() will contain the object's
+    # extensible attributes
+    #
+    # This will be the actual matching object
+    # $object->value();
+ }
+ else
+ {
+    # Name of the intermediate group, use this to fetch another level if needed
+    print $object->value();
+    print $object->value_type();
+ }
+
+ ##########################################################################
+ # Case 7 : Fetching next levels of data from result of previous one (NESTED example)
+ ##########################################################################
+
+ # EXAMPLE: Get objects for Country USA-> State CA-> DB Objects.
+
+ #Add Personal Smart Folder with 2 levels of grouping
+ #Use this smart folder to fetch intermediate objects from first level (groups)
+ #Use the result of this first level and fetch second level of intermediate objects (groups)
+ #Use the result of this second level and fetch the final / third level of DB protocol objects
+
+ my $groupby1 = Infoblox::Grid::SmartFolder::GroupBy->new(
+             enable_grouping => True,
+             value => "Country",
+             value_type => "EXTATTR",
+ );
+ my $groupby2 = Infoblox::Grid::SmartFolder::GroupBy->new(
+             enable_grouping => True,
+             value => "State",
+             value_type => "EXTATTR",
+ );
+
+ my  $smartfolder = Infoblox::Grid::PersonalSmartFolder->new(
+              name => "personal_smart_folder_1",
+              comment => "personal smart folder 1 comment",
+              enable_grouping => True,
+              group_bys => [$groupby1, $groupby2],
+              query_items => [],
+               );
+ my $response = $session->add($smartfolder)
+
+ my  @retrieved_objs = $session->search(
+       object =>"Infoblox::Grid::SmartFolderChildren" ,
+       smart_folder_name => "personal_smart_folder_1",
+       smart_folder_type => "Personal",
+    );
+
+ my $object = $retrieved_objs[0];
+
+ if ($object->is_matching_object())
+ {
+         # This will not happen since intermediate objects are returned in this case
+ }
+ else
+ {
+    # Name of the intermediate group, use this to fetch another level if needed
+    my $intermediate_group_value = $object->value();
+         if ($intermediate_group_value eq "USA")
+         {
+             my $groupbyvalue_usa = Infoblox::Grid::SmartFolder::GroupByValue->new(
+                 name => "Country",
+                 value => "USA",
+             );
+             my  @retrieved_objs = $session->search(
+                 object =>"Infoblox::Grid::SmartFolderChildren" ,
+                 smart_folder_name => "personal_smart_folder_1"
+                 smart_folder_group_by_values => [$groupbyvalue_usa],
+             );
+
+             my $object = $retrieved_objs[0];
+
+             my $intermediate2_group_value = $object->value();
+             if ($intermediate2_group_value eq "CA")
+             {
+                   my $groupbyvalue_ca = Infoblox::Grid::SmartFolder::GroupByValue->new(
+                       name => "State",
+                       value => "CA",
+                   );
+                   my  @retrieved_objs = $session->search(
+                       object =>"Infoblox::Grid::SmartFolderChildren" ,
+                       smart_folder_name => "personal_smart_folder_1"
+                       smart_folder_type => "Personal",
+                       smart_folder_group_by_values => [$groupbyvalue_ca],
+                   );
+
+                   my $object = $retrieved_objs[0];
+
+                    if ($object->comment() eq "I am a network object")
+                    {
+                        # $object here represents the Database object
+                    }
+             }
+ }
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::PersonalSmartFolder|Infoblox::Grid::PersonalSmartFolder>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>fetch_smart_folder_objects()|Infoblox::Session/fetch_smart_folder_objects()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

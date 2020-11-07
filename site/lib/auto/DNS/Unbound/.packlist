@@ -1,0 +1,15 @@
+/opt/perl/site/lib/DNS/Unbound.pm
+/opt/perl/site/lib/DNS/Unbound/AsyncQuery.pm
+/opt/perl/site/lib/DNS/Unbound/AsyncQuery/AnyEventXSPromises.pm
+/opt/perl/site/lib/DNS/Unbound/AsyncQuery/PromiseES6.pm
+/opt/perl/site/lib/DNS/Unbound/AsyncQuery/PromiseXS.pm
+/opt/perl/site/lib/DNS/Unbound/Result.pm
+/opt/perl/site/lib/DNS/Unbound/X.pm
+/opt/perl/site/lib/DNS/Unbound/X/BadDebugFD.pm
+/opt/perl/site/lib/DNS/Unbound/X/Base.pm
+/opt/perl/site/lib/DNS/Unbound/X/ResolveError.pm
+/opt/perl/site/lib/auto/DNS/Unbound/Unbound.so
+/opt/perl/site/man/man3/DNS::Unbound.3
+/opt/perl/site/man/man3/DNS::Unbound::AsyncQuery.3
+/opt/perl/site/man/man3/DNS::Unbound::Result.3
+/opt/perl/site/man/man3/DNS::Unbound::X::ResolveError.3

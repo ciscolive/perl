@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>pdldoc - shell interface to PDL documentation</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:WENWU@mojo.(none)" />
+</head>
+
+<body>
+
+
+
+<ul id="index">
+  <li><a href="#NAME">NAME</a></li>
+  <li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
+  <li><a href="#OPTIONS">OPTIONS</a></li>
+  <li><a href="#VERSION">VERSION</a></li>
+  <li><a href="#AUTHOR">AUTHOR</a></li>
+</ul>
+
+<h1 id="NAME">NAME</h1>
+
+<p>pdldoc - shell interface to PDL documentation</p>
+
+<h1 id="SYNOPSIS">SYNOPSIS</h1>
+
+<p><b>pdldoc</b> &lt;text&gt;</p>
+
+<h1 id="DESCRIPTION">DESCRIPTION</h1>
+
+<p>The aim of <b>pdldoc</b> is to provide the same functionality as the <code>apropos</code>, <code>help</code>, <code>sig</code>, <code>badinfo</code>, and <code>usage</code> commands available in the <a href="./perldl.html">perldl</a> and <a href="./pdl2.html">pdl2</a> shells.</p>
+
+<p>Think of it as the PDL equivalent of <code>perldoc -f</code>.</p>
+
+<h1 id="OPTIONS">OPTIONS</h1>
+
+<dl>
+
+<dt id="h-help"><b>-h</b> help</dt>
+<dd>
+
+<p>print documentation about a PDL function or module or show a PDL manual. This is the default option.</p>
+
+</dd>
+<dt id="a-apropos"><b>-a</b> apropos</dt>
+<dd>
+
+<p>Regex search PDL documentation database.</p>
+
+</dd>
+<dt id="b-badinfo"><b>-b</b> badinfo</dt>
+<dd>
+
+<p>Information on the support for bad values provided by the function.</p>
+
+</dd>
+<dt id="s-sig"><b>-s</b> sig</dt>
+<dd>
+
+<p>prints signature of PDL function.</p>
+
+</dd>
+<dt id="u-usage"><b>-u</b> usage</dt>
+<dd>
+
+<p>Prints usage information for a PDL function.</p>
+
+</dd>
+<dt id="PDL::Config-PDLDOC_IGNORE_AUTOLOADER"><code>$PDL::Config{PDLDOC_IGNORE_AUTOLOADER}</code></dt>
+<dd>
+
+<p>This PDL configuration variable may be set in the perldl.conf file to disable runtime search for documentation in <a href="./AutoLoader.html">PDL::AutoLoader</a> files.</p>
+
+</dd>
+</dl>
+
+<h1 id="VERSION">VERSION</h1>
+
+<p>This is pdldoc version 0.3.</p>
+
+<h1 id="AUTHOR">AUTHOR</h1>
+
+<p>Doug Burke &lt;burke at ifa dot hawaii dot edu&gt;. Chris Marshall &lt;chm at cpan dot org&gt;.</p>
+
+
+</body>
+
+</html>
+
+

@@ -1,0 +1,251 @@
+=head1 NAME
+
+Infoblox::Grid::SNMP::ThresholdTrap  - Threshold Trap object.
+
+=head1 DESCRIPTION
+
+The Grid SNMP ThresholdTrap object is used to set the values of the thresholds of the SNMP traps.
+
+=head1 CONSTRUCTOR
+
+Use the following attributes to construct an Infoblox::Grid::SNMP::ThresholdTrap object.
+
+ my $threshold_trap = Infoblox::Grid::SNMP::ThresholdTrap->new(
+    trap_type       =>   $string,     #Required
+    trap_reset      =>   $uint,       #Optional
+    trap_trigger    =>   $uint,       #Optional
+ );
+
+=head1 MODULE METHODS
+
+This section describes all the methods in the other modules that can be applied to a Threshold Trap object.
+
+=head2 Infoblox::Grid->threshold_traps( )
+
+=over
+
+Use this function to specify threshold traps at the grid level. See
+L<Infoblox::Grid-E<gt>threshold_traps()|Infoblox::Grid/threshold_traps()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get threshold traps
+ my $threshold_traps = $grid->threshold_traps();
+ #Modify threshold traps
+ my $threshold_traps = $grid->threshold_traps();
+ foreach(@$threshold_traps){if $_->trap_name() eq 'Rootfs'; $_->trap_reset=60;} #Change value for 'Rootfs' trap
+ $grid->threshold_traps($threshold_traps);
+ $session->modify($grid);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member->threshold_traps( )
+
+=over
+
+Use this function to specify threshold traps at the member level. See L<Infoblox::Grid::Member-E<gt>threshold_traps()|Infoblox::Grid::Member/threshold_traps()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get threshold traps
+ my $threshold_traps = $member->threshold_traps();
+ #Modify threshold traps
+ my $threshold_traps = $member->threshold_traps();
+ foreach(@$threshold_traps){if $_->trap_name() eq 'Rootfs'; $_->trap_reset=60;} #Change value for 'Rootfs' trap
+ $grid->threshold_traps($threshold_traps);
+ $session->modify($member);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of a Threshold Trap object.
+
+=head2 trap_reset( )
+
+=over
+
+Use this method to specify the threshold value to reset the trap.
+
+=over
+
+=item B<Parameter>
+
+The trap_reset parameter is a positive integer. The default value depends on the trap_type.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the trap reset value
+ my $trap_reset = $threshold_trap->trap_reset();
+ #Set the trap reset value
+ $threshold_trap->trap_reset();
+
+=back
+
+=back
+
+=head2 trap_trigger( )
+
+=over
+
+Use this method to specify the threshold value to trigger the trap. The default value depends on the trap_type.
+
+=over
+
+=item B<Parameter>
+
+The trap_trigger parameter is a positive integer. The default value depends on the trap_type.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the trap trigger
+ my $trap_trigger = $threshold_trap->trap_trigger();
+ #Set the trap trigger
+ $threshold_trap->trap_trigger();
+
+=back
+
+=back
+
+=head2 trap_type( )
+
+=over
+
+Use this method to get the type of a given trap.
+
+=over
+
+=item B<Parameter>
+
+String that contains the trap type.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get the trap type
+ my $trap_type = $threshold_trap->trap_type();
+ #Set the trap type
+ $threshold_trap->trap_type();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the session methods of a Threshold Trap object.
+
+B<#Preparation prior to getting and modifying a grid member object>
+
+  use strict;
+  use Infoblox;
+
+  my $session = Infoblox::Session->new(
+             master   => "192.168.2.1",
+             username => "admin",
+             password => "infoblox"
+  );
+
+  unless ($session) {
+     die("Session construction failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+  print "Session created successfully\n";
+
+B<#Getting the grid level trap list from appliance through session>
+
+  #Getting the Grid object
+  my @result = $session->get(
+     object => "Infoblox::Grid",
+     name   => "Infoblox"
+     ); my $grid = $result[0];
+  unless ($grid) {
+        die("Get Grid object failed: ",
+             $session->status_code() . ":" . $session->status_detail());
+  }
+  print "Get Grid object found at least 1 matching entry\n";
+
+  #Extracting threshold traps
+  my $ref_threshold_traps = $grid->threshold_traps();
+  unless($ref_threshold_traps && ref($ref_threshold_traps) eq 'ARRAY' ){
+      die("Get threshold traps list failed: ",
+          $session->status_code() . ":" . $session->status_detail());
+  }
+  my @current_threshold_traps = @$ref_threshold_traps;
+
+B<#Modify threshold traps list>
+
+  #Delete some traps from the list
+  my @new_list = grep {$_->trap_type() ne "NetworkCapacity" && $_->trap_type() ne "Rootfs" } @current_threshold_traps;
+  #Create new "Rootfs" threshold trap
+  my $new_rootfs_trap = Infoblox::Grid::SNMP::ThresholdTrap->new(
+       trap_type => "Rootfs",
+       trap_trigger => 95,
+       trap_reset => 80,
+   );
+  unless($new_rootfs_trap){
+      die("Creating new threshold trap failed: ",
+          Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+  push @new_list, $new_rootfs_trap;
+  #Modify grid object
+  unless($grid->threshold_traps(\@new_list)){
+      die("Modifying threshold traps failed: ",
+          Infoblox::status_code() . ":" . Infoblox::status_detail());
+  }
+B<#Update Grid object through the Infoblox session.>
+  $session->modify($grid)
+             or die("modify Grid object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+        print "Modified threshold traps of Grid object successful\n";
+
+B<#Restore the old threshold traps>
+
+  #Apply changes to the Grid object to Un-def SNMP Admin object.
+  $grid->threshold_traps(\@current_threshold_traps);  #Update Grid object through the Infoblox session.
+  $session->modify($grid)
+             or die("Restore threshold traps for Grid object failed: ",
+                 $session->status_code() . ":" . $session->status_detail());
+
+        print "Restored Grid object successful\n";
+
+        ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

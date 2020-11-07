@@ -1,0 +1,6 @@
+/opt/perl/site/bin/pod2markdown
+/opt/perl/site/lib/Pod/Markdown.pm
+/opt/perl/site/lib/Pod/Perldoc/ToMarkdown.pm
+/opt/perl/site/man/man1/pod2markdown.1
+/opt/perl/site/man/man3/Pod::Markdown.3
+/opt/perl/site/man/man3/Pod::Perldoc::ToMarkdown.3

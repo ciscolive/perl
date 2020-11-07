@@ -1,0 +1,1 @@
+{"target":"Mojolicious::Plugin::SwaggerUI","name":"Mojolicious::Plugin::SwaggerUI","dist":"Mojolicious-Plugin-SwaggerUI-v0.0.4","pathname":"M/MA/MARGHI/Mojolicious-Plugin-SwaggerUI-v0.0.4.tar.gz","version":"v0.0.4","provides":{"Mojolicious::Plugin::SwaggerUI":{"file":"lib/Mojolicious/Plugin/SwaggerUI.pm","version":"v0.0.4"}}}

@@ -1,0 +1,104 @@
+=head1 NAME
+
+Infoblox::Grid::Discovery::Port::Control::TaskDetails - port control task details.
+
+=head1 DESCRIPTION
+
+The object provides information about port control task details.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to retrieve the attribute values of the object.
+
+=head2 id( )
+
+=over
+
+Use this method to retrieve the task ID. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->id();
+
+=back
+
+=back
+
+=head2 is_synchronized( )
+
+=over
+
+Use this method to retrieve the flag indicates if the task completed and matched with current discovered value. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->is_synchronized();
+
+=back
+
+=back
+
+=head2 status( )
+
+=over
+
+Use this method to retrieve the task status. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->status();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::Discovery::Port::Config::AdminStatus|Infoblox::Grid::Discovery::Port::Config::AdminStatus>, L<Infoblox::Grid::Discovery::Port::Config::Description|Infoblox::Grid::Discovery::Port::Config::Description>, L<Infoblox::Grid::Discovery::Port::Config::VlanInfo|Infoblox::Grid::Discovery::Port::Config::VlanInfo>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

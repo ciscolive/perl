@@ -1,0 +1,473 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatAnalytics - Grid Threat Analytics object.
+
+=head1 DESCRIPTION
+
+The object provides information about Grid Threat Analytics settings.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Infoblox::Grid::ThreatAnalytics object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Grid Threat Analytics object
+  object - Required. It must be set to "Infoblox::Grid::ThreatAnalytics".
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatAnalytics',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify some of the attributes of the retrieved_objs object.
+ $retrieved_objs->dns_tunnel_black_list_rpz_zones([$rpz]);
+ # Submit modification
+ my $response = $session->modify($retrieved_objs);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve values of the Grid Threat Analytics object.
+
+=head2 current_moduleset( )
+
+=over
+
+Use this method to set or retrieve the current threat analytics model set
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ThreatAnalytics::ModuleSet|Infoblox::Grid::ThreatAnalytics::ModuleSet> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $current_moduleset = $obj->current_moduleset();
+ #Modify attribute value
+ $obj->current_moduleset($current_moduleset);
+
+=back
+
+=back
+
+=head2 dns_tunnel_black_list_rpz_zones( )
+
+=over
+
+Use this method to set or retrieve the list of Response Policy Zones for DNS tunnelling requests.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get attribute value
+ my $rpz_zones = $obj->dns_tunnel_black_list_rpz_zones();
+ #Modify attribute value
+ $obj->dns_tunnel_black_list_rpz_zones([$rpz_zone]);
+
+=back
+
+=back
+
+=head2 download_threat_analytics_moduleset_update( )
+
+=over
+
+Use this method to download and install the latest threar analytics module set update, available from the Infoblox threat analytics download server.
+
+=over
+
+=item B<Key Reference>
+
+None
+
+=item B<Returns>
+
+The method returns 1 when the operation succeeds, and 0 when the operation fails.
+
+=item B<Example>
+
+ my $res = $obj->download_threat_analytics_moduleset_update();
+
+=back
+
+=back
+
+=head2 enable_auto_download( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the automatic threat analytics module set download is enabled or disabled.
+
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the automatic download of the threat analytics module set or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_auto_download value
+ my $enable_auto_download = $obj->enable_auto_download();
+ #Modify enable_auto_download value
+ $obj->enable_auto_download('false');
+
+=back
+
+=back
+
+=head2 enable_scheduled_download( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the scheduled download of the threat analytics module set is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable the scheduled download of the threat analytics module set or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_scheduled_download value
+ my $enable_scheduled_download = $obj->enable_scheduled_download();
+ #Modify enable_scheduled_download value
+ $obj->enable_scheduled_download('false');
+
+=back
+
+=back
+
+=head2 last_checked_for_update( )
+
+=over
+
+Use this method to retrieve the last checked for update time for the analytics module set.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_checked_for_update value
+ my $last_checked_for_update = $obj->last_checked_for_update();
+
+=back
+
+=back
+
+=head2 last_module_update_time( )
+
+=over
+
+Use this method to retrieve the last update time for the threat analytics module set.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_module_update_time value
+ my $last_module_update_time = $obj->last_module_update_time();
+
+=back
+
+=back
+
+=head2 last_module_update_version( )
+
+=over
+
+Use this method to retrieve the version number of the last updated threat analytics module set.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_module_update_version value
+ my $last_module_update_version = $obj->last_module_update_version();
+
+=back
+
+=back
+
+=head2 last_whitelist_update_time( )
+
+=over
+
+Use this method to retrieve the last update time for the threat analytics whitelist.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get last_whitelist_update_time value
+ my $last_whitelist_update_time = $obj->last_whitelist_update_time();
+
+=back
+
+=back
+
+=head2 last_whitelist_update_version( )
+
+=over
+
+Use this method to retrieve the version number of the last updated threat analytics whitelist.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_whitelist_update_version value
+ my $last_whitelist_update_version = $obj->last_whitelist_update_version();
+
+=back
+
+=back
+
+=head2 module_update_policy( )
+
+=over
+
+Use this method to set or retrieve the updated policy for the threat analytics module set.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'AUTOMATIC' and 'MANUAL'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get module_update_policy value
+ my $module_update_policy = $obj->module_update_policy();
+ #Modify module_update_policy value
+ $obj->module_update_policy('MANUAL');
+
+=back
+
+=back
+
+=head2 scheduled_download( )
+
+=over
+
+Use this method to set or retrieve the schedule settings for the threat analytics module set download.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get scheduled_download value
+ my $scheduled_download = $obj->scheduled_download();
+ #Modify scheduled_download value
+ $obj->scheduled_download($sched_download);
+
+=back
+
+=back
+
+=head2 test_threat_analytics_server_connectivity( )
+
+=over
+
+Use this method ot test the connectivity with the Infoblox threat analytics download server.
+
+=over
+
+=item B<Key Reference>
+
+None
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::TestResult|Infoblox::Grid::TestResult> object if connectivity test occurs and 0 otherwise.
+
+=item B<Example>
+
+ my $res = $obj->test_threat_analytics_server_connectivity();
+
+=back
+
+=back
+
+=head2 update_threat_analytics_moduleset( )
+
+=over
+
+Use this method to update the threat analytics module set
+
+Note that to update the threat analytics module set, the threat analytics update file should be uploaded via L<Infoblox::Session-E<gt>import_data()|Infoblox::Session/import_data()/> method
+
+
+=over
+
+=item B<Key Reference>
+
+ mode - Optional. Specify 'TEST' to check uploaded module set or 'EXECUTE' to apply updates to the current module set. The default value is 'EXECUTE'.
+
+=item B<Returns>
+
+The method returns 1 when the operation succeeds, and 0 when the operation fails.
+
+=item B<Example>
+
+ my $res = $obj->update_threat_analytics_moduleset(mode => 'TEST');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, 
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, 
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, 
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, 
+L<Infoblox::Grid::ScheduleSetting|Infoblox::Grid::ScheduleSetting>, 
+L<Infoblox::Grid::ThreatAnalytics::ModuleSet|Infoblox::Grid::ThreatAnalytics::ModuleSet>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

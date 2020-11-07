@@ -1,0 +1,5 @@
+/opt/perl/site/bin/ipv4calc
+/opt/perl/site/lib/Net/IPv4Addr.pm
+/opt/perl/site/lib/auto/Net/IPv4Addr/autosplit.ix
+/opt/perl/site/man/man1/ipv4calc.1
+/opt/perl/site/man/man3/Net::IPv4Addr.3

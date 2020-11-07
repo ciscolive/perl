@@ -1,0 +1,307 @@
+=head1 NAME
+
+Infoblox::DNS::MSServer - Microsoft (r) DNS Server object
+
+=head1 DESCRIPTION
+
+A Microsoft DNS Server object is a Windows-based server that is running the DNS service and is synchronized with an Infoblox grid. As such, the Microsoft DNS server shares its DNS data with the Infoblox DNS servers in a grid.
+
+=head1 CONSTRUCTOR
+
+ my $msserver = Infoblox::DNS::MSServer->new(
+     address       => $string,           #Required
+     ipv4addr      => $string,           #Required
+     name          => $string,           #Required
+     stealth       => "true" | "false",  #Optional
+ );
+
+=head1 MODULE METHODS
+
+The following functions can be applied to a Microsoft DNS Server object.
+
+=head2 Infoblox::DNS::Zone->multiple_primaries( )
+
+=over
+
+Use any of these functions to assign a Microsoft DNS server as the primary server of a zone. See L<Infoblox::DNS::Zone-E<gt>multiple_primaries()|Infoblox::DNS::Zone/multiple_primaries()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $msserver1 = Infoblox::DNS::MSServer->new(
+     address        => "10.0.0.1",
+     ipv4addr       => "10.0.0.1",
+     name           => "hostname.com",
+ );
+
+ unless($msserver1) {
+      die("Construct msserver failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Msserver object created successfully\n";
+
+ #Create the Zone object with this Microsoft DNS server
+ my $firstzone = Infoblox::DNS::Zone->new(
+     name        => "infoblox.com",
+     multiple_primaries => [$msserver1],
+ );
+
+ my $response = $session->add($firstzone)
+ unless($response) {
+      die("Add zone failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+ print "DNS MS Server object added to the zone successfully\n";
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->secondaries( )
+
+=over
+
+Use this function to specify an Microsoft DNS server as the secondary server to a zone. See L<Infoblox::DNS::Zone-E<gt>secondaries()|Infoblox::DNS::Zone/secondaries()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $msserver1 = Infoblox::DNS::MSServer->new(
+     address        => "10.0.0.1",
+     ipv4addr       => "10.0.0.1",
+     name           => "hostname.com",
+ );
+
+ unless($msserver1) {
+      die("Construct msserver failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Msserver object created successfully\n";
+
+ #Create the Zone object with this member
+ my $firstzone = Infoblox::DNS::Zone->new(
+     name        => "infoblox.com",
+     multiple_primaries => [$member1],
+     secondaries => [ $msserver2 ] ,
+ );
+
+ my $response = $session->add($firstzone)
+ unless($response) {
+      die("Add zone failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+
+ print "DNS MS server member object added to the zone successfully\n";
+
+=back
+
+=back
+
+=head2 Infoblox::DNS::Zone->stub_members( )
+
+=over
+
+Use this function to assign a Microsoft DNS server to a stub zone. See L<Infoblox::DNS::Zone-E<gt>stub_members()|Infoblox::DNS::Zone/stub_members()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ my $msserver1 = Infoblox::DNS::MSServer->new(
+     address        => "10.0.0.1",
+     ipv4addr       => "10.0.0.1",
+     name           => "hostname.com",
+ );
+
+ unless($msserver1) {
+      die("Construct msserver failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Msserver object created successfully\n";
+
+ #Create the Zone object with this member
+ my $firstzone = Infoblox::DNS::Zone->new(
+     name        => "infoblox.com",
+     stub_members => [ $msserver2 ] ,
+ );
+
+ my $response = $session->add($firstzone)
+ unless($response) {
+      die("Add zone failed: ",
+            session->status_code() . ":" . session->status_detail());
+ }
+
+ print "DNS MS server member object added to the zone successfully\n";
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a DNS Member object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the IPv4 address or FQDN of the member.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+IPv4 address (32 bits) or FQDN of the member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address
+ my $address = $member->address();
+ #Modify address
+ $member->address("192.168.1.3");
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to set or retrieve the member IPv4 address that is published in the glue A record when setting this Microsoft DNS server as a name server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+IPv4 address (32 bits) of the member.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv4addr
+ my $ipv4addr = $member->ipv4addr();
+ #Modify ipv4addr
+ $member->ipv4addr("192.168.1.3");
+
+=back
+
+=back
+
+=head2 ms_parent_delegated( )
+
+=over
+
+Use this method to retrieve the ms_parent_delegated flag. If the zone is a delegation and the primary server of the parent zone is a Microsoft server, this flag is set to "true" if the FQDN and IP address in the delegation zone's NS record matches the FQDN and IP address of its authoritative name server.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ms_parent_delegated
+ my $ms_parent_delegated = $member->ms_parent_delegated();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the member FQDN that is used when setting this Microsoft DNS server as a name server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The member's FQDN.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $member->name();
+ #Modify name
+ $member->name("hostname.com");
+
+=back
+
+=back
+
+=head2 stealth( )
+
+=over
+
+Use this method to set or retrieve the "stealth" flag, which indicates whether this name server is in stealth or normal mode.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the stealth flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get stealth
+ my $stealth = $member->stealth();
+ #Modify stealth
+ $member->stealth("true");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::TSIGKey|Infoblox::DNS::TSIGKey>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

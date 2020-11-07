@@ -1,0 +1,718 @@
+=head1 NAME
+
+Infoblox::DNS::RPZRecord::CNAME::IpAddress - DNS Response Policy Zone (RPZ) CNAMEIpAddress record object.
+
+=head1 DESCRIPTION
+
+A DNS RPZ CNAMEIpAddress record represents different RPZ rules, depending on the value of the canonical name.
+This record represents Passthru IP Address Rule, Block IP Address (No Such Domain) Rule, Block IP Address (No Data) Rule.
+
+This record represents IP trigger policy. It matches IP addresses that would otherwise appear in A and AAAA records in the "answer" section of DNS response.
+
+If canonical name is empty, it is a Block IP Address (No Such Domain) Rule.
+
+If canonical name is an asterisk, it is a Block IP Address (No Data) Rule.
+
+If canonical name is the same as host name, it is a Passthru IP Address Rule.
+
+You cannot create Substitute (IPv4/IPv6 Address) Rule for this record see L<Infoblox::DNS::RPZRecord::AIpAddress|Infoblox::DNS::RPZRecord::AIpAddress/> or L<Infoblox::DNS::RPZRecord::AAAAIpAddress|Infoblox::DNS::RPZRecord::AAAAIpAddress/> for details.
+
+Note that you must specify only one view for the attribute "views".
+
+=head1 CONSTRUCTOR
+
+  my $bind_cnameip =  Infoblox::DNS::RPZRecord::CNAME::IpAddress->new (
+      canonical => $ip_address,           #Required
+      name      => $fqdn,                 #Required
+      rp_zone   => $rp_zone,              #Required
+      comment   => $string,               #Optional / Default is empty
+      disable   => "true"|"false"         #Optional / Default "false"
+      extattrs              => { $string => $extattr, ... },      #Optional / Default is undefined
+      extensible_attributes => { $string => $string|$num, $string => [ $string|$num, ...], ... }, #Optional / Default is undefined
+      ttl       => $num|undef,            #Optional / Default is undefined
+      views     => [$View1],              #Optional / Default is "default" view
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in Infoblox::Session module that you can apply to a DNS RPZ CNAMEIpAddress record object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an IPv4 object
+ my $bind_cnameip = Infoblox::DNS::RPZRecord::CNAME::IpAddress->new (
+     name      => "10.6.0.0/16.rpz.com",
+     canonical => "10.6.0.0/16",
+     rp_zone   => response_policy_zone1,
+     comment   => "this is a demo record",
+     disable   => "true",
+     ttl       => "33",
+     views     => [$view1]  );
+ # Submit for addition
+ my $response = $session->add( $bind_cnameip );
+
+ #Construct an IPv6 object
+ my $bind_cnameip = Infoblox::DNS::RPZRecord::CNAME::IpAddress->new (
+     name      => "2001::/64.rpz.com",
+     canonical => "*",
+     rp_zone   => response_policy_zone1,
+     comment   => "this is a demo record",
+     disable   => "true",
+     ttl       => "33",
+     views     => [$view1]  );
+ # Submit for addition
+ my $response = $session->add( $bind_cnameip );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DNS RPZ CNAMEIpAddress record object:
+
+  name - Optional. A host name in string format.
+  view - Optional. The DNS view in which the RPZ CNAMEIpAddress record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone - Optional. A zone name in FQDN format.
+  canonical - Optional. A canonical name.
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+     name   => "1.2.3.4.rpz.com",
+     view   => "default" );
+
+ # get all DNS RPZ CNAMEIpAddress record in zone "rpz.com" of default view
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+     zone   => "rpz.com",
+     view   => "default" );
+
+ # get DNS RPZ CNAMEIpAddress record with canonical name "cname.rpz.com" of default view
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+     canonical => "10.6.0.0/16",
+     view   => "default" );
+
+ # get all DNS RPZ CNAMEIpAddress record with a given extensible attribute
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+     extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use method to modify the comment.
+ $bind_cnameip->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $bind_cnameip );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects with the same name
+ my @retrieved_objs = $session->get(
+   object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+   name   => "1.2.3.4.rpz.com",
+   view   => "default");
+ #Find the desired object from the retrieved list.
+ my $desired_cname = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_cname );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DNS RPZ CNAMEIpAddress record objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific DNS RPZ CNAME object.
+
+  name    - Optional. A host name in string format (regular expression).
+  view    - Optional. The DNS view in which the RPZ CNAMEIpAddress record is located. By default, all DNS views are searched. But if you omit this attribute and specify a zone, the appliance searches the 'default' view only.
+  zone    - Optional. A zone name in FQDN format.
+  canonical - Optional. A canonical name (regular expression).
+  comment - Optional. A comment in string format (regular expression).
+  extattrs     - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+ # search for all DNS RPZ CNAME objects that match "rpz.com" in the default DNS view
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+     name    => 'rpz\.com',
+     view    => "default",
+     comment => "this is a modified comment" );
+
+ # search for all DNS RPZ CNAMEIpAddress records in zone "rpz.com" of default view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+     zone   => "rpz\.com",
+     view   => "default" );
+
+ # search DNS RPZ CNAMEIpAddress record with canonical name "cname.rpz.com" of default view
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+     canonical => "cname\.rpz\.com",
+     view   => "default" );
+
+ # search all DNS RPZ CNAMEIpAddress records with the extensible attribute 'Site'
+ my @retrieved_objs = $session->search(
+    object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+    extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a DNS RPZ CNAMEIpAddress record.
+
+=head2 canonical( )
+
+=over
+
+Use this method to set or retrieve the canonical name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Canonical name can be network, host address, asterisk or empty.
+
+You cannot specify canonical name value that is not Block IP Address (No Such Domain) Rule, Block IP Address (No Data) Rule, or Passthru IP Address Rules. You should use L<Infoblox::DNS::RPZRecord::CNAME::IpAddress|Infoblox::DNS::RPZRecord::AIpAddress/> or L<Infoblox::DNS::RPZRecord::CNAME::IpAddress|Infoblox::DNS::RPZRecord::AAAAIpAddress/> objects for Substitute (IPv46 Address) Rule and Substitute (IPv6 Address) Ruless.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get canonical
+ my $canonical = $bind_cnameip->canonical();
+ #Modify canonical name
+ $bind_cnameip->canonical("10.6.1.2");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired comment in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $bind_cnameip->comment();
+ #Modify comment
+ $bind_cnameip->comment("Modifying the DNS RPZ CNAMEIpAddress record comment");
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a DNS RPZ CNAMEIpAddress record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value for this field is false. The DNS RPZ CNAMEIpAddress record is enabled.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the disable flag or "false" to deactivate/unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable
+ my $disable = $bind_cnameip->disable();
+ #Modify disable
+ $bind_cnameip->disable("true");
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS RPZ CNAMEIpAddress record object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $bind_cnameip->extattrs();
+ #Modify extattrs
+ $bind_cnameip->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DNS RPZ CNAMEIpAddress record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $bind_cnameip->extensible_attributes();
+ #Modify extensible attributes
+ $bind_cnameip->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the host name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+A name in FQDN (Fully Qualified Domain Name) format. The FQDN consists of the network address in CIDR notation or host IP address  followed by the domain name (example: 10.0.0.0/8.rpz.com, 1.2.3.4.rpz.com).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $bind_cnameip->name();
+ #Modify name
+ $bind_cnameip->name("4.3.2.1.rpz.com");
+
+=back
+
+=back
+
+=head2 ttl( )
+
+=over
+
+Use this method to set or retrieve the Time to Live (TTL) value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is undefined which indicates that the record inherits the TTL value of the zone.
+
+Specify a TTL value to override the TTL value at the zone level.
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration, in seconds, that the record is cached. Zero indicates that the record should not be cached.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ttl
+ my $ttl = $bind_cnameip->ttl();
+ #Modify ttl
+ $bind_cnameip->ttl(1800);
+ #Un-override ttl
+ $bind_cnameip->ttl(undef);
+
+=back
+
+=back
+
+=head2 views( )
+
+=over
+
+Use this method to set or retrieve the view of the DNS RPZ CNAMEIpAddress record.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the "default" view, which means the DNS RPZ CNAMEIpAddress record is located in the default view.
+
+=over
+
+=item B<Parameter>
+
+An array reference of defined L<Infoblox::DNS::View|Infoblox::DNS::View> objects.
+
+Note that the array size must be 1.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get views
+ my $ref_views = $bind_cnameip->views();
+ #Modify views, an array of Infoblox::DNS::View objects
+ $bind_cnameip->views([$view1]);
+
+=back
+
+=back
+
+=head2  zone( )
+
+=over
+
+Use this method to retrieve the zone name of a DNS RPZ CNAMEIpAddress record. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Returns the attribute value.
+
+=item B<Example>
+
+ # Get zone
+ my $zone = $bind_cnameip->zone();
+
+=back
+
+=back
+
+=head2  rp_zone( )
+
+=over
+
+Use this method to set or retrieve the zone object of a DNS RPZ CNAMEIpAddress record.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::DNS::Zone|Infoblox::DNS::Zone> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get rp_zone
+ my $rp_zone = $bind_cnameip->rp_zone();
+ #Modify rp_zone, reference of Infoblox::DNS::Zone object
+ $bind_cnameip->rp_zone($response_policy_zone);
+
+=back
+
+=back
+
+=head2 is_ipv4( )
+
+=over
+
+Use this method to set or retrieve whether the record is an IPv4 record. This method is read-only and cannot be set.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+Use this method to retrieve whether the record is an IPv4 record. If the return value is "true", it is an IPv4 record. Ohterwise, it is an IPv6 record.
+
+=item B<Example>
+
+ #Get is_ipv4
+ my $ip_ipv4 = $bind_cnameip->is_ipv4();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample code also includes error handling for the operations.
+
+B<#Preparation prior to a DNS RPZ CNAMEIpAddress record insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ #Create the zone prior to a DNS RPZ CNAMEIpAddress record insertion
+ my $zone = Infoblox::DNS::Zone->new(name => "rpz.com",
+                                     rpz_policy => "GIVEN");
+ unless ($zone) {
+ die("Construct zone failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Verify if the zone exists
+ my $object = $session->get(object => "Infoblox::DNS::Zone", name => "rpz.com");
+ unless ($object) {
+ print "Zone does not exist on server, safe to add the zone\n";
+ $session->add($zone)
+    or die("Add zone failed: ",
+           $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone added successfully\n";
+
+B<#Create a DNS RPZ CNAMEIpAddress record>
+
+ my $view1 = Infoblox::DNS::View->new(
+  name      => "default" );
+
+ #Construct a DNS RPZ CNAMEIpAddress record object
+ my $ip_address = Infoblox::DNS::RPZRecord::CNAME::IpAddress->new(
+  name      => "10.6.0.0/16.rpz.com",
+  canonical => "10.6.0.0/16",
+  comment   => "this is a demo ip address record",
+  ttl       => "33",
+  views     => [$view1],
+  rp_zone   => $zone);
+ unless ($ip_address) {
+ die("Construct DNS RPZ CNAMEIpAddress record failed: ",
+     Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "DNS RPZ CNAMEIpAddress record object created successfully\n";
+
+ #Add the DNS RPZ CNAMEIpAddress record object to the Infoblox appliance through a session
+ $session->add($ip_address)
+  or die("Add DNS RPZ CNAMEIpAddress record failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "DNS RPZ CNAMEIpAddress record object added to server successfully\n";
+
+B<#Search for a specific DNS RPZ CNAMEIpAddress record>
+
+ #Search all RPZ CNAMEIpAddress records that match "rpz.com"
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+  name   => 'rpz\.com'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search DNS RPZ CNAMEIpAddress record failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS RPZ CNAMEIpAddress record object found at least 1 matching entry\n";
+
+ #Search all DNS RPZ CNAMEIpAddress records that start with "bind" and end with ".rpz.com"
+ my @retrieved_objs = $session->search(
+  object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+  name   => '^10\.6.*\.rpz\.com'
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Search DNS RPZ CNAMEIpAddress record failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search DNS RPZ CNAMEIpAddress record object using regexp found at least 1 matching entry\n";
+
+B<#Get and modify a DNS RPZ CNAMEIpAddress record>
+
+ #Get DNS RPZ CNAMEIpAddress record through the session
+ my @retrieved_objs = $session->get(
+  object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+  name   => "10.6.0.0/16.rpz.com",
+  view   => "default"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Get DNS RPZ CNAMEIpAddress record failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS RPZ CNAMEIpAddress record object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified DNS RPZ CNAMEIpAddress record
+ $object->disable("true");
+
+ #Apply the changes
+ $session->modify($object)
+  or die("Modify DNS RPZ CNAMEIpAddress record failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "DNS RPZ CNAMEIpAddress record object modified successfully \n";
+
+B<#Remove a DNS RPZ CNAMEIpAddress record>
+
+ #Get DNS RPZ CNAMEIpAddress record through the session
+ my @retrieved_objs = $session->get(
+  object => "Infoblox::DNS::RPZRecord::CNAME::IpAddress",
+  name   => "10.6.0.0/16.rpz.com",
+  view   => "default"
+ );
+ $object = $retrieved_objs[0];
+ unless ($object) {
+  die("Get DNS RPZ CNAMEIpAddress record failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS RPZ CNAMEIpAddress record object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove( $object )
+ or die("Remove DNS RPZ CNAMEIpAddress record failed: ",
+      $session->status_code() . ":" . $session->status_detail());
+ print "DNS RPZ CNAMEIpAddress record object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::View|Infoblox::DNS::View>, L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>, L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get(/)>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

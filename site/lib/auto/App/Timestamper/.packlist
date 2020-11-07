@@ -1,0 +1,6 @@
+/opt/perl/site/bin/timestamper
+/opt/perl/site/lib/App/Timestamper.pm
+/opt/perl/site/lib/App/Timestamper/Filter/TS.pm
+/opt/perl/site/man/man1/timestamper.1
+/opt/perl/site/man/man3/App::Timestamper.3
+/opt/perl/site/man/man3/App::Timestamper::Filter::TS.3

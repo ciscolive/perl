@@ -1,0 +1,107 @@
+=head1 NAME
+
+Infoblox::Cursor - Manages paged searches.
+
+=head1 DESCRIPTION
+
+This class enables users to conduct database searches returning large datasets in an object-by-object manner.
+
+=head1 CONSTRUCTOR
+
+ my $cursor=$session->new_cursor(
+                                fetch_size     => 200,
+                                object         => "Infoblox::DNS::AllRecords",
+                                return_methods => ['name'],
+                                name           => ".*"
+                               );
+
+=head1 METHODS
+
+This section describes all the methods that you can use when creating a cursor used for paged searches.
+
+=head2 fetch_size( )
+
+=over
+
+This method is used to set the amount of records returned from the back-end to the client for every request. Larger values
+will cause less requests to be sent to the back-end and more memory used on the client-side; smaller values will cause
+more requests.
+
+The default value is 100.
+
+=back
+
+=head2 other parameters
+
+=over
+
+Other parameters for this constructor are any valid search parameters as described in L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>
+
+=back
+
+=head2 Supported object types
+
+=over
+
+Paged search is supported for the following object types:
+
+=over
+
+=item L<Infoblox::DNS::AllRecords|Infoblox::DNS::AllRecords>
+
+=item L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>
+
+=item L<Infoblox::DHCP::FixedAddr|Infoblox::DHCP::FixedAddr>
+
+=item L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>
+
+=item L<Infoblox::DNS::Host|Infoblox::DNS::Host>
+
+=item L<Infoblox::DNS::Record::A|Infoblox::DNS::Record::A>
+
+=item L<Infoblox::DNS::Record::AAAA|Infoblox::DNS::Record::AAAA>
+
+=item L<Infoblox::DNS::Record::PTR|Infoblox::DNS::Record::PTR>
+
+=item L<Infoblox::DNS::Record::TXT|Infoblox::DNS::Record::TXT>
+
+=item L<Infoblox::DNS::Record::MX|Infoblox::DNS::Record::MX>
+
+=item L<Infoblox::DNS::Record::SRV|Infoblox::DNS::Record::SRV>
+
+=item L<Infoblox::DNS::Record::CNAME|Infoblox::DNS::Record::CNAME>
+
+=item L<Infoblox::DNS::Record::DNAME|Infoblox::DNS::Record::DNAME>
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates how to execute a paged search.
+
+ #PROGRAM STARTS: Include all the modules that will be used
+    $cursor=$session->new_cursor(
+                                 fetch_size => 100,
+                                 object => "Infoblox::DNS::AllRecords",
+                                 name   => '.*',
+                                );
+
+    while ($current_record = $cursor->fetch()) {
+        # $current_record will contain a matching record object
+    }
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

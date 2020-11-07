@@ -1,0 +1,5 @@
+/opt/perl/site/bin/cpanmigrate
+/opt/perl/site/lib/App/cpanmigrate.pm
+/opt/perl/site/lib/App/cpanmigrate/bash.pm
+/opt/perl/site/lib/App/cpanmigrate/csh.pm
+/opt/perl/site/man/man3/App::cpanmigrate.3

@@ -1,0 +1,1 @@
+{"version":"0.10","pathname":"P/PE/PEVANS/XS-Parse-Sublike-0.10.tar.gz","dist":"XS-Parse-Sublike-0.10","provides":{"XS::Parse::Sublike::Builder":{"version":"0.10","file":"lib/XS/Parse/Sublike/Builder.pm"},"XS::Parse::Sublike":{"file":"lib/XS/Parse/Sublike.pm","version":"0.10"}},"name":"XS::Parse::Sublike","target":"XS::Parse::Sublike::Builder"}

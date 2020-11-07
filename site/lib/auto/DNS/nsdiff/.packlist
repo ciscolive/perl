@@ -1,0 +1,8 @@
+/opt/perl/site/bin/nsdiff
+/opt/perl/site/bin/nspatch
+/opt/perl/site/bin/nsvi
+/opt/perl/site/lib/DNS/nsdiff.pm
+/opt/perl/site/man/man1/nsdiff.1
+/opt/perl/site/man/man1/nspatch.1
+/opt/perl/site/man/man1/nsvi.1
+/opt/perl/site/man/man3/DNS::nsdiff.3pm

@@ -1,0 +1,474 @@
+=head1 NAME
+
+Infoblox::Grid::GlobalSmartFolder - Global Smart Folder object.
+
+=head1 DESCRIPTION
+
+A Global Smart Folder object is used for data organization.
+
+=head1 CONSTRUCTOR
+
+ my $group = Infoblox::Grid::GlobalSmartFolder->new(
+     name                => $string,                                                              #Required
+     comment             => $string,                                                              #Optional / Default is undefined
+     group_bys           => [$GroupbyItem1, $GroupbyItem2],                                       #Optional / Default is undefined
+     query_items         => [$QueryItem1, $QueryItem2],                                           #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+This section describes all the methods in the Infoblox::Session module that you can apply to a Global Smart Folder object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct the QueryItem in-memory object
+ my $query_item1 = Infoblox::Grid::SmartFolder::QueryItem->new(
+     name                 => "location",
+     operator             => "eq",
+     value                => "Santa Clara",
+ );
+
+ #Construct the GlobalSmartFolder object
+ my $group_by_state = Infoblox::Grid::SmartFolder::GroupBy->new(
+                                                                enable_grouping => 'true',
+                                                                value => "State",
+                                                                value_type => "EXTATTR",
+                                                               );
+
+ my $smart_folder = Infoblox::Grid::GlobalSmartFolder->new(
+     name                 => "smartfolder1",
+     comment              => "global smart folder",
+     group_bys            => [$group_by_state],
+     query_items          => [$query_item1],
+ );
+ # Submit for addition
+ my $response = $session->add( $smart_folder );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific GlobalSmartFolder object:
+
+  name      - Required. GlobalSmartFolder name in string format.
+  comment   - Optional. Comment in string format.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::GlobalSmartFolder",
+     name       => "smartfolder1" );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ # Use this method to modify the comment.
+ $smart_folder->comment("This is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $smart_folder );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, use get() or search() to retrieve the specific object first, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ # Get the GlobalSmartFolder objects using a name
+ my @retrieved_objs = $session->get(
+     object     => "Infoblox::Grid::GlobalSmartFolder",
+     name       => "smartfolder1" );
+ # find the desired object from the retrieved list.
+ my $desired_smart_folder = $retrieved_objs[0];
+ # Submit for removal
+ my $response = $session->remove( $desired_smart_folder );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for Global Smart Folder objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a specific GlobalSmartFolder object:
+
+  name      - Optional. GlobalSmartFolder name in string format (regular expression).
+  comment   - Optional. Comment in string format (regular expression).
+
+=item B<Example>
+
+ # search for all GlobalSmartFolder objects that start with "smartfolder"
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::GlobalSmartFolder",
+     name   => "smartfolder.*" );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set and retrieve the attribute values of a GlobalSmartFolder object.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Pertinent information about the global smart folder. Comment in string format with a maximum of 256 bytes. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment
+ my $comment = $smart_folder->comment();
+ #Modify comment
+ $smart_folder->comment("This is the modified comment for smartfolder1");
+
+=back
+
+=back
+
+=head2 group_bys( )
+
+=over
+
+Use this method to set or retrieve the group_bys value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::SmartFolder::GroupBy|Infoblox::Grid::SmartFolder::GroupBy> object(s). The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ my $group_by_state = Infoblox::Grid::SmartFolder::GroupBy->new(
+                                                             enable_grouping => 'true',
+                                                             value => "State",
+                                                             value_type => "EXTATTR",
+                                                            );
+ #Get group_by value
+ my $group_by = $smart_folder->group_bys();
+ #Modify group_bys value
+ $smart_folder->group_bys([$group_by_state]);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of a global smart folder.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Text with the name of the global smart folder.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $smart_folder->name();
+
+=back
+
+=back
+
+=head2 query_items( )
+
+=over
+
+Use this method to set or retrieve the query items. If query items are not specified when you add() a smart folder, the server automatically assigns a default query item for the smart folder. This default query item is "type=Network/Zone/Range/Member". This ensures that objects are included in searches for these 4 types, by default. When you modify() a smart folder, the server keeps the query items provided by the client and does not add the default items.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::Grid::SmartFolder::QueryItem|Infoblox::Grid::SmartFolder::QueryItem> object(s). The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get query items
+ my $query_items = $smart_folder->query_items();
+
+ #Modify query items
+ my $query_item1 = Infoblox::Grid::SmartFolder::QueryItem->new(
+     name                 => "location",
+     operator             => "eq",
+     value                => "Santa Clara",
+ );
+ $smart_folder->query_items([$query_items1]);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to an GlobalSmartFolder object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ # Add a network with extensible attributes
+
+ my %extensible_attributes=(
+     'Region' => 'Santa Clara County',
+     'Country' => 'USA',
+     'State' => 'California',
+     'Site' => 'Santa Clara',
+     'Building' => 'HQ',
+     'VLAN' => '1',
+     );
+
+ my $network = Infoblox::DHCP::Network->new(
+     network => "10.0.0.0/24",
+     extensible_attributes => \%extensible_attributes,
+     );
+ unless ($network) {
+   die("Construct Network failed: ",
+       Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Network created successfully\n";
+
+ $session->add($network)
+   or die("Add Network object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ print "Network object added to server successfully\n";
+
+B<#Create a GlobalSmartFolder object>
+
+ my $query_item = Infoblox::Grid::SmartFolder::QueryItem->new(
+     name                     => "Country",
+     is_extensible_attribute  => "true",
+     operator                 => "eq",
+     value                    => "USA",
+     );
+
+ unless ($query_item) {
+   die("Construct query item object failed: ",
+       Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Smart folder query item object created successfully\n";
+
+ my $group_by_country = Infoblox::Grid::SmartFolder::GroupBy->new(
+                                                             enable_grouping => 'true',
+                                                             value => "Country",
+                                                             value_type => "EXTATTR",
+                                                            );
+
+ my $smart_folder = Infoblox::Grid::GlobalSmartFolder->new(
+     name                     => "my_folder_global",
+     comment                  => "my global folder",
+     query_items              => [$query_item],
+     group_bys                => [$group_by_country],
+     );
+
+ unless ($smart_folder) {
+   die("Construct global smart folder object failed: ",
+       Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Smart folder object created successfully\n";
+
+ #Add the GlobalSmartFolder object to the Infoblox appliance through a session
+ $session->add($smart_folder)
+   or die("Add GlobalSmartFolder object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ print "GlobalSmartFolder object added to server successfully\n";
+
+B<#Search for a GlobalSmartFolder>
+
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::Grid::GlobalSmartFolder",
+     name   => "my_folder.*"
+     );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+   die("Search for a GlobalSmartFolder object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search for a GlobalSmartFolder object found at least 1 matching entry\n";
+
+B<#Get and modify a GlobalSmartFolder object>
+
+ #Get the GlobalSmartFolder object from Infoblox appliance through a session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::GlobalSmartFolder",
+     name   => "my_folder_global"
+     );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+   die("Get GlobalSmartFolder object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get GlobalSmartFolder object found at least 1 matching entry\n";
+
+ #Modify the GlobalSmartFolder object
+ $object->name("my_folder_global_renamed");
+ $object->comment("modified global smart folder");
+
+ #Apply the changes.
+ $session->modify($object)
+   or die("Modify GlobalSmartFolder object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ print "GlobalSmartFolder object modified successfully \n";
+
+B<#Remove a GlobalSmartFolder object>
+
+ #Get the GlobalSmartFolder object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::GlobalSmartFolder",
+     name   => "my_folder_global_renamed"
+     );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+   die("Get GlobalSmartFolder object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get GlobalSmartFolder object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+   or die("Remove GlobalSmartFolder object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ print "GlobalSmartFolder object removed successfully \n";
+
+B<#Cleanup>
+
+ #Get the Network object through the session
+ my @retrieved_objs = $session->get(
+     object  => "Infoblox::DHCP::Network",
+     network => "10.0.0.0/24"
+     );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+   die("Get Network object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Network object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+   or die("Remove Network object failed: ",
+       $session->status_code() . ":" . $session->status_detail());
+ print "Network object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Grid::SmartFolderChildren|Infoblox::Grid::SmartFolderChildren>, L<Infoblox::Grid::PersonalSmartFolder|Infoblox::Grid::PersonalSmartFolder>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,L<Infoblox::Session|Infoblox::Session>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

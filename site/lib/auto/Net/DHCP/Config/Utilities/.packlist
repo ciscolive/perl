@@ -1,0 +1,13 @@
+/opt/perl/site/bin/inidhcp
+/opt/perl/site/lib/Net/DHCP/Config/Utilities.pm
+/opt/perl/site/lib/Net/DHCP/Config/Utilities/Generator/ISC_DHCPD.pm
+/opt/perl/site/lib/Net/DHCP/Config/Utilities/INI_check.pm
+/opt/perl/site/lib/Net/DHCP/Config/Utilities/INI_loader.pm
+/opt/perl/site/lib/Net/DHCP/Config/Utilities/Options.pm
+/opt/perl/site/lib/Net/DHCP/Config/Utilities/Subnet.pm
+/opt/perl/site/man/man3/Net::DHCP::Config::Utilities.3
+/opt/perl/site/man/man3/Net::DHCP::Config::Utilities::Generator::ISC_DHCPD.3
+/opt/perl/site/man/man3/Net::DHCP::Config::Utilities::INI_check.3
+/opt/perl/site/man/man3/Net::DHCP::Config::Utilities::INI_loader.3
+/opt/perl/site/man/man3/Net::DHCP::Config::Utilities::Options.3
+/opt/perl/site/man/man3/Net::DHCP::Config::Utilities::Subnet.3

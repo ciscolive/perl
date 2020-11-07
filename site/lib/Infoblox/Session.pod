@@ -1,0 +1,3297 @@
+=head1 NAME
+
+Infoblox::Session - Session object to manipulate data within a grid.
+
+=head1 DESCRIPTION
+
+The Infoblox::Session object is the key object that is used to manipulate data within a grid. Creating a Session object establishes a communications channel with the grid master.
+
+=head1 CONSTRUCTOR
+
+ my $session = Infoblox::Session->new(
+     master   => $address,  #Required 
+     password => $string,   #Required unless SSL_cert_file and SSL_key_file provided
+     username => $string,   #Required unless SSL_cert_file and SSL_key_file provided
+     new_password => $string, #Optional
+     timeout  => $num,      #Optional, default is to use the LWP::UserAgent default timeout (180 seconds)
+     connection_timeout => $num  #Optional, see below for more details
+     default_maximum_objects_returned  => $num, #Optional, default is to return all matching objects for search operations
+     default_partial_subobjects  => 0 / 1, #Optional, default is 0 (no partial subobjects for search operations)
+
+     # The following options will be passed to LWP::UserAgent if specified. Please see the module documentation for more details.
+     verify_hostname => 0 / 1, #Optional. If set to 1, ensures that the hostname of the server will match the hostname in its certificate.
+     SSL_ca_path => $string, #Optional. The path to a directory that contains the Certificate Authority certificates. Ignored unless verify_hostname is 1.
+     SSL_ca_file => $string, #Optional. The path to a file that contains the Certificate Authority certificates. Ignored unless verify_hostname is 1.
+     SSL_cert_file => $string, #Optional, The path to a file that contains the OCSP Client Certificate. SSL_key_file and SSL_cert_file should be defined together.
+     SSL_key_file  => $string, #Optional, The path to a file that contains the OCSP Client Private Key. SSL_key_file and SSL_cert_file should be defined together.
+ );
+
+If connection_timeout is provided and is greater than zero, the API will try to connect to the master's IP address with the specified connection_timeout first; and if it's successful, it will proceed to the log-in process.
+
+The new_password option is required when the force password reset policy is enabled or when the user password is expired.
+
+When the product is in Common Criteria mode, verify_hostname is automatically forced to 1. If verify_hostname is set to 1, SSL_ca_path and SSL_ca_file must be set unless the server certificate is signed by a Certificate Authority recognized by libwww-perl.
+
+Note that SSL errors are not reported by the Perl API when debugging SSL connection issues (1006 'can't connect' errors). Infoblox recommends that you add either
+
+ use IO::Socket::SSL qw(debug3);
+
+or
+
+ use Net::SSLeay;
+ $Net::SSLeay::trace = 3;
+
+to your Perl program before the "use Infoblox; line" to receive more complete debugging information.
+
+For Common Criteria and SSL operation with certificate options in general, older versions of libwww-perl and supporting libraries might not work correctly. The following have been tested: libwww-perl 6.03, LWP::Protocol::https 6.02, IO::Socket::SSL 1.52, Net::SSLeay 1.42. Infoblox recommends performing a negative test in your environment to make sure connections with incorrect certificates will fail as expected.
+
+For IPv6 operations, the PAPI library should also be imported with the :ipv6connection option. Note that older versions of libwww-perl might not allow connection to explicit IPv6 addresses, but only to Grid members via their FQDNs (Fully Qualified Domain Names).
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a Session object.
+
+=head2 add( )
+
+=over
+
+Use this method to add an object to the Infoblox appliance.
+
+=over
+
+=item B<Parameter>
+
+The Infoblox object to be created in the Infoblox appliance. See individual objects for the necessary parameters.
+
+scheduled_at       - Optional. Scheduled date and time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> (e.g., 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) or 'now' which will set scheduled date and time to the current date and time. L<See details.|/SCHEDULED OBJECT USAGE DETAILS>
+
+predecessor_task   - Optional. An L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask> object this task depends on. It is mandatory to set scheduled_at parameter if predecessor_task parameter is set.
+
+approval_comment   - Optional. Comment provided by the submitter on approval.
+
+approval_ticket_number - Optional. Ticket number provided by the submitter on approval.
+
+ip_validation      - Optional. A list of L<Infoblox::Grid::IPValidationInfo|Infoblox::Grid::IPValidationInfo> objects.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ #Construct an object
+ my $bind_a = Infoblox::DNS::Record::A->new (
+     ipv4addr => "1.1.1.1",
+     name     => "bind_a.domain.com" );
+ # Submit for add
+ my $response = $session->add( $bind_a );
+ my $ipam_network = Infoblox::Grid::IPAM::Network->new(
+    address => '10.20.0.0',
+ );
+
+ my $response = $session->add($ipam_network);
+
+=back
+
+=back
+
+
+=head2 cc_mode( )
+
+=over
+
+Use this method to determine if appliance is in Common Criteria mode.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns "true" when the appliance is in Common Criteria mode.
+
+=item B<Example>
+
+ #Get cc_mode
+ my $cc_mode = $session->cc_mode();
+
+=back
+
+=back
+
+=head2 clear_dns_cache( )
+
+=over
+
+Use this method to clear the DNS cache.
+
+=over
+
+=item B<Parameter>
+
+member          - Required. The IPv4 address of the member on which you want to clear the DNS cache.
+
+domain          - Optional. The name of the domain to which the clear operation will be limited. The default is all domains.
+
+view            - Optional. The name of the DNS view to which the clear operation will be limited. The default is all views.
+
+clear_full_tree - Optional. The flag that indicates whether the clear operation should be performed on all subdomains of the domain or not. The default is 'false'.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ # clear the entire DNS cache
+ my $response = $session->clear_dns_cache(
+        member => "192.168.1.2");
+
+ unless($response) {
+    die("Clear DNS cache failed");
+ }
+
+ # clear a DNS view from the DNS cache
+ $response = $session->clear_dns_cache(
+        member => "192.168.1.2",
+        view => "new_view",
+ );
+
+ unless($response) {
+    die("Clear DNS view from DNS cache failed");
+ }
+
+ # clear a domain (including it's all subdomains) from the DNS cache
+ $response = $session->clear_dns_cache(
+        member          => "192.168.1.2",
+        domain          => "foo.bar.com",
+        clear_full_tree => "true",
+ );
+
+ unless($response) {
+    die("Clear the domain \"foo.bar.com\" from DNS cache failed");
+ }
+
+=back
+
+=back
+
+=head2 clear_outbound_worker_log( )
+
+=over
+
+Use this method to clear the outbound worker log.
+
+=over
+
+=item B<Parameters>
+
+ endpoint - Required. The endpoint name.
+
+=item B<Returns>
+
+The valid return value is 0 if operation fails to occur or L<Infoblox::Grid::TestResult|Infoblox::Grid::TestResult> otherwise.
+
+=item B<Example>
+
+ #Clear outbound worker log
+ my $result = $session->clear_outbound_worker_log(
+     endpoint => 'dxl_endpoint1');
+
+=back
+
+=back
+
+=head2 clear_unmanaged( )
+
+=over
+
+Use this method to clear unmanaged addresses.
+
+=over
+
+=item B<Parameter>
+
+type                 - Required. Valid values are "GLOBAL", "NETWORK", and "IP_ADDRESS".
+
+network              - Optional. Required when type is "NETWORK" or "IP_ADDRESS", and the ip_address value is an IPv4 address.
+
+network_view         - Optional. The network view to which the clear operation will be limited. The default value is the system-defined default network view.
+
+ip_address           - Optional. Required when type is "IP_ADDRESS". The value can be an IPv4 or IPv6 address.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ # type is GLOBAL
+ my $response = $session->clear_unmanaged(
+        type => 'GLOBAL');
+
+ unless($response) {
+    die("Clear unmanaged address failed");
+ }
+
+ # with a non-default network view
+ my $nview = Infoblox::DHCP::View->new(
+        name => 'netview',
+ );
+ my $response = $session->clear_unmanaged(
+        type => 'GLOBAL',
+        network_view => $nview);
+
+ unless($response) {
+    die("Clear unmanaged address failed");
+ }
+
+ # type is NETWORK
+ $response = $session->clear_unmanaged(
+        type => 'NETWORK',
+        network => '10.0.0.0/24');
+
+ unless($response) {
+    die("Clear unmanaged address failed");
+ }
+
+ # type is IP_ADDRESS
+ $response = $session->clear_unmanaged(
+        type => 'IP_ADDRESS',
+        network => '10.0.0.0/24',
+        ip_address => '10.0.0.10');
+
+ unless($response) {
+    die("Clear unmanaged address failed");
+ }
+
+ ####PROGRAM ENDS####
+
+=back
+
+=back
+
+=head2 copy_records( )
+
+=over
+
+Copy records between DNS views.
+
+=over
+
+=item B<Parameter>
+
+dest_view                - Required. The destination DNS view.
+
+dest_zone                - Required. The destination DNS zone.
+
+view                     - Required. The source DNS view.
+
+zone                     - Required. The source DNS zone.
+
+clear_dest_zone          - Optional. Remove all records in the destination zone before copying the records. Default is "false".
+
+copy_all_rr              - Optional. Copy all records. Default is "false".
+
+copy_bind_srv            - Optional. Copy SRV records. Default is "false".
+
+copy_bind_txt            - Optional. Copy TXT records. Default is "false".
+
+copy_bind_ptr            - Optional. Copy PTR records. Default is "false".
+
+copy_bulk_host           - Optional. Copy Bulk Host records. Default is "false".
+
+copy_bind_a              - Optional. Copy A records. Default is "false".
+
+copy_bind_aaaa           - Optional. Copy AAAA records. Default is "false".
+
+copy_bind_cname          - Optional. Copy CNAME records. Default is "false".
+
+copy_bind_dname          - Optional. Copy DNAME records. Default is "false".
+
+copy_bind_mx             - Optional. Copy MX records. Default is "false".
+
+copy_bind_naptr          - Optional. Copy NAPTR records. Default is "false".
+
+copy_host                - Optional. Copy Host records. Default is "false".
+
+replace_existing_records - Optional. Replace any existing records with the copied records if duplicate records are not allowed. Default is "false".
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #copy records from default view to new_view
+ $session->copy_records(
+     view                     => "default",
+     zone                     => "domain.com",
+     dest_view                => "new_view",
+     dest_zone                => "domain.com",
+     copy_bind_srv            => "true",
+     copy_bind_txt            => "true",
+     copy_bind_ptr            => "false",
+     copy_bulk_host           => "false",
+     copy_bind_a              => "true",
+     copy_bind_aaaa           => "true",
+     copy_bind_cname          => "true",
+     copy_bind_dname          => "true",
+     copy_bind_mx             => "true",
+     copy_host                => "true",
+     replace_existing_records => "false",
+     clear_dest_zone          => "false",
+     copy_all_rr              => "false" );
+
+=back
+
+=back
+
+=head2 copy_rpz_records( )
+
+=over
+
+Copy RPZ records (rules) between DNS views.
+
+=over
+
+=item B<Parameter>
+
+dest_view                          - Required. The destination DNS view.
+
+dest_zone                          - Required. The destination DNS zone.
+
+view                               - Required. The source DNS view.
+
+zone                               - Required. The source DNS zone.
+
+clear_dest_zone                    - Optional. Remove all records in the destination zone before copying the records. Default is "false".
+
+copy_all_rr                        - Optional. Copy all records. Default is "false".
+
+copy_passthru_ip_addr              - Optional. Copy PASSTHRUIPADDR rules. Default is "false".
+
+copy_passthru_domain               - Optional. Copy PASSTHRUDOMAIN rules. Default is "false".
+
+copy_block_nxd_ip_addr             - Optional. Copy BLOCKNXDOMAINIPADDR rules. Default is "false".
+
+copy_block_nxd_domain              - Optional. Copy BLOCKNXDOMAINDOMAIN rules. Default is "false".
+
+copy_block_nodata_ip_addr          - Optional. Copy BLOCKNODATAIPADDR rules. Default is "false".
+
+copy_block_nodata_domain           - Optional. Copy BLOCKNODATADOMAIN rules. Default is "false".
+
+copy_subst_cname                   - Optional. Copy SUBSTITUTE_CNAME rules. Default is "false".
+
+copy_subst_a                       - Optional. Copy SUBSTITUTE_A_RECORD rules. Default is "false".
+
+copy_subst_aaaa                    - Optional. Copy SUBSTITUTE_AAAA_RECORD rules. Default is "false".
+
+copy_subst_mx                      - Optional. Copy SUBSTITUTE_MX_RECORD rules. Default is "false".
+
+copy_subst_ptr                     - Optional. Copy SUBSTITUTE_PTR_RECORD rules. Default is "false".
+
+copy_subst_naptr                   - Optional. Copy SUBSTITUTE_NAPTR_RECORD rules. Default is "false".
+
+copy_subst_srv                     - Optional. Copy SUBSTITUTE_SRV_RECORD rules. Default is "false".
+
+copy_subst_txt                     - Optional. Copy SUBSTITUTE_TXT_RECORD rules. Default is "false".
+
+copy_subst_ipv4_addr               - Optional. Copy SUBSTITUTE_IPV4ADDRESS_RECORD rules. Default is "false".
+
+copy_subst_ipv6_addr               - Optional. Copy SUBSTITUTE_IPV6ADDRESS_RECORD rules. Default is "false".
+
+copy_subst_ipaddr_cname            - Optional. Copy SUBSTITUTE_IPADDR_CNAME rules. Default is "false".
+
+copy_subst_client_ipaddr_cname     - Optional. Copy SUBSTITUTE_CLIENTIPADDR_CNAME rules. Default is "false".
+
+copy_passthru_client_ipaddr        - Optional. Copy PASSTHRUCLIENTIPADDR rules. Default is "false".
+
+copy_block_nxdomain_client_ipaddr  - Optional. Copy BLOCKNXDOMAINCLIENTIPADDR rules. Default is "false".
+
+copy_block_no_data_client_ipaddr   - Optional. Copy BLOCKNODATACLIENTIPADDR rules. Default is "false".
+
+replace_existing_records           - Optional. Replace any existing records with the copied records if duplicate records are not allowed. Default is "false".
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #copy rules (records) from default view to new_view
+ $session->copy_rpz_records(
+     view                     => "default",
+     zone                     => "rpz.com",
+     dest_view                => "new_view",
+     dest_zone                => "rpz.com",
+     copy_subst_ipv4_addr     => "true",
+     copy_subst_cname         => "true",
+     copy_passthru_ip_addr    => "false",
+     replace_existing_records => "false",
+     clear_dest_zone          => "false",
+     copy_all_rr              => "false" );
+
+=back
+
+=back
+
+=head2 csv_import_control( )
+
+=over
+
+Use this method to control the execution of the CSV import task.
+
+=over
+
+=item B<Key Reference>
+
+ action    - Required. Valid value is 'STOP' which stops the CSV import task.
+ import_id - Required. The id of the import task to control.
+
+=item B<Returns>
+
+The method returns 1 if operation succeeds.
+
+=item B<Example>
+
+ #Stop CSV Import Task
+ my $result = $session->csv_import_control(action => 'STOP', import_id => '123456');
+
+=back
+
+=back
+
+=head2 get_all_template_vendor_id( )
+
+=over
+
+Use this method to retrieve the list of vendor identifiers associated with REST API templates.
+
+=over
+
+=item B<Parameter>
+
+outbound_type - Optional. The outbound type for the vendor identifier. The valid values are 'REST' and 'DXL'. Default is 'REST'.
+
+=item B<Returns>
+
+The method returns an array of vendor identifiers in a string format.
+
+=item B<Example>
+
+ #get vendor identifiers
+ my $result = $session->get_all_template_vendor_id(outbound_type => 'DXL');
+
+=back
+
+=back
+
+=head2 get_rpz_members( )
+
+=over
+
+Use this method to get a list of Infoblox::DNS::Member objects that are conformed to passed arguments.
+
+=over
+
+=item B<Parameter>
+
+rpz_licensed - Optional. Requests members that have RPZ license properly installed. Default is "false".
+
+rpz_enabled  - Optionl. Requests members that have RPZ license properly installed and recursion enabled. Default is "false".
+
+view         - Optional. The DNS view to which the zone being added or updated belongs. If omitted, the default DNS view is used.
+
+=item B<Returns>
+
+The method returns a list of Infoblox::DNS::Member objects when the requested members are found. It returns an empty list if no member conforms to the request.
+
+=item B<Example>
+
+ #get RPZ enabled members
+ $session->get_rpz_members(
+        rpz_enabled = > "true");
+
+=back
+
+=back
+
+=head2 get_template_schema_versions( )
+
+=over
+
+Use this method to retrieve the list of schema versions for the RESTful API templates.
+
+=over
+
+=item B<Parameter>
+
+ schema_type - Required. The REST API template type. The valid values are 'REST_EVENT' and 'REST_ENDPOINT'.
+
+=item B<Returns>
+
+The method returns an array of template schema versions in a string format.
+
+=item B<Example>
+
+ #get template schema versions 
+ my $result = $session->get_template_schema_versions();
+
+=back
+
+=back
+
+=head2 default_maximum_objects_returned( )
+
+=over
+
+Use this method to set or retrieve the default for the maximum objects returned in search() and get() operations.
+
+=over
+
+=item B<Parameter>
+
+An unsigned integer.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set a new default
+ $session->default_maximum_objects_returned(100);
+
+=back
+
+=back
+
+=head2 default_partial_subobjects( )
+
+=over
+
+Use this method to set or retrieve the default for the partial subobjects feature in search() operations.
+
+=over
+
+=item B<Parameter>
+
+Valid parameters are 0 or 1, where 1 means that the partial subobjects functionality is enabled.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Enable partial_subobjects for searches
+ $session->default_partial_subobjects(1);
+
+=back
+
+=back
+
+=head2 empty_recycle_bin( )
+
+=over
+
+Remove the DNS/DHCP data from the recycle bin.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #empty recycle bin
+ my $response = $session->empty_recycle_bin ();
+
+=back
+
+=back
+
+=head2 export_data( )
+
+=over
+
+Use this method to download data from the Infoblox appliance to the local system.
+
+=over
+
+=item B<Parameter>
+
+path - Required. The absolute path of the destination file for the data you want to export.
+
+type - Required. The data type to export. Following is a list of available data types for export:
+
+ +-------------------------------------------------------------------------------------------------------------------+
+ | admin_cert       - Export a member certificate. Exported file is in "pem" format.                                 |
+ | member           - Required. The member from which you want to export the certificate.                            |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | backup          - Export Infoblox appliance database. Exported file is in "tar.gz" format.                        |
+ | backup_type     - Optional. Valid values are LOCAL and SCP. Default is LOCAL.                                     |
+ | backup_server   - Optional. The IPv4 address of the backup server.                                                |
+ | user            - Optional. The user name of the backup server.                                                   |
+ | password        - Optional. The user password of the backup server.                                               |
+ | nios_data       - Optional. Export NIOS data. Valid value is "true" or "false".                                   |
+ |                   If nios_data, splunk_app_data and discovery_data are not defined, nios_data is 'true'.          |
+ | discovery_data  - Optional. Export Network Automation data. Valid value is "true" or "false".                     |
+ |                   If nios_data, splunk_app_data and discovery_data are not defined, discovery_data is 'false'.    |
+ | splunk_app_data - Optional. Export Splunk application data. Valid value is "true" or "false".                     |
+ |                   If nios_data, splunk_app_data and discovery_data are not defined, splunk_app_data is 'false'.   |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | captive_portal_cert   - Exports the server certificate of the captive portal.                                     |
+ | dn                    - Required. The distinguished name (dn) of the certificate subject.                         |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | csv               - Export data in a CSV file                                                                     |
+ |                                                                                                                   |
+ | object_type       - Required. The object type of the object to be exported                                        |
+ | separator         - Optional. CSV separator character. Valid values are 'comma', 'semicolon', 'space' and 'tab'.  |
+ |                               The default is 'comma'.                                                             |
+ |                                                                                                                   |
+ | <various>         - Optional. A list of search parameters that identify the object(s) you want to                 |
+ |                               export. See the individual API object pages for the parameters, which are           |
+ |                               the same as the parameters that are passed to $session->search(). This document     |
+ |                               provides information about the supported objects.                                   |
+ |                                                                                                                   |
+ |                               If the objects you want to export have a search parameter named type, path,         |
+ |                               object_type or separator, pass the search parameter with a prepended                |
+ |                               underscore, such as '_type', '_separator', etc.                                     |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | csv_snapshot_file - Export the CSV import snapshot file.                                                          |
+ |                                                                                                                   |
+ | import_id         - Optional. The ID of the import task for which the snapshot file was exported.                 |
+ |                               If not specified, the current export task will be used.                             |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | csv_uploaded_file - Export the original CSV import file.                                                          |
+ |                                                                                                                   |
+ | import_id         - Optional. The ID of the import task for which the original CSV file was exported.             |
+ |                               If not specified, the current export task will be used.                             |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | csv_error_log  - Export the CSV import error log file.                                                            |
+ | import_id      - Optional. The ID of the import task for the log file you want to export. If not specified,       |
+ |                  the current export task ID is used.                                                              |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dnsCache       - Export the DNS dnsCache.db file of a member. Exported file is in "tar.gz" format. The            |
+ |                  following parameter is also available:                                                           |
+ | member         - Required. The member from which you want to download the dns cache file.                         |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dnsAccelerationCache - Export the DNS acceleration cache of a member. Exported file is in "tar.gz" format. The    |
+ |                        following parameter is also available:                                                     |
+ | member               - Required. The member from which you want to download the DNS acceleration cache file.      |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dnsStats       - Export the DNS statistics file of a member. Exported file is in "tar.gz" format. The             |
+ |                  following parameter is also available:                                                           |
+ | member         - Required. The member from which you want to download the DNS statistics file.                    |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dhcpd_conf     - Export the DHCP configuration file of a member. Exported file is in "tar.gz" format. The         |
+ |                  following parameter is also available:                                                           |
+ | member         - Required. The member from which you want to download the DHCP configuration file.                |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dhcpdv6_conf   - Export the DHCPv6 configuration file of a member. Exported file is in "tar.gz" format. The       |
+ |                  following parameter is also available:                                                           |
+ | member         - Required. The member from which you want to download the DHCPv6 configuration file.              |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dhcp_expert_mode_config - Export the DHCP configuration file of a member in expert mode. Exported file is in      |
+ |                           "dhcpd.conf" format. The following parameter is also available:                         |
+ | member                  - Required. The member from which you want to download the DHCP configuration export mode |
+ |                           file.                                                                                   |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dns_conf     - Export the DNS configuration file of a member. Exported file is in "tar.gz" format. The            |
+ |                  following parameter is also available:                                                           |
+ | member       - Required. The member from which you want to download the DNS configuration file.                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | ds_records     - Export the keyset associated with a given zone. This is useful for sending to the parent zone    |
+ |                  for signing.                                                                                     |
+ | zone           - Required. The zone that contain the keys to be exported.                                         |
+ |                  Specify either the FQDN of the zone or the Infoblox::DNS::Zone object.                           |
+ | view           - Optional. The DNS view that contains the zone. Specify either the DNS view name                  |
+ |                  or Infoblox::DNS::View object. The default is the "default" view.                                |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | eap_ca_cert    - Export an Extensible Authentication Protocol Certificate Authority (EAP CA) certificate from the |
+ |                  Infoblox appliance. Exported file is in "pem" format. The following parameter is also            |
+ |                  available:                                                                                       |
+ | dn             - Required. The distinguished name (dn) of your certificate's subject.                             |
+ |                            Examples of dn: CN="Testing",OU="Sales",O="Infoblox",L="Santa Clara",ST="CA",C="US"    |
+ |                                            O="My Company",ST="CA",C="US"                                          |
+ |                                            CN="Test Common Name"                                                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | generate_captive_portal_csr    - Generate and export a certificate signing request (CSR) for a captive portal     |
+ |                    Exported file is in "pem" format.                                                              |
+ | cn               - Required. Common name for the certificate.                                                     |
+ | member           - Required. The member for which you want to generate the CSR.                                   |
+ | key_size         - Optional.  Number of bits in the key. It must be 1024, 2048 or 4096. Default is 2048.          |
+ | algorithm        - Optional.  Digest algorithm. It must be either SHA-1 or SHA-256. Default is SHA-256.           |
+ | org_unit         - Optional.  Organizational unit used to construct the distinguished name of the subject.        |
+ | org              - Optional.  Organization used to construct the distinguished name of the subject.               |
+ | locality         - Optional.  Location (e.g., city, town) used to construct the distinguished name of the subject.|
+ | state            - Optional.  State or province used to construct the distinguished name of the subject.          |
+ | country          - Optional.  2-letter country code used to construct the distinguished name of the subject.      |
+ | email            - Optional.  Contact email address used to construct the distinguished name of the subject.      |
+ | comment          - Optional.  A descriptive comment about the certificate to be signed.                           |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | generate_csr     - Generate and export a certificate signing request (CSR) for a grid member                      |
+ |                    Exported file is in "pem" format.                                                              |
+ | cn               - Required. Common name for the certificate.                                                     |
+ | member           - Required. The member for which you want to generate the CSR.                                   |
+ | key_size         - Optional.  Number of bits in the key. It must be 1024, 2048 or 4096. Default is 2048.          |
+ | algorithm        - Optional.  Digest algorithm. It must be either SHA-1 or SHA-256. Default is SHA-256.           |
+ | org_unit         - Optional.  Organizational unit used to construct the distinguished name of the subject.        |
+ | org              - Optional.  Organization used to construct the distinguished name of the subject.               |
+ | locality         - Optional.  Location (e.g., city, town) used to construct the distinguished name of the subject.|
+ | state            - Optional.  State or province used to construct the distinguished name of the subject.          |
+ | country          - Optional.  2-letter country code used to construct the distinguished name of the subject.      |
+ | email            - Optional.  Contact e-mail address used to construct the distinguished name of the subject.     |
+ | comment          - Optional.  A descriptive comment about the certificate to be signed.                           |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | generate_ifmap_dhcp_csr - Generate and export a certificate signing request (CSR) for the IF-MAP DHCP             |
+ |                    Exported file is in "pem" format.                                                              |
+ | cn               - Required. Common name for the certificate.                                                     |
+ | member           - Required. The member for which you want to generate the CSR.                                   |
+ | key_size         - Optional.  Number of bits in the key. It must be 1024, 2048 or 4096. Default is 2048.          |
+ | algorithm        - Optional.  Digest algorithm. It must be either SHA-1 or SHA-256. Default is SHA-256.           |
+ | org_unit         - Optional.  Organizational unit used to construct the distinguished name of the subject.        |
+ | org              - Optional.  Organization used to construct the distinguished name of the subject.               |
+ | locality         - Optional.  Location (e.g., city, town) used to construct the distinguished name of the subject.|
+ | state            - Optional.  State or province used to construct the distinguished name of the subject.          |
+ | country          - Optional.  2-letter country code used to construct the distinguished name of the subject.      |
+ | email            - Optional.  Contact email address used to construct the distinguished name of the subject.      |
+ | comment          - Optional.  A descriptive comment about the certificate to be signed.                           |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | generate_self_signed_admin_cert - Generate and export a self-signed certificate for a grid member                 |
+ |                    Exported file is in "pem" format.                                                              |
+ | cn               - Required. Common name for the certificate.                                                     |
+ | days_valid       - Required. Validity period for the certificate.                                                 |
+ | member           - Required. The member for which you want to generate the certificate.                           |
+ | key_size         - Optional.  Number of bits in the key. It must be 1024, 2048 or 4096. Default is 2048.          |
+ | algorithm        - Optional.  Digest algorithm. It must be either SHA-1 or SHA-256. Default is SHA-256.           |
+ | org_unit         - Optional.  Organizational unit used to construct the distinguished name of the subject.        |
+ | org              - Optional.  Organization used to construct the distinguished name of the subject.               |
+ | locality         - Optional.  Location (e.g., city, town) used to construct the distinguished name of the subject.|
+ | state            - Optional.  State or province used to construct the distinguished name of the subject.          |
+ | country          - Optional.  2-letter country code used to construct the distinguished name of the subject.      |
+ | email            - Optional.  Contact email address used to construct the distinguished name of the subject.      |
+ | comment          - Optional.  A descriptive comment about the certificate to be signed.                           |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | generate_self_signed_captive_portal_cert - Generate and export a self-signed certificate for a captive portal     |
+ |                    Exported file is in "pem" format.                                                              |
+ | cn               - Required. Common name for the certificate.                                                     |
+ | days_valid       - Required. Validity period for the certificate.                                                 |
+ | member           - Required. The member for which you want to generate the certificate.                           |
+ | key_size         - Optional.  Number of bits in the key. It must be 1024, 2048 or 4096. Default is 2048.          |
+ | algorithm        - Optional.  Digest algorithm. It must be either SHA-1 or SHA-256. Default is SHA-256.           |
+ | org_unit         - Optional.  Organizational unit used to construct the distinguished name of the subject.        |
+ | org              - Optional.  Organization used to construct the distinguished name of the subject.               |
+ | locality         - Optional.  Location (e.g., city, town) used to construct the distinguished name of the subject.|
+ | state            - Optional.  State or province used to construct the distinguished name of the subject.          |
+ | country          - Optional.  2-letter country code used to construct the distinguished name of the subject.      |
+ | email            - Optional.  Contact email address used to construct the distinguished name of the subject.      |
+ | comment          - Optional.  A descriptive comment about the certificate to be signed.                           |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | generate_self_signed_ifmap_dhcp_cert - Generate and export a self-signed certificate for the IF-MAP DHCP          |
+ |                    Exported file is in "pem" format.                                                              |
+ | cn               - Required. Common name for the certificate.                                                     |
+ | days_valid       - Required. Validity period for the certificate.                                                 |
+ | member           - Required. The member for which you want to generate the certificate.                           |
+ | key_size         - Optional.  Number of bits in the key. It must be 1024, 2048 or 4096. Default is 2048.          |
+ | algorithm        - Optional.  Digest algorithm. It must be either SHA-1 or SHA-256. Default is SHA-256.           |
+ | org_unit         - Optional.  Organizational unit used to construct the distinguished name of the subject.        |
+ | org              - Optional.  Organization used to construct the distinguished name of the subject.               |
+ | locality         - Optional.  Location (e.g., city, town) used to construct the distinguished name of the subject.|
+ | state            - Optional.  State or province used to construct the distinguished name of the subject.          |
+ | country          - Optional.  2-letter country code used to construct the distinguished name of the subject.      |
+ | email            - Optional.  Contact email address used to construct the distinguished name of the subject.      |
+ | comment          - Optional.  A descriptive comment about the certificate to be signed.                           |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | ifmap_dhcp_cert  - Export an IF-MAP DHCP certificate. Exported file is in "pem" format.                           |
+ | member           - Required. The member from which you want to export the certificate.                            |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | log_files        - Export the specified log files from a member. Exported file is in "tar.gz" format (except
+                      'OUTBOUND' in case of which the exported file format is plane text. The following parameters   |
+                      are also available:                                                                            |
+ | member           - The member from which you are downloading the logs.                                            |
+ |                    You must specify a member, endpoint or a Microsoft(r) server.                                  |
+ | msserver         - The Microsoft server from which you are downloading the logs. You must specify a member or     |
+ |                    a Microsoft server.                                                                            |
+ | endpoint         - The REST API endpoint name.                                                                    |
+ | node_type        - Optional. Node type. Valid values are "active" and "passive". The default is "active".         |
+ | log_type         - Optional. Log type. Valid values are "audit", "msmgmt", "outbound" and "syslog". The default   |
+ |                    is "syslog".                                                                                   |
+ | include_rotated  - Optional. Include rotated out log files. The default is false                                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | lease_history  - Export the DHCP lease history. Exported file is in "gz" format.                                  |
+ | start_time     - Optional. The start time of the exported lease history in the format yyyy-mm-ddThh:mm:ss,        |
+ |                  yyyy/mm/dd hh:mm:ss, or mm/dd/yyyy hh:mm:ss.                                                     |
+ | end_time       - Optional. The end time of the exported lease history in the format yyyy-mm-ddThh:mm:ss,          |
+ |                  yyyy/mm/dd hh:mm:ss, or mm/dd/yyyy hh:mm:ss.                                                     |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | snmp_mibs      - Export the Infoblox SNMP MIB files. Exported file is in "tar.gz" format.                         |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | support_bundle        - Export the support bundle from a member. Exported file is in "tar.gz" format. The         |
+ |                         following parameters are also available:                                                  |
+ | member                - Required. The member from which you are downloading the support bundle.                   |
+ | filter_optional_files - Optional. Filter optional files. Default is "true".                                       |
+ | core_files            - Optional. Include core files in support bundle. Default is "true".                        |
+ | log_files             - Optional. Include log files in support bundle. Default is "true".                         |
+ | rotate_log_files      - Optional. Include rotate_log files in support bundle. Default is "true".                  |
+ | cached_zone_data      - Optional. Include cached zone data files in support bundle. Default is "false".           |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | serial_numbers - Export the serial numbers of all nodes in the grid. Exported file is in plain text format.       |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | traffic_capture_file  - Export the member's traffic capture file. The exported file is in "tar.gz" format         |
+ |                                                                                                                   |
+ | member           - Required: The member from which you are downloading the traffic capture file.                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | trust_anchors  - Export trust anchors, i.e. our public keys to allow creation of the island of security.          |
+ |                                                                                                                   |
+ | zone           - Required. The zone that contains the keys to be exported.                                        |
+ |                  Specify either the FQDN of the zone or the Infoblox::DNS::Zone object.                           |
+ | view           - Optional. The DNS view that contains the zone. Specify either the DNS view name or the           |
+ |                  Infoblox::DNS::View object. The default is the "default" view.                                   |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | restapi_template - Export the REST API template in JSON format.                                                   |
+ |                                                                                                                   |
+ | template         - Required. An Infoblox::Notification::REST::Template object.                                    |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | restapi_template_schema - Export the REST API template schema in JSON format.                                     |
+ |                                                                                                                   |
+ | schema_type             - Requred. Schema type to export: 'REST_ENDPOINT' or 'REST_EVENT'.                        |
+ | version                 - Optional. Schema version to export. The default is the latest version.                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dxl_endpoint_certs - Export DXL endpoint client and CA certificates. Path argument is the destination for the     |
+ |                      DXL endpoint client certificate.                                                             |
+ |                                                                                                                   |
+ | ca_cert_path - Required. The absolute path of the destination file for the CA certificate you want to export.     |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | safenet_client_cert   - Export a SafeNet HSM client certificate. Exported file is in "pem" format.                |
+ | member                - Required. The member from which you want to export the certificate.                       |
+ | algorithm             - Required. Signature algorithm of a new SafeNet HSM client certificate.                    |
+ |                         The value can be 'RSASHA1' or 'RSASHA256'.                                                |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | namedacl(type)        - Validate access control items of the Named ACL object. If access control items of         |
+ |                         Named ACL object are ok, the server doesn't return a result file, otherwise exported file |
+ |                         is in CSV format.                                                                         |
+ | namedacl              - Required. The Named ACL object.                                                           |
+ +-------------------------------------------------------------------------------------------------------------------+
+
+For CSV export, the following objects are supported:
+
+ Infoblox::DHCP::FailOver
+ Infoblox::DHCP::Filter::Fingerprint
+ Infoblox::DHCP::Filter::MAC
+ Infoblox::DHCP::Filter::NAC
+ Infoblox::DHCP::Filter::Option
+ Infoblox::DHCP::Filter::RelayAgent
+ Infoblox::DHCP::Fingerprint
+ Infoblox::DHCP::FixedAddr
+ Infoblox::DHCP::HostAddr
+ Infoblox::DHCP::IPv6DhcpRange
+ Infoblox::DHCP::IPv6FixedAddress
+ Infoblox::DHCP::IPv6HostAddr
+ Infoblox::DHCP::IPv6Network
+ Infoblox::DHCP::IPv6NetworkContainer
+ Infoblox::DHCP::IPv6NetworkContainer
+ Infoblox::DHCP::IPv6OptionDefinition
+ Infoblox::DHCP::IPv6OptionSpace
+ Infoblox::DHCP::IPv6SharedNetwork
+ Infoblox::DHCP::Lease
+ Infoblox::DHCP::MAC
+ Infoblox::DHCP::Network
+ Infoblox::DHCP::NetworkContainer
+ Infoblox::DHCP::NetworkContainer
+ Infoblox::DHCP::OptionDefinition
+ Infoblox::DHCP::OptionSpace
+ Infoblox::DHCP::Range
+ Infoblox::DHCP::SharedNetwork
+ Infoblox::DHCP::View
+ Infoblox::DNS::AllRPZRecords
+ Infoblox::DNS::AllRecords
+ Infoblox::DNS::BulkHost
+ Infoblox::DNS::Host
+ Infoblox::DNS::RPZRecord::A
+ Infoblox::DNS::RPZRecord::AAAA
+ Infoblox::DNS::RPZRecord::AAAAIpAddress
+ Infoblox::DNS::RPZRecord::AIpAddress
+ Infoblox::DNS::RPZRecord::CNAME
+ Infoblox::DNS::RPZRecord::CNAME::ClientIpAddress
+ Infoblox::DNS::RPZRecord::CNAME::ClientIpAddressDN
+ Infoblox::DNS::RPZRecord::CNAME::IpAddress
+ Infoblox::DNS::RPZRecord::CNAME::IpAddressDN
+ Infoblox::DNS::RPZRecord::MX
+ Infoblox::DNS::RPZRecord::NAPTR
+ Infoblox::DNS::RPZRecord::PTR
+ Infoblox::DNS::RPZRecord::SRV
+ Infoblox::DNS::RPZRecord::TXT
+ Infoblox::DNS::Record::A
+ Infoblox::DNS::Record::AAAA
+ Infoblox::DNS::Record::CNAME
+ Infoblox::DNS::Record::DNAME
+ Infoblox::DNS::Record::MX
+ Infoblox::DNS::Record::NAPTR
+ Infoblox::DNS::Record::NS
+ Infoblox::DNS::Record::PTR
+ Infoblox::DNS::Record::SRV
+ Infoblox::DNS::Record::TLSA
+ Infoblox::DNS::Record::TXT
+ Infoblox::DNS::Ruleset
+ Infoblox::DNS::View
+ Infoblox::DNS::Zone
+ Infoblox::DTC::Topology
+ Infoblox::DTC::Topology::Rule
+ Infoblox::Grid::Analytics::WhiteList
+ Infoblox::Grid::DHCP
+ Infoblox::Grid::DNS
+ Infoblox::Grid::DNS::DNS64Group
+ Infoblox::Grid::DNS::Nsgroup
+ Infoblox::Grid::Member
+ Infoblox::Grid::Member::DHCP
+ Infoblox::Grid::Member::DNS
+ Infoblox::Grid::NamedACL
+ Infoblox::Grid::ThreatProtection::Profile
+ Infoblox::Grid::ThreatProtection::Profile::Rule
+ Infoblox::Grid::UpgradeGroup
+
+For more information about the CSV file format please refer to the Infoblox CSV Import Reference.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails. The exported data is stored in the path specified.
+
+=item B<Example>
+
+ #Export backup
+ $session->export_data(
+     type   => "backup",
+     path   => "/tmp/infoblox/database.tar.gz" );
+
+ #Secured backup
+ my $result = $session->export_data(
+     type   => "backup",
+     backup_type => "SCP",
+     path   => "/tmp/infoblox/database.tar.gz",
+     backup_server => "192.168.0.5",
+     user => "testuser",
+     password => "test-password",
+     );
+
+ #CSV export
+ $session->export_data(
+                       type        => "csv",
+                       path        => "/tmp/infoblox/exported_data.csv",
+                       object_type => "Infoblox::DNS::Record::A",
+                       separator   => "comma",
+
+                       # search parameters
+                       name        => ".*test_exportimport.com");
+
+ #CSV error log export
+ $session->export_data(
+                       type      => "csv_error_log",
+                       path      => "/tmp/infoblox/error_log.txt",
+                       import_id => 12345);
+
+ #Export dnsCache.db
+ my $result = $session->export_data(
+     type   => "dnsCache",
+     path   => "/tmp/infoblox/dnsCache.tar.gz",
+     member => "192.168.1.2" );
+
+ #Export dnsStats
+ my $result = $session->export_data(
+     type   => "dnsStats",
+     path   => "/tmp/infoblox/dnsStats.tar.gz",
+     member => "192.168.1.2" );
+
+ #Export dhcpd_conf
+ my $result = $session->export_data(
+     type   => "dhcpd_conf",
+     path   => "/tmp/infoblox/dhcpd_conf.tar.gz",
+     member => "192.168.1.2" );
+
+ #Export dhcpdv6_conf
+ my $result = $session->export_data(
+     type   => "dhcpdv6_conf",
+     path   => "/tmp/infoblox/dhcpdv6_conf.tar.gz",
+     member => "192.168.1.2" );
+
+ #Export dhcp_expert_mode_config
+ my $result = $session->export_data(
+     type   => "dhcp_expert_mode_config",
+     path   => "/tmp/infoblox/dhcpd_expert.conf",
+     member => "192.168.1.2" );
+
+ #Export dns_conf
+ my $result = $session->export_data(
+     type   => "dns_conf",
+     path   => "/tmp/infoblox/dns_conf.tar.gz",
+     member => "192.168.1.2" );
+
+ #Export DS records
+ my $result = $session->export_data(
+     type   => "ds_records",
+     zone   => "mydnsseczone.com",
+     view   => "dnssec_view",
+     path   => "/tmp/infoblox/ds_records.txt" );
+
+ #Export captive_portal_cert
+ my $result = $session->export_data(
+     type => "captive_portal_cert",
+     path => "/tmp/infoblox/captive_portal_cert.pem",
+     dn   => 'CN="My CA Certificate",C="US"' );
+
+ #Export eap_ca_cert
+ my $result = $session->export_data(
+     type => "eap_ca_cert",
+     path => "/tmp/infoblox/eap_ca_cert.pem",
+     dn   => 'CN="My CA Certificate",C="US"' );
+
+ #Generate and export a CSR For captive portal
+ my $result = $session->export_data(
+     type     => "generate_captive_portal_csr",
+     path     => "/tmp/infoblox/csr.pem",
+     cn       => "My Signing Request",
+     key_size =>  2048,
+     org_unit => "My Dept.",
+     org      => "My Company, Inc.",
+     locality => "Santa Clara",
+     state    => "California",
+     member   => "192.168.1.2",
+     country  => "US",
+     email    => "me\@mycompany.com",
+     comment  => "This is my certificate." );
+
+ #Generate and export a CSR For IF-MAP DHCP
+ my $result = $session->export_data(
+     type     => "generate_ifmap_dhcp_csr",
+     path     => "/tmp/infoblox/dhcp_csr.pem",
+     cn       => "My Signing Request",
+     key_size =>  2048,
+     org_unit => "My Dept.",
+     org      => "My Company, Inc.",
+     locality => "Santa Clara",
+     state    => "California",
+     member   => "192.168.1.2",
+     country  => "US",
+     email    => "me\@mycompany.com",
+     comment  => "This is my certificate." );
+
+ #Generate and export a self-signed admin certificate
+ my $result = $session->export_data(
+     type       => "generate_self_signed_admin_cert",
+     path       => "/tmp/infoblox/selfsigned.pem",
+     cn         => "Self-Signed Admin Cert",
+     member     => "192.168.1.2",
+     days_valid => 365,
+     key_size   => 2048,
+     org_unit   => "My Dept.",
+     org        => "My Company, Inc.",
+     locality   => "Santa Clara",
+     state      => "California",
+     country    => "US",
+     email      => "me\@mycompany.com",
+     comment    => "This certificate is self-signed." );
+
+ #Generate and export a self-signed captive portal certificate
+ my $result = $session->export_data(
+     type       => "generate_self_signed_captive_portal_cert",
+     path       => "/tmp/infoblox/selfsigned.pem",
+     cn         => "Self-Signed Captive Portal Cert",
+     member     => "192.168.1.2",
+     days_valid => 365,
+     key_size   => 2048,
+     org_unit   => "My Dept.",
+     org        => "My Company, Inc.",
+     locality   => "Santa Clara",
+     state      => "California",
+     country    => "US",
+     email      => "me\@mycompany.com",
+     comment    => "This certificate is self-signed." );
+
+ #Generate and export a self-signed IF-MAP DHCP certificate
+ my $result = $session->export_data(
+     type       => "generate_self_signed_ifmap_dhcp_cert",
+     path       => "/tmp/infoblox/selfsigned.pem",
+     cn         => "Self-Signed IF-MAP DHCP Cert",
+     member     => "192.168.1.2",
+     days_valid => 365,
+     key_size   => 2048,
+     org_unit   => "My Dept.",
+     org        => "My Company, Inc.",
+     locality   => "Santa Clara",
+     state      => "California",
+     country    => "US",
+     email      => "me\@mycompany.com",
+     comment    => "This certificate is self-signed." );
+
+ #Generate and export a CSR
+ my $result = $session->export_data(
+     type     => "generate_csr",
+     path     => "/tmp/infoblox/csr.pem",
+     cn       => "My Signing Request",
+     key_size =>  2048,
+     org_unit => "My Dept.",
+     org      => "My Company, Inc.",
+     locality => "Santa Clara",
+     state    => "California",
+     member   => "192.168.1.2",
+     country  => "US",
+     email    => "me\@mycompany.com",
+     comment  => "This is my certificate." );
+
+ #Export an IF-MAP DHCP certificate
+ my $result = $session->export_data(
+     type   => "ifmap_dhcp_cert",
+     member => "192.168.1.2",
+     path   => "/tmp/infoblox/ifmap_cert.pem");
+
+ #Export lease_history
+ $session->export_data(
+     type   => "lease_history",
+     path   => "/tmp/infoblox/lease_history.gz",
+     start_time  => "2005/09/01 00:00:00",
+     end_time    => "2005/09/01 11:59:59" );
+
+ #Export the audit log
+ $session->export_data(
+     type   => "log_files",
+     path   => "/tmp/infoblox/auditlog.tar.gz",
+     member => "192.168.1.2",
+     node_type => "active",
+     log_type => "audit");
+
+ #Export snmp_mibs
+ $session->export_data(
+     type   => "snmp_mibs",
+     path   => "/tmp/infoblox/snmp_mibs.tar.gz" );
+
+ #Export support_bundle
+ my $result = $session->export_data(
+     type   => "support_bundle",
+     path   => "/tmp/infoblox/supportBundle.tar.gz",
+     member => "192.168.1.2" );
+
+ #Export support_bundle but exclude core files
+ my $result = $session->export_data(
+     type   => "support_bundle",
+     path   => "/tmp/infoblox/supportBundle.tar.gz",
+     core_files => 'false',
+     member => "192.168.1.2" );
+
+ #Export support_bundle but exclude log files
+ my $result = $session->export_data(
+     type   => "support_bundle",
+     path   => "/tmp/infoblox/supportBundle.tar.gz",
+     log_files => 'false',
+     member => "192.168.1.2" );
+
+ #Export serial number of all nodes
+ my $result = $session->export_data(
+     type   => "serial_numbers",
+     path   => "/tmp/infoblox/serial_nos.txt" );
+
+ #Export trust anchors
+ my $result= $session->export_data(
+     type   => "trust_anchors",
+     zone   => "mysignedzone.com",
+     view   => "my_dnssec_view",
+     path   => "/tmp/infoblox/trusted_keys.txt" );
+
+=back
+
+=back
+
+=head2 fill_partial_object( )
+
+=over
+
+Takes an object returned by a search method call with return_methods and
+fills it.
+
+=over
+
+=item B<Parameter>
+
+object - Required. An object or a reference to an array of objects
+returned by a search method call using return_methods call, or from an
+AllRecords 'record' member. It is legal, but meaningless, to call this
+method for complete objects.
+
+=item B<Returns>
+
+The method will return a complete object corresponding to the
+'partial' object passed as a parameter. The object returned may be the
+same object (modified to have all methods initialized) or a new object.
+In the case of an error, undef will be returned and the appropriate
+status code will be set.
+
+=item B<Example>
+
+ # $partial_bind_object is an object returned by a search using return_methods
+ my $full_bind_object = $session->fill_partial_object($partial_bind_object);
+
+ # @partial_objects is an array of objects returned by a search using return_methods
+ my @full_objects = $session->fill_partial_object(\@partial_objects);
+
+=back
+
+=back
+
+=head2 gen_tsig_key( )
+
+=over
+
+Generates a TSIG key.
+
+=over
+
+=item B<Parameter>
+
+The following parameters are supported:
+
+ algorithm => "HMAC-MD5" | "HMAC-SHA256" # Optional. If not specified, the algorithm is "HMAC-MD5".
+ keylen => 128 | 256 | 512 # Optional. If not specified, the key length is 128.
+
+Note that the algorithm "HMAC-SHA256" does not support a key length of 512.
+
+=item B<Returns>
+
+The method returns a randomly generated TSIG key.
+
+=item B<Example>
+
+ my $tsig = $session->gen_tsig_key(keylen => 256, algorithm => 'HMAC-SHA256');
+
+=back
+
+=back
+
+=head2 gen_hsm_client_cert( )
+
+=over
+
+Generate a new SafeNet HSM client certificate.
+
+=over
+
+=item B<Parameter>
+
+member  - Required. The member for which you want to generate a new SafeNet HSM client certificate.
+
+algorithm - Required. Signature algorithm of a new SafeNet HSM client certificate. The value can be 'RSASHA1' or 'RSASHA256'.
+
+=item B<Returns>
+
+The method returns true when a new SafeNet HSM client certificate is generated successfully, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $result = $session->gen_hsm_client_cert('member' => '192.168.1.2', 'algorithm' => 'RSASHA1');
+
+=back
+
+=back
+
+=head2 get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+
+=over
+
+=item B<Parameter>
+
+object - Required. The Infoblox object to retrieve.
+
+key reference - Required. The attribute and value that refer to the desired object(s) to retrieve. See individual objects for available key references.
+
+=item B<Returns>
+
+Return an array in list context containing all matching objects. For failures and objects not found, it returns an empty array in list context and undefined in scalar context. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ #Getting an A record from the Infoblox appliance.
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DNS::Record::A",
+     name   => "bind_a.domain.com"  );
+
+ unless (@retrieved_objs) {
+     die("Get DNS record A failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+=back
+
+=back
+
+=head2 get_ksk_rollover( )
+
+=over
+
+Use this method to retrieve the KSK rollover information.
+
+=over
+
+=item B<Parameter>
+
+days  - Optional. The number of days since the warning was sent and before the rollover period expires. The default is 7 days.
+
+=item B<Returns>
+
+The method returns a reference to an array that contains references to hashes representing the zones' KSK information. These hashes contain the following key/value pairs:
+
+ name => The zone name
+ view => The name of the view to which the zone belongs.
+ days => The number of days that are left before the rollover period expires. If the rollover period has expired, this will be a negative number.
+
+=item B<Example>
+
+ #Retrieve the KSK information:
+ my $resultref = $session->get_ksk_rollover();
+
+ #Assuming that there is at least one zone requiring rollover:
+ $zone = @$resultref[0]
+
+ #Now $zone contains the above parameters. To print the zone name:
+ print $zone->{'name'};
+
+=back
+
+=back
+
+=head2 get_rpz_threat_details( )
+
+=over
+
+Use this method to make a RESTful API call to the ThreatStop RESTful API to receive threat details.
+
+Include the specified parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a string containing rpz_rule_name. This is a required parameter.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns an Infoblox::Grid::RPZ::ThreatDetails structure when the fetch succeeds.
+
+=item B<Example>
+
+ #Retrieve rpz_threat_details:
+ my $rpz_threat_details = $session->get_rpz_threat_details(rpz_rule_name => "b.com.a.com");
+
+=back
+
+=back
+
+
+=head2 get_ms_ad_dc_ns_record_creation_list( )
+
+=over
+
+Use this method to get the list of Domain Controllers allowed for creation of NS Record.
+
+=over
+
+=item B<Key Reference>
+
+ zone       - Required if query_type is 'ZONE' or no 'ms_server' is given. The Infoblox::DNS::Zone object.
+ ms_server  - Required if query_type is 'SERVERS_IN_DOMAIN' or no 'zone' is given. The Infoblox::Grid::MSServer object.
+ query_type - Optional. Default value is 'ZONE' if zone argument is given, 'SERVERS_IN_DOMAIN' if ms_server argument is given.
+
+=item B<Returns>
+
+The valid return value is an array of L<Infoblox::Grid::MSServer::DCNSRecordCreation|Infoblox::Grid::MSServer::DCNSRecordCreation> objects or empty list.
+
+=item B<Example>
+
+ my $dcnsrecordcr = $session->get_ms_ad_dc_ns_record_creation_list(zone => $dns_zone);
+
+=back
+
+=back
+
+=head2 get_grid_revert_status( )
+
+=over
+
+Retrieves the revert status of an Infoblox Grid.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns a reference to a hash containing the following members.
+
+ revert_allowed => "true" | "false". Indicates whether revert is allowed for the Grid.
+ revert_version => $string. The version to which the Grid reverts.
+
+=item B<Example>
+
+ my $revertref = $session->get_grid_revert_status();
+
+=back
+
+=back
+
+=head2 grid_upgrade( )
+
+=over
+
+This method will perform the specified function on the Grid.
+
+=over
+
+=item B<Parameter>
+
+The following required parameter is supported:
+
+ action => one of the following: "UPGRADE_PAUSE", "UPGRADE_RESUME", "DISTRIBUTION_PAUSE", "DISTRIBUTION_RESUME", "DISTRIBUTION_START", "DISTRIBUTION_STOP", "DOWNGRADE", "REVERT", "UPGRADE", "UPGRADE_TEST_START", "UPGRADE_TEST_STOP", or "UPLOAD".
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #grid upgrade
+ my $response = $session->grid_upgrade(action => "UPGRADE_PAUSE");
+
+=back
+
+=back
+
+=head2 import_data( )
+
+=over
+
+Use this method to upload data to the Infoblox appliance from the local system.
+
+=over
+
+=item B<Parameter>
+
+path - Required. The complete path of the file to import.
+
+type - Required. The data type to import. Following is a list of available data types for import:
+
+ +-------------------------------------------------------------------------------------------------------------------+
+ | threat_analytics_file_upload - Import Apache Spark or Threat Analytics Whitelist update.                          | 
+ +-------------------------------------------------------------------------------------------------------------------+
+ | restapi_template - Import the REST API template from file in JSON format.                                         |
+ | overwrite        - Optional. If 'true' overwrites the existing template based on the template name, vendor        |
+ |                    identifier, event type, and action type. The default is 'false'.                               |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | admin_cert       - Import a certificate signed by a CA for a certificate signing request previously given by a    |
+ |                    member. The input file should be in "pem" format.                                              |
+ | member           - Required. The member to which you want to upload the certificate.                              |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | backup          - Restore an existing database backup. Supported file type is "tar.gz". The following parameters  |
+ |                   are also available:                                                                             |
+ | force           - Optional. Force restore a database that was backed up from                                      |
+ |                   a different grid. Default is "false".                                                           |
+ | keep_grid_ip    - Optional. Used with the force restore option to retain the current grid IP address and ignore   |
+ |                   the IP address from the backup. Default is "true".                                              |
+ | nios_data       - Optional. Restore NIOS data. Valid value is "true" or "false".                                  |
+ |                   If nios_data, discovery_data and splunk_app_data are not defined, nios_data is 'true'.          |
+ | discovery_data  - Optional. Restore Network Automation data. Valid value is "true" or "false".                    |
+ |                   If nios_data, splunk_app_data and discovery_data are not defined, discovery_data is 'false'.    |
+ | splunk_app_data - Optional. Restore Splunk application data. Vali value is "true" or "false".                     |
+ |                   If nios_data, splunk_app_data and discovery_data are not defined, splunk_app_data is 'false'.   |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dsb            - Import device support bundle. Supported file type is "tar.gz".                                   |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | captive_portal_cert   - Import a server certificate for the captive portal.                                       |
+ |                         Supported file type is "pem".                                                             |
+ | member                - Required. The captive portal to which you want to upload the certificate.                 |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | captive_portal_file   - Import a file to be used by the captive portal.                                           |
+ |                         Supported file types are .jpg, .gif and .png (when cp_type is one of 'logo', 'footer' or  |
+ |                         'header') or .txt (when cp_type is set to 'aup')                                          |
+ | member                - Required. The captive portal to which you want to upload the file.                        |
+ | cp_type               - Required. Indicates how the file is used in the captive portal. Valid values are:         |
+ |                                   'logo', 'footer', 'header', 'aup'.                                              |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | clone          - For cloned data from the backup of another system. Supported file type is "tar.gz".              |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | csv               - Import DNS and DHCP data via CSV files. See export_data/csv for the supported object types.   |
+ |                     For more information about the CSV file format, refer to the Infoblox CSV Import Reference.   |
+ |                     Use Infoblox::Grid::CSVImportStatus to check import task status.                              |
+ |                                                                                                                   |
+ | csv_action        - Optional. Valid values are "start" and "test". The default value is "start".                  |
+ |                               You cannot set csv_action to "test" if operation is not "replace".                  |
+ | operation         - Optional. Valid values are "insert", "update", "replace", "custom" and "delete".              |
+ |                               The default value is "insert".                                                      |
+ | override          - Optional. Valid values are "override" and "merge". The default value is "override".           |
+ | separator         - Optional. CSV separator character. Valid values are 'comma', 'semicolon', 'space' or 'tab'.   |
+ |                               The default value is 'comma'.                                                       |
+ | continue_on_error - Optional. Continue import in case of errors. Valid values are "true" or "false".              |
+ |                               The default is "false". If the value is "true", the import continues even if there  |
+ |                               are errors. Note that file format errors are reported immediately.                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dhcp_expert_mode_config - Import a custom DHCP configuration file from the local system to the Infoblox           |
+ |                           appliance. Supported file type is "dhcpd.conf". The following parameter is also         |
+ |                           available:                                                                              |
+ | member                  - Required. The member to which you want to upload the DHCP configuration expert mode     |
+ |                           file.                                                                                   |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | downgrade      - NIOS image file that will be used to downgrade the Grid.                                         |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | ds_records     - Import DS records from a file. The file format is either a DSset (DS records) or a keyset        |
+ |                  (DNSKEY records).                                                                                |
+ | zone           - Required.  The zone that will contain the records.                                               |
+ |                  Specify either the FQDN of the zone ore the Infoblox::DNS::Zone object.                          |
+ | view           - Optional. The DNS view that contains the zone. Specify either the DNS view name or the           |
+ |                  Infoblox::DNS::View object. The default is the "default" view.                                   |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | eap_ca_cert    - Import an Extensible Authentication Protocol Certificate Authority (EAP CA) certificate.         |
+ |                  Supported file type is "pem".                                                                    |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | ifmap_dhcp_cert  - Import a certificate signed by a CA for a certificate signing request previously given by a    |
+ |                    member for the IF-MAP DHCP service. The input file must be in "pem" format.                    |
+ | member           - Required. The member to which you want to upload the certificate.                              |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | join_multi_grid    - Joins the Master Grid.                                                                       |
+ | token              - Required. The token string corresponding to the file to be imported.                         |
+ | address            - Required. The Multi-Grid Master's address or FQDN.                                           |
+ | port               - Optional. The Multi-Grid Master's port. If it is not specified, 1194 is used.                |
+ | grid_name          - Optional. The SubGrid name. The default value is 'Infoblox'.                                 |
+ | use_mgmt_port      - Optional. Use the MGMT port to connect to the grid.                                          |
+ |                      The valid values are 'true' and 'false'. The default value is 'false'.                       |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | leases           - Import DHCP leases from the local system to the Infoblox appliance. Supported file type is     |
+ |                    "dhcpd.leases". The following parameters are also available:                                   |
+ | format           - Optional. The format of the data file. Only "ISC" is supported. Default is "ISC".              |
+ | lease_precedence - Indicates whether existing leases are overwritten. Valid values are "keep-previous",           |
+ |                    "replace-previous", and "keep-newest". Default is "keep-newest".                               |
+ | network_view     - Optional. The name of the network view from which the lease data is imported.                  |
+ |                    The default value is the system-defined default network view.                                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | leases6          - Import IPv6 DHCP leases from the local system to the Infoblox appliance. Supported file type is|
+ |                    "dhcpd.leases". The following parameters are also available:                                   |
+ | format           - Optional. The format of the data file. Only "ISC" is supported. Default is "ISC".              |
+ | lease_precedence - Indicates whether existing leases are overwritten. Valid values are "keep-previous",           |
+ |                    "replace-previous", and "keep-newest". Default is "keep-newest".                               |
+ | network_view     - Optional. The name of the network view from which the lease data is imported.                  |
+ |                    The default value is the system-defined default network view.                                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | lease_history  - Import the DHCP lease history. Supported file type is "gz".                                      |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | tftp_file      - Import file from the local system to a TFTP directory on the Infoblox appliance. All file types  |
+ |                  are supported. The following parameter is also available:                                        |
+ | directory      - Required. The TFTP directory in which the file is stored.                                        |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | discovery_csv  - Import the file from the local system to the Infoblox appliance. Supported file type is a CSV    |
+ |                  file using comma as field sepearator. The following parameter is also available:                 |
+ | network_view   - Optional. The name of the network view from which the CSV data is imported.                      |
+ |                  The default value is the system-defined default network view.                                    |
+ | merge_data     - The flag indicates whether the GM sorter replaces or merges the discovered data with existing    |
+ |                  data. The valid values are "true" and "false". The default value is "true".                      |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | upgrade        - NIOS image file that will be used to upgrade the Grid.                                           |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | uploadkeytab   - Upload keytab file to the server not assigning the keys. The function has no parameters. Note    |
+ |                  that method with such type returns L<Infoblox::Grid::KerberosKey|Infoblox::Grid::KerberosKey>    |
+ |                  objects list if the upload succeeds, and returns false when the operation fails.                 |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | trusted_ca_cert  - Import a generic Certificate Authority (CA) certificate.  Supported file type is "pem".        |
+ |                    Allows multiple certificates per single file.                                                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | threat_protection_rule_update - Import Threat Protection rules to the Infoblox appliance. Supported file type is  |
+ |                                 "bin2" provided by Infoblox Inc.                                                  |
+ +-------------------------------------------------------------------------------------------------------------------+
+ | dxl_endpoint_brokers - Import DXL endpoint brokers as configuration file and retrieve the list of                 |
+ |                        Infoblox::DXL::Endpoint::Broker objects.                                                   |
+ +-------------------------------------------------------------------------------------------------------------------+
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #import backup
+ $session->import_data(
+     type  => "backup",
+     force => "false",
+     path  => "/tmp/infoblox/database.tar.gz" );
+
+ #csv import
+ $session->import_data(
+     type  => "csv",
+     continue_on_error => 'true',
+     operation => 'update',
+     override => 'override',
+     path  => "/tmp/infoblox/import_data.csv" );
+
+ #import clone
+ $session->import_data(
+     type => "clone",
+     path => "/tmp/infoblox/clone_database.tar.gz" );
+
+ #import dhcp_expert_mode_config
+ $session->import_data(
+     type   => "dhcp_expert_mode_config",
+     member => "192.168.1.2",
+     path   => "/tmp/infoblox/dhcpd.conf" );
+
+ #import captive_portal_cert
+ $session->import_data(
+     type => "captive_portal_cert",
+     path => "/tmp/infoblox/eap_ca_cert.pem",
+     member => "192.168.1.2" );
+
+ #import captive_portal_file
+ $session->import_data(
+     type => "captive_portal_file",
+     path => "/tmp/infoblox/logo_file.jpg",
+     member => "192.168.1.2",
+     cp_type => "logo" );
+
+ #import eap_ca_cert
+ $session->import_data(
+     type => "eap_ca_cert",
+     path => "/tmp/infoblox/eap_ca_cert.pem" );
+
+ #import the  IF-MAP DHCP certificate
+ $session->import_data(
+     type => "ifmap_dhcp_cert",
+     path => "/tmp/infoblox/ifmap_dhcp_cert.pem" );
+
+ #upload keytab
+ my $kerberos_keys = $session->import_data(
+     type => "uploadkeytab",
+     path => "/tmp/infoblox/keytab.key");
+
+ #import leases
+ $session->import_data(
+     type             => "leases",
+     format           => "ISC",
+     path             => "/tmp/infoblox/dhcpd.leases",
+     lease_precedence => "keep-newest" );
+
+ #import leases from a non-default network view
+ $session->import_data(
+     type             => "leases",
+     format           => "ISC",
+     path             => "/tmp/infoblox/dhcpd.leases",
+     lease_precedence => "keep-newest",
+     network_view     => "netview" );
+
+ #import lease_history
+  $session->import_data(
+     type => "lease_history",
+     path => "/tmp/infoblox/lease_history.gz" );
+
+ #import tftp_file
+ $session->import_data(
+     type      => "tftp_file",
+     directory => "/",
+     path      => "/tmp/infoblox/voip_settings.txt" );
+
+ #import discovery CSV file in a given network view
+ $session->import_data(
+     type             => "discovery_csv",
+     network_view     => "netview" );
+
+ #import DS records
+ $session->import_data(
+     type             => "ds_records",
+     path             => "/tmp/infoblox/ds_records.txt",
+     zone             => "myzone.test.com",
+     view             => "dns_view", );
+
+=back
+
+=back
+
+=head2 join_grid( )
+
+=over
+
+Join an Infoblox appliance to an existing grid.
+
+=over
+
+=item B<Parameter>
+
+grid_name     - Required. The name of the grid.
+
+master        - Required. The virtual IP address of the grid master.
+
+shared_secret - Required. The shared secret string of the grid.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $result = $session->join_grid(
+     grid_name     => "infoblox",
+     master        => "192.168.1.2",
+     shared_secret => "test" );
+
+=back
+
+=back
+
+=head2 leave_multi_grid( )
+
+=over
+
+Disconnect an Infoblox appliance from the Master Grid.
+
+=over
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $result = $session->leave_multi_grid();
+
+=back
+
+=back
+
+=head2 logout( )
+
+=over
+
+Use this function to log out of the current session.
+
+If you want to log in to the server again, create a new Infoblox::Session object.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+None
+
+=item B<Example>
+
+ $session->logout();
+
+=back
+
+=back
+
+=head2 member_upgrade( )
+
+=over
+
+Use this function to upgrade a single member that was reverted during the staged upgrade process or to revert a single member if it does not behave properly after an upgrade.
+
+=over
+
+=item B<Parameter>
+
+The following parameters are supported:
+
+ member - The FQDN of the member to be upgraded. # Required
+ action - The action to execute. # Optional
+
+The action parameter can be "UPGRADE" or "REVERT". If not specified, the action parameter defaults to "UPGRADE".
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #upgrade the member
+ my $response = $session->member_upgrade(member => "hostname.com");
+ #revert the member
+ my $response = $session->member_upgrade(member => "hostname.com", action => "REVERT");
+
+=back
+
+=back
+
+=head2 modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance.
+
+To modify a specific object, use get() or search() to retrieve the specific object, make the desired modifications to this object, and then submit it for modification.
+
+=over
+
+=item B<Parameter>
+
+The object to be modified in the Infoblox appliance. See individual objects for the necessary parameters.
+
+=item B<Parameter>
+
+scheduled_at       - Optional. The scheduled date and time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) or 'now' which will set scheduled date and time to the current date and time. L<See details.|/SCHEDULED OBJECT USAGE DETAILS>
+
+predecessor_task   - Optional. An L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask> object this task depends on. It is mandatory to set scheduled_at parameter if predecessor_task parameter is set.
+
+approval_comment   - Optional. Comment provided by the submitter on approval.
+
+approval_ticket_number - Optional. Ticket number provided by the submitter on approval.
+
+ip_validation      - Optional. A list of L<Infoblox::Grid::IPValidationInfo|Infoblox::Grid::IPValidationInfo> objects.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ # Use get() to retrieve the object.
+ my @retrieved_obj = $session->get(
+     object => "Infoblox::DNS::Record::A",
+     name   => "bind_a.domain.com" );
+ # select the specific object.
+ my $bind_a = $retrieved_obj[0];
+ # Use object method to modify the comment.
+ $bind_a->comment("this is a modified comment");
+ # Submit modification
+ my $response = $session->modify( $bind_a );
+
+=back
+
+=back
+
+=head2 new_cursor( )
+
+=over
+
+Use this method to return a cursor object. See L<Infoblox::Cursor|Infoblox::Cursor> for more information.
+
+=back
+
+=head2 network_discovery_control( )
+
+=over
+
+Use this method to control the network discovery task
+
+=over
+
+=item B<Parameter>
+
+action                 - Required. Valid values are "START", "PAUSE", "RESUME", and "END".
+
+scheduled_at           - Optional. Scheduled time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> for date and time (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z). Note that this can only be used with the "START" action.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ # start network discovery
+ my $response = $session->network_discovery_control(
+        action => 'START');
+
+ unless($response) {
+    die("Start network discovery failed");
+ }
+
+=back
+
+=back
+
+=head2 publish_changes( )
+
+=over
+
+Use this method to publish configuration changes.
+
+=over
+
+=item B<Parameter>
+
+grid_member         - Optional. The Grid member name.
+
+services            - Required. The service name. The valid value is 'ALL' or 'ATP'.
+
+member_order        - Required if Grid_member is not defined. Otherwise this parameter is not used. Option to publish changes on all members with or without delay. The valid value is 'SEQUENTIALLY' or 'SIMULTANEOUSLY'.
+
+sequential_delay    - Optional if Grid_member is not defined. Otherwise this parameter is not used. The delay between publishing configuration changes on members in seconds.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ # publish changes on the Grid
+ my $res = $session->publish_changes(
+    'sequential_delay' => 1,
+    'member_order'     => 'SIMULTANEOUSLY',
+    'services'         => 'ALL',
+ );
+
+ # publish changes on the Grid member
+ $res = $session->publish_changes(
+    'grid_member' => 'infoblox.localdomain',
+    'services'    => 'ALL',
+ );
+
+=back
+
+=back
+
+=head2 query_fqdn_on_member( )
+
+=over
+
+Use this method to query FQDN on the specified member.
+
+This methods forces Grid Master to execute RPC call to invoke dig on the member for a specific FQDN.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::Member::QueryFQDNParameter|Infoblox::Grid::Member::QueryFQDNParameter> object or HASH that contains following values:
+
+ fqdn            - Required. FQDN to query.
+ member          - Optional. Member to invoke dig on. The default is Grid Master.
+ name_server     - Optional. Nameserver to query.
+ record_type     - Optional. Query resource record type. The default is ANY.
+ recursive_query - Optional. 'true' to set recursive query flag. The default is 'true'.
+
+=item B<Returns>
+
+The method returns an L<Infoblox::Grid::Member::QueryFQDNResponse|Infoblox::Grid::Member::QueryFQDNResponse> object.
+
+=item B<Example>
+
+ #Recursively query any record for the domain, 'foo.com' on the Grid Master.
+ my $response = $session->query_fqdn_on_member(fqdn => 'foo.com');
+
+ #Recursively query nameserver 5.5.5.5 for A record for 'bar.com'.
+ #domain via 'member1' dig
+ my $response = $session->query_fqdn_on_member(
+     fqdn        => 'bar.com',
+     member      => 'member1',
+     name_server => '5.5.5.5',
+     record_type => 'A',
+ );
+
+ #Same, but using Infoblox::Grid::Member::QueryFQDNParameter
+
+ #Construct parameters object
+ my $query_fqdn = Infoblox::Grid::Member::QueryFQDNParameter->new(
+     fqdn        => 'bar.com',
+     member      => 'member1',
+     name_server => '5.5.5.5',
+     record_type => 'A',
+ );
+
+ #Query
+ my $response = $session->query_fqdn_on_member($query_fqdn);
+
+=back
+
+=back
+
+=head2 refresh_hsm( )
+
+=over
+
+Use this method to re-sync with the HSM data repository.
+
+=over
+
+=item B<Parameter>
+
+hsm_group             - Required. An HSM group object.
+
+=item B<Returns>
+
+The method returns one of the following values : "PASSED", "INACTIVE" , "FAILED".
+
+=item B<Example>
+
+ # Refresh HSM
+ my $response = $session->refresh_hsm(
+        hsm_group => $hsm_group_object);
+
+ unless($response) {
+    die("Refresh HSM failed");
+ }
+
+=back
+
+=back
+
+=head2 remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Parameter>
+
+The object to be removed from the Infoblox appliance. See individual objects for the necessary parameters.
+
+=item B<Parameter>
+
+scheduled_at       - Optional. Scheduled time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> for date and time (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) or 'now' which will set scheduled date and time to the current date and time. L<See details.|/SCHEDULED OBJECT USAGE DETAILS>
+
+predecessor_task   - Optional. An L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask> object this task depends on. It is mandatory to set scheduled_at parameter if predecessor_task parameter is set.
+
+approval_comment   - Optional. Comment provided by the submitter on approval.
+
+approval_ticket_number - Optional. Ticket number provided by the submitter on approval.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ # Use get() to retrieve the object.
+ my @retrieved_obj = $session->get(
+     object => "Infoblox::DNS::Record::A",
+     name   => "bind_a.domain.com" );
+ # Select the specific object.
+ my $bind_a = $retrieved_obj[0];
+ # Submit for removal
+ my $response = $session->remove( $bind_a );
+
+=back
+
+=back
+
+=head2 remove_data( )
+
+=over
+
+Use this method to remove data from the Infoblox appliance or purge DHCP IF-MAP data.
+
+=over
+
+=item B<Parameter>
+
+type - Required. The type of data to remove. Following is a list of data types that can be removed:
+
+ -------------------------------------------------------------------------------------------------------------------------
+ | nac_auth_cache           - Purge the NAC authentication cache.                                                        |
+ | member                   - Required. The IPv4 address of the member on which the NAC authentication cache is cleared. |
+ | mac_addr                 - Optional. The MAC address for which the authentication result in the NAC authentication    |
+ |                            cache is to be cleared. if this field is not present, the entire cache will be flushed.    |
+ -------------------------------------------------------------------------------------------------------------------------
+ | ifmap_dhcp_data          - Sends a purge request that removes any IF-MAP data published by the DHCP IF-MAP client     |
+ |                            running on this member. The following parameters are also available:                       |
+ |                                                                                                                       |
+ | member                   - Required. The IP address of the grid member.                                               |
+ -------------------------------------------------------------------------------------------------------------------------
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ # purge DHCP IF-MAP data published by member 1.2.3.4
+ $session->remove_data(
+     "type"      => "ifmap_dhcp_data",
+     "member" => "1.2.3.4");
+
+ # purge the entire NAC authentication cache for member 1.2.3.4
+ $session->remove_data(
+     "type"      => "nac_auth_cache",
+     "member" => "1.2.3.4");
+
+ # Clear authentication data for MAC address a1:a1:a1:a1:a1:a1 from the NAC authentication cache for member 1.2.3.4
+ $session->remove_data(
+     "type"          => "nac_auth_cache",
+     "member"    => "1.2.3.4",
+     "mac_addr" => "a1:a1:a1:a1:a1:a1");
+
+=back
+
+=back
+
+=head2 remove_eap_ca_cert( )
+
+=over
+
+Remove an Extensible Authentication Protocol Certificate Authority (EAP CA) certificate.
+
+=over
+
+=item B<Parameter>
+
+dn - Required. Distinguished Name (DN) of the Certificate Authority (CA) certificate you want to remove.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $result = $session->remove_eap_ca_cert(
+     dn => 'CN="My Server Certificate",C="US"' );
+
+=back
+
+=back
+
+=head2 remove_tftp_file( )
+
+=over
+
+Remove a file from a TFTP directory on the Infoblox appliance.
+
+=over
+
+=item B<Parameter>
+
+directory - Required. The parent directory of the file in TFTP storage.
+
+name - Required. The name of the file.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $result = $session->remove_tftp_file(
+     directory => "/",
+     name      => "voip_settings.txt" );
+
+=back
+
+=back
+
+=head2 reset_discovery_timestamp( )
+
+=over
+
+This method is deprecated and is provided only to maintain backward compatibility with previous releases.
+
+Calling this method will perform the same action as calling the B<reset_discovery_data()> method.
+
+=back
+
+=head2 reset_discovery_data( )
+
+=over
+
+Use this method to reset the discovery related attributes for an IP address.
+
+The following attributes are reset:
+
+    os
+    netbios
+    first_discovered
+    last_discovered
+    network_component_type
+    network_component_name
+    network_component_description
+    network_component_ip
+    network_component_port_number
+    network_component_port_name
+    network_component_port_description
+    port_vlan_name
+    port_vlan_number
+    port_speed
+    port_duplex
+    port_status
+    port_link_status
+    discovered_name
+    discoverer
+
+=over
+
+=item B<Parameter>
+
+type                 - Required. Valid values are "GLOBAL", "NETWORK", and "IP_ADDRESS".
+
+network              - Optional. Required when type is "NETWORK" or "IP_ADDRESS", and the ip_address value is an IPv4 address..
+
+network_view         - Optional. The network view to which the reset operation will be limited. The default value is the system-defined default network view.
+
+ip_address           - Optional. Required when type is "IP_ADDRESS". The value can be an IPv4 or IPv6 address.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ # type is GLOBAL
+ my $response = $session->reset_discovery_data(
+        type => 'GLOBAL');
+
+ unless($response) {
+    die("reset discovery datafailed");
+ }
+
+ # with a non-default network view
+ my $nview = Infoblox::DHCP::View->new(
+        name => 'netview',
+ );
+ my $response = $session->reset_discovery_data(
+        type => 'GLOBAL',
+        network_view => $nview);
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+ # type is NETWORK
+ $response = $session->reset_discovery_data(
+        type => 'NETWORK',
+        network => '10.0.0.0/24');
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+ # type is IP_ADDRESS
+ $response = $session->reset_discovery_data(
+        type => 'IP_ADDRESS',
+        network => '10.0.0.0/24',
+        ip_address => '10.0.0.10');
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+=back
+
+=back
+
+=head2 reset_threat_protection_object( )
+
+=over
+
+Use this method to reset the Threat Protection object to the factory defaults.
+
+=over
+
+=item B<Key Reference>
+
+ object              - Required. An Infoblox::Grid::ThreatProtection::Rule, Infoblox::Grid::ThreatProtection::Ruleset or Infoblox::Grid::ThreatProtection::RuleCategory.
+ delete_custom_rules - Optional. Flag that indicates whether the custom rules are removed or not. The default value is 'true'.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ my $res = $session->reset_threat_protection_object(
+     object => $rule,
+     delete_custom_rules => 'false'
+ );
+
+=back
+
+=back
+
+=head2 restart( )
+
+=over
+
+Restart a service on the Infoblox appliance.
+
+=over
+
+=item B<Parameter>
+
+mode          - Optional. The restart service mode. Valid values are 'GROUPED', 'SEQUENTIAL', 'SIMULTANEOUS'. Default is 'SIMULTANEOUS'.
+
+force_restart - Optional. Valid values are "true" or "false".
+
+members       - Optional. The restart service members. Valid value is an array of Grid Member objects. Note that objects should be retrieved from the server first. Only one parameter for members and groups can be used in the same call.
+
+groups        - Optional. The restart service groups. Valid value is an array of Grid Restart Service Group objects. Note that objects should be retrieved from the server first. Only one parameter for members and groups can be used in the same call.
+
+services      - Optional. Valid value is an array, which can contain the following values: 'ALL', 'DHCP', 'DHCPV4', 'DHCPV6' and 'DNS'. Default is ['ALL']. 
+
+scheduled_at  - Optional. Scheduled time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> for date and time (e.g. 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z).
+
+user_name     - Optional. Name of the user requesting the restart.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails. If no attribute is specified, the method returns
+the pending schedule.
+
+=item B<Example>
+
+ my $result = $session->restart(
+    groups        => [$group1, $group2],
+    mode          => 'GROUPED',
+    force_restart => 'true',
+    services      => ['DNS', 'DHCPV6'],
+    user_name     => 'ib-admin',
+ );
+
+=back
+
+=back
+
+=head2 restart_status( )
+
+=over
+
+Use this method to retrieve all the services that need to restart.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns an array of strings for all the services that need to restart ('dhcp', 'dns').
+
+=item B<Example>
+
+ my @restart_list = $session->restart_status();
+
+=back
+
+=back
+
+=head2 rollback_db_snapshot( )
+
+=over
+
+Use this method to rollback OneDB snapshot if one exists.
+
+=over
+
+=item B<Key Reference>
+
+None
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ my $res = $session->rollback_db_snapshot();
+
+=back
+
+=back
+
+
+=head2 rotate_log_files( )
+
+=over
+
+Use this method to rotate the specified log file for the Grid Master or specified member.
+
+=over
+
+=item B<Parameter>
+
+log_type - Required. The type of log file. Valid values are 'audit', 'msmgmt', or 'sys'.
+
+member - Optional. Hostname of the Grid member on which log rotation is performed. Only required if 'log_type' is 'sys' or 'msmgmt'.
+
+node_type - Optional. HA node type ('ACTIVE' or 'PASSIVE'). Only required if 'log_type' is 'sys' or 'msmgmt'.
+
+server - Optional. IP address or FQDN of the Microsoft server. Only required if 'log_type' is 'msmgmt'.
+
+=item B<Returns>
+
+The method returns '1' when there are no errors and sets session error code and text when there is an error.
+
+=item B<Example>
+
+ # rotate the syslog
+ my %args;
+ $args{'log_type'} = "sys";
+ $args{'node_type'} = "ACTIVE";
+ $args{'member'} = "infoblox.localdomain";
+
+ $session->rotate_log_files(%args);
+
+=back
+
+=back
+
+=head2 run_scavenging( )
+
+=over
+
+Use this method to perform the scavenging of the DNS Records.
+
+=over
+
+=item B<Key Reference>
+
+object       - Required. The DNS object on which scavenging is performed. The valid values are Infoblox::Grid::DNS, Infoblox::DNS::Zone and Infoblox::DNS::View.
+action       - Optional. The scavenging action to perform. The valid values are 'ANALYZE', 'RECLAIM', 'ANALYZE_RECLAIM' and 'RESET'. The default value is 'ANALYZE'.
+scheduled_at - Optional. Scheduled date and time in L<ISO 8601 extended format|Infoblox::Grid::ScheduledTask/SCHEDULED DATE AND TIME FORMAT> (e.g., 2008-10-21T10:56:00Z or 2008-10-21T10:56:00.001Z) or 'now' which will set scheduled date and time to the current date and time. L<See details.|/SCHEDULED OBJECT USAGE DETAILS>
+
+=item B<Returns>
+
+The method returns 1 when the operation succeeds and sets session error code an text when the operation fails.
+
+=item B<Example>
+
+ my $res = $session->run_scavenging(
+     object => $grid_dns,
+     action => 'RESET',
+ );
+
+=back
+
+=back
+
+=head2 save_db_snapshot( )
+
+=over
+
+Use this method to take OneDB snapshot.
+
+=over
+
+=item B<Key Reference>
+
+ comment - Required. A descriptive comment in string format.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+=item B<Example>
+
+ my $res = $session->save_db_snapshot(comment => 'save snapshot demo');
+
+=back
+
+=back
+
+
+=head2 search( )
+
+=over
+
+Use this method to search and retrieve all the matching objects from the Infoblox appliance.
+
+=over
+
+=item B<Parameter>
+
+object        - Required. The Infoblox object to retrieve.
+
+return_methods - Optional. The member fields to return.
+
+maximum_objects_returned - Optional. The maximum number of objects to retrieve (this overrides default_maximum_objects_returned if specified, but will be overridden by an individual object's limit if it is lower).
+
+partial_subobjects - Optional. Indicates whether the partial subobjects feature is enabled (this overrides default_partial_subobjects for this call).
+
+key reference - Required. The attribute and value that refer to the desired object(s) to retrieve. Many key references are given as regular expressions. See individual objects for available key references.
+
+=item B<Returns>
+
+Return an array in list context containing all matching objects. For failures or objects not found, it returns an empty array in list context and undefined in scalar context. When an operation fails, the error code and error message are reported in the status_code() and status_detail() attributes.
+
+return_methods can be specified in the following way:
+
+ +method_name - This adds the specified method to the returned methods (useful for "optional" methods).
+ -method_name - This returns all methods, except the specified method.
+  method_name - This returns only the specified method.
+
+The return_methods above can be specified together. Note that  specifying -method_name in a list that contains method_name entries will be ignored (because only method_name entries will be returned). Specifying +method_name for members that are not optional will similarly be ignored. Following are usage axamples:
+
+ ['method1','method2']  = Returns only method1 and method2.
+ ['-method1']           = Returns all object methods, except method1.
+ ['+method1']           = Returns all object methods and method1, if method1 is not a method that is returned by default.
+
+Note that objects returned when method_name and/or -method_name are specified cannot be used directly for modify( ) calls; fill_partial_object must be called for them first.
+
+Member methods that represent actions/operations rather than values (e.g.,
+L<Infoblox::DHCP::NetworkContainer-E<gt>resize()|Infoblox::DHCP::NetworkContainer/resize()/>) cannot be specified as return_methods.
+
+When the partial subobjects feature is enabled, objects returned from searches do not retrieve all of their subobjects (if any), but only a few of their fields. These subobjects are supported:
+
+ Infoblox::DNS::View  - only 'name' and 'comment' will be returned
+ Infoblox::DHCP::View - only 'name' and 'comment' will be returned
+
+Therefore, if an object that is returned by 'search' has one of the supported subobjects as a method value, then the subobject is treated as if it was retrieved with 'return_methods' set and can be completed by calling fill_partial_object.
+
+=item B<Example>
+
+ #Searching for all A records under "domain.com" from the Infoblox appliance.
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::A",
+     name   => '.*\.domain\.com' );
+
+ unless (@retrieved_objs) {
+     die("Search DNS record A failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+ #Searching for all A records under "domain.com" from the Infoblox appliance and returning only their addresses and TTL's.
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::A",
+     name   => '.*\.domain\.com',
+     return_methods => ['ttl','ipv4addr']
+ );
+
+ unless (@retrieved_objs) {
+     die("Search DNS record A failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+ #Searching for all A records under "domain.com" from the Infoblox appliance and returning everything but their TTL's.
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::A",
+     name   => '.*\.domain\.com',
+     return_methods => ['-ttl']
+ );
+
+ unless (@retrieved_objs) {
+     die("Search DNS record A failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+ #Searching for all A records under "domain.com" from the Infoblox appliance and returning their views member as a partial object.
+ my @retrieved_objs = $session->search(
+     object => "Infoblox::DNS::Record::A",
+     name   => '.*\.domain\.com',
+     partial_subobjects => 1
+ );
+
+ unless (@retrieved_objs) {
+     die("Search DNS record A failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+
+=back
+
+=back
+
+=head2 search with limit parameters
+
+Some object methods support searches where limits are specified. Assuming that 'X' and 'Y' are valid searchable values for a particular method, the following are supported:
+
+=over
+
+=item B<> 'X' - Matches, as usual, if the method value is EXACTLY X.
+
+=item B<> '> X' or '< X' - Matches if the method value is GREATER or LESS than X respectively.
+
+=item B<> '>= X' or '<= X' - Matches if the method value is GREATER THAN OR EQUALS or is LESS THAN OR EQUALS X respectively.
+
+=item B<> '!= X' or '/= X' - Matches if the method value DOES NOT EQUAL X.
+
+=item B<> '>=< X,Y' - Matches if the method value is GREATER THAN OR EQUALS X AND is LESS THAN OR EQUALS Y.
+
+=back
+
+=over
+
+Following are examples of limit searches:
+
+ # This searches for tasks scheduled exactly on 2011-09-18T10:20:20Z
+ @result = $session->search(
+                            object         => "Infoblox::Grid::ScheduledTask",
+                            scheduled_time => '2011-09-18T10:20:20Z',
+                           );
+
+ # This searches for tasks scheduled before 2011-09-18T10:20:20Z
+ @result = $session->search(
+                            object         => "Infoblox::Grid::ScheduledTask",
+                            scheduled_time => '< 2011-09-18T10:20:20Z',
+                           );
+
+ # This searches for tasks scheduled before or on 2011-09-18T10:20:20Z
+ @result = $session->search(
+                            object         => "Infoblox::Grid::ScheduledTask",
+                            scheduled_time => '<= 2011-09-18T10:20:20Z',
+                           );
+
+ # This searches for tasks scheduled not on 2011-09-18T11:20:20Z
+ @result = $session->search(
+                            object         => "Infoblox::Grid::ScheduledTask",
+                            scheduled_time => '!= 2011-09-18T11:20:20Z',
+                           );
+
+ # This searches for tasks scheduled between 2011-09-18T10:20:20Z and 2011-10-18T10:20:20Z, inclusive
+ @result = $session->search(
+                            object         => "Infoblox::Grid::ScheduledTask",
+                            scheduled_time => '>=< 2011-09-18T10:20:20Z,2011-10-18T10:20:20Z',
+                           );
+
+=back
+
+=head2 server_version( )
+
+=over
+
+Check the current server version.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the current Infoblox appliance version.
+
+=item B<Example>
+
+ my $version = $session->server_version( );
+
+=back
+
+=back
+
+=head2 set_dhcp_failover_partner_down( )
+
+=over
+
+Set a DHCP failover association peer to the Partner Down state.
+
+=over
+
+=item B<Parameter>
+
+dhcp_failover - Required. The name of the DHCP failover association with the
+peer that you are setting to the Partner Down state.
+
+=item B<Parameter>
+
+peer_type - Required. The peer that you are setting to the Partner Down state. Valid values are
+'primary' or 'secondary'.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $result = $session->set_dhcp_failover_partner_down(
+    dhcp_failover => 'test_failover',
+    peer_type     => 'primary'
+ );
+
+=back
+
+=back
+
+=head2 set_dhcp_failover_secondary_recover( )
+
+=over
+
+Set the secondary peer to the Recover state.
+
+=over
+
+=item B<Parameter>
+
+dhcp_failover - Required. The name of the DHCP failover association with the secondary
+peer that you are setting to the Recover state.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ my $result = $session->set_dhcp_failover_secondary_recover(
+    dhcp_failover => 'test_failover'
+ );
+
+=back
+
+=back
+
+=head2 skip_member_upgrade( )
+
+=over
+
+This function allows the specified member to skip the upgrade process.
+
+=over
+
+=item B<Parameter>
+
+The following required parameter is supported:
+
+ member - The FQDN of the member that will skip the upgrade process.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #skip member
+ my $response = $session->skip_member_upgrade(member => "hostname.com");
+
+=back
+
+=back
+
+=head2 status_code( )
+
+=over
+
+Get the status code of the last function called.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the status code of the last function/operation called.
+
+=item B<Example>
+
+ my $status_code = $session->status_code( );
+
+=back
+
+=back
+
+=head2 status_detail( )
+
+=over
+
+Get the status detail of the last function called.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the status detail of the last function/operation called.
+
+=item B<Example>
+
+ my $status_detail = $session->status_detail( );
+
+=back
+
+=back
+
+=head2 test( )
+
+=over
+
+A generic test function.
+
+=over
+
+=item B<Parameter>
+
+object                   - Required. An Infoblox object.
+timeout                  - Optional, if object type is 'Infoblox::LDAP::Server'. The timeout in seconds.
+ldap_service             - Optional, if object type is 'Infoblox::LDAP::Server'. An Infoblox::LDAP::AuthService object that has been retrieved from the appliance.
+certificate_auth_service - Optional, if object type is 'Infoblox::Grid::Admin::CertificateAuthService'. An Infoblox::Grid::Admin::CertificateAuthService or it's name in a string format.
+member                   - Optional, if object type is 'Infoblox::Grid::SyslogBackupServer'. The name of the Grid member which performs the connection test. By default, the connection test is performed from the Grid Master.
+event_text               - Required, if object type is 'Infoblox::Notification::Rule'. An event to trigger notification rule in a JSON text string.
+
+ +------------------------------------------------------------------------------------------------------------------------------+
+ | Object type                   Description                                                                                    |
+ +------------------------------------------------------------------------------------------------------------------------------+
+ | Infoblox::OCSP::Responder              - Performs validation of OCSP responder object.                                       |
+ |                                          The valid return value is one of the following: "CANNOT_RESOLVE_FQDN",              |
+ |                                          "CANNOT_CONNECT", "FAILED_TEST", "TEST_OK", or "TEST_OK_RESPONSE_NOT_VERIFIED".     |
+ | Infoblox::LDAP::Server                 - Tests connectivity to the LDAP server.                                              |
+ | Infoblox::CiscoISE::Endpoint           - Tests connectivity to the CiscoISE endpoint. The valid return values are            |
+ |                                          'CANNOT_RESOLVE_FQDN', 'FAIL', 'OK' and 'WARN'.                                     |
+ | Infoblox::Notification::REST::Endpoint - Tests connectivity to the REST API endpoint. The valid return value is 0 if         |
+ |                                          connectivity tests fail to occur or Infoblox::Grid::TestResult otherwise.           |
+ | Infoblox::Notification::Rule           - Tests applicability of event to be triggered.                                       |
+ | Infoblox::DXL::Endpoint::Broker        - Tests connectivity to the DXL broker. Parameters:                                   |
+ |                                              endpoint           - Optional. The Infoblox::DXL::Endpoint object.              |
+ |                                              client_certificate - Optional. The DXL broker client certificate.               |
+ |                                          Note that at least one of the arguments ('endpoint' and 'client_certificate')       |
+ |                                          should be set in order to perform the connectivity test.                            |
+ |                                          The valid return value is 0 if the connectivity tests fail to occur or              |
+ |                                          Infoblox::Grid::TestResult otherwise.                                               |
+ | Infoblox::Grid::SyslogServer           - Tests connectivity to the Syslog server.                                            |
+ | Infoblox::Grid::SyslogBackupServer     - Tests connectivity to the Syslog backup server.                                     |
+ +------------------------------------------------------------------------------------------------------------------------------+
+
+=item B<Returns>
+
+The method returns a test result.
+
+=item B<Example>
+
+ #Performs validation of OCSP responder object
+ my $ocsp_responder = Infoblox::OCSP::Responder->new(
+                       'address'     => 'domain.com',
+                       'certificate' => 'responder.pem',
+ );
+
+ my $result = $session->test('object' => $ocsp_responder);
+
+ my $syslog_server = Infoblox::Grid::SyslogServer->new(
+    address         => '10.32.1.55',
+    connection_type => 'tcp',
+    port            => 514,
+ );
+
+ my $result = $session->test('object' => $syslog_server);
+
+ my $backup_syslog_server = Infoblox::Grid::BackupSyslogServer->new(
+    address => '10.32.1.55',
+ );
+
+ my $result = $session->test('object' => $backup_syslog_server);
+
+ my $notif_rule = Infoblox::Notification::Rule->new(
+                           event_type          => 'DNS_RPZ',
+                           expression_list     => [@rule_expr1],
+                           name                => 'notif_rule1',
+                           notification_action => 'RESTAPI_TEMPLATE_INSTANCE',
+                           notification_target => $endpoint,
+                           template_instance   => $instances[0],
+                           disable             => 'false',
+    );
+ my $event_text = '{"destination_ip": "10.0.0.0","timestamp": "1973-03-03T09:46:41Z",'.
+                   '"vnode_oid": 0, "thread_id": 0, "sequence_id": 0, "member_name": "infoblox.localdomain",'.
+                   '"rpz_policy": "PASSTHRU", "member_ip": "192.168.1.2", "source_ip": "10.0.0.55",' .
+                   '"network.network_view": "test_view", "rpz_severity": "WARNING"}';
+
+ my $result = $session->test('object' => $notif_rule, event_text => $event_text);
+
+
+=back
+
+=back
+
+=head2 test_hsm_status( )
+
+=over
+
+Performs a signing test using an active HSM group.
+
+=over
+
+=item B<Parameter>
+
+hsm_group             - Required. An HSM group object.
+
+=item B<Returns>
+
+The method returns the status detail of signing test. The valid return value is one of the following : "PASSED", "INACTIVE","KEY_GEN", "SIGNING" .
+
+=item B<Example>
+
+ my $response = $session->test_hsm_status(
+                            hsm_group => $hsm_group_object);
+
+ unless($response) {
+    die("Test HSM status failed");
+
+=back
+
+=back
+
+=head2 upgrade_group_now( )
+
+=over
+
+This function allows the specified group to immediately upgrade.
+
+=over
+
+=item B<Parameter>
+
+The following required parameter is supported:
+
+ group_name - The name of the group to upgrade.
+
+=item B<Returns>
+
+The method returns true when the operation succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Upgrade group now
+ my $response = $session->upgrade_group_now(group_name => "group1");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+B<#Create an Infoblox::Session object>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ if ($session->status_code()) {
+    die("Construct session failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Add a DNS zone object>
+
+ #Construct the zone
+ my $zone = Infoblox::DNS::Zone->new(name => "domain.com");
+ unless ($zone) {
+    die("Construct zone failed: ",
+        $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Zone object created successfully\n";
+
+ #Add the zone to the Infoblox appliance
+ $session->add($zone)
+     or die("Add zone failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "Zone added successfully\n";
+
+B<#Restart service>
+
+ $session->restart(
+      "member" => "192.168.1.2",
+      "when"   => "03/20/2007 01:00:00",
+      "time_zone" => "(UMT - 6:00) Central Time (US and Canada)"
+ );
+
+ #To cancel the previous restart schedule.
+
+  $session->restart("cancel" => "true");
+
+B<#Get restart services>
+
+ my @services = $session->restart_status();
+
+B<#Get zone object>
+
+ my @retrieved_objs = $session->get(
+     object    => "Infoblox::DNS::Zone",
+     name      => "domain.com" );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Zone object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get DNS zone object found at least 1 matching entry\n";
+
+B<#Remove zone object>
+
+ $session->remove( $object )
+   or die("Remove DNS zone failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "DNS Zone object removed successfully \n";
+
+B<#Show the current version>
+
+ my $version = $session->server_version();
+ print "Current server version is $version\n";
+
+B<#Generate a TSIG key>
+
+ my $tsig = $session->gen_tsig_key();
+ print "Generated a TSIG key: $tsig\n";
+
+B<#Show status_code and status_detail>
+
+ my $status_code = $session->status_code();
+ my $status_detail = $session->status_detail();
+ print "Previous operation status_code is: $status_code\n";
+ print "Previous operation status_detail is: $status_detail\n";
+
+B<#clear unmanaged address>
+
+ # Creating new network and checking
+ my $network = Infoblox::DHCP::Network->new(network => "10.0.0.0/24");
+ unless($network) {
+    die("Create network object failed.");
+ }
+
+ # Adding into Session and testing
+ $session->add($network)
+    or die("Add network failed.");
+
+ # Creating a new network view
+ my $network_view = Infoblox::DHCP::View->new(name => "netview");
+ unless($network_view) {
+    die("Create network view object failed.");
+ }
+ $session->add($network_view)
+    or die("Add network view failed.");
+
+ # Creating a second network in the network view
+ my $network2 = Infoblox::DHCP::Network->new(
+                  network => "10.0.0.0/24",
+                  network_view => $network_view);
+ unless($network2) {
+    die("Create second network object failed.");
+ }
+ $session->add($network2)
+    or die("Add second network object failed.");
+
+ # type is GLOBAL
+ my $response = $session->clear_unmanaged(
+    type => 'GLOBAL');
+
+ unless($response) {
+    die("Clear unmanaged failed");
+ }
+
+ my $response = $session->clear_unmanaged(
+    type => 'GLOBAL',
+    network_view => $network_view);
+
+ unless($response) {
+    die("Clear unmanaged failed");
+ }
+ # type is NETWORK
+ $response = $session->clear_unmanaged(
+    type => 'NETWORK',
+    network => '10.0.0.0/24');
+
+ unless($response) {
+    die("Clear unmanaged failed");
+ }
+
+ $response = $session->clear_unmanaged(
+    type => 'NETWORK',
+    network => '10.0.0.0/24',
+    network_view => $network_view);
+
+ unless($response) {
+    die("Clear unmanaged failed");
+ }
+
+ # type is IP_ADDRESS
+ $response = $session->clear_unmanaged(
+    type => 'IP_ADDRESS',
+    network => '10.0.0.0/24',
+    ip_address => '10.0.0.10');
+
+ unless($response) {
+    die("Clear unmanaged failed");
+ }
+
+ $response = $session->clear_unmanaged(
+    type => 'IP_ADDRESS',
+    network => '10.0.0.0/24',
+    network_view => $network_view,
+    ip_address => '10.0.0.10');
+
+ unless($response) {
+    die("Clear unmanaged failed");
+ }
+
+B<#reset discovery data>
+
+ # type is GLOBAL
+ my $response = $session->reset_discovery_data(
+    type => 'GLOBAL');
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+ my $response = $session->reset_discovery_data(
+    type => 'GLOBAL',
+    network_view => $network_view);
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+ # type is NETWORK
+ $response = $session->reset_discovery_data(
+    type => 'NETWORK',
+    network => '10.0.0.0/24');
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+ $response = $session->reset_discovery_data(
+    type => 'NETWORK',
+    network => '10.0.0.0/24',
+    network_view => $network_view);
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+ # type is IP_ADDRESS
+ $response = $session->reset_discovery_data(
+    type => 'IP_ADDRESS',
+    network => '10.0.0.0/24',
+    ip_address => '10.0.0.10');
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+ $response = $session->reset_discovery_data(
+    type => 'IP_ADDRESS',
+    network => '10.0.0.0/24',
+    network_view => $network_view,
+    ip_address => '10.0.0.10');
+
+ unless($response) {
+    die("reset discovery data failed");
+ }
+
+B<#Control the network discovery task>
+
+ # stop network discovery
+ my $response = $session->network_discovery_control(
+        action => 'END',
+        network => '10.0.0.0/24');
+
+ unless($response) {
+    die("Stop network discovery failed");
+ }
+
+B<#Clean up>
+
+ #Remove the network
+ $network = $session->get(
+              object => 'Infoblox::DHCP::Network',
+              network => '10.0.0.0/24',
+              network_view => 'default');
+ unless($network) {
+    die("network '10.0.0.0/24' couldn't be retrieved");
+ }
+ $session->remove($network)
+    or die("Remove DHCP network failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "DHCP network object removed successfully \n";
+
+ #Remove the network view
+ # (network2 will be removed with the view)
+ $network_view = $session->get(
+              object => 'Infoblox::DHCP::View',
+              name => 'netview');
+ unless($network_view) {
+    die("network view 'netview' couldn't be retrived");
+ }
+ $session->remove($network_view)
+    or die("Remove DHCP network view failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "DHCP network view object removed successfully \n";
+
+=head1 SCHEDULED OBJECT USAGE DETAILS
+
+The following are the object types for which you can schedule tasks:
+
+    Infoblox::DHCP::FixedAddr
+    Infoblox::DHCP::NetworkContainer
+    Infoblox::DHCP::IPv6NetworkContainer
+    Infoblox::DHCP::Network
+    Infoblox::DHCP::IPv6Network
+    Infoblox::DHCP::SharedNetwork
+    Infoblox::DHCP::Range
+    Infoblox::DHCP::RoamingHost
+    Infoblox::DNS::BulkHost
+    Infoblox::DNS::Host
+    Infoblox::DNS::Record::A
+    Infoblox::DNS::Record::AAAA
+    Infoblox::DNS::Record::CNAME
+    Infoblox::DNS::Record::DNAME
+    Infoblox::DNS::Record::MX
+    Infoblox::DNS::Record::PTR
+    Infoblox::DNS::Record::SRV
+    Infoblox::DNS::Record::TLSA
+    Infoblox::DNS::Record::TXT
+    Infoblox::DNS::SharedRecord::A
+    Infoblox::DNS::SharedRecord::AAAA
+    Infoblox::DNS::SharedRecord::MX
+    Infoblox::DNS::SharedRecord::SRV
+    Infoblox::DNS::SharedRecord::TXT
+    Infoblox::DNS::Zone
+    Infoblox::DNS::SRG
+    Infoblox::DNS::View
+    Infoblox::DTC::LBDN
+    Infoblox::DTC::Pool
+    Infoblox::DTC::Server
+    Infoblox::DTC::Topology
+    Infoblox::DTC::Monitor::HTTP
+    Infoblox::DTC::Monitor::SIP
+    Infoblox::DTC::Monitor::ICMP
+    Infoblox::DTC::Monitor::PDP
+    Infoblox::DTC::Monitor::TCP
+
+
+The following are the functions for which you can schedule tasks:
+
+    restart
+    network_discovery_control
+
+To allow limited-access admins to use the scheudling feature, add the permission with resource_type = "Scheduling" to the appropriate admin group (see L<Infoblox::Grid::Admin::Permission|Infoblox::Grid::Admin::Permission>).
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DNS::Record::A|Infoblox::DNS::Record::A>,
+L<Infoblox::DNS::Zone|Infoblox::DNS::Zone>,
+L<Infoblox::DNS::View|Infoblox::DNS::View>,
+L<Infoblox::DHCP::FailOver|Infoblox::DHCP::FailOver>,
+L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>,
+L<Infoblox::DHCP::NetworkContainer|Infoblox::DHCP::NetworkContainer>,
+L<Infoblox::DHCP::View|Infoblox::DHCP::View>,
+L<Infoblox::Grid::CSVImportStatus|Infoblox::Grid::CSVImportStatus>,
+L<Infoblox::Grid::Member::QueryFQDNParameter|Infoblox::Grid::Member::QueryFQDNParameter>,
+L<Infoblox::Grid::Member::QueryFQDNResponse|Infoblox::Grid::Member::QueryFQDNResponse>,
+L<Infoblox::Grid::GlobalSmartFolder|Infoblox::Grid::GlobalSmartFolder>,
+L<Infoblox::Grid::PersonalSmartFolder|Infoblox::Grid::PersonalSmartFolder>,
+L<Infoblox::Grid::ScheduledTask|Infoblox::Grid::ScheduledTask>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

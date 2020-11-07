@@ -1,0 +1,6 @@
+/opt/perl/site/lib/DBD/MariaDB.pm
+/opt/perl/site/lib/DBD/MariaDB.pod
+/opt/perl/site/lib/DBD/MariaDB/INSTALL.pod
+/opt/perl/site/lib/auto/DBD/MariaDB/MariaDB.so
+/opt/perl/site/man/man3/DBD::MariaDB.3
+/opt/perl/site/man/man3/DBD::MariaDB::INSTALL.3

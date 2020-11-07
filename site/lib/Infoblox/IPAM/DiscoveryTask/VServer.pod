@@ -1,0 +1,249 @@
+=head1 NAME
+
+Infoblox::IPAM::DiscoveryTask::VServer  - VMWare discovery server object.
+
+=head1 DESCRIPTION
+
+This object contains information about the vSphere servers on which the VM discovery is performed.
+
+=head1 CONSTRUCTOR
+
+ my $vserver = Infoblox::IPAM::DiscoveryTask::VServer->new(
+         fqdn_or_ip   => $string,           #Required.
+         password     => $string,           #Required.
+         username     => $string,           #Required.
+         disable      => "true" | "false",  #Optional. Default is "false".
+         encryption   => "true" | "false",  #Optional. Default is "true".
+         port         => $num,              #Optional. Default is 443.
+ );
+
+=head1 MODULE METHODS
+
+You can apply the following functions to a VMware vSphere server.
+
+=head2 Infoblox::IPAM::DiscoveryTask->vservers( )
+
+=over
+
+Use this function to specify the vSphere server on which the VM discovery is performed. See L<Infoblox::IPAM::DiscoveryTask-E<gt>vservers( )|Infoblox::IPAM::DiscoveryTask/vservers( )/> for parameters and returned values.
+
+=over
+
+=item B<Example>
+
+ my $vserver1 = Infoblox::IPAM::DiscoveryTask::VServer->new(
+        fqdn_or_ip => "vcenter.com",
+        username => "test1",
+        password => "test1",
+    );
+ my $vserver2 = Infoblox::IPAM::DiscoveryTask::VServer->new(
+        fqdn_or_ip => "10.2.3.4",
+        username => "test2",
+        password => "test2",
+    );
+  #Modifying vserver
+  $discovery_task->vservers([$vserver1, $vserver2]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to retrieve the attribute values of a vSphere server.
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the disable flag of a vSphere server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to disable the vSphere server or "false" to enable the server. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable flag
+ my $disable = $vserver->disable();
+ #Modify disable
+ $vserver->disable("true");
+
+=back
+
+=back
+
+=head2 encryption( )
+
+=over
+
+Use this method to set or retrieve the encryption flag of a vSphere server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable encryption or specify "false" to disable encryption on the vSphere server. The default value is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get encryption
+ my $encryption = $vserver->encryption();
+ #Modify encryption
+ $vserver->encryption("false");
+
+=back
+
+=back
+
+=head2 fqdn_or_ip( )
+
+=over
+
+Use this method to retrieve the FQDN (Fully Qualified Domain Name) or IP address of the vShpere server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The string that contains the FQDN or the IP address of the vSphere server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get fqdn_or_ip
+ my $fqdn_or_ip = $vserver->fqdn_or_ip();
+ #Modify fqdn_or_ip
+ $vserver->fqdn_or_ip("vdiscovery.example.com");
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set the user password on the vSphere server. This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+String containing password.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify password
+ $vserver->password("infobloxx");
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to retrieve the connection port that the vSphere server uses.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid values are between 1 and 65535. The default value is 443.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get port
+ my $port = $vserver->port();
+ #Modify port
+ $vserver->port(444);
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to set or retrieve the user name on the VSphere server.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The username in the string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get username
+ my $username = $vserver->username();
+ #Modify username
+ $vserver->username("someuser");
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::IPAM::DiscoveryTask|Infoblox::IPAM::DiscoveryTask>, L<Infoblox::IPAM::DiscoveryTask-E<gt>vservers()|Infoblox::IPAM::DiscoveryTask/vservers(/)/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

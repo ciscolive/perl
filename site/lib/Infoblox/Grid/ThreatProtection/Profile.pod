@@ -1,0 +1,688 @@
+=head1 NAME
+
+Infoblox::Grid::ThreatProtection::Profile - Threat Protection profile object.
+
+=head1 DESCRIPTION
+
+The Threat Protection profile object facilitates configuring groups of Threat Protection members that have similar traffic properties.
+A member can be either associated with a Threat Protection profile or inherit the ruleset from the Grid or override the ruleset individually at the member level.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::Grid::ThreatProtection::Profile->new(
+     name                                      => $string,                                                               #Required
+     comment                                   => $string,                                                               #Optional / Default is undefined
+     current_ruleset                           => $ruleset,                                                              #Optional / Default is undefined
+     disable_multiple_dns_tcp_request          => 'true' | 'false',                                                      #Optional / Default is 'true'
+     events_per_second_per_rule                => $uint,                                                                 #Optional / Default is undefined
+     extattrs                                  => { $string => $extattr, ... },                                          #Optional / Default is undefined
+     extensible_attributes                     => {$string => $string | $num, $string => [ $string | $num, ... ], ... }, #Optional / Default is undefined
+     members                                   => [$host_name | ... ],                                                   #Optional / Default is empty list
+     override_current_ruleset                  => 'true' | 'false',                                                      #Optional / Default is 'false'
+     override_disable_multiple_dns_tcp_request => 'true' | 'false',                                                      #Optional / Default is 'false'
+     override_events_per_second_per_rule       => 'true' | 'false',                                                      #Optional / Default is 'false'
+     source                                    => $tp_member | $tp_profile,                                              #Optional / Default is undefined
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+The following functions can be applied to a Infoblox::Grid::ThreatProtection::Profile object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add the object to the Infoblox appliance.
+See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct object
+ my $object = Infoblox::Grid::ThreatProtection::Profile->new(
+     name => 'profile1',
+ );
+
+ #Submit object for addition 
+ $session->add($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific Threat Protection profile object:
+
+     name                  - Optional. The Threat Protection profile name.
+     comment               - Optional. The Threat Protection profile comment.
+     extattrs              - Optional. A hash reference containing Infoblox::Grid::Extattr object.
+     extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+ my @retrieved_objs = $session->get(
+     'object' => 'Infoblox::Grid::ThreatProtection::Profile',
+     'name'   => 'profile1',
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify events_per_second_per_rule value
+ $object->events_per_second_per_rule('2');
+
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove the object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific DHCP range object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Grid::ThreatProtection::Profile',
+     name   => 'profile1',
+ );
+
+ #Find the desired object from the retrieved list
+ my $desired_object = $retrieved_objs[0];
+
+ #Submit for removal
+ my $response = $session->remove($desired_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for the Threat Protection profile object:
+
+     name                  - Optional. The Threat Protection profile name (regular expression).
+     comment               - Optional. The Threat Protection profile comment (regular expression).
+     extattrs              - Optional. A hash reference containing Infoblox::Grid::Extattr object.
+     extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, 
+see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # search for objects
+ my @retrieved_objs = $session->search(
+     object       => 'Infoblox::Grid::ThreatProtection::Profile',
+     comment      => '.*comment',
+);
+
+ # search for objects defining 'Santa Clara' for 'Site' extensible attribute
+ my @retrieved_objs = $session->search(
+     object                => 'Infoblox::Grid::ThreatProtection::Profile',
+     extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This object provides information about the Threat Protection profile settings.
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the Threat Protection profile descriptive comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a desired comment in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $value = $object->comment();
+
+ #Modify comment value
+ $object->comment('new comment');
+
+=back
+
+=back
+
+=head2 current_ruleset( )
+
+=over
+
+Use this method to set or retrieve the current Threat Protection profile ruleset.
+
+Setting this method to a defined value implicitly sets the override_current_ruleset method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_current_ruleset attribute to 'false'.
+
+Note that when current_ruleset is set to a defined value and override_dcurrent_ruleset is set to 'false', the last operation takes precedence. Thus the sequence $object->current_ruleset($rs); $object->override_current_ruleset('false'); will set override_current_ruleset to 'false', and the sequence $object->override_current_ruleset('false'); $object->current_ruleset($rs); will result in override_current_ruleset='true'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::ThreatProtection::Ruleset|Infoblox::Grid::ThreatProtection::Ruleset> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get current_ruleset value
+ my $value = $object->current_ruleset();
+
+ #Modify current_ruleset value
+ $object->current_ruleset($rs);
+
+=back
+
+=back
+
+=head2 disable_multiple_dns_tcp_request( )
+
+=over
+
+Use this method to disable multiple BIND responses via TCP connection.
+
+Setting this method to a defined value implicitly sets the override_disable_multiple_dns_tcp_request method to 'true'. Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_disable_multiple_dns_tcp_request attribute to 'false'.
+
+Note that when config is set to a defined value and override_disable_multiple_dns_tcp_request is set to 'false', the last operation takes precedence. Thus the sequence $object->disable_multiple_dns_tcp_request($value); $object->override_disable_multiple_dns_tcp_request('false'); will set override_disable_multiple_dns_tcp_request to 'false', and the sequence $object->override_disable_multiple_dns_tcp_request('false'); $object->disable_multiple_dns_tcp_request($value); will result in override_disable_multiple_dns_tcp_request='true'.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to 'true' to disable multiple TCP requests. Set the parameter to 'false' to enable multiple TCP requests.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $object->disable_multiple_dns_tcp_request();
+ # Modify attribute value
+ $object->disable_multiple_dns_tcp_request('true');
+
+=back
+
+=back
+
+=head2 events_per_second_per_rule( )
+
+=over
+
+Use this method to set or retrieve the number of events logged per second per rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The number of events logged per second per rule in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get events_per_second_per_rule value
+ my $value = $object->events_per_second_per_rule();
+
+ #Modify events_per_second_per_rule value
+ $object->events_per_second_per_rule('2');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes that are associated with a Threat Protection profile object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference that contains the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs value
+ my $value = $object->extattrs();
+
+ #Modify extattrs value
+ $object->extattrs({'Site' => $extattr1, 'Administrator' => $extattr2});
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes that are associated with a Threat Protection profile object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes value
+ my $value = $object->extensible_attributes();
+
+ #Modify extensible attributes value
+ $object->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 members( )
+
+=over
+
+Use this method to set or retrieve the list of members that are using the Threat Protection profile.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains desired Threat Protection member names in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get members value
+ my $value = $object->members();
+
+ #Modify members value
+ $object->members(['infoblox.localdomain']);
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve a Threat Protection profile name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired Threat Protection profile name in a string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $value = $object->name();
+
+ #Modify name value
+ $object->name('new_name');
+
+=back
+
+=back
+
+=head2 override_events_per_second_per_rule( )
+
+=over
+
+Use this method to set or retrieve the override flag for the number of events logged per second per rule.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set the override_events_per_second_per_rule flag or 'false' to deactivate/unset it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_events_per_second_per_rule value
+ my $value = $object->override_events_per_second_per_rule();
+
+ #Modify override_events_per_second_per_rule value
+ $object->override_events_per_second_per_rule('true');
+
+=back
+
+=back
+
+=head2 override_current_ruleset( )
+
+=over
+
+The override_current_ruleset attribute controls whether the current ruleset value is used for Threat Protection profile instead of the Grid default.
+
+The override_current_ruleset attribute can be specified explicitly. It is also set implicitly when current_ruleset is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set the override_current_ruleset flag or 'false' to deactivate/unset it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_current_ruleset value 
+ my $override = $object->override_current_ruleset();
+
+ #Modify override_current_ruleset
+ $object->override_current_ruleset('true');
+
+=back
+
+=back
+
+=head2 override_disable_multiple_dns_tcp_request( )
+
+=over
+
+The override_disable_multiple_dns_tcp_request attribute controls whether the Threat Protection profile disable_multiple_dns_tcp_request value is used instead of the Grid default.
+
+The override_disable_multiple_dns_tcp_request attribute can be specified explicitly.
+It is also set implicitly when disable_multiple_dns_tcp_request is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to set the override_disable_multiple_dns_tcp_request flag or 'false' to unset it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_disable_multiple_dns_tcp_request value
+ my $value = $object->override_disable_multiple_dns_tcp_request();
+
+ #Modify override_disable_multiple_dns_tcp_request value
+ $object->override_disable_multiple_dns_tcp_request('true');
+
+=back
+
+=back
+
+=head2 source( )
+
+=over
+
+Use this method to set the source for cloning the profile settings. This is a write-only attribute and can be used only on create operation.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Grid::Member::ThreatProtection|Infoblox::Grid::Member::ThreatProtection> or L<Infoblox::Grid::ThreatProtection::Profile|Infoblox::Grid::ThreatProtection::Profile> object reference.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify source value
+ $object->source($profile1);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object, such as add, search, modify, and remove.
+This sample also includes error handling for the operations.
+
+B<#Preparation prior to a Threat Protection profile insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+                master   => "192.168.1.2", #appliance host ip
+                username => "admin",       #appliance user login
+                password => "infoblox"     #appliance password
+                );
+
+ unless ($session) {
+        die("Construct session failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a Threat Protection profile>
+
+ my $atp_profile = Infoblox::Grid::ThreatProtection::Profile->new(
+                name    => "atp_profile1",
+                comment => "add TP profile",
+                );
+
+ unless ($atp_profile) {
+        die("Construct Threat Protection profile failed: ",
+                Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Add the Threat Protection profile object to the Infoblox appliance through a session
+ $session->add($atp_profile)
+        or die("Add Threat Protection profile failed: ",
+                        $session->status_code() . ":" . $session->status_detail());
+ print "Threat Protection profile object added to server successfully\n";
+
+B<#Search for a specific Threat Protection profile>
+
+ #Search all Threat Protection profiles that matches "atp"
+ my @retrieved_objs = $session->search(
+                object => "Infoblox::Grid::ThreatProtection::Profile",
+                name   => 'atp'
+                );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Search Threat Protection profile failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Threat Protection profile object found at least 1 matching entry\n";
+
+B<#Get and modify a Threat Protection profile>
+
+ #Get a Threat Protection profile through the session
+ my @retrieved_objs = $session->get(
+                object => "Infoblox::Grid::ThreatProtection::Profile",
+                name   => "atp_profile1"
+                );
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+        die("Get Threat Protection profile failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Threat Protection profile object found at least 1 matching entry\n";
+
+ #Modify one of the attributes of the specified Threat Protection profile 
+ $object->comment("this is new comment");
+
+ #Apply the changes
+ $session->modify($object)
+        or die("Modify Threat Protection profile failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Threat Protection profile object modified successfully \n";
+
+B<#Remove a Threat Protection profile>
+
+ #Get Threat Protection profile through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::Grid::ThreatProtection::Profile",
+     name   => "atp_profile1"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get Threat Protection profile failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Threat Protection profile object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+        or die("Remove Threat Protection profile failed: ",
+                $session->status_code() . ":" . $session->status_detail());
+ print "Threat Protection profile object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Grid::ThreatProtection::Ruleset|Infoblox::Grid::ThreatProtection::Ruleset>,
+L<Infoblox::Grid::Member::ThreatProtection|Infoblox::Grid::Member::ThreatProtection>,
+L<Infoblox::Grid::ThreatProtection::Profile|Infoblox::Grid::ThreatProtection::Profile>,
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

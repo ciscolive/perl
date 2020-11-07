@@ -1,0 +1,45 @@
+{
+   "abstract" : "Tell test runners what kind of test you are",
+   "author" : [
+      "Matthew Horsfall (alh) <WolfSage@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 4.300030, CPAN::Meta::Converter version 2.120921, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Test-DescribeMe",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "File::Temp" : "0.00",
+            "Test::More" : "0.88"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.30"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Test::More" : "0.88",
+            "Test::Settings" : "0.001"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "https://github.com/wolfsage/Test-DescribeMe",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/wolfsage/Test-DescribeMe.git"
+      }
+   },
+   "version" : "0.004",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

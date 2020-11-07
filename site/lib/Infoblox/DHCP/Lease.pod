@@ -1,0 +1,1990 @@
+=head1 NAME
+
+Infoblox::DHCP::Lease - DHCP Lease object.
+
+=head1 DESCRIPTION
+
+A DHCP lease provides information about the lease of an IP address to a DHCP client, such as the time when the Infoblox appliance issued or freed an IP address, the MAC address and host name of the client that received the IP address, and the grid member that supplied the lease. It allows the Infoblox appliance to store and correlate DHCP lease information over the lifetime of a lease.
+
+=head1 SESSION METHODS
+
+ This section describes all the methods in the Infoblox::Session module that can be applied to a DHCP Lease object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching DHCP Lease objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP Lease object:
+
+ ip_address                            - Optional. IPv4 or IPv6 address of the DHCP lease. Use this, in place of ipv4addr, even for IPv4 addresses.
+ ipv4addr                              - Optional. IPv4 address (32 bits) of the DHCP lease. This attribute is being deprecated in favor of the ip_address attribute.
+ ipv6_duid                             - Optional. IPv6 DUID of the DHCP lease. (For IPv6 leases only)
+ protocol                              - Optional. Specify whether to get IPv4, IPv6, or both leases. Allowed values are: 'IPV4', 'IPV6', and 'BOTH'.
+ start_addr                            - Optional. Start IPv4 or IPv6 address of the DHCP range.
+ end_addr                              - Optional. End IPv4 or IPv6 address of the DHCP range.
+ network_view                          - Optional. Name of the network view that contains the lease.
+ mac                                   - Optional. MAC address of the DHCP lease. (For IPv4 leases only)
+ username                              - Optional. User name associated with the DHCP lease.
+ client_hostname                       - Optional. Client hostname of a DHCP lease.
+ fingerprint                           - Optional. DHCP fingerprint description.
+ remote_id                             - Optional. Relay agent remote ID, a sub-option of DHCP option 82. (For IPv4 leases only)
+
+ discovered_duid                       - Optional. Discovered DHCPv6 UID.
+ discovered_name                       - Optional. Discovered name.
+ discoverer                            - Optional. Discoverer name.
+ first_discovered                      - Optional. Time of the first discovery.
+ last_discovered                       - Optional. Time of the last discovery.
+ netbios                               - Optional. Discovered NetBIOS name.
+ network_component_description         - Optional. Discovered network component description.
+ network_component_ip                  - Optional. Discovered network component IP address.
+ network_component_name                - Optional. Discovered network component name.
+ network_component_port_description    - Optional. Discovered network component port description.
+ network_component_port_name           - Optional. Discovered network component port name.
+ network_component_port_number         - Optional. Discovered network component port number.
+ network_component_type                - Optional. Discovered network component type.
+ os                                    - Optional. Discovered OS.
+ port_duplex                           - Optional. Discovered port duplex settings.
+ port_link_status                      - Optional. Discovered port link status.
+ port_speed                            - Optional. Discovered port speed settings.
+ port_status                           - Optional. Discovered port status settings.
+ port_vlan_description                 - Optional. Discovered port VLAN description.
+ port_vlan_name                        - Optional. Discovered port VLAN name.
+ port_vlan_number                      - Optional. Discovered port VLAN number.
+ v_cluster                             - Optional. Discovered VMware cluster name. (For IPv4 leases only)
+ v_datacenter                          - Optional. Discovered VMware datacenter name. (For IPv4 leases only)
+ v_host                                - Optional. Discovered VMware server name. (For IPv4 leases only)
+ v_name                                - Optional. Discovered VMware host or virtual machine name. (For IPv4 leases only)
+ v_netadapter                          - Optional. Discovered VMware physical network adapter name. (For IPv4 leases only)
+ v_switch                              - Optional. Discovered VMware virtual switch name. (For IPv4 leases only)
+ v_type                                - Optional. Discovered VMware entity type (possible values: "VirtualMachine", "HostSystem", "VirtualCenter").
+
+=item B<Example>
+
+ #Get a DHCP lease by IP address.
+ my @retrieved_objs = $session->get(
+                           object   => "Infoblox::DHCP::Lease",
+                           ip_address => "10.0.0.10"
+                           mac      => "22:22:22:22:22:22",
+                           username => "johndoe"
+                           );
+ my @retrieved_objs = $session->get(
+                           object   => "Infoblox::DHCP::Lease",
+                           ip_address => "2001::1"
+                           username => "johndoe"
+                           );
+
+ #Get DHCP leases in a DHCP range.
+ my @retrieved_objs = $session->get(
+                           object     => "Infoblox::DHCP::Lease" ,
+                           start_addr => "10.0.0.1",
+                           end_addr   => "10.0.0.10"
+                           );
+ my @retrieved_objs = $session->get(
+                           object     => "Infoblox::DHCP::Lease" ,
+                           start_addr => "2001::1",
+                           end_addr   => "2001::5"
+                           );
+
+ #Get DHCP leases by v_type:
+ my @retrieved_objs = $session->get(
+   object    => 'Infoblox::DHCP::Lease',
+   v_type    => 'VirtualMachine');
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove a DHCP Lease object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Remove a DHCP IPv4 Lease object.
+ my $object = $session->get(
+     object   => "Infoblox::DHCP::Lease",
+     ip_address => "10.0.0.10"
+     mac      => "22:22:22:22:22:22",
+     username => "johndoe"
+ );
+ my $response = $session->remove($object);
+
+ #Remove a DHCP IPv6 Lease object.
+ my $object = $session->get(
+     object   => "Infoblox::DHCP::Lease",
+     ip_address => "2001::1"
+     username => "johndoe"
+ );
+ my $response = $session->remove($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for DHCP Lease objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+  Apply the following attributes to search for a DHCP Lease object:
+
+  ip_address                            - Optional. IPv4 or IPv6 address of the DHCP lease. Use this, in place of ipv4addr, even for IPv4 addresses (regular expression).
+  ipv4addr                              - Optional. IPv4 address (32 bits) of the DHCP lease. This attribute is being deprecated in favor of the ip_address attribute (regular exression).
+  ipv6_duid                             - Optional. IPv6 DUID of the DHCP lease (regular expression). (For IPv6 leases only)
+  protocol                              - Optional. Specify whether to get IPv4, IPv6, or both leases. Allowed values are: 'IPV4', 'IPV6', and 'BOTH'.
+  mac                                   - Optional. MAC address of the DHCP lease (regular expression). (For IPv4 leases only)
+  network_view                          - Optional. Name of the network view that contains the lease.
+  username                              - Optional. User name associated with the DHCP lease (regular expression).
+  start_addr                            - Optional. Start IPv4 or IPv6 address of the DHCP range.
+  end_addr                              - Optional. End IPv4 or IPv6 address of the DHCP range.
+  client_hostname                       - Optional. Client hostname of a DHCP lease (regular expression).
+  fingerprint                           - Optional. DHCP fingerprint description (regular expression).
+  remote_id                             - Optional. Relay agent remote ID, a sub-option of DHCP option 82 (regular expression).
+
+  discovered_duid                       - Optional. Discovered DHCPv6 UID (exact search only).
+  discovered_name                       - Optional. Discovered name(regex).
+  discoverer                            - Optional. Discoverer name(regex).
+  first_discovered                      - Optional. Time of the first discovery (in ISO format, exact search only).
+  last_discovered                       - Optional. Time of the last discovery (in ISO format, exact search only).
+  netbios                               - Optional. Discovered NetBIOS name(regex).
+  network_component_description         - Optional. Discovered network component description(regex).
+  network_component_ip                  - Optional. Discovered network component IP address(regex).
+  network_component_name                - Optional. Discovered network component name(regex).
+  network_component_port_description    - Optional. Discovered network component port description(regex).
+  network_component_port_name           - Optional. Discovered network component port name(regex).
+  network_component_port_number         - Optional. Discovered network component port number (exact search only).
+  network_component_type                - Optional. Discovered network component type(regex).
+  os                                    - Optional. Discovered OS (regex).
+  port_duplex                           - Optional. Discovered port duplex settings (exact search only).
+  port_link_status                      - Optional. Discovered port link status (exact search only).
+  port_speed                            - Optional. Discovered port speed settings (exact search only).
+  port_status                           - Optional. Discovered port status settings (exact search only).
+  port_vlan_description                 - Optional. Discovered port VLAN description(regex).
+  port_vlan_name                        - Optional. Discovered port VLAN name(regex).
+  port_vlan_number                      - Optional. Discovered port VLAN number(exact search only).
+  v_cluster                             - Optional. Discovered VMware cluster name (regular expression). (For IPv4 leases only)
+  v_datacenter                          - Optional. Discovered VMware datacenter name (regular expression). (For IPv4 leases only)
+  v_host                                - Optional. Discovered VMware server name (regular expression). (For IPv4 leases only)
+  v_name                                - Optional. Discovered VMware host or virtual machine name (regular expression). (For IPv4 leases only)
+  v_netadapter                          - Optional. Discovered VMware physical network adapter name (regular expression). (For IPv4 leases only)
+  v_switch                              - Optional. Discovered VMware virtual switch name (regular expression). (For IPv4 leases only)
+  v_type                                - Optional. Discovered VMware entity type (possible values: "VirtualMachine", "HostSystem", "VirtualCenter"). (For IPv4 leases only)
+
+=item B<Example>
+
+ #Search a DHCP lease.
+ my @result_array = $session->search(
+                     object   => "Infoblox::DHCP::Lease",
+                     ip_address => "^10\.*",
+                     mac      => "22:.*",
+                     username => "john.*"
+                     );
+ my @result_array = $session->search(
+                     object   => "Infoblox::DHCP::Lease",
+                     ip_address => "^ff::.*",
+                     username => "john.*"
+                     );
+
+ # search a DHCP lease by v_datacenter:
+ my @retrieved_objs = $session->search(
+    object       => 'Infoblox::DHCP::Lease',
+    v_datacenter => 'test.*');
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute value of a DHCP Lease object.
+
+=head2 billing_class( )
+
+=over
+
+Use this method to retrieve the billing_class of a DHCP Lease object. This method specifies the class to which this lease is currently billed. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get billing_class
+ my $billing_class = $lease->billing_class();
+
+=back
+
+=back
+
+=head2 binding_state( )
+
+=over
+
+Use this method to retrieve the binding state for the current lease. The lease state can be one of the following:
+
+ Free     : The lease is available for clients to use.
+ Active   : The lease is currently in use by a DHCP client.
+ Expired  : The lease was in use, but the DHCP client never renewed it, so it is no longer valid.
+ Released : The DHCP client returned the lease to the appliance.
+ Abandoned: The Infoblox appliance cannot lease this IP address because the appliance received a response when it pinged the address.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get binding_state
+ my $binding_state = $lease->binding_state();
+
+=back
+
+=back
+
+=head2 client_hostname( )
+
+=over
+
+Use this method to retrieve the client_hostname of a DHCP Lease object. This method specifies the host name that the DHCP client sends to the Infoblox appliance using DHCP option 12.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_hostname
+ my $client_hostname = $lease->client_hostname();
+
+=back
+
+=back
+
+=head2 cltt( )
+
+=over
+
+Use this method to retrieve the CLTT (Client Last Transaction Time) value of a DHCP Lease object. This method specifies the time of the last transaction with the DHCP client for this lease.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get cltt
+ my $cltt = $lease->cltt();
+
+=back
+
+=back
+
+=head2 discovered_data( )
+
+=over
+
+Use this method to retrieve the discovered data of a DHCP Lease object. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data> object.
+
+=item B<Example>
+
+ #Get discovered_data value
+ my $discovered_data = $object->discovered_data();
+
+=back
+
+=back
+
+=head2 discovered_duid( )
+
+=over
+
+Use this method to retrieve the discovered DHCPv6 UID (DUID) of a DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_duid
+ my $discovered_duid = $bindptr->discovered_duid();
+
+=back
+
+=back
+
+=head2 discovered_name( )
+
+=over
+
+Use this method to retrieve the discovered name of a DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discovered name.
+
+=item B<Example>
+
+ #Get discovered_name
+ my $discovered_name = $lease->discovered_name();
+
+=back
+
+=back
+
+=head2 discoverer( )
+
+=over
+
+Use this method to retrieve the discoverer of a DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the discoverer value.
+
+=item B<Example>
+
+ #Get discoverer
+ my $discoverer = $lease->discoverer();
+
+=back
+
+=back
+
+=head2 ends( )
+
+=over
+
+Use this method to retrieve the end time value of a DHCP Lease object. This method specifies the day, date, and time that a lease ended.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ends
+ my $ends = $lease->ends();
+
+=back
+
+=back
+
+=head2 fingerprint( )
+
+=over
+
+Use this method to retrieve the descripiton of the DHCP fingerprint of a DHCP Lease object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get fingerprint
+ my $fingerprint = $lease->fingerprint();
+
+=back
+
+=back
+
+=head2 first_discovered( )
+
+=over
+
+Use this method to retrieve the date and time when the DHCP Lease object was first discovered.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the date and time when the DHCP Lease object was first discovered.
+
+=item B<Example>
+
+ #Get first_discovered
+ my $first_discovered = $lease->first_discovered();
+
+=back
+
+=back
+
+=head2 hardware( )
+
+=over
+
+Use this method to retrieve the hardware type of a DHCP Lease object. This method specifies the MAC address of the network interface on which the lease will be used. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get hardware
+ my $hardware = $lease->hardware();
+
+=back
+
+=back
+
+=head2 ip_address( )
+
+=over
+
+Use this method to retrieve the IPv4 or IPv6 address that the Infoblox appliance leased to the DHCP client. Use this method, in place of the ipv4addr() method, even for IPv4 addresses.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ip_address
+ my $ip_address = $lease->ip_address();
+
+=back
+
+=back
+
+=head2 ipv4addr( )
+
+=over
+
+Use this method to retrieve the IP address that the Infoblox appliance leased to the DHCP client. This method is being deprecated in favor of the ip_address() method. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv4addr
+ my $ipv4addr = $lease->ipv4addr();
+
+=back
+
+=back
+
+=head2 ipv6_duid( )
+
+=over
+
+Use this method to retrieve the DUID value of an IPv6 address that the Infoblox appliance leased to the DHCP client. This method is for IPv6 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_duid
+ my $ipv6_duid = $lease->ipv6_duid();
+
+=back
+
+=back
+
+=head2 ipv6_iaid( )
+
+=over
+
+Use this method to retrieve the Interface ID value of an IPv6 address that the Infoblox appliance leased to the DHCP client. This method is for IPv6 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_iaid
+ my $ipv6_iaid = $lease->ipv6_iaid();
+
+=back
+
+=back
+
+=head2 ipv6_preferred_lifetime( )
+
+=over
+
+Use this method to retrieve the preferred lifetime value of an IPv6 address that the Infoblox appliance leased to the DHCP client. This method is for IPv6 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_preferred_lifetime
+ my $ipv6_preferred_lifetime = $lease->ipv6_preferred_lifetime();
+
+=back
+
+=back
+
+=head2 ipv6_prefix_bits( )
+
+=over
+
+Use this method to retrieve the prefix bits value of an IPv6 address that the Infoblox appliance leased to the DHCP client. This method is for IPv6 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6_prefix_bits
+ my $ipv6_prefix_bits = $lease->ipv6_prefix_bits();
+
+=back
+
+=back
+
+=head2 is_invalid_mac( )
+
+=over
+
+Use this method to retrieve the flag used to indicate whether an invalid MAC address is used. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get is_invalid_mac value
+ my $is_invalid_mac = $lease->is_invalid_mac();
+
+=back
+
+=back
+
+=head2 last_discovered( )
+
+=over
+
+Use this method to retrieve the time when this object was last discovered.
+
+The default value for this field is empty.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_discovered
+ my $last_discovered = $lease->last_discovered();
+
+=back
+
+=back
+
+=head2 mac( )
+
+=over
+
+Use this method to retrieve the MAC address of the DHCP client that leased the IP address. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get mac
+ my $mac = $lease->mac();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $lease->ms_ad_user_data();
+
+=back
+
+=back
+
+
+=head2 network( )
+
+=over
+
+Use this method to find the network associated with this lease. This property is read-only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the network associated with the lease in the string of the form "network/netmask".
+
+=item B<Example>
+
+ #Get network property of the lease
+ my $network = $lease->network();
+
+=back
+
+=back
+
+=head2 network_component_description( )
+
+=over
+
+Use this method to retrieve the description of the network device that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device description.
+
+=item B<Example>
+
+ #Get network_component_description
+ my $network_component_description = $lease->network_component_description();
+
+=back
+
+=back
+
+=head2 network_component_ip( )
+
+=over
+
+Use this method to retrieve the IP address of the network device that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device IP address.
+
+=item B<Example>
+
+ #Get network_component_ip
+ my $network_component_ip = $lease->network_component_ip();
+
+=back
+
+=back
+
+=head2 network_component_name( )
+
+=over
+
+Use this method to retrieve the name of the network device that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device name.
+
+=item B<Example>
+
+ #Get network_component_name
+ my $network_component_name = $lease->network_component_name();
+
+=back
+
+=back
+
+=head2 network_component_port_description( )
+
+=over
+
+Use this method to retrieve the description of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the description of the network device port.
+
+=item B<Example>
+
+ #Get network_component_port_description
+ my $network_component_port_description = $lease->network_component_port_description();
+
+=back
+
+=back
+
+=head2 network_component_port_name( )
+
+=over
+
+Use this method to retrieve the name of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the name of the port on the network device.
+
+=item B<Example>
+
+ #Get network_component_port_name
+ my $network_component_port_name = $lease->network_component_port_name();
+
+=back
+
+=back
+
+=head2 network_component_port_number( )
+
+=over
+
+Use this method to retrieve the number of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device port number.
+
+=item B<Example>
+
+ #Get network_component_port_number
+ my $network_component_port_number = $lease->network_component_port_number();
+
+=back
+
+=back
+
+=head2 network_component_type( )
+
+=over
+
+Use this method to retrieve the type of the network device that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the network device type.
+
+=item B<Example>
+
+ #Get network_component_type
+ my $network_component_type = $lease->network_component_type();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to retrieve the network view of the DHCP lease.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+This method returns the network view of the DHCP lease as L<Infoblox::DHCP::View|Infoblox::DHCP::View> object.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $lease->network_view();
+
+=back
+
+=back
+
+=head2 netbios( )
+
+=over
+
+Use this method to retrieve the name in the NetBIOS reply that responded to a NetBIOS query.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get netbios
+ my $netbios = $lease->netbios();
+
+=back
+
+=back
+
+=head2 next_binding_state( )
+
+=over
+
+Use this method to retrieve the subsequent binding state when the current lease expires. This method is for IPv4 leases only.
+
+ Free     : The lease is available for clients to use.
+ Active   : The lease is currently in use by a DHCP client.
+ Expired  : The lease was in use, but the DHCP client never renewed it, so it is no longer valid.
+ Released : The DHCP client returned the lease to the appliance.
+ Abandoned: The Infoblox appliance cannot lease this IP address because the appliance received a response when it pinged the address.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get next_binding_state
+ my $next_binding_state = $lease->next_binding_state();
+
+=back
+
+=back
+
+=head2 on_commit( )
+
+=over
+
+Use this method to retrieve the list of commands to be executed upon the granting of the lease.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get on_commit
+ my $on_commit = $lease->on_commit();
+
+=back
+
+=back
+
+=head2 on_expiry( )
+
+=over
+
+Use this method to retrieve the list of commands to be executed upon the expiration of the lease.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get on_expiry
+ my $on_expiry = $lease->on_expiry();
+
+=back
+
+=back
+
+=head2 on_release( )
+
+=over
+
+Use this method to retrieve the list of commands to be executed upon the release of the lease.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get on_release
+ my $on_release = $lease->on_release();
+
+=back
+
+=back
+
+=head2 option( )
+
+=over
+
+Use this method to retrieve the option value of a DHCP Lease object. This method specifies the agent circuit ID and remote ID sent by a DHCP relay agent in DHCP option 82. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get option
+ my $option = $lease->option();
+
+=back
+
+=back
+
+=head2 os( )
+
+=over
+
+Use this method to retrieve the operating system associated with this DHCP lease.
+
+=over
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get os
+ my $os = $lease->os();
+
+=back
+
+=back
+
+=head2 port_duplex( )
+
+=over
+
+Use this method to retrieve the duplex setting of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the duplex setting of the network device port. The returend value, if any, is one of the following:
+
+  Full
+  Half
+
+=item B<Example>
+
+ #Get port_duplex
+ my $port_duplex = $lease->port_duplex();
+
+=back
+
+=back
+
+=head2 port_link_status( )
+
+=over
+
+The method returns the link status of the network device port. The returned value, if any, is one of the following:
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the port link status. Returned values, if any, are one of the following:
+
+  Connected
+  Not Connected
+  Unknown
+
+=item B<Example>
+
+ #Get port_link_status
+ my $port_link_status = $lease->port_link_status();
+
+=back
+
+=back
+
+=head2 port_speed( )
+
+=over
+
+Use this method to retrieve the speed of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the speed value of the network device port. The returned value, if any, is one of the following:
+
+  10M
+  100M
+  1G
+  10G
+  100G
+  Unknown
+
+=item B<Example>
+
+ #Get port_speed
+ my $port_speed = $lease->port_speed();
+
+=back
+
+=back
+
+=head2 port_status( )
+
+=over
+
+Use this method to retrieve the status of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the status of the network device port. The returned value, if any, is one of the following:
+
+  Up
+  Down
+  Unknown
+
+=item B<Example>
+
+ #Get port_status
+ my $port_status = $lease->port_status();
+
+=back
+
+=back
+
+=head2 port_vlan_description( )
+
+=over
+
+Use this method to retrieve the VLAN description of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN description of the network device port.
+
+=item B<Example>
+
+ #Get port_vlan_description
+ my $port_vlan_description = $lease->port_vlan_description();
+
+=back
+
+=back
+
+=head2 port_vlan_name( )
+
+=over
+
+Use this method to retrieve the VLAN name of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN name of the network device port.
+
+=item B<Example>
+
+ #Get port_vlan_name
+ my $port_vlan_name = $lease->port_vlan_name();
+
+=back
+
+=back
+
+=head2 port_vlan_number( )
+
+=over
+
+Use this method to retrieve the VLAN number of the network device port that is connected to the DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+The method returns the VLAN number of the network device port.
+
+=item B<Example>
+
+ #Get port_vlan_number
+ my $port_vlan_number = $lease->port_vlan_number();
+
+=back
+
+=back
+
+=head2 protocol( )
+
+=over
+
+Use this method to determine whether the IP address the Infoblox appliance leased an IPv4 or IPv6 address to the client.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value ('IPV4' or 'IPV6').
+
+=item B<Example>
+
+ #Get protocol
+ my $protocol = $lease->protocol();
+
+=back
+
+=back
+
+=head2 remote_id( )
+
+=over
+
+Use this method to retrieve an agent remote ID (option 82 sub-option). This is a read-only attribute.
+
+Remote ID can be presented either in the ASCII form (e.g. "abcd") or in the form of colon separated HEX values (e.g. 1:2:ab:cd). HEX representation is only used when sub-option value contains unprintable characters. If a remode ID sub-option value is an ASCII string, it's always enclosed in quotes to prevent ambiguous values (e.g. "10:20" - ASCII 5 byte string; 10:20 - HEX 2 byte value).
+Remote ID can be in ASCII form (e.g. ""abcd"") or in colon-separated HEX form (e.g. "1:2:ab:cd").
+
+ ASCII: ASCII representation is used if the remote ID sub-option contains only printable ASCII charaters (ASCII characters in range "x20-0x7E").
+        - The backslash symbol (\) is used as an escape symbol to escape the quote symbol (") in an ASCII string.
+        - Double backslashes (\\) are used to represent the backslash symbol (\) in an ASCII string.
+ HEX  : HEX representation is used only when the remote ID sub-option value contains unprintable characters and is normalized as follows:
+        - starting zero is removed from digits: 1, a - Valid, 01, 0a - Invalid;
+        - lowercase characters are used for symbols: fa - Valid, FA - Invalid.
+
+NIOS does not support the convertion between HEX and ASCII formats. Searches are performed using the exact same format and value as the sub-option is represented.
+
+Query examples assume the following leases are stored in the database:
+
+ Number  : option field                                                     : extracted remote_id field
+ Lease01 : agent.remote-id="00152654358700" agent.circuit-id="BX1-PORT-003" : "00152654358700"
+ Lease02 : agent.remote-id="Dhcp Relay 10" agent.circuit-id="Port008"       : "Dhcp Relay 10"
+ Lease03 : agent.remote-id="00:01:02"                                       : "00:01:02"
+ Lease04 : agent.remote-id=0:1:2                                            : 0:1:2
+ Lease05 : agent.remote-id=02:03                                            : 2:3
+ Lease06 : agent.remote-id=10:20                                            : 10:20
+ Lease07 : agent.circuit-id="no-remote-id"                                  :
+
+Expected results:
+
+ Query                     : Returned leases                                      : Comments
+ remote_id=01:02           : None                                                 : EXACT query. No results are expected
+ remote_id="Dhcp Relay 10" : Lease02                                              : EXACT query for an ASCII value.
+ remote_id=0:1:2           : Lease04                                              : EXACT query for a HEX value.
+ remote_id=00:01:02        : None                                                 : EXACT query for a HEX value. No results are expected as the search value is not normalized to the same format used in the database.
+ remote_id~=10             : Lease02, Lease06                                     : REGEX query.
+ remote_id~=^".*1          : Lease01, Lease02, Lease03                            : REGEX query. Only ASCII values are expected due to the starting quote (") in the search value.
+ remote_id~=^[^"]*2        : Lease04, Lease05, Lease06                            : REGEX query. Only HEX values are expected as the starting quote (") is excluded from the search value.
+ remote_id=""              : None                                                 : EXACT query. No results are expected as no leases that contain an empty remote ID value exist in the database.
+ remote_id~=""             : Lease01, Lease02, Lease03, Lease04, Lease05, Lease06 : REGEX query. This query is expected to match any lease that contains remote ID set to any value.
+
+NOTE: EXACT queries (without the ~ symbol) are perfomed using the get method. REGEX queries (with the ~ symbol) are perfomed using the search method.
+
+NOTE: Lease07 is not expected to be returned when searching for the remote ID sub-option.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get remote_id
+ my $remote_id = $lease->remote_id();
+
+=back
+
+=back
+
+=head2 starts( )
+
+=over
+
+Use this method to retrieve the start time value of a DHCP Lease object. This method specifies the day, date, and time that the lease started.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get starts
+ my $starts = $lease->starts();
+
+=back
+
+=back
+
+=head2 tsfp( )
+
+=over
+
+Use this method to retrieve the TSFP (Time Sent From Partner) value of a DHCP Lease object. This method specifies the time that the current lease state ends, from the point of view of a remote DHCP failover peer. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get tsfp
+ my $tsfp = $lease->tsfp();
+
+=back
+
+=back
+
+=head2 tstp( )
+
+=over
+
+Use this method to retrieve the TSTP (Time Sent To Partner) value of a DHCP Lease object. This method specifies the time that the current lease state ends, from the point of view of a local DHCP failover peer. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get tstp
+ my $tstp = $lease->tstp();
+
+=back
+
+=back
+
+=head2 uid( )
+
+=over
+
+Use this method to retrieve the UID (User ID) value of a DHCP Lease object. This method specifies the client identifier that the DHCP client sends the Infoblox appliance (in DHCP option 61) when it acquires the lease. Not all DHCP clients send a UID. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get uid
+ my $uid = $lease->uid();
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to retrieve the user name that the server has associated with a DHCP Lease object.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get username
+ my $username = $lease->username();
+
+=back
+
+=back
+
+=head2 served_by( )
+
+=over
+
+Use this method to retrieve the IP address of the server that hands out an active lease to a client.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get served_by
+ my $served_by = $lease->served_by();
+
+=back
+
+=back
+
+=head2 variable( )
+
+=over
+
+Use this method to retrieve the variable value of a DHCP Lease object. This method keeps all variables related to the DDNS update of the DHCP lease. The variables can be one of the following:
+
+ ddns-text        : The ddns-text variable is used to record the value of the client's TXT identification record when the
+                    interim DDNS update style has been used to update the DNS service for a particular lease.
+
+ ddns-fwd-name    : The ddns-fwd-name variable records the value of the name used when the client's A record was updated, if a DDNS
+                    update was successfully completed by the server. The server may have used this name when it updated the
+                    client's PTR record as well.
+
+ ddns-client-fqdn : If the server is configured to use the interim DDNS update style, and is also configured to allow clients
+                    to update their own FQDNs, and the client did in fact update its own FQDN, then the ddns-client-fqdn
+                    variable records the name that the client indicated it used. This is also the name that the server
+                    used to update the client's PTR record in this case.
+
+ ddns-rev-name    : If the server successfully updates the client's PTR record, this variable will record the name that the
+                    DHCP server used for the PTR record. The name to which the PTR record points will be either the
+                    ddns-fwd-name or the ddns-client-fqdn.
+
+=over
+
+=item B<Parameter>
+
+N/A
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get variable
+ my $variable = $lease->variable();
+
+=back
+
+=back
+
+=head2 v_cluster( )
+
+=over
+
+Use this method to retrieve the name of the VMware cluster associated with the DHCP Lease object. This method is read-only. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware cluster name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_cluster
+ my $v_cluster = $lease->v_cluster();
+
+=back
+
+=back
+
+=head2 v_datacenter( )
+
+=over
+
+Use this method to retrieve the name of the VMware datacenter associated with the DHCP Lease object. This method is read-only. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware datacenter name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_datacenter
+ my $v_datacenter = $lease->v_datacenter();
+
+=back
+
+=back
+
+=head2 v_host( )
+
+=over
+
+Use this method to retrieve the name of the VMware host associated with the DHCP Lease object. This method is read-only. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware host name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_host
+ my $v_host = $lease->v_host();
+
+=back
+
+=back
+
+=head2 v_name( )
+
+=over
+
+Use this method to retrieve the name of the VMware entity associated with the DHCP Lease object. This method is read-only. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware entity name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_name
+ my $v_name = $lease->v_name();
+
+=back
+
+=back
+
+=head2 v_netadapter( )
+
+=over
+
+Use this method to retrieve the name of the physical network adapter through which the VMware entity is connected to the appliance. This method is read-only. This method is for IPv4 leases ohly.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the network adapter name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_netadapter
+ my $v_netadapter = $lease->v_netadapter();
+
+=back
+
+=back
+
+=head2 v_switch( )
+
+=over
+
+Use this method to retrieve the name of the virtual switch through which the VMware entity is connected to the appliance. This method is read-only. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the virtual switch name. The default value is an empty string.
+
+=item B<Example>
+
+ #Get v_switch
+ my $v_switch = $lease->v_switch();
+
+=back
+
+=back
+
+=head2 v_type( )
+
+=over
+
+Use this method to retrieve the type of VMware entity associated with the DHCP Lease object. This method is read-only. This method is for IPv4 leases only.
+
+=over
+
+=item B<Parameter>
+
+none
+
+=item B<Returns>
+
+This method returns a string that contains the VMware entity name. The default value is an empty string. The returned value, if any, can be one of the following:
+
+ VirtualMachine
+ HostSystem
+ VirtualCenter
+
+=item B<Example>
+
+ #Get v_type
+ my $v_type = $lease->v_type();
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to a DHCP Lease object, such as get, search, and remove. Also, this sample code includes error handling for the operations.
+
+B<#Preparation prior to DHCP Lease operations>
+
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+ my $host_ip   = "192.168.1.2";
+ my $host_name = "infoblox.localdomain";
+ my $session = Infoblox::Session->new(
+     master   => $host_ip,       #appliance host ip
+     username => "admin",        #appliance user login
+     password => "infoblox"      #appliance password
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully.\n";
+
+ #Create a member object
+  my $member = Infoblox::DHCP::Member->new(
+     name     => $host_name,
+     ipv4addr => $host_ip,
+ );
+
+ unless($member) {
+      die("Construct member failed: ",
+            Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Member object created successfully\n";
+
+ #Create a network object
+ my $network = Infoblox::DHCP::Network->new(
+                             network  => "10.0.0.0/8",
+                             comment  => "add network",
+                             members  => [$member]
+                             );
+ unless($network){
+        die("Construct network object fail: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+
+ print"Network object created successfully.\n";
+
+ #Verify if the network exists
+ my $object = $session->get(
+                object  => "Infoblox::DHCP::Network",
+                network => "10.0.0.0/8"
+                );
+ unless($object){
+        print"Network does not exist on server, safe to add the network.\n";
+        $session->add($network)
+                or die("Add network failed: ",
+                        $session->status_code(). ":" .$session->status_detail());
+        }
+
+ print"Network added successfully.\n";
+
+ #Create a dhcp range object
+ my $dhcp_range = Infoblox::DHCP::Range->new(
+     network    => "10.0.0.0/8",
+     start_addr => "10.0.0.1",
+     end_addr   => "10.0.0.10",
+     member     => $member,
+ );
+
+ unless($dhcp_range){
+        die("Construct dhcp range object failed: ",
+                Infoblox::status_code(). ":" .Infoblox::status_detail());
+        }
+
+ print "dhcp range object created successfully.\n";
+
+ #Add the dhcp range to the Infoblox appliance
+ $session->add($dhcp_range)
+                or die("Add dhcp range failed: ",
+                        $session->status_code(). ":" .$session->status_detail());
+
+ print "dhcp range added successfully.\n";
+
+ my $result = $session->import_data(
+        "type" => "leases",
+        "path"=> "./API_unit_test_sample_code/import_dhcpd.lease",
+        "format" => "ISC",
+        "lease_precedence" => "replace-previous"
+       );
+
+ unless($result){
+         die("Import lease failed: ",
+           $session->status_code() . ":" . $session->status_detail());
+  }
+
+ print "Import dhcp lease successfull.\n";
+
+B<#Search for a DHCP Lease object>
+
+ my @retrieved_objs= $session->search(
+                     object   => "Infoblox::DHCP::Lease" ,
+                     ipv4addr => '^10\..*'
+                     );
+ my $desired_lease = $retrieved_objs[0];
+ unless($desired_lease){
+         die("search lease failed: ",
+           $session->status_code() . ":" . $session->status_detail());
+  }
+
+ print "Search dhcp lease object found at least 1 matching entry\n";
+
+B<#Get a DHCP Lease object>
+
+ #Get a DHCP lease by IP address.
+ my @retrieved_objs = $session->get(
+                          object   => "Infoblox::DHCP::Lease",
+                          ipv4addr => "10.0.0.10"
+                          );
+ my $desired_lease = $retrieved_objs[0];
+ unless($desired_lease){
+         die("get lease failed: ",
+           $session->status_code() . ":" . $session->status_detail());
+  }
+
+ print "Get dhcp lease object found at least 1 matching entry\n";
+
+B<#Remove a DHCP Lease object>
+
+ #Submit the object for removal
+ $session->remove($desired_lease)
+     or die("Remove dhcp lease failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "dhcp lease object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>,
+L<Infoblox::DHCP::View|Infoblox::DHCP::View>,
+L<Infoblox::DHCP::Range|Infoblox::DHCP::Range>,
+L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>,
+L<Infoblox::DHCP::IPv6Range|Infoblox::DHCP::IPv6Range>,
+L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>,
+L<Infoblox::Grid::Discovery::Data|Infoblox::Grid::Discovery::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

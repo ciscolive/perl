@@ -1,0 +1,1706 @@
+=head1 NAME
+
+Infoblox::DHCP::IPv6NetworkTemplate - DHCP IPv6 Network Template object
+
+=head1 DESCRIPTION
+
+You can use a template to create IPv6 networks in a quick and consistent way. Networks created from a network template inherit all the properties defined in the network template, except for the comment and cidr if they are defined in the network.
+
+=head1 CONSTRUCTOR
+
+ my $ipv6network_template = Infoblox::DHCP::IPv6NetworkTemplate->new(
+          name                                   => $string,                                        #Required
+          allow_any_netmask                      => "true" | "false",                               #Optional / Default is "false"
+          auto_create_reversezone                => "true" | "false",                               #Optional / Default is "false"
+          cidr                                   => $num,                                           #Optional / Default is undefined
+          comment                                => $string,                                        #Optional / Default is empty
+          ddns_domainname                        => $fqdn,                                          #Optional / Default is undefined
+          ddns_enable_option_fqdn                => "true" | "false" ,                              #Optional / Default is "false"
+          ddns_generate_hostname                 => "true" | "false" | undef,                       #Optional / Default is undefined
+          ddns_server_always_updates             => "true" | "false",                               #Optional / Default is "true"
+          ddns_ttl                               => $num,                                           #Optional / Default is 0
+          domain_name                            => $fqdn,                                          #Optional / Default is undefined
+          domain_name_servers                    => "$ipv6addr1,$ipv6addr2,...",                    #Optional / Default is undefined
+          enable_ddns                            => "true" | "false" | undef,                       #Optional / Default is undefined
+          extattrs                               => { $string => $extattr, ... },                   #Required if 'rir_organization' attribute is defined
+                                                                                                    #Otherwise is optional
+          extensible_attributes                  => { $string => $string | $num, $string => [ $string | $num, ... ], ... },
+                                                                                                    #Required if 'rir_organization' attribute is defined
+                                                                                                    #Otherwise is optional
+
+          fixed_address_templates                => [$DhcpTemplate1,$DhcpTemplate2,...],            #Optional / Default is empty
+          ipv6prefix                             => $ipv6prefix,                                    #Optional / Default is undefined
+          members                                => [$Member1, $Member2, ...],                      #Optional / Default is empty
+          options                                => [$Option1, $Option2, ...],                      #Optional / Default is empty list
+          override_ddns_domainname               => "true" | "false",                               #Optional / Default is "false"
+          override_ddns_enable_option_fqdn       => "true" | "false",                               #Optional / Default is "false"
+          override_ddns_generate_hostname        => "true" | "false",                               #Optional / Default is "false"
+          override_ddns_ttl                      => "true" | "false",                               #Optional / Default is "false"
+          override_domain_name                   => "true" | "false",                               #Optional / Default is "false"
+          override_domain_name_servers           => "true" | "false",                               #Optional / Default is "false"
+          override_enable_ddns                   => "true" | "false",                               #Optional / Default is "false"
+          override_options                       => "true" | "false",                               #Optional / Default is "false"
+          override_preferred_lifetime            => "true" | "false",                               #Optional / Default is "false"
+          override_recycle_leases                => "true" | "false",                               #Optional / Default is "false"
+          override_update_dns_on_lease_renewal   => "true" | "false",                               #Optional / Default is "false"
+          override_valid_lifetime                => "true" | "false",                               #Optional / Default is "false"
+          preferred_lifetime                     => $num,                                           #Optional / Default is 27000
+          range_templates                        => [$RangeTemplate1,$RangeTemplate2,...],          #Optional / Default is empty
+          recycle_leases                         => "true" | "false" | undef,                       #Optional / Default is undefined
+          rir_organization                       => $rir_org,                                       #Optional / An Infoblox::Grid::RIR::Organization object
+          rir_registration_action                => 'NONE' | 'CREATE',                              #Optional / Default is 'NONE'
+          rir_registration_status                => 'NOT_REGISTERED' | 'REGISTERED',                #Optional / Default is 'NOT_REGISTERED'
+          send_rir_request                       => 'true' | 'false',                               #Optional / Default is 'false'
+          update_dns_on_lease_renewal            => "true" | "false",                               #Optional / Default is "false"
+          valid_lifetime                         => $num,                                           #Optional / Default is 43200
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a DHCP IPv6 network template object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add an IPv6 network template object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     #Construct an object
+     my $ipv6network_template = Infoblox::DHCP::IPv6NetworkTemplate->new(
+            name              => "custom_network_template",
+            allow_any_netmask => "true",
+     );
+
+     # Submit for addition
+     my $response = $session->add( $ipv6network_template );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve the matching IPv6 network template objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+     Apply the following attributes to get a specific DHCP IPv6 network template object:
+
+      name - Required. The name of network template.
+      extattrs     - Optional. A hash reference containing extensible attributes.
+
+=item B<Example>
+
+      my  @result_array = $session->get(
+           object  => "Infoblox::DHCP::IPv6NetworkTemplate" ,
+           name    => "custom_network_template"
+      );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to retrieve all the matching IPv6 network template objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+     Apply the following attributes to search for a specific DHCP IPv6 network template object:
+
+      name    - Optional. The name of the network template (regular
+                expression).
+      comment - Optional. The comment of the network template (regular
+                expression).
+      extattrs     - Optional. A hash reference containing extensible attributes.
+      extensible_attributes - Optional. A hash reference containing extensible attributes.
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Example>
+
+      my  @result_array = $session->search(
+           object  => "Infoblox::DHCP::IPv6NetworkTemplate" ,
+           name    => "custom_network_template"
+       comment => ".*",
+      );
+
+      # search all Network Templates with a given extensible attribute 'Site'
+      my @retrieved_objs = $session->search(
+        object => "Infoblox::DHCP::IPv6NetworkTemplate",
+        extensible_attributes => { 'Site' => 'Santa Clara' });
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify an IPv6 network template in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+     #Modify enable_ddns method
+     $object->enable_ddns("true");
+     # Submit modification
+     my $response = $session->modify( $object );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve it, and then submit it for removal.
+
+=over
+
+=item B<Example>
+
+     # Get the object under the same name
+     my  @result_array = $session->get(
+
+           object => "Infoblox::DHCP::IPv6NetworkTemplate" ,
+           name   => "custom_network_template"
+      );
+
+     # Find the desired object in the retrieved list
+     my $desired_network_template = $result_array[0];
+
+     # Submit for removal
+     my $response = $session->remove( $desired_network_template );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP IPv6 network template object.
+
+=head2 allow_any_netmask( )
+
+=over
+
+Use this method to set or retrieve the allow_any_netmask parameter of a DHCP IPv6 network template object. If you set this parameter to "true", then the template allows any netmask. A user must specify a netmask when creating a network using this template. If you set this parameter to false, you must specify the "netmask" property for the network template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the allow_any_netmask parameter or specify "false" if you want to specify a particular netmask. The default value is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     # Get allow_any_netmask
+     my $allow_any_netmask = $ipv6network_template->allow_any_netmask()
+     # Modify allow_any_netmask
+     $ipv6network_template->allow_any_netmask("true");
+
+=back
+
+=back
+
+=head2 auto_create_reversezone( )
+
+=over
+
+Use this method to set or retrieve the auto_create_reversezone flag of a DHCP IPv6 network template object. This flag indicates whether the appliance must automatically create the corresponding reverse zone.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to create a reverse zone automatically or "false" to disable the automatic creation of a reverse zone.The default value for this field is false.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     # Get auto_create_reversezone
+     my $auto_create_reversezone = $ipv6network_template->auto_create_reversezone();
+     # Modify auto_create_reversezone
+     $ipv6network_template->auto_create_reversezone("true");
+
+=back
+
+=back
+
+=head2 cidr( )
+
+=over
+
+Use this method to set or retrieve the CIDR for the IPv6 network template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the CIDR as a number from 1 to 128.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get CIDR
+ my $cidr = $ipv6network_template->cidr();
+ #Modify CIDR
+ $ipv6network_template->cidr("68");
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment about a DHCP IPv6 network template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for the network template in string format and with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     # Get comment
+     my $comment = $ipv6network_template->comment();
+     # Modify comment
+     $ipv6network_template->comment("add a network");
+
+=back
+
+=back
+
+=head2 ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the ddns_domainname value of a DHCP IPv6 Network Tempate object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_domainname method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_ddns_domainname attribute to "false".
+
+Note that when ddns_domainname is set to a defined value and override_ddns_domainname is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_domainname("testdomain"); $object->override_ddns_domainname("false"); will set override_ddns_domainname to "false", and the sequence $object->override_ddns_domainname("false"); $object->ddns_domainname("testdomain"); will result in override_ddns_domainname="true".
+
+=over
+
+=item B<Parameter>
+
+The dynamic DNS domain name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_domainname
+ my $ddns_domainname = $ipv6network_template->ddns_domainname();
+ #Modify ddns_domainname
+ $ipv6network_template->ddns_domainname("test_domain.com");
+
+=back
+
+=back
+
+=head2 ddns_enable_option_fqdn( )
+
+=over
+
+Use this method to set or retrieve the ddns_enable_option_fqdn flag of a DHCP IPv6 network template object. This method controls whether the FQDN option sent by the client is to be used, or if the server can automatically generate the FQDN. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_enable_option_fqdn method to "true". Setting the parameter to undefined causes the appliance to use the upper-level setting and automatically resets the override_ddns_enable_option_fqdn attribute to "false".
+
+Note that when ddns_enable_option_fqdn is set to a defined value and override_ddns_enable_option_fqdn is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_enable_option_fqdn("true"); $object->override_ddns_enable_option_fqdn("false"); will set override_ddns_enable_option_fqdn to "false", and the sequence $object->override_ddns_enable_option_fqdn("false"); $object->ddns_enable_option_fqdn("true"); will result in override_ddns_enable_option_fqdn="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to generate the hostname or "false" to deactivate/unset it. The default value is undefined, which indicates that this attribute inherits the upper-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     # Get ddns_enable_option_fqdn
+     my $ddns_enable_option_fqdn = $ipv6network_template->ddns_enable_option_fqdn()
+     # Modify ddns_enable_option_fqdn
+     $ipv6network_template->ddns_enable_option_fqdn("true");
+     #Remove override
+     $network_template->ddns_enable_option_fqdn(undef);
+
+=back
+
+=back
+
+=head2 ddns_generate_hostname( )
+
+=over
+
+Use this method to set or retrieve the ddns_generate_hostname flag of a DHCP IPv6 network template object. Set this flag to allow only the DHCP server to generate a hostname. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_generate_hostname method to "true". Setting the parameter to undefined causes the appliance to use the upper-level setting and automatically resets the override_ddns_generate_hostname attribute to "false".
+
+Note that when ddns_generate_hostname is set to a defined value and override_ddns_generate_hostname is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_generate_hostname("true"); $object->override_ddns_generate_hostname("false"); will set override_ddns_generate_hostname to "false", and the sequence $object->override_ddns_generate_hostname("false"); $object->ddns_generate_hostname("true"); will result in override_ddns_generate_hostname="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to generate the hostname or "false" to deactivate/unset it. The default value is undefined, which indicates that this attribute inherits the upper-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     # Get ddns_generate_hostname
+     my $ddns_generate_hostname = $ipv6network_template->ddns_generate_hostname()
+     # Modify ddns_generate_hostname
+     $ipv6network_template->ddns_generate_hostname("true");
+     #Remove override
+     $network_template->ddns_generate_hostname(undef);
+
+=back
+
+=back
+
+=head2 ddns_server_always_updates( )
+
+=over
+
+Use this method to set or retrieve the ddns_server_always_updates flag of a DHCP IPv6 network template object. Set this flag to allow the DHCP server only to update DNS, regardless of the requests from DHCP clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set this flag and allow only the DHCP server to update DNS or "false" to deactivate/unset the flag. The default value is true.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     # Get ddns_server_always_updates
+     my $ddns_server_always_updates = $ipv6network_template->ddns_server_always_updates()
+     # Modify ddns_server_always_updates
+     $ipv6network_template->ddns_server_always_updates("true");
+
+=back
+
+=back
+
+=head2 ddns_ttl( )
+
+=over
+
+Use this method to set or retrieve the DNS update Time to Live (TTL) value of a DHCP IPv6 network template object. The TTL value indicates the number of seconds the Infoblox appliance caches a DDNS update.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_ttl method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_ddns_ttl attribute to "false".
+
+Note that when ddns_ttl is set to a defined value and override_dddns_ttl is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_ttl(12); $object->override_ddns_ttl("false"); will set override_ddns_ttl to "false", and the sequence $object->override_ddns_ttl("false"); $object->ddns_ttl(12); will result in override_ddns_ttl="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer, from 0 to 4294967295, that represents the duration, in seconds, that the update is cached. Zero indicates that the update will not be cached. The default value is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get DNS Update TTL
+     my $dns_ttl = $ipv6network_template->ddns_ttl();
+     #Modify DNS Update TTL
+     $ipv6network_template->ddns_ttl(1200);
+
+=back
+
+=back
+
+=head2 domain_name( )
+
+=over
+
+Use this method to set or retrieve the domain_name value of a DHCP IPv6 network template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_domain_name method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_domain_name attribute to "false".
+
+Note that when domain_name is set to a defined value and override_domain_name is set to "false", the last operation takes precedence. Thus the sequence $object->domain_name("testdomain"); $object->override_domain_name("false"); will set override_domain_name to "false", and the sequence $object->override_domain_name("false"); $object->domain_name("testdomain"); will result in override_domain_name="true".
+
+=over
+
+=item B<Parameter>
+
+The client's domain name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain_name
+ my $domain_name = $ipv6network_template->domain_name();
+ #Modify domain_name
+ $ipv6network_template->domain_name("test_domain.com");
+
+=back
+
+=back
+
+=head2 domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the domain_name_servers value of a DHCP IPv6 network template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_domain_name_servers method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_domain_name_servers attribute to "false".
+
+Note that when domain_name_servers is set to a defined value and override_domain_name_servers is set to "false", the last operation takes precedence. Thus the sequence $object->domain_name_servers("2001::1,2001::2"); $object->override_domain_name_servers("false"); will set override_domain_name_servers to "false", and the sequence $object->override_domain_name_servers("false"); $object->domain_name_servers("2001::1,2001::2"); will result in override_domain_name_servers="true".
+
+=over
+
+=item B<Parameter>
+
+The domain name server addresses in IPv6 address format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain_name_servers
+ my $domain_name_servers = $ipv6network_template->domain_name_servers();
+ #Modify domain_name_servers
+ $ipv6network_template->domain_name_servers("2001::1,2001::2");
+
+=back
+
+=back
+
+=head2 enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the dynamic DNS updates flag of a DHCP IPv6 network template object. The DHCP server can send DDNS updates to DNS servers in the same grid and to external DNS servers. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_enable_ddns method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_enable_ddns attribute to "false".
+
+Note that when enable_ddns is set to a defined value and override_enable_ddns is set to "false", the last operation takes precedence. Thus the sequence $object->enable_ddns("true"); $object->override_enable_ddns("false"); will set override_enable_ddns to "false", and the sequence $object->override_enable_ddns("false"); $object->enable_ddns("true"); will result in override_enable_ddns="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the dynamic DNS updates flag or "false" to deactivate/unset it. The default value is undefined, which indicates that this attribute inherits the upper-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     # Get enable_ddns
+     my $enable_ddns = $ipv6network_template->enable_ddns()
+     # Modify enable_ddns
+     $ipv6network_template->enable_ddns("true");
+     # Remove the enable_ddns override
+     $ipv6network_template->enable_ddns(undef);
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with an IPv6 network template object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $ipv6network_template->extattrs();
+ #Modify extattrs
+ $ipv6network_template->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with an IPv6 network template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $ipv6network_template->extensible_attributes();
+ #Modify extensible attributes
+ $ipv6network_template->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 fixed_address_templates( )
+
+=over
+
+Use this method to set or retrieve the IPv6 fixed address template that is assigned to this IPv6 network template. When you create a network based on a network template that includes a fixed address template, the fixed addresses are created based on the associated fixed address template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference of  L<Infoblox::DHCP::Template|Infoblox::DHCP::Template> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     # Get fixed_address_templates
+     my $fixed_address_templates = $ipv6network_template->fixed_address_templates();
+     # Modify fixed_address_templates
+     my $tmpl = Infoblox::DHCP::Template->new(
+        name => "custom_fixed_address_template"
+     );
+     $network_template->fixed_address_templates([$tmpl]);
+
+=back
+
+=back
+
+=head2 ipv6prefix( )
+
+=over
+
+Use this method to set or retrieve the IPv6 prefix of a DHCP IPv6 network template object. The prefix must belong to the list of global prefixes defined in the L<Infoblox::Grid::DHCP|Infoblox::Grid::DHCP> object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+IPv6 prefix from the list of global IPv6 prefixes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+ls.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ipv6prefix
+ my $ipv6prefix = $ipv6network_template->ipv6prefix();
+ #Modify ipv6prefix
+ $griddhcp->ipv6prefix("2001::");
+
+=back
+
+=back
+
+=head2 members( )
+
+=over
+
+Use this method to set or retrieve the member assigned to the IPv6 network template object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Member|Infoblox::DHCP::Member> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ my $member1 = Infoblox::DHCP::Member->new(
+     name     => "infoblox.localdomain",
+     ipv4addr => "192.168.1.2",
+ );
+
+ #Create a network template with this member
+ my $ipv6network_template = Infoblox::DHCP::IPv6NetworkTemplate->new(
+     name    => "custom_network_template",
+     members => [$member1],
+ );
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the name of the DHCP IPv6 network template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The network template name in string format and with a maximum of 64 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get name
+     my $name = $ipv6network_template->name();
+     #Modify name
+     $ipv6network_template->name("custom_network_template");
+
+=back
+
+=back
+
+=head2 options( )
+
+=over
+
+Use this method to set or retrieve the options value of an IPv6 network template object. DHCP options provide network configuration settings and various services available on the network for DHCP. This setting overrides the upper-level setting. The default value is undefined which indicates that this attribute inherit the upper-level setting.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_options method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_options attribute to "false".
+
+Note that when the options method is set to a defined value and override_options is set to "false", the last operation takes precedence. Thus the sequence $object->options([ $opt ]); $object->override_options("false"); will set override_options to "false", and the sequence $object->override_options("false"); $object->options([ $opt ]); will result in override_options="true".
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get options
+     my $options = $ipv6network_template->options();
+     #Modify options
+     my $option1 = Infoblox::DHCP::Option->new(
+         name   => "dhcp6.rapid-commit",
+         value  => "true"
+     );
+     $ipv6network_template->options([$option1]);
+
+=back
+
+=back
+
+=head2 override_ddns_domainname( )
+
+=over
+
+The override_ddns_domainname attribute controls whether the ddns_domainname value in the DHCP IPv6 Network Template is used, instead of the grid default.
+
+The override_ddns_domainname attribute can be specified explicitly. It is also set implicitly when ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_domainname. Set the parameter to "false" to inherit the grid-level setting for ddns_domainname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_domainname
+    my $override_ddns_domainname=$ipv6network_template->override_ddns_domainname( );
+    #Modifying override_ddns_domainname
+    $ipv6network_template->override_ddns_domainname("true");
+
+=back
+
+=back
+
+=head2 override_ddns_enable_option_fqdn( )
+
+=over
+
+The override_ddns_enable_option_fqdn attribute controls whether the ddns_enable_option_fqdn value in the DHCP IPv6 network template is used, instead of the grid default.
+
+The override_ddns_enable_option_fqdn attribute can be specified explicitly. It is also set implicitly when ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_enable_option_fqdn. Set the parameter to "false" to inherit the grid-level setting for ddns_enable_option_fqdn.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_ddns_enable_option_fqdn
+    my $override_ddns_enable_option_fqdn=$ipv6network_template->override_ddns_enable_option_fqdn( );
+    #Modify override_ddns_enable_option_fqdn
+    $ipv6network_template->override_ddns_enable_option_fqdn("true");
+
+=back
+
+=back
+
+=head2 override_ddns_generate_hostname( )
+
+=over
+
+The override_ddns_generate_hostname attribute controls whether the ddns_generate_hostname value in the DHCP IPv6 network template is used, instead of the grid default.
+
+The override_ddns_generate_hostname attribute can be specified explicitly. It is also set implicitly when ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_generate_hostname. Set the parameter to "false" to inherit the grid-level setting for ddns_generate_hostname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_ddns_generate_hostname
+    my $override_ddns_generate_hostname=$ipv6network_template->override_ddns_generate_hostname( );
+    #Modify override_ddns_generate_hostname
+    $ipv6network_template->override_ddns_generate_hostname("true");
+
+=back
+
+=back
+
+=head2 override_ddns_ttl( )
+
+=over
+
+The override_ddns_ttl attribute controls whether the ddns_ttl value in the DHCP IPv6 network template object is used, instead of the grid default.
+
+The override_ddns_ttl attribute can be specified explicitly. It is also set implicitly when ddns_ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for ddns_ttl. Set the parameter to "false" to inherit the grid-level setting for ddns_ttl.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_ddns_ttl
+    my $override_ddns_ttl=$ipv6network_template->override_ddns_ttl( );
+    #Modify override_ddns_ttl
+    $ipv6network_template->override_ddns_ttl("true");
+
+=back
+
+=back
+
+=head2 override_domain_name( )
+
+=over
+
+The override_domain_name attribute controls whether the domain_name value in the DHCP IPv6 network template is used, instead of the grid default.
+
+The override_domain_name attribute can be specified explicitly. It is also set implicitly when domain_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for domain_name. Set the parameter to "false" to inherit the grid-level setting for domain_name.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_domain_name
+    my $override_domain_name=$ipv6network_template->override_domain_name( );
+    #Modifying override_domain_name
+    $ipv6network_template->override_domain_name("true");
+
+=back
+
+=back
+
+=head2 override_domain_name_servers( )
+
+=over
+
+The override_domain_name_servers attribute controls whether the domain_name_servers value in the DHCP IPv6 network template is used, instead of the grid default.
+
+The override_domain_name_servers attribute can be specified explicitly. It is also set implicitly when domain_name_servers is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for domain_name_servers. Set the parameter to "false" to inherit the grid-level setting for domain_name_servers.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_domain_name_servers
+    my $override_domain_name_servers=$ipv6network_template->override_domain_name_servers( );
+    #Modify override_domain_name_servers
+    $ipv6network_template->override_domain_name_servers("true");
+
+=back
+
+=back
+
+=head2 override_enable_ddns( )
+
+=over
+
+The override_enable_ddns attribute controls whether the enable_ddns value in the DHCP IPv6 network template is used, instead of the grid default.
+
+The override_enable_ddns attribute can be specified explicitly. It is also set implicitly when enable_ddns is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for enable_ddns. Set the parameter to "false" to inherit the grid-level setting for enable_ddns.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_enable_ddns
+    my $override_enable_ddns=$ipv6network_template->override_enable_ddns( );
+    #Modify override_enable_ddns
+    $ipv6network_template->override_enable_ddns("true");
+
+=back
+
+=back
+
+=head2 override_options( )
+
+=over
+
+The override_options attribute controls whether the options in the DHCP IPv6 network template are used, instead of the grid default.
+
+The override_options attribute can be specified explicitly. It is also set implicitly when options is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for options. Set the parameter to "false" to inherit the grid-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_options
+    my $override_options=$ipv6network_template->override_options( );
+    #Modify override_options
+    $ipv6network_template->override_options("true");
+
+=back
+
+=back
+
+=head2 override_preferred_lifetime( )
+
+=over
+
+The override_preferred_lifetime attribute controls whether the preferred_lifetime value in the DHCP IPv6 network template is used, instead of the grid default.
+
+The override_preferred_lifetime attribute can be specified explicitly. It is also set implicitly when preferred_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for options. Set the parameter to "false" to inherit the grid-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_preferred_lifetime
+    my $override_preferred_lifetime=$ipv6network_template->override_preferred_lifetime( );
+    #Modify override_preferred_lifetime
+    $ipv6network_template->override_preferred_lifetime("true");
+
+=back
+
+=back
+
+=head2 override_recycle_leases( )
+
+=over
+
+The override_recycle_leases attribute controls whether the recycle_leases value in the DHCP IPv6 network template is used, instead of the grid default.
+
+The override_recycle_leases attribute can be specified explicitly. It is also set implicitly when recycle_leases is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for options. Set the parameter to "false" to inherit the grid-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_recycle_leases
+    my $override_recycle_leases=$ipv6network_template->override_recycle_leases( );
+    #Modify override_recycle_leases
+    $ipv6network_template->override_recycle_leases("true");
+
+=back
+
+=back
+
+=head2 override_update_dns_on_lease_renewal( )
+
+=over
+
+The override_update_dns_on_lease_renewal attribute controls whether the update_dns_on_lease_renewal value in the DHCP IPv6 network template is used, instead of the grid default.
+
+The override_update_dns_on_lease_renewal attribute can be specified explicitly. It is also set implicitly when update_dns_on_lease_renewal is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for update_dns_on_lease_renewal. Set the parameter to "false" to inherit the grid-level setting for update_dns_on_lease_renewal.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_update_dns_on_lease_renewal
+    my $override_update_dns_on_lease_renewal=$ipv6network_template->override_update_dns_on_lease_renewal( );
+    #Modify override_update_dns_on_lease_renewal
+    $ipv6network_template->override_update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 override_valid_lifetime( )
+
+=over
+
+The override_valid_lifetime attribute controls whether the valid_lifetime value in the DHCP IPv6 network template object is used, instead of the upper-level default.
+
+The override_valid_lifetime attribute can be specified explicitly. It is also set implicitly when valid_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the grid-level setting for valid_lifetime. Set the parameter to "false" to inherit the upper-level setting for valid_lifetime.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get override_valid_lifetime
+    my $override_valid_lifetime=$ipv6network_template->override_valid_lifetime( );
+    #Modify override_valid_lifetime
+    $ipv6network_template->override_valid_lifetime("true");
+
+=back
+
+=back
+
+=head2 preferred_lifetime( )
+
+=over
+
+Use this method to set or retrieve the valid lifetime of the DHCP IPv6 network template object.
+
+Setting this method to a defined value implicitly sets the override_preferred_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_preferred_lifetime attribute to "false".
+
+Note that when preferred_lifetime is set to a defined value and override_preferred_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->preferred_lifetime(20000); $object->override_preferred_lifetime("false"); will set override_preferred_lifetime to "false", and the sequence $object->override_preferred_lifetime("false"); $object->preferred_lifetime(20000); will result in override_preferred_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+Preferred lifetime value in seconds. The default value is 27000. Note that the preferred lifetime cannot be greater than the valid lifetime.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get preferred_lifetime
+ my $preferred_lifetime = $ipv6network_template->preferred_lifetime();
+ #Modify preferred_lifetime
+ $ipv6network_template->preferred_lifetime(12345);
+
+=back
+
+=back
+
+=head2 range_templates( )
+
+=over
+
+Use this method to set or retrieve the IPv6 address range template assigned to this IPv6 network template object.  When you create a network based on a network template object with a range template, the IPv6 address ranges are created based on the associated  IPv6 address range template.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference of L<Infoblox::DHCP::Template|Infoblox::DHCP::Template> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+     #Get range_templates
+     my $range_templates = $ipv6network_template->range_templates();
+     #Modify range_templates
+     my $tmpl = Infoblox::DHCP::Template->new(
+        name => "custom_range_template"
+     );
+     $ipv6network_template->range_templates([ $tmpl ]);
+
+=back
+
+=back
+
+=head2 recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the recycle_leases flag for an IPv6 network template object.
+
+If the flag is enabled, the leases are kept in the recycle bin until one week after expiration. When the flag is disabled, the leases are irrecoverably deleted.
+
+Setting this method to a defined value implicitly sets the override_recycle_leases method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_recycle_leases attribute to "false".
+
+Note that when recycle_leases is set to a defined value and override_recycle_leases is set to "false", the last operation takes precedence. Thus the sequence $object->recycle_leases("true"); $object->override_recycle_leases("false"); will set override_recycle_leases to "false", and the sequence $objct->override_recycle_leases("false"); $object->recycle_leases("true"); will result in override_recycle_leases="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the recycle_leases flag or "false" to disable it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recycle_leases
+ my $recycle_leases = $ipv6network_template->recycle_leases();
+ #Modify recycle_leases
+ $ipv6network_template->recycle_leases("false");
+
+=back
+
+=back
+
+=head2 rir( )
+
+=over
+
+Use this method to retrieve the name of the Regional Internet Registry (RIR) that allocated this address space. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'RIPE' or 'NONE'.
+
+=item B<Example>
+
+ #Get rir
+ my $rir = $ipv6network_template->rir();
+
+=back
+
+=back
+
+=head2 rir_organization( )
+
+=over
+
+Use this method to set or retrieve the Regional Internet Registry (RIR) organization object.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::Grid::RIR::Organization|Infoblox::Grid::RIR::Organization> object.
+
+You must enable support for RIR/SWIP at the Grid level before you can set attribute values. See L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/> method.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rir_organization
+ my $rir_organization = $ipv6network_template->rir_organization();
+ #Modify rir_organization
+ $ipv6network_template->rir_organization($rir_org);
+
+=back
+
+=back
+
+=head2 rir_registration_action( )
+
+=over
+
+Use this method to set or retrieve the registration action of Regional Internet Registry (RIR).
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE', 'CREATE'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rir_registration_action
+ my $rir_registration_action = $ipv6network_template->rir_registration_action();
+ #Modify rir_registration_action
+ $ipv6network_template->rir_registration_action('CREATE');
+
+=back
+
+=back
+
+=head2 rir_registration_status( )
+
+=over
+
+Use this method to set or retrieve the registration status of Regional Internet Registry (RIR).
+
+=over
+
+=item B<Parameter>
+
+The registration status of Regional Internet Registry (RIR), which can be 'REGISTERED' or 'NOT_REGISTERED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rir_registration_status
+ my $rir_registration_status = $ipv6network_template->rir_registration_status();
+ #Modify rir_registration_status
+ $ipv6network_template->rir_registration_status('NOT_REGISTERED');
+
+=back
+
+=back
+
+=head2 send_rir_request( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the appliance should send an API or email request for Regional Internet Registry (RIR).
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the send_rir_request flag or "false" to unset it.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get send_rir_request
+ my $send_rir_request = $ipv6network_template->send_rir_request();
+ #Modify send_rir_request
+ $ipv6network_template->send_rir_request('true');
+
+=back
+
+=back
+
+=head2 update_dns_on_lease_renewal( )
+
+=over
+
+The update_dns_on_lease_renewal attribute controls whether the DHCP server updates DNS when a DHCP lease is renewed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_update_dns_on_lease_renewal method to "true". Setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_update_dns_on_lease_renewal attribute to "false".
+
+Note that when update_dns_on_lease_renewal is set to a defined value and override_update_dns_on_lease_renewal is set to "false", the last operation takes precedence. Thus the sequence $object->update_dns_on_lease_renewal("true"); $object->override_update_dns_on_lease_renewal("false"); will set override_update_dns_on_lease_renewal to "false", and the sequence $object->override_update_dns_on_lease_renewal("false"); $object->update_dns_on_lease_renewal("true"); will result in override_update_dns_on_lease_renewal="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the update_dns_on_lease_renewal flag or "false" to deactivate/unset it.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get update_dns_on_lease_renewal
+    my $update_dns_on_lease_renewal=$ipv6network_template->update_dns_on_lease_renewal( );
+    #Modify update_dns_on_lease_renewal
+    $ipv6network_template->update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 valid_lifetime( )
+
+=over
+
+Use this method to set or retrieve the valid lifetime of the DHCP IPv6 network template object.
+
+Setting this method to a defined value implicitly sets the override_valid_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_valid_lifetime attribute to "false".
+
+Note that when valid_lifetime is set to a defined value and override_valid_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->valid_lifetime(20000); $object->override_valid_lifetime("false"); will set override_valid_lifetime to "false", and the sequence $object->override_valid_lifetime("false"); $object->valid_lifetime(20000); will result in override_valid_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+Valid lifetime value in seconds. The default value is 43200.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get valid_lifetime
+ my $valid_lifetime = $ipv6network_template->valid_lifetime();
+ #Modify valid_lifetime
+ $ipv6network_template->valid_lifetime(12345);
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+ #Preparation prior to a DHCP IPv6 network template object insertion
+
+B<#PROGRAM STARTS>: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+B<#Create a session to the Infoblox DNSone appliance>
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+
+ unless ($session) {
+     die("Construct session failed: ",
+         Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $memberdhcp = Infoblox::DHCP::Member->new(
+     name     => $host_name,
+     ipv4addr => $node_ip
+ );
+
+B<#Add IPv6 network template object>
+
+ #Create a DHCP network template object
+
+ my $network_template = Infoblox::DHCP::IPv6NetworkTemplate->new(
+     name                    => "custom_network_template",
+     cidr                    => 64,
+     comment                 => "add IPv6 network template",
+     members                 => [ $memberdhcp ],
+     enable_ddns             => "false",
+     valid_lifetime          => 99999,
+     auto_create_reversezone => "true",
+ );
+
+ my $response = $session->add($network_template)
+     or die("Add Network template failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+
+ print "Network template added successfully\n";
+
+B<#Get and modify an IPv6 network template attribute>
+
+ #Get Network template through the session
+ my  @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::IPv6NetworkTemplate",
+     name   => "custom_network_template"
+ );
+
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get Network template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Network template found at least 1 matching entry\n";
+
+B<#Search an IPv6 network template attribute>
+
+ #Search Network template through the session
+ my  @retrieved_objs = $session->search(
+     object => "Infoblox::DHCP::IPv6NetworkTemplate",
+     name   => "custom_network_template"
+ );
+
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Search Network template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Network template found at least 1 matching entry\n";
+
+ #Modify attributes of the specified IPv6 network template
+
+ $object->enable_ddns("true"); #Apply the changes
+
+ $session->modify($object)
+     or die("Modify Network template attribute failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+
+ print "Network template object modified successfully \n";
+
+B<#Remove an IPv6 network template object>
+
+ #Get IPv6 Network Template object through the session
+
+ my @retrieved_objs = $session->get(
+     object  => "Infoblox::DHCP::IPv6NetworkTemplate",
+     name    => "custom_network_template"
+ );
+
+ my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get IPv6 Network Template object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get IPv6 Network Template object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+
+ $session->remove($object)
+     or die("Remove IPv6 Network Template failed: ",
+     $session->status_code() . ":" . $session->status_detail());
+
+ print "IPv6 Network Template removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,  L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>, L<Infoblox::Grid::DHCP|Infoblox::Grid::DHCP>, L<Infoblox::DHCP::Template|Infoblox::DHCP::Template>, L<Infoblox::DHCP::Member|Infoblox::DHCP::Member>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

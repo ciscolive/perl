@@ -1,0 +1,8 @@
+/opt/perl/site/bin/cpanm
+/opt/perl/site/lib/App/cpanminus.pm
+/opt/perl/site/lib/App/cpanminus/fatscript.pm
+/opt/perl/site/man/man1/cpanm.1
+/opt/perl/site/man/man3/App::cpanminus.3
+/opt/perl/site/man/man3/App::cpanminus.3pm
+/opt/perl/site/man/man3/App::cpanminus::fatscript.3
+/opt/perl/site/man/man3/App::cpanminus::fatscript.3pm

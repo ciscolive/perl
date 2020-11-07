@@ -1,0 +1,857 @@
+=head1 NAME
+
+Infoblox::Notification::REST::Endpoint - A REST API endpoint object.
+
+=head1 DESCRIPTION
+
+The REST API endpoint object provides configuration for third party REST API servers integration.
+
+=head1 CONSTRUCTOR
+
+ my $endpoint = Infoblox::Notification::REST::Endpoint->new(
+     name                   => $string,                                                              # Required
+     uri                    => $string,                                                              # Required
+     outbound_member_type   => 'GM' | 'MEMBER',                                                      # Required
+     client_certificate     => $path,                                                                # Optional / Default is undefined
+     comment                => $string,                                                              # Optional / Default is undefined
+     disable                => 'true' | 'false',                                                     # Optional / Default is 'true'
+     extattrs               => { $string => $extattr, ... },                                         # Optional / Default is undefined
+     extensible_attributes  => {$string => $string | $num, $string => [ $string | $num, ... ], ... } # Optional / Default is undefined
+     log_level              => 'WARNING' | 'DEBUG' | 'INFO' | 'ERROR',                               # Optional / Default is 'WARNING'
+     outbound_members       => [$string, $string, ...],                                              # Optional / Default is empty list
+     password               => $string,                                                              # Optional / Default is undefined
+     template_instance      => $template_instance                                                    # Optional / Default is undefined
+     timeout                => $uint,                                                                # Optional / Default is 0
+     username               => $string,                                                              # Optional / Default is undefined
+     vendor_identifier      => $string,                                                              # Optional / Default is undefined
+     server_cert_validation => 'CA_CERT' | 'CA_CERT_NO_HOSTNAME' | 'NO_VALIDATION',                  # Optional / Default is 'CA_CERT'
+     wapi_user_name         => $string,                                                              # Optional / Default is undefined
+     wapi_user_password     => $string,                                                              # Optional / Default is undefined
+
+ );
+
+You cannot set both extattrs and extensible_attributes attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a REST API endpoint object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add the object to the Infoblox appliance.
+See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct an object
+ my $object = Infoblox::Notification::REST::Endpoint->new(
+     uri                  => 'http://10.0.0.1/office',
+     name                 => 'restapi_endpoint',
+     outbound_member_type => 'GM',
+ );
+
+ #Submit for addition
+ my $response = $session->add($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance.
+See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific REST API endpoint object:
+
+  comment                    - Optional. The REST API endpoint comment in string format.
+  name                       - Optional. The REST API endpoint name in string format.
+  uri                        - Optional. The REST API endpoint URI in string format.
+  vendor_identifier          - Optional. The REST API endpoint vendor identifier in string format.
+  extattrs                   - Optional. A hash reference containing Infoblox::Grid::Extattr object.
+  extensible_attributes      - Optional. A hash reference containing extensible attributes.
+
+=item B<Examples>
+
+ my @retrieved_objs = $session->get(
+     object => 'Infoblox::Notification::REST::Endpoint',
+     uri    => 'http://10.0.0.1/office',
+ );
+
+ my @retrieved_objs = $session->get(
+     object                => 'Infoblox::Notification::REST::Endpoint',
+     extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify the object in the Infoblox appliance.
+See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Modify comment value
+ $object->comment('this is a modified comment');
+
+ #Submit modification
+ my $response = $session->modify($object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove the object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specific object, first use get() or search() to retrieve the specific REST API endpoint object, and then submit this object for removal.
+
+=over
+
+=item B<Example>
+
+ #Get the objects
+ my @retrieved_objs = $session->get(
+     object       => 'Infoblox::Notification::REST::Endpoint',
+     uri          => 'http://10.0.0.1/office',
+ );
+
+ #Find the desired object from the retrieved list
+ my $desired_object = $retrieved_objs[0];
+
+ #Submit for removal
+ my $response = $session->remove($desired_object);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for the REST API endpoint object:
+
+  comment                    - Optional. The REST API endpoint comment in string format (regexp).
+  name                       - Optional. The REST API endpoint name in string format (regexp).
+  uri                        - Optional. The REST API endpoint URI in string format (regexp).
+  vendor_identifier          - Optional. The REST API endpoint vendor identifier in string format (regexp).
+  extattrs                   - Optional. A hash reference containing Infoblox::Grid::Extattr object.
+  extensible_attributes      - Optional. A hash reference containing extensible attributes.
+
+
+For more information about searching extensible attributes, 
+see L<Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # search for objects
+ my @retrieved_objs = $session->search(
+     object            => 'Infoblox::Notification::REST::Endpoint',
+     uri               => 'http.*',
+     vendor_identifier => 'Carbon',
+);
+
+ # search for objects defining 'Santa Clara' for 'Site' extensible attribute
+ my @retrieved_objs = $session->search(
+     object                => 'Infoblox::DHCP::Range',
+     extensible_attributes => {'Site' => 'Santa Clara'},
+ );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to configure and retrieve the attribute values of a REST API endpoint.
+
+=head2 client_certificate( )
+
+=over
+
+Use this method to set the path to a client certificate file. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a path to a certificate in string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify client_certificate value
+ $object->client_certificate('/path/to/cert.pem');
+
+=back
+
+=back
+
+=head2 client_certificate_subject( )
+
+=over
+
+Use this method to retrieve the client certificate subject. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get client_certificate_subject value
+ my $client_certificate_subject = $object->client_certificate_subject();
+
+=back
+
+=back
+
+=head2 client_certificate_valid_from( )
+
+=over
+
+Use this method to retrieve the time from which the client certificate is valid. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get client_certificate_valid_from value
+ my $client_certificate_valid_from = $object->client_certificate_valid_from();
+
+=back
+
+=back
+
+=head2 client_certificate_valid_to( )
+
+=over
+
+Use this method to retrieve the bulk client certificate expiration time. This is a read-only attrbiute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value. The number of seconds that have elapsed since January 1st, 1970 UTC.
+
+=item B<Example>
+
+ #Get client_certificate_valid_to value
+ my $client_certificate_valid_to = $object->client_certificate_valid_to();
+
+=back
+
+=back
+
+=head2 comment( )
+
+=over
+
+Use this method to set or retrieve the REST API endpoint comment.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired comment in string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get comment value
+ my $comment = $object->comment();
+
+ #Modify comment value
+ $object->comment('modified comment');
+
+=back
+
+=back
+
+=head2 disable( )
+
+=over
+
+Use this method to set or retrieve the flag that indicates whether the REST API endpoint is enabled or disabled.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to disable the REST API endpoint or 'false' to enable it. The default value is 'true'.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get disable value
+ my $disable = $object->disable();
+
+ #Modify disable value
+ $object->disable('false');
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a REST API endpoint object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference that contains the names of extensible attributes and their associated values (L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects).
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs value
+ my $extattrs = $object->extattrs();
+
+ #Modify extattrs value
+ $object->extattrs({'Site' => $extattr1, 'Administrator' => $extattr2});
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a REST API endpoint object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes value
+ my $extensible_attributes = $object->extensible_attributes();
+ #Modify extensible attributes
+ $object->extensible_attributes({'Site' => 'Santa Clara', 'Administrator' => ['Peter', 'Tom']});
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to set or retrieve the REST API endpoint name.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired name in string format.
+
+Note that this field will default to URI value if no value is specified.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get name value
+ my $name = $object->name();
+
+ #Modify name value
+ $object->name('modified_name');
+
+=back
+
+=back
+
+=head2 outbound_members( )
+
+=over
+
+Use this method to set or retrieve the list of REST API endpoint members which are responsible for event generation.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array that contains Grid member names in a string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get outbound_members value
+ my $outbound_members = $object->outbound_members();
+
+ #Modify outbound_members value
+ $object->outbound_members(['member1', 'member2']);
+
+=back
+
+=back
+
+=head2 outbound_member_type( )
+
+=over
+
+Use this method to set or retrieve the REST API endpoint member which is responsible for event generation.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'GM' and 'MEMBER'.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get outbound_member_type value
+ my $outbound_member_type = $object->outbound_member_type();
+
+ #Modify outbound_member_type value
+ $object->outbound_member_type('MEMBER');
+
+=back
+
+=back
+
+=head2 log_level( )
+
+=over 
+
+Use this method to set or retrieve the REST API endpoint logging level. 
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'DEBUG', 'ERROR', 'INFO', and 'WARNING'.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get log_level value
+ my $value = $object->log_level();
+
+ #Modify log_level value
+ $object->log_level('INFO');
+
+=back
+
+=back
+
+=head2 password( )
+
+=over
+
+Use this method to set or retrieve the REST API endpoint auth password. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired password in string format.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify password value
+ $object->password('usr1');
+
+=back
+
+=back
+
+=head2 server_cert_validation( )
+
+=over
+
+Use this method to set or retrieve the server certificate validation type.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid values are 'CA_CERT', 'CA_CERT_NO_HOSTNAME' and 'NO_VALIDATION'. The default value is 'CA_CERT'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get server_cert_validation value
+ my $value = $object->server_cert_validation();
+
+ #Modify server_cert_validation value
+ $object->server_cert_validation('NO_VALIDATION');
+
+=back
+
+=back
+
+=head2 template_instance( )
+
+=over 
+
+Use this method to set or retrieve the REST API endpoint REST API template instance.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Note that 'parameters' value of a template instance object cannot be changed for REST API endpoint.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::Notification::REST::TemplateInstance|Infoblox::Notification::REST::TemplateInstance> object.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get template_instance value
+ my $value = $object->template_instance();
+
+ #Modify template_instance value
+ $object->template_instance($instance);
+
+=back
+
+=back
+
+=head2 timeout( )
+
+=over 
+
+Use this method to set or retrieve the REST API endpoint management session timeout.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer that represents the number of seconds for the management session timeout.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get timeout value
+ my $value = $object->timeout();
+
+ #Modify timeout value
+ $object->timeout(100);
+
+=back
+
+=back
+
+=head2 uri( )
+
+=over
+
+Use this method to set or retrieve the REST API endpoint URI.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired URI in string format which should be valid URL.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get uri value
+ my $uri = $object->uri();
+
+ #Modify uri value
+ $object->uri('http://10.0.0.1/new_uri');
+
+=back
+
+=back
+
+=head2 username( )
+
+=over
+
+Use this method to set or retrieve the REST API endpoint auth username.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired username in string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get username value
+ my $username = $object->username();
+
+ #Modify username value
+ $object->username('usr1');
+
+=back
+
+=back
+
+=head2 vendor_identifier( )
+
+=over
+
+Use this method to set or retrieve the REST API endpoint vendor identifier.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired vendor identifier in string format.
+
+=item B<Returns>
+
+If you have specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get vendor_identifier value
+ my $vendor_identifier = $object->vendor_identifier();
+
+ #Modify vendor_identifier value
+ $object->vendor_identifier('CarbonBlack');
+
+=back
+
+=back
+
+=head2 wapi_user_name( )
+
+=over
+
+Use this method to set or retrieve the user name for WAPI integration.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired user name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get wapi_user_name value
+ my $value = $object->wapi_user_name();
+
+ #Modify wapi_user_name value
+ $object->wapi_user_name('admin');
+
+=back
+
+=back
+
+=head2 wapi_user_password( )
+
+=over
+
+Use this method to set the user password for WAPI integration. This is a write-only attribute.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired user password in string format.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Modify wapi_user_password value
+ $object->wapi_user_password('infoblox');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,
+L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>,
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>,
+L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>,
+L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>,
+L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>,
+L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr>,
+L<Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>, 
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

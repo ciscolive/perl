@@ -1,0 +1,11 @@
+/opt/perl/site/lib/Mojolicious/Command/Author/webpack.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Webpack.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Webpack/Builder.pm
+/opt/perl/site/lib/Mojolicious/Plugin/Webpack/my_app.js
+/opt/perl/site/lib/Mojolicious/Plugin/Webpack/package.json
+/opt/perl/site/lib/Mojolicious/Plugin/Webpack/webpack.config.js
+/opt/perl/site/lib/Mojolicious/Plugin/Webpack/webpack.custom.js
+/opt/perl/site/lib/Mojolicious/Plugin/Webpack/webpack.html
+/opt/perl/site/man/man3/Mojolicious::Command::Author::webpack.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::Webpack.3
+/opt/perl/site/man/man3/Mojolicious::Plugin::Webpack::Builder.3

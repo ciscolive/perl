@@ -1,0 +1,359 @@
+=head1 NAME
+
+Infoblox::DHCP::Option60MatchRule - DHCP  Option60MatchRule object.
+
+=head1 DESCRIPTION
+
+An Option60MatchRule object allows specifying match rules for Option 60 globally.
+
+=head1 CONSTRUCTOR
+
+ my $option60_match_rule = Infoblox::DHCP::Option60MatchRule->new(
+                            match_value      => $string,          #Required
+                            option_space     => $string,          #Required
+                            is_substring     => "true" | "false", #Optional / Default is undefined
+                            substring_offset => $num,             #Optional / Default is undefined
+                            substring_length => $num              #Optional / Default is undefined
+                          );
+
+=head1 MODULE METHODS
+
+The following functions are available to be applied to a DHCP Option60MatchRule object.
+
+=head2 Infoblox::Grid::DHCP->option60_match_rules( )
+
+=over
+
+Use this function to specify match rule for option60 at grid level. See L<Infoblox::Grid::DHCP-E<gt>option60_match_rules()|Infoblox::Grid::DHCP/option60_match_rules()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option60MatchRule object
+ my $option60_match_rule = Infoblox::DHCP::Option60MatchRule->new(
+                                        "option_space" => "infospace",
+                                        "match_value" => "Nortel-i2004-A",
+                                        "is_substring" => "true",
+                                        "substring_offset" => "8",
+                                        "substring_length" => "14"
+                                      );
+
+ # Configure DHCP Option60MatchRule on the Grid DHCP object
+ my $response = $grid_dhcp->option60_match_rules([$option60_match_rule]);
+
+=back
+
+=back
+
+=head2 Infoblox::Grid::Member::DHCP->option60_match_rules( )
+
+=over
+
+Use this function to specify match rule for option60 at member level. See L<Infoblox::Grid::Member::DHCP-E<gt>option60_match_rules()|Infoblox::Grid::Member::DHCP/option60_match_rules()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Construct a DHCP Option60MatchRule object
+ my $option60_match_rule = Infoblox::DHCP::Option60MatchRule->new(
+                                        "option_space" => "infospace",
+                                        "match_value" => "Nortel-i2004-A",
+                                        "is_substring" => "true",
+                                        "substring_offset" => "10",
+                                        "substring_length" => "24"
+                                      );
+
+ # Configure DHCP Option60MatchRule on the Grid Member DHCP object
+ my $response = $grid_member_dhcp->option60_match_rules([$option60_match_rule]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP Option60MatchRule object.
+
+=head2 match_value( )
+
+=over
+
+Use this method to set or retrieve the match value of a DHCP Option60MatchRule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Desired match value in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get match_value
+ my $match_value = $option60_match_rule->match_value();
+ # Modify match_value
+ $option60_match_rule->match_value("SUNW");
+
+=back
+
+=back
+
+=head2 option_space( )
+
+=over
+
+Use this method to set or retrieve the option space of a DHCP Option60MatchRule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Valid value is an string that contains defined Infoblox::DHCP::OptionSpace object. See L<Infoblox::DHCP::OptionSpace|Infoblox::DHCP::OptionSpace> for parameters and return values.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get option_space
+ my $match_value = $option60_match_rule->option_space();
+ # Modify option_space
+ $option60_match_rule->option_space("new_option");
+
+=back
+
+=back
+
+=head2 is_substring( )
+
+=over
+
+Use this method to set or retrieve the is_substring flag of a DHCP Option60MatchRule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the is_substring flag or "false" to deactivate/unset it. The default value for this field is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get is_substring
+ my $is_substring = $option60_match_rule->is_substring();
+ # Modify is_substring
+ $option60_match_rule->is_substring("true");
+
+=back
+
+=back
+
+=head2 substring_offset( )
+
+=over
+
+Use this method to set or retrieve the substring_offset of a DHCP Option60MatchRule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The substring_offset for the DHCP Option60MatchRule object (range from 0 to 65535). The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get substring_offset
+ my $substring_offset = $option60_match_rule->substring_offset();
+ # Modify substring_offset
+ $option60_match_rule->substring_offset("10");
+
+=back
+
+=back
+
+=head2 substring_length( )
+
+=over
+
+Use this method to set or retrieve the substring_length of a DHCP Option60MatchRule object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The substring_length for the DHCP Option60MatchRule object (range from 0 to 65535). The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get substring_length
+ my $substring_length = $option60_match_rule->substring_length();
+ # Modify substring_length
+ $option60_match_rule->substring_length("23");
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, and remove. Also, this sample includes error handling for the operations.
+
+B<#Preparation prior to a DHCP Option60MatchRule insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+ my $option_space1 = Infoblox::DHCP::OptionSpace->new(
+                                                "name" => "infospace"
+                                                );
+ my $response = $session->add( $option_space1);
+ print "Add option space operation success \n" if ($response );
+ print "Add option space operation failed  \n" if ( not $response );
+
+ #Create a DHCP OptionDefinition object.>
+ my $option60_match_rule = Infoblox::DHCP::Option60MatchRule->new(
+                                                 "option_space" => "infospace",
+                                                 "match_value" => "Nortel-i2004-A",
+                                                 "is_substring" => "true",
+                                                 "substring_offset" => "0",
+                                                 "substring_length" => "14"
+                                                 );
+ unless ($option60_match_rule) {
+      die("Construct DHCP Option60MatchRule failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+
+ #Get on Grid DHCP object to add Option60MatchRule object>
+ my @result = $session->get(
+     object => "Infoblox::Grid::DHCP",
+     grid   => "Infoblox"
+     )
+     or die("get DHCP failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+ print "get grid DHCP Objcet successful.\n";
+
+ unless (scalar(@result) == 0) {
+ my $griddhcp = $result[0];
+ if ($griddhcp) {
+
+  $griddhcp->option60_match_rules([$option60_match_rule]);
+
+   #Applying the changes to appliance through session.
+   $session->modify($griddhcp)
+       or die("Modify DHCP failed: ",
+          $session->status_code(). ":" .$session->status_detail());
+   print"Modified Grid DHCP Object successfully.\n";
+  }
+  } else {
+       print "No Grid DHCP object found.";
+ }
+
+ #To remove Option60MatchRule object in Grid DHCP object>
+ my @result = $session->get(
+     object => "Infoblox::Grid::DHCP",
+     grid   => "Infoblox"
+     )
+     or die("get DHCP failed: ",
+                $session->status_code(). ":" .$session->status_detail());
+ print "get grid DHCP Objcet successful.\n";
+
+ unless (scalar(@result) == 0) {
+ my $griddhcp = $result[0];
+ if ($griddhcp) {
+
+ $griddhcp->option60_match_rules(undef);
+
+   #Applying the changes to appliance through session.
+   $session->modify($griddhcp)
+       or die("Modify DHCP failed: ",
+          $session->status_code(). ":" .$session->status_detail());
+   print"Modified Grid DHCP Object successfully to remove Option60MatchRule object.\n";
+   }
+  } else {
+       print "No Grid DHCP object found.";
+ }
+
+ #Get OptionSpace object through the session
+ my @retrieved_objs = $session->get(
+     object => "Infoblox::DHCP::OptionSpace",
+     name   => "infospace"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Get OptionSpace object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get OptionSpace object found at least 1 matching entry\n";
+
+ #Submit the object for removal
+ $session->remove($object)
+     or die("Remove OptionSpace object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ print "OptionSpace object removed successfully \n";
+
+ ####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>,L<Infoblox::Grid::DHCP|Infoblox::Grid::DHCP>, L<Infoblox::Grid::Member::DHCP|Infoblox::Grid::Member::DHCP>,L<Infoblox::DHCP::OptionSpace|Infoblox::DHCP::OptionSpace>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc. 
+
+=cut

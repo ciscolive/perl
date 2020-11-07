@@ -1,0 +1,4 @@
+/opt/perl/site/bin/kwalitee-metrics
+/opt/perl/site/lib/Test/Kwalitee.pm
+/opt/perl/site/man/man1/kwalitee-metrics.1
+/opt/perl/site/man/man3/Test::Kwalitee.3

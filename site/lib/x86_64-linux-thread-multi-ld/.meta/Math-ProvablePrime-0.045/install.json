@@ -1,0 +1,1 @@
+{"dist":"Math-ProvablePrime-0.045","name":"Math::ProvablePrime","version":"0.045","pathname":"F/FE/FELIPE/Math-ProvablePrime-0.045.tar.gz","target":"Math::ProvablePrime","provides":{"Math::ProvablePrime":{"file":"lib/Math/ProvablePrime.pm","version":"0.045"},"Math::ProvablePrime::Rand":{"file":"lib/Math/ProvablePrime/Rand.pm"}}}

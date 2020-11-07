@@ -1,0 +1,404 @@
+=head1 NAME
+
+Infoblox::Grid::CloudAPI::VMAddress - Infoblox::Grid::CloudAPI::VMAddress object.
+
+=head1 DESCRIPTION
+
+Class that represents Tenant.
+
+=head1 CONSTRUCTOR
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a Grid member object.
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   address            - Optional. IP address of the interface.
+   mac_address        - Optional. MAC address of the interface.
+   tenant_name        - Optional. Name of the tenant associated with the VM.
+   vm_id              - Optional. UUID of the VMirtual Machine.
+   vm_name            - Optional. Name of the Virtual Machine.
+
+=item B<Example>
+
+  $session->get(object => "Infoblox::Grid::CloudAPI::VMAddress", vm_id => $vm_id);
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for objects in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+=over
+
+=item B<Key Reference>
+
+ Apply the following attribute to get a specific object:
+
+   address            - Optional. IP address of the interface.
+   mac_address        - Optional. MAC address of the interface.
+   tenant_name        - Optional. Name of the tenant associated with the VM.
+   vm_id              - Optional. UUID of the VMirtual Machine.
+   vm_name            - Optional. Name of the Virtual Machine.
+
+=item B<Example>
+
+  $session->search(object => "Infoblox::Grid::CloudAPI::VMAddress", vm_name => "vm name");
+
+=back
+
+=back
+
+=head2 address( )
+
+=over
+
+Use this method to retrieve the IP address of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get address
+  $address = $vmaddress->address();
+
+=back
+
+=back
+
+=head2 associated_objects( )
+
+=over
+
+Use this method to retrieve the list of references to the object (Host, Fixed Address, RR, ...) that define this IP. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get associated_objects
+  @associated_objects = $vmaddress->associated_objects();
+
+=back
+
+=back
+
+=head2 dns_names( )
+
+=over
+
+Use this method to retrieve the list of all FQDN associated with the IP address. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get dns_names
+  @dns_names = $vmaddress->dns_names();
+
+=back
+
+=back
+
+=head2 is_ipv4( )
+
+=over
+
+Use this method to retrieve the address type whether the address is IPv4 or IPv6. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get is_ipv4
+  $is_ipv4 = $vmaddress->is_ipv4();
+
+=back
+
+=back
+
+=head2 mac_address( )
+
+=over
+
+Use this method to retrieve the MAC address of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get mac_address
+  $mac_address = $vmaddress->mac_address();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $vmaddress->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to retrieve the network address / CIDR that contains the IP. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get network
+  $network = $vmaddress->network();
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to retrieve the network view name that contains the IP. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get network_view
+  $network_view = $vmaddress->network_view();
+
+=back
+
+=back
+
+=head2 port_id( )
+
+=over
+
+Use this method to retrieve the port identifier of the interface. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get port_id
+  $port_id = $vmaddress->port_id();
+
+=back
+
+=back
+
+=head2 tenant( )
+
+=over
+
+Use this method to retrieve a L<Infoblox::Grid::CloudAPI::Tenant|Infoblox::Grid::CloudAPI::Tenant> object. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get tenant
+  $tenant = $vmaddress->tenant();
+
+=back
+
+=back
+
+=head2 tenant_name( )
+
+=over
+
+Use this method to retrieve the tenant name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get tenant_name
+  $tenant_name = $vmaddress->tenant_name();
+
+=back
+
+=back
+
+=head2 vm_id( )
+
+=over
+
+Use this method to retrieve the UUID of the VMirtual Machine. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get vm_id
+  $vm_id = $vmaddress->vm_id();
+
+=back
+
+=back
+
+=head2 vm_name( )
+
+=over
+
+Use this method to retrieve the name of the Virtual Machine. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+  # Get vm_name
+  $vm_name = $vmaddress->vm_name();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Grid::CloudAPI::Tenant|Infoblox::Grid::CloudAPI::Tenant>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

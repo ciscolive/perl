@@ -1,0 +1,254 @@
+=head1 NAME
+
+Infoblox::Grid::RPZ::ThreatDetails - RPZ ThreatDetails object.
+
+=head1 DESCRIPTION
+
+Use this object to fetch ThreatStop details via ThreatStop REST API.
+
+=head1 SESSION METHODS
+
+The object does not support any session methods. It is retrieved as a response for L<Infoblox::Session-E<gt>get_rpz_threat_details()|Infoblox::Session/get_rpz_threat_details()>.
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 active( )
+
+=over
+
+Use this method to retrieve the rule status whether it is active or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get active
+ my $active = $rpz_threat_details->active();
+
+=back
+
+=back
+
+=head2 danger_level( )
+
+=over
+
+Use this method to retrieve the value of a danger level. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get danger_level
+ my $danger_level = $rpz_threat_details->danger_level();
+
+=back
+
+=back
+
+=head2 description( )
+
+=over
+
+Use this method to retrieve the description. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get description
+ my $description = $rpz_threat_details->description();
+
+=back
+
+=back
+
+=head2 first_identified( )
+
+=over
+
+Use this method to retrieve the timestamp when the threat was first identified. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get first_identified
+ my $first_identified = $rpz_threat_details->first_identified();
+
+=back
+
+=back
+
+=head2 known( )
+
+=over
+
+Use this method to retrieve the rule status whether it is known or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get known
+ my $known = $rpz_threat_details->known();
+
+=back
+
+=back
+
+=head2 last_seen( )
+
+=over
+
+Use this method to retrieve the timestamp when the threat was last seen. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get last_seen
+ my $last_seen = $rpz_threat_details->last_seen();
+
+=back
+
+=back
+
+=head2 name( )
+
+=over
+
+Use this method to retrieve the threat name. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get name
+ my $name = $rpz_threat_details->name();
+
+=back
+
+=back
+
+=head2 public_description( )
+
+=over
+
+Use this method to retrieve the threat public description. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get public_description
+ my $public_description = $rpz_threat_details->public_description();
+
+=back
+
+=back
+
+=head2 short_description( )
+
+=over
+
+Use this method to retrieve the threat short description. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns attribute value.
+
+=item B<Example>
+
+ #Get short_description
+ my $short_description = $rpz_threat_details->short_description();
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session-E<gt>get_rpz_threat_details()|Infoblox::Session/get_rpz_threat_details()>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

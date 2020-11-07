@@ -1,0 +1,6 @@
+/opt/perl/site/bin/puudecode
+/opt/perl/site/bin/puuencode
+/opt/perl/site/lib/Convert/UU.pm
+/opt/perl/site/man/man1/puudecode.1
+/opt/perl/site/man/man1/puuencode.1
+/opt/perl/site/man/man3/Convert::UU.3

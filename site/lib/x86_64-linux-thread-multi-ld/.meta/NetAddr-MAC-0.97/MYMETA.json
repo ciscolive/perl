@@ -1,0 +1,76 @@
+{
+   "abstract" : "MAC hardware address functions and object (EUI48 and EUI64)",
+   "author" : [
+      "Dean Hamstead <dean@bytefoundry.com.au>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "NetAddr-MAC",
+   "no_index" : {
+      "directory" : [
+         "examples",
+         "t"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Module::Build" : "0.28",
+            "Test::Trap" : 0
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : 0,
+            "Module::Build" : "0.28"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : 0,
+            "Exporter" : 0,
+            "List::Util" : 0,
+            "base" : 0,
+            "constant" : 0,
+            "perl" : "5.004",
+            "strict" : 0,
+            "vars" : 0,
+            "warnings" : 0
+         }
+      },
+      "test" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : 0,
+            "File::Spec" : 0,
+            "IO::Handle" : 0,
+            "IPC::Open3" : 0,
+            "Test::More" : 0
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "https://github.com/djzort/NetAddr-MAC",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/djzort/NetAddr-MAC.git",
+         "web" : "https://github.com/djzort/NetAddr-MAC"
+      }
+   },
+   "version" : "0.97",
+   "x_contributors" : [
+      "Dean Hamstead <djzort@cpan.org>",
+      "James C Sinclair <james.sinclair@linode.com>",
+      "Oliver Gorwits <oliver@cpan.org>"
+   ],
+   "x_generated_by_perl" : "v5.26.3",
+   "x_serialization_backend" : "JSON::PP version 4.05",
+   "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later"
+}

@@ -1,0 +1,39 @@
+{
+   "abstract" : "unknown",
+   "author" : [
+      "unknown"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.4231",
+   "license" : [
+      "unknown"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Config-Std",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "runtime" : {
+         "recommends" : {
+            "Test::Distribution" : 0,
+            "Test::Pod" : 0
+         },
+         "requires" : {
+            "Class::Std" : 0,
+            "Test::More" : 0,
+            "perl" : "v5.7.3",
+            "version" : 0
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.903",
+   "x_serialization_backend" : "JSON::PP version 4.05"
+}

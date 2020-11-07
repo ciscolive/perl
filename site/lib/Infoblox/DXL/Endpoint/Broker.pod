@@ -1,0 +1,202 @@
+=head1 NAME
+
+Infoblox::DXL::Endpoint::Broker - A Data Exchange Layer (DXL) endpoint broker object.
+
+=head1 DESCRIPTION
+
+DXL brokers are installed on managed systems for routing messages between connected clients.
+The network of brokers tracks active consumers and dynamically adjusts the message
+routing as needed. When a client requests a service or when an update is broadcasted,
+brokers relay these messages.
+
+The DXL endpoint broker is used to configure DXL broker for a particular endpoint.
+
+=head1 CONSTRUCTOR
+
+ my $object = Infoblox::DXL::Endpoint::Broker->new(
+     host_name => $fqdn,   #Required
+     address   => $ipaddr, #Optional / Default is undefined
+     port      => $uint,   #Optional / Default is 8883
+     unique_id => $string, #Optional / Default is undefined
+ );
+
+=head1 SESSION METHODS
+
+The object does not support any session methods.
+
+=head1 MODULE METHODS
+
+This section describes all the functions that you can apply to a DXL Broker object.
+
+=head2 Infoblox::DXL::Endpoint->brokers( )
+
+=over
+
+Use this method to set or retrieve the list of DXL brokers for the DXL endpoint.
+See L<Infoblox::DXL::Endpoint-E<gt>brokers()|Infoblox::DXL::Endpoint/brokers()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Get brokers value
+ my $brokers = $object->brokers();
+
+ #Construct Infoblox::DXL::Endpoint::Broker object
+ my $broker = Infoblox::DXL::Endpoint::Broker->new(
+     host_name => 'dxl-br.localdomain',
+ );
+
+ #Modify brokers value
+ $object->brokers([$broker]);
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that you can use to set or retrieve the attribute values of the object.
+
+=head2 address( )
+
+=over
+
+Use this method to set or retrieve the DXL broker IP address.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an IP address in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get address value
+ my $value = $object->address();
+
+ #Modify address value
+ $object->address('1.1.1.1');
+
+=back
+
+=back
+
+=head2 host_name( )
+
+=over
+
+Use this method to set or retrieve the host name for the DXL broker.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired FQDN in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get host_name value
+ my $value = $object->host_name();
+
+ #Modify host_name value
+ $object->host_name('dxl-broker.localdomain');
+
+=back
+
+=back
+
+=head2 port( )
+
+=over
+
+Use this method to set or retrieve the port number for the DXL broker communication.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an unsigned integer between 1 and 65535. The default value is 8883.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get port value
+ my $value = $object->port();
+
+ #Modify port value
+ $object->port('1312');
+
+=back
+
+=back
+
+=head2 unique_id( )
+
+=over
+
+Use this method to set or retrieve the unique ID for the DXL broker.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a desired ID in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns 'true' when the modification succeeds, and returns 'false' when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get unique_id value
+ my $value = $object->unique_id();
+
+ #Modify unique_id value
+ $object->unique_id('5d73b77f-8c4b-4ae0-b437-febd12facfd4');
+
+=back
+
+=back
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::DXL::Endpoint|Infoblox::DXL::Endpoint>,
+L<Infoblox::DXL::Endpoint-E<gt>brokers()|Infoblox::DXL::Endpoint/brokers()/>.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

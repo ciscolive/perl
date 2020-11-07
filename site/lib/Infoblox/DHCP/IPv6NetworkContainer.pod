@@ -1,0 +1,2413 @@
+=head1 NAME
+
+Infoblox::DHCP::IPv6NetworkContainer - DHCP IPv6 Network Container object
+
+=head1 DESCRIPTION
+
+A network can contain child networks. The network that contains the child network is called a network container. This object encapsulates an IPv6 network container object.
+
+=head1 CONSTRUCTOR
+
+  my $network = Infoblox::DHCP::IPv6NetworkContainer->new(
+                  network                         => $ipv6_subnet/prefix,               #Required, when creating a network container
+                  auto_create_reversezone         => "true" | "false",                  #Optional / Default is "false"
+                  comment                         => $string| undef,                    #Optional / Default is undefined
+                  remove_subnets                  => "true" | "false",                  #Optional / Default is undefined
+                  rir_organization                => $rir_org,                          #Optional / An Infoblox::Grid::RIR::Organization object
+                  rir_registration_action         => 'NONE' | 'CREATE' | 'MODIFY' | 'DELETE',  # Optional / write-only
+                  rir_registration_status         => 'NOT_REGISTERED' | 'REGISTERED',   #Optional / Default is 'NOT_REGISTERED'
+                  send_rir_request                => 'true' | 'false',                  #Optional / write-only
+                  delete_reason                   => $string,                           #Optional / write-only
+                                                                                        #Required only if 'rir_registration_action' is specified as 'DELETE'
+                  mgm_private                     => "true" | "false",                  #Optional / Default is "false"
+                  network_container               => $ipv6_subnet/prefix,               #Optional / Default is "/"
+                  network_view                    => $NetworkView,                      #Optional / Default is the system-defined default network view
+                  zone_associations               => [$zone1, $zone2, ... ] | undef,    #Optional / Default is an empty list
+                  extattrs                        => { $string => $extattr, ... },      #Required if 'rir_organization' attribute is defined
+                                                                                        #Otherwise is optional
+                  extattrs                        => { $string => $extattr, ... },      #Required if 'rir_organization' attribute is defined
+                                                                                        #Otherwise is optional
+                  extensible_attributes           => { $string => $string | $num, $string => [ $string | $num, ... ], ... } #Required if 'rir_organization' attribute is defined
+                                                                                                                            #Otherwise is optional
+                  discovery_blackout_setting      => $blackout,                         #Optional
+                  port_control_blackout_setting   => $blackout,                         #Optional
+                  override_blackout_setting       => "true" | "false",                  #Optional / Default value is "false"
+                  same_port_control_discovery_blackout => "true" | "false",             #Optional / Default value is "false"
+
+                  ddns_domainname                       => $string| undef,                    #Optional / Default is undefined
+                  ddns_enable_option_fqdn               => "true" | "false" ,                 #Optional / Default is "false"
+                  ddns_generate_hostname                => "true" | "false" | undef,          #Optional / Default is undefined
+                  ddns_server_always_updates            => "true" | "false",                  #Optional / Default is "true"
+                  ddns_ttl                              => $num,                              #Optional / Default is "0"
+                  domain_name                           => $string,                           #Optional / Default is undefined
+                  domain_name_servers                   => "$ipv6addr,$ipv6addr,...",         #Optional / Default is undefined
+                  enable_ddns                           => "true" | "false" | undef,          #Optional / Default is undefined
+                  options                               => [$Option1,$Option2,...],           #Optional / Default is empty list
+                  override_ddns_domainname              => "true" | "false",                  #Optional / Default value is "false"
+                  override_ddns_enable_option_fqdn      => "true" | "false",                  #Optional / Default value is "false"
+                  override_ddns_generate_hostname       => "true" | "false",                  #Optional / Default value is "false"
+                  override_ddns_ttl                     => "true" | "false",                  #Optional / Default value is "false"
+                  override_domain_name                  => "true" | "false",                  #Optional / Default value is "false"
+                  override_domain_name_servers          => "true" | "false",                  #Optional / Default value is "false"
+                  override_enable_ddns                  => "true" | "false",                  #Optional / Default value is "false"
+                  override_mgm_private                  => "true" | "false",                  #Optional / Default value is "false"
+                  override_options                      => "true" | "false",                  #Optional / Default value is "false"
+                  override_preferred_lifetime           => "true" | "false",                  #Optional / Default value is "false"
+                  override_recycle_leases               => "true" | "false",                  #Optional / Default value is "false"
+                  override_update_dns_on_lease_renewal  => "true" | "false",                  #Optional / Default value is "false"
+                  override_valid_lifetime               => "true" | "false",                  #Optional / Default value is "false"
+                  preferred_lifetime                    => $num,                              #Optional / Default is "27000"
+                  recycle_leases                        => "true" | "false" | undef,          #Optional / Default is undefined
+                  update_dns_on_lease_renewal           => "true" | "false",                  #Optional / Default value is "false"
+                  valid_lifetime                        => $num,                              #Optional / Default is "43200"
+                  subscribe_settings          => $subscribe_settings,                         #Optional / Default is undefined
+                  override_subscribe_settings => 'true' | 'false',                            #Optional / Default is 'false'
+                  discovery_engine_type       => 'NETMRI' | 'NETWORK_INSIGHT' | 'VDISCOVERY' | 'UNKNOWN' | 'NONE', #Optional / Default is 'NONE'
+               );
+
+You cannot set both extattrs and extensible_attributes at the same time.
+
+=head1 SESSION METHODS
+
+This section describes all the methods in an Infoblox::Session module that you can apply to a DHCP IPv6 Network Container object.
+
+=head2 Infoblox::Session->add( )
+
+=over
+
+Use this method to add a DHCP IPv6 Network Container object to the Infoblox appliance. See L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Adding an IPv6 network container.
+ #Construct an object
+ my $network_container = Infoblox::DHCP::IPv6NetworkContainer->new(
+        network => "2001::/64",
+ );
+
+ # Submit for adding a network container
+ my $response = $session->add( $network_container );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->get( )
+
+=over
+
+Use this method to retrieve all the matching DHCP IPv6 Network Container objects from the Infoblox appliance. See L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/> for parameters and return values.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to get a specific DHCP IPv6 Network Container object:
+
+  network               - Optional. The IPv6 address and netmask of a network in CIDR format.
+  network_view          - Optional. The network view in which the network is located. By default, all network views are searched.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  comment               - Optional. A comment in string format.
+
+=item B<Examples>
+
+  my  @result_array = $session->get(
+       object        => "Infoblox::DHCP::IPv6NetworkContainer",
+       network       => "2001::/64",
+       network_view  => "default"
+  );
+
+  my  @result_array = $session->get(
+       object                => "Infoblox::DHCP::IPv6NetworkContainer",
+       extensible_attributes => { 'Site' => 'Santa Clara' }
+  );
+
+  my  @result_array = $session->get(
+       object  => "Infoblox::DHCP::IPv6NetworkContainer",
+       comment => "my-comment",
+  );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->modify( )
+
+=over
+
+Use this method to modify a DHCP IPv6 Network Container object in the Infoblox appliance. See L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/> for parameters and return values.
+
+=over
+
+=item B<Example>
+
+ #Use method to modify comment.
+ $network_container->comment("modified comment");
+ # Submit modification
+ my $response = $session->modify( $network_container );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->remove( )
+
+=over
+
+Use this method to remove an object from the Infoblox appliance. See L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/> for parameters and return values.
+
+To remove a specifc object, first use get() or search() to retrieve the specific object, and then submit this object for removal.
+
+=over
+
+=item B<Key References>
+
+ remove_options - Optional. A hash reference containing the following attributes:
+
+ +------------------------------------------------------------------------------------------+
+ | reason             - Optional. The reason for removing the network container in string   |
+ |                      format with a maximum of 256 bytes.                                 |
+ |                      Used when 'rir_organization' attribute has been defined.            |
+ | send_rir_request   - Optional. Boolean flag that indicates whether the appliance should  |
+ |                      send an API or email request for Regional Internet Registry (RIR).  |
+ |                      Used when 'rir_organization' attribute has been defined.            |
+ +------------------------------------------------------------------------------------------+
+
+=item B<Example>
+
+ # Get the object under the same name
+my  @result_array = $session->get(
+
+       object        => "Infoblox::DHCP::IPv6NetworkContainer" ,
+       network       => "2001::/64",
+       network_view  => "default"
+  );
+
+ # Find the desired object in the retrieved list.
+ my $network_container = $result_array[0];
+
+ # Submit for removal
+ my $response = $session->remove(
+     $network_container,
+     remove_options => {'reason' => 'Moved to B3', send_rir_request => 'true'} );
+
+=back
+
+=back
+
+=head2 Infoblox::Session->search( )
+
+=over
+
+Use this method to search for a DHCP IPv6 Network Container object in the Infoblox appliance. See L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/> for parameters and return values.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Key References>
+
+ Apply the following attributes to search for a DHCP IPv6 Network Container object:
+
+  network               - Optional. The IPv6 address and netmask of a network in CIDR format (regular expression).
+  network_view          - Optional. The network view in which the network is located. By default, all network views are searched.
+  extattrs              - Optional. A hash reference containing extensible attributes.
+  extensible_attributes - Optional. A hash reference containing extensible attributes.
+  comment               - Optional. A comment in string format (regular expression).
+
+For more information about searching extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Searching Extensible Attributes|Infoblox::Grid::ExtensibleAttributeDef/Searching Extensible Attributes>.
+
+=item B<Examples>
+
+ # search for all DHCP IPv6 Network Container objects
+     my @retrieved_objs = $session->search(
+       object       => "Infoblox::DHCP::IPv6NetworkContainer",
+       network      => "2001.*",
+       network_view => "default"
+     );
+
+ # search network by comment
+     my @retrieved_objs = $session->search(
+       object    => "Infoblox::DHCP::IPv6NetworkContainer",
+       comment   => "my-comment",
+     );
+
+ # search for all DHCP IPv6 Network Container objects defining "Santa Clara" for "Site" extensible attribute
+     my @retrieved_objs = $session->search(
+       object                => "Infoblox::DHCP::IPv6NetworkContainer",
+       extensible_attributes => { 'Site' => 'Santa Clara' }
+     );
+
+=back
+
+=back
+
+=head1 METHODS
+
+This section describes all the methods that can be used to configure and retrieve the attribute values of a DHCP IPv6 Network Container object.
+
+=head2  auto_create_reversezone( )
+
+=over
+
+Use this method to set the auto_create_reversezone flag of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. This is a write-only attribute and cannot be retrieved after it is set.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the auto_create_reversezone flag or "false" to deactivate/unset it. The default value for this field is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ # Modify auto_create_reversezone
+ $network_container->auto_create_reversezone("true");
+
+=back
+
+=back
+
+=head2  comment( )
+
+=over
+
+Use this method to set or retrieve a descriptive comment for a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Enter a descriptive comment for the network container in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get comment
+ my $comment = $network_container->comment();
+ # Modify comment
+ $network_container->comment("add a network");
+
+=back
+
+=back
+
+=head2 cloud_info( )
+
+=over
+
+Use this method to set or retrieve cloud API related information for the Infoblox::DHCP::IPv6NetworkContainer object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is a L<Infoblox::Grid::CloudAPI::Info|Infoblox::Grid::CloudAPI::Info> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get cloud_info
+ my $cloud_info = $network_view->cloud_info();
+ # Modify cloud_info
+ $network_view->cloud_info($cloud_info_object);
+
+=back
+
+=back
+
+=head2 ddns_domainname( )
+
+=over
+
+Use this method to set or retrieve the ddns_domainname value of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_domainname method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ddns_domainname attribute to "false".
+
+Note that when ddns_domainname is set to a defined value and override_ddns_domainname is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_domainname("testdomain"); $object->override_ddns_domainname("false"); will set override_ddns_domainname to "false", and the sequence $object->override_ddns_domainname("false"); $object->ddns_domainname("testdomain"); will result in override_ddns_domainname="true".
+
+=over
+
+=item B<Parameter>
+
+The dynamic DNS domain name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get ddns_domainname
+ my $ddns_domainname = $network_container->ddns_domainname();
+ #Modify ddns_domainname
+ $network_container->ddns_domainname("test_domain.com");
+
+=back
+
+=back
+
+=head2 ddns_enable_option_fqdn( )
+
+=over
+
+Use this method to set or retrieve the ddns_enable_option_fqdn flag of a DHCP IPv6 Network Container object. This method controls whether the FQDN option sent by the client is to be used, or if the server can automatically generate the FQDN. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_enable_option_fqdn method to "true". Setting the parameter to undefined causes the appliance to use the upper-level setting and automatically resets the override_ddns_enable_option_fqdn attribute to "false".
+
+Note that when ddns_enable_option_fqdn is set to a defined value and override_ddns_enable_option_fqdn is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_enable_option_fqdn("true"); $object->override_ddns_enable_option_fqdn("false"); will set override_ddns_enable_option_fqdn to "false", and the sequence $object->override_ddns_enable_option_fqdn("false"); $object->ddns_enable_option_fqdn("true"); will result in override_ddns_enable_option_fqdn="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to generate hostname or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute inherits the member-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_enable_option_fqdn
+ my $ddns_enable_option_fqdn = $network_container->ddns_enable_option_fqdn()
+ # Modify ddns_enable_option_fqdn
+ $network_container->ddns_enable_option_fqdn("true");
+ #Un-override
+ $network_container->ddns_enable_option_fqdn(undef);
+
+=back
+
+=back
+
+=head2 ddns_generate_hostname( )
+
+=over
+
+Use this method to set or retrieve the ddns_generate_hostname flag of a DHCP IPv6 Network Container object. Enable this method to allow only the DHCP server for generating hostname. This setting overrides the upper-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_generate_hostname method to "true". Setting the parameter to undefined causes the appliance to use the upper-level setting and automatically resets the override_ddns_generate_hostname attribute to "false".
+
+Note that when ddns_generate_hostname is set to a defined value and override_ddns_generate_hostname is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_generate_hostname("true"); $object->override_ddns_generate_hostname("false"); will set override_ddns_generate_hostname to "false", and the sequence $object->override_ddns_generate_hostname("false"); $object->ddns_generate_hostname("true"); will result in override_ddns_generate_hostname="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to generate a hostname or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute inherits the member-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_generate_hostname
+ my $ddns_generate_hostname = $network_container->ddns_generate_hostname()
+ # Modify ddns_generate_hostname
+ $network_container->ddns_generate_hostname("true");
+ #Un-override
+ $network_container->ddns_generate_hostname(undef);
+
+=back
+
+=back
+
+=head2 ddns_server_always_updates( )
+
+=over
+
+Use this method to set or retrieve the ddns_server_always_updates flag of a DHCP IPv6 Network Container object. Enable this method to allow only the DHCP server to update DNS, regardless of the requests from the DHCP clients.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the flag that enables the DHCP server to always updates DNS or "false" to deactivate/unset it.The default value for this field is "true".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get ddns_server_always_updates
+ my $ddns_server_always_updates = $network_container->ddns_server_always_updates()
+ # Modify ddns_server_always_updates
+ $network_container->ddns_server_always_updates("true");
+
+=back
+
+=back
+
+=head2 ddns_ttl( )
+
+=over
+
+Use this method to set or retrieve the DNS update Time to Live (TTL) value of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_ddns_ttl method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_ddns_ttl attribute to "false".
+
+Note that when ddns_ttl is set to a defined value and override_ddns_ttl is set to "false", the last operation takes precedence. Thus the sequence $object->ddns_ttl(12); $object->override_ddns_ttl("false"); will set override_ddns_ttl to "false", and the sequence $object->override_ddns_ttl("false"); $object->ddns_ttl(12); will result in override_ddns_ttl="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (range from 0 to 4294967295) that represents the duration, in seconds, the update is cached. Zero indicates that the update is not cached. The default value is 0.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get DNS Update ttl
+ my $dns_ttl = $network_container->ddns_ttl();
+ #Modify DNS Update ttl
+ $network_container->ddns_ttl(1200);
+
+=back
+
+=back
+
+
+=head2 discovery_basic_poll_setting( )
+
+=over
+
+Use this method to set or retrieve the discovery_basic_poll_setting value of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is object of L<Infoblox::Grid::Discovery::BasicPollSettings>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_basic_poll_setting
+ my $discovery_basic_poll_setting = $network->discovery_basic_poll_setting();
+ #Modify discovery_basic_poll_setting
+ $network->discovery_basic_poll_setting($poll_setting);
+
+=back
+
+=back
+
+=head2 discovery_member( )
+
+=over
+
+Use this method to set or retrieve the discovery_member value of a DHCP IPv6 Network Container object.
+
+=over
+
+=item B<Parameter>
+
+The discovery member name in string format.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_member
+ my $discovery_member = $network->discovery_member();
+ #Modify discovery_member
+ $network->discovery_member("test.localdomain");
+
+=back
+
+=back
+
+=head2 discover_now_status( )
+
+=over
+
+Use this method to retrieve the current discovery status. This attribute is read-only.
+
+'discover_now_status' will not be returned by default, use 'return_methods' to request it if needed.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'COMPLETE', 'FAILED', 'NONE', 'PENDING' or 'RUNNING'.
+
+=item B<Example>
+
+ #Get discover_now_status
+ my $discover_now_status = $network->discover_now_status();
+
+=back
+
+=back
+
+=head2 discovery_blackout_setting( )
+
+=over
+
+Use this method to set or retrieve the discovery blackout setting.
+
+Setting this method to a defined value implicitly sets the override_blackout_setting method to "true". If port_control_blackout_setting is undefined, setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_blackout_setting attribute to "false".
+
+Note that when discovery_blackout_setting is set to a defined value and override_blackout_setting is set to "false", the last operation takes precedence. Thus the sequence $network->discovery_blackout_setting($blackout); $network->override_blackout_setting("false"); will set override_blackout_setting to "false", and the sequence $network->override_blackout_setting("false"); $network->discovery_blackout_setting($blackout); will result in override_blackout_setting="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get discovery_blackout_setting
+ my $discovery_blackout_setting = $network->discovery_blackout_setting();
+ #Modify discovery_blackout_setting
+ $network->discovery_blackout_setting($blackout);
+
+=back
+
+=back
+
+=head2 discovery_engine_type( )
+
+=over
+
+Use this method to retrieve the DHCP IPv6 Network Container discovery engine type. This attribute is read-only.
+
+=over
+
+=item B<Parameter>
+
+None.
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'NETMRI', 'NETWORK_INSIGHT', 'VDISCOVERY', 'UNKNOWN' or 'NONE'.
+
+=item B<Example>
+
+ #Get discovery_engine_type
+ my $discovery_engine_type = $network_container->discovery_engine_type();
+
+=back
+
+=back
+
+=head2 domain_name( )
+
+=over
+
+Use this method to set or retrieve the domain_name value of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_domain_name method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_domain_name attribute to "false".
+
+Note that when domain_name is set to a defined value and override_domain_name is set to "false", the last operation takes precedence. Thus the sequence $object->domain_name("testdomain"); $object->override_domain_name("false"); will set override_domain_name to "false", and the sequence $object->override_domain_name("false"); $object->domain_name("testdomain"); will result in override_domain_name="true".
+
+=over
+
+=item B<Parameter>
+
+The name of the client domain in string format for resolving names in DNS.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain_name
+ my $domain_name = $network_container->domain_name();
+ #Modify domain_name
+ $network_container->domain_name("test_domain.com");
+
+=back
+
+=back
+
+=head2 domain_name_servers( )
+
+=over
+
+Use this method to set or retrieve the domain_name_servers value of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_domain_name_servers method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_domain_name_servers attribute to "false".
+
+Note that when domain_name_servers is set to a defined value and override_domain_name_servers is set to "false", the last operation takes precedence. Thus the sequence $object->domain_name_servers("2001::1,2001::2"); $object->override_domain_name_servers("false"); will set override_domain_name_servers to "false", and the sequence $object->override_domain_name_servers("false"); $object->domain_name_servers("2001::1,2001::2"); will result in override_domain_name_servers="true".
+
+=over
+
+=item B<Parameter>
+
+The IPv6 addresses of the domain name servers.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get domain_name_servers
+ my $domain_name_servers = $network_container->domain_name_servers();
+ #Modify domain_name_servers
+ $network_container->domain_name_servers("2001::1,2001::2");
+
+=back
+
+=back
+
+=head2 enable_ddns( )
+
+=over
+
+Use this method to set or retrieve the dynamic DNS updates flag of a DHCP IPv6 Network Container object. The DHCP server can send DDNS updates to DNS servers in the same Grid and to external DNS servers. This setting overrides the member-level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_enable_ddns method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_enable_ddns attribute to "false".
+
+Note that when enable_ddns is set to a defined value and override_enable_ddns is set to "false", the last operation takes precedence. Thus the sequence $object->enable_ddns("true"); $object->override_enable_ddns("false"); will set override_enable_ddns to "false", and the sequence $object->override_enable_ddns("false"); $object->enable_ddns("true"); will result in override_enable_ddns="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the dynamic DNS updates flag or "false" to deactivate/unset it. The default value for this field is undefined, which indicates that this attribute inherits the member-level setting.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get enable_ddns
+ my $enable_ddns = $network_container->enable_ddns()
+ # Modify enable_ddns
+ $network_container->enable_ddns("true");
+ # Un-override enable_ddns
+ $network_container->enable_ddns(undef);
+
+=back
+
+=back
+
+=head2 enable_discovery( )
+
+=over
+
+Use this method to set or retrieve the enable_discovery value of a DHCP IPv6 Network Container object.  This setting overrides the member level settings.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_enable_discovery method to "true". Setting the parameter to undefined causes the appliance to use the default from the upper level and automatically resets the override_enable_discovery attribute to "false".
+
+Enable this flag if you want to set discovery for this object.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_discovery flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_discovery
+ my $enable_discovery = $network->enable_discovery();
+ #Modify enable_discovery
+ $network->enable_discovery("false");
+
+=back
+
+=back
+
+=head2 enable_immediate_discovery( )
+
+=over
+
+Use this method to set or retrieve enable_immediate_discovery value of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the enable_immediate_discovery flag or "false" to deactivate/unset it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get enable_immediate_discovery
+ my $enable_immediate_discovery = $network->enable_immediate_discovery();
+ #Modify enable_immediate_discovery
+ $network->enable_immediate_discovery("false");
+
+=back
+
+=back
+
+=head2 endpoint_sources( )
+
+=over
+
+Use this method to retrieve the list of endpoints that provide object data. This is a read-only attribute.
+
+Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an array of L<Infoblox::CiscoISE::Endpoint|Infoblox::CiscoISE::Endpoint> objects.
+
+=item B<Example>
+
+ #Get endpoint_sources value
+ my $endpoint_sources = $object->endpoint_sources();
+
+=back
+
+=back
+
+=head2 extattrs( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP IPv6 Network Container object.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a hash reference containing the names of extensible attributes and their associated values ( L<Infoblox::Grid::Extattr|Infoblox::Grid::Extattr> objects ).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extattrs
+ my $ref_extattrs = $network_container->extattrs();
+ #Modify extattrs
+ $network_container->extattrs({ 'Site' => $extattr1, 'Administrator' => $extattr2 });
+
+=back
+
+=back
+
+=head2 extensible_attributes( )
+
+=over
+
+Use this method to set or retrieve the extensible attributes associated with a DHCP IPv6 Network Container object
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+For valid values for extensible attributes, see L<Infoblox::Grid::ExtensibleAttributeDefE<sol>Extensible Attribute Values|Infoblox::Grid::ExtensibleAttributeDef/Extensible Attribute Values>.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get extensible attributes
+ my $ref_extensible_attributes = $network_container->extensible_attributes();
+ #Modify extensible attributes
+ $network_container->extensible_attributes({ 'Site' => 'Santa Clara', 'Administrator' => [ 'Peter', 'Tom' ] });
+
+=back
+
+=back
+
+=head2 mgm_private( )
+
+=over
+
+Use this method to set or retrieve the flag that controls whether the object should be synced to the MGM or not.
+
+Setting this method to a defined value implicitly sets the override_blackout_setting method to "true". If discovery_blackout_setting is undefined, setting the parameter to undefined causes the appliance to use the grid default and automatically resets the override_blackout_setting attribute to "false".
+
+Note that when mgm_private is set to a defined value and override_mgm_private is set to "false", the last operation takes precedence. Thus the sequence $network->mgm_private("true"); $network->override_mgm_private("false"); will set override_mgm_private to "false", and the sequence $network->override_mgm_private("false"); $network->mgm_private("true"); will result in override_mgm_private="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to enable synchronization of the managed Grid with the MGM or 'false' to forbid it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+Note that this member is loaded on on-demand basis, so to retrieve the value the object must have been retrieved from the session first.
+
+=item B<Example>
+
+ #Get mgm_private value
+ my $value = $object->mgm_private();
+
+ #Modify mgm_private value
+ $object->mgm_private('true');
+
+=back
+
+=back
+
+=head2 mgm_private_overridable( )
+
+=over
+
+Use this method to retrieve the flag that indicates whether the overriding of 'mgm_private' flag is allowed or not. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+Note that this member is loaded on on-demand basis, so to retrieve the value the object must have been retrieved from the session first.
+
+=item B<Example>
+
+ #Get mgm_private_overridable value
+ my $value = $object->mgm_private_overridable();
+
+=back
+
+=back
+
+=head2 ms_ad_user_data( )
+
+=over
+
+Use this method to retrieve Microsoft Active Directory users related information. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The valid return value is an L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data> object.
+
+=item B<Example>
+
+ #Get ms_ad_user_data
+ my $ms_ad_user_data = $v6network_container->ms_ad_user_data();
+
+=back
+
+=back
+
+=head2 network( )
+
+=over
+
+Use this method to retrieve the network attribute of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the address and netmask of the network in CIDR format (example: 2001::/64).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network
+ my $network = $network_container->network();
+
+=back
+
+=back
+
+=head2 network_container( )
+
+=over
+
+Use this method to set or retrieve the network container of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify the address and netmask of the network in CIDR format (example: 2001::/64).
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network container
+ my $network_container = $network->network_container();
+ #Modify network container
+ $network->network_container("2001::/64");
+
+=back
+
+=back
+
+=head2 network_view( )
+
+=over
+
+Use this method to set or retrieve the network view of the DHCP IPv6 network container.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+The default value is the system-defined default network view, which means the network is in the default network view.
+
+=over
+
+=item B<Parameter>
+
+Valid value is a defined L<Infoblox::DHCP::View|Infoblox::DHCP::View> object. The default network view value is the system-defined default network view object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get network view
+ my $nview = $network_container->network_view();
+ #Modify network view, with an Infoblox::DHCP::View object
+ $network_container->network_view($nview);
+
+=back
+
+=back
+
+=head2 next_available_network( )
+
+=over
+
+Use this method to retrieve the next available IPv6 network(s) in the network container. Note that to use this method, the object MUST be retrieved through a get or search call, or it must have been created with an add call.
+
+=over
+
+=item B<Parameter>
+
+The method accepts the following parameters:
+
+  cidr - (required) The CIDR of the requested networks. It must be a number between 3 and 128, inclusive.
+  requested_num - (optional) The number of networks requested. It must be a number between 1 and 20, inclusive.
+  excluded - (optional) A reference to an array of networks to be excluded from the results.
+
+=item B<Returns>
+
+This method returns the next available IPv6 network(s) in the network container. If requested_num is not specified, a string with the next available network will be returned; otherwise, the method will return a reference to an array of networks.
+
+A network cannot be returned as the next available network if it cannot be inserted; such as when any of the following conditions exist:
+
+- It's parent network has a DHCP configuration assigned and therefore cannot be converted to a network container.
+
+- It overlaps with an existing network or network container, regardless of whether the existing network has a greater or smaller CIDR than the requested CIDR.
+
+- Its network address or broadcast address is used by a fixed address or a host configured for DHCP.
+
+=item B<Example>
+
+ # Retrieve a particular network container
+ my @retrieved_objs = $session->get(
+                           object   => "Infoblox::DHCP::IPv6NetworkContainer",
+                           network  => "2001::/64"
+ );
+
+ $network_container = $retrieved_objs[0];
+
+ # Print the next available IPv6 network in the network container
+ print $network_container->next_available_network(cidr => 68) . "\n";
+
+ # This will retrieve the next 10 available networks and print the first one.
+ my $addressesref = $network_container->next_available_network(requested_num => 10, cidr => 68);
+ print @$addressesref[0] . "\n";
+
+ # This will retrieve the next 10 available networks and exclude two.
+ my $addressesref = $network_container->next_available_network(requested_num => 10, cidr => 72, excluded => ['2001::100:0:0:0/72','2001::300:0:0:0/72']);
+
+=back
+
+=back
+
+=head2 options( )
+
+=over
+
+Use this method to set or retrieve the option values for a member DHCP server. DHCP options provide Network Container configuration settings and various services available for the Network Container.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_options method to "true". Setting the parameter to undefined causes the appliance to use the upper-level default and automatically resets the override_options attribute to "false".
+
+Note that when the options method is set to a defined value and override_options is set to "false", the last operation takes precedence. Thus the sequence $object->options([ $opt ]); $object->override_options("false"); will set override_options to "false", and the sequence $object->override_options("false"); $object->options([ $opt ]); will result in override_options="true".
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains L<Infoblox::DHCP::Option|Infoblox::DHCP::Option> objects.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get options
+ my $options = $network_container->options();
+ #Modify options
+ my $option1 = Infoblox::DHCP::Option->new(
+     name => "dhcp6.info-refresh-time",
+     value => 60
+ );
+
+ $network_container->options([$option1]);
+
+=back
+
+=back
+
+=head2 override_ddns_domainname( )
+
+=over
+
+The override_ddns_domainname attribute controls whether the ddns_domainname value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_ddns_domainname attribute can be specified explicitly. It is also set implicitly when ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_domainname. Set the parameter to "false" to inherit the Grid-level setting for ddns_domainname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_domainname
+    my $override_ddns_domainname=$network_container->override_ddns_domainname( );
+    #Modifying override_ddns_domainname
+    $network_container->override_ddns_domainname("true");
+
+=back
+
+=back
+
+=head2 override_ddns_enable_option_fqdn( )
+
+=over
+
+The override_ddns_enable_option_fqdn attribute controls whether the ddns_enable_option_fqdn value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_ddns_enable_option_fqdn attribute can be specified explicitly. It is also set implicitly when ddns_domainname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_enable_option_fqdn. Set the parameter to "false" to inherit the Grid-level setting for ddns_enable_option_fqdn.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_enable_option_fqdn
+    my $override_ddns_enable_option_fqdn=$network_container->override_ddns_enable_option_fqdn( );
+    #Modifying override_ddns_enable_option_fqdn
+    $network_container->override_ddns_enable_option_fqdn("true");
+
+=back
+
+=back
+
+=head2 override_ddns_generate_hostname( )
+
+=over
+
+The override_ddns_generate_hostname attribute controls whether the ddns_generate_hostname value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_ddns_generate_hostname attribute can be specified explicitly. It is also set implicitly when ddns_generate_hostname is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_generate_hostname. Set the parameter to "false" to inherit the Grid-level setting for ddns_generate_hostname.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_generate_hostname
+    my $override_ddns_generate_hostname=$network_container->override_ddns_generate_hostname( );
+    #Modifying override_ddns_generate_hostname
+    $network_container->override_ddns_generate_hostname("true");
+
+=back
+
+=back
+
+=head2 override_ddns_ttl( )
+
+=over
+
+The override_ddns_ttl attribute controls whether the ddns_ttl value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_ddns_ttl attribute can be specified explicitly. It is also set implicitly when ddns_ttl is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for ddns_ttl. Set the parameter to "false" to inherit the Grid-level setting for ddns_ttl.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_ddns_ttl
+    my $override_ddns_ttl=$network_container->override_ddns_ttl( );
+    #Modifying override_ddns_ttl
+    $network_container->override_ddns_ttl("true");
+
+=back
+
+=back
+
+=head2 override_domain_name( )
+
+=over
+
+The override_domain_name attribute controls whether the domain_name value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_domain_name attribute can be specified explicitly. It is also set implicitly when domain_name is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for domain_name. Set the parameter to "false" to inherit the Grid-level setting for domain_name.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_domain_name
+    my $override_domain_name=$network_container->override_domain_name( );
+    #Modifying override_domain_name
+    $network_container->override_domain_name("true");
+
+=back
+
+=back
+
+=head2 override_domain_name_servers( )
+
+=over
+
+The override_domain_name_servers attribute controls whether the domain_name_servers value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_domain_name_servers attribute can be specified explicitly. It is also set implicitly when domain_name_servers is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for domain_name_servers. Set the parameter to "false" to inherit the Grid-level setting for domain_name_servers.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_domain_name_servers
+    my $override_domain_name_servers=$network_container->override_domain_name_servers( );
+    #Modifying override_domain_name_servers
+    $network_container->override_domain_name_servers("true");
+
+=back
+
+=back
+
+=head2 override_blackout_setting( )
+
+=over
+
+The override_blackout_setting attribute controls whether the discovery_blackout_setting and port_control_blackout_setting values in the object are used, instead of the Grid default.
+
+The override_blackout_setting attribute can be specified explicitly. It is also set implicitly when discovery_blackout_setting or port_control_blackout_setting is set to a defined value.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the override_blackout_setting flag or "false" to deactivate/unset it. The default value is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $network->override_blackout_setting();
+ # Modify attribute value
+ $network->override_blackout_setting('true');
+
+=back
+
+=back
+
+=head2 override_enable_ddns( )
+
+=over
+
+The override_enable_ddns attribute controls whether the enable_ddns value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_enable_ddns attribute can be specified explicitly. It is also set implicitly when enable_ddns is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for enable_ddns. Set the parameter to "false" to inherit the Grid-level setting for enable_ddns.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_enable_ddns
+    my $override_enable_ddns=$network_container->override_enable_ddns( );
+    #Modifying override_enable_ddns
+    $network_container->override_enable_ddns("true");
+
+=back
+
+=back
+
+=head2 override_options( )
+
+=over
+
+The override_options attribute controls whether the options value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_options attribute can be specified explicitly. It is also set implicitly when options is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for options. Set the parameter to "false" to inherit the Grid-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_options
+    my $override_options=$network_container->override_options( );
+    #Modifying override_options
+    $network_container->override_options("true");
+
+=back
+
+=back
+
+=head2 override_preferred_lifetime( )
+
+=over
+
+The override_preferred_lifetime attribute controls whether the preferred_lifetime value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_preferred_lifetime attribute can be specified explicitly. It is also set implicitly when preferred_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for options. Set the parameter to "false" to inherit the Grid-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_preferred_lifetime
+    my $override_preferred_lifetime=$network_container->override_preferred_lifetime( );
+    #Modifying override_preferred_lifetime
+    $network_container->override_preferred_lifetime("true");
+
+=back
+
+=back
+
+=head2 override_recycle_leases( )
+
+=over
+
+The override_recycle_leases attribute controls whether the recycle_leases value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_recycle_leases attribute can be specified explicitly. It is also set implicitly when recycle_leases is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for options. Set the parameter to "false" to inherit the Grid-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_recycle_leases
+    my $override_recycle_leases=$network_container->override_recycle_leases( );
+    #Modifying override_recycle_leases
+    $network_container->override_recycle_leases("true");
+
+=back
+
+=back
+
+=head2 override_mgm_private( )
+
+=over
+
+The override_mgm_private attribute controls whether the mgm_private value in the object is used, instead of the parent-level default.
+
+The override_mgm_private attribute can be specified explicitly. It is also set implicitly when mgm_private is set to a defined value.
+
+Note that setting override_mgm_private to 'false' sets the original 'mgm_private' value to 'false'.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to 'true' to override the parent-level setting for mgm_private. Set the parameter to 'false' to inherit the parent-level setting for mgm_private.
+
+The default value of this parameter is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+Note that this member is loaded on on-demand basis, so to retrieve the value the object must have been retrieved from the session first.
+
+=item B<Example>
+
+ #Get override_mgm_private value
+ my $value = $object->override_mgm_private( );
+
+ #Modify override_mgm_private value
+ $object->override_mgm_private('true');
+
+=back
+
+=back
+
+=head2 override_subscribe_settings( )
+
+=over
+
+The override_subscribe_settings attribute controls whether the subscribe_settings method values of the member are used, instead of the Grid default.
+
+The override_subscribe_settings attribute can be specified explicitly. It is also set implicitly when subscribe_settings is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for subscribe_settings. Set the parameter to "false" to inherit the Grid-level setting for subscribe_settings.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get override_subscribe_settings value
+ my $override_subscribe_settings = $object->override_subscribe_settings( );
+ #Modify override_subscribe_settings value
+ $object->override_subscribe_settings("true");
+
+=back
+
+=back
+
+=head2 override_update_dns_on_lease_renewal( )
+
+=over
+
+The override_update_dns_on_lease_renewal attribute controls whether the update_dns_on_lease_renewal value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_update_dns_on_lease_renewal attribute can be specified explicitly. It is also set implicitly when update_dns_on_lease_renewal is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for update_dns_on_lease_renewal. Set the parameter to "false" to inherit the Grid-level setting for update_dns_on_lease_renewal.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_update_dns_on_lease_renewal
+    my $override_update_dns_on_lease_renewal=$network_container->override_update_dns_on_lease_renewal( );
+    #Modifying override_update_dns_on_lease_renewal
+    $network_container->override_update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 override_valid_lifetime( )
+
+=over
+
+The override_valid_lifetime attribute controls whether the valid_lifetime value in the DHCP IPv6 Network Container is used, instead of the Grid default.
+
+The override_valid_lifetime attribute can be specified explicitly. It is also set implicitly when valid_lifetime is set to a defined value.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Set the parameter to "true" to override the Grid-level setting for options. Set the parameter to "false" to inherit the Grid-level setting for options.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Getting override_valid_lifetime
+    my $override_valid_lifetime=$network_container->override_valid_lifetime( );
+    #Modifying override_valid_lifetime
+    $network_container->override_valid_lifetime("true");
+
+=back
+
+=back
+
+=head2 preferred_lifetime ( )
+
+=over
+
+Use this method to set or retrieve the preferred lifetime value of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_preferred_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_preferred_lifetime attribute to "false".
+
+Note that when preferred_lifetime is set to a defined value and override_preferred_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->preferred_lifetime(691200); $object->override_preferred_lifetime("false"); will set override_preferred_lifetime to "false", and the sequence $object->override_preferred_lifetime("false"); $object->preferred_lifetime(691200); will result in override_preferred_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (valid range from 1 to 4294967295) that represents the lifetime, in seconds. The default value is 27000.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get Preferred lifetime
+ my $preferred_lifetime = $network_container->preferred_lifetime();
+ #Modify Preferred lifetime
+ $network_container->preferred_lifetime(864000);
+
+=back
+
+=back
+
+=head2 port_control_blackout_setting
+
+=over
+
+Use this method to set or retrieve the port control blackout setting.
+
+Setting this method to a defined value implicitly sets the override_blackout_setting method to "true". If discovery_blackout_setting is undefined, setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_blackout_setting attribute to "false".
+
+Note that when port_control_blackout_setting is set to a defined value and override_blackout_setting is set to "false", the last operation takes precedence. Thus the sequence $network->port_control_blackout_setting($blackout); $network->override_blackout_setting("false"); will set override_blackout_setting to "false", and the sequence $network->override_blackout_setting("false"); $network->port_control_blackout_setting($blackout); will result in override_blackout_setting="true".
+
+=over
+
+=item B<Parameter>
+
+Valid value is an L<Infoblox::Grid::Discovery::Properties::BlackoutSetting|Infoblox::Grid::Discovery::Properties::BlackoutSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get port_control_blackout_setting
+ my $port_control_blackout_setting = $network->port_control_blackout_setting();
+ #Modify port_control_blackout_setting
+ $network->port_control_blackout_setting($blackout);
+
+=back
+
+=back
+
+=head2 recycle_leases( )
+
+=over
+
+Use this method to set or retrieve the recycle_leases flag at the network container level.
+
+If the flag is enabled, the leases are kept in the recycle bin until one week after expiration. When the flag is disabled, the leases are irrecoverably deleted.
+
+Setting this method to a defined value implicitly sets the override_recycle_leases method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_recycle_leases attribute to "false".
+
+Note that when recycle_leases is set to a defined value and override_recycle_leases is set to "false", the last operation takes precedence. Thus the sequence $object->recycle_leases("true"); $object->override_recycle_leases("false"); will set override_recycle_leases to "false", and the sequence $objct->override_recycle_leases("false"); $object->recycle_leases("true"); will result in override_recycle_leases="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to enable the recycle_leases flag or "false" to disable it. The default value is undefined.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get recycle_leases
+ my $recycle_leases = $network_container->recycle_leases();
+ #Modify recycle_leases
+ $network_container->recycle_leases("false");
+
+=back
+
+=back
+
+=head2 remove_subnets( )
+
+=over
+
+Use this method to set or retrieve the remove_subnets flag of a DHCP IPv6 Network Container object.
+
+You can set this flag to false, if you want to remove the network, but keep all subnets under it. This flag is used only when removing DHCP IPv6 Network Container objects. It is not retrieved or used for any other operation.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+Specify "false" to keep the subnets, or "true" to remove them. The default value is undefined, which is to remove all subnets.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Set remove_subnets before submitting for removal
+ $network_container->remove_subnets("false");
+ #Remove the container of the subnets
+ $session->remove($network_container);
+
+=back
+
+=back
+
+=head2 restart_if_needed( )
+
+=over
+
+Use this method to set the flag that indicates whether DHCP service should be restarted on a member that is serving DHCP for the changed object referenced in a cloud API request.
+
+=over
+
+=item B<Parameter>
+
+Specify true to restart the DHCP service.
+
+=item B<Returns>
+
+None
+
+=item B<Example>
+
+ # Modify
+ $network->restart_if_needed('true');
+
+=back
+
+=back
+
+=head2 rir( )
+
+=over
+
+Use this method to retrieve the name of the Regional Internet Registry (RIR) that allocated this address space. This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value that can be 'RIPE' or 'NONE'.
+
+=item B<Example>
+
+ #Get rir
+ my $rir = $network_container->rir();
+
+=back
+
+=back
+
+=head2 rir_organization( )
+
+=over
+
+Use this method to set or retrieve the Regional Internet Registry (RIR) organization object.
+
+=over
+
+=item B<Parameter>
+
+An L<Infoblox::Grid::RIR::Organization|Infoblox::Grid::RIR::Organization> object.
+
+You must enable support for RIR/SWIP at the Grid level before you can set attribute values. See L<Infoblox::Grid-E<gt>enable_rir_swip()|Infoblox::Grid/enable_rir_swip()/> method.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rir_organization
+ my $rir_organization = $network_container->rir_organization();
+ #Modify rir_organization
+ $network_container->rir_organization($rir_org);
+
+=back
+
+=back
+
+=head2 rir_registration_action( )
+
+=over
+
+Use this method to set the registration action of Regional Internet Registry (RIR). This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+Valid values are 'NONE', 'CREATE', 'MODIFY' or 'DELETE'.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set rir_registration_action
+ $network_container->rir_registration_action('CREATE');
+
+=back
+
+=back
+
+=head2 rir_registration_status( )
+
+=over
+
+Use this method to set or retrieve the registration status of Regional Internet Registry (RIR).
+
+=over
+
+=item B<Parameter>
+
+The registration status of Regional Internet Registry (RIR), which can be 'REGISTERED' or 'NOT_REGISTERED'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get rir_registration_status
+ my $rir_registration_status = $network_container->rir_registration_status();
+ #Modify rir_registration_status
+ $network_container->rir_registration_status('NOT_REGISTERED');
+
+=back
+
+=back
+
+=head2 last_rir_registration_update_sent( )
+
+=over
+
+Use this method to retrieve the last registration update timestamp of Regional Internet Registry (RIR). This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_rir_registration_update_sent
+ my $last_rir_registration_update_sent = $network_container->last_rir_registration_update_sent();
+
+=back
+
+=back
+
+=head2 last_rir_registration_update_status( )
+
+=over
+
+Use this method to retrieve the last registration update status of Regional Internet Registry (RIR). This is a read-only attribute.
+
+=over
+
+=item B<Parameter>
+
+None
+
+=item B<Returns>
+
+The method returns the attribute value.
+
+=item B<Example>
+
+ #Get last_rir_registration_update_status
+ my $last_rir_registration_update_status = $network_container->last_rir_registration_update_status();
+
+=back
+
+=back
+
+=head2 same_port_control_discovery_blackout( )
+
+=over
+
+Use this method to set or retrieve the flag that enables using the same discovery blackout for port control blackout.
+
+=over
+
+=item B<Parameter>
+
+Specify 'true' to use same discovery blackout for port control blackout or 'false' to disable it. The default value is 'false'.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get attribute value
+ my $value = $network_container->same_port_control_discovery_blackout();
+ # Modify attribute value
+ $network_container->same_port_control_discovery_blackout('true');
+
+=back
+
+=back
+
+=head2 send_rir_request( )
+
+=over
+
+Use this method to set the flag that indicates whether the appliance should send an API or email request for Regional Internet Registry (RIR). This is a write-only attribute.
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the send_rir_request flag or "false" to unset it.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set send_rir_request
+ $network_container->send_rir_request('true');
+
+=back
+
+=back
+
+=head2 subscribe_settings( )
+
+=over
+
+Use this method to set or retrieve the Cisco ISE subscribe settings.
+
+Setting this method to a defined value implicitly sets the override_subscribe_settings method to "true". Setting the parameter to undefined causes the appliance to use the Cisco ISE endpoint default and automatically resets the override_subscribe_settings method to "false".
+
+Note that when subscribe_settings is set to a defined value and override_subscribe_settings is set to "false", the last operation takes precedence. Thus the sequence $object->subscribe_settings($value); $object->override_subscribe_settings("false"); will set override_subscribe_settings to "false", and the sequence $object->override_subscribe_settings("false"); $object->subscribe_settings($value); will result in override_subscribe_settings="true".
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an L<Infoblox::CiscoISE::SubscribeSetting|Infoblox::CiscoISE::SubscribeSetting> object.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get subscribe_settings value
+ my $subscribe_settings = $object->subscribe_settings();
+ #Modify subscribe_settings value
+ $object->subscribe_settings($settings);
+
+=back
+
+=back
+
+=head2 delete_reason( )
+
+=over
+
+Use this method to specify the reason for deleting the Regional Internet Registry (RIR) registration request. This is a write-only attribute. This field is required only if 'rir_registration_action' is specified as 'DELETE'
+
+=over
+
+=item B<Parameter>
+
+The reason for deleting the RIR registration request in string format with a maximum of 256 bytes.
+
+=item B<Returns>
+
+The method returns true when the modification succeeds, and returns false when the operation fails.
+
+=item B<Example>
+
+ #Set delete_reason
+ $network_container->delete_reason('invalid');
+
+=back
+
+=back
+
+=head2 unmanaged( )
+
+=over
+
+Use this method to set or retrieve the network status, which indicates whether the network is unmanaged or not.
+
+=over
+
+=item B<Parameter>
+
+Specify true to mark the network as unmanaged or false as managed.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ # Get network status
+ $unmanaged = $network_container->unmanaged();
+ # Modify network status
+ $network_container->unmanaged('true');
+
+=back
+
+=back
+
+=head2 update_dns_on_lease_renewal( )
+
+=over
+
+The update_dns_on_lease_renewal attribute controls whether the DHCP server updates DNS when a DHCP lease is renewed.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_update_dns_on_lease_renewal method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_update_dns_on_lease_renewal attribute to "false".
+
+Note that when update_dns_on_lease_renewal is set to a defined value and override_update_dns_on_lease_renewal is set to "false", the last operation takes precedence. Thus the sequence $object->update_dns_on_lease_renewal("true"); $object->override_update_dns_on_lease_renewal("false"); will set override_update_dns_on_lease_renewal to "false", and the sequence $object->override_update_dns_on_lease_renewal("false"); $object->update_dns_on_lease_renewal("true"); will result in override_update_dns_on_lease_renewal="true".
+
+=over
+
+=item B<Parameter>
+
+Specify "true" to set the update_dns_on_lease_renewal flag or "false" to deactivate/unset it.
+
+The default value of this parameter is "false".
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+    #Get update_dns_on_lease_renewal
+    my $update_dns_on_lease_renewal=$network_container->update_dns_on_lease_renewal( );
+    #Modify update_dns_on_lease_renewal
+    $network_container->update_dns_on_lease_renewal("true");
+
+=back
+
+=back
+
+=head2 valid_lifetime ( )
+
+=over
+
+Use this method to set or retrieve the valid lifetime value of a DHCP IPv6 Network Container object.
+
+Include the specified parameter to set the attribute value. Omit the parameter to retrieve the attribute value.
+
+Setting this method to a defined value implicitly sets the override_valid_lifetime method to "true". Setting the parameter to undefined causes the appliance to use the Grid default and automatically resets the override_valid_lifetime attribute to "false".
+
+Note that when valid_lifetime is set to a defined value and override_valid_lifetime is set to "false", the last operation takes precedence. Thus the sequence $object->valid_lifetime(691200); $object->override_valid_lifetime("false"); will set override_valid_lifetime to "false", and the sequence $object->override_valid_lifetime("false"); $object->valid_lifetime(691200); will result in override_valid_lifetime="true".
+
+=over
+
+=item B<Parameter>
+
+A 32-bit integer (valid range from 1 to 4294967295) that represents the valid lifetime, in seconds. The default value is 43200.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails.
+
+If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Example>
+
+ #Get valid lifetime
+ my $valid_lifetime = $network_container->valid_lifetime();
+ #Modify valid lifetime
+ $network_container->valid_lifetime(864000);
+
+=back
+
+=back
+
+=head2 zone_associations( )
+
+=over
+
+Use this method to set or retrieve the associated zone information.
+
+=over
+
+=item B<Parameter>
+
+The valid value is an array reference that contains Infoblox::DNS::Zone object(s). The default value is an empty list. If the network container has a parent, it is possible to use the zone associations of the parent by setting the parameter to undef.
+
+=item B<Returns>
+
+If you specified a parameter, the method returns true when the modification succeeds, and returns false when the operation fails. If you did not specify a parameter, the method returns the attribute value.
+
+=item B<Examples>
+
+ #Getting zone associations
+ my $zone_associations = $network_container->zone_associations();
+ my $zone1 = Infoblox::DNS::Zone->new(
+        name     => "test1.com",
+ );
+ my $zone2 = Infoblox::DNS::Zone->new(
+        name     => "test2.com",
+    );
+ #Modifying zone_associations
+ $network_container->zone_associations([$zone1, $zone2]);
+ #Clear zone_assocations
+ $network_container->zone_associations([]);
+ ##Remove the override for zone_associations
+ $network_container->zone_associations(undef)
+
+=back
+
+=back
+
+=head1 SAMPLE CODE
+
+The following sample code demonstrates the different functions that can be applied to an object such as add, search, modify, and remove. This sample also includes error handling for the operations.
+
+B<#Preparation prior to a DHCP IPv6 Network Container object insertion>
+
+ #PROGRAM STARTS: Include all the modules that will be used
+ use strict;
+ use Infoblox;
+
+ #Create a session to the Infoblox appliance
+
+ my $session = Infoblox::Session->new(
+     master   => "192.168.1.2",
+     username => "admin",
+     password => "infoblox"
+ );
+ unless ($session) {
+    die("Construct session failed: ",
+        Infoblox::status_code() . ":" . Infoblox::status_detail());
+ }
+ print "Session created successfully\n";
+
+B<#Create a DHCP IPv6 Network Container object>
+
+ my $network_container = Infoblox::DHCP::IPv6NetworkContainer->new(
+             network => "2001::/64",
+             comment => "add network container",
+              );
+
+ my $response = $session->add($network_container)
+        or die("Add Network Container failed: ",
+              $session->status_code() . ":" . $session->status_detail());
+
+ print "Network Container added successfully\n";
+
+ #Search for a specific Network Container
+
+ #Search the network container
+ my @retrieved_objs = $session->search(
+     object  => "Infoblox::DHCP::IPv6NetworkContainer",
+     network => "2001.*"
+ );
+ my $object = $retrieved_objs[0];
+ unless ($object) {
+     die("Search Network Container failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Search Network Container found at least 1 matching entry\n";
+
+B<#Get and modify an IPv6 Network Container attribute>
+
+ #Get Network Container through the session
+ my @retrieved_objs = $session->get(
+            object =>"Infoblox::DHCP::IPv6NetworkContainer" ,
+            network => "2001::/64"
+         );
+
+my $object = $retrieved_objs[0];
+
+ unless ($object) {
+     die("Get Network Container object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+ print "Get Network Container found at least 1 matching entry\n";
+
+B<#Modify one of the attributes of the specified IPv6 network container attribute>
+
+ $object->comment("modified comment"); #Apply the changes
+
+ $session->modify($object)
+     or die("Modify Network Container attribute failed: ",
+            $session->status_code() . ":" . $session->status_detail());
+
+ print "Network Container object modified successfully \n";
+
+B<#Remove a Network Container Object>
+
+  #Get Network Container object through the session
+  my @retrieved_objs = $session->get(
+            object  => "Infoblox::DHCP::IPv6NetworkContainer" ,
+            network => "2001::"
+        );
+
+    my $object = $retrieved_objs[0];
+
+    unless ($object) {
+     die("Get Network Container object failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+ }
+
+ print "Get Network Container object found at least 1 matching entry\n";
+
+B<#Submit the object for removal>
+
+ $session->remove($object)
+     or die("Remove Network Container failed: ",
+         $session->status_code() . ":" . $session->status_detail());
+
+ print "Network Container removed successfully \n";
+
+####PROGRAM ENDS####
+
+=head1 AUTHOR
+
+Infoblox Inc. L<http://www.infoblox.com/>
+
+=head1 SEE ALSO
+
+L<Infoblox::Session|Infoblox::Session>, L<Infoblox::DHCP::View|Infoblox::DHCP::View>, L<Infoblox::DHCP::IPv6Network|Infoblox::DHCP::IPv6Network>, L<Infoblox::DHCP::Network|Infoblox::DHCP::Network>, L<Infoblox::DHCP::NetworkContainer|Infoblox::DHCP::NetworkContainer>, L<Infoblox::Session-E<gt>get()|Infoblox::Session/get()/>, L<Infoblox::Session-E<gt>search()|Infoblox::Session/search()/>, L<Infoblox::Session-E<gt>add()|Infoblox::Session/add()/>, L<Infoblox::Session-E<gt>remove()|Infoblox::Session/remove()/>, L<Infoblox::Session-E<gt>modify()|Infoblox::Session/modify()/>, L<Infoblox::Grid::MSServer::AdUser::Data|Infoblox::Grid::MSServer::AdUser::Data>
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017 Infoblox Inc.
+
+=cut

@@ -1,0 +1,11 @@
+/opt/perl/site/lib/App/Rad.pm
+/opt/perl/site/lib/App/Rad/Config.pm
+/opt/perl/site/lib/App/Rad/Exclude.pm
+/opt/perl/site/lib/App/Rad/Help.pm
+/opt/perl/site/lib/App/Rad/Include.pm
+/opt/perl/site/lib/App/Rad/Plugin.pod
+/opt/perl/site/man/man3/App::Rad.3
+/opt/perl/site/man/man3/App::Rad::Exclude.3
+/opt/perl/site/man/man3/App::Rad::Help.3
+/opt/perl/site/man/man3/App::Rad::Include.3
+/opt/perl/site/man/man3/App::Rad::Plugin.3

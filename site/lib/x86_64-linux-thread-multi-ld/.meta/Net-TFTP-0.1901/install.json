@@ -1,0 +1,1 @@
+{"target":"Net::TFTP","provides":{"Net::TFTP":{"file":"TFTP.pm","version":"0.1901"},"Net::TFTP::IO":{"file":"TFTP.pm","version":"0.1901"}},"dist":"Net-TFTP-0.1901","pathname":"G/GB/GBARR/Net-TFTP-0.1901.tar.gz","version":"0.1901","name":"Net::TFTP"}
